@@ -112,7 +112,7 @@ class PublishController extends Controller
         ];
 
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('editor', $plugin->scene);
+            return in_array('editor', $plugin->panel_usages);
         });
 
         $roles = Role::all();
@@ -305,7 +305,7 @@ class PublishController extends Controller
         ];
 
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('editor', $plugin->scene);
+            return in_array('editor', $plugin->panel_usages);
         });
 
         $roles = Role::all();

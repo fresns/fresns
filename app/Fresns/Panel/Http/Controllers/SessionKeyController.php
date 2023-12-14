@@ -32,7 +32,7 @@ class SessionKeyController extends Controller
         $plugins = Plugin::all();
 
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('apiKey', $plugin->scene ?: []);
+            return in_array('apiKey', $plugin->panel_usages ?: []);
         });
 
         return view('FsView::extensions.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));

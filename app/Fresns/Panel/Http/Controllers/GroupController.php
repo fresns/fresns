@@ -66,7 +66,7 @@ class GroupController extends Controller
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('followGroup', $plugin->scene);
+            return in_array('followGroup', $plugin->panel_usages);
         });
 
         $roles = Role::with('names')->get();
@@ -109,7 +109,7 @@ class GroupController extends Controller
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('followGroup', $plugin->scene);
+            return in_array('followGroup', $plugin->panel_usages);
         });
 
         $roles = Role::with('names')->get();
@@ -142,7 +142,7 @@ class GroupController extends Controller
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('followGroup', $plugin->scene);
+            return in_array('followGroup', $plugin->panel_usages);
         });
 
         $roles = Role::with('names')->get();
