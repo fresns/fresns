@@ -26,7 +26,6 @@
                             'panel.send.*',
                             'panel.account.*',
                             'panel.wallet.*',
-                            'panel.social.*',
                         ]) ? 'active' : ''}} {{ in_array(request()->route('usageType'), ['wallet-recharge', 'wallet-withdraw']) ? 'active' : '' }}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a>
                     </li>
                     <li class="nav-item">

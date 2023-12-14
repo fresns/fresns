@@ -14,7 +14,6 @@
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.send.*') ? 'active' : ''}}" href="{{ route('panel.send.index') }}">{{ __('FsLang::panel.sidebar_send') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.account.*') ? 'active' : ''}}" href="{{ route('panel.account.index') }}">{{ __('FsLang::panel.sidebar_account') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.wallet.*') ? 'active' : ''}} {{ in_array(request()->route('usageType'), ['wallet-recharge', 'wallet-withdraw']) ? 'active' : '' }}" href="{{ route('panel.wallet.index')}}">{{ __('FsLang::panel.sidebar_wallet') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.social.*') ? 'active' : ''}}" href="{{ route('panel.social.index') }}">{{ __('FsLang::panel.sidebar_social') }}</a></li>
                     <li class="nav-item d-block d-lg-none my-3 text-secondary">Powered by Fresns</li>
                 </ul>
             </div>

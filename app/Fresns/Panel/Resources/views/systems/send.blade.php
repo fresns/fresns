@@ -71,7 +71,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text">{{ __('FsLang::panel.send_sms_supported_codes') }}</label>
-                            <textarea class="form-control" name="send_sms_supported_codes" aria-label="With textarea">{!! $params['send_sms_supported_codes'] !!}</textarea>
+                            <textarea class="form-control" name="send_sms_supported_codes" style="height: 200px">{!! $params['send_sms_supported_codes'] !!}</textarea>
                             <span class="input-group-text w-50 text-start text-wrap fs-7">{{ __('FsLang::panel.send_sms_desc') }}</span>
                         </div>
                     </div>
