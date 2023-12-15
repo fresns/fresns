@@ -17,7 +17,6 @@ use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Role;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -232,33 +231,6 @@ class UserController extends Controller
             'anonymous_avatar',
             'deactivate_avatar',
         ]);
-
-        return $this->updateSuccess();
-    }
-
-    public function updateExtcredits(Request $request)
-    {
-        $extcreditsId = $request->extcreditsId;
-        if (empty($extcreditsId)) {
-            return back()->with('failure', __('FsLang::tips.upgradeFailure'));
-        }
-
-        $inputState = "extcredits{$extcreditsId}_state";
-
-        if ($request->has('extcredits_state')) {
-            $state = Config::where('item_key', $inputState)->first();
-            if (! $state) {
-                $state = new Config;
-                $state->item_key = $inputState;
-                $state->item_value = $request->extcredits_state;
-                $state->item_type = 'number';
-                $state->is_multilingual = 0;
-                $state->is_custom = 0;
-                $state->is_api = 1;
-            }
-            $state->item_value = $request->extcredits_state;
-            $state->save();
-        }
 
         return $this->updateSuccess();
     }

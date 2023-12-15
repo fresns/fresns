@@ -170,7 +170,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'wallet_currency_name']) }}" method="post">
+                    <form action="{{ route('panel.update.languages', ['itemKey' => 'wallet_currency_name']) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">
@@ -222,7 +222,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'wallet_currency_unit']) }}" method="post">
+                    <form action="{{ route('panel.update.languages', ['itemKey' => 'wallet_currency_unit']) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">

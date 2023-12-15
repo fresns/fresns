@@ -172,38 +172,46 @@
                             </td>
                             <td>{{ $langName }}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_terms_policy']) }}"
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_terms') }}"
                                     data-lang_label="{{ $langName }}"
-                                    data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-lang_content="{{ $params['account_terms_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.update.language', ['itemKey' => 'account_terms_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_content="{{ $params['account_terms_policy'][$lang['langTag']] ?? '' }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_privacy_policy']) }}"
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_privacy') }}"
                                     data-lang_label="{{ $langName }}"
-                                    data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-lang_content="{{ $params['account_privacy_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.update.language', ['itemKey' => 'account_privacy_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_content="{{ $params['account_privacy_policy'][$lang['langTag']] ?? '' }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                             </td>
-                            <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookie_policy']) }}"
+                            <td><button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_cookie') }}"
                                     data-lang_label="{{ $langName }}"
-                                    data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-lang_content="{{ $params['account_cookie_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.update.language', ['itemKey' => 'account_cookie_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_content="{{ $params['account_cookie_policy'][$lang['langTag']] ?? '' }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                             </td>
-                            <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_delete_policy']) }}"
+                            <td><button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_delete_account') }}"
                                     data-lang_label="{{ $langName }}"
-                                    data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-lang_content="{{ $params['account_delete_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.update.language', ['itemKey' => 'account_delete_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_content="{{ $params['account_delete_policy'][$lang['langTag']] ?? '' }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -213,7 +221,7 @@
     </div>
 
     <!-- Language Modal -->
-    <div class="modal fade" id="updateLanguage" tabindex="-1" aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal fade" id="updatePolicy" tabindex="-1" aria-labelledby="updatePolicyModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -221,10 +229,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id="updateLanguageForm">
+                    <form action="" method="post" id="updatePolicyForm">
                         @csrf
-                        @method('put')
-                        <input type="hidden" name="langTag">
+                        @method('patch')
                         <div class="form-floating">
                             <textarea class="form-control" placeholder="Markdown" id="floatingTextarea" name="langContent" style="height:400px"></textarea>
                             <label for="floatingTextarea" class="lang-label"></label>

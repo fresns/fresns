@@ -61,9 +61,13 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::post('auto-upgrade', [UpgradeController::class, 'autoUpgrade'])->name('upgrade.auto');
     Route::post('manual-upgrade', [UpgradeController::class, 'manualUpgrade'])->name('upgrade.manual');
     Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
-    // update language
-    Route::put('languages/batch-update/{itemKey}', [CommonController::class, 'languageBatchUpdate'])->name('languages.batch.update');
-    Route::put('languages/update/{itemKey}', [CommonController::class, 'languageUpdate'])->name('languages.update');
+
+    // update config
+    Route::prefix('update')->name('update.')->group(function () {
+        Route::put('languages/{itemKey}', [CommonController::class, 'updateLanguages'])->name('languages'); // all
+        Route::patch('language/{itemKey}/{langTag}', [CommonController::class, 'updateLanguage'])->name('language'); // monolingual
+        Route::patch('status/{itemKey}', [CommonController::class, 'updateStatus'])->name('status'); // config status
+    });
     // search users
     Route::get('search/users', [CommonController::class, 'searchUsers'])->name('search.users');
 
@@ -134,14 +138,12 @@ Route::middleware(['panelAuth'])->group(function () {
         // user
         Route::get('user', [UserController::class, 'show'])->name('user.index');
         Route::put('user', [UserController::class, 'update'])->name('user.update');
-        Route::patch('user/extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
         // content
         Route::get('content', [ContentController::class, 'show'])->name('content.index');
         Route::put('content', [ContentController::class, 'update'])->name('content.update');
         Route::patch('content/hashtag-regexp', [ContentController::class, 'updateHashtagRegexp'])->name('content.update.hashtag-regexp');
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
-        Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');
         // publish-post
         Route::get('publish/post', [PublishController::class, 'postShow'])->name('publish.post.index');
         Route::put('publish/post', [PublishController::class, 'postUpdate'])->name('publish.post.update');

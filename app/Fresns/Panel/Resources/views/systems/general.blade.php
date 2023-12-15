@@ -204,7 +204,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_name']) }}" method="post">
+                    <form action="{{ route('panel.update.languages', ['itemKey' => 'site_name']) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">
@@ -256,7 +256,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_desc']) }}" method="post">
+                    <form action="{{ route('panel.update.languages', ['itemKey' => 'site_desc']) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">
@@ -309,7 +309,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-text mb-3">{{ __('FsLang::tips.markdown_editor') }}</div>
-                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_intro']) }}" method="post">
+                    <form action="{{ route('panel.update.languages', ['itemKey' => 'site_intro']) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">

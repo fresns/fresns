@@ -28,10 +28,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_name']) }}"
-                        data-languages="{{ json_encode($params['user_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_name') }}"
+                        data-description="{{ __('FsLang::panel.user_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_name']) }}"
+                        data-languages="{{ json_encode($params['user_name']) }}">
+                        {{ $defaultLangParams['user_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -42,10 +46,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_uid_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_uid_name']) }}"
-                        data-languages="{{ json_encode($params['user_uid_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_uid_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_uid_name') }}"
+                        data-description="{{ __('FsLang::panel.user_uid_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_uid_name']) }}"
+                        data-languages="{{ json_encode($params['user_uid_name']) }}">
+                        {{ $defaultLangParams['user_uid_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -56,10 +64,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_username_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_username_name']) }}"
-                        data-languages="{{ json_encode($params['user_username_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_username_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_username_name') }}"
+                        data-description="{{ __('FsLang::panel.user_username_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_username_name']) }}"
+                        data-languages="{{ json_encode($params['user_username_name']) }}">
+                        {{ $defaultLangParams['user_username_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -70,10 +82,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_nickname_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_nickname_name']) }}"
-                        data-languages="{{ json_encode($params['user_nickname_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_nickname_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_nickname_name') }}"
+                        data-description="{{ __('FsLang::panel.user_nickname_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_nickname_name']) }}"
+                        data-languages="{{ json_encode($params['user_nickname_name']) }}">
+                        {{ $defaultLangParams['user_nickname_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -84,10 +100,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_role_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_role_name']) }}"
-                        data-languages="{{ json_encode($params['user_role_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_role_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_role_name') }}"
+                        data-description="{{ __('FsLang::panel.user_role_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_role_name']) }}"
+                        data-languages="{{ json_encode($params['user_role_name']) }}">
+                        {{ $defaultLangParams['user_role_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -98,10 +118,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.user_bio_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_bio_name']) }}"
-                        data-languages="{{ json_encode($params['user_bio_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['user_bio_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.user_bio_name') }}"
+                        data-description="{{ __('FsLang::panel.user_bio_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'user_bio_name']) }}"
+                        data-languages="{{ json_encode($params['user_bio_name']) }}">
+                        {{ $defaultLangParams['user_bio_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -357,21 +381,23 @@
                         <button type="button" class="btn btn-outline-secondary btn-modal form-control text-start"
                             data-bs-toggle="modal"
                             data-bs-target="#configLangModal"
-                            data-action="{{ route('panel.languages.batch.update', ['itemKey' => "extcredits{$extcreditsId}_name"]) }}"
+                            data-title="{{ 'extcredits'.$extcreditsId.': '.__('FsLang::panel.user_extcredits_name') }}"
+                            data-action="{{ route('panel.update.languages', ['itemKey' => "extcredits{$extcreditsId}_name"]) }}"
                             data-languages="{{ json_encode($params["extcredits{$extcreditsId}_name"]) }}">
                             {{ $defaultLangParams["extcredits{$extcreditsId}_name"] ??  __('FsLang::panel.user_extcredits_name') }}
                         </button>
                         <button type="button" class="btn btn-outline-secondary btn-modal form-control text-start"
                             data-bs-toggle="modal"
                             data-bs-target="#configLangModal"
-                            data-action="{{ route('panel.languages.batch.update', ['itemKey' => "extcredits{$extcreditsId}_unit"]) }}"
+                            data-title="{{ 'extcredits'.$extcreditsId.': '.__('FsLang::panel.user_extcredits_unit') }}"
+                            data-action="{{ route('panel.update.languages', ['itemKey' => "extcredits{$extcreditsId}_unit"]) }}"
                             data-languages="{{ json_encode($params["extcredits{$extcreditsId}_unit"]) }}">
                             {{ $defaultLangParams["extcredits{$extcreditsId}_unit"] ??  __('FsLang::panel.user_extcredits_unit') }}
                         </button>
                         <button type="button" class="btn btn-outline-secondary btn-modal form-control"
                             data-bs-toggle="modal"
-                            data-bs-target="#extcreditsSetting"
-                            data-id="{{ $extcreditsId }}"
+                            data-bs-target="#configStatusModal"
+                            data-action="{{ route('panel.update.status', ['itemKey' => "extcredits{$extcreditsId}_state"]) }}"
                             data-state="{{ $params["extcredits{$extcreditsId}_state"] }}">
                             @if ($params["extcredits{$extcreditsId}_state"] == 2)
                                 {{ __('FsLang::panel.user_extcredits_state_private') }}
@@ -487,10 +513,14 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <h5 class="modal-title lang-modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="form-text mb-3 lang-modal-description">
+                        <i class="bi bi-info-circle"></i>
+                        <span class="lang-modal-description-text"></span>
+                    </div>
                     <form method="post">
                         @csrf
                         @method('put')
@@ -524,7 +554,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center mb-3">
                             <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_save') }}</button>
                         </div>
                     </form>
@@ -534,7 +564,7 @@
     </div>
 
     <!-- Modal Setting -->
-    <div class="modal fade" id="extcreditsSetting" tabindex="-1" aria-labelledby="extcreditsSetting" aria-hidden="true">
+    <div class="modal fade" id="configStatusModal" tabindex="-1" aria-labelledby="configStatusModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -542,25 +572,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.user.update.extcredits') }}" method="post">
+                    <form action="" method="post">
                         @csrf
                         @method('patch')
-                        <input type="hidden" name="extcreditsId" value="1">
+                        <input type="hidden" name="itemType" value="number">
                         <!--state-->
-                        <div class="mb-3 row extcredits_state">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_1" value="1" checked>
-                                    <label class="form-check-label" for="extcredits_state_1">{{ __('FsLang::panel.user_extcredits_state_not_enabled') }}</label>
+                                    <input class="form-check-input" type="radio" name="itemValue" id="state_1" value="1" checked>
+                                    <label class="form-check-label" for="state_1">{{ __('FsLang::panel.user_extcredits_state_not_enabled') }}</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_2" value="2">
-                                    <label class="form-check-label" for="extcredits_state_2">{{ __('FsLang::panel.user_extcredits_state_private') }}</label>
+                                    <input class="form-check-input" type="radio" name="itemValue" id="state_2" value="2">
+                                    <label class="form-check-label" for="state_2">{{ __('FsLang::panel.user_extcredits_state_private') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_3" value="3">
-                                    <label class="form-check-label" for="extcredits_state_3">{{ __('FsLang::panel.user_extcredits_state_public') }}</label>
+                                    <input class="form-check-input" type="radio" name="itemValue" id="state_3" value="3">
+                                    <label class="form-check-label" for="state_3">{{ __('FsLang::panel.user_extcredits_state_public') }}</label>
                                 </div>
                             </div>
                         </div>

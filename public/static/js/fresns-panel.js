@@ -388,15 +388,13 @@ $(document).ready(function () {
     $('#panelConfig .update-panel-url').change(function () {
         let systemUrl = $('#panelConfig').find('input[name=system_url]').val();
         let panelPath = $('#panelConfig').find('input[name=panel_path]').val();
-        $('#panelConfig')
-            .find('#panelUrl')
-            .text(systemUrl + '/fresns/' + panelPath);
+
+        $('#panelConfig').find('#panelUrl').text(systemUrl + '/fresns/' + panelPath);
     });
 
     // update session key
     $('#updateKey').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            id = button.data('id'),
             name = button.data('name'),
             type = button.data('type'),
             isReadOnly = button.data('is_read_only'),
@@ -408,22 +406,15 @@ $(document).ready(function () {
         $(this).find('form').attr('action', action);
         $(this).find('#key_platform').val(platformId);
         $(this).find('#key_name').val(name);
-        $(this)
-            .find('input:radio[name=type][value="' + type + '"]')
-            .prop('checked', true)
-            .click();
+        $(this).find('input:radio[name=type][value="' + type + '"]').prop('checked', true).click();
 
         if (type == 3) {
             $(this).find('#key_plugin').prop('required', true);
         } else {
             $(this).find('#key_plugin').prop('required', false);
         }
-        $(this)
-            .find('input:radio[name=is_read_only][value="' + isReadOnly + '"]')
-            .prop('checked', true);
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
+        $(this).find('input:radio[name=is_read_only][value="' + isReadOnly + '"]').prop('checked', true);
+        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
         $(this).find('#key_plugin').val(pluginFskey);
     });
 
@@ -532,40 +523,33 @@ $(document).ready(function () {
         $(this).find('input[name=time_format_day]').val(language.timeFormatDay);
         $(this).find('input[name=time_format_month]').val(language.timeFormatMonth);
         $(this).find('input[name=time_format_year]').val(language.timeFormatYear);
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true)
-            .click();
+        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true).click();
     });
 
-    // update language
-    $('#updateLanguage').on('show.bs.modal', function (e) {
+    // update policy
+    $('#updatePolicy').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
             title = button.data('title'),
             langLabel = button.data('lang_label'),
-            langTag = button.data('lang_tag'),
             langContent = button.data('lang_content'),
             action = button.data('action');
 
         $(this).find('form').attr('action', action);
         $(this).find('.lang-label').text(langLabel);
         $(this).find('.modal-title').text(title);
-        $(this).find('input[name=langTag]').val(langTag);
         $(this).find('textarea[name=langContent]').val(langContent);
     });
 
-    $('#updateLanguageForm').submit(function () {
-        $('#updateLanguage').modal('hide');
-        let langTag = $(this).find('input[name=langTag]').val();
+    $('#updatePolicyForm').submit(function () {
+        $('#updatePolicy').modal('hide');
         let langContent = $(this).find('textarea[name=langContent]').val();
 
         $.ajax({
             method: 'post',
             url: $(this).attr('action'),
             data: {
-                langTag: langTag,
                 langContent: langContent,
-                _method: 'put',
+                _method: 'patch',
             },
             success: function (response) {
                 window.tips(response.message);
@@ -587,20 +571,14 @@ $(document).ready(function () {
         let title = button.data('title');
 
         $(this).find('form').trigger('reset');
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
+        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
         $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);
 
         if (languages) {
             languages.map((language) => {
-                $(this)
-                    .find("input[name='titles[" + language.langTag + "]'")
-                    .val(language.title);
-                $(this)
-                    .find("textarea[name='contents[" + language.langTag + "]'")
-                    .val(language.content);
+                $(this).find("input[name='titles[" + language.langTag + "]'").val(language.title);
+                $(this).find("textarea[name='contents[" + language.langTag + "]'").val(language.content);
             });
         }
     });
@@ -613,23 +591,15 @@ $(document).ready(function () {
         let title = button.data('title');
 
         $(this).find('form').trigger('reset');
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
+        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
         $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);
 
         if (languages) {
             languages.map((language) => {
-                $(this)
-                    .find("input[name='sign_names[" + language.langTag + "]'")
-                    .val(language.signName);
-                $(this)
-                    .find("input[name='template_codes[" + language.langTag + "]'")
-                    .val(language.templateCode);
-                $(this)
-                    .find("input[name='code_params[" + language.langTag + "]'")
-                    .val(language.codeParam);
+                $(this).find("input[name='sign_names[" + language.langTag + "]'").val(language.signName);
+                $(this).find("input[name='template_codes[" + language.langTag + "]'").val(language.templateCode);
+                $(this).find("input[name='code_params[" + language.langTag + "]'").val(language.codeParam);
             });
         }
     });
@@ -664,18 +634,6 @@ $(document).ready(function () {
 
             return false;
         }
-    });
-
-    // user extcredits setting
-    $('#extcreditsSetting').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget),
-            id = button.data('id'),
-            state = button.data('state');
-
-        $(this).find('input[name=extcreditsId]').val(id);
-        $(this)
-            .find('input:radio[name=extcredits_state][value="' + state + '"]')
-            .prop('checked', true);
     });
 
     // use config delete  connect
@@ -823,19 +781,59 @@ $(document).ready(function () {
     });
     // Generic processing (name multilingual) end
 
+    // configLangModal
     $('#configLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
+            title = button.data('title'),
+            description = button.data('description'),
             action = button.data('action'),
             languages = button.data('languages');
 
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        $('.lang-modal-description').addClass('d-none');
         let form = $(this).find('form');
             form.attr('action', action);
             form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        if (description) {
+            $('.lang-modal-description').removeClass('d-none');
+            $('.lang-modal-description-text').text(description);
+        }
 
         if (languages) {
             Object.entries(languages).forEach(([langTag, langContent]) => {
                 form.find("input[name='languages[" + langTag + "]']").val(langContent);
             });
+        }
+    });
+
+    // configStatusModal
+    $('#configStatusModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            title = button.data('title'),
+            action = button.data('action'),
+            status = button.data('status'),
+            state = button.data('state');
+
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        if (status) {
+            $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true);
+        }
+
+        if (state) {
+            $(this).find('input:radio[name=itemValue][value="' + state + '"]').prop('checked', true);
         }
     });
 
@@ -864,10 +862,7 @@ $(document).ready(function () {
 
         $(this).find('input[name=rating]').val(params.rating);
         $(this).find('input[name=code]').val(params.code);
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
+        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
     });
 
     $('#offcanvasSticker').on('show.bs.offcanvas', function (e) {
@@ -887,10 +882,7 @@ $(document).ready(function () {
         stickers.map((sticker) => {
             let stickerTemplate = template.clone();
 
-            stickerTemplate
-                .find('input.sticker-rating')
-                .attr('name', 'rating[' + sticker.id + ']')
-                .val(sticker.rating);
+            stickerTemplate.find('input.sticker-rating').attr('name', 'rating[' + sticker.id + ']').val(sticker.rating);
 
             stickerTemplate.find('.sticker-img').attr('src', sticker.stickerUrl);
             stickerTemplate.find('.sticker-code').html(sticker.code);
@@ -967,10 +959,7 @@ $(document).ready(function () {
             $('.choose-color').hide();
             $(this).find('input[name=no_color]').prop('checked', true);
         }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
+        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
     });
 
     $('#deleteRoleModal').on('show.bs.modal', function (e) {
@@ -982,10 +971,7 @@ $(document).ready(function () {
 
         $(this).find('input[name=name]').val(params.name);
         $(this).find('#chooseRole').children('.role-option').prop('disabled', false);
-        $(this)
-            .find('#chooseRole')
-            .find('option[value=' + params.id + ']')
-            .prop('disabled', true);
+        $(this).find('#chooseRole').find('option[value=' + params.id + ']').prop('disabled', true);
     });
 
     $('#addCustomPerm').click(function () {
@@ -1066,15 +1052,9 @@ $(document).ready(function () {
         }
 
         $(this).find('form').attr('action', action);
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
-        $(this)
-            .find('input:radio[name=index_type][value="' + indexType + '"]')
-            .prop('checked', true);
-        $(this)
-            .find('input:radio[name=query_state][value="' + queryState + '"]')
-            .prop('checked', true);
+        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
+        $(this).find('input:radio[name=index_type][value="' + indexType + '"]').prop('checked', true);
+        $(this).find('input:radio[name=query_state][value="' + queryState + '"]').prop('checked', true);
         $(this).find('textarea[name=query_config]').val(queryConfig);
     });
 
@@ -1088,9 +1068,7 @@ $(document).ready(function () {
 
         if (languages) {
             languages.map((language, index) => {
-                $(this)
-                    .find("input[name='languages[" + language.lang_tag + "]'")
-                    .val(language.lang_content);
+                $(this).find("input[name='languages[" + language.lang_tag + "]'").val(language.lang_content);
             });
         }
     });
