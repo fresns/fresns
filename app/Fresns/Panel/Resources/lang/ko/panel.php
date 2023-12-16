@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'Dispense Service Provider 구성은 지정된 계정에서 현금으로 지갑 밸런스에 사용되는 "Wallet"기능 목록에 있습니다',
     'sidebar_user_intro' => '사용자 기본 기능 설정',
     'sidebar_content_intro' => '소셜 콘텐츠 이름 및 기능 구성',
-    'sidebar_interaction_intro' => '소셜 상호작용 기능 구성',
+    'sidebar_interaction_intro' => '제품 서비스에 대한 사용자의 인식(경험의 감각)은 기술적 논리가 아닌 기능 포인트의 명명에 달려있습니다.',
     'sidebar_publish_intro' => '이 구성은 모든 구성원에게 유효하며 우선 순위 우선 순위가 사용자 역할 권한보다 큽니다',
     'sidebar_roles_intro' => '역할은 사용자 ID 및 사용 권한에 대한 특정 설정을 설정할 수 있습니다',
     'sidebar_stickers_intro' => '사용자 정의 구성 eMotive, 구성하지 않는 경우 사용자는 또한 전자 메커 키보드를 통해 이모티콘 표현식을 입력 할 수도 있습니다',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => '기능 상태',
     'interaction_operation_name' => '작업 이름',
+    'interaction_user_title' => '사용자 제목',
     'interaction_public_record' => '공개 기록',
     'interaction_public_count' => '공개 횟수',
-    'interaction_user_title' => '사용자 제목',
     'interaction_column_name' => '열 이름',
     // Operating-Sticker
     'sticker_group' => '식 그룹',

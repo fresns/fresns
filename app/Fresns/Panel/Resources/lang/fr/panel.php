@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'La configuration de fournisseur de services de distribution sera présente dans la liste de fonctions "Portefeuille", utilisée pour l\'équilibre de portefeuille pour encaisser le compte spécifié',
     'sidebar_user_intro' => 'Paramètres de fonction utilisateur utilisateur',
     'sidebar_content_intro' => 'Nom du contenu social et configuration de la fonction',
-    'sidebar_interaction_intro' => 'Configuration de la fonction d\'interaction sociale',
+    'sidebar_interaction_intro' => 'La perception de l\'utilisateur du service d\'un produit (sens de l\'expérience) ne dépend pas de la logique technique, mais du nommage des points de fonction.',
     'sidebar_publish_intro' => 'Cette configuration est valable pour tous les membres et la priorité de priorité est supérieure aux autorisations de rôle d\'utilisateur',
     'sidebar_roles_intro' => 'Le rôle peut définir des paramètres spécifiques pour l\'identité et les autorisations de l\'utilisateur',
     'sidebar_stickers_intro' => 'Configuration personnalisée Emotive, dans le cas de la configuration non configurée, les utilisateurs peuvent également entrer des expressions Emoji via le clavier Emoker',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Statut de la fonction',
     'interaction_operation_name' => 'Nom de l\'opération',
+    'interaction_user_title' => 'Titre de l\'utilisateur',
     'interaction_public_record' => 'Enregistrement public',
     'interaction_public_count' => 'Compte public',
-    'interaction_user_title' => 'Titre de l\'utilisateur',
     'interaction_column_name' => 'Nom de la colonne',
     // Operating-Sticker
     'sticker_group' => 'Groupe d\'expression',

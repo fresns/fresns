@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'The withdrawal service provider configuration will be presented in the "Wallet" function list for withdrawing the wallet balance to the specified account',
     'sidebar_user_intro' => 'User base function settings',
     'sidebar_content_intro' => 'Social content name and function configuration',
-    'sidebar_interaction_intro' => 'Social interaction function configuration',
+    'sidebar_interaction_intro' => 'The user’s perception of a product’s service (sense of experience) does not depend on the technical logic, but on the naming of function points.',
     'sidebar_publish_intro' => 'This configuration is valid for all users, and the permission priority is greater than the user role permission',
     'sidebar_roles_intro' => 'Roles can have specific settings for user identity and permissions',
     'sidebar_stickers_intro' => 'Custom configuration of emoji images, without configuration, users can also enter Emoji through the emoji keyboard',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Function Status',
     'interaction_operation_name' => 'Operation Name',
+    'interaction_user_title' => 'User Title',
     'interaction_public_record' => 'Public Record',
     'interaction_public_count' => 'Public Count',
-    'interaction_user_title' => 'User Title',
     'interaction_column_name' => 'Column Name',
     // Operating-Sticker
     'sticker_group' => 'Sticker Group',

@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'ディスペンスサービスプロバイダの設定は、指定されたアカウントでの現金に対する財布の残高に使用されている「Wallet」機能リストに掲載されます。',
     'sidebar_user_intro' => 'ユーザー基本機能設定',
     'sidebar_content_intro' => 'ソーシャルコンテンツ名と機能設定',
-    'sidebar_interaction_intro' => 'ソーシャルインタラクション機能設定',
+    'sidebar_interaction_intro' => '製品のサービスに対するユーザーの知覚（体験の感覚）は、技術的な論理ではなく、機能ポイントの命名に依存します。',
     'sidebar_publish_intro' => 'この設定はすべてのメンバーに対して有効であり、優先順位の優先順位はユーザーロール権限よりも大きい。',
     'sidebar_roles_intro' => '役割は、ユーザーIDとアクセス許可の特定の設定を設定できます。',
     'sidebar_stickers_intro' => 'カスタム構成の感情的な、構成されていない場合は、Emojedキーボードを介してEmoji式を入力することもできます。',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => '機能ステータス',
     'interaction_operation_name' => '運営名',
+    'interaction_user_title' => 'ユーザータイトル',
     'interaction_public_record' => '公開記録',
     'interaction_public_count' => '公開回数',
-    'interaction_user_title' => 'ユーザータイトル',
     'interaction_column_name' => 'カラム名',
     // Operating-Sticker
     'sticker_group' => '式グループ',

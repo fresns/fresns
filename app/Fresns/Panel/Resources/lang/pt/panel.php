@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'A configuração do Provedor de Serviços de Dispensação estará presente na lista de funções "Wallet", que é usada para o balanço da Wallet em dinheiro na conta especificada',
     'sidebar_user_intro' => 'Configurações de função básica do usuário',
     'sidebar_content_intro' => 'Nome do conteúdo social e configuração da função',
-    'sidebar_interaction_intro' => 'Configuração da função de interação social',
+    'sidebar_interaction_intro' => 'A percepção do usuário sobre o serviço de um produto (senso de experiência) não depende da lógica técnica, mas da nomeação dos pontos de função.',
     'sidebar_publish_intro' => 'Essa configuração é válida para todos os membros, e a prioridade prioritária é maior que as permissões de papel do usuário',
     'sidebar_roles_intro' => 'A função pode definir configurações específicas para identidade e permissões do usuário',
     'sidebar_stickers_intro' => 'Configuração personalizada emotiva, no caso de não configurar, os usuários também podem inserir expressões emoji através do teclado do Emaok',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Estado da função',
     'interaction_operation_name' => 'Nome da operação',
+    'interaction_user_title' => 'Título do utilizador',
     'interaction_public_record' => 'Registo Público',
     'interaction_public_count' => 'Contagem pública',
-    'interaction_user_title' => 'Título do utilizador',
     'interaction_column_name' => 'Nome da coluna',
     // Operating-Sticker
     'sticker_group' => 'Grupo de expressão',

@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'La configurazione del provider di servizi di erogazione sarà presente nell\'elenco delle funzioni "Portafoglio", che viene utilizzato per il bilanciamento del portafoglio in contanti nell\'account specificato',
     'sidebar_user_intro' => 'Impostazioni della funzione di base dell\'utente',
     'sidebar_content_intro' => 'Configurazione del nome e della funzione dei contenuti sociali',
-    'sidebar_interaction_intro' => 'Configurazione della funzione di interazione sociale',
+    'sidebar_interaction_intro' => 'La percezione dell\'utente del servizio di un prodotto (senso dell\'esperienza) non dipende dalla logica tecnica, ma dalla denominazione dei punti di funzione.',
     'sidebar_publish_intro' => 'Questa configurazione è valida per tutti i membri e la priorità prioritaria è maggiore delle autorizzazioni del ruolo utente',
     'sidebar_roles_intro' => 'Il ruolo può impostare impostazioni specifiche per l\'identità e le autorizzazioni dell\'utente',
     'sidebar_stickers_intro' => 'Configurazione personalizzata Emotiva, nel caso di non configurare, gli utenti possono anche entrare nelle espressioni emoji attraverso la tastiera EMOKER',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Stato della funzione',
     'interaction_operation_name' => 'Nome dell\'operazione',
+    'interaction_user_title' => 'Titolo utente',
     'interaction_public_record' => 'Record pubblico',
     'interaction_public_count' => 'Conteggio pubblico',
-    'interaction_user_title' => 'Titolo utente',
     'interaction_column_name' => 'Nome della colonna',
     // Operating-Sticker
     'sticker_group' => 'gruppo Expression',

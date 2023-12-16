@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'Dispense सेवा प्रदाता कॉन्फ़िगरेशन "वॉलेट" फ़ंक्शन सूची में मौजूद होगा, जिसका उपयोग निर्दिष्ट खाते में वॉलेट बैलेंस के लिए किया जाता है।',
     'sidebar_user_intro' => 'उपयोगकर्ता मूल फ़ंक्शन सेटिंग्स।',
     'sidebar_content_intro' => 'सामाजिक सामग्री का नाम और फ़ंक्शन कॉन्फ़िगरेशन',
-    'sidebar_interaction_intro' => 'सामाजिक संपर्क फ़ंक्शन कॉन्फ़िगरेशन',
+    'sidebar_interaction_intro' => 'एक उत्पाद की सेवा के प्रति उपयोगकर्ता की धारणा (अनुभव की भावना) तकनीकी तर्क पर नहीं, बल्कि कार्य बिंदुओं के नामकरण पर निर्भर करती है।',
     'sidebar_publish_intro' => 'यह कॉन्फ़िगरेशन सभी सदस्यों के लिए मान्य है, और प्राथमिकता प्राथमिकता उपयोगकर्ता भूमिका अनुमतियों से अधिक है।',
     'sidebar_roles_intro' => 'भूमिका उपयोगकर्ता पहचान और अनुमतियों के लिए विशिष्ट सेटिंग्स सेट कर सकती है।',
     'sidebar_stickers_intro' => 'कस्टम कॉन्फ़िगरेशन भावनात्मक, कॉन्फ़िगर करने के मामले में, उपयोगकर्ता ईमोकर कीबोर्ड के माध्यम से इमोजी अभिव्यक्तियों को भी दर्ज कर सकते हैं।',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'कार्य स्थिति',
     'interaction_operation_name' => 'ऑपरेशन का नाम',
+    'interaction_user_title' => 'उपयोगकर्ता शीर्षक',
     'interaction_public_record' => 'सार्वजनिक अभिलेख',
     'interaction_public_count' => 'सार्वजनिक गणना',
-    'interaction_user_title' => 'उपयोगकर्ता शीर्षक',
     'interaction_column_name' => 'आम नाम',
     // Operating-Sticker
     'sticker_group' => 'अभिव्यक्ति समूह',

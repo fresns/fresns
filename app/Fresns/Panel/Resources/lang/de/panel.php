@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'Die Dispense-Service Provider-Konfiguration ist in der Funktion "Geldbörsen" vorhanden, die für den Wallet-Kontostand verwendet wird, um das angegebene Konto in Rechnung zu stellen',
     'sidebar_user_intro' => 'Benutzer grundlegende Funktionseinstellungen',
     'sidebar_content_intro' => 'Konfiguration von Namen und Funktionen für soziale Inhalte',
-    'sidebar_intearction_intro' => 'Konfiguration der Funktion für soziale Interaktion',
+    'sidebar_interaction_intro' => 'Die Wahrnehmung des Benutzers von der Dienstleistung eines Produktes (Gefühl der Erfahrung) hängt nicht von der technischen Logik ab, sondern von der Benennung der Funktionspunkte.',
     'sidebar_publish_intro' => 'Diese Konfiguration gilt für alle Mitglieder, und die Prioritätspriorität ist größer als Benutzerrollenberechtigungen',
     'sidebar_roles_intro' => 'Die Rolle kann bestimmte Einstellungen für Benutzeridentität und Berechtigungen festlegen',
     'sidebar_stickers_intro' => 'Benutzerdefinierte Konfiguration Emotivieren, im Falle der Konfiguration können Benutzer auch EMOJI-Ausdrücke über die EMOKER-Tastatur eingeben',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Funktion Status',
     'interaction_operation_name' => 'Name der Operation',
+    'interaction_user_title' => 'Benutzer-Titel',
     'interaction_public_record' => 'Öffentlicher Datensatz',
     'interaction_public_count' => 'Öffentliche Zählung',
-    'interaction_user_title' => 'Benutzer-Titel',
     'interaction_column_name' => 'Name der Spalte',
     // Operating-Sticker
     'sticker_group' => 'Ausdrucksgruppe',

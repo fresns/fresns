@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'La configuración del proveedor de servicios de dispensación estará presente en la lista de funciones de "billetera", que se utiliza para el saldo de la billetera en efectivo en la cuenta especificada',
     'sidebar_user_intro' => 'Configuración de la función básica del usuario',
     'sidebar_content_intro' => 'Configuración de la función y el nombre del contenido social',
-    'sidebar_interaction_intro' => 'Configuración de la función de interacción social',
+    'sidebar_interaction_intro' => 'La percepción del usuario sobre el servicio de un producto (sentido de la experiencia) no depende de la lógica técnica, sino del nombre de los puntos de función.',
     'sidebar_publish_intro' => 'Esta configuración es válida para todos los miembros, y la prioridad prioritaria es mayor que los permisos de roles del usuario',
     'sidebar_roles_intro' => 'El rol puede establecer configuraciones específicas para la identidad y permisos del usuario',
     'sidebar_stickers_intro' => 'Configuración personalizada Emotive, en el caso de no configurar, los usuarios también pueden ingresar a Emoji Expressions a través del teclado de Emoker',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Estado de la función',
     'interaction_operation_name' => 'Nombre de la operación',
+    'interaction_user_title' => 'Título de usuario',
     'interaction_public_record' => 'Registro público',
     'interaction_public_count' => 'Recuento público',
-    'interaction_user_title' => 'Título de usuario',
     'interaction_column_name' => 'Nombre de columna',
     // Operating-Sticker
     'sticker_group' => 'Grupo de expresión',

@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => '提现服务商配置将呈现在「钱包」功能列表中，用于钱包余额提现到指定账户中。',
     'sidebar_user_intro' => '用户基础功能设置。',
     'sidebar_content_intro' => '社交内容名称和功能配置。',
-    'sidebar_interaction_intro' => '社交互动功能配置。',
+    'sidebar_interaction_intro' => '用户感知一款产品的服务（体验感），并不取决于技术逻辑，而是来源于功能点命名。',
     'sidebar_publish_intro' => '此处配置对全员有效，权限优先级大于用户角色权限。',
     'sidebar_roles_intro' => '角色可以对用户身份和权限进行特定的设置。',
     'sidebar_stickers_intro' => '自定义配置表情图，在不配置的情况下，用户也可以通过表情键盘输入 Emoji 表情。',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => '功能状态',
     'interaction_operation_name' => '行为名称',
+    'interaction_user_title' => '用户头衔',
     'interaction_public_record' => '公开记录',
     'interaction_public_count' => '公开计数',
-    'interaction_user_title' => '用户头衔',
     'interaction_column_name' => '栏目名称',
     // Operating-Sticker
     'sticker_group' => '表情组',

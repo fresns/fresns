@@ -115,7 +115,7 @@ return [
     'sidebar_wallet_tab_withdraw_services_intro' => 'Konfigurasi penyedia layanan pengeluaran akan hadir dalam daftar fungsi "Wallet", yang digunakan untuk saldo dompet untuk menguangkan akun yang ditentukan',
     'sidebar_user_intro' => 'Pengaturan fungsi dasar pengguna',
     'sidebar_content_intro' => 'Konfigurasi nama dan fungsi konten sosial',
-    'sidebar_interaction_intro' => 'Konfigurasi Fungsi Interaksi Sosial',
+    'sidebar_interaction_intro' => 'Persepsi pengguna tentang layanan produk (rasa pengalaman) tidak bergantung pada logika teknis, tetapi pada penamaan titik fungsi.',
     'sidebar_publish_intro' => 'Konfigurasi ini berlaku untuk semua anggota, dan prioritas prioritas lebih besar dari izin peran pengguna',
     'sidebar_roles_intro' => 'Peran dapat mengatur pengaturan spesifik untuk identitas dan izin pengguna',
     'sidebar_stickers_intro' => 'Konfigurasi Kustom Emosive, dalam hal tidak mengkonfigurasi, pengguna juga dapat memasukkan ekspresi emoji melalui keyboard Emoker',
@@ -691,9 +691,9 @@ return [
     // Operating-Interaction
     'interaction_function_status' => 'Status Fungsi',
     'interaction_operation_name' => 'Nama Operasi',
+    'interaction_user_title' => 'Judul Pengguna',
     'interaction_public_record' => 'Catatan Publik',
     'interaction_public_count' => 'Hitungan Publik',
-    'interaction_user_title' => 'Judul Pengguna',
     'interaction_column_name' => 'Nama Kolom',
     // Operating-Sticker
     'sticker_group' => 'Kelompok ekspresi',
