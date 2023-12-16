@@ -29,10 +29,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_group_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'group_name']) }}"
-                        data-languages="{{ json_encode($params['group_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['group_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_group_name') }}"
+                        data-description="{{ __('FsLang::panel.content_group_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'group_name']) }}"
+                        data-languages="{{ json_encode($params['group_name']) }}">
+                        {{ $defaultLangParams['group_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -43,10 +47,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_hashtag_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'hashtag_name']) }}"
-                        data-languages="{{ json_encode($params['hashtag_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['hashtag_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_hashtag_name') }}"
+                        data-description="{{ __('FsLang::panel.content_hashtag_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'hashtag_name']) }}"
+                        data-languages="{{ json_encode($params['hashtag_name']) }}">
+                        {{ $defaultLangParams['hashtag_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -57,10 +65,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_post_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'post_name']) }}"
-                        data-languages="{{ json_encode($params['post_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['post_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_post_name') }}"
+                        data-description="{{ __('FsLang::panel.content_post_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'post_name']) }}"
+                        data-languages="{{ json_encode($params['post_name']) }}">
+                        {{ $defaultLangParams['post_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -71,10 +83,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_comment_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'comment_name']) }}"
-                        data-languages="{{ json_encode($params['comment_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['comment_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_comment_name') }}"
+                        data-description="{{ __('FsLang::panel.content_comment_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'comment_name']) }}"
+                        data-languages="{{ json_encode($params['comment_name']) }}">
+                        {{ $defaultLangParams['comment_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -85,10 +101,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_publish_post_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'publish_post_name']) }}"
-                        data-languages="{{ json_encode($params['publish_post_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['publish_post_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_publish_post_name') }}"
+                        data-description="{{ __('FsLang::panel.content_publish_post_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'publish_post_name']) }}"
+                        data-languages="{{ json_encode($params['publish_post_name']) }}">
+                        {{ $defaultLangParams['publish_post_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -99,10 +119,14 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text rename-label">{{ __('FsLang::panel.content_publish_comment_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                        data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'publish_comment_name']) }}"
-                        data-languages="{{ json_encode($params['publish_comment_name']) }}"
-                        data-bs-target="#configLangModal">{{ $defaultLangParams['publish_comment_name'] ?? '' }}
+                    <button type="button" class="btn btn-outline-secondary text-start rename-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#configLangModal"
+                        data-title="{{ __('FsLang::panel.content_publish_comment_name') }}"
+                        data-description="{{ __('FsLang::panel.content_publish_comment_name_desc') }}"
+                        data-action="{{ route('panel.update.languages', ['itemKey' => 'publish_comment_name']) }}"
+                        data-languages="{{ json_encode($params['publish_comment_name']) }}">
+                        {{ $defaultLangParams['publish_comment_name'] ?? '' }}
                     </button>
                 </div>
             </div>
@@ -567,10 +591,14 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <h5 class="modal-title lang-modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="form-text mb-3 lang-modal-description">
+                        <i class="bi bi-info-circle"></i>
+                        <span class="lang-modal-description-text"></span>
+                    </div>
                     <form method="post">
                         @csrf
                         @method('put')
@@ -604,7 +632,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center mb-3">
                             <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_save') }}</button>
                         </div>
                     </form>

@@ -396,7 +396,8 @@
                         </button>
                         <button type="button" class="btn btn-outline-secondary btn-modal form-control"
                             data-bs-toggle="modal"
-                            data-bs-target="#configStatusModal"
+                            data-bs-target="#configStateModal"
+                            data-title="{{ __('FsLang::panel.table_status') }}"
                             data-action="{{ route('panel.update.status', ['itemKey' => "extcredits{$extcreditsId}_state"]) }}"
                             data-state="{{ $params["extcredits{$extcreditsId}_state"] }}">
                             @if ($params["extcredits{$extcreditsId}_state"] == 2)
@@ -563,12 +564,12 @@
         </div>
     </div>
 
-    <!-- Modal Setting -->
-    <div class="modal fade" id="configStatusModal" tabindex="-1" aria-labelledby="configStatusModal" aria-hidden="true">
+    <!-- State Modal -->
+    <div class="modal fade" id="configStateModal" tabindex="-1" aria-labelledby="configStateModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <h5 class="modal-title lang-modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -577,9 +578,9 @@
                         @method('patch')
                         <input type="hidden" name="itemType" value="number">
                         <!--state-->
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
-                            <div class="col-sm-9 pt-2">
+                        <div class="row mb-4">
+                            <label class="col-sm-2"></label>
+                            <div class="col-sm-10 pt-2">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="radio" name="itemValue" id="state_1" value="1" checked>
                                     <label class="form-check-label" for="state_1">{{ __('FsLang::panel.user_extcredits_state_not_enabled') }}</label>
@@ -597,8 +598,8 @@
 
                         <!--button_save-->
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label"></label>
-                            <div class="col-sm-9"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
+                            <label class="col-sm-2"></label>
+                            <div class="col-sm-10"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
                         </div>
                     </form>
                 </div>
