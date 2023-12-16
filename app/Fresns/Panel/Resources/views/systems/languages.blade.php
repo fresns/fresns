@@ -14,14 +14,14 @@
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-translate me-1"></i> {{ __('FsLang::panel.language_multilingual') }}: {{ $status ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                    <i class="bi bi-translate me-1"></i> {{ __('FsLang::panel.language_multilingual') }}: {{ $languageStatus ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                 </button>
                 <ul class="dropdown-menu">
                     <li>
                         <form action="{{ route('panel.languageMenus.status') }}" method="post">
                             @csrf
                             @method('put')
-                            <button class="dropdown-item" type="submit">{{ $status ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
+                            <button class="dropdown-item" type="submit">{{ $languageStatus ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
                         </form>
                     </li>
                 </ul>
@@ -104,7 +104,7 @@
                             <div class="col-sm-9">
                                 <select class="form-select" name="lang_code" required>
                                     <option selected disabled value="">{{ __('FsLang::panel.language_select_langCode') }}</option>
-                                    @foreach ($codes as $code)
+                                    @foreach ($languageCodes as $code)
                                         <option value={{ $code['code'] }}>{{ $code['name'] }}-
                                             {{ $code['localName'] }} > {{ $code['code'] }}</option>
                                     @endforeach

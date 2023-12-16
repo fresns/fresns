@@ -18,22 +18,28 @@ class LanguageController extends Controller
 {
     public function index()
     {
-        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
-        $languages = collect($languageConfig->item_value)->sortBy('order');
+        $configKeys = [
+            'language_menus',
+            'default_language',
+            'language_status',
+            'language_codes',
+            'continents',
+            'area_codes',
+        ];
 
-        $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
-        $defaultLanguage = $defaultLanguageConfig->item_value;
+        $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        $statusConfig = Config::where('item_key', 'language_status')->firstOrFail();
-        $status = $statusConfig->item_value;
+        $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value;
+        $languages = collect($languageMenus)->sortBy('order');
 
-        $codeConfig = Config::where('item_key', 'language_codes')->firstOrFail();
-        $codes = $codeConfig->item_value;
+        $defaultLanguage = $configs->where('item_key', 'default_language')->first()?->item_value;
+        $languageStatus = $configs->where('item_key', 'language_status')->first()?->item_value;
 
-        $continentConfig = Config::where('item_key', 'continents')->firstOrFail();
-        $continents = $continentConfig->item_value;
+        $languageCodes = $configs->where('item_key', 'language_codes')->first()?->item_value;
+        $continents = $configs->where('item_key', 'continents')->first()?->item_value;
+        $areaCodes = $configs->where('item_key', 'area_codes')->first()?->item_value;
 
-        return view('FsView::systems.languages', compact('languages', 'defaultLanguage', 'status', 'codes', 'continents'));
+        return view('FsView::systems.languages', compact('languages', 'defaultLanguage', 'languageStatus', 'languageCodes', 'continents', 'areaCodes'));
     }
 
     public function switchStatus()
