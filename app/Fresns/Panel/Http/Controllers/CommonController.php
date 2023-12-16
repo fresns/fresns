@@ -27,31 +27,8 @@ class CommonController extends Controller
         return response()->json($users);
     }
 
-    // update language
-    public function languageUpdate($itemKey, Request $request)
-    {
-        $config = Config::where('item_key', $itemKey)->first();
-
-        if (! $config) {
-            $config = new Config();
-
-            $config->fill([
-                'item_key' => $itemKey,
-                'item_type' => 'object',
-            ]);
-        }
-
-        $itemValue = $config->item_value;
-        $itemValue[$request->langTag] = $request->langContent;
-
-        $config->item_value = $itemValue;
-        $config->save();
-
-        return $this->updateSuccess();
-    }
-
-    // update batch language
-    public function languageBatchUpdate($itemKey, Request $request)
+    // update batch languages
+    public function updateLanguages(string $itemKey, Request $request)
     {
         $config = Config::where('item_key', $itemKey)->first();
 
@@ -71,6 +48,50 @@ class CommonController extends Controller
         }
 
         $config->item_value = $itemValue;
+        $config->save();
+
+        return $this->updateSuccess();
+    }
+
+    // update language
+    public function updateLanguage(string $itemKey, string $langTag, Request $request)
+    {
+        $config = Config::where('item_key', $itemKey)->first();
+
+        if (! $config) {
+            $config = new Config();
+
+            $config->fill([
+                'item_key' => $itemKey,
+                'item_type' => 'object',
+            ]);
+        }
+
+        $itemValue = $config->item_value;
+        $itemValue[$langTag] = $request->langContent;
+
+        $config->item_value = $itemValue;
+        $config->save();
+
+        return $this->updateSuccess();
+    }
+
+    // update status
+    public function updateStatus(string $itemKey, Request $request)
+    {
+        $config = Config::where('item_key', $itemKey)->first();
+
+        if (! $config) {
+            $config = new Config();
+
+            $config->fill([
+                'item_key' => $itemKey,
+                'item_type' => $request->itemType,
+            ]);
+        }
+
+        $config->item_value = $request->itemValue;
+        $config->item_type = $request->itemType;
         $config->save();
 
         return $this->updateSuccess();

@@ -35,9 +35,8 @@ class Controller extends BaseController
             'default_language',
             'language_status',
             'language_menus',
-            'area_codes',
-            'site_url',
             'check_version_datetime',
+            'site_url',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -45,7 +44,6 @@ class Controller extends BaseController
         $defaultLanguage = $configs->where('item_key', 'default_language')->first()?->item_value ?? config('app.locale');
         $languageStatus = $configs->where('item_key', 'language_status')->first()?->item_value ?? false;
         $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value ?? [];
-        $areaCodes = $configs->where('item_key', 'area_codes')->first()?->item_value ?? [];
         $checkVersionDatetime = $configs->where('item_key', 'check_version_datetime')->first()?->item_value ?? now();
 
         try {
@@ -60,9 +58,6 @@ class Controller extends BaseController
             }
             $this->optionalLanguages = $optionalLanguages;
             View::share('optionalLanguages', collect($optionalLanguages));
-
-            // area codes
-            View::share('areaCodes', collect($areaCodes));
 
             // Check Plugins Versions
             if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
