@@ -816,7 +816,25 @@ $(document).ready(function () {
         let button = $(e.relatedTarget),
             title = button.data('title'),
             action = button.data('action'),
-            status = button.data('status'),
+            status = button.data('status') || '0';
+
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true).click();
+    });
+
+    // configStateModal
+    $('#configStateModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            title = button.data('title'),
+            action = button.data('action'),
             state = button.data('state');
 
         $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
@@ -828,13 +846,28 @@ $(document).ready(function () {
             $('.lang-modal-title').text(title);
         }
 
-        if (status) {
-            $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true);
-        }
-
         if (state) {
             $(this).find('input:radio[name=itemValue][value="' + state + '"]').prop('checked', true);
         }
+    });
+
+    // configPublicStatusModal
+    $('#configPublicStatusModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            title = button.data('title'),
+            action = button.data('action'),
+            status = button.data('status') || '0';
+
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true).click();
     });
 
     // sticker
