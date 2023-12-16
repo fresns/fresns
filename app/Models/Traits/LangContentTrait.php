@@ -12,7 +12,7 @@ use App\Helpers\StrHelper;
 
 trait LangContentTrait
 {
-    public function getLangContent($column, $langTag): ?string
+    public function getLangContent(string $column, ?string $langTag = null): ?string
     {
         return StrHelper::languageContent($this->$column, $langTag);
     }

@@ -214,7 +214,7 @@ class StrHelper
     }
 
     // language content
-    public static function languageContent(?array $contentArr, ?string $langTag = null): ?string
+    public static function languageContent(?array $contentArr = [], ?string $langTag = null): ?string
     {
         if (empty($contentArr)) {
             return null;
