@@ -38,8 +38,8 @@
                     <label class="form-check-label" for="comment_phone_verify">{{ __('FsLang::panel.permission_option_phone') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="comment_real_name_verify" id="comment_real_name_verify" value="true" {{ $params['comment_real_name_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_real_name_verify">{{ __('FsLang::panel.permission_option_prove') }}</label>
+                    <input class="form-check-input" type="checkbox" name="comment_kyc_verify" id="comment_kyc_verify" value="true" {{ $params['comment_kyc_verify'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_kyc_verify">{{ __('FsLang::panel.permission_option_prove') }}</label>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_verify_desc') }}</div>
@@ -97,14 +97,14 @@
                     </div>
                     <div class="input-group mb-3">
                         <label class="input-group-text fresns-label">{{ __('FsLang::panel.publish_rule_tip') }}</label>
-                        <button class="btn btn-outline-secondary text-start fresns-control name-button" type="button" data-bs-toggle="modal" data-bs-target="#langModal">{{ $languages->where('lang_tag', $defaultLanguage)->first()['lang_content'] ?? '' }}</button>
+                        <button class="btn btn-outline-secondary text-start fresns-control name-button" type="button" data-bs-toggle="modal" data-bs-target="#langModal">{{ $defaultLangParams['comment_limit_tip'] }}</button>
                     </div>
                     <div class="input-group mb-3">
                         <label class="input-group-text fresns-label">{{ __('FsLang::panel.table_whitelist_rules') }}</label>
                         <select class="form-select select2" name="comment_limit_whitelist[]" multiple="multiple">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}" @if ($params['comment_limit_whitelist'] && is_array($params['comment_limit_whitelist']) && in_array($role->id, $params['comment_limit_whitelist'])) selected @endif>
-                                    {{ $role->getLangName($defaultLanguage) }}
+                                    {{ $role->getLangContent('name', $defaultLanguage) }}
                                 </option>
                             @endforeach
                         </select>
@@ -113,101 +113,6 @@
                 <!--rules_config end-->
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_rules_desc') }}</div>
-        </div>
-        <!--publish_comment_edit_config-->
-        <div class="row mb-3">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_edit_config') }}:</label>
-            <div class="col-lg-6 pt-2">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_0" value="false" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting.show" aria-expanded="false" aria-controls="comment_edit_setting" {{ !$params['comment_edit'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_edit_status_0">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_1" value="true" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting:not(.show)" aria-expanded="false" aria-controls="comment_edit_setting" {{ $params['comment_edit'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_edit_status_1">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
-                </div>
-                <!--comment_edit_setting-->
-                <div class="collapse comment_edit_setting mt-3 {{ $params['comment_edit'] ? 'show' : '' }}">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_time_limit') }}</label>
-                        <input type="number" class="form-control input-number" name="comment_edit_time_limit" value="{{ $params['comment_edit_time_limit'] }}" id="comment_edit_time_limit" value="30">
-                        <span class="input-group-text">{{ __('FsLang::panel.unit_within_minute') }}</span>
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_sticky_limit') }}</label>
-                        <div class="form-control bg-white">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_edit_sticky_limit" id="comment_edit_sticky_false" value="false" {{ !$params['comment_edit_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_sticky_false">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_edit_sticky_limit" id="comment_edit_sticky_true" value="true" {{ $params['comment_edit_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_sticky_true">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_digest_limit') }}</label>
-                        <div class="form-control bg-white">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_edit_digest_limit" id="comment_edit_digest_false" value="false" {{ !$params['comment_edit_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_digest_false">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_edit_digest_limit" id="comment_edit_digest_true" value="true" {{ $params['comment_edit_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_digest_true">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--comment_edit_setting end-->
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_edit_desc') }}</div>
-        </div>
-        <!--publish_comment_delete_config-->
-        <div class="row mb-5">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_delete_config') }}:</label>
-            <div class="col-lg-6 pt-2">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_delete" id="comment_delete_status_0" data-bs-toggle="collapse" data-bs-target=".comment_delete_setting.show" aria-expanded="false" aria-controls="comment_delete_setting" value="false" {{ !$params['comment_delete'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_delete_status_0">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_delete" id="comment_delete_status_1" data-bs-toggle="collapse" data-bs-target=".comment_delete_setting:not(.show)" aria-expanded="true" aria-controls="comment_delete_setting" value="true" {{ $params['comment_delete'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_delete_status_1">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
-                </div>
-                <!--comment_delete_setting-->
-                <div class="collapse comment_delete_setting mt-3 {{ $params['comment_delete'] ? 'show' : '' }}">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_sticky_limit') }}</label>
-                        <div class="form-control bg-white">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_delete_sticky_limit" id="comment_delete_sticky_false" value="false" {{ !$params['comment_delete_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_delete_sticky_false">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_delete_sticky_limit" id="comment_delete_sticky_true" value="true" {{ $params['comment_delete_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_delete_sticky_true">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_digest_limit') }}</label>
-                        <div class="form-control bg-white">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_delete_digest_limit" id="comment_delete_digest_false" value="false" {{ !$params['comment_delete_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_delete_digest_false">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_delete_digest_limit" id="comment_delete_digest_true" value="true" {{ $params['comment_delete_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_delete_digest_true">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--comment_edit_setting end-->
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_delete_desc') }}</div>
         </div>
         <!--publish_editor_config-->
         <div class="row mb-5">
@@ -279,12 +184,11 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_editor_function_options') }}:</label>
             <div class="col-lg-10">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_form') }}</label>
-                    <select class="form-select" name="comment_editor_image_upload_form" id="comment_editor_image_upload_form">
-                        <option value="fresns" @if ($params['comment_editor_image_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        @if ($uploadPlugin['image']['uploadPage'])
-                            <option value="plugin" @if ($params['comment_editor_image_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['image']['name'].')' }}</option>
-                        @endif
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_type') }}</label>
+                    <select class="form-select" name="comment_editor_image_upload_type" id="comment_editor_image_upload_type">
+                        <option value="api" @if ($params['comment_editor_image_upload_type'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_image_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_image_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_image_upload_number" name="comment_editor_image_upload_number" value="{{ $params['comment_editor_image_upload_number'] }}">
@@ -296,12 +200,11 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-10">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_form') }}</label>
-                    <select class="form-select" name="comment_editor_video_upload_form" id="comment_editor_video_upload_form">
-                        <option value="fresns" @if ($params['comment_editor_video_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        @if ($uploadPlugin['video']['uploadPage'])
-                            <option value="plugin" @if ($params['comment_editor_video_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['video']['name'].')' }}</option>
-                        @endif
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_type') }}</label>
+                    <select class="form-select" name="comment_editor_video_upload_type" id="comment_editor_video_upload_type">
+                        <option value="api" @if ($params['comment_editor_video_upload_type'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_video_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_video_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_video_upload_number" name="comment_editor_video_upload_number" value="{{ $params['comment_editor_video_upload_number'] }}">
@@ -313,12 +216,11 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-10">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_form') }}</label>
-                    <select class="form-select" name="comment_editor_audio_upload_form" id="comment_editor_audio_upload_form">
-                        <option value="fresns" @if ($params['comment_editor_audio_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        @if ($uploadPlugin['audio']['uploadPage'])
-                            <option value="plugin" @if ($params['comment_editor_audio_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['audio']['name'].')' }}</option>
-                        @endif
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_type') }}</label>
+                    <select class="form-select" name="comment_editor_audio_upload_type" id="comment_editor_audio_upload_type">
+                        <option value="api" @if ($params['comment_editor_audio_upload_type'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_audio_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_audio_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_audio_upload_number" name="comment_editor_audio_upload_number" value="{{ $params['comment_editor_audio_upload_number'] }}">
@@ -330,12 +232,11 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-10">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_form') }}</label>
-                    <select class="form-select" name="comment_editor_document_upload_form" id="comment_editor_document_upload_form">
-                        <option value="fresns" @if ($params['comment_editor_document_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        @if ($uploadPlugin['document']['uploadPage'])
-                            <option value="plugin" @if ($params['comment_editor_document_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['document']['name'].')' }}</option>
-                        @endif
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_type') }}</label>
+                    <select class="form-select" name="comment_editor_document_upload_type" id="comment_editor_document_upload_type">
+                        <option value="api" @if ($params['comment_editor_document_upload_type'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_document_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_document_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_document_upload_number" name="comment_editor_document_upload_number" value="{{ $params['comment_editor_document_upload_number'] }}">
@@ -354,17 +255,6 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_comment_content_length_desc') }}</div>
         </div>
-        <div class="row mb-3">
-            <label class="col-lg-2 col-form-label text-lg-end"></label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_comment_brief_content_length') }}</label>
-                    <input type="number" class="form-control input-number" id="comment_editor_brief_length" name="comment_editor_brief_length" value="{{ $params['comment_editor_brief_length'] }}">
-                    <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
-                </div>
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_comment_brief_content_length_desc') }}</div>
-        </div>
         <!--button_save-->
         <div class="row mt-5">
             <div class="col-lg-2"></div>
@@ -374,7 +264,7 @@
         </div>
 
         <!-- Language Modal -->
-        <div class="modal fade update-name-modal" id="langModal" tabindex="-1" aria-labelledby="langModal" aria-hidden="true">
+        <div class="modal fade" id="langModal" tabindex="-1" aria-labelledby="langModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -407,7 +297,7 @@
                                                         {{ '('.$lang['areaName'].')' }}
                                                     @endif
                                                 </td>
-                                                <td><textarea class="form-control name-input" name="comment_limit_tip[{{ $lang['langTag'] }}]" rows="3">{{ $languages->where('lang_tag', $lang['langTag'])->first()['lang_content'] ?? '' }}</textarea></td>
+                                                <td><textarea class="form-control name-input" name="comment_limit_tip[{{ $lang['langTag'] }}]" rows="3">{{ $params['comment_limit_tip'][$lang['langTag']] ?? '' }}</textarea></td>
                                             </tr>
                                         @endforeach
                                     </tbody>

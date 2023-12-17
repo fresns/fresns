@@ -9,8 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\DateHelper;
+use App\Helpers\StrHelper;
 use App\Models\Config;
-use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class PublishController extends Controller
             'document_service',
             'post_email_verify',
             'post_phone_verify',
-            'post_real_name_verify',
+            'post_kyc_verify',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -37,13 +37,6 @@ class PublishController extends Controller
             'post_limit_rule',
             'post_limit_tip',
             'post_limit_whitelist',
-            'post_edit',
-            'post_edit_time_limit',
-            'post_edit_sticky_limit',
-            'post_edit_digest_limit',
-            'post_delete',
-            'post_delete_sticky_limit',
-            'post_delete_digest_limit',
             'post_editor_service',
             'post_editor_group',
             'post_editor_title',
@@ -57,10 +50,10 @@ class PublishController extends Controller
             'post_editor_extend',
             'post_editor_location',
             'post_editor_anonymous',
-            'post_editor_image_upload_form',
-            'post_editor_video_upload_form',
-            'post_editor_audio_upload_form',
-            'post_editor_document_upload_form',
+            'post_editor_image_upload_type',
+            'post_editor_video_upload_type',
+            'post_editor_audio_upload_type',
+            'post_editor_document_upload_type',
             'post_editor_image_upload_number',
             'post_editor_video_upload_number',
             'post_editor_audio_upload_number',
@@ -70,7 +63,6 @@ class PublishController extends Controller
             'post_editor_title_required',
             'post_editor_title_length',
             'post_editor_content_length',
-            'post_editor_brief_length',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
@@ -78,7 +70,15 @@ class PublishController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $languages = Language::ofConfig()->where('table_key', 'post_limit_tip')->get();
+        // language keys
+        $langKeys = [
+            'post_limit_tip',
+        ];
+
+        $defaultLangParams = [];
+        foreach ($langKeys as $langKey) {
+            $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
+        }
 
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
@@ -88,27 +88,11 @@ class PublishController extends Controller
         $videoService = $plugins->where('fskey', $params['video_service'])->first();
         $audioService = $plugins->where('fskey', $params['audio_service'])->first();
         $documentService = $plugins->where('fskey', $params['document_service'])->first();
-        $uploadPlugin = [
-            'image' => [
-                'fskey' => $imageService?->fskey,
-                'name' => $imageService?->name,
-                'uploadPage' => $imageService?->access_path ? true : false,
-            ],
-            'video' => [
-                'fskey' => $videoService?->fskey,
-                'name' => $videoService?->name,
-                'uploadPage' => $videoService?->access_path ? true : false,
-            ],
-            'audio' => [
-                'fskey' => $audioService?->fskey,
-                'name' => $audioService?->name,
-                'uploadPage' => $audioService?->access_path ? true : false,
-            ],
-            'document' => [
-                'fskey' => $documentService?->fskey,
-                'name' => $documentService?->name,
-                'uploadPage' => $documentService?->access_path ? true : false,
-            ],
+        $pluginPageUpload = [
+            'image' => $imageService?->access_path ? true : false,
+            'video' => $videoService?->access_path ? true : false,
+            'audio' => $audioService?->access_path ? true : false,
+            'document' => $documentService?->access_path ? true : false,
         ];
 
         $plugins = $plugins->filter(function ($plugin) {
@@ -117,7 +101,7 @@ class PublishController extends Controller
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-post', compact('params', 'ruleTimezone', 'languages', 'plugins', 'uploadPlugin', 'roles'));
+        return view('FsView::operations.publish-post', compact('params', 'defaultLangParams', 'ruleTimezone', 'plugins', 'pluginPageUpload', 'roles'));
     }
 
     public function postUpdate(Request $request)
@@ -125,7 +109,7 @@ class PublishController extends Controller
         $configKeys = [
             'post_email_verify',
             'post_phone_verify',
-            'post_real_name_verify',
+            'post_kyc_verify',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -135,13 +119,6 @@ class PublishController extends Controller
             'post_limit_rule',
             'post_limit_tip',
             'post_limit_whitelist',
-            'post_edit',
-            'post_edit_time_limit',
-            'post_edit_sticky_limit',
-            'post_edit_digest_limit',
-            'post_delete',
-            'post_delete_sticky_limit',
-            'post_delete_digest_limit',
             'post_editor_service',
             'post_editor_group',
             'post_editor_title',
@@ -155,10 +132,10 @@ class PublishController extends Controller
             'post_editor_extend',
             'post_editor_location',
             'post_editor_anonymous',
-            'post_editor_image_upload_form',
-            'post_editor_video_upload_form',
-            'post_editor_audio_upload_form',
-            'post_editor_document_upload_form',
+            'post_editor_image_upload_type',
+            'post_editor_video_upload_type',
+            'post_editor_audio_upload_type',
+            'post_editor_document_upload_type',
             'post_editor_image_upload_number',
             'post_editor_video_upload_number',
             'post_editor_audio_upload_number',
@@ -168,7 +145,6 @@ class PublishController extends Controller
             'post_editor_title_required',
             'post_editor_title_length',
             'post_editor_content_length',
-            'post_editor_brief_length',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -186,30 +162,6 @@ class PublishController extends Controller
 
             $config->item_value = $request->$configKey;
             $config->save();
-        }
-
-        foreach ($request->post_limit_tip as $langTag => $content) {
-            $language = Language::tableName('configs')
-                ->where('table_key', 'post_limit_tip')
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'configs',
-                    'table_column' => 'item_value',
-                    'table_key' => 'post_limit_tip',
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
         }
 
         return $this->updateSuccess();
@@ -225,7 +177,7 @@ class PublishController extends Controller
             'document_service',
             'comment_email_verify',
             'comment_phone_verify',
-            'comment_real_name_verify',
+            'comment_kyc_verify',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
@@ -235,13 +187,6 @@ class PublishController extends Controller
             'comment_limit_rule',
             'comment_limit_tip',
             'comment_limit_whitelist',
-            'comment_edit',
-            'comment_edit_time_limit',
-            'comment_edit_sticky_limit',
-            'comment_edit_digest_limit',
-            'comment_delete',
-            'comment_delete_sticky_limit',
-            'comment_delete_digest_limit',
             'comment_editor_service',
             'comment_editor_sticker',
             'comment_editor_image',
@@ -253,16 +198,15 @@ class PublishController extends Controller
             'comment_editor_extend',
             'comment_editor_location',
             'comment_editor_anonymous',
-            'comment_editor_image_upload_form',
-            'comment_editor_video_upload_form',
-            'comment_editor_audio_upload_form',
-            'comment_editor_document_upload_form',
+            'comment_editor_image_upload_type',
+            'comment_editor_video_upload_type',
+            'comment_editor_audio_upload_type',
+            'comment_editor_document_upload_type',
             'comment_editor_image_upload_number',
             'comment_editor_video_upload_number',
             'comment_editor_audio_upload_number',
             'comment_editor_document_upload_number',
             'comment_editor_content_length',
-            'comment_editor_brief_length',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -271,7 +215,15 @@ class PublishController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $languages = Language::ofConfig()->where('table_key', 'comment_limit_tip')->get();
+        // language keys
+        $langKeys = [
+            'comment_limit_tip',
+        ];
+
+        $defaultLangParams = [];
+        foreach ($langKeys as $langKey) {
+            $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
+        }
 
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
@@ -281,27 +233,11 @@ class PublishController extends Controller
         $videoService = $plugins->where('fskey', $params['video_service'])->first();
         $audioService = $plugins->where('fskey', $params['audio_service'])->first();
         $documentService = $plugins->where('fskey', $params['document_service'])->first();
-        $uploadPlugin = [
-            'image' => [
-                'fskey' => $imageService?->fskey,
-                'name' => $imageService?->name,
-                'uploadPage' => $imageService?->access_path ? true : false,
-            ],
-            'video' => [
-                'fskey' => $videoService?->fskey,
-                'name' => $videoService?->name,
-                'uploadPage' => $videoService?->access_path ? true : false,
-            ],
-            'audio' => [
-                'fskey' => $audioService?->fskey,
-                'name' => $audioService?->name,
-                'uploadPage' => $audioService?->access_path ? true : false,
-            ],
-            'document' => [
-                'fskey' => $documentService?->fskey,
-                'name' => $documentService?->name,
-                'uploadPage' => $documentService?->access_path ? true : false,
-            ],
+        $pluginPageUpload = [
+            'image' => $imageService?->access_path ? true : false,
+            'video' => $videoService?->access_path ? true : false,
+            'audio' => $audioService?->access_path ? true : false,
+            'document' => $documentService?->access_path ? true : false,
         ];
 
         $plugins = $plugins->filter(function ($plugin) {
@@ -310,7 +246,7 @@ class PublishController extends Controller
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-comment', compact('params', 'ruleTimezone', 'languages', 'plugins', 'uploadPlugin', 'roles'));
+        return view('FsView::operations.publish-comment', compact('params', 'defaultLangParams', 'ruleTimezone', 'plugins', 'pluginPageUpload', 'roles'));
     }
 
     public function commentUpdate(Request $request)
@@ -318,7 +254,7 @@ class PublishController extends Controller
         $configKeys = [
             'comment_email_verify',
             'comment_phone_verify',
-            'comment_real_name_verify',
+            'comment_kyc_verify',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
@@ -328,13 +264,6 @@ class PublishController extends Controller
             'comment_limit_rule',
             'comment_limit_tip',
             'comment_limit_whitelist',
-            'comment_edit',
-            'comment_edit_time_limit',
-            'comment_edit_sticky_limit',
-            'comment_edit_digest_limit',
-            'comment_delete',
-            'comment_delete_sticky_limit',
-            'comment_delete_digest_limit',
             'comment_editor_service',
             'comment_editor_sticker',
             'comment_editor_image',
@@ -346,16 +275,15 @@ class PublishController extends Controller
             'comment_editor_extend',
             'comment_editor_location',
             'comment_editor_anonymous',
-            'comment_editor_image_upload_form',
-            'comment_editor_video_upload_form',
-            'comment_editor_audio_upload_form',
-            'comment_editor_document_upload_form',
+            'comment_editor_image_upload_type',
+            'comment_editor_video_upload_type',
+            'comment_editor_audio_upload_type',
+            'comment_editor_document_upload_type',
             'comment_editor_image_upload_number',
             'comment_editor_video_upload_number',
             'comment_editor_audio_upload_number',
             'comment_editor_document_upload_number',
             'comment_editor_content_length',
-            'comment_editor_brief_length',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -374,32 +302,6 @@ class PublishController extends Controller
 
             $config->item_value = $request->$configKey;
             $config->save();
-        }
-
-        foreach ($request->comment_limit_tip as $langTag => $content) {
-            $language = Language::tableName('configs')
-                ->where('table_id', $config->id)
-                ->where('table_key', 'comment_limit_tip')
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'configs',
-                    'table_column' => 'item_value',
-                    'table_key' => 'comment_limit_tip',
-                    'table_id' => $config->id,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
         }
 
         return $this->updateSuccess();
