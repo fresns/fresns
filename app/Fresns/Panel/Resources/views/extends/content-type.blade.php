@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number order-number" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
+                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
                         <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())

@@ -54,7 +54,7 @@
                 @foreach ($languages as $language)
                     <tr>
                         <td>
-                            <input type="number" data-action="{{ route('panel.languageMenus.order.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number order-number" value="{{ $language['order'] }}">
+                            <input type="number" data-action="{{ route('panel.languageMenus.order.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number update-order" value="{{ $language['order'] }}">
                         </td>
                         <td>
                             <input data-action="{{ route('panel.languageMenus.default.update') }}" class="form-check-input" type="radio" name="default_language" value="{{ $language['langTag'] }}" {{ $language['langTag'] == $defaultLanguage ? 'checked' : '' }}>
