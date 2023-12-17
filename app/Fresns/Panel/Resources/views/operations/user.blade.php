@@ -444,10 +444,10 @@
                             <label class="form-check-label ms-1" for="conversation_file_image">{{ __('FsLang::panel.editor_image') }}</label>
                         </div>
                         <select class="form-select" name="conversation_file_upload_type[image]">
-                            <option disabled>{{ __('FsLang::panel.editor_upload_image_form') }}</option>
-                            <option value="api" {{ ($params['conversation_file_upload_type']['image'] == 'api') ? 'selected' : '' }}>Fresns API</option>
-                            <option value="page" {{ ($params['conversation_file_upload_type']['image'] == 'page') ? 'selected' : '' }}>Plugin Page</option>
-                            <option value="sdk" {{ ($params['conversation_file_upload_type']['image'] == 'sdk') ? 'selected' : '' }}>S3 SDK</option>
+                            <option disabled>{{ __('FsLang::panel.editor_upload_image_type') }}</option>
+                            <option value="api" @if ($params['conversation_file_upload_type']['image'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_type']['image'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_type']['image'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group mb-2">
@@ -456,10 +456,10 @@
                             <label class="form-check-label ms-1" for="conversation_file_video">{{ __('FsLang::panel.editor_video') }}</label>
                         </div>
                         <select class="form-select" name="conversation_file_upload_type[video]">
-                            <option disabled>{{ __('FsLang::panel.editor_upload_video_form') }}</option>
-                            <option value="api" {{ ($params['conversation_file_upload_type']['video'] == 'api') ? 'selected' : '' }}>Fresns API</option>
-                            <option value="page" {{ ($params['conversation_file_upload_type']['video'] == 'page') ? 'selected' : '' }}>Plugin Page</option>
-                            <option value="sdk" {{ ($params['conversation_file_upload_type']['video'] == 'sdk') ? 'selected' : '' }}>S3 SDK</option>
+                            <option disabled>{{ __('FsLang::panel.editor_upload_video_type') }}</option>
+                            <option value="api" @if ($params['conversation_file_upload_type']['video'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_type']['video'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_type']['video'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group mb-2">
@@ -468,10 +468,10 @@
                             <label class="form-check-label ms-1" for="conversation_file_audio">{{ __('FsLang::panel.editor_audio') }}</label>
                         </div>
                         <select class="form-select" name="conversation_file_upload_type[audio]">
-                            <option disabled>{{ __('FsLang::panel.editor_upload_audio_form') }}</option>
-                            <option value="api" {{ ($params['conversation_file_upload_type']['audio'] == 'api') ? 'selected' : '' }}>Fresns API</option>
-                            <option value="page" {{ ($params['conversation_file_upload_type']['audio'] == 'page') ? 'selected' : '' }}>Plugin Page</option>
-                            <option value="sdk" {{ ($params['conversation_file_upload_type']['audio'] == 'sdk') ? 'selected' : '' }}>S3 SDK</option>
+                            <option disabled>{{ __('FsLang::panel.editor_upload_audio_type') }}</option>
+                            <option value="api" @if ($params['conversation_file_upload_type']['audio'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_type']['audio'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_type']['audio'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -480,10 +480,10 @@
                             <label class="form-check-label ms-1" for="conversation_file_document">{{ __('FsLang::panel.editor_document') }}</label>
                         </div>
                         <select class="form-select" name="conversation_file_upload_type[document]">
-                            <option disabled>{{ __('FsLang::panel.editor_upload_document_form') }}</option>
-                            <option value="api" {{ ($params['conversation_file_upload_type']['document'] == 'api') ? 'selected' : '' }}>Fresns API</option>
-                            <option value="page" {{ ($params['conversation_file_upload_type']['document'] == 'page') ? 'selected' : '' }}>Plugin Page</option>
-                            <option value="sdk" {{ ($params['conversation_file_upload_type']['document'] == 'sdk') ? 'selected' : '' }}>S3 SDK</option>
+                            <option disabled>{{ __('FsLang::panel.editor_upload_document_type') }}</option>
+                            <option value="api" @if ($params['conversation_file_upload_type']['document'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_type']['document'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_type']['document'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                 </div>
