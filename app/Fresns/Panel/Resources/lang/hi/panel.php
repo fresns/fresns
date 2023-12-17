@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'प्लगइन का चयन करें',
     'select_box_tip_role' => 'एक भूमिका का चयन करें',
-    'select_box_tip_role_type' => 'भूमिका प्रकार का चयन करें',
     'select_box_tip_group_category' => 'समूह श्रेणी का चयन करें',
     'select_box_tip_group' => 'एक समूह का चयन करें',
     'option_default' => 'चूक जाना',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => 'कमजोर प्रदर्शन',
     'permission_option_title_direct_display' => 'मजबूत प्रदर्शन',
     // Operating-Roles
-    'role_type_admin' => 'प्रशासनिक कर्मचारी',
-    'role_type_system' => 'प्रणाली व्यवस्था',
-    'role_type_user' => 'उपयोगकर्ता ऑपरेटर',
     'role_table_display' => 'प्रदर्शन लोगो',
     'role_table_nickname_color' => 'उपनाम रंग',
     'role_option_display_icon' => 'प्रदर्शन आइकन',

@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'Select plugin',
     'select_box_tip_role' => 'Select a role',
-    'select_box_tip_role_type' => 'Select the role type',
     'select_box_tip_group_category' => 'Select the group category',
     'select_box_tip_group' => 'Select a group',
     'option_default' => 'Default',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => 'Optional display',
     'permission_option_title_direct_display' => 'Direct display',
     // Operating-Roles
-    'role_type_admin' => 'Administrator',
-    'role_type_system' => 'System',
-    'role_type_user' => 'User',
     'role_table_display' => 'Marking',
     'role_table_nickname_color' => 'Nickname color',
     'role_option_display_icon' => 'Show Icon',

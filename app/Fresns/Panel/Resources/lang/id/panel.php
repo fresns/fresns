@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'Pilih Plugin',
     'select_box_tip_role' => 'Pilih peran',
-    'select_box_tip_role_type' => 'Pilih tipe peran',
     'select_box_tip_group_category' => 'Pilih kategori grup',
     'select_box_tip_group' => 'Pilih grup',
     'option_default' => 'Bawaan',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => 'Tampilan yang lemah',
     'permission_option_title_direct_display' => 'Tampilan yang kuat',
     // Operating-Roles
-    'role_type_admin' => 'Personel administrasi',
-    'role_type_system' => 'Pengaturan sistem',
-    'role_type_user' => 'Operator Pengguna',
     'role_table_display' => 'Tampilkan logo',
     'role_table_nickname_color' => 'Warna julukan',
     'role_option_display_icon' => 'Tampilan ikon',

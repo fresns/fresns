@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'Seleccione plugin',
     'select_box_tip_role' => 'Seleccione un papel',
-    'select_box_tip_role_type' => 'Seleccione el tipo de rol',
     'select_box_tip_group_category' => 'Seleccione la categoría de grupo',
     'select_box_tip_group' => 'Seleccione un grupo',
     'option_default' => 'Por defecto',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => 'Exhibición débil',
     'permission_option_title_direct_display' => 'Exhibición fuerte',
     // Operating-Roles
-    'role_type_admin' => 'Personal administrativo',
-    'role_type_system' => 'Ajustes del sistema',
-    'role_type_user' => 'Operador de usuario',
     'role_table_display' => 'Mostrar logo',
     'role_table_nickname_color' => 'Color de apodo',
     'role_option_display_icon' => 'Icono de pantalla',

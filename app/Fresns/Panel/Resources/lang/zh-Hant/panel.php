@@ -71,7 +71,7 @@ return [
     'sidebar_publish_tab_post' => '發表貼文',
     'sidebar_publish_tab_comment' => '發表留言',
     'sidebar_roles' => '使用者角色',
-    'sidebar_stickers' => '內容表情',
+    'sidebar_stickers' => '表情貼紙',
     'sidebar_groups' => '內容社團',
     'sidebar_groups_tab_active' => '啟用的社團',
     'sidebar_groups_tab_inactive' => '停用的社團',
@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => '選擇外掛關聯',
     'select_box_tip_role' => '選擇角色',
-    'select_box_tip_role_type' => '選擇角色類型',
     'select_box_tip_group_category' => '選擇社團分類',
     'select_box_tip_group' => '選擇社團',
     'option_default' => '默認',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => '弱顯示',
     'permission_option_title_direct_display' => '強顯示',
     // Operating-Roles
-    'role_type_admin' => '管理人員類',
-    'role_type_system' => '系統設定類',
-    'role_type_user' => '使用者運營類',
     'role_table_display' => '顯示標識',
     'role_table_nickname_color' => '暱稱顏色',
     'role_option_display_icon' => '顯示圖標',

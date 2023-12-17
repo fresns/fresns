@@ -154,14 +154,14 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('roles', RoleController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('roles/{role}/rating', [RoleController::class, 'updateRating'])->name('roles.rating');
+        Route::patch('roles/{role}/order', [RoleController::class, 'updateSortOrder'])->name('roles.order');
         Route::get('roles/{role}/permissions', [RoleController::class, 'showPermissions'])->name('roles.permissions.index');
         Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
         // stickers
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('stickers/{sticker}/rating', [StickerGroupController::class, 'updateRating'])->name('stickers.rating');
+        Route::patch('stickers/{sticker}/order', [StickerGroupController::class, 'updateSortOrder'])->name('stickers.order');
         Route::put('sticker-images/batch', [StickerController::class, 'batchUpdate'])->name('sticker-images.batch.update');
         Route::resource('sticker-images', StickerController::class)->only([
             'index', 'store', 'update', 'destroy',

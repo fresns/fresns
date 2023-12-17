@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'プラグインを選択してください',
     'select_box_tip_role' => '役割を選択してください',
-    'select_box_tip_role_type' => '役割の種類を選択してください',
     'select_box_tip_group_category' => 'グループカテゴリを選択してください',
     'select_box_tip_group' => 'グループを選択してください',
     'option_default' => 'ディフォルト',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => '弱い表示',
     'permission_option_title_direct_display' => '強いディスプレイ',
     // Operating-Roles
-    'role_type_admin' => '管理者',
-    'role_type_system' => 'システム設定',
-    'role_type_user' => 'ユーザーオペレーター',
     'role_table_display' => 'ロゴを表示します',
     'role_table_nickname_color' => 'ニックネームの色',
     'role_option_display_icon' => '表示アイコンを表示します',

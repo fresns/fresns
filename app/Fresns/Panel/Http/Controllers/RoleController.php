@@ -22,24 +22,15 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::orderBy('rating')->with('names')->get();
+        $roles = Role::orderBy('sort_order')->get();
 
-        $typeLabels = [
-            1 => __('FsLang::panel.role_type_admin'),
-            2 => __('FsLang::panel.role_type_system'),
-            3 => __('FsLang::panel.role_type_user'),
-        ];
-
-        return view('FsView::operations.roles', compact(
-            'roles',
-            'typeLabels'
-        ));
+        return view('FsView::operations.roles', compact('roles'));
     }
 
     public function store(Role $role, UpdateRoleRequest $request)
     {
-        $role->type = $request->type;
-        $role->rating = $request->rating;
+        $role->sort_order = $request->sort_order;
+        $role->name = $request->names;
         $role->is_display_icon = $request->is_display_icon ?? 0;
         $role->is_display_name = $request->is_display_name ?? 0;
         $role->nickname_color = $request->nickname_color;
@@ -49,7 +40,6 @@ class RoleController extends Controller
         if ($request->no_color) {
             $role->nickname_color = null;
         }
-        $role->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $role->save();
 
         if ($request->file('icon_file')) {
@@ -73,37 +63,13 @@ class RoleController extends Controller
             $role->save();
         }
 
-        foreach ($request->names as $langTag => $content) {
-            $language = Language::tableName('roles')
-                ->where('table_id', $role->id)
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'roles',
-                    'table_column' => 'name',
-                    'table_id' => $role->id,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
         return $this->createSuccess();
     }
 
     public function update(Role $role, UpdateRoleRequest $request)
     {
-        $role->type = $request->type;
-        $role->rating = $request->rating;
+        $role->sort_order = $request->sort_order;
+        $role->name = $request->names;
         $role->is_display_icon = $request->is_display_icon ?? 0;
         $role->is_display_name = $request->is_display_name ?? 0;
         $role->nickname_color = $request->nickname_color;
@@ -112,7 +78,6 @@ class RoleController extends Controller
         if ($request->no_color) {
             $role->nickname_color = null;
         }
-        $role->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('icon_file')) {
             $wordBody = [
@@ -139,30 +104,6 @@ class RoleController extends Controller
 
         $role->save();
 
-        foreach ($request->names as $langTag => $content) {
-            $language = Language::tableName('roles')
-                ->where('table_id', $role->id)
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'roles',
-                    'table_column' => 'name',
-                    'table_id' => $role->id,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
         return $this->updateSuccess();
     }
 
@@ -177,10 +118,10 @@ class RoleController extends Controller
         return $this->deleteSuccess();
     }
 
-    public function updateRating($id, Request $request)
+    public function updateSortOrder($id, Request $request)
     {
         $role = Role::findOrFail($id);
-        $role->rating = $request->rating;
+        $role->sort_order = $request->order;
         $role->save();
 
         return $this->updateSuccess();
@@ -208,10 +149,10 @@ class RoleController extends Controller
         $formPermissions = $request->permissions;
         $formPermissions['post_email_verify'] = $formPermissions['post_email_verify'] ?? 0;
         $formPermissions['post_phone_verify'] = $formPermissions['post_phone_verify'] ?? 0;
-        $formPermissions['post_real_name_verify'] = $formPermissions['post_real_name_verify'] ?? 0;
+        $formPermissions['post_kyc_verify'] = $formPermissions['post_kyc_verify'] ?? 0;
         $formPermissions['comment_email_verify'] = $formPermissions['comment_email_verify'] ?? 0;
         $formPermissions['comment_phone_verify'] = $formPermissions['comment_phone_verify'] ?? 0;
-        $formPermissions['comment_real_name_verify'] = $formPermissions['comment_real_name_verify'] ?? 0;
+        $formPermissions['comment_kyc_verify'] = $formPermissions['comment_kyc_verify'] ?? 0;
         $formPermissions['post_editor_image'] = $formPermissions['post_editor_image'] ?? 0;
         $formPermissions['post_editor_video'] = $formPermissions['post_editor_video'] ?? 0;
         $formPermissions['post_editor_audio'] = $formPermissions['post_editor_audio'] ?? 0;
@@ -224,8 +165,8 @@ class RoleController extends Controller
         $permissions = collect($formPermissions)->map(function ($value, $key) {
             $boolPerms = [
                 'content_view', 'conversation',
-                'post_publish', 'post_email_verify', 'post_phone_verify', 'post_real_name_verify', 'post_review', 'post_limit_status',
-                'comment_publish', 'comment_email_verify', 'comment_phone_verify', 'comment_real_name_verify', 'comment_review', 'comment_limit_status',
+                'post_publish', 'post_email_verify', 'post_phone_verify', 'post_kyc_verify', 'post_review', 'post_limit_status',
+                'comment_publish', 'comment_email_verify', 'comment_phone_verify', 'comment_kyc_verify', 'comment_review', 'comment_limit_status',
                 'post_editor_image', 'post_editor_video', 'post_editor_audio', 'post_editor_document',
                 'comment_editor_image', 'comment_editor_video', 'comment_editor_audio', 'comment_editor_document',
             ];

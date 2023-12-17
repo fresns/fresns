@@ -486,11 +486,11 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', 'input.order-number', function () {
+    $(document).on('click', 'input.update-order', function () {
         return false;
     });
 
-    $(document).on('change', 'input.order-number', function () {
+    $(document).on('change', 'input.update-order', function () {
         $.ajax({
             method: 'post',
             url: $(this).data('action'),
@@ -870,6 +870,91 @@ $(document).ready(function () {
         $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true).click();
     });
 
+    // user roles
+    $('#emptyColor').change(function () {
+        if ($(this).is(':checked')) {
+            $('.choose-color').hide();
+        } else {
+            $('.choose-color').show();
+        }
+    });
+
+    $('#editRoleModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let params = button.data('params');
+        let defaultName = button.data('defaultName');
+
+        $('.choose-color').show();
+
+        //reset default
+        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
+        $('.inputUrl').hide();
+        $('.inputFile').show();
+
+        if (!params) {
+            return;
+        }
+
+        $(this).parent('form').attr('action', action);
+        $(this).parent('form').find('input[name=_method]').val(params ? 'put' : 'post');
+        $(this).parent('form').trigger('reset');
+
+        $(this).find('input[name=sort_order]').val(params.sort_order);
+        $(this).find('.name-button').text(defaultName);
+        Object.entries(params.name).forEach(([langTag, langContent]) => {
+            $(this).parent('form').find("input[name='names[" + langTag + "]']").val(langContent);
+        });
+        if (params.is_display_name) {
+            $(this).find('input[name=is_display_name]').attr('checked', 'checked');
+        }
+        if (params.is_display_icon) {
+            $(this).find('input[name=is_display_icon]').attr('checked', 'checked');
+        }
+
+        if (params.icon_file_url) {
+            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
+            $('.inputFile').css('display', 'none');
+        } else {
+            $(this).find('input[name=icon_file_url]').val('');
+        }
+
+        if (params.nickname_color) {
+            $(this).find('input[name=nickname_color]').val(params.nickname_color);
+
+            $('.choose-color').show();
+            $(this).find('input[name=no_color]').prop('checked', false);
+        } else {
+            $('.choose-color').hide();
+            $(this).find('input[name=no_color]').prop('checked', true);
+        }
+        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
+    });
+
+    $('#deleteRoleModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let defaultName = button.data('defaultName');
+        let params = button.data('params');
+
+        $(this).find('form').attr('action', action);
+
+        $(this).find('input[name=name]').val(defaultName);
+        $(this).find('#chooseRole').children('.role-option').prop('disabled', false);
+        $(this).find('#chooseRole').find('option[value=' + params.id + ']').prop('disabled', true);
+    });
+
+    $('#addCustomPerm').click(function () {
+        let template = $('#customPerm').clone();
+        $('#addCustomPermTr').before(template.contents());
+    });
+
+    $(document).on('click', '.delete-custom-perm', function () {
+        $(this).closest('tr').remove();
+    });
+
     // sticker
     $('#stickerGroupCreateModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
@@ -936,83 +1021,6 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.delete-sticker', function () {
-        $(this).closest('tr').remove();
-    });
-
-    // user_roles
-    $('#emptyColor').change(function () {
-        if ($(this).is(':checked')) {
-            $('.choose-color').hide();
-        } else {
-            $('.choose-color').show();
-        }
-    });
-
-    $('#createRoleModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        let defaultName = button.data('default-name');
-
-        $('.choose-color').show();
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-
-        if (!params) {
-            return;
-        }
-
-        $(this).find('select[name=type]').val(params.type);
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('input[name=name]').val(params.name);
-        if (params.is_display_name) {
-            $(this).find('input[name=is_display_name]').attr('checked', 'checked');
-        }
-        if (params.is_display_icon) {
-            $(this).find('input[name=is_display_icon]').attr('checked', 'checked');
-        }
-
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        } else {
-            $(this).find('input[name=icon_file_url]').val('');
-        }
-
-        if (params.nickname_color) {
-            $(this).find('input[name=nickname_color]').val(params.nickname_color);
-
-            $('.choose-color').show();
-            $(this).find('input[name=no_color]').prop('checked', false);
-        } else {
-            $('.choose-color').hide();
-            $(this).find('input[name=no_color]').prop('checked', true);
-        }
-        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
-    });
-
-    $('#deleteRoleModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let params = button.data('params');
-
-        $(this).find('form').attr('action', action);
-
-        $(this).find('input[name=name]').val(params.name);
-        $(this).find('#chooseRole').children('.role-option').prop('disabled', false);
-        $(this).find('#chooseRole').find('option[value=' + params.id + ']').prop('disabled', true);
-    });
-
-    $('#addCustomPerm').click(function () {
-        let template = $('#customPerm').clone();
-        $('#addCustomPermTr').before(template.contents());
-    });
-
-    $(document).on('click', '.delete-custom-perm', function () {
         $(this).closest('tr').remove();
     });
 

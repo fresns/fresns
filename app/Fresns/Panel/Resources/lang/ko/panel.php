@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => '플러그인을 선택하십시오',
     'select_box_tip_role' => '역할을 선택하십시오',
-    'select_box_tip_role_type' => '역할 유형을 선택하십시오',
     'select_box_tip_group_category' => '그룹 카테고리를 선택하십시오',
     'select_box_tip_group' => '그룹을 선택하십시오',
     'option_default' => '기본',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => '약한 디스플레이',
     'permission_option_title_direct_display' => '강한 디스플레이',
     // Operating-Roles
-    'role_type_admin' => '행정 요원',
-    'role_type_system' => '환경 설정',
-    'role_type_user' => '사용자 운영자',
     'role_table_display' => '로고를 표시합니다',
     'role_table_nickname_color' => '닉네임 색상',
     'role_option_display_icon' => '디스플레이 아이콘',

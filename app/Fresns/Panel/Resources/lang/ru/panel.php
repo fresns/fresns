@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => 'Выберите плагин',
     'select_box_tip_role' => 'Выберите роль',
-    'select_box_tip_role_type' => 'Выберите тип роли',
     'select_box_tip_group_category' => 'Выберите категорию группы',
     'select_box_tip_group' => 'Выберите группу',
     'option_default' => 'По умолчанию',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => 'Слабый дисплей',
     'permission_option_title_direct_display' => 'Сильный дисплей',
     // Operating-Roles
-    'role_type_admin' => 'Административный персонал',
-    'role_type_system' => 'Настройки системы',
-    'role_type_user' => 'Оператор пользователя',
     'role_table_display' => 'Отображать логотип',
     'role_table_nickname_color' => 'Цвет псевдонима',
     'role_option_display_icon' => 'Значок дисплея',

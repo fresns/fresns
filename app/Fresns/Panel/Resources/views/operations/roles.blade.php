@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.roles.store') }}" data-bs-target="#createRoleModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.roles.store') }}" data-bs-target="#editRoleModal">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_role') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
@@ -26,7 +26,6 @@
             <thead>
                 <tr class="table-info">
                     <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_type') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_icon') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.role_table_display') }}</th>
@@ -38,14 +37,13 @@
             <tbody>
                 @foreach ($roles as $role)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.roles.rating', $role->id) }}" class="form-control input-number rating-number" value="{{ $role->rating }}"></td>
-                        <td>{{ $typeLabels[$role->type] }}</td>
+                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.roles.order', $role->id) }}" value="{{ $role->sort_order }}"></td>
                         <td>
                             @if ($role->icon_file_url)
                                 <img src="{{ $role->icon_file_url }}" width="24" height="24">
                             @endif
                         </td>
-                        <td>{{ $role->getLangName($defaultLanguage) }}</td>
+                        <td>{{ $role->getLangContent('name', $defaultLanguage) }}</td>
                         <td>
                             @if ($role->is_display_icon)
                                 <i class="bi bi-image me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.role_option_display_icon') }}"></i>
@@ -67,14 +65,25 @@
                             @endif
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                data-names="{{ $role->names->toJson() }}"
-                                data-default-name="{{ $role->getLangName($defaultLanguage) }}"
-                                data-params="{{ $role->toJson() }}"
+                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editRoleModal"
                                 data-action="{{ route('panel.roles.update', ['role' => $role->id]) }}"
-                                data-bs-target="#createRoleModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                data-default-name="{{ $role->getLangContent('name', $defaultLanguage) }}"
+                                data-params="{{ $role->toJson() }}">
+                                {{ __('FsLang::panel.button_edit') }}
+                            </button>
+
                             <a class="btn btn-outline-info btn-sm text-decoration-none ms-1" href="{{ route('panel.roles.permissions.index', $role->id) }}" role="button">{{ __('FsLang::panel.button_config_permission') }}</a>
-                            <button type="butmit" class="btn btn-link link-danger ms-1 fresns-link fs-7" data-bs-toggle="modal" data-action="{{ route('panel.roles.destroy', $role->id) }}" data-params="{{ $role->toJson() }}" data-bs-target="#deleteRoleModal">{{ __('FsLang::panel.button_delete') }}</button>
+
+                            <button type="butmit" class="btn btn-link link-danger ms-1 fresns-link fs-7"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteRoleModal"
+                                data-action="{{ route('panel.roles.destroy', $role->id) }}"
+                                data-default-name="{{ $role->getLangContent('name', $defaultLanguage) }}"
+                                data-params="{{ $role->toJson() }}">
+                                {{ __('FsLang::panel.button_delete') }}
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -86,8 +95,7 @@
     <form action="" method="post" class="check-names" enctype="multipart/form-data">
         @csrf
         @method('post')
-        <div class="modal fade name-lang-parent" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModal"
-            aria-hidden="true">
+        <div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -96,20 +104,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_type') }}</label>
-                            <div class="col-sm-9">
-                                <select class="form-select" name="type" required>
-                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_role_type') }}</option>
-                                    @foreach ($typeLabels as $key => $label)
-                                        <option value="{{ $key }}">{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" required name="rating" class="form-control input-number">
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -129,7 +126,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
                             <div class="col-sm-9">
-                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#createRoleModal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#editRoleModal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
                                 <div class="invalid-feedback">{{ __('FsLang::tips.required_user_role_name') }}</div>
                             </div>
                         </div>
@@ -238,7 +235,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form action="" method="post">
                         @csrf
                         @method('delete')
                         <div class="mb-3 row">
@@ -253,7 +250,7 @@
                                 <select class="form-select" name="role_id" id="chooseRole" required>
                                     <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_role') }}</option>
                                     @foreach ($roles as $role)
-                                        <option class="role-option" value="{{ $role->id }}">{{ $role->name }}</option>
+                                        <option class="role-option" value="{{ $role->id }}">{{ $role->getLangContent('name', $defaultLanguage) }}</option>
                                     @endforeach
                                 </select>
                                 <div class="form-text">{{ __('FsLang::panel.role_target_desc') }}</div>

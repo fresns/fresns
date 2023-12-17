@@ -13,7 +13,6 @@ class UpdateRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'int|required',
             'nickname_color' => 'string|nullable',
             'sort_order' => 'int|required',
         ];

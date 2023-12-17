@@ -11,10 +11,16 @@ namespace App\Models;
 class Role extends Model
 {
     use Traits\IsEnabledTrait;
+    use Traits\FsidTrait;
 
     protected $casts = [
         'name' => 'json',
         'permissions' => 'json',
         'more_info' => 'json',
     ];
+
+    public function getFsidKey()
+    {
+        return 'rid';
+    }
 }

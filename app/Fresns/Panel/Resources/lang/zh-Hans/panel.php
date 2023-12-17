@@ -71,7 +71,7 @@ return [
     'sidebar_publish_tab_post' => '发表帖子',
     'sidebar_publish_tab_comment' => '发表评论',
     'sidebar_roles' => '用户角色',
-    'sidebar_stickers' => '内容表情',
+    'sidebar_stickers' => '表情贴纸',
     'sidebar_groups' => '内容小组',
     'sidebar_groups_tab_active' => '启用的小组',
     'sidebar_groups_tab_inactive' => '停用的小组',
@@ -232,7 +232,6 @@ return [
     // Config option
     'select_box_tip_plugin' => '选择插件关联',
     'select_box_tip_role' => '选择角色',
-    'select_box_tip_role_type' => '选择角色类型',
     'select_box_tip_group_category' => '选择小组分类',
     'select_box_tip_group' => '选择小组',
     'option_default' => '默认',
@@ -774,9 +773,6 @@ return [
     'permission_option_title_optional_display' => '弱显示',
     'permission_option_title_direct_display' => '强显示',
     // Operating-Roles
-    'role_type_admin' => '管理人员类',
-    'role_type_system' => '系统设置类',
-    'role_type_user' => '用户运营类',
     'role_table_display' => '显示标识',
     'role_table_nickname_color' => '昵称颜色',
     'role_option_display_icon' => '显示图标',
