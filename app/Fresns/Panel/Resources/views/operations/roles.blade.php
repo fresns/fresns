@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--roles header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_roles') }}</h3>
@@ -20,7 +20,8 @@
             </div>
         </div>
     </div>
-    <!--roles list-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
@@ -134,12 +135,12 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.role_table_display') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" name="is_display_icon" type="checkbox" id="inlineCheckbox1" value="1">
-                                    <label class="form-check-label" for="inlineCheckbox1"><i class="bi bi-image"></i> {{ __('FsLang::panel.role_option_display_icon') }}</label>
+                                    <input class="form-check-input" name="is_display_icon" type="checkbox" id="displayIcon" value="1">
+                                    <label class="form-check-label" for="displayIcon"><i class="bi bi-image"></i> {{ __('FsLang::panel.role_option_display_icon') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" name="is_display_name" type="checkbox" id="inlineCheckbox2" value="1">
-                                    <label class="form-check-label" for="inlineCheckbox2"><i class="bi bi-textarea-t"></i> {{ __('FsLang::panel.role_option_display_text') }}</label>
+                                    <input class="form-check-input" name="is_display_name" type="checkbox" id="displayText" value="1">
+                                    <label class="form-check-label" for="displayText"><i class="bi bi-textarea-t"></i> {{ __('FsLang::panel.role_option_display_text') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +151,7 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="form-check form-check-inline mt-2">
-                                    <input class="form-check-input" type="checkbox" id="emptyColor" name="no_color" value="1">
+                                    <input class="form-check-input" type="checkbox" id="emptyColor" name="no_color" value="1" checked>
                                     <label class="form-check-label" for="emptyColor">{{ __('FsLang::panel.role_option_close_nickname_color') }}</label>
                                 </div>
                             </div>
@@ -248,7 +249,7 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.role_target') }}</label>
                             <div class="col-sm-9">
                                 <select class="form-select" name="role_id" id="chooseRole" required>
-                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_role') }}</option>
+                                    <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_role') }}</option>
                                     @foreach ($roles as $role)
                                         <option class="role-option" value="{{ $role->id }}">{{ $role->getLangContent('name', $defaultLanguage) }}</option>
                                     @endforeach

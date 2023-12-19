@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--stickers header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_stickers') }}</h3>
@@ -13,17 +13,19 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.stickers.store') }}" data-bs-target="#stickerGroupCreateModal"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_sticker_group') }}</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.stickers.store') }}" data-bs-target="#editStickerGroupModal"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_sticker_group') }}</button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
-    <!--stickers config-->
+
+    <!--stickers-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
                 <tr class="table-info">
                     <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.sticker_table_group_code') }}</th>
                     <th scope="col">{{ __('FsLang::panel.sticker_table_group_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.sticker_table_quantity') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
@@ -33,12 +35,13 @@
             <tbody>
                 @foreach ($groups as $group)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.stickers.rating', $group->id) }}" class="form-control input-number rating-number" value="{{ $group->rating }}"></td>
+                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.stickers.order', $group->id) }}" value="{{ $group->sort_order }}"></td>
+                        <td>{{ $group->code }}</td>
                         <td>
                             @if ($group->stickerUrl)
                                 <img src="{{ $group->stickerUrl }}" width="24" height="24">
                             @endif
-                            {{ $group->getLangName($defaultLanguage) }}
+                            {{ $group->getLangContent('name', $defaultLanguage) }}
                         </td>
                         <td>{{ $group->stickers->count() }}</td>
                         <td>
@@ -52,17 +55,23 @@
                             <form action="{{ route('panel.stickers.destroy', $group) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editStickerGroupModal"
                                     data-action="{{ route('panel.stickers.update', $group) }}"
-                                    data-names="{{ $group->names->toJson() }}"
-                                    data-default-name="{{ $group->getLangName($defaultLanguage) }}"
-                                    data-params="{{ json_encode($group->attributesToArray()) }}"
-                                    data-bs-target="#stickerGroupCreateModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-default-name="{{ $group->getLangContent('name', $defaultLanguage) }}"
+                                    data-params="{{ json_encode($group->attributesToArray()) }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
+
                                 <button type="button" class="btn btn-outline-info btn-sm ms-1" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasSticker"
                                     data-action="{{ route('panel.sticker-images.store') }}"
                                     data-stickers="{{ $group->stickers->toJson() }}"
-                                    data-parent_id="{{ $group->id }}" aria-controls="offcanvasSticker">{{ __('FsLang::panel.button_config_sticker') }}</button>
+                                    data-parent_id="{{ $group->id }}" aria-controls="offcanvasSticker">
+                                    {{ __('FsLang::panel.button_config_sticker') }}
+                                </button>
+
                                 <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                             </form>
                         </td>
@@ -73,11 +82,11 @@
     </div>
 
     <!-- sticker group form -->
-    <form method="POST" class="check-names" enctype="multipart/form-data" action="">
+    <form action="" method="post" enctype="multipart/form-data" class="check-names" id="editStickerGroupForm">
         @csrf
         @method('post')
         <!-- sticker group modal -->
-        <div class="modal fade name-lang-parent" id="stickerGroupCreateModal" tabindex="-1" aria-labelledby="stickerGroupCreateModal" aria-hidden="true">
+        <div class="modal fade" id="editStickerGroupModal" tabindex="-1" aria-labelledby="editStickerGroupModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +98,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rating" required>
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <!--sticker_table_group_image-->
@@ -118,8 +127,8 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.sticker_table_group_name') }}</label>
                             <div class="col-sm-9">
-                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#stickerGroupCreateModal" data-bs-target="#langModal">{{ __('FsLang::tips.required_sticker_group_name') }}</button>
-                                <div class="invalid-feedback">{{ __('FsLang::tips.required_sticker_group_name') }}</div>
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#editStickerGroupModal" data-bs-target="#langModal">{{ __('FsLang::panel.sticker_table_group_name') }}</button>
+                                <div class="invalid-feedback">{{ __('FsLang::tips.required_sticker_category_name') }}</div>
                             </div>
                         </div>
                         <!--table_status-->
@@ -236,7 +245,7 @@
 
     <template id="stickerData">
         <tr>
-            <td><input type="number" class="form-control input-number sticker-rating"></td>
+            <td><input type="number" class="form-control input-number sticker-order"></td>
             <td><img class="sticker-img" src="" width="28" height="28"></td>
             <td>[<span class="sticker-code"></span>]</td>
             <td>
@@ -265,7 +274,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rating" required>
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
