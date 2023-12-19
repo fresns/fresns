@@ -246,7 +246,7 @@ class GroupController extends Controller
     {
         $type = $group->is_enabled ? 'decrement' : 'increment';
 
-        $group->is_enabled = !$group->is_enabled;
+        $group->is_enabled = ! $group->is_enabled;
         $group->save();
 
         static::subgroupCount($type, $group->parent_id);
