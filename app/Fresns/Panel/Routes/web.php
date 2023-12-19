@@ -68,8 +68,11 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::patch('language/{itemKey}/{langTag}', [CommonController::class, 'updateLanguage'])->name('language'); // monolingual
         Route::patch('status/{itemKey}', [CommonController::class, 'updateStatus'])->name('status'); // config status
     });
-    // search users
-    Route::get('search/users', [CommonController::class, 'searchUsers'])->name('search.users');
+    // search
+    Route::prefix('search')->name('search.')->group(function () {
+        Route::get('users', [CommonController::class, 'searchUsers'])->name('users');
+        Route::get('groups', [CommonController::class, 'searchGroups'])->name('groups');
+    });
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
@@ -176,7 +179,6 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::patch('groups/{group}/recommend-order', [GroupController::class, 'updateRecommendSortOrder'])->name('groups.recommend-order');
         Route::patch('groups/{group}/status', [GroupController::class, 'updateStatus'])->name('groups.status');
         Route::put('groups/{group}/merge', [GroupController::class, 'mergeGroup'])->name('groups.merge');
-        Route::get('groups/search', [GroupController::class, 'searchGroups'])->name('groups.search');
     });
 
     // extends

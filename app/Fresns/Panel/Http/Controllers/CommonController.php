@@ -8,25 +8,14 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\StrHelper;
 use App\Models\Config;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
 {
-    // search users
-    public function searchUsers(Request $request)
-    {
-        $keyword = $request->keyword;
-
-        $users = [];
-        if ($keyword) {
-            $users = User::where('username', 'like', "%$keyword%")->orWhere('nickname', 'like', "%$keyword%")->paginate();
-        }
-
-        return response()->json($users);
-    }
-
     // update batch languages
     public function updateLanguages(string $itemKey, Request $request)
     {
@@ -95,5 +84,38 @@ class CommonController extends Controller
         $config->save();
 
         return $this->updateSuccess();
+    }
+
+    // search users
+    public function searchUsers(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $users = [];
+        if ($keyword) {
+            $users = User::where('username', 'like', "%$keyword%")->orWhere('nickname', 'like', "%$keyword%")->paginate();
+        }
+
+        return response()->json($users);
+    }
+
+    // search groups
+    public function searchGroups(Request $request)
+    {
+        $id = $request->groupId;
+
+        $groups = [];
+        if ($id) {
+            $allGroups = Group::where('parent_id', $id)->orderBy('sort_order')->isEnabled()->get();
+
+            foreach ($allGroups as $group) {
+                $item['id'] = $group->id;
+                $item['name'] = StrHelper::languageContent($group->name);
+
+                $groups[] = $item;
+            }
+        }
+
+        return response()->json($groups);
     }
 }
