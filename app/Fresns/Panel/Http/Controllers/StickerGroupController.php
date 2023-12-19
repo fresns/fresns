@@ -13,7 +13,6 @@ use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Language;
 use App\Models\Sticker;
 use Illuminate\Http\Request;
 
@@ -21,11 +20,9 @@ class StickerGroupController extends Controller
 {
     public function index()
     {
-        $groups = Sticker::group()
-            ->orderBy('rating')
-            ->with('names')
+        $groups = Sticker::group()->orderBy('sort_order')
             ->with(['stickers' => function ($query) {
-                $query->orderBy('rating');
+                $query->orderBy('sort_order');
             }])
             ->get();
 
@@ -49,12 +46,12 @@ class StickerGroupController extends Controller
 
     public function store(Sticker $sticker, UpdateStickerGroupRequest $request)
     {
-        $sticker->rating = $request->rating;
+        $sticker->type = Sticker::TYPE_GROUP;
         $sticker->code = $request->code;
+        $sticker->name = $request->names;
+        $sticker->sort_order = $request->sort_order;
         $sticker->is_enabled = $request->is_enabled;
         $sticker->image_file_url = $request->image_file_url ?: '';
-        $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $sticker->type = 2;
         $sticker->save();
 
         if ($request->file('image_file')) {
@@ -78,39 +75,15 @@ class StickerGroupController extends Controller
             $sticker->save();
         }
 
-        foreach ($request->names as $langTag => $content) {
-            $language = Language::tableName('stickers')
-                ->where('table_id', $sticker->id)
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'stickers',
-                    'table_column' => 'name',
-                    'table_id' => $sticker->id,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
         return $this->createSuccess();
     }
 
     public function update(Sticker $sticker, UpdateStickerGroupRequest $request)
     {
-        $sticker->rating = $request->rating;
         $sticker->code = $request->code;
+        $sticker->name = $request->names;
+        $sticker->sort_order = $request->sort_order;
         $sticker->is_enabled = $request->is_enabled;
-        $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('image_file')) {
             $wordBody = [
@@ -137,44 +110,22 @@ class StickerGroupController extends Controller
 
         $sticker->save();
 
-        foreach ($request->names as $langTag => $content) {
-            $language = Language::tableName('stickers')
-                ->where('table_id', $sticker->id)
-                ->where('lang_tag', $langTag)
-                ->first();
-
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'stickers',
-                    'table_column' => 'name',
-                    'table_id' => $sticker->id,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
         return $this->updateSuccess();
     }
 
     public function destroy(Sticker $sticker)
     {
+        Sticker::where('parent_id', $sticker->id)->update(['is_enabled' => false]);
+
         $sticker->delete();
 
         return $this->deleteSuccess();
     }
 
-    public function updateRating(int $id, Request $request)
+    public function updateSortOrder(int $id, Request $request)
     {
         $stickerGroup = Sticker::findOrFail($id);
-        $stickerGroup->rating = $request->rating;
+        $stickerGroup->sort_order = $request->order;
         $stickerGroup->save();
 
         return $this->updateSuccess();

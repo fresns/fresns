@@ -20,12 +20,11 @@ class StickerController extends Controller
     public function store(Sticker $stickerImage, UpdateStickerRequest $request)
     {
         $stickerImage->parent_id = $request->parent_id;
-        $stickerImage->rating = $request->rating;
+        $stickerImage->sort_order = $request->sort_order;
         $stickerImage->code = $request->code;
-        $stickerImage->name = $request->code;
         $stickerImage->is_enabled = $request->is_enabled;
         $stickerImage->image_file_url = $request->image_file_url ?: '';
-        $stickerImage->type = 1;
+        $stickerImage->type = Sticker::TYPE_STICKER;
         $stickerImage->save();
 
         if ($request->file('image_file')) {
@@ -73,8 +72,8 @@ class StickerController extends Controller
 
         $stickerImages = $group->stickers;
 
-        if ($request->rating ?? []) {
-            $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->rating));
+        if ($request->sort_order ?? []) {
+            $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->sort_order));
 
             if ($deleteIds->count()) {
                 $group->stickers()->whereIn('id', $deleteIds)->delete();
@@ -85,12 +84,12 @@ class StickerController extends Controller
             }
         }
 
-        foreach ($request->rating ?? [] as $id => $rating) {
+        foreach ($request->sort_order ?? [] as $id => $sort_order) {
             $stickerImage = $stickerImages->where('id', $id)->first();
             if (! $stickerImage) {
                 continue;
             }
-            $stickerImage->rating = $rating;
+            $stickerImage->sort_order = $sort_order;
             $stickerImage->is_enabled = $request->enable[$id] ?? 0;
             $stickerImage->save();
         }
