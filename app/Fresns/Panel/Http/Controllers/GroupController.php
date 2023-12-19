@@ -9,10 +9,10 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Group;
-use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\Post;
 use App\Models\PostLog;
@@ -28,168 +28,88 @@ class GroupController extends Controller
     public function initOptions()
     {
         $this->typeModeLabels = [
-            1 => __('FsLang::panel.group_table_mode_public'),
-            2 => __('FsLang::panel.group_table_mode_private'),
+            1 => __('FsLang::panel.option_public'),
+            2 => __('FsLang::panel.option_private'),
         ];
 
         $this->permissionLabels = [
-            1 => __('FsLang::panel.group_option_publish_all'),
-            2 => __('FsLang::panel.group_option_publish_follow'),
-            3 => __('FsLang::panel.group_option_publish_role'),
-            4 => __('FsLang::panel.group_option_publish_admin'),
+            1 => __('FsLang::panel.group_publish_option_all'),
+            2 => __('FsLang::panel.group_publish_option_members'),
+            3 => __('FsLang::panel.group_publish_option_roles'),
+            4 => __('FsLang::panel.group_publish_option_admins'),
         ];
     }
 
     public function index(Request $request)
     {
         $this->initOptions();
+        extract(get_object_vars($this));
 
-        $categories = Group::typeCategory()
-            ->orderBy('rating')
-            ->with('names', 'descriptions')
-            ->get();
+        $groupQuery = Group::with('parentGroup', 'followByPlugin', 'admins');
 
-        $parentId = $request->parent_id ?: (optional($categories->first())->id ?: 0);
+        $parentGroup = null;
 
-        $groups = [];
+        switch ($request->type) {
+            case 'deactivate':
+                $groupQuery->where('is_enabled', false)->orderBy('updated_at');
+                break;
 
-        if ($parentId) {
-            $groups = Group::typeGroup()
-                ->orderBy('rating')
-                ->where('parent_id', $parentId)
-                ->isEnabled()
-                ->with('creator', 'followByPlugin', 'names', 'descriptions', 'admins')
-                ->paginate(25);
+            case 'recommend':
+                $groupQuery->where('is_recommend', true)->orderBy('recommend_sort_order')->isEnabled();
+                break;
+
+            default:
+                if ($request->parentId) {
+                    $parentGroup = Group::with('parentGroup')->where('id', $request->parentId)->first();
+
+                    $groupQuery->where('parent_id', $request->parentId);
+                } else {
+                    $groupQuery->where('parent_id', 0);
+                }
+
+                $groupQuery->orderBy('sort_order')->isEnabled();
         }
 
-        extract(get_object_vars($this));
+        $groups = $groupQuery->paginate(25);
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
             return in_array('followGroup', $plugin->panel_usages);
         });
 
-        $roles = Role::with('names')->get();
+        $roles = Role::get();
+        $firstGroups = Group::where('parent_id', 0)->orderBy('sort_order')->isEnabled()->get();
 
-        return view('FsView::operations.groups', compact(
-            'categories',
-            'groups',
-            'typeModeLabels',
-            'parentId',
-            'permissionLabels',
-            'plugins',
-            'roles',
-        ));
-    }
-
-    public function groupIndex(Request $request)
-    {
-        $groups = Group::typeGroup()
-            ->where('parent_id', $request->category_id)
-            ->isEnabled()
-            ->get();
-
-        return response()->json($groups);
-    }
-
-    public function recommendIndex()
-    {
-        $this->initOptions();
-
-        $categories = Group::typeCategory()
-            ->with('names', 'descriptions')
-            ->get();
-
-        $groups = Group::typeGroup()
-            ->orderBy('recommend_rating')
-            ->with('creator', 'followByPlugin', 'category', 'admins')
-            ->where('is_recommend', 1)
-            ->isEnabled()
-            ->paginate(25);
-
-        $plugins = Plugin::all();
-        $plugins = $plugins->filter(function ($plugin) {
-            return in_array('followGroup', $plugin->panel_usages);
-        });
-
-        $roles = Role::with('names')->get();
-
-        extract(get_object_vars($this));
-
-        return view('FsView::operations.groups-recommend', compact(
-            'categories',
-            'groups',
-            'typeModeLabels',
-            'permissionLabels',
-            'plugins',
-            'roles',
-        ));
-    }
-
-    public function disableIndex()
-    {
-        $this->initOptions();
-
-        $categories = Group::typeCategory()
-            ->with('names', 'descriptions')
-            ->get();
-
-        $groups = Group::typeGroup()
-            ->where('is_enabled', false)
-            ->orderBy('rating')
-            ->with('creator', 'followByPlugin', 'category')
-            ->paginate(25);
-
-        $plugins = Plugin::all();
-        $plugins = $plugins->filter(function ($plugin) {
-            return in_array('followGroup', $plugin->panel_usages);
-        });
-
-        $roles = Role::with('names')->get();
-
-        extract(get_object_vars($this));
-
-        return view('FsView::operations.groups-inactive', compact(
-            'categories',
-            'groups',
-            'typeModeLabels',
-            'permissionLabels',
-            'plugins',
-            'roles',
-        ));
+        return view('FsView::operations.groups', compact('groups', 'firstGroups', 'parentGroup', 'typeModeLabels', 'permissionLabels', 'plugins', 'roles'));
     }
 
     public function store(Group $group, Request $request)
     {
-        $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
-        $group->rating = $request->rating;
+        $group->parent_id = $request->parent_id ?? 0;
+        $group->sort_order = $request->sort_order;
+        $group->name = $request->names;
+        $group->description = $request->descriptions;
         $group->cover_file_url = $request->cover_file_url;
         $group->banner_file_url = $request->banner_file_url;
-        // group category
-        if ($request->is_category) {
-            $group->parent_id = 0;
-            $group->type = 1;
-            $group->permissions = [];
-            if ($request->has('is_enabled')) {
-                $group->is_enabled = $request->is_enabled;
-            }
-        } else {
-            $group->parent_id = $request->parent_id;
-            $group->type = 2;
-            $group->type_mode = $request->type_mode;
-            $group->type_find = $request->type_find;
-            $group->type_follow = $request->type_follow;
-            $group->is_recommend = $request->is_recommend;
-            $group->plugin_fskey = $request->plugin_fskey;
+        $group->privacy = $request->privacy;
+        $group->visibility = $request->visibility;
+        $group->follow_type = $request->follow_type;
+        $group->follow_plugin_fskey = $request->follow_plugin_fskey;
+        $group->is_recommend = $request->is_recommend;
 
-            $permissions = $request->permissions;
-            $permissions['publish_post_subgroup'] = (bool) ($permissions['publish_post_subgroup'] ?? 0);
-            $permissions['publish_post_review'] = (bool) ($permissions['publish_post_review'] ?? 0);
-            $permissions['publish_comment_review'] = (bool) ($permissions['publish_comment_review'] ?? 0);
+        $requestPerms = $request->permissions;
 
-            $group->permissions = $permissions;
-        }
+        $permissions['private_whitelist_roles'] = $requestPerms['private_whitelist_roles'] ?? [];
+        $permissions['can_publish'] = (bool) ($requestPerms['can_publish'] ?? 0);
+        $permissions['publish_post'] = $requestPerms['publish_post'];
+        $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
+        $permissions['publish_post_review'] = (bool) ($requestPerms['publish_post_review'] ?? 0);
+        $permissions['publish_comment'] = $requestPerms['publish_comment'];
+        $permissions['publish_comment_roles'] = $requestPerms['publish_comment_roles'] ?? [];
+        $permissions['publish_comment_review'] = (bool) ($requestPerms['publish_comment_review'] ?? 0);
+
+        $group->permissions = $permissions;
+
         $group->save();
 
         if ($request->admin_ids) {
@@ -214,6 +134,7 @@ class GroupController extends Controller
 
             $group->cover_file_id = $fileId;
             $group->cover_file_url = null;
+
             $group->save();
         }
 
@@ -235,61 +156,8 @@ class GroupController extends Controller
 
             $group->banner_file_id = $fileId;
             $group->banner_file_url = null;
+
             $group->save();
-        }
-
-        if ($request->update_name) {
-            foreach ($request->names as $langTag => $content) {
-                $language = Language::tableName('groups')
-                    ->where('table_id', $group->id)
-                    ->where('table_column', 'name')
-                    ->where('lang_tag', $langTag)
-                    ->first();
-
-                if (! $language) {
-                    // create but no content
-                    if (! $content) {
-                        continue;
-                    }
-                    $language = new Language();
-                    $language->fill([
-                        'table_name' => 'groups',
-                        'table_column' => 'name',
-                        'table_id' => $group->id,
-                        'lang_tag' => $langTag,
-                    ]);
-                }
-
-                $language->lang_content = $content;
-                $language->save();
-            }
-        }
-
-        if ($request->update_description) {
-            foreach ($request->descriptions as $langTag => $content) {
-                $language = Language::tableName('groups')
-                    ->where('table_id', $group->id)
-                    ->where('table_column', 'description')
-                    ->where('lang_tag', $langTag)
-                    ->first();
-
-                if (! $language) {
-                    // create but no content
-                    if (! $content) {
-                        continue;
-                    }
-                    $language = new Language();
-                    $language->fill([
-                        'table_name' => 'groups',
-                        'table_column' => 'description',
-                        'table_id' => $group->id,
-                        'lang_tag' => $langTag,
-                    ]);
-                }
-
-                $language->lang_content = $content;
-                $language->save();
-            }
         }
 
         return $this->createSuccess();
@@ -297,40 +165,35 @@ class GroupController extends Controller
 
     public function update(Group $group, Request $request)
     {
-        $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
-        $group->rating = $request->rating;
+        $group->parent_id = $request->parent_id ?? 0;
+        $group->sort_order = $request->sort_order;
+        $group->name = $request->names;
+        $group->description = $request->descriptions;
+        $group->cover_file_url = $request->cover_file_url;
+        $group->banner_file_url = $request->banner_file_url;
+        $group->privacy = $request->privacy;
+        $group->visibility = $request->visibility;
+        $group->follow_type = $request->follow_type;
+        $group->follow_plugin_fskey = $request->follow_plugin_fskey;
+        $group->is_recommend = $request->is_recommend;
 
-        // group category
-        if ($request->is_category) {
-            $group->permissions = [];
-            if ($request->has('is_enabled')) {
-                $group->is_enabled = $request->is_enabled;
-            }
-        } else {
-            $group->parent_id = $request->parent_id;
-            $group->type_mode = $request->type_mode;
-            $group->type_find = $request->type_find;
-            $group->type_follow = $request->type_follow;
-            $group->is_recommend = $request->is_recommend;
-            $group->plugin_fskey = $request->plugin_fskey;
+        $requestPerms = $request->permissions;
 
-            $requestPerms = $request->permissions;
+        $permissions = $group->permissions;
+        $permissions['private_whitelist_roles'] = $requestPerms['private_whitelist_roles'] ?? [];
+        $permissions['can_publish'] = (bool) ($requestPerms['can_publish'] ?? 0);
+        $permissions['publish_post'] = $requestPerms['publish_post'];
+        $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
+        $permissions['publish_post_review'] = (bool) ($requestPerms['publish_post_review'] ?? 0);
+        $permissions['publish_comment'] = $requestPerms['publish_comment'];
+        $permissions['publish_comment_roles'] = $requestPerms['publish_comment_roles'] ?? [];
+        $permissions['publish_comment_review'] = (bool) ($requestPerms['publish_comment_review'] ?? 0);
 
-            $permissions = $group->permissions;
-            $permissions['mode_whitelist_roles'] = $requestPerms['mode_whitelist_roles'] ?? [];
-            $permissions['publish_post'] = $requestPerms['publish_post'];
-            $permissions['publish_post_subgroup'] = (bool) ($requestPerms['publish_post_subgroup'] ?? 0);
-            $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
-            $permissions['publish_post_review'] = (bool) ($requestPerms['publish_post_review'] ?? 0);
-            $permissions['publish_comment'] = $requestPerms['publish_comment'];
-            $permissions['publish_comment_roles'] = $requestPerms['publish_comment_roles'] ?? [];
-            $permissions['publish_comment_review'] = (bool) ($requestPerms['publish_comment_review'] ?? 0);
+        $group->permissions = $permissions;
 
-            $group->permissions = $permissions;
+        $group->admins()->sync($request->admin_ids);
 
-            $group->admins()->sync($request->admin_ids);
-        }
+        $group->save();
 
         if ($request->file('cover_file')) {
             $wordBody = [
@@ -350,9 +213,8 @@ class GroupController extends Controller
 
             $group->cover_file_id = $fileId;
             $group->cover_file_url = null;
-        } elseif ($group->cover_file_url != $request->cover_file_url) {
-            $group->cover_file_id = null;
-            $group->cover_file_url = $request->cover_file_url;
+
+            $group->save();
         }
 
         if ($request->file('banner_file')) {
@@ -373,132 +235,110 @@ class GroupController extends Controller
 
             $group->banner_file_id = $fileId;
             $group->banner_file_url = null;
-        } elseif ($group->banner_file_url != $request->banner_file_url) {
-            $group->banner_file_id = null;
-            $group->banner_file_url = $request->banner_file_url;
-        }
 
-        $group->save();
-
-        if ($request->update_name) {
-            foreach ($request->names as $langTag => $content) {
-                $language = Language::tableName('groups')
-                    ->where('table_id', $group->id)
-                    ->where('table_column', 'name')
-                    ->where('lang_tag', $langTag)
-                    ->first();
-
-                if (! $language) {
-                    // create but no content
-                    if (! $content) {
-                        continue;
-                    }
-                    $language = new Language();
-                    $language->fill([
-                        'table_name' => 'groups',
-                        'table_column' => 'name',
-                        'table_id' => $group->id,
-                        'lang_tag' => $langTag,
-                    ]);
-                }
-
-                $language->lang_content = $content;
-                $language->save();
-            }
-        }
-
-        if ($request->update_description) {
-            foreach ($request->descriptions as $langTag => $content) {
-                $language = Language::tableName('groups')
-                    ->where('table_id', $group->id)
-                    ->where('table_column', 'description')
-                    ->where('lang_tag', $langTag)
-                    ->first();
-
-                if (! $language) {
-                    // create but no content
-                    if (! $content) {
-                        continue;
-                    }
-                    $language = new Language();
-                    $language->fill([
-                        'table_name' => 'groups',
-                        'table_column' => 'description',
-                        'table_id' => $group->id,
-                        'lang_tag' => $langTag,
-                    ]);
-                }
-
-                $language->lang_content = $content;
-                $language->save();
-            }
+            $group->save();
         }
 
         return $this->updateSuccess();
     }
 
-    public function updateEnable(Group $group, Request $request)
+    public function updateStatus(Group $group)
     {
-        $group->is_enabled = $request->is_enabled ?: 0;
+        $type = $group->is_enabled ? 'decrement' : 'increment';
+
+        $group->is_enabled = !$group->is_enabled;
         $group->save();
+
+        static::subgroupCount($type, $group->parent_id);
 
         return $this->updateSuccess();
     }
 
-    public function destroy(Group $group)
+    public static function subgroupCount(string $type, ?int $parentId = null): void
     {
-        // Group Category
-        if ($group->type == 1 && $group->groups()->count()) {
-            abort(403, __('FsLang::tips.delete_group_category_error'));
+        if (! $parentId) {
+            return;
         }
-        $group->delete();
 
-        return $this->deleteSuccess();
+        $group = Group::where('id', $parentId)->first();
+
+        if ($type == 'increment') {
+            $group?->increment('subgroup_count');
+        } else {
+            $group?->decrement('subgroup_count');
+        }
+
+        // parent group
+        if ($group?->parent_id) {
+            static::subgroupCount($type, $group->parent_id);
+        }
     }
 
     public function mergeGroup(Group $group, Request $request)
     {
-        if ($request->group_id) {
-            $postCount = $group->post_count;
-            $commentCount = $group->comment_count;
-            $postDigestCount = $group->post_digest_count;
-            $commentDigestCount = $group->comment_digest_count;
-
-            if ($postCount) {
-                Group::where('id', $request->group_id)->increment('post_count', $postCount);
-            }
-            if ($commentCount) {
-                Group::where('id', $request->group_id)->increment('comment_count', $commentCount);
-            }
-            if ($postDigestCount) {
-                Group::where('id', $request->group_id)->increment('post_digest_count', $postDigestCount);
-            }
-            if ($commentDigestCount) {
-                Group::where('id', $request->group_id)->increment('comment_digest_count', $commentDigestCount);
-            }
-
-            Post::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
-            PostLog::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
-
-            $group->delete();
+        if (! $request->group_id) {
+            return back()->with('failure', __('FsLang::tips.select_box_tip_group'));
         }
 
+        $postCount = $group->post_count;
+        $commentCount = $group->comment_count;
+        $postDigestCount = $group->post_digest_count;
+        $commentDigestCount = $group->comment_digest_count;
+
+        if ($postCount) {
+            Group::where('id', $request->group_id)->increment('post_count', $postCount);
+        }
+        if ($commentCount) {
+            Group::where('id', $request->group_id)->increment('comment_count', $commentCount);
+        }
+        if ($postDigestCount) {
+            Group::where('id', $request->group_id)->increment('post_digest_count', $postDigestCount);
+        }
+        if ($commentDigestCount) {
+            Group::where('id', $request->group_id)->increment('comment_digest_count', $commentDigestCount);
+        }
+
+        Post::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
+        PostLog::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
+
+        $group->delete();
+
         return $this->updateSuccess();
     }
 
-    public function updateRating(Group $group, Request $request)
+    public function updateSortOrder(Group $group, Request $request)
     {
-        $group->rating = $request->rating;
+        $group->sort_order = $request->order;
         $group->save();
 
         return $this->updateSuccess();
     }
 
-    public function updateRecommendRank(Group $group, Request $request)
+    public function updateRecommendSortOrder(Group $group, Request $request)
     {
-        $group->recommend_rating = $request->rating;
+        $group->recommend_sort_order = $request->order;
         $group->save();
 
         return $this->updateSuccess();
+    }
+
+    // search groups
+    public function searchGroups(Request $request)
+    {
+        $id = $request->groupId;
+
+        $groups = [];
+        if ($id) {
+            $allGroups = Group::where('parent_id', $id)->orderBy('sort_order')->isEnabled()->get();
+
+            foreach ($allGroups as $group) {
+                $item['id'] = $group->id;
+                $item['name'] = StrHelper::languageContent($group->name);
+
+                $groups[] = $item;
+            }
+        }
+
+        return response()->json($groups);
     }
 }

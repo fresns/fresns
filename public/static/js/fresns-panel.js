@@ -56,11 +56,11 @@ window.tips = function (message, code = 200) {
     let html = `<div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle" style="z-index:99999">
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                    <img src="/static/images/icon.png" width="20px" height="20px" class="rounded me-2" alt="Fresns">
-                    <strong class="me-auto">Fresns</strong>
-                    <small>${code}</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
+                <img src="/static/images/icon.png" width="20px" height="20px" class="rounded me-2" alt="Fresns">
+                <strong class="me-auto">Fresns</strong>
+                <small>${code}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
             <div class="toast-body">${message}</div>
         </div>
     </div>`;
@@ -177,6 +177,7 @@ $(document).ready(function () {
             $('#autoUpgradeModal').modal('show');
         }
     });
+
     $('#manualUpgradeButton').click(function () {
         if ($(this).data('upgrading')) {
             $('#manualUpgradeStepModal').modal('show');
@@ -284,6 +285,7 @@ $(document).ready(function () {
             },
         });
     }
+
     function checkManualUpgradeStep(action) {
         if (!action) {
             return;
@@ -342,6 +344,7 @@ $(document).ready(function () {
             upgradeTimer = setInterval(checkAutoUpgradeStep, 5000, action);
         }
     });
+
     $('#manualUpgradeStepModal').on('show.bs.modal', function (e) {
         let button = $('#manualUpgradeButton');
         let action = button.data('action');
@@ -355,6 +358,89 @@ $(document).ready(function () {
     // select2
     $('.select2').select2({
         theme: 'bootstrap-5',
+    });
+
+    // selectInputType
+    $('.selectInputType li').click(function () {
+        let inputName = $(this).data('name');
+
+        $(this).parent().siblings('.showSelectTypeName').text($(this).text());
+        $(this).parent().siblings('input').css('display', 'none');
+        $(this)
+            .parent()
+            .siblings('.' + inputName)
+            .removeAttr('style');
+    });
+
+    // delete confirmation
+    $('.delete-button').click(function () {
+        $('#deleteConfirm').data('button', $(this));
+        $('#deleteConfirm').modal('show');
+        return false;
+    });
+
+    $('#deleteSubmit').click(function () {
+        let button = $('#deleteConfirm').data('button');
+        button.parent('form').submit();
+        $('#deleteConfirm').modal('hide');
+    });
+
+    // generic processing (name multilingual)
+    $('.name-lang-modal').on('show.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+
+        let button = $(e.relatedTarget);
+        var parent = button.data('parent');
+        if (!parent) {
+            return;
+        }
+
+        $(this).on('hide.bs.modal', function (e) {
+            if (parent) {
+                let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
+                if (!defaultName) {
+                    defaultName = $(this).find('.name-input').filter(function () {
+                        return $(this).val() != '';
+                    }).first().val();
+                }
+
+                $(parent).find('.name-button').text(defaultName);
+
+                $(parent).data('is_back', true);
+                $(parent).modal('show');
+            }
+        });
+    });
+
+    $('.description-lang-modal').on('show.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+
+        let button = $(e.relatedTarget);
+        var parent = button.data('parent');
+        if (!parent) {
+            return;
+        }
+
+        var $this = $(this);
+        $(this).on('hide.bs.modal', function (e) {
+            if (parent) {
+                let defaultDesc = $(this).find('.text-primary').closest('tr').find('.desc-input').val();
+                if (!defaultDesc) {
+                    defaultDesc = $(this).find('.desc-input').filter(function () {
+                        return $(this).val() != '';
+                    }).first().val();
+                }
+
+                $(parent).find('.desc-button').text(defaultDesc);
+                $(parent).data('is_back', true);
+                $this.parent('form').find('input[name=update_description]').val(1);
+                $(parent).modal('show');
+            }
+        });
     });
 
     // check if a multilingual field has a value
@@ -418,15 +504,13 @@ $(document).ready(function () {
         $(this).find('#key_plugin').val(pluginFskey);
     });
 
-    $('#updateKey,#createKey')
-        .find('input[name=type]')
-        .change(function () {
-            if ($(this).val() == 3) {
-                $(this).closest('form').find('select[name=plugin_fskey]').prop('required', true);
-            } else {
-                $(this).closest('form').find('select[name=plugin_fskey]').prop('required', false);
-            }
-        });
+    $('#updateKey,#createKey').find('input[name=type]').change(function () {
+        if ($(this).val() == 3) {
+            $(this).closest('form').find('select[name=plugin_fskey]').prop('required', true);
+        } else {
+            $(this).closest('form').find('select[name=plugin_fskey]').prop('required', false);
+        }
+    });
 
     // reset session app secret
     $('#resetSecret').on('show.bs.modal', function (e) {
@@ -486,6 +570,7 @@ $(document).ready(function () {
         });
     });
 
+    // update-order
     $(document).on('click', 'input.update-order', function () {
         return false;
     });
@@ -610,6 +695,7 @@ $(document).ready(function () {
         $('.connect-box').append(template.html());
     });
 
+    // account config (accountConfigForm)
     function hasDuplicates(array) {
         var valuesSoFar = Object.create(null);
         for (var i = 0; i < array.length; ++i) {
@@ -621,7 +707,6 @@ $(document).ready(function () {
         }
         return false;
     }
-    // account config
     $('#accountConfigForm').submit(function () {
         let connectItems = $(this).find('select[name="connects[]"]');
         let connects = [];
@@ -636,7 +721,7 @@ $(document).ready(function () {
         }
     });
 
-    // use config delete  connect
+    // delete connect
     $(document).on('click', '.delete-connect', function () {
         $(this).parent().remove();
     });
@@ -722,64 +807,32 @@ $(document).ready(function () {
         $(this).data('is_back', false);
     });
 
-    // Generic processing (name multilingual)
-    $('.name-lang-modal').on('show.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
+    $('#parentGroupId').on('change', function () {
+        let selectedOption = $(this).find('option:selected');
+
+        let children = selectedOption.data('children');
+
+        $('#childGroup').find('option:not(:disabled)').remove();
+
+        if (children) {
+            children.map((item) => {
+                $('#childGroup').append('<option value="' + item.id + '">' + item.name + '</option>');
+            });
         }
 
-        let button = $(e.relatedTarget);
-        var parent = button.data('parent');
-        if (!parent) {
-            return;
-        }
-
-        $(this).on('hide.bs.modal', function (e) {
-            if (parent) {
-                let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
-                if (!defaultName) {
-                    defaultName = $(this).find('.name-input').filter(function () {
-                        return $(this).val() != '';
-                    }).first().val();
-                }
-
-                $(parent).find('.name-button').text(defaultName);
-
-                $(parent).data('is_back', true);
-                $(parent).modal('show');
-            }
-        });
+        $('#childGroup').removeAttr('style');
     });
 
-    $('.description-lang-modal').on('show.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
-        }
-
-        let button = $(e.relatedTarget);
-        var parent = button.data('parent');
-        if (!parent) {
-            return;
-        }
-
-        var $this = $(this);
-        $(this).on('hide.bs.modal', function (e) {
-            if (parent) {
-                let defaultDesc = $(this).find('.text-primary').closest('tr').find('.desc-input').val();
-                if (!defaultDesc) {
-                    defaultDesc = $(this).find('.desc-input').filter(function () {
-                        return $(this).val() != '';
-                    }).first().val();
-                }
-
-                $(parent).find('.desc-button').text(defaultDesc);
-                $(parent).data('is_back', true);
-                $this.parent('form').find('input[name=update_description]').val(1);
-                $(parent).modal('show');
-            }
+    $('#search_group_id').on('change', function () {
+        $('.groupallsearch option').each(function () {
+            $(this).prop('selected', '');
         });
+        $('.alloption').css('display', 'none');
+        let search_group_id = $('#search_group_id option:selected').val();
+        if (search_group_id) {
+            $('.childsearch' + search_group_id).removeAttr('style');
+        }
     });
-    // Generic processing (name multilingual) end
 
     // configLangModal
     $('#configLangModal').on('show.bs.modal', function (e) {
@@ -880,25 +933,31 @@ $(document).ready(function () {
     });
 
     $('#editRoleModal').on('show.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+
         let button = $(e.relatedTarget);
         let action = button.data('action');
         let params = button.data('params');
         let defaultName = button.data('defaultName');
 
-        $('.choose-color').show();
+        $('.choose-color').hide();
 
         //reset default
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         $('.inputUrl').hide();
         $('.inputFile').show();
 
-        if (!params) {
-            return;
-        }
-
         $(this).parent('form').attr('action', action);
         $(this).parent('form').find('input[name=_method]').val(params ? 'put' : 'post');
         $(this).parent('form').trigger('reset');
+
+        if (!params) {
+            $(this).find('.name-button').text(trans('panel.table_name')); //FsLang
+
+            return;
+        }
 
         $(this).find('input[name=sort_order]').val(params.sort_order);
         $(this).find('.name-button').text(defaultName);
@@ -906,10 +965,10 @@ $(document).ready(function () {
             $(this).parent('form').find("input[name='names[" + langTag + "]']").val(langContent);
         });
         if (params.is_display_name) {
-            $(this).find('input[name=is_display_name]').attr('checked', 'checked');
+            $(this).find('input[name=is_display_name]').prop('checked', true);
         }
         if (params.is_display_icon) {
-            $(this).find('input[name=is_display_icon]').attr('checked', 'checked');
+            $(this).find('input[name=is_display_icon]').prop('checked', true);
         }
 
         if (params.icon_file_url) {
@@ -933,6 +992,10 @@ $(document).ready(function () {
         $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
     });
 
+    $('#editRoleModal').on('hide.bs.modal', function (e) {
+        $(this).data('is_back', false);
+    });
+
     $('#deleteRoleModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let action = button.data('action');
@@ -946,81 +1009,64 @@ $(document).ready(function () {
         $(this).find('#chooseRole').find('option[value=' + params.id + ']').prop('disabled', true);
     });
 
+    $('#rolePermission').submit(function () {
+        let postStatus = $(this).find('input[name="permission[post_limit_status]"]:checked').val();
+
+        if (postStatus == 1) {
+            let postType = $('#post_limit_type').val();
+            let postStart = 0;
+            let postEnd = 0;
+            if (postType == 1) {
+                postStart = $(this).find('input[name="permission[post_limit_period_start]"]').val();
+                postEnd = $(this).find('input[name="permission[post_limit_period_end]"]').val();
+
+                if (postEnd <= postStart) {
+                    window.tips(trans('tips.post_datetime_select_range_error')); //FsLang
+                    return false;
+                }
+            } else {
+                postStart = $(this).find('input[name="permission[post_limit_cycle_start]"]').val();
+                postEnd = $(this).find('input[name="permission[post_limit_cycle_end]"]').val();
+            }
+
+            if (!postStart || !postEnd) {
+                window.tips(trans('tips.post_datetime_select_error')); //FsLang
+                return false;
+            }
+        }
+
+        let commentStatus = $(this).find('input[name="permission[comment_limit_status]"]:checked').val();
+
+        if (commentStatus == 1) {
+            let commentType = $('#comment_limit_type').val();
+            let commentStart = 0;
+            let commentEnd = 0;
+            if (commentType == 1) {
+                commentStart = $(this).find('input[name="permission[comment_limit_period_start]"]').val();
+                commentEnd = $(this).find('input[name="permission[comment_limit_period_end]"]').val();
+
+                if (commentEnd <= commentStart) {
+                    window.tips(trans('tips.comment_datetime_select_range_error')); //FsLang
+                    return false;
+                }
+            } else {
+                commentStart = $(this).find('input[name="permission[comment_limit_cycle_start]"]').val();
+                commentEnd = $(this).find('input[name="permission[comment_limit_cycle_end]"]').val();
+            }
+
+            if (!commentStart || !commentEnd) {
+                window.tips(trans('tips.comment_datetime_select_error')); //FsLang
+                return false;
+            }
+        }
+    });
+
     $('#addCustomPerm').click(function () {
         let template = $('#customPerm').clone();
         $('#addCustomPermTr').before(template.contents());
     });
 
     $(document).on('click', '.delete-custom-perm', function () {
-        $(this).closest('tr').remove();
-    });
-
-    // sticker
-    $('#stickerGroupCreateModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-
-        if (!params) {
-            return;
-        }
-
-        if (params.image_file_url) {
-            $(this).find('input[name=image_file_url]').val(params.image_file_url);
-            $(this).find('input[name=image_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        } else {
-            $(this).find('input[name=image_file_url]').val('');
-        }
-
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('input[name=code]').val(params.code);
-        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
-    });
-
-    $('#offcanvasSticker').on('show.bs.offcanvas', function (e) {
-        let button = $(e.relatedTarget);
-        let stickers = button.data('stickers');
-        let parent_id = button.data('parent_id');
-
-        $('#stickerList').empty();
-        $(this).parent('form').find('input[name=parent_id]').val(parent_id);
-        $('#offcanvasStickerLabel button').data('parent_id', parent_id);
-
-        if (!stickers) {
-            return;
-        }
-        let template = $($('#stickerData').html());
-
-        stickers.map((sticker) => {
-            let stickerTemplate = template.clone();
-
-            stickerTemplate.find('input.sticker-rating').attr('name', 'rating[' + sticker.id + ']').val(sticker.rating);
-
-            stickerTemplate.find('.sticker-img').attr('src', sticker.stickerUrl);
-            stickerTemplate.find('.sticker-code').html(sticker.code);
-
-            stickerTemplate.find('input.sticker-enable').attr('name', 'enable[' + sticker.id + ']');
-            if (sticker.is_enabled) {
-                stickerTemplate.find('input.sticker-enable').attr('checked', 'checked');
-            }
-            $('#stickerList').append(stickerTemplate);
-        });
-    });
-
-    $('#stickerModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let parent_id = button.data('parent_id');
-
-        $(this).find('input[name=parent_id]').val(parent_id);
-    });
-
-    $(document).on('click', '.delete-sticker', function () {
         $(this).closest('tr').remove();
     });
 
@@ -1046,6 +1092,430 @@ $(document).ready(function () {
             $('#comment_time_setting').collapse('show');
         }
     });
+
+    // datetime select
+    $('#publishPost').submit(function () {
+        let type = $(this).find('select[name=post_limit_type]').val();
+        let status = $(this).find('input:radio[name=post_limit_status]:checked').val();
+        let start = 0;
+        let end = 0;
+
+        if (status == 'false') {
+            return;
+        }
+
+        if (type == 1) {
+            start = $(this).find('input[name=post_limit_period_start]').val();
+            end = $(this).find('input[name=post_limit_period_end]').val();
+
+            if (end <= start) {
+                window.tips(trans('tips.post_datetime_select_range_error')); //FsLang
+                return false;
+            }
+        } else {
+            start = $(this).find('input[name=post_limit_cycle_start]').val();
+            end = $(this).find('input[name=post_limit_cycle_end]').val();
+        }
+
+        if (!start || !end) {
+            window.tips(trans('tips.post_datetime_select_error')); //FsLang
+            return false;
+        }
+    });
+
+    $('#publishComment').submit(function () {
+        let type = $(this).find('select[name=comment_limit_type]').val();
+        let status = $(this).find('input:radio[name=comment_limit_status]:checked').val();
+        let start = 0;
+        let end = 0;
+
+        if (status == 'false') {
+            return;
+        }
+
+        if (type == 1) {
+            start = $(this).find('input[name=comment_limit_period_start]').val();
+            end = $(this).find('input[name=comment_limit_period_end]').val();
+
+            if (end <= start) {
+                window.tips(trans('tips.comment_datetime_select_range_error')); //FsLang
+                return false;
+            }
+        } else {
+            start = $(this).find('input[name=comment_limit_cycle_start]').val();
+            end = $(this).find('input[name=comment_limit_cycle_end]').val();
+        }
+
+        if (!start || !end) {
+            window.tips(trans('tips.comment_datetime_select_error')); //FsLang
+            return false;
+        }
+    });
+
+    // sticker
+    $('#editStickerGroupModal').on('show.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let defaultName = button.data('defaultName');
+        let params = button.data('params');
+
+        let form = $('#editStickerGroupForm');
+
+        form.attr('action', action);
+        form.find('input[name=_method]').val(params ? 'put' : 'post');
+        form.trigger('reset');
+
+        //reset default
+        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
+        $('.inputUrl').hide();
+        $('.inputFile').show();
+
+        if (!params) {
+            form.find('.name-button').text(trans('panel.sticker_table_group_name')); //FsLang
+
+            return;
+        }
+
+        if (params.image_file_url) {
+            form.find('input[name=image_file_url]').val(params.image_file_url);
+            form.find('input[name=image_file_url]').removeAttr('style');
+            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
+            $('.inputFile').css('display', 'none');
+        } else {
+            form.find('input[name=image_file_url]').val('');
+        }
+
+        form.find('input[name=sort_order]').val(params.sort_order);
+        form.find('.name-button').text(defaultName);
+        Object.entries(params.name).forEach(([langTag, langContent]) => {
+            form.find("input[name='names[" + langTag + "]']").val(langContent);
+        });
+        form.find('input[name=code]').val(params.code);
+        form.find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
+    });
+
+    $('#editStickerGroupModal').on('hide.bs.modal', function (e) {
+        $(this).data('is_back', false);
+    });
+
+    $('#offcanvasSticker').on('show.bs.offcanvas', function (e) {
+        let button = $(e.relatedTarget);
+        let stickers = button.data('stickers');
+        let parent_id = button.data('parent_id');
+
+        $('#stickerList').empty();
+        $(this).parent('form').find('input[name=parent_id]').val(parent_id);
+        $('#offcanvasStickerLabel button').data('parent_id', parent_id);
+
+        if (!stickers) {
+            return;
+        }
+        let template = $($('#stickerData').html());
+
+        stickers.map((sticker) => {
+            let stickerTemplate = template.clone();
+
+            stickerTemplate.find('input.sticker-order').attr('name', 'sort_order[' + sticker.id + ']').val(sticker.sort_order);
+
+            stickerTemplate.find('.sticker-img').attr('src', sticker.stickerUrl);
+            stickerTemplate.find('.sticker-code').html(sticker.code);
+
+            stickerTemplate.find('input.sticker-enable').attr('name', 'enable[' + sticker.id + ']');
+            if (sticker.is_enabled) {
+                stickerTemplate.find('input.sticker-enable').attr('checked', 'checked');
+            }
+            $('#stickerList').append(stickerTemplate);
+        });
+    });
+
+    $('#stickerModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let parent_id = button.data('parent_id');
+
+        $(this).find('input[name=parent_id]').val(parent_id);
+    });
+
+    $(document).on('click', '.delete-sticker', function () {
+        $(this).closest('tr').remove();
+    });
+
+    // group edit
+    $('#groupModal').on('shown.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let params = button.data('params');
+        let parentGroupName = button.data('parentGroupName');
+        let defaultName = button.data('defaultName');
+        let defaultDescription = button.data('defaultDescription');
+        let coverUrl = button.data('cover-url');
+        let bannerUrl = button.data('banner-url');
+        let adminUsers = button.data('adminUsers');
+
+        let form = $(this).parents('form');
+        let selectAdmin = form.find('select[name="admin_ids[]"]');
+
+        form.attr('action', action);
+        form.find('input[name=_method]').val(params ? 'put' : 'post');
+
+        form.trigger('reset');
+        form.find('.parent-group-button').text(trans('panel.option_unselect')); //FsLang
+        form.find('.name-button').text(trans('panel.table_name')); //FsLang
+        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
+        selectAdmin.find('option').remove();
+
+        //reset default
+        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
+        $('.inputUrl').hide();
+        $('.inputFile').show();
+        $('#cover_file_view').hide();
+        $('#banner_file_view').hide();
+        $('.publish_setting').show();
+
+        if (!params) {
+            return;
+        }
+
+        let permissions = params.permissions;
+        let privateWhitelistRoles = permissions.private_whitelist_roles;
+        let canPublish = permissions.can_publish ? '1' : '0';
+        let publishPost = permissions.publish_post ? permissions.publish_post : 0;
+        let publishPostRoles = permissions.publish_post_roles;
+        let publishPostReview = permissions.publish_post_review ? 1 : 0;
+        let publishComment = permissions.publish_comment ? permissions.publish_comment : 0;
+        let publishCommentRoles = permissions.publish_comment_roles;
+        let publishCommentReview = permissions.publish_comment_review ? 1 : 0;
+
+        if (parentGroupName) {
+            form.find('.parent-group-button').text(parentGroupName);
+        }
+        form.find('input[name=sort_order]').val(params.sort_order);
+
+        form.find('.name-button').text(defaultName);
+        Object.entries(params.name).forEach(([langTag, langContent]) => {
+            form.find("input[name='names[" + langTag + "]']").val(langContent);
+        });
+
+        form.find('.desc-button').text(defaultDescription);
+        Object.entries(params.description).forEach(([langTag, langContent]) => {
+            form.find("textarea[name='descriptions[" + langTag + "]']").val(langContent);
+        });
+
+        if (coverUrl) {
+            $('#cover_file_view').show().attr('href', coverUrl);
+        }
+
+        if (bannerUrl) {
+            $('#banner_file_view').show().attr('href', bannerUrl);
+        }
+
+        if (params.cover_file_url) {
+            form.find('input[name=cover_file_url]').val(params.cover_file_url);
+            form.find('input[name=cover_file_url]').removeAttr('style');
+            $('#showIcon').text(trans('panel.button_image_input')); //FsLang
+            form.find('input[name=cover_file]').css('display', 'none');
+        } else {
+            form.find('input[name=cover_file_url]').val('');
+        }
+
+        if (params.banner_file_url) {
+            form.find('input[name=banner_file_url]').val(params.banner_file_url);
+            form.find('input[name=banner_file_url]').removeAttr('style');
+            $('#showBanner').text(trans('panel.button_image_input')); //FsLang
+            form.find('input[name=banner_file]').css('display', 'none');
+        } else {
+            form.find('input[name=banner_file_url]').val('');
+        }
+
+        form.find('input:radio[name=privacy][value="' + params.privacy + '"]').prop('checked', true).click();
+        form.find('input:radio[name=visibility][value="' + params.visibility + '"]').prop('checked', true).click();
+        form.find('select[name="permissions[private_whitelist_roles][]"]').val(privateWhitelistRoles).change();
+        form.find('input:radio[name=follow_type][value="' + params.follow_type + '"]').prop('checked', true).click();
+        form.find('select[name=follow_plugin_fskey]').val(params.follow_plugin_fskey);
+        form.find('input:radio[name=is_recommend][value="' + params.is_recommend + '"]').prop('checked', true).click();
+
+        let adminIds = [];
+        if (adminUsers) {
+            adminUsers.map((user) => {
+                adminIds.push(user.id);
+                let text = user.nickname + '(@' + user.username + ')';
+                let newOption = new Option(text, user.id, true, true);
+                form.find('select[name="admin_ids[]"]').append(newOption);
+            });
+        }
+        form.find('select[name="admin_ids[]"]').val(adminIds).change();
+
+        form.find('input:radio[name="permissions[can_publish]"][value="' + canPublish + '"]').prop('checked', true).click();
+
+        form.find('input:radio[name="permissions[publish_post]"][value="' + publishPost + '"]').prop('checked', true).click();
+        form.find('select[name="permissions[publish_post_roles][]"]').val(publishPostRoles).change();
+        form.find('input:radio[name="permissions[publish_post_review]"][value="' + publishPostReview + '"]').prop('checked', true).click();
+
+        form.find('input:radio[name="permissions[publish_comment]"][value="' + publishComment + '"]').prop('checked', true).click();
+        form.find('select[name="permissions[publish_comment_roles][]"]').val(publishCommentRoles).change();
+        form.find('input:radio[name="permissions[publish_comment_review]"][value="' + publishCommentReview + '"]').prop('checked', true).click();
+    });
+
+    $('#groupModal').on('hide.bs.modal', function (e) {
+        $(this).data('is_back', false);
+    });
+
+    $('#parentGroupModal').on('show.bs.modal', function (e) {
+        $('#parentGroups').empty();
+        $('#firstGroups').val('');
+        $('input[name="parent_group_id"]').val('');
+
+        let button = $(e.relatedTarget);
+        var parent = button.data('parent');
+
+        if (!parent) {
+            return;
+        }
+
+        $(this).on('hide.bs.modal', function (e) {
+            if (parent) {
+                $(parent).data('is_back', true);
+                $(parent).modal('show');
+            }
+        });
+    });
+
+    $('#parentGroupModal .choose-group').change(function() {
+        var subgroupDiv = $('#parentGroups');
+        var unselect = trans('panel.option_unselect'); // FsLang
+        subgroupDiv.empty();
+        fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
+    });
+
+    $('#parentGroupConfirm').click(function () {
+        var parentGroupId = $('input[name="parent_group_id"]').val();
+        var parentGroupName = $('input[name="parent_group_name"]').val();
+
+        $('input[name="parent_id"]').val(parentGroupId);
+        $('.parent-group-button').text(parentGroupName);
+    });
+
+    // search users
+    $('.group-user-select2').select2({
+        theme: 'bootstrap-5',
+        ajax: {
+            url: '/fresns/search/users',
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    keyword: params.term,
+                    page: params.page || 1,
+                };
+            },
+            processResults: function (data, params) {
+                params.current_page = params.current_page || 1;
+                let results = data.data.map((item) => {
+                    return {
+                        id: item.id,
+                        text: item.nickname + '(@' + item.username + ')',
+                    };
+                });
+
+                return {
+                    results: results,
+                    pagination: {
+                        more: params.current_page * 30 < data.total,
+                    },
+                };
+            },
+        },
+    });
+    $('.select2').closest('form').on('reset', function (ev) {
+        var targetJQForm = $(ev.target);
+        setTimeout(
+            function () {
+                this.find('.select2').trigger('change');
+            }.bind(targetJQForm),
+            0
+        );
+    });
+
+    // group move
+    $('#moveModal').on('shown.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let defaultName = button.data('defaultName');
+        let groupId = button.data('groupId');
+
+        $(this).data('group_id', groupId);
+
+        $(this).find('form').attr('action', action);
+        $(this).find('form').trigger('reset');
+
+        $(this).find('input[name=current_group]').val(defaultName);
+    });
+
+    $('#moveModal').on('show.bs.modal', function () {
+        $('#subgroup').empty();
+        $('input[name="group_id"]').val('');
+    });
+
+    $('#moveModal .choose-group').change(function() {
+        var subgroupDiv = $('#subgroup');
+        var unselect = trans('panel.option_unselect'); // FsLang
+        subgroupDiv.empty();
+        fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
+    });
+
+    // parent group select
+    function fetchAndAppendSubgroups(selectElement, targetDiv, parentGroupId, parentGroupName) {
+        var groupId = selectElement.val();
+        var groupName = selectElement.find('option:selected').text();
+
+        if (!groupId) {
+            $('#subgroup-' + parentGroupId + ' > div').remove();
+            $('input[name="group_id"]').val(parentGroupId);
+            $('input[name="parent_group_id"]').val(parentGroupId);
+            $('input[name="parent_group_name"]').val(parentGroupName);
+
+            return;
+        }
+
+        $('input[name="group_id"]').val(groupId);
+        $('input[name="parent_group_id"]').val(groupId);
+        $('input[name="parent_group_name"]').val(groupName);
+
+        $.ajax({
+            method: 'get',
+            url: '/fresns/operations/groups/search',
+            data: {
+                groupId: groupId,
+            },
+            success: function (response) {
+                if (response.length == 0) {
+                    return;
+                }
+
+                var subgroupDivId = 'subgroup-' + groupId;
+                var newSubgroupDiv = $('<div id="' + subgroupDivId + '"></div>');
+                targetDiv.append(newSubgroupDiv);
+
+                var newSelect = $('<select class="form-select choose-group mb-3"></select>');
+                newSelect.append('<option selected disabled value="">' + trans('tips.select_box_tip_group') + '</option>'); // FsLang
+                newSelect.append('<option value="">' + trans('panel.option_unselect') + '</option>'); // FsLang
+                response.forEach(function (group) {
+                    newSelect.append('<option value="' + group.id + '">' + group.name + '</option>');
+                });
+                newSubgroupDiv.append(newSelect);
+
+                newSelect.change(function() {
+                    fetchAndAppendSubgroups($(this), newSubgroupDiv, groupId, groupName);
+                    $(this).nextAll().remove();
+                });
+            },
+        });
+    }
 
     // change default homepage
     $('.update-config').change(function () {
@@ -1129,569 +1599,6 @@ $(document).ready(function () {
                     .val(language.lang_content);
             });
         }
-    });
-
-    $(document).on('click', '.delete-lang-pack', function () {
-        $(this).closest('tr').remove();
-    });
-
-    $('#addLangPack').click(function () {
-        let template = $('#languagePackTemplate');
-        $('.lang-pack-box').append(template.html());
-    });
-
-    // group edit
-    $('.edit-group-category').click(function () {
-        let action = $(this).data('action');
-        let params = $(this).data('params');
-        let coverUrl = $(this).data('cover-url');
-        let bannerUrl = $(this).data('banner-url');
-        let form = $('#createCategoryModal').parent('form');
-
-        form.find('input[name=_method]').val(params ? 'put' : 'post');
-        form.attr('action', action);
-        form.trigger('reset');
-        form.find('.name-button').text(trans('panel.table_name')); //FsLang
-        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-        $('#category_cover_file_view').hide();
-        $('#category_banner_file_view').hide();
-
-        if (params) {
-            $('#createCategoryModal').find('input[name=rating]').val(params.rating);
-            $('#createCategoryModal')
-                .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-                .prop('checked', true);
-
-            if (params.cover_file_id) {
-                $('#category_cover_file_view').css('display', 'block');
-                $('#category_cover_file_view').attr('href', coverUrl);
-            }
-
-            if (params.cover_file_url) {
-                $('#createCategoryModal').find('input[name=cover_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-                $('#createCategoryModal').find('input[name=cover_file_url]').parent().find('.inputFile').css('display', 'none');
-
-                $('#createCategoryModal').find('input[name=cover_file_url]').val(params.cover_file_url);
-                $('#createCategoryModal').find('input[name=cover_file_url]').css('display', 'block');
-            }
-
-            if (params.banner_file_id) {
-                $('#category_banner_file_view').css('display', 'block');
-                $('#category_banner_file_view').attr('href', bannerUrl);
-            }
-
-            if (params.banner_file_url) {
-                $('#createCategoryModal').find('input[name=banner_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-                $('#createCategoryModal').find('input[name=banner_file_url]').parent().find('.inputFile').css('display', 'none');
-
-                $('#createCategoryModal').find('input[name=banner_file_url]').val(params.banner_file_url);
-                $('#createCategoryModal').find('input[name=banner_file_url]').css('display', 'block');
-            }
-
-            let names = $(this).data('names');
-            let defaultName = $(this).data('default-name');
-            let defaultDesc = $(this).data('default-desc');
-            let descriptions = $(this).data('descriptions');
-            $('#createCategoryModal')
-                .find('.name-button')
-                .text(defaultName ? defaultName : params.name ? params.name : trans('panel.table_name')); //FsLang
-            $('#createCategoryModal')
-                .find('.desc-button')
-                .text(
-                    defaultDesc
-                        ? defaultDesc
-                        : params.description
-                        ? params.description
-                        : trans('panel.table_description')
-                ); //FsLang
-
-            if (names) {
-                names.map((name) => {
-                    $('#createCategoryModal')
-                        .parent('form')
-                        .find("input[name='names[" + name.lang_tag + "]'")
-                        .val(name.lang_content);
-                });
-            }
-            if (descriptions) {
-                descriptions.map((description) => {
-                    $('#createCategoryModal')
-                        .parent('form')
-                        .find("textarea[name='descriptions[" + description.lang_tag + "]'")
-                        .val(description.lang_content);
-                });
-            }
-        }
-        $('#createCategoryModal').modal('show');
-
-        return false;
-    });
-
-    $('.delete-group-category').click(function () {
-        $.ajax({
-            method: 'post',
-            dataType: 'json',
-            url: $(this).data('action'),
-            data: {
-                _method: 'delete',
-            },
-            success: function (response) {
-                window.tips(response.message);
-                location.reload();
-            },
-            error: function (response) {
-                window.tips(response.responseJSON.message);
-            },
-        });
-        return false;
-    });
-
-    $('#moveModal').on('shown.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let params = button.data('params');
-
-        $(this).data('group_id', params.id);
-        $(this).find('form').attr('action', action);
-        $(this).find('form').trigger('reset');
-        $(this).find('input[name=current_group]').val(params.name);
-    });
-
-    $('#moveModal .choose-category').change(function () {
-        $('.choose-group').find('option:not(:disabled)').remove();
-        var currentGroupId = $('#moveModal').data('group_id');
-
-        $.ajax({
-            method: 'get',
-            url: $(this).data('action'),
-            data: {
-                category_id: $(this).val(),
-            },
-            success: function (response) {
-                response.map((item) => {
-                    if (item.id != currentGroupId) {
-                        $('.choose-group').append('<option value="' + item.id + '">' + item.name + '</option>');
-                    }
-                });
-            },
-        });
-    });
-
-    // search users
-    $('.group-user-select2').select2({
-        theme: 'bootstrap-5',
-        ajax: {
-            url: '/fresns/search/users',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    keyword: params.term,
-                    page: params.page || 1,
-                };
-            },
-            processResults: function (data, params) {
-                params.current_page = params.current_page || 1;
-                let results = data.data.map((item) => {
-                    return {
-                        id: item.id,
-                        text: item.nickname + '(@' + item.username + ')',
-                    };
-                });
-
-                return {
-                    results: results,
-                    pagination: {
-                        more: params.current_page * 30 < data.total,
-                    },
-                };
-            },
-        },
-    });
-
-    $('#groupModal').on('shown.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
-        }
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let params = button.data('params');
-        let coverUrl = button.data('cover-url');
-        let bannerUrl = button.data('banner-url');
-
-        let form = $(this).parents('form');
-        let selectAdmin = form.find('select[name="admin_ids[]"]');
-
-        form.attr('action', action);
-        form.find('input[name=_method]').val(params ? 'put' : 'post');
-
-        form.trigger('reset');
-        form.find('.name-button').text(trans('panel.table_name')); //FsLang
-        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
-        selectAdmin.find('option').remove();
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-        $('#cover_file_view').hide();
-        $('#banner_file_view').hide();
-
-        if (!params) {
-            return;
-        }
-
-        form.find('select[name=parent_id]').val(params.parent_id);
-        form.find('input[name=rating]').val(params.rating);
-        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
-
-        let names = button.data('names');
-        let descriptions = button.data('descriptions');
-        let defaultName = $(this).data('default-name');
-        let defaultDesc = $(this).data('default-desc');
-        let adminUsers = button.data('admin_users');
-
-        if (params.cover_file_id) {
-            $('#cover_file_view').css('display', 'block');
-            $('#cover_file_view').attr('href', coverUrl);
-        }
-
-        if (params.cover_file_url) {
-            $('#groupModal').find('input[name=cover_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('#groupModal').find('input[name=cover_file_url]').parent().find('.inputFile').css('display', 'none');
-            form.find('input[name=cover_file_url]').val(params.cover_file_url);
-            form.find('input[name=cover_file_url]').css('display', 'block');
-        }
-
-        if (params.banner_file_id) {
-            $('#banner_file_view').css('display', 'block');
-            $('#banner_file_view').attr('href', bannerUrl);
-        }
-
-        if (params.banner_file_url) {
-            $('#groupModal').find('input[name=banner_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('#groupModal').find('input[name=banner_file_url]').parent().find('.inputFile').css('display', 'none');
-            form.find('input[name=banner_file_url]').val(params.banner_file_url);
-            form.find('input[name=banner_file_url]').css('display', 'block');
-        }
-
-        form.find('input:radio[name=type_mode][value="' + params.type_mode + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('select[name="permissions[mode_whitelist_roles][]"]').val(params.permissions.mode_whitelist_roles).change();
-
-        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
-
-        let adminIds = [];
-        if (adminUsers) {
-            adminUsers.map((user) => {
-                adminIds.push(user.id);
-                let text = user.nickname + '(@' + user.username + ')';
-                let newOption = new Option(text, user.id, true, true);
-                form.find('select[name="admin_ids[]"]').append(newOption);
-            });
-        }
-        form.find('select[name="admin_ids[]"]').val(adminIds).change();
-        form.find('input:radio[name=type_find][value="' + params.type_find + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('input:radio[name=type_follow][value="' + params.type_follow + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('input:radio[name=is_recommend][value="' + params.is_recommend + '"]')
-            .prop('checked', true)
-            .click();
-
-        let permissions = params.permissions;
-        let publishPost = permissions.publish_post ? permissions.publish_post : 0;
-        let publishPostReview = permissions.publish_post_review ? 1 : 0;
-        let publishComment = permissions.publish_comment ? permissions.publish_comment : 0;
-        let publishCommentReview = permissions.publish_comment_review ? 1 : 0;
-
-        form.find('input:radio[name="permissions[publish_post]"][value="' + publishPost + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('input:radio[name="permissions[publish_post_review]"][value="' + publishPostReview + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('input:radio[name="permissions[publish_comment]"][value="' + publishComment + '"]')
-            .prop('checked', true)
-            .click();
-        form.find('input:radio[name="permissions[publish_comment_review]"][value="' + publishCommentReview + '"]')
-            .prop('checked', true)
-            .click();
-
-        form.find('select[name="permissions[publish_post_roles][]"]').val(params.permissions.publish_post_roles).change();
-        form.find('select[name="permissions[publish_comment_roles][]"]')
-            .val(params.permissions.publish_comment_roles)
-            .change();
-        form.find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-
-        form.find('.name-button').text(
-            defaultName ? defaultName : params.name ? params.name : trans('panel.table_name')
-        ); //FsLang
-        form.find('.desc-button').text(
-            defaultDesc ? defaultDesc : params.description ? params.description : trans('panel.table_description')
-        ); //FsLang
-        if (names) {
-            names.map((name) => {
-                form.find("input[name='names[" + name.lang_tag + "]'").val(name.lang_content);
-            });
-        }
-        if (descriptions) {
-            descriptions.map((description) => {
-                form.find("textarea[name='descriptions[" + description.lang_tag + "]'").val(description.lang_content);
-            });
-        }
-    });
-
-    $('.select2').closest('form').on('reset', function (ev) {
-        var targetJQForm = $(ev.target);
-        setTimeout(
-            function () {
-                this.find('.select2').trigger('change');
-            }.bind(targetJQForm),
-            0
-        );
-    });
-
-    $('#parentGroupId').on('change', function () {
-        let selectedOption = $(this).find('option:selected');
-
-        let children = selectedOption.data('children');
-
-        $('#childGroup').find('option:not(:disabled)').remove();
-
-        if (children) {
-            children.map((item) => {
-                $('#childGroup').append('<option value="' + item.id + '">' + item.name + '</option>');
-            });
-        }
-
-        $('#childGroup').removeAttr('style');
-    });
-
-    $('#search_group_id').on('change', function () {
-        $('.groupallsearch option').each(function () {
-            $(this).prop('selected', '');
-        });
-        $('.alloption').css('display', 'none');
-        let search_group_id = $('#search_group_id option:selected').val();
-        if (search_group_id) {
-            $('.childsearch' + search_group_id).removeAttr('style');
-        }
-    });
-
-    //expend-group-modal
-    $('.expend-group-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        let group = button.data('group');
-        if (!params) {
-            return;
-        }
-
-        $('#parentGroupId').val(group.parent_id);
-        $('#parentGroupId').change();
-        $('#childGroup').val(group.id);
-
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-
-        $('.inputUrl').css('display', 'none');
-        $('.inputFile').removeAttr('style');
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-
-        $(this)
-            .find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]')
-            .prop('checked', true)
-            .click();
-
-        if (params.is_group_admin == 0) {
-            $('#usage_setting').addClass('show');
-        } else {
-            $('#usage_setting').removeClass('show');
-        }
-    });
-
-    // selectInputType
-    $('.selectInputType li').click(function () {
-        let inputName = $(this).data('name');
-
-        $(this).parent().siblings('.showSelectTypeName').text($(this).text());
-        $(this).parent().siblings('input').css('display', 'none');
-        $(this)
-            .parent()
-            .siblings('.' + inputName)
-            .removeAttr('style');
-    });
-
-    $('.delete-button').click(function () {
-        $('#deleteConfirm').data('button', $(this));
-        $('#deleteConfirm').modal('show');
-        return false;
-    });
-
-    $('#deleteSubmit').click(function () {
-        let button = $('#deleteConfirm').data('button');
-        button.parent('form').submit();
-        $('#deleteConfirm').modal('hide');
-    });
-
-    // datetime select
-    $('#publishPost').submit(function () {
-        let type = $(this).find('select[name=post_limit_type]').val();
-        let status = $(this).find('input:radio[name=post_limit_status]:checked').val();
-        let start = 0;
-        let end = 0;
-
-        if (status == 'false') {
-            return;
-        }
-
-        if (type == 1) {
-            start = $(this).find('input[name=post_limit_period_start]').val();
-            end = $(this).find('input[name=post_limit_period_end]').val();
-
-            if (end <= start) {
-                window.tips(trans('tips.post_datetime_select_range_error')); //FsLang
-                return false;
-            }
-        } else {
-            start = $(this).find('input[name=post_limit_cycle_start]').val();
-            end = $(this).find('input[name=post_limit_cycle_end]').val();
-        }
-
-        if (!start || !end) {
-            window.tips(trans('tips.post_datetime_select_error')); //FsLang
-            return false;
-        }
-    });
-
-    $('#publishComment').submit(function () {
-        let type = $(this).find('select[name=comment_limit_type]').val();
-        let status = $(this).find('input:radio[name=comment_limit_status]:checked').val();
-        let start = 0;
-        let end = 0;
-
-        if (status == 'false') {
-            return;
-        }
-
-        if (type == 1) {
-            start = $(this).find('input[name=comment_limit_period_start]').val();
-            end = $(this).find('input[name=comment_limit_period_end]').val();
-
-            if (end <= start) {
-                window.tips(trans('tips.comment_datetime_select_range_error')); //FsLang
-                return false;
-            }
-        } else {
-            start = $(this).find('input[name=comment_limit_cycle_start]').val();
-            end = $(this).find('input[name=comment_limit_cycle_end]').val();
-        }
-
-        if (!start || !end) {
-            window.tips(trans('tips.comment_datetime_select_error')); //FsLang
-            return false;
-        }
-    });
-
-    $('#rolePermission').submit(function () {
-        let postStatus = $(this).find('input[name="permission[post_limit_status]"]:checked').val();
-
-        if (postStatus == 1) {
-            let postType = $('#post_limit_type').val();
-            let postStart = 0;
-            let postEnd = 0;
-            if (postType == 1) {
-                postStart = $(this).find('input[name="permission[post_limit_period_start]"]').val();
-                postEnd = $(this).find('input[name="permission[post_limit_period_end]"]').val();
-
-                if (postEnd <= postStart) {
-                    window.tips(trans('tips.post_datetime_select_range_error')); //FsLang
-                    return false;
-                }
-            } else {
-                postStart = $(this).find('input[name="permission[post_limit_cycle_start]"]').val();
-                postEnd = $(this).find('input[name="permission[post_limit_cycle_end]"]').val();
-            }
-
-            if (!postStart || !postEnd) {
-                window.tips(trans('tips.post_datetime_select_error')); //FsLang
-                return false;
-            }
-        }
-
-        let commentStatus = $(this).find('input[name="permission[comment_limit_status]"]:checked').val();
-
-        if (commentStatus == 1) {
-            let commentType = $('#comment_limit_type').val();
-            let commentStart = 0;
-            let commentEnd = 0;
-            if (commentType == 1) {
-                commentStart = $(this).find('input[name="permission[comment_limit_period_start]"]').val();
-                commentEnd = $(this).find('input[name="permission[comment_limit_period_end]"]').val();
-
-                if (commentEnd <= commentStart) {
-                    window.tips(trans('tips.comment_datetime_select_range_error')); //FsLang
-                    return false;
-                }
-            } else {
-                commentStart = $(this).find('input[name="permission[comment_limit_cycle_start]"]').val();
-                commentEnd = $(this).find('input[name="permission[comment_limit_cycle_end]"]').val();
-            }
-
-            if (!commentStart || !commentEnd) {
-                window.tips(trans('tips.comment_datetime_select_error')); //FsLang
-                return false;
-            }
-        }
-    });
-
-    $('#editMessages').on('show.bs.modal', function(e) {
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let messages = button.data('messages');
-        let name = button.data('name');
-        let code = button.data('code');
-        let fskey= button.data('fskey');
-
-        $(this).find('.code-message-plugin-name').text(name)
-        $(this).find('.code-message-plugin-code').text(code)
-        $(this).find('.code-message-plugin-fskey').text(fskey)
-
-        $(this).find('form').attr('action', action);
-        Object.entries(messages).forEach(([langTag, message]) => {
-            console.log($(this).find("textarea[name='messages[" + langTag + "]'"))
-            $(this).find("textarea[name='messages[" + langTag + "]'")
-                    .val(message);
-        })
     });
 
     // plugin setting

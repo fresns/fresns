@@ -170,15 +170,13 @@ Route::middleware(['panelAuth'])->group(function () {
         ]);
         // groups
         Route::resource('groups', GroupController::class)->only([
-            'index', 'store', 'update', 'destroy',
+            'index', 'store', 'update',
         ]);
-        Route::get('groups/recommend', [GroupController::class, 'recommendIndex'])->name('groups.recommend.index');
-        Route::get('groups/inactive', [GroupController::class, 'disableIndex'])->name('groups.inactive.index');
+        Route::patch('groups/{group}/order', [GroupController::class, 'updateSortOrder'])->name('groups.order');
+        Route::patch('groups/{group}/recommend-order', [GroupController::class, 'updateRecommendSortOrder'])->name('groups.recommend-order');
+        Route::patch('groups/{group}/status', [GroupController::class, 'updateStatus'])->name('groups.status');
         Route::put('groups/{group}/merge', [GroupController::class, 'mergeGroup'])->name('groups.merge');
-        Route::put('groups/{group}/rating', [GroupController::class, 'updateRating'])->name('groups.rating.update');
-        Route::put('groups/{group}/recommend_rating', [GroupController::class, 'updateRecommendRank'])->name('groups.recommend.rating.update');
-        Route::put('groups/{group}/enable', [GroupController::class, 'updateEnable'])->name('groups.enable.update');
-        Route::get('groups/categories', [GroupController::class, 'groupIndex'])->name('groups.categories.index');
+        Route::get('groups/search', [GroupController::class, 'searchGroups'])->name('groups.search');
     });
 
     // extends

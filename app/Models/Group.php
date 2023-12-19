@@ -10,22 +10,15 @@ namespace App\Models;
 
 class Group extends Model
 {
-    const TYPE_CATEGORY = 1;
-    const TYPE_GROUP = 2;
-    const TYPE_SUBLEVEL_GROUP = 3;
+    const PRIVACY_PUBLIC = 1;
+    const PRIVACY_PRIVATE = 2;
 
-    const SUBLEVEL_PUBLIC = 1;
-    const SUBLEVEL_PRIVATE = 0;
-
-    const MODE_PUBLIC = 1;
-    const MODE_PRIVATE = 2;
+    const VISIBILITY_VISIBLE = 1;
+    const VISIBILITY_HIDDEN = 2;
 
     const PRIVATE_OPTION_UNRESTRICTED = 1;
     const PRIVATE_OPTION_HIDE_ALL = 2;
     const PRIVATE_OPTION_HIDE_NEW = 3;
-
-    const FIND_VISIBLE = 1;
-    const FIND_HIDDEN = 2;
 
     const FOLLOW_FRESNS = 1;
     const FOLLOW_PLUGIN = 2;
@@ -36,7 +29,10 @@ class Group extends Model
     use Traits\FsidTrait;
 
     protected $casts = [
+        'name' => 'json',
+        'description' => 'json',
         'permissions' => 'json',
+        'more_info' => 'json',
     ];
 
     public function getFsidKey()
@@ -44,17 +40,7 @@ class Group extends Model
         return 'gid';
     }
 
-    public function scopeTypeCategory($query)
-    {
-        return $query->where('type', 1);
-    }
-
-    public function scopeTypeGroup($query)
-    {
-        return $query->where('type', 2);
-    }
-
-    public function category()
+    public function parentGroup()
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
@@ -92,6 +78,6 @@ class Group extends Model
 
     public function followByPlugin()
     {
-        return $this->belongsTo(Plugin::class, 'plugin_fskey', 'fskey');
+        return $this->belongsTo(Plugin::class, 'follow_plugin_fskey', 'fskey');
     }
 }
