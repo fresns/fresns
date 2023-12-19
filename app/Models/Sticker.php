@@ -15,6 +15,10 @@ class Sticker extends Model
 
     use Traits\IsEnabledTrait;
 
+    protected $casts = [
+        'name' => 'json',
+    ];
+
     public function scopeGroup($query)
     {
         return $query->where('type', 2);

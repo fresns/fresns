@@ -8,9 +8,9 @@
 
 namespace App\Models;
 
-class CodeMessage extends Model
+class LanguagePack extends Model
 {
     protected $casts = [
-        'messages' => 'json',
+        'lang_values' => 'json',
     ];
 }

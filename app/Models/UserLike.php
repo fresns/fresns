@@ -16,8 +16,9 @@ class UserLike extends Model
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
+    const TYPE_GEOTAG = 4;
+    const TYPE_POST = 5;
+    const TYPE_COMMENT = 6;
 
     public function scopeMarkType($query, int $type)
     {

@@ -8,9 +8,7 @@
 
 namespace App\Models;
 
-class CodeMessage extends Model
+class Theme extends Model
 {
-    protected $casts = [
-        'messages' => 'json',
-    ];
+    use Traits\IsEnabledTrait;
 }

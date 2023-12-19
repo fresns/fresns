@@ -8,15 +8,34 @@
 
 namespace App\Models\Traits;
 
+use App\Models\CodeMessage;
 use App\Models\Config;
-use App\Models\Language;
+use App\Models\LanguagePack;
+use App\Models\Plugin;
+use App\Models\Seo;
+use App\Models\Sticker;
+use App\Models\Theme;
+use App\Models\UserStat;
+use App\Models\VerifyCode;
 use App\Utilities\SubscribeUtility;
 
 trait DataChangeNotifyTrait
 {
     public static function bootDataChangeNotifyTrait(): void
     {
-        if (static::class == Config::class || static::class == Language::class) {
+        $excludedClasses = [
+            Config::class,
+            CodeMessage::class,
+            LanguagePack::class,
+            Plugin::class,
+            Theme::class,
+            Sticker::class,
+            UserStat::class,
+            Seo::class,
+            VerifyCode::class,
+        ];
+
+        if (in_array(static::class, $excludedClasses)) {
             return;
         }
 
