@@ -59,7 +59,7 @@
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
-                                    data-params="{{ json_encode($item->attributesToArray()) }}"
+                                    data-params="{{ $item->toJson() }}"
                                     data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
                                     data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
                                 <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>

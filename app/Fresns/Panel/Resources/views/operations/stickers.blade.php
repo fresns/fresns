@@ -60,7 +60,7 @@
                                     data-bs-target="#editStickerGroupModal"
                                     data-action="{{ route('panel.stickers.update', $group) }}"
                                     data-default-name="{{ $group->getLangContent('name', $defaultLanguage) }}"
-                                    data-params="{{ json_encode($group->attributesToArray()) }}">
+                                    data-params="{{ $group->toJson() }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
 
