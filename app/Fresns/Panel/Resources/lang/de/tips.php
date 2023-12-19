@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'Dateien löschen',
     'uninstall_step_4' => 'Cache leeren',
     'uninstall_step_5' => 'Getan',
+    // select
+    'select_box_tip_plugin' => 'Plugin auswählen',
+    'select_box_tip_role' => 'Wählen Sie eine Rolle aus',
+    'select_box_tip_group' => 'Wählen Sie eine Gruppe aus',
+    'post_datetime_select_error' => 'Der Datumsbereich der Posteinstellungen kann nicht leer sein',
+    'post_datetime_select_range_error' => 'Das Enddatum der Posteinstellung kann nicht weniger als das Startdatum sein',
+    'comment_datetime_select_error' => 'Der vom Kommentar festgelegte Datumsbereich kann nicht leer sein',
+    'comment_datetime_select_range_error' => 'Das Enddatum der Kommentareinstellung kann nicht weniger als das Startdatum sein',
     // delete app
     'delete_app_warning' => 'Wenn Sie keine Update-Warnung für die App anzeigen möchten, können Sie die App löschen. Nach dem Löschen werden Sie nicht mehr benachrichtigt, wenn eine neue Version verfügbar ist.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'Karte nicht vorhanden',
     'required_user_role_name' => 'Bitte füllen Sie den Namen der Rolle aus',
     'required_sticker_category_name' => 'Bitte füllen Sie den Namen der Expression-Gruppe aus',
-    'required_group_category_name' => 'Bitte füllen Sie den Gruppenklassifizierungsnamen aus',
     'required_group_name' => 'Bitte füllen Sie den Gruppennamen aus',
-    'delete_group_category_error' => 'Es gibt eine Gruppe in der Klassifizierung, die nicht löschbar ist',
     'delete_default_language_error' => 'Die Standardsprache kann nicht gelöscht werden',
     'account_connect_services_error' => 'Die Unterstützung von Drittanbietern verfügt über eine sich wiederholende miteinander verbundene Plattform',
-    'post_datetime_select_error' => 'Der Datumsbereich der Posteinstellungen kann nicht leer sein',
-    'post_datetime_select_range_error' => 'Das Enddatum der Posteinstellung kann nicht weniger als das Startdatum sein',
-    'comment_datetime_select_error' => 'Der vom Kommentar festgelegte Datumsbereich kann nicht leer sein',
-    'comment_datetime_select_range_error' => 'Das Enddatum der Kommentareinstellung kann nicht weniger als das Startdatum sein',
 ];

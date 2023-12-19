@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'ファイルを削除します',
     'uninstall_step_4' => 'キャッシュの消去',
     'uninstall_step_5' => '終わり',
+    // select
+    'select_box_tip_plugin' => 'プラグインを選択してください',
+    'select_box_tip_role' => '役割を選択してください',
+    'select_box_tip_group' => 'グループを選択してください',
+    'post_datetime_select_error' => '投稿設定の日付範囲を空にすることはできません',
+    'post_datetime_select_range_error' => 'POST設定の終了日は開始日よりも小さいことはできません',
+    'comment_datetime_select_error' => 'コメントによって設定された日付範囲を空にすることはできません',
+    'comment_datetime_select_range_error' => 'コメント設定の終了日を開始日以内にすることはできません',
     // delete app
     'delete_app_warning' => 'アプリのアップデートアラートを表示したくない場合は、アプリを削除することができます。 削除すると、新しいバージョンが利用可能になったときにアラートが表示されなくなります。',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'マップが存在しない',
     'required_user_role_name' => '役割の名前を記入してください',
     'required_sticker_category_name' => '式グループの名前を入力してください',
-    'required_group_category_name' => 'グループ分類名を入力してください',
     'required_group_name' => 'グループ名を入力してください',
-    'delete_group_category_error' => '分類にはグループがあり、削除を許可しない',
     'delete_default_language_error' => 'デフォルトの言語は削除できません',
     'account_connect_services_error' => 'サードパーティの相互接続サポートには、繰り返し相互接続されたプラットフォームがあります',
-    'post_datetime_select_error' => '投稿設定の日付範囲を空にすることはできません',
-    'post_datetime_select_range_error' => 'POST設定の終了日は開始日よりも小さいことはできません',
-    'comment_datetime_select_error' => 'コメントによって設定された日付範囲を空にすることはできません',
-    'comment_datetime_select_range_error' => 'コメント設定の終了日を開始日以内にすることはできません',
 ];

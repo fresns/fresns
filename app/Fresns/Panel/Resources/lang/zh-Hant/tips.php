@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => '刪除文件',
     'uninstall_step_4' => '清理緩存',
     'uninstall_step_5' => '完成',
+    // select
+    'select_box_tip_plugin' => '選擇外掛關聯',
+    'select_box_tip_role' => '選擇角色',
+    'select_box_tip_group' => '選擇社團',
+    'post_datetime_select_error' => '貼文設置的日期範圍不能為空',
+    'post_datetime_select_range_error' => '貼文設置的結束日期不能小於開始日期',
+    'comment_datetime_select_error' => '留言設置的日期範圍不能為空',
+    'comment_datetime_select_range_error' => '留言設置的結束日期不能小於開始日期',
     // delete app
     'delete_app_warning' => '如果你不希望顯示該應用的升級提醒，可以刪除該應用。刪除後，有新版本將不再提示。',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => '地圖不存在',
     'required_user_role_name' => '請填寫角色名稱',
     'required_sticker_category_name' => '請填寫表情組名稱',
-    'required_group_category_name' => '請填寫小組分類名稱',
     'required_group_name' => '請填寫小組名稱',
-    'delete_group_category_error' => '分類下存在社團，不允許刪除',
     'delete_default_language_error' => '默認語言不能刪除',
     'account_connect_services_error' => '第三方互聯支持中有重複的互聯平台',
-    'post_datetime_select_error' => '貼文設置的日期範圍不能為空',
-    'post_datetime_select_range_error' => '貼文設置的結束日期不能小於開始日期',
-    'comment_datetime_select_error' => '留言設置的日期範圍不能為空',
-    'comment_datetime_select_range_error' => '留言設置的結束日期不能小於開始日期',
 ];

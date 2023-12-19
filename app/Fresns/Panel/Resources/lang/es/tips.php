@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'Borrar archivos',
     'uninstall_step_4' => 'Limpiar cache',
     'uninstall_step_5' => 'Hecho',
+    // select
+    'select_box_tip_plugin' => 'Seleccione plugin',
+    'select_box_tip_role' => 'Seleccione un papel',
+    'select_box_tip_group' => 'Seleccione un grupo',
+    'post_datetime_select_error' => 'El rango de fecha de configuración de publicación no puede estar vacío',
+    'post_datetime_select_range_error' => 'La fecha de finalización de la configuración de POST no puede ser menor que la fecha de inicio',
+    'comment_datetime_select_error' => 'El rango de fecha establecido por el comentario no puede estar vacío',
+    'comment_datetime_select_range_error' => 'La fecha de finalización de la configuración de comentarios no puede ser menor que la fecha de inicio',
     // delete app
     'delete_app_warning' => 'Si no desea mostrar una alerta de actualización de la aplicación, puede eliminarla. Una vez eliminada, dejará de recibir alertas cuando haya una nueva versión disponible.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'el mapa no existe',
     'required_user_role_name' => 'Por favor complete el nombre del rol',
     'required_sticker_category_name' => 'Por favor, complete el nombre del grupo de expresión',
-    'required_group_category_name' => 'Por favor, complete el nombre de clasificación del grupo',
     'required_group_name' => 'Por favor, rellene el nombre del grupo',
-    'delete_group_category_error' => 'Hay un grupo en clasificación, no permitiendo la eliminación',
     'delete_default_language_error' => 'El idioma predeterminado no se puede eliminar',
     'account_connect_services_error' => 'El soporte de interconexión de terceros tiene una plataforma interconectada repetitiva',
-    'post_datetime_select_error' => 'El rango de fecha de configuración de publicación no puede estar vacío',
-    'post_datetime_select_range_error' => 'La fecha de finalización de la configuración de POST no puede ser menor que la fecha de inicio',
-    'comment_datetime_select_error' => 'El rango de fecha establecido por el comentario no puede estar vacío',
-    'comment_datetime_select_range_error' => 'La fecha de finalización de la configuración de comentarios no puede ser menor que la fecha de inicio',
 ];

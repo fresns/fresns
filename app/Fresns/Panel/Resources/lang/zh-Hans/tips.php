@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => '删除文件',
     'uninstall_step_4' => '清理缓存',
     'uninstall_step_5' => '完成',
+    // select
+    'select_box_tip_plugin' => '选择插件关联',
+    'select_box_tip_role' => '选择角色',
+    'select_box_tip_group' => '选择小组',
+    'post_datetime_select_error' => '帖子设置的日期范围不能为空',
+    'post_datetime_select_range_error' => '帖子设置的结束日期不能小于开始日期',
+    'comment_datetime_select_error' => '评论设置的日期范围不能为空',
+    'comment_datetime_select_range_error' => '评论设置的结束日期不能小于开始日期',
     // delete app
     'delete_app_warning' => '如果你不希望显示该应用的升级提醒，可以删除该应用。删除后，有新版本将不再提示。',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => '地图服务商不存在',
     'required_user_role_name' => '请填写角色名称',
     'required_sticker_category_name' => '请填写表情组名称',
-    'required_group_category_name' => '请填写小组分类名称',
     'required_group_name' => '请填写小组名称',
-    'delete_group_category_error' => '分类下存在小组，不允许删除',
     'delete_default_language_error' => '默认语言不能删除',
     'account_connect_services_error' => '第三方互联支持中有重复的互联平台',
-    'post_datetime_select_error' => '帖子设置的日期范围不能为空',
-    'post_datetime_select_range_error' => '帖子设置的结束日期不能小于开始日期',
-    'comment_datetime_select_error' => '评论设置的日期范围不能为空',
-    'comment_datetime_select_range_error' => '评论设置的结束日期不能小于开始日期',
 ];

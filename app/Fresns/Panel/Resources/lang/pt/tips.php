@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'Deletar arquivos',
     'uninstall_step_4' => 'Limpar cache',
     'uninstall_step_5' => 'Feito',
+    // select
+    'select_box_tip_plugin' => 'Selecione Plugin',
+    'select_box_tip_role' => 'Selecione uma função',
+    'select_box_tip_group' => 'Selecione um grupo',
+    'post_datetime_select_error' => 'O intervalo de data de configurações postais não pode estar vazio',
+    'post_datetime_select_range_error' => 'A data final da postagem não pode ser menor que a data de início',
+    'comment_datetime_select_error' => 'O intervalo de data definido pelo comentário não pode estar vazio',
+    'comment_datetime_select_range_error' => 'A data final da configuração de comentários não pode ser menor que a data de início',
     // delete app
     'delete_app_warning' => 'Se não pretender apresentar um alerta de atualização para a aplicação, pode eliminar a aplicação. Após a eliminação, deixará de ser alertado quando estiver disponível uma nova versão.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'o mapa não existe',
     'required_user_role_name' => 'Por favor, preencha o nome do papel',
     'required_sticker_category_name' => 'Por favor, preencha o nome do grupo de expressão',
-    'required_group_category_name' => 'Por favor, preencha o nome de classificação do grupo',
     'required_group_name' => 'Por favor, preencha o nome do grupo',
-    'delete_group_category_error' => 'Existe um grupo em classificação, não permitindo a exclusão',
     'delete_default_language_error' => 'O idioma padrão não pode ser excluído',
     'account_connect_services_error' => 'Suporte de interconexão de terceiros tem uma plataforma interconectada repetitiva',
-    'post_datetime_select_error' => 'O intervalo de data de configurações postais não pode estar vazio',
-    'post_datetime_select_range_error' => 'A data final da postagem não pode ser menor que a data de início',
-    'comment_datetime_select_error' => 'O intervalo de data definido pelo comentário não pode estar vazio',
-    'comment_datetime_select_range_error' => 'A data final da configuração de comentários não pode ser menor que a data de início',
 ];

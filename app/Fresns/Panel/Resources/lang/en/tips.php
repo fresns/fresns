@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'Delete files',
     'uninstall_step_4' => 'Clear cache',
     'uninstall_step_5' => 'Done',
+    // select
+    'select_box_tip_plugin' => 'Select plugin',
+    'select_box_tip_role' => 'Select a role',
+    'select_box_tip_group' => 'Select a group',
+    'post_datetime_select_error' => 'The date range set for post cannot be empty',
+    'post_datetime_select_range_error' => 'The end datetime of the post setting cannot be less than the start date',
+    'comment_datetime_select_error' => 'The date range set for comment cannot be empty',
+    'comment_datetime_select_range_error' => 'The end datetime of the comment setting cannot be less than the start date',
     // delete app
     'delete_app_warning' => 'If you don\'t want to see update alerts for the application, you can delete it. Once deleted, you will no longer receive alerts for new versions.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'Map not exists',
     'required_user_role_name' => 'Please fill in the role name',
     'required_sticker_category_name' => 'Please fill in the sticker category name',
-    'required_group_category_name' => 'Please fill in the group category name',
     'required_group_name' => 'Please fill in the group name',
-    'delete_group_category_error' => 'Groups exist under categories and are not allowed to be deleted',
     'delete_default_language_error' => 'Default language cannot be deleted',
     'account_connect_services_error' => 'Duplicate interconnection platforms in third-party interconnection support',
-    'post_datetime_select_error' => 'The date range set for post cannot be empty',
-    'post_datetime_select_range_error' => 'The end datetime of the post setting cannot be less than the start date',
-    'comment_datetime_select_error' => 'The date range set for comment cannot be empty',
-    'comment_datetime_select_range_error' => 'The end datetime of the comment setting cannot be less than the start date',
 ];

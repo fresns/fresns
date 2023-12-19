@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => '파일 삭제',
     'uninstall_step_4' => '캐시 지우기',
     'uninstall_step_5' => '완료',
+    // select
+    'select_box_tip_plugin' => '플러그인을 선택하십시오',
+    'select_box_tip_role' => '역할을 선택하십시오',
+    'select_box_tip_group' => '그룹을 선택하십시오',
+    'post_datetime_select_error' => '게시물 설정의 날짜 범위는 비어있을 수 없습니다',
+    'post_datetime_select_range_error' => '게시물 설정의 종료 날짜는 시작일보다 작을 수 없습니다',
+    'comment_datetime_select_error' => '주석이 설정 한 날짜 범위는 비어있을 수 없습니다',
+    'comment_datetime_select_range_error' => '주석 설정의 종료 날짜는 시작일보다 작을 수 없습니다',
     // delete app
     'delete_app_warning' => '앱에 대한 업데이트 알림을 표시하지 않으려면 앱을 삭제하면 됩니다. 앱을 삭제하면 새 버전이 출시될 때 더 이상 알림이 표시되지 않습니다.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => '지도가 존재하지 않습니다',
     'required_user_role_name' => '역할의 이름을 기입하십시오',
     'required_sticker_category_name' => '표현식 그룹의 이름을 기입하십시오',
-    'required_group_category_name' => '그룹 분류 이름을 기입하십시오',
     'required_group_name' => '그룹 이름을 기입하십시오',
-    'delete_group_category_error' => '삭제를 허용하지 않는 분류에 그룹이 있습니다',
     'delete_default_language_error' => '기본 언어는 삭제할 수 없습니다',
     'account_connect_services_error' => '타사 상호 연결 지원에는 반복적 인 상호 연결된 플랫폼이 있습니다',
-    'post_datetime_select_error' => '게시물 설정의 날짜 범위는 비어있을 수 없습니다',
-    'post_datetime_select_range_error' => '게시물 설정의 종료 날짜는 시작일보다 작을 수 없습니다',
-    'comment_datetime_select_error' => '주석이 설정 한 날짜 범위는 비어있을 수 없습니다',
-    'comment_datetime_select_range_error' => '주석 설정의 종료 날짜는 시작일보다 작을 수 없습니다',
 ];

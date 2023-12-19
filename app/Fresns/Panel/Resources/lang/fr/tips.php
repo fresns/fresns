@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'Supprimer les fichiers',
     'uninstall_step_4' => 'Vider le cache',
     'uninstall_step_5' => 'Terminé',
+    // select
+    'select_box_tip_plugin' => 'Sélectionner le plugin',
+    'select_box_tip_role' => 'Sélectionner un rôle',
+    'select_box_tip_group' => 'Sélectionnez un groupe',
+    'post_datetime_select_error' => 'La plage de dates des paramètres de poste ne peut pas être vide',
+    'post_datetime_select_range_error' => 'La date de fin de la post-réglage ne peut pas être inférieure à la date de début',
+    'comment_datetime_select_error' => 'La plage de date définie par le commentaire ne peut pas être vide',
+    'comment_datetime_select_range_error' => 'La date de fin du paramètre de commentaire ne peut être inférieure à la date de début',
     // delete app
     'delete_app_warning' => 'Si vous ne souhaitez pas afficher d\'alerte de mise à jour pour l\'application, vous pouvez la supprimer. Après la suppression, vous ne serez plus alerté de la disponibilité d\'une nouvelle version.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'carte inexistante',
     'required_user_role_name' => 'S\'il vous plaît remplir le nom du rôle',
     'required_sticker_category_name' => 'S\'il vous plaît remplir le nom du groupe d\'expression',
-    'required_group_category_name' => 'Veuillez remplir le nom de la classification du groupe',
     'required_group_name' => 'S\'il vous plaît remplir le nom du groupe',
-    'delete_group_category_error' => 'Il y a un groupe de classification, ne permettant pas la suppression',
     'delete_default_language_error' => 'La langue par défaut ne peut pas être supprimée',
     'account_connect_services_error' => 'Le support d\'interconnexion tierce a une plate-forme interconnectée répétitive',
-    'post_datetime_select_error' => 'La plage de dates des paramètres de poste ne peut pas être vide',
-    'post_datetime_select_range_error' => 'La date de fin de la post-réglage ne peut pas être inférieure à la date de début',
-    'comment_datetime_select_error' => 'La plage de date définie par le commentaire ne peut pas être vide',
-    'comment_datetime_select_range_error' => 'La date de fin du paramètre de commentaire ne peut être inférieure à la date de début',
 ];

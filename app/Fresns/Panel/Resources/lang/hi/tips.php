@@ -76,6 +76,14 @@ return [
     'uninstall_step_3' => 'फाइलों को नष्ट',
     'uninstall_step_4' => 'कैश को साफ़ करें',
     'uninstall_step_5' => 'पूर्ण',
+    // select
+    'select_box_tip_plugin' => 'प्लगइन का चयन करें',
+    'select_box_tip_role' => 'एक भूमिका का चयन करें',
+    'select_box_tip_group' => 'एक समूह का चयन करें',
+    'post_datetime_select_error' => 'पोस्ट द्वारा निर्धारित दिनांक सीमा खाली नहीं हो सकती',
+    'post_datetime_select_range_error' => 'पद के लिए निर्धारित अंतिम तिथि प्रारंभ तिथि से कम नहीं हो सकती',
+    'comment_datetime_select_error' => 'टिप्पणी के लिए निर्धारित दिनांक सीमा खाली नहीं हो सकती',
+    'comment_datetime_select_range_error' => 'टिप्पणी सेटिंग की समाप्ति तिथि प्रारंभ तिथि से कम नहीं हो सकती है',
     // delete app
     'delete_app_warning' => 'यदि आप ऐप का अपग्रेड रिमाइंडर नहीं देखना चाहते हैं, तो आप ऐप हटा सकते हैं। हटाने के बाद, नए संस्करण के लिए कोई संकेत नहीं दिया जाएगा.',
     // dashboard
@@ -100,13 +108,7 @@ return [
     'map_not_exists' => 'नक्शा मौजूद नहीं है',
     'required_user_role_name' => 'कृपया भूमिका का नाम भरें',
     'required_sticker_category_name' => 'कृपया इमोजी ग्रुप का नाम भरें',
-    'required_group_category_name' => 'कृपया समूह श्रेणी का नाम भरें',
     'required_group_name' => 'कृपया समूह का नाम भरें',
-    'delete_group_category_error' => 'श्रेणी के अंतर्गत एक समूह है, इसे हटाने की अनुमति नहीं है',
     'delete_default_language_error' => 'डिफ़ॉल्ट भाषा को हटाया नहीं जा सकता',
     'account_connect_services_error' => 'तृतीय-पक्ष इंटरकनेक्ट समर्थन में डुप्लिकेट इंटरकनेक्ट प्लेटफ़ॉर्म',
-    'post_datetime_select_error' => 'पोस्ट द्वारा निर्धारित दिनांक सीमा खाली नहीं हो सकती',
-    'post_datetime_select_range_error' => 'पद के लिए निर्धारित अंतिम तिथि प्रारंभ तिथि से कम नहीं हो सकती',
-    'comment_datetime_select_error' => 'टिप्पणी के लिए निर्धारित दिनांक सीमा खाली नहीं हो सकती',
-    'comment_datetime_select_range_error' => 'टिप्पणी सेटिंग की समाप्ति तिथि प्रारंभ तिथि से कम नहीं हो सकती है',
 ];
