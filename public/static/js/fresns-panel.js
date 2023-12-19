@@ -726,114 +726,6 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
-    // plugin-usages
-    $('.plugin-usage-modal').on('show.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
-        }
-
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        let defaultName = button.data('default-name');
-        let action = button.data('action');
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-
-        $(this).parent('form').attr('action', action);
-        $(this).parent('form').find('input[name=_method]').val(params ? 'put' : 'post');
-        $(this).parent('form').trigger('reset');
-
-        if (!params) {
-            $(this).find('.name-button').text(trans('panel.table_name')); //FsLang
-
-            return;
-        }
-
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        } else {
-            $(this).find('input[name=icon_file_url]').val('');
-        }
-
-        $(this).find('input[name=sort_order]').val(params.sort_order);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('.name-button').text(defaultName);
-        $(this).find('input[name=parameter]').val(params.parameter);
-        $(this).find('input[name=editor_number]').val(params.editor_number);
-        $(this).find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]').prop('checked', true).click();
-        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
-
-        Object.entries(params.name).forEach(([langTag, langContent]) => {
-            $(this).parent('form').find("input[name='names[" + langTag + "]']").val(langContent);
-        });
-
-        $('#scenePost').removeAttr('checked');
-        $('#sceneComment').removeAttr('checked');
-        $('#sceneUser').removeAttr('checked');
-        if (params.scene) {
-            scene = params.scene.split(',');
-            for (var i = 0; i < scene.length; i++) {
-                if (scene[i] == 1) {
-                    $('#scenePost').attr('checked', 'checked');
-                }
-                if (scene[i] == 2) {
-                    $('#sceneComment').attr('checked', 'checked');
-                }
-                if (scene[i] == 3) {
-                    $('#sceneUser').attr('checked', 'checked');
-                }
-            }
-        }
-
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-
-        $(this).find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]').prop('checked', true).click();
-        if (params.is_group_admin) {
-            $('#usage_setting').removeClass('show');
-        } else {
-            $('#usage_setting').addClass('show');
-        }
-    });
-
-    $('.plugin-usage-modal').on('hide.bs.modal', function (e) {
-        $(this).data('is_back', false);
-    });
-
-    $('#parentGroupId').on('change', function () {
-        let selectedOption = $(this).find('option:selected');
-
-        let children = selectedOption.data('children');
-
-        $('#childGroup').find('option:not(:disabled)').remove();
-
-        if (children) {
-            children.map((item) => {
-                $('#childGroup').append('<option value="' + item.id + '">' + item.name + '</option>');
-            });
-        }
-
-        $('#childGroup').removeAttr('style');
-    });
-
-    $('#search_group_id').on('change', function () {
-        $('.groupallsearch option').each(function () {
-            $(this).prop('selected', '');
-        });
-        $('.alloption').css('display', 'none');
-        let search_group_id = $('#search_group_id option:selected').val();
-        if (search_group_id) {
-            $('.childsearch' + search_group_id).removeAttr('style');
-        }
-    });
-
     // configLangModal
     $('#configLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
@@ -1264,19 +1156,21 @@ $(document).ready(function () {
         form.attr('action', action);
         form.find('input[name=_method]').val(params ? 'put' : 'post');
 
-        form.trigger('reset');
-        form.find('.parent-group-button').text(trans('panel.option_unselect')); //FsLang
-        form.find('.name-button').text(trans('panel.table_name')); //FsLang
-        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
-        selectAdmin.find('option').remove();
-
-        //reset default
+        // reset default
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         $('.inputUrl').hide();
         $('.inputFile').show();
         $('#cover_file_view').hide();
         $('#banner_file_view').hide();
         $('.publish_setting').show();
+
+        form.find('.parent-group-button').text(trans('panel.option_unselect')); //FsLang
+        form.find('.name-button').text(trans('panel.table_name')); //FsLang
+        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
+
+        selectAdmin.find('option').remove();
+        form.find('input[name=parent_id]').val(0);
+        form.trigger('reset');
 
         if (!params) {
             return;
@@ -1292,6 +1186,7 @@ $(document).ready(function () {
         let publishCommentRoles = permissions.publish_comment_roles;
         let publishCommentReview = permissions.publish_comment_review ? 1 : 0;
 
+        form.find('input[name=parent_id]').val(params.parent_id);
         if (parentGroupName) {
             form.find('.parent-group-button').text(parentGroupName);
         }
@@ -1369,7 +1264,7 @@ $(document).ready(function () {
     $('#parentGroupModal').on('show.bs.modal', function (e) {
         $('#parentGroups').empty();
         $('#firstGroups').val('');
-        $('input[name="parent_group_id"]').val('');
+        $('input[name="choose_group_id"]').val('');
 
         let button = $(e.relatedTarget);
         var parent = button.data('parent');
@@ -1393,12 +1288,16 @@ $(document).ready(function () {
         fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
     });
 
-    $('#parentGroupConfirm').click(function () {
-        var parentGroupId = $('input[name="parent_group_id"]').val();
-        var parentGroupName = $('input[name="parent_group_name"]').val();
+    // choose group confirm
+    $('#chooseGroupConfirm').click(function () {
+        var chooseGroupId = $('input[name="choose_group_id"]').val();
+        var chooseGroupName = $('input[name="choose_group_name"]').val();
 
-        $('input[name="parent_id"]').val(parentGroupId);
-        $('.parent-group-button').text(parentGroupName);
+        $('input[name="parent_id"]').val(chooseGroupId);
+        $('.parent-group-button').text(chooseGroupName);
+
+        $('input[name="group_id"]').val(chooseGroupId);
+        $('.group-button').text(chooseGroupName);
     });
 
     // search users
@@ -1475,20 +1374,23 @@ $(document).ready(function () {
 
         if (!groupId) {
             $('#subgroup-' + parentGroupId + ' > div').remove();
-            $('input[name="group_id"]').val(parentGroupId);
-            $('input[name="parent_group_id"]').val(parentGroupId);
-            $('input[name="parent_group_name"]').val(parentGroupName);
+
+            $('input[name="choose_group_id"]').val(parentGroupId); // parentGroup and extendGroup
+            $('input[name="choose_group_name"]').val(parentGroupName); // parentGroup and extendGroup
+            $('input[name="group_id"]').val(parentGroupId); // moveGroup
+            $('input[name="groupId"]').val(parentGroupId); // filterGroup
 
             return;
         }
 
+        $('input[name="choose_group_id"]').val(groupId);
+        $('input[name="choose_group_name"]').val(groupName);
         $('input[name="group_id"]').val(groupId);
-        $('input[name="parent_group_id"]').val(groupId);
-        $('input[name="parent_group_name"]').val(groupName);
+        $('input[name="groupId"]').val(groupId);
 
         $.ajax({
             method: 'get',
-            url: '/fresns/operations/groups/search',
+            url: '/fresns/search/groups',
             data: {
                 groupId: groupId,
             },
@@ -1516,6 +1418,130 @@ $(document).ready(function () {
             },
         });
     }
+
+    // plugin-usages
+    $('.plugin-usage-modal').on('show.bs.modal', function (e) {
+        if ($(this).data('is_back')) {
+            return;
+        }
+
+        let button = $(e.relatedTarget);
+        let params = button.data('params');
+        let groupName = button.data('group-name');
+        let defaultName = button.data('default-name');
+        let action = button.data('action');
+
+        let form = $(this).parents('form');
+
+        //reset default
+        form.find('.group-button').text(trans('tips.select_box_tip_group')); //FsLang
+        form.find('.name-button').text(trans('panel.table_name')); //FsLang
+        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
+        $('.inputUrl').hide();
+        $('.inputFile').show();
+
+        form.attr('action', action);
+        form.find('input[name=_method]').val(params ? 'put' : 'post');
+        form.find('input[name=group_id]').val(0);
+        form.trigger('reset');
+
+        if (!params) {
+            return;
+        }
+
+        if (params.icon_file_url) {
+            form.find('input[name=icon_file_url]').val(params.icon_file_url);
+            form.find('input[name=icon_file_url]').removeAttr('style');
+            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
+            $('.inputFile').css('display', 'none');
+        } else {
+            form.find('input[name=icon_file_url]').val('');
+        }
+
+        if (defaultName) {
+            form.find('.name-button').text(defaultName);
+        }
+
+        form.find('.group-button').text(groupName);
+        form.find('input[name=group_id]').val(params.group_id);
+        form.find('input[name=sort_order]').val(params.sort_order);
+        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
+        form.find('input[name=parameter]').val(params.parameter);
+        form.find('input[name=editor_number]').val(params.editor_number);
+        form.find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]').prop('checked', true).click();
+        form.find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
+
+        Object.entries(params.name).forEach(([langTag, langContent]) => {
+            form.find("input[name='names[" + langTag + "]']").val(langContent);
+        });
+
+        $('#scenePost').removeAttr('checked');
+        $('#sceneComment').removeAttr('checked');
+        $('#sceneUser').removeAttr('checked');
+        if (params.scene) {
+            scene = params.scene.split(',');
+            for (var i = 0; i < scene.length; i++) {
+                if (scene[i] == 1) {
+                    $('#scenePost').attr('checked', 'checked');
+                }
+                if (scene[i] == 2) {
+                    $('#sceneComment').attr('checked', 'checked');
+                }
+                if (scene[i] == 3) {
+                    $('#sceneUser').attr('checked', 'checked');
+                }
+            }
+        }
+
+        if (params.roles) {
+            form.find('select[name="roles[]"]').val(params.roles.split(',')).change();
+        }
+
+        form.find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]').prop('checked', true).click();
+        if (params.is_group_admin) {
+            $('#usage_setting').removeClass('show');
+        } else {
+            $('#usage_setting').addClass('show');
+        }
+    });
+
+    $('.plugin-usage-modal').on('hide.bs.modal', function (e) {
+        $(this).data('is_back', false);
+    });
+
+    $('#extendGroupModal').on('show.bs.modal', function (e) {
+        $('#groups').empty();
+        $('#firstGroups').val('');
+        $('input[name="choose_group_id"]').val('');
+
+        let button = $(e.relatedTarget);
+        var parent = button.data('parent');
+
+        if (!parent) {
+            return;
+        }
+
+        $(this).on('hide.bs.modal', function (e) {
+            if (parent) {
+                $(parent).data('is_back', true);
+                $(parent).modal('show');
+            }
+        });
+    });
+
+    $('#extendGroupModal .choose-group').change(function() {
+        var subgroupDiv = $('#groups');
+        var unselect = trans('panel.option_unselect'); // FsLang
+        subgroupDiv.empty();
+        fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
+    });
+
+    $('#filterModal .choose-group').change(function() {
+        var subgroupDiv = $('#subgroup');
+        var unselect = trans('panel.option_unselect'); // FsLang
+        subgroupDiv.empty();
+        fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
+    });
 
     // change default homepage
     $('.update-config').change(function () {

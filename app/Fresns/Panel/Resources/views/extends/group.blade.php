@@ -21,55 +21,38 @@
         </div>
     </div>
 
-    <!--groups-->
-    <div class="row mb-3">
-        <!--group_filter-->
-        <form action="" method="get">
-            @csrf
-            <div class="input-group">
-                <span class="input-group-text">{{ __('FsLang::panel.sidebar_extend_group_filter') }}</span>
-                <select class="form-select" id="search_group_id" required>
-                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group_category') }}</option>
-                    @foreach ($groups as $group)
-                        <option @if ($groupSelect && $groupSelect->parent_id == $group->id) selected @endif value="{{ $group->id }}">{{ $group->name }}</option>
-                    @endforeach
-                </select>
-                <select class="form-select groupallsearch" name="group_id" required>
-                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group') }}</option>
-                    @foreach ($groups as $group)
-                        @foreach ($group->groups as $res)
-                            <option @if ($groupId == $res->id) selected  @else  style="display:none;" @endif class="childsearch{{ $group->id }} alloption" value="{{ $res->id }}">{{ $res->name }}</option>
-                        @endforeach
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-secondary" type="submit">{{ __('FsLang::panel.button_confirm') }}</button>
-                <a class="btn btn-outline-secondary" href="{{ route('panel.plugin-usages.index', ['usageType' => 'group']) }}">{{ __('FsLang::panel.button_reset') }}</a>
-            </div>
-        </form>
-        <!--group_filter end-->
-    </div>
-
     <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
                 <tr class="table-info">
-                    <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.group') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_authorized_roles') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_authorized_roles_desc') }}"></i></th>
-                    <th scope="col">{{ __('FsLang::panel.table_scope_group_admins') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_scope_group_admins_desc') }}"></i></th>
-                    <th scope="col">{{ __('FsLang::panel.table_parameter') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
-                    <th scope="col" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
+                    <th scope="col" class="align-middle" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
+                    <th scope="col" class="align-middle">
+                        {{ __('FsLang::panel.group') }}
+                        <button type="button" class="btn btn-outline-dark btn-sm ms-1" data-bs-toggle="modal" data-bs-target="#filterModal">{{ __('FsLang::panel.sidebar_extend_group_filter') }}</button>
+                        @if (request('groupId'))
+                            <a class="btn btn-outline-dark btn-sm ms-1" href="{{ route('panel.plugin-usages.index', ['usageType' => 'group']) }}">{{ __('FsLang::panel.button_reset') }}</a>
+                        @endif
+                    </th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_plugin') }}</th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_name') }}</th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_authorized_roles') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_authorized_roles_desc') }}"></i></th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_scope_group_admins') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_scope_group_admins_desc') }}"></i></th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_parameter') }}</th>
+                    <th scope="col" class="align-middle">{{ __('FsLang::panel.table_status') }}</th>
+                    <th scope="col" class="align-middle" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
                         <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
-                        <td>{{ $item->group ? $item->group->name : '' }}</td>
+                        <td>
+                            @if ($item?->group?->getCoverUrl())
+                                <img src="{{ $item?->group?->getCoverUrl() }}" width="24" height="24">
+                            @endif
+                            {{ $item?->group?->getLangContent('name', $defaultLanguage) }}
+                        </td>
                         <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
@@ -103,12 +86,16 @@
                             <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-group="{{ $item->group->toJson() }}"
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal"
                                     data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
-                                    data-params="{{ json_encode($item->attributesToArray()) }}"
+                                    data-group-id="{{ $item?->group?->id }}"
+                                    data-group-name="{{ $item?->group?->getLangContent('name', $defaultLanguage) }}"
                                     data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
-                                    data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-params="{{ $item->toJson() }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                                 @if ($item->can_delete)
                                     <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 @endif
@@ -135,38 +122,33 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3 row">
+                        <input type="hidden" name="group_id" value="">
+
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.group') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select mb-1" id="parentGroupId" name="parent_group_id" required>
-                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group_category') }}</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}" data-children="{{ $group->groups->toJson() }}">{{ $group->name }}</option>
-                                    @endforeach
-                                </select>
-                                <select class="form-select mt-2" name="group_id" id="childGroup" required style="display:none">
-                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group') }}</option>
-                                </select>
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start group-button" data-bs-toggle="modal" data-parent="#editModal" data-bs-target="#extendGroupModal">{{ __('FsLang::tips.select_box_tip_group') }}</button>
+                                <div class="invalid-feedback">{{ __('FsLang::tips.select_box_tip_group') }}</div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_plugin') }}</label>
                             <div class="col-sm-9">
                                 <select class="form-select" name="plugin_fskey" required>
-                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_plugin') }}</option>
+                                    <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_plugin') }}</option>
                                     @foreach ($plugins as $plugin)
                                         <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_icon') }}</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
@@ -180,14 +162,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
                             <div class="col-sm-9">
                                 <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#editModal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
                                 <div class="invalid-feedback">{{ __('FsLang::tips.required_group_category_name') }}</div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_scope') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
@@ -207,7 +189,7 @@
                             </div>
                         </div>
                         <div class="collapse usage_setting show">
-                            <div class="mb-3 row">
+                            <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_authorized_roles') }}</label>
                                 <div class="col-sm-9">
                                     <select class="form-select select2" multiple name="roles[]" id='roles'>
@@ -218,13 +200,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_parameter') }}</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="parameter">
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
@@ -237,7 +219,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        <div class="row mb-3">
                             <label class="col-sm-3 col-form-label"></label>
                             <div class="col-sm-9"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
                         </div>
@@ -294,4 +276,61 @@
             </div>
         </div>
     </form>
-    @endsection
+
+    <!-- Group Modal -->
+    <div class="modal fade" id="extendGroupModal" tabindex="-1" aria-labelledby="extendGroupModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::tips.select_box_tip_group') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="choose_group_id" value="">
+                    <input type="hidden" name="choose_group_name" value="">
+                    <select class="form-select choose-group mb-3" id="firstGroups">
+                        <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_group') }}</option>
+                        @foreach ($firstGroups as $group)
+                            <option value="{{ $group->id }}">{{ $group->getLangContent('name', $defaultLanguage) }}</option>
+                        @endforeach
+                    </select>
+
+                    <div id="groups"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="chooseGroupConfirm">{{ __('FsLang::panel.button_confirm') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Move Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.sidebar_extend_group_filter') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('panel.plugin-usages.index', ['usageType' => 'group']) }}" method="get">
+                    <input type="hidden" name="groupId" value="">
+                    <div class="modal-body">
+                        <select class="form-select choose-group mb-3">
+                            <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_group') }}</option>
+                            @foreach ($firstGroups as $group)
+                                <option value="{{ $group->id }}">{{ $group->getLangContent('name', $defaultLanguage) }}</option>
+                            @endforeach
+                        </select>
+
+                        <div id="subgroup"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="chooseGroupConfirm">{{ __('FsLang::panel.button_confirm') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

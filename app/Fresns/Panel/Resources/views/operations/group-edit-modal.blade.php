@@ -11,7 +11,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="parent_id" value="">
+                    <input type="hidden" name="parent_id" value="0">
                     <div class="row mb-3">
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_parent_group') }}</label>
                         <div class="col-sm-9 col-md-10">
@@ -382,8 +382,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="parent_group_id" value="">
-                <input type="hidden" name="parent_group_name" value="">
+                <input type="hidden" name="choose_group_id" value="">
+                <input type="hidden" name="choose_group_name" value="">
                 <select class="form-select choose-group mb-3" id="firstGroups">
                     <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_group') }}</option>
                     <option value="">{{ __('FsLang::panel.option_unselect') }}</option>
@@ -396,7 +396,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="parentGroupConfirm">{{ __('FsLang::panel.button_confirm') }}</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="chooseGroupConfirm">{{ __('FsLang::panel.button_confirm') }}</button>
             </div>
         </div>
     </div>

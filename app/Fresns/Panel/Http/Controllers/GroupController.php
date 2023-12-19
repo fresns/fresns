@@ -9,7 +9,6 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
-use App\Helpers\StrHelper;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Group;
@@ -276,7 +275,9 @@ class GroupController extends Controller
 
     public function mergeGroup(Group $group, Request $request)
     {
-        if (! $request->group_id) {
+        $newGroupId = $request->group_id;
+
+        if (! $newGroupId) {
             return back()->with('failure', __('FsLang::tips.select_box_tip_group'));
         }
 
@@ -286,20 +287,20 @@ class GroupController extends Controller
         $commentDigestCount = $group->comment_digest_count;
 
         if ($postCount) {
-            Group::where('id', $request->group_id)->increment('post_count', $postCount);
+            Group::where('id', $newGroupId)->increment('post_count', $postCount);
         }
         if ($commentCount) {
-            Group::where('id', $request->group_id)->increment('comment_count', $commentCount);
+            Group::where('id', $newGroupId)->increment('comment_count', $commentCount);
         }
         if ($postDigestCount) {
-            Group::where('id', $request->group_id)->increment('post_digest_count', $postDigestCount);
+            Group::where('id', $newGroupId)->increment('post_digest_count', $postDigestCount);
         }
         if ($commentDigestCount) {
-            Group::where('id', $request->group_id)->increment('comment_digest_count', $commentDigestCount);
+            Group::where('id', $newGroupId)->increment('comment_digest_count', $commentDigestCount);
         }
 
-        Post::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
-        PostLog::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
+        Post::where('group_id', $group->id)->update(['group_id' => $newGroupId]);
+        PostLog::where('group_id', $group->id)->update(['group_id' => $newGroupId]);
 
         $group->delete();
 
@@ -320,25 +321,5 @@ class GroupController extends Controller
         $group->save();
 
         return $this->updateSuccess();
-    }
-
-    // search groups
-    public function searchGroups(Request $request)
-    {
-        $id = $request->groupId;
-
-        $groups = [];
-        if ($id) {
-            $allGroups = Group::where('parent_id', $id)->orderBy('sort_order')->isEnabled()->get();
-
-            foreach ($allGroups as $group) {
-                $item['id'] = $group->id;
-                $item['name'] = StrHelper::languageContent($group->name);
-
-                $groups[] = $item;
-            }
-        }
-
-        return response()->json($groups);
     }
 }
