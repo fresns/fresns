@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\PrimaryHelper;
 use App\Models\File;
 use App\Models\FileUsage;
+use App\Models\Group;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
@@ -32,7 +33,13 @@ class PluginUsageController extends Controller
             'channel' => PluginUsage::TYPE_CHANNEL,
         };
 
-        $pluginUsages = PluginUsage::with('plugin')->type($type)->orderBy('sort_order')->paginate();
+        $usageQuery = PluginUsage::with('plugin')->type($type);
+
+        if ($usageType == 'group' && $request->groupId) {
+            $usageQuery->where('group_id', $request->groupId);
+        }
+
+        $pluginUsages = $usageQuery->orderBy('sort_order')->paginate(30);
 
         $panelUsageName = match ($usageType) {
             'wallet-recharge' => 'walletRecharge',
@@ -53,7 +60,10 @@ class PluginUsageController extends Controller
 
         $roles = Role::all();
 
-        $groups = [];
+        $firstGroups = [];
+        if ($usageType == 'group') {
+            $firstGroups = Group::where('parent_id', 0)->orderBy('sort_order')->isEnabled()->get();
+        }
 
         $viewName = match ($usageType) {
             'wallet-recharge' => 'systems.wallet-recharge',
@@ -67,7 +77,7 @@ class PluginUsageController extends Controller
             'channel' => 'extends.channel',
         };
 
-        return view("FsView::{$viewName}", compact('pluginUsages', 'plugins', 'roles', 'groups'));
+        return view("FsView::{$viewName}", compact('pluginUsages', 'plugins', 'roles', 'firstGroups'));
     }
 
     public function store(string $usageType, Request $request)
