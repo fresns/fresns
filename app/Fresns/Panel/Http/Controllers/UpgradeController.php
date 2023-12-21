@@ -10,8 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
@@ -28,9 +28,11 @@ class UpgradeController extends Controller
         $appVersion = AppHelper::VERSION;
         $versionCheckTime = Config::where('item_key', 'check_version_datetime')->first()?->item_value;
 
-        $pluginsData = Plugin::where('is_upgrade', true)->where('is_standalone', false)->get();
-        $appsData = Plugin::where('is_upgrade', true)->where('is_standalone', true)->get();
-        $upgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $pluginsData = App::type(App::TYPE_PLUGIN)->where('is_upgrade', true)->get();
+        $themesData = App::type(App::TYPE_THEME)->where('is_upgrade', true)->get();
+        $enginesData = App::type(App::TYPE_ENGINE)->where('is_upgrade', true)->get();
+        $appsData = App::type(App::TYPE_APP_DOWNLOAD)->where('is_upgrade', true)->get();
+        $upgradeCount = App::where('is_upgrade', 1)->count();
 
         $autoUpgradeSteps = [
             1 => __('FsLang::tips.auto_upgrade_step_1'),
@@ -93,7 +95,7 @@ class UpgradeController extends Controller
         Cache::forget('autoUpgradeStep');
         Cache::forget('manualUpgradeStep');
 
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkPluginsVersions();
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkAppsVersions();
 
         if ($fresnsResp->isSuccessResponse()) {
             return $this->requestSuccess();

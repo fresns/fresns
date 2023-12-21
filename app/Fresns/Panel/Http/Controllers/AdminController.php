@@ -10,7 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\StoreAdminRequest;
 use App\Models\Account;
-use App\Models\Plugin;
+use App\Models\App;
 
 class AdminController extends Controller
 {
@@ -18,7 +18,7 @@ class AdminController extends Controller
     {
         $admins = Account::ofAdmin()->get();
         $isFounder = self::isFounder();
-        $upgradeCount = Plugin::where('is_upgrade', true)->count();
+        $upgradeCount = App::where('is_upgrade', true)->count();
 
         return view('FsView::dashboard.admins', compact('admins', 'isFounder', 'upgradeCount'));
     }

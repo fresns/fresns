@@ -11,11 +11,11 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Helpers\DateHelper;
 use App\Models\Account;
+use App\Models\App;
 use App\Models\Comment;
 use App\Models\Config;
 use App\Models\Group;
 use App\Models\Hashtag;
-use App\Models\Plugin;
 use App\Models\Post;
 use App\Models\SessionKey;
 use App\Models\User;
@@ -32,14 +32,14 @@ class DashboardController extends Controller
         $adminCount = Account::ofAdmin()->count();
         $keyCount = SessionKey::count();
 
-        $plugins = Plugin::all();
-        $upgradeCount = Plugin::where('is_upgrade', true)->count();
+        $apps = App::all();
+        $upgradeCount = App::where('is_upgrade', true)->count();
 
         $systemInfo = AppHelper::getSystemInfo();
         $databaseInfo = AppHelper::getDatabaseInfo();
         $timezones = DateHelper::fresnsDatabaseTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('currentVersion', 'adminCount', 'keyCount', 'plugins', 'upgradeCount', 'systemInfo', 'databaseInfo', 'timezones'));
+        return view('FsView::dashboard.index', compact('currentVersion', 'adminCount', 'keyCount', 'apps', 'upgradeCount', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
     public function dashboardData(Request $request)
@@ -75,7 +75,7 @@ class DashboardController extends Controller
     // events
     public function eventList()
     {
-        $upgradeCount = Plugin::where('is_upgrade', true)->count();
+        $upgradeCount = App::where('is_upgrade', true)->count();
 
         // config keys
         $configKeys = [

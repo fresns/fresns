@@ -9,8 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateSessionKeyRequest;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\SessionKey;
 use Illuminate\Support\Str;
 
@@ -21,7 +21,7 @@ class SessionKeyController extends Controller
         $platformConfig = Config::platform()->firstOrFail();
         $platforms = $platformConfig['item_value'];
 
-        $keys = SessionKey::with('plugin')->get();
+        $keys = SessionKey::with('app')->get();
 
         $typeLabels = [
             1 => __('FsLang::panel.key_option_main_api'),
@@ -29,10 +29,10 @@ class SessionKeyController extends Controller
             3 => __('FsLang::panel.key_option_plugin_api'),
         ];
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
 
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('apiKey', $plugin->panel_usages ?: []);
+            return in_array('apiKey', $plugin->panel_usages);
         });
 
         return view('FsView::extensions.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));

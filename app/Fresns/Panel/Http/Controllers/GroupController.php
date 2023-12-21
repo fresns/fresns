@@ -9,10 +9,10 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Models\App;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Group;
-use App\Models\Plugin;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\Role;
@@ -44,7 +44,7 @@ class GroupController extends Controller
         $this->initOptions();
         extract(get_object_vars($this));
 
-        $groupQuery = Group::with('parentGroup', 'followByPlugin', 'admins');
+        $groupQuery = Group::with('parentGroup', 'followByApp', 'admins');
 
         $parentGroup = null;
 
@@ -71,7 +71,7 @@ class GroupController extends Controller
 
         $groups = $groupQuery->paginate(25);
 
-        $plugins = Plugin::all();
+        $plugins = App::whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->get();
         $plugins = $plugins->filter(function ($plugin) {
             return in_array('followGroup', $plugin->panel_usages);
         });

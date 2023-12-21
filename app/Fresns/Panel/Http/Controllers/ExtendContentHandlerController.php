@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class ExtendContentHandlerController extends Controller
@@ -51,7 +51,7 @@ class ExtendContentHandlerController extends Controller
             'extendNotification',
             'extendSearch',
         ];
-        $plugins = Plugin::all();
+        $plugins = App::type(App::TYPE_PLUGIN)->get();
         $pluginParams = [];
         foreach ($panelUsages as $usage) {
             $pluginParams[$usage] = $plugins->filter(function ($plugin) use ($usage) {

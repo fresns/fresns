@@ -10,8 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\DateHelper;
 use App\Helpers\StrHelper;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -82,7 +82,7 @@ class PublishController extends Controller
 
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
 
         $imageService = $plugins->where('fskey', $params['image_service'])->first();
         $videoService = $plugins->where('fskey', $params['video_service'])->first();
@@ -227,7 +227,7 @@ class PublishController extends Controller
 
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
 
         $imageService = $plugins->where('fskey', $params['image_service'])->first();
         $videoService = $plugins->where('fskey', $params['video_service'])->first();

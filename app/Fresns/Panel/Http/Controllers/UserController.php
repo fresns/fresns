@@ -13,10 +13,10 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\App;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Plugin;
 use App\Models\Role;
 
 class UserController extends Controller
@@ -118,7 +118,7 @@ class UserController extends Controller
             $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $imageService = $plugins->where('fskey', $params['image_service'])->first();
         $videoService = $plugins->where('fskey', $params['video_service'])->first();
         $audioService = $plugins->where('fskey', $params['audio_service'])->first();

@@ -11,10 +11,10 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\App;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
@@ -49,7 +49,7 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $storagePlugins = $plugins->filter(function ($plugin) {
             return in_array('storage', $plugin->panel_usages);
         });
@@ -126,7 +126,7 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $storagePlugins = $plugins->filter(function ($plugin) {
             return in_array('storage', $plugin->panel_usages);
         });
@@ -201,7 +201,7 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $storagePlugins = $plugins->filter(function ($plugin) {
             return in_array('storage', $plugin->panel_usages);
         });
@@ -274,7 +274,7 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $storagePlugins = $plugins->filter(function ($plugin) {
             return in_array('storage', $plugin->panel_usages);
         });

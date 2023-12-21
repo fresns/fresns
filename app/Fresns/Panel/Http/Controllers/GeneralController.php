@@ -13,10 +13,10 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\App;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Plugin;
 use App\Models\Role;
 use Illuminate\Support\Str;
 
@@ -67,7 +67,7 @@ class GeneralController extends Controller
             $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->get();
         $joinPlugins = $plugins->filter(function ($plugin) {
             return in_array('join', $plugin->panel_usages);
         });

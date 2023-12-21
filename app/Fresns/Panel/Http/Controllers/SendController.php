@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class SendController extends Controller
@@ -55,7 +55,7 @@ class SendController extends Controller
 
         $params['send_sms_supported_codes'] = join(PHP_EOL, $params['send_sms_supported_codes']);
 
-        $plugins = Plugin::all();
+        $plugins = App::all();
         $emailPlugins = $plugins->filter(function ($plugin) {
             return in_array('sendEmail', $plugin->panel_usages);
         });

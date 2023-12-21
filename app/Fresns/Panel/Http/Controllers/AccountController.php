@@ -9,8 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateAccountRequest;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use Illuminate\Support\Str;
 
 class AccountController extends Controller
@@ -47,7 +47,7 @@ class AccountController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $plugins = Plugin::all();
+        $plugins = App::whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->get();
         $accountCenterPlugins = $plugins->filter(function ($plugin) {
             return in_array('accountCenter', $plugin->panel_usages);
         });

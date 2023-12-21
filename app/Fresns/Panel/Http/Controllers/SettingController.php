@@ -10,8 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -32,7 +32,7 @@ class SettingController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $upgradeCount = Plugin::where('is_upgrade', true)->count();
+        $upgradeCount = App::where('is_upgrade', true)->count();
 
         return view('FsView::dashboard.settings', compact('params', 'upgradeCount'));
     }
@@ -81,7 +81,7 @@ class SettingController extends Controller
     // caches page
     public function caches()
     {
-        $upgradeCount = Plugin::where('is_upgrade', true)->count();
+        $upgradeCount = App::where('is_upgrade', true)->count();
 
         return view('FsView::dashboard.caches', compact('upgradeCount'));
     }
