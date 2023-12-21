@@ -12,8 +12,8 @@ use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
+use App\Models\App as AppModel;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\UserRole;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\App;
@@ -23,8 +23,8 @@ class AppUtility
 {
     const BASE_URL = 'https://app.fresns.org';
     const WEBSITE_URL = 'https://fresns.org';
-    const WEBSITE_ZH_HANS_URL = 'https://zh-hans.fresns.org';
-    const WEBSITE_ZH_HANT_URL = 'https://zh-hant.fresns.org';
+    const WEBSITE_ZH_HANS_URL = 'https://fresns.org/zh-hans';
+    const WEBSITE_ZH_HANT_URL = 'https://fresns.org/zh-hant';
     const COMMUNITY_URL = 'https://discuss.fresns.org';
     const MARKETPLACE_URL = 'https://marketplace.fresns.com';
 
@@ -282,7 +282,7 @@ class AppUtility
 
         $plugins = $fresnsJson['plugins'] ?? null;
 
-        $pluginModels = Plugin::where('is_standalone', false)->get();
+        $pluginModels = AppModel::type(AppModel::TYPE_PLUGIN)->get();
 
         foreach ($pluginModels as $plugin) {
             $status = $plugins[$plugin->fskey] ?? false;

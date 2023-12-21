@@ -14,9 +14,9 @@ use App\Helpers\DateHelper;
 use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\AppUsage;
 use App\Models\Comment;
 use App\Models\Group;
-use App\Models\PluginUsage;
 use App\Models\Post;
 use App\Models\PostAuth;
 use App\Models\User;
@@ -727,7 +727,7 @@ class PermissionUtility
         }
 
         // get usage list
-        if ($usageType == PluginUsage::TYPE_GROUP && empty($groupId)) {
+        if ($usageType == AppUsage::TYPE_GROUP && empty($groupId)) {
             return false;
         }
 
@@ -751,15 +751,15 @@ class PermissionUtility
         }
 
         // get usage list
-        if ($usageType == PluginUsage::TYPE_GROUP) {
-            $usages = PluginUsage::where('usage_type', $usageType)
+        if ($usageType == AppUsage::TYPE_GROUP) {
+            $usages = AppUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', true)
                 ->where('is_enabled', true)
                 ->get();
         } else {
-            $usages = PluginUsage::where('usage_type', $usageType)
+            $usages = AppUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', true)
                 ->where('is_enabled', true)
@@ -782,15 +782,15 @@ class PermissionUtility
     private static function checkExtendPermByRole(string $fskey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
         // get usage list
-        if ($usageType == PluginUsage::TYPE_GROUP) {
-            $usages = PluginUsage::where('usage_type', $usageType)
+        if ($usageType == AppUsage::TYPE_GROUP) {
+            $usages = AppUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', false)
                 ->where('is_enabled', true)
                 ->get();
         } else {
-            $usages = PluginUsage::where('usage_type', $usageType)
+            $usages = AppUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', false)
                 ->where('is_enabled', true)
