@@ -8,10 +8,10 @@
 
 namespace App\Helpers;
 
+use App\Models\App;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Plugin;
 use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -356,9 +356,9 @@ class CacheHelper
 
                 CacheHelper::forgetFresnsKey("fresns_seo_user_{$id}", ['fresnsSeo', 'fresnsUsers']);
 
-                $plugins = Plugin::get();
-                foreach ($plugins as $plugin) {
-                    CacheHelper::forgetFresnsKey("fresns_plugin_{$plugin->fskey}_badge_{$id}", 'fresnsUsers');
+                $apps = App::all();
+                foreach ($apps as $app) {
+                    CacheHelper::forgetFresnsKey("fresns_plugin_{$app->fskey}_badge_{$id}", 'fresnsUsers');
                 }
                 break;
 

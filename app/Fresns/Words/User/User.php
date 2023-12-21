@@ -25,8 +25,8 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
+use App\Models\AppBadge;
 use App\Models\File;
-use App\Models\PluginBadge;
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
 use App\Models\UserExtcreditsLog;
@@ -414,7 +414,7 @@ class User
             'amount' => $amount,
             'opening_amount' => $openingAmount,
             'closing_amount' => $closingAmount,
-            'plugin_fskey' => $dtoWordBody->fskey,
+            'app_fskey' => $dtoWordBody->fskey,
             'remark' => $dtoWordBody->remark,
         ];
 
@@ -492,18 +492,18 @@ class User
         $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
         $cacheTag = 'fresnsUsers';
 
-        $userBadge = PluginBadge::where('user_id', $userId)->where('plugin_fskey', $fskey)->first();
+        $userBadge = AppBadge::where('user_id', $userId)->where('app_fskey', $fskey)->first();
 
         if (! $userBadge) {
             $badge = [
-                'plugin_fskey' => $fskey,
+                'app_fskey' => $fskey,
                 'user_id' => $userId,
                 'display_type' => $dtoWordBody->type,
                 'value_number' => $dtoWordBody->badgeNumber,
                 'value_text' => $dtoWordBody->badgeText,
             ];
 
-            PluginBadge::create($badge);
+            AppBadge::create($badge);
 
             CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
 
@@ -511,7 +511,7 @@ class User
         }
 
         $badgeNumber = $dtoWordBody->badgeNumber;
-        if ($dtoWordBody->type == PluginBadge::TYPE_NUMBER) {
+        if ($dtoWordBody->type == AppBadge::TYPE_NUMBER) {
             $badgeNumber = $userBadge->value_number + $dtoWordBody->badgeNumber;
         }
 
@@ -534,7 +534,7 @@ class User
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $fskey = $dtoWordBody->fskey;
 
-        PluginBadge::where('user_id', $userId)->where('plugin_fskey', $fskey)->forceDelete();
+        AppBadge::where('user_id', $userId)->where('app_fskey', $fskey)->forceDelete();
 
         $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
         $cacheTag = 'fresnsUsers';
@@ -552,10 +552,10 @@ class User
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $cacheTag = 'fresnsUsers';
 
-        $userBadges = PluginBadge::where('user_id', $userId)->get();
+        $userBadges = AppBadge::where('user_id', $userId)->get();
 
         foreach ($userBadges as $badge) {
-            $fskey = $badge->plugin_fskey;
+            $fskey = $badge->app_fskey;
 
             $badge->forceDelete();
 
