@@ -8,10 +8,10 @@
 
 namespace App\Models\Traits;
 
+use App\Models\App;
 use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\LanguagePack;
-use App\Models\Plugin;
 use App\Models\Seo;
 use App\Models\Sticker;
 use App\Models\Theme;
@@ -27,7 +27,7 @@ trait DataChangeNotifyTrait
             Config::class,
             CodeMessage::class,
             LanguagePack::class,
-            Plugin::class,
+            App::class,
             Theme::class,
             Sticker::class,
             UserStat::class,

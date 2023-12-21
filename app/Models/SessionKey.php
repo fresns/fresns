@@ -14,7 +14,7 @@ class SessionKey extends Model
 {
     const TYPE_CORE = 1;
     const TYPE_MANAGE = 2;
-    const TYPE_PLUGIN = 3;
+    const TYPE_APP = 3;
 
     use Traits\IsEnabledTrait;
 
@@ -32,8 +32,8 @@ class SessionKey extends Model
         return $platform['name'] ?? '';
     }
 
-    public function plugin()
+    public function app()
     {
-        return $this->belongsTo(Plugin::class, 'plugin_fskey', 'fskey');
+        return $this->belongsTo(App::class, 'app_fskey', 'fskey');
     }
 }

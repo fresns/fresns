@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class PluginCallback extends Model
+class AppCallback extends Model
 {
     const TYPE_CUSTOMIZE = 1;
     const TYPE_RELOAD = 2;

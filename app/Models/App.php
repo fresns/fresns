@@ -8,8 +8,14 @@
 
 namespace App\Models;
 
-class Plugin extends Model
+class App extends Model
 {
+    const TYPE_PLUGIN = 1;
+    const TYPE_THEME = 2;
+    const TYPE_ENGINE = 3;
+    const TYPE_APP_REMOTE = 4;
+    const TYPE_APP_DOWNLOAD = 5;
+
     use Traits\IsEnabledTrait;
 
     protected $casts = [

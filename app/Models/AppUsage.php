@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class PluginUsage extends Model
+class AppUsage extends Model
 {
     const TYPE_WALLET_RECHARGE = 1;
     const TYPE_WALLET_WITHDRAW = 2;
@@ -24,7 +24,7 @@ class PluginUsage extends Model
     const SCENE_COMMENT = 2;
     const SCENE_USER = 3;
 
-    use Traits\PluginUsageServiceTrait;
+    use Traits\AppUsageServiceTrait;
     use Traits\IsEnabledTrait;
 
     protected $casts = [
@@ -36,9 +36,9 @@ class PluginUsage extends Model
         return $query->where('usage_type', $type);
     }
 
-    public function plugin()
+    public function app()
     {
-        return $this->belongsTo(Plugin::class, 'plugin_fskey', 'fskey');
+        return $this->belongsTo(App::class, 'app_fskey', 'fskey');
     }
 
     public function group()

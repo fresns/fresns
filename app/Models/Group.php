@@ -76,8 +76,8 @@ class Group extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function followByPlugin()
+    public function followByApp()
     {
-        return $this->belongsTo(Plugin::class, 'follow_plugin_fskey', 'fskey');
+        return $this->belongsTo(App::class, 'follow_app_fskey', 'fskey');
     }
 }
