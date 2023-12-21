@@ -9,7 +9,7 @@
 namespace App\Console;
 
 use App\Helpers\ConfigHelper;
-use App\Models\Plugin;
+use App\Models\App;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
         foreach ($crontabItems as $cron) {
             if ($cron['fskey'] != 'Fresns') {
-                $plugin = Plugin::where('fskey', $cron['fskey'])->isEnabled()->first();
+                $plugin = App::where('fskey', $cron['fskey'])->isEnabled()->first();
 
                 if (empty($plugin)) {
                     continue;

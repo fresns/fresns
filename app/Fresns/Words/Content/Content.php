@@ -74,10 +74,10 @@ class Content
             );
         }
 
-        $isPluginEditor = 0;
+        $isAppEditor = 0;
         $editorFskey = null;
         if ($dtoWordBody->editorFskey) {
-            $isPluginEditor = 1;
+            $isAppEditor = 1;
             $editorFskey = $dtoWordBody->editorFskey;
         }
 
@@ -104,7 +104,7 @@ class Content
                     'user_id' => $author->id,
                     'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
-                    'is_plugin_editor' => $isPluginEditor,
+                    'is_plugin_editor' => $isAppEditor,
                     'editor_fskey' => $editorFskey,
                     'group_id' => $groupId ?? 0,
                     'title' => $title,
@@ -143,7 +143,7 @@ class Content
                     'post_id' => $checkPost->id,
                     'parent_comment_id' => PrimaryHelper::fresnsCommentIdByCid($checkPost->commentCid),
                     'create_type' => $dtoWordBody->createType,
-                    'is_plugin_editor' => $isPluginEditor,
+                    'is_plugin_editor' => $isAppEditor,
                     'editor_fskey' => $editorFskey,
                     'content' => $content,
                     'is_markdown' => $isMarkdown,

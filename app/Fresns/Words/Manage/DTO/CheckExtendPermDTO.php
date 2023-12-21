@@ -15,7 +15,7 @@ class CheckExtendPermDTO extends DTO
     public function rules(): array
     {
         return [
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'type' => ['integer', 'required', 'between:1,9'],
             'uid' => ['integer', 'nullable'],
             'gid' => ['string', 'nullable'],

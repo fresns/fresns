@@ -18,7 +18,7 @@ class SetUserExtcreditsDTO extends DTO
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
             'extcreditsId' => ['integer', 'required', 'in:1,2,3,4,5'],
             'operation' => ['string', 'required', 'in:increment,decrement'],
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'amount' => ['integer', 'nullable'],
             'remark' => ['string', 'nullable'],
         ];

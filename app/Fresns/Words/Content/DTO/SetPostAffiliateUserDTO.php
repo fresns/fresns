@@ -18,7 +18,7 @@ class SetPostAffiliateUserDTO extends DTO
             'pid' => ['string', 'required'],
             'type' => ['string', 'required', 'in:add,remove'],
             'uid' => ['integer', 'required'],
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'moreJson' => ['json', 'nullable'],
         ];
     }

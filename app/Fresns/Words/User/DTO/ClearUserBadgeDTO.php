@@ -16,7 +16,7 @@ class ClearUserBadgeDTO extends DTO
     {
         return [
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
         ];
     }
 }

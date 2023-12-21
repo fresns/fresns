@@ -18,7 +18,7 @@ class WalletUnfreezeDTO extends DTO
             'aid' => ['string', 'required'],
             'uid' => ['integer', 'nullable'],
             'amountTotal' => ['numeric', 'required'],
-            'transactionFskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'transactionFskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],

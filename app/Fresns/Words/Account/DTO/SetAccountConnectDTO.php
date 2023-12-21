@@ -15,7 +15,7 @@ class SetAccountConnectDTO extends DTO
     public function rules(): array
     {
         return [
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
             'connectPlatformId' => ['integer', 'required'],
             'connectAccountId' => ['string', 'required'],

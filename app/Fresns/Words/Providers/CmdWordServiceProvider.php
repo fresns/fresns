@@ -133,7 +133,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // Fresns Crontab
         ['word' => 'checkUserRoleExpired', 'provider' => [Crontab::class, 'checkUserRoleExpired']],
         ['word' => 'checkDeleteAccount', 'provider' => [Crontab::class, 'checkDeleteAccount']],
-        ['word' => 'checkPluginsVersions', 'provider' => [Crontab::class, 'checkPluginsVersions']],
+        ['word' => 'checkAppsVersions', 'provider' => [Crontab::class, 'checkAppsVersions']],
     ];
 
     /**

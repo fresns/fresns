@@ -22,7 +22,7 @@ class WalletDecreaseDTO extends DTO
             'systemFee' => ['numeric', 'required'],
             'originAid' => ['string', 'nullable'],
             'originUid' => ['integer', 'nullable'],
-            'transactionFskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'transactionFskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],

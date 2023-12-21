@@ -105,7 +105,7 @@ class Basic
             );
         }
 
-        if ($keyType == SessionKey::TYPE_PLUGIN && $keyInfo->plugin_fskey != $keyFskey) {
+        if ($keyType == SessionKey::TYPE_APP && $keyInfo->plugin_fskey != $keyFskey) {
             return $this->failure(
                 31304,
                 ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),

@@ -25,7 +25,7 @@ class VerifySignDTO extends DTO
             'signature' => ['string', 'required'],
             'timestamp' => ['integer', 'required', 'digits_between:10,13'],
             'verifyType' => ['integer', 'nullable'],
-            'verifyFskey' => ['string', 'nullable', 'exists:App\Models\Plugin,fskey'],
+            'verifyFskey' => ['string', 'nullable', 'exists:App\Models\App,fskey'],
         ];
     }
 }

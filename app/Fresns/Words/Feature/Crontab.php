@@ -13,8 +13,8 @@ use App\Fresns\Words\Feature\DTO\RemoveCrontabItemDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
+use App\Models\App;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\User;
 use App\Models\UserRole;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
@@ -186,16 +186,16 @@ class Crontab
         return $this->success();
     }
 
-    // checkPluginsVersions
-    public function checkPluginsVersions()
+    // checkAppsVersions
+    public function checkAppsVersions()
     {
-        logger('cmd word: checkPluginsVersions');
+        logger('cmd word: checkAppsVersions');
 
-        $plugins = Plugin::all();
+        $apps = App::all();
 
         // market-manager
         $response = Http::market()->get('/api/open-source/v2/check', [
-            'fskeys' => json_encode($plugins->pluck('fskey')->all()),
+            'fskeys' => json_encode($apps->pluck('fskey')->all()),
         ]);
 
         // Request error
@@ -216,15 +216,15 @@ class Crontab
                 continue;
             }
 
-            $plugin = $plugins->where('fskey', $fskey)->first();
+            $app = $apps->where('fskey', $fskey)->first();
 
             // Same version number
-            if ($plugin->version == $version) {
+            if ($app->version == $version) {
                 continue;
             }
 
-            $plugin->update([
-                'is_upgrade' => 1,
+            $app->update([
+                'is_upgrade' => true,
                 'upgrade_version' => $version,
             ]);
         }

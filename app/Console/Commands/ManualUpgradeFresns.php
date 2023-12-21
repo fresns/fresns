@@ -10,7 +10,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
-use App\Models\Plugin;
+use App\Models\App;
 use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
@@ -170,7 +170,7 @@ class ManualUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_PUBLISH_AND_ACTIVATE_PLUGINS);
 
-        $plugins = Plugin::all();
+        $plugins = App::type(App::TYPE_PLUGIN)->get();
 
         foreach ($plugins as $plugin) {
             try {

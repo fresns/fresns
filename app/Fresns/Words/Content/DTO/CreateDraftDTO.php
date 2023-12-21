@@ -18,7 +18,7 @@ class CreateDraftDTO extends DTO
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
             'type' => ['integer', 'required', 'in:1,2'],
             'createType' => ['integer', 'required', 'in:1,2'],
-            'editorFskey' => ['string', 'nullable', 'exists:App\Models\Plugin,fskey'],
+            'editorFskey' => ['string', 'nullable', 'exists:App\Models\App,fskey'],
             'postGid' => ['string', 'nullable'],
             'postTitle' => ['string', 'nullable'],
             'postIsCommentDisabled' => ['boolean', 'nullable'],
