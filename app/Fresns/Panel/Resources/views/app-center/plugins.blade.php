@@ -1,11 +1,11 @@
 @extends('FsView::commons.sidebarLayout')
 
 @section('sidebar')
-    @include('FsView::extensions.sidebar')
+    @include('FsView::app-center.sidebar')
 @endsection
 
 @section('content')
-    <!--plugin header-->
+    <!--header-->
     <div class="row mb-4">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_plugins') }}</h3>
@@ -23,17 +23,18 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugins.index') }}" class="nav-link {{ is_null($isEnabled) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
+                <a href="{{ route('panel.app-center.plugins') }}" class="nav-link {{ is_null($isEnabled) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugins.index', ['status' => 'active']) }}" class="nav-link {{ $isEnabled == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
+                <a href="{{ route('panel.app-center.plugins', ['status' => 'active']) }}" class="nav-link {{ $isEnabled == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugins.index', ['status' => 'inactive']) }}" class="nav-link {{ !is_null($isEnabled) && $isEnabled == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
+                <a href="{{ route('panel.app-center.plugins', ['status' => 'inactive']) }}" class="nav-link {{ !is_null($isEnabled) && $isEnabled == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
             </li>
         </ul>
     </div>
-    <!--plugin list-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle fs-7">
             <thead>
@@ -67,11 +68,11 @@
                             @if ($plugin->is_enabled)
                                 <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($plugin->settings_path)
-                                    <a href="{{ route('panel.iframe.setting', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                                    <a href="{{ route('panel.app-center.plugin.settings', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
                                 <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->fskey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>
@@ -79,5 +80,8 @@
             </tbody>
         </table>
     </div>
-    <!--plugin list end-->
+
+    @if ($plugins instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $plugins->appends(request()->all())->links() }}
+    @endif
 @endsection

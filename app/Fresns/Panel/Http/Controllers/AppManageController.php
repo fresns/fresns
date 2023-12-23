@@ -8,48 +8,13 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Plugin;
+use App\Models\App;
 use App\Utilities\AppUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
-class PluginController extends Controller
+class AppManageController extends Controller
 {
-    public function index(Request $request)
-    {
-        $type = $request->type;
-
-        $pluginQuery = Plugin::where('is_standalone', false);
-
-        $pluginQuery->when($request->type, function ($query, $value) {
-            $query->where('type', $value);
-        });
-
-        $isEnabled = match ($request->status) {
-            'active' => 1,
-            'inactive' => 0,
-            default => null,
-        };
-
-        if (! is_null($isEnabled)) {
-            $pluginQuery->isEnabled($isEnabled);
-        }
-
-        $plugins = $pluginQuery->latest()->get();
-
-        $enableCount = Plugin::where('is_standalone', false)->isEnabled()->count();
-        $disableCount = Plugin::where('is_standalone', false)->isEnabled(false)->count();
-
-        return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnabled'));
-    }
-
-    public function appIndex(Request $request)
-    {
-        $apps = Plugin::where('is_standalone', true)->latest()->get();
-
-        return view('FsView::extensions.apps', compact('apps'));
-    }
-
     public function install(Request $request)
     {
         $installMethod = $request->install_method;
@@ -193,11 +158,11 @@ class PluginController extends Controller
 
     public function updateCode(Request $request)
     {
-        $plugin = Plugin::where('fskey', $request->input('pluginFskey'))->first();
+        $app = App::where('fskey', $request->input('fskey'))->first();
 
-        if ($plugin) {
-            $plugin->upgrade_code = $request->upgradeCode;
-            $plugin->save();
+        if ($app) {
+            $app->upgrade_code = $request->upgradeCode;
+            $app->save();
 
             return $this->updateSuccess();
         }
@@ -230,7 +195,7 @@ class PluginController extends Controller
             return back()->with('failure', 'fskey cannot be empty');
         }
 
-        Plugin::where('fskey', $fskey)->delete();
+        App::where('fskey', $fskey)->delete();
 
         return $this->deleteSuccess();
     }

@@ -1,11 +1,11 @@
 @extends('FsView::commons.sidebarLayout')
 
 @section('sidebar')
-    @include('FsView::extensions.sidebar')
+    @include('FsView::app-center.sidebar')
 @endsection
 
 @section('content')
-    <!--apps header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_apps') }}</h3>
@@ -17,7 +17,8 @@
             </div>
         </div>
     </div>
-    <!--apps list-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle fs-7">
             <thead>
@@ -60,7 +61,9 @@
             </tbody>
         </table>
     </div>
-    <!--apps list end-->
+    @if ($apps instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $apps->appends(request()->all())->links() }}
+    @endif
 
     <!-- Upgrade Extensions Modal: delete apps -->
     <div class="modal fade" id="deleteApp" tabindex="-1" aria-labelledby="deleteApp" aria-hidden="true">

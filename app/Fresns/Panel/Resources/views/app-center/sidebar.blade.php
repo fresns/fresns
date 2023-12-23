@@ -7,13 +7,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is(['panel.plugins.*', 'panel.iframe.setting']) ? 'active' : '' }}" href="{{ route('panel.plugins.index') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.apps.*') ? 'active' : '' }}" href="{{ route('panel.apps.index') }}"><i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is(['panel.app-center.plugins', 'panel.app-center.plugin.settings']) ? 'active' : '' }}" href="{{ route('panel.app-center.plugins') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is(['panel.app-center.themes', 'panel.app-center.theme.functions']) ? 'active' : '' }}" href="{{ route('panel.app-center.themes') }}"><i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.app-center.apps') ? 'active' : '' }}" href="{{ route('panel.app-center.apps') }}"><i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.keys.*') ? 'active' : '' }} " href="{{ route('panel.keys.index') }}"><i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.app-center.marketplace') ? 'active' : '' }}" href="{{ route('panel.app-center.marketplace', ['url' => $marketplaceUrl]) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_marketplace') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.iframe.marketplace') ? 'active' : '' }}" href="{{ route('panel.iframe.marketplace', ['url' => $marketplaceUrl]) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_marketplace') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#installModal" data-bs-toggle="modal" role="button"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_plugin') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#installModal" data-bs-toggle="modal" role="button"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#downloadModal" data-bs-toggle="modal" role="button"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                 </ul>
@@ -28,7 +28,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_plugin') }}</h5>
+                <h5 class="modal-title"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('panel.plugin.install') }}" method="post" enctype="multipart/form-data">

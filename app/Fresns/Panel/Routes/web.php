@@ -9,23 +9,21 @@
 use App\Fresns\Panel\Http\Controllers\AccountController;
 use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\AppController;
+use App\Fresns\Panel\Http\Controllers\AppManageController;
+use App\Fresns\Panel\Http\Controllers\AppUsageController;
+use App\Fresns\Panel\Http\Controllers\ChannelController;
+use App\Fresns\Panel\Http\Controllers\ClientController;
 use App\Fresns\Panel\Http\Controllers\CodeMessageController;
-use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\CommonController;
-use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\ContentController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
 use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
-use App\Fresns\Panel\Http\Controllers\IframeController;
 use App\Fresns\Panel\Http\Controllers\InteractionController;
 use App\Fresns\Panel\Http\Controllers\LanguageController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
 use App\Fresns\Panel\Http\Controllers\LoginController;
-use App\Fresns\Panel\Http\Controllers\MenuController;
-use App\Fresns\Panel\Http\Controllers\PluginController;
-use App\Fresns\Panel\Http\Controllers\PluginUsageController;
 use App\Fresns\Panel\Http\Controllers\PolicyController;
 use App\Fresns\Panel\Http\Controllers\PublishController;
 use App\Fresns\Panel\Http\Controllers\RoleController;
@@ -66,7 +64,7 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('update')->name('update.')->group(function () {
         Route::put('languages/{itemKey}', [CommonController::class, 'updateLanguages'])->name('languages'); // all
         Route::patch('language/{itemKey}/{langTag}', [CommonController::class, 'updateLanguage'])->name('language'); // monolingual
-        Route::patch('status/{itemKey}', [CommonController::class, 'updateStatus'])->name('status'); // config status
+        Route::patch('item/{itemKey}', [CommonController::class, 'updateItem'])->name('item'); // config item
     });
     // search
     Route::prefix('search')->name('search.')->group(function () {
@@ -188,24 +186,20 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('content-handler', [ExtendContentHandlerController::class, 'update'])->name('content-handler.update');
     });
 
-    // plugin usages
-    Route::prefix('plugin-usages')->name('plugin-usages.')->group(function () {
-        Route::get('{usageType}', [PluginUsageController::class, 'show'])->name('index');
-        Route::post('{usageType}/store', [PluginUsageController::class, 'store'])->name('store');
-        Route::put('update/{id}', [PluginUsageController::class, 'update'])->name('update');
-        Route::delete('destroy/{id}', [PluginUsageController::class, 'destroy'])->name('destroy');
-        Route::patch('order/{id}', [PluginUsageController::class, 'updateOrder'])->name('update-order');
+    // app usages
+    Route::prefix('app-usages')->name('app-usages.')->group(function () {
+        Route::get('{usageType}', [AppUsageController::class, 'show'])->name('index');
+        Route::post('{usageType}/store', [AppUsageController::class, 'store'])->name('store');
+        Route::put('update/{id}', [AppUsageController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [AppUsageController::class, 'destroy'])->name('destroy');
+        Route::patch('order/{id}', [AppUsageController::class, 'updateOrder'])->name('update-order');
     });
 
     // clients
     Route::prefix('clients')->group(function () {
-        // menus
-        Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
-        Route::put('menus/{key}/update', [MenuController::class, 'update'])->name('menus.update');
-        // update default_homepage
-        Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
-        // columns
-        Route::get('columns', [ColumnController::class, 'index'])->name('columns.index');
+        // channels
+        Route::get('channels', [ChannelController::class, 'index'])->name('channels.index');
+        Route::put('channels/{type}', [ChannelController::class, 'update'])->name('channels.update');
         // language pack
         Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language.packs.index');
         Route::get('language-packs/{langTag}/edit', [LanguagePackController::class, 'edit'])->name('language.packs.edit');
@@ -214,52 +208,60 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
         Route::put('code-messages/{codeMessage}', [CodeMessageController::class, 'update'])->name('code.messages.update');
         // path
-        Route::get('paths', [AppController::class, 'pathIndex'])->name('paths.index');
-        Route::put('paths', [AppController::class, 'pathUpdate'])->name('paths.update');
-        // basic
-        Route::get('basic', [AppController::class, 'basicIndex'])->name('client.basic');
-        Route::put('basic', [AppController::class, 'basicUpdate'])->name('client.basic.update');
-        // status
-        Route::get('status', [AppController::class, 'statusIndex'])->name('client.status');
-        Route::put('status', [AppController::class, 'statusUpdate'])->name('client.status.update');
-    });
-
-    // app center
-    Route::prefix('app-center')->group(function () {
-        // plugins
-        Route::get('plugins', [PluginController::class, 'index'])->name('plugins.index');
-        // apps
-        Route::get('apps', [PluginController::class, 'appIndex'])->name('apps.index');
-        // session key
+        Route::get('paths', [ClientController::class, 'pathIndex'])->name('paths.index');
+        Route::put('paths', [ClientController::class, 'pathUpdate'])->name('paths.update');
+        // app key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
         Route::put('keys/{key}/reset', [SessionKeyController::class, 'reset'])->name('keys.reset');
+        // basic
+        Route::get('basic', [ClientController::class, 'basicIndex'])->name('client.basic');
+        Route::put('basic', [ClientController::class, 'basicUpdate'])->name('client.basic.update');
+        // status
+        Route::get('status', [ClientController::class, 'statusIndex'])->name('client.status');
+        Route::put('status', [ClientController::class, 'statusUpdate'])->name('client.status.update');
     });
 
-    // iframe
-    Route::get('setting', [IframeController::class, 'setting'])->name('iframe.setting');
-    Route::get('marketplace', [IframeController::class, 'marketplace'])->name('iframe.marketplace');
+    // app center
+    Route::prefix('app-center')->name('app-center.')->group(function () {
+        // apps
+        Route::get('plugins', [AppController::class, 'plugins'])->name('plugins');
+        Route::get('themes', [AppController::class, 'themes'])->name('themes');
+        Route::get('apps', [AppController::class, 'apps'])->name('apps');
+        // marketplace
+        Route::get('marketplace', [AppController::class, 'iframe'])->name('marketplace');
+        // settings
+        Route::get('settings', [AppController::class, 'iframe'])->name('plugin.settings');
+        Route::get('functions', [AppController::class, 'iframe'])->name('theme.functions');
+    });
 
     // plugin manage
     Route::prefix('plugin')->name('plugin.')->group(function () {
         // dashboard upgrade page
-        Route::patch('update-code', [PluginController::class, 'updateCode'])->name('update.code');
+        Route::patch('update-code', [AppManageController::class, 'updateCode'])->name('update.code');
         // plugin install and upgrade
-        Route::put('install', [PluginController::class, 'install'])->name('install');
-        Route::put('upgrade', [PluginController::class, 'upgrade'])->name('upgrade');
+        Route::put('install', [AppManageController::class, 'install'])->name('install');
+        Route::put('upgrade', [AppManageController::class, 'upgrade'])->name('upgrade');
         // activate or deactivate
-        Route::patch('update', [PluginController::class, 'update'])->name('update');
+        Route::patch('update', [AppManageController::class, 'update'])->name('update');
         // uninstall
-        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('uninstall');
+        Route::delete('uninstall', [AppManageController::class, 'uninstall'])->name('uninstall');
         // check status
-        Route::post('check-status', [PluginController::class, 'checkStatus'])->name('check.status');
+        Route::post('check-status', [AppManageController::class, 'checkStatus'])->name('check.status');
     });
 
-    // apps
+    // theme manage
+    Route::prefix('theme')->name('theme.')->group(function () {
+        Route::get('{fskey}/functions', [AppManageController::class, 'themeFunctions'])->name('functions');
+        Route::put('{fskey}/update', [AppManageController::class, 'themeUpdate'])->name('update');
+        Route::delete('{fskey}/uninstall', [AppManageController::class, 'themeUninstall'])->name('uninstall');
+    });
+
+    // app manage
     Route::prefix('app')->name('app.')->group(function () {
-        Route::post('download', [PluginController::class, 'appDownload'])->name('download');
-        Route::delete('delete', [PluginController::class, 'appDelete'])->name('delete');
+        Route::post('download', [AppManageController::class, 'appDownload'])->name('download');
+        Route::delete('delete', [AppManageController::class, 'appDelete'])->name('delete');
     });
 });
 
