@@ -153,9 +153,9 @@ class AppHelper
     }
 
     // get plugin config
-    public static function getPluginConfig(string $plugin): array
+    public static function getPluginConfig(string $fskey): array
     {
-        $pluginJsonFile = config('plugins.paths.plugins').'/'.$plugin.'/plugin.json';
+        $pluginJsonFile = config('plugins.paths.plugins').'/'.$fskey.'/plugin.json';
 
         if (! file_exists($pluginJsonFile)) {
             return [];
@@ -164,6 +164,20 @@ class AppHelper
         $pluginConfig = json_decode(File::get($pluginJsonFile), true);
 
         return $pluginConfig;
+    }
+
+    // get theme config
+    public static function getThemeConfig(string $fskey): array
+    {
+        $themeJsonFile = config('themes.paths.themes').'/'.$fskey.'/theme.json';
+
+        if (! file_exists($themeJsonFile)) {
+            return [];
+        }
+
+        $themeConfig = json_decode(File::get($themeJsonFile), true);
+
+        return $themeConfig;
     }
 
     // get device info

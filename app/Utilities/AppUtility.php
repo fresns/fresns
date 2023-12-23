@@ -23,8 +23,8 @@ class AppUtility
 {
     const BASE_URL = 'https://app.fresns.org';
     const WEBSITE_URL = 'https://fresns.org';
-    const WEBSITE_ZH_HANS_URL = 'https://fresns.org/zh-hans';
-    const WEBSITE_ZH_HANT_URL = 'https://fresns.org/zh-hant';
+    const WEBSITE_ZH_HANS_URL = 'https://fresns.org/zh-Hans';
+    const WEBSITE_ZH_HANT_URL = 'https://fresns.org/zh-Hant';
     const COMMUNITY_URL = 'https://discuss.fresns.org';
     const MARKETPLACE_URL = 'https://marketplace.fresns.com';
 
