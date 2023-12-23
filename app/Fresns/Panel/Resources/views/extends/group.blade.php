@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-3">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.plugin-usages.store', ['usageType' => 'group']) }}">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.app-usages.store', ['usageType' => 'group']) }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_service_provider') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
@@ -31,7 +31,7 @@
                         {{ __('FsLang::panel.group') }}
                         <button type="button" class="btn btn-outline-dark btn-sm ms-1" data-bs-toggle="modal" data-bs-target="#filterModal">{{ __('FsLang::panel.sidebar_extend_group_filter') }}</button>
                         @if (request('groupId'))
-                            <a class="btn btn-outline-dark btn-sm ms-1" href="{{ route('panel.plugin-usages.index', ['usageType' => 'group']) }}">{{ __('FsLang::panel.button_reset') }}</a>
+                            <a class="btn btn-outline-dark btn-sm ms-1" href="{{ route('panel.app-usages.index', ['usageType' => 'group']) }}">{{ __('FsLang::panel.button_reset') }}</a>
                         @endif
                     </th>
                     <th scope="col" class="align-middle">{{ __('FsLang::panel.table_plugin') }}</th>
@@ -44,9 +44,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pluginUsages as $item)
+                @foreach ($appUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
+                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.app-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
                         <td>
                             @if ($item?->group?->getCoverUrl())
                                 <img src="{{ $item?->group?->getCoverUrl() }}" width="24" height="24">
@@ -83,7 +83,7 @@
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
+                            <form action="{{ route('panel.app-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm"
@@ -92,7 +92,7 @@
                                     data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
                                     data-group-id="{{ $item?->group?->id }}"
                                     data-group-name="{{ $item?->group?->getLangContent('name', $defaultLanguage) }}"
-                                    data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
+                                    data-action="{{ route('panel.app-usages.update', $item->id) }}"
                                     data-params="{{ $item->toJson() }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
@@ -106,8 +106,8 @@
             </tbody>
         </table>
     </div>
-    @if ($pluginUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
-        {{ $pluginUsages->appends(request()->all())->links() }}
+    @if ($appUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $appUsages->appends(request()->all())->links() }}
     @endif
 
     <!--modal-->
@@ -313,7 +313,7 @@
                     <h5 class="modal-title">{{ __('FsLang::panel.sidebar_extend_group_filter') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('panel.plugin-usages.index', ['usageType' => 'group']) }}" method="get">
+                <form action="{{ route('panel.app-usages.index', ['usageType' => 'group']) }}" method="get">
                     <input type="hidden" name="groupId" value="">
                     <div class="modal-body">
                         <select class="form-select choose-group mb-3">

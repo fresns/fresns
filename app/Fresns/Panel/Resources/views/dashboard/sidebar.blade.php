@@ -8,19 +8,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.dashboard*') ? 'active' : '' }} " href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.sidebar_home') }}</a>
+                        <a class="nav-link {{ Route::is('panel.dashboard*') ? 'active' : '' }} " href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.sidebar_home') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.admins*') ? 'active' : '' }}" href="{{ route('panel.admins.index') }}">{{ __('FsLang::panel.sidebar_admins') }}</a>
+                        <a class="nav-link {{ Route::is('panel.admins*') ? 'active' : '' }}" href="{{ route('panel.admins.index') }}">{{ __('FsLang::panel.sidebar_admins') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.events*') ? 'active' : '' }}" href="{{ route('panel.events.index') }}">{{ __('FsLang::panel.sidebar_events') }}</a>
+                        <a class="nav-link {{ Route::is('panel.events*') ? 'active' : '' }}" href="{{ route('panel.events.index') }}">{{ __('FsLang::panel.sidebar_events') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.caches*') ? 'active' : '' }}" href="{{ route('panel.caches.index') }}">{{ __('FsLang::panel.sidebar_caches') }}</a>
+                        <a class="nav-link {{ Route::is('panel.caches*') ? 'active' : '' }}" href="{{ route('panel.caches.index') }}">{{ __('FsLang::panel.sidebar_caches') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.upgrades*') ? 'active' : '' }} " href="{{ route('panel.upgrades') }}">
+                        <a class="nav-link {{ Route::is('panel.upgrades*') ? 'active' : '' }} " href="{{ route('panel.upgrades') }}">
                             {{ __('FsLang::panel.sidebar_upgrades') }}
                             @if($upgradeCount > 0)
                                 <span class="badge rounded-pill bg-danger">{{ $upgradeCount }}</span>
@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.settings*') ? 'active' : '' }}" href="{{ route('panel.settings') }}">{{ __('FsLang::panel.sidebar_settings') }}</a>
+                        <a class="nav-link {{ Route::is('panel.settings*') ? 'active' : '' }}" href="{{ route('panel.settings') }}">{{ __('FsLang::panel.sidebar_settings') }}</a>
                     </li>
                     <li class="nav-item d-block d-lg-none my-3 text-secondary">Powered by Fresns</li>
                 </ul>

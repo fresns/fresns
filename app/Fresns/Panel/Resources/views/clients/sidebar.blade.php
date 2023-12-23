@@ -7,14 +7,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.menus.*') ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.sidebar_menus') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.columns.*') ? 'active' : '' }}" href="{{ route('panel.columns.index') }}">{{ __('FsLang::panel.sidebar_columns') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.paths.*') ? 'active' : '' }}" href="{{ route('panel.paths.index') }}">{{ __('FsLang::panel.sidebar_paths') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.language.packs.*') ? 'active' : '' }}" href="{{ route('panel.language.packs.index') }}">{{ __('FsLang::panel.sidebar_language_packs') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.code.messages.*') ? 'active' : '' }}" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.sidebar_code_messages') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.channels.*') ? 'active' : '' }}" href="{{ route('panel.channels.index') }}">{{ __('FsLang::panel.sidebar_channels') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.paths.*') ? 'active' : '' }}" href="{{ route('panel.paths.index') }}">{{ __('FsLang::panel.sidebar_paths') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.language.packs.*') ? 'active' : '' }}" href="{{ route('panel.language.packs.index') }}">{{ __('FsLang::panel.sidebar_language_packs') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.code.messages.*') ? 'active' : '' }}" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.sidebar_code_messages') }}</a></li>
                     <li class="nav-item"><hr></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.client.basic') ? 'active' : '' }}" href="{{ route('panel.client.basic') }}">{{ __('FsLang::panel.sidebar_client_basic') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.client.status') ? 'active' : '' }}" href="{{ route('panel.client.status') }}">{{ __('FsLang::panel.sidebar_client_status') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.client.basic') ? 'active' : '' }}" href="{{ route('panel.client.basic') }}">{{ __('FsLang::panel.sidebar_client_basic') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.client.status') ? 'active' : '' }}" href="{{ route('panel.client.status') }}">{{ __('FsLang::panel.sidebar_client_status') }}</a></li>
                 </ul>
             </div>
         </div>

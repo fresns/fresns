@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <!--Standalone Apps-->
+        <!--Apps-->
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-header">{{ __('FsLang::panel.sidebar_apps') }}</div>
@@ -136,14 +136,6 @@
                                             data-name="{{ $app->name }}"
                                             data-new-version="{{ $app->upgrade_version }}">
                                             {{ __('FsLang::panel.button_download') }}
-                                        </button>
-
-                                        <button type="button" class="btn btn-outline-danger btn-sm ms-2 delete-app"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteApp"
-                                            data-fskey="{{ $app->fskey }}"
-                                            data-name="{{ $app->name }}">
-                                            {{ __('FsLang::panel.button_delete') }}
                                         </button>
                                     </div>
                                 </li>
@@ -297,7 +289,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
                             <span class="input-group-text">Key</span>
-                            <input type="text" class="form-control" name="pluginFskey" maxlength="64" required>
+                            <input type="text" class="form-control" name="fskey" maxlength="64" required>
                         </div>
                         <div class="input-group">
                             <span class="input-group-text">{{ __('FsLang::panel.button_upgrade') }}</span>
@@ -409,33 +401,6 @@
                         </div>
                         {{ __('FsLang::tips.request_in_progress') }}
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- App Modal: delete apps -->
-    <div class="modal fade" id="deleteApp" tabindex="-1" aria-labelledby="deleteApp" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-cloud-arrow-down"></i>
-                        <span class="app-name"></span>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-danger">{{ __('FsLang::tips.delete_app_warning') }}</p>
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ route('panel.app.delete') }}" method="post">
-                        @csrf
-                        @method('delete')
-                        <input type="hidden" name="app_fskey">
-                        <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_delete') }}</button>
-                    </form>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                 </div>
             </div>
         </div>

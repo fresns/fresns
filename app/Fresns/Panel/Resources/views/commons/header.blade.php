@@ -52,21 +52,18 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is([
-                            'panel.menus.*',
-                            'panel.columns.*',
+                            'panel.channels.*',
                             'panel.language.packs.*',
                             'panel.code.messages.*',
                             'panel.paths.*',
+                            'panel.keys.*',
                             'panel.client.*',
-                        ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>
+                        ]) ? 'active' : '' }}" href="{{ route('panel.channels.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is([
-                            'panel.plugins.*',
-                            'panel.apps.*',
-                            'panel.keys.*',
-                            'panel.iframe.*',
-                        ]) ? 'active' : '' }} " href="{{ route('panel.plugins.index') }}">{{ __('FsLang::panel.menu_app_center') }}</a>
+                            'panel.app-center.*',
+                        ]) ? 'active' : '' }} " href="{{ route('panel.app-center.plugins') }}">{{ __('FsLang::panel.menu_app_center') }}</a>
                     </li>
                 </ul>
                 <div class="navbar-nav">

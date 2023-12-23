@@ -37,6 +37,10 @@
                     <span class="badge bg-success" id="hashtagCount">0</span>
                 </li>
                 <li class="list-group-item">
+                    <i class="bi bi-geo"></i> {{ __('FsLang::panel.overview_geotags') }}
+                    <span class="badge bg-success" id="geotagCount">0</span>
+                </li>
+                <li class="list-group-item">
                     <i class="bi bi-postcard"></i> {{ __('FsLang::panel.overview_posts') }}
                     <span class="badge bg-success" id="postCount">0</span>
                 </li>
@@ -63,14 +67,20 @@
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}
-                    <a href="{{ route('panel.plugins.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('is_standalone', false)->count() }}</span>
+                    <a href="{{ route('panel.app-center.plugins') }}">
+                        <span class="badge bg-info">{{ $apps->where('type', 1)->count() }}</span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}
+                    <a href="{{ route('panel.app-center.themes') }}">
+                        <span class="badge bg-info">{{ $apps->where('type', 2)->count() }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}
-                    <a href="{{ route('panel.apps.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('is_standalone', true)->count() }}</span>
+                    <a href="{{ route('panel.app-center.apps') }}">
+                        <span class="badge bg-info">{{ $apps->whereIn('type', [3, 4])->count() }}</span>
                     </a>
                 </li>
             </ul>
@@ -344,6 +354,19 @@
             })
             .catch(error => {
                 console.error('hashtagCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=geotagCount')
+            .then(response => response.json())
+            .then(data => {
+                const geotagCountElement = document.getElementById('geotagCount');
+
+                if (geotagCountElement) {
+                    geotagCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('geotagCount Error: ', error);
             });
 
         fetch('/fresns/dashboard-data?type=postCount')

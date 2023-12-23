@@ -18,8 +18,8 @@
         </div>
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" href="{{ route('panel.wallet.index') }}">{{ __('FsLang::panel.sidebar_wallet_tab_options') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-recharge']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('panel.app-usages.index', ['usageType' => 'wallet-recharge']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('panel.app-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
         </ul>
     </div>
 

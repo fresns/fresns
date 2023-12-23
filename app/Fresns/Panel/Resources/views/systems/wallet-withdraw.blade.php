@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.plugin-usages.store', ['usageType' => 'wallet-withdraw']) }}">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.app-usages.store', ['usageType' => 'wallet-withdraw']) }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_service_provider') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
@@ -21,8 +21,8 @@
         </div>
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link" href="{{ route('panel.wallet.index') }}">{{ __('FsLang::panel.sidebar_wallet_tab_options') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-recharge']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('panel.app-usages.index', ['usageType' => 'wallet-recharge']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link active" href="{{ route('panel.app-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
         </ul>
     </div>
 
@@ -40,9 +40,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pluginUsages as $item)
+                @foreach ($appUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
+                        <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.app-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
                         <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
@@ -59,13 +59,13 @@
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
+                            <form action="{{ route('panel.app-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-params="{{ $item->toJson() }}"
                                     data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
-                                    data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
+                                    data-action="{{ route('panel.app-usages.update', $item->id) }}"
                                     data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
                                 <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                             </form>
@@ -75,8 +75,8 @@
             </tbody>
         </table>
     </div>
-    @if ($pluginUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
-        {{ $pluginUsages->appends(request()->all())->links() }}
+    @if ($appUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $appUsages->appends(request()->all())->links() }}
     @endif
 
     <!--modal-->

@@ -30,8 +30,7 @@ class UpgradeController extends Controller
 
         $pluginsData = App::type(App::TYPE_PLUGIN)->where('is_upgrade', true)->get();
         $themesData = App::type(App::TYPE_THEME)->where('is_upgrade', true)->get();
-        $enginesData = App::type(App::TYPE_ENGINE)->where('is_upgrade', true)->get();
-        $appsData = App::type(App::TYPE_APP_DOWNLOAD)->where('is_upgrade', true)->get();
+        $appsData = App::whereIn('type', [App::TYPE_APP_REMOTE, App::TYPE_APP_DOWNLOAD])->where('is_upgrade', true)->get();
         $upgradeCount = App::where('is_upgrade', 1)->count();
 
         $autoUpgradeSteps = [

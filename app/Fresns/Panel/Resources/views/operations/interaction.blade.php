@@ -45,7 +45,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configStatusModal"
                                 data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_function_status') }}"
-                                data-action="{{ route('panel.update.status', ['itemKey' => "user_{$type}_enabled"]) }}"
+                                data-action="{{ route('panel.update.item', ['itemKey' => "user_{$type}_enabled"]) }}"
                                 data-status="{{ $params["user_{$type}_enabled"] }}">
                                 {{ $params["user_{$type}_enabled"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                             </button>
@@ -75,7 +75,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configStateModal"
                                 data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_public_record') }}"
-                                data-action="{{ route('panel.update.status', ['itemKey' => "user_{$type}_public_record"]) }}"
+                                data-action="{{ route('panel.update.item', ['itemKey' => "user_{$type}_public_record"]) }}"
                                 data-state="{{ $params["user_{$type}_public_record"] }}">
                                 @if ($params["user_{$type}_public_record"] == 2)
                                     {{ __('FsLang::panel.option_data_private') }}
@@ -91,7 +91,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configStateModal"
                                 data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_public_count') }}"
-                                data-action="{{ route('panel.update.status', ['itemKey' => "user_{$type}_public_count"]) }}"
+                                data-action="{{ route('panel.update.item', ['itemKey' => "user_{$type}_public_count"]) }}"
                                 data-state="{{ $params["user_{$type}_public_count"] }}">
                                 @if ($params["user_{$type}_public_count"] == 2)
                                     {{ __('FsLang::panel.option_data_private') }}
@@ -117,7 +117,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#configStatusModal"
                                     data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_function_status') }}"
-                                    data-action="{{ route('panel.update.status', ['itemKey' => "{$item}_{$type}_enabled"]) }}"
+                                    data-action="{{ route('panel.update.item', ['itemKey' => "{$item}_{$type}_enabled"]) }}"
                                     data-status="{{ $params["{$item}_{$type}_enabled"] }}">
                                     {{ $params["{$item}_{$type}_enabled"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                                 </button>
@@ -147,8 +147,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#configPublicStatusModal"
                                     data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_public_record') }}"
-                                    data-action="{{ route('panel.update.status', ['itemKey' => "{$item}_{$type}_public_record"]) }}"
-                                    data-state="{{ $params["{$item}_{$type}_public_record"] }}">
+                                    data-action="{{ route('panel.update.item', ['itemKey' => "{$item}_{$type}_public_record"]) }}"
+                                    data-status="{{ $params["{$item}_{$type}_public_record"] }}">
                                     {{ $params["{$item}_{$type}_public_record"] ? __('FsLang::panel.option_data_public') : __('FsLang::panel.option_data_close') }}
                                 </button>
                             </td>
@@ -157,8 +157,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#configPublicStatusModal"
                                     data-title="{{ __("FsLang::panel.{$type}").': '.__('FsLang::panel.interaction_public_count') }}"
-                                    data-action="{{ route('panel.update.status', ['itemKey' => "{$item}_{$type}_public_count"]) }}"
-                                    data-state="{{ $params["{$item}_{$type}_public_count"] }}">
+                                    data-action="{{ route('panel.update.item', ['itemKey' => "{$item}_{$type}_public_count"]) }}"
+                                    data-status="{{ $params["{$item}_{$type}_public_count"] }}">
                                     {{ $params["{$item}_{$type}_public_count"] ? __('FsLang::panel.option_data_public') : __('FsLang::panel.option_data_close') }}
                                 </button>
                             </td>
@@ -189,7 +189,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configStatusModal"
                             data-title="{{ __('FsLang::panel.profile_posts').': '.__('FsLang::panel.interaction_function_status') }}"
-                            data-action="{{ route('panel.update.status', ['itemKey' => 'profile_posts_enabled']) }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'profile_posts_enabled']) }}"
                             data-status="{{ $params['profile_posts_enabled'] }}">
                             {{ $params['profile_posts_enabled'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                         </button>
@@ -203,7 +203,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configStatusModal"
                             data-title="{{ __('FsLang::panel.profile_comments').': '.__('FsLang::panel.interaction_function_status') }}"
-                            data-action="{{ route('panel.update.status', ['itemKey' => 'profile_comments_enabled']) }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'profile_comments_enabled']) }}"
                             data-status="{{ $params['profile_comments_enabled'] }}">
                             {{ $params['profile_comments_enabled'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                         </button>
@@ -307,7 +307,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configStatusModal"
                             data-title="{{ __('FsLang::panel.profile_followers_you_follow').': '.__('FsLang::panel.interaction_function_status') }}"
-                            data-action="{{ route('panel.update.status', ['itemKey' => 'profile_followers_you_follow_enabled']) }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'profile_followers_you_follow_enabled']) }}"
                             data-status="{{ $params['profile_followers_you_follow_enabled'] }}">
                             {{ $params['profile_followers_you_follow_enabled'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                         </button>
@@ -336,7 +336,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#configStatusModal"
                                     data-title="{{ __("FsLang::panel.profile_{$type}_{$item}").': '.__('FsLang::panel.interaction_function_status') }}"
-                                    data-action="{{ route('panel.update.status', ['itemKey' => "profile_{$type}_{$item}_enabled"]) }}"
+                                    data-action="{{ route('panel.update.item', ['itemKey' => "profile_{$type}_{$item}_enabled"]) }}"
                                     data-status="{{ $params["profile_{$type}_{$item}_enabled"] }}">
                                     {{ $params["profile_{$type}_{$item}_enabled"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
                                 </button>

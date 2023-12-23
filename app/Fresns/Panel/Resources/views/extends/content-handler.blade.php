@@ -89,18 +89,18 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.extend_content_list_by_timelines') }}</label>
-                    <select class="form-select" name="post_follow_service">
+                    <select class="form-select" name="post_timelines_service">
                         <option value="" disabled>{{ __('FsLang::panel.post') }}</option>
-                        <option value="" {{ !$params['post_follow_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
+                        <option value="" {{ !$params['post_timelines_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->fskey }}" {{ $params['post_follow_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['post_timelines_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
-                    <select class="form-select" name="comment_follow_service">
+                    <select class="form-select" name="comment_timelines_service">
                         <option value="" disabled>{{ __('FsLang::panel.comment') }}</option>
-                        <option value="" {{ !$params['comment_follow_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
+                        <option value="" {{ !$params['comment_timelines_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->fskey }}" {{ $params['comment_follow_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['comment_timelines_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

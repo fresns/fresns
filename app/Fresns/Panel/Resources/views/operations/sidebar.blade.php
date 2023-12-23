@@ -7,14 +7,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.user.*') ? 'active' : ''}}" href="{{ route('panel.user.index') }}">{{ __('FsLang::panel.sidebar_user') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.content.*') ? 'active' : ''}}" href="{{ route('panel.content.index') }}">{{ __('FsLang::panel.sidebar_content') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.interaction.*') ? 'active' : '' }}" href="{{ route('panel.interaction.index') }}">{{ __('FsLang::panel.sidebar_interaction') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.publish.*') ? 'active' : '' }}" href="{{ route('panel.publish.post.index') }}">{{ __('FsLang::panel.sidebar_publish') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.user.*') ? 'active' : ''}}" href="{{ route('panel.user.index') }}">{{ __('FsLang::panel.sidebar_user') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.content.*') ? 'active' : ''}}" href="{{ route('panel.content.index') }}">{{ __('FsLang::panel.sidebar_content') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.interaction.*') ? 'active' : '' }}" href="{{ route('panel.interaction.index') }}">{{ __('FsLang::panel.sidebar_interaction') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.publish.*') ? 'active' : '' }}" href="{{ route('panel.publish.post.index') }}">{{ __('FsLang::panel.sidebar_publish') }}</a></li>
                     <li class="nav-item"><hr></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.roles.*') ? 'active' : '' }}" href="{{ route('panel.roles.index') }}">{{ __('FsLang::panel.sidebar_roles') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.stickers.*') ? 'active' : '' }}" href="{{ route('panel.stickers.index') }}">{{ __('FsLang::panel.sidebar_stickers') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.groups.*') ? 'active' : '' }}" href="{{ route('panel.groups.index') }}">{{ __('FsLang::panel.sidebar_groups') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.roles.*') ? 'active' : '' }}" href="{{ route('panel.roles.index') }}">{{ __('FsLang::panel.sidebar_roles') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.stickers.*') ? 'active' : '' }}" href="{{ route('panel.stickers.index') }}">{{ __('FsLang::panel.sidebar_stickers') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.groups.*') ? 'active' : '' }}" href="{{ route('panel.groups.index') }}">{{ __('FsLang::panel.sidebar_groups') }}</a></li>
                     <li class="nav-item d-block d-lg-none my-3 text-secondary">Powered by Fresns</li>
                 </ul>
             </div>

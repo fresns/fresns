@@ -65,8 +65,8 @@ class CommonController extends Controller
         return $this->updateSuccess();
     }
 
-    // update status
-    public function updateStatus(string $itemKey, Request $request)
+    // update config item
+    public function updateItem(string $itemKey, Request $request)
     {
         $config = Config::where('item_key', $itemKey)->first();
 
@@ -75,12 +75,12 @@ class CommonController extends Controller
 
             $config->fill([
                 'item_key' => $itemKey,
-                'item_type' => $request->itemType,
+                'item_type' => $request->itemType ?? 'string',
             ]);
         }
 
         $config->item_value = $request->itemValue;
-        $config->item_type = $request->itemType;
+        $config->item_type = $request->itemType ?? 'string';
         $config->save();
 
         return $this->updateSuccess();

@@ -14,6 +14,7 @@ use App\Models\Account;
 use App\Models\App;
 use App\Models\Comment;
 use App\Models\Config;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Post;
@@ -51,6 +52,7 @@ class DashboardController extends Controller
             'userCount' => User::count(),
             'groupCount' => Group::count(),
             'hashtagCount' => Hashtag::count(),
+            'geotagCount' => Geotag::count(),
             'postCount' => Post::count(),
             'commentCount' => Comment::count(),
         };
