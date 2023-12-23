@@ -13,10 +13,11 @@ class ArchiveUsage extends Model
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
-    const TYPE_POST_LOG = 6;
-    const TYPE_COMMENT_LOG = 7;
+    const TYPE_GEOTAG = 4;
+    const TYPE_POST = 5;
+    const TYPE_COMMENT = 6;
+    const TYPE_POST_LOG = 7;
+    const TYPE_COMMENT_LOG = 8;
 
     use Traits\IsEnabledTrait;
 
@@ -74,6 +75,11 @@ class ArchiveUsage extends Model
     public function hashtag()
     {
         return $this->belongsTo(Hashtag::class, 'usage_id', 'id');
+    }
+
+    public function geotag()
+    {
+        return $this->belongsTo(Geotag::class, 'usage_id', 'id');
     }
 
     public function post()

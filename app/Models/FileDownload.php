@@ -13,12 +13,13 @@ class FileDownload extends Model
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
-    const TYPE_POST_LOG = 6;
-    const TYPE_COMMENT_LOG = 7;
-    const TYPE_EXTEND = 8;
-    const TYPE_CONVERSATION = 9;
+    const TYPE_GEOTAG = 4;
+    const TYPE_POST = 5;
+    const TYPE_COMMENT = 6;
+    const TYPE_POST_LOG = 7;
+    const TYPE_COMMENT_LOG = 8;
+    const TYPE_EXTEND = 9;
+    const TYPE_CONVERSATION = 10;
 
     public function scopeFileType($query, int $type)
     {

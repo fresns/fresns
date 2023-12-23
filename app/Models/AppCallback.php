@@ -17,17 +17,14 @@ class AppCallback extends Model
     const TYPE_USER = 5;
     const TYPE_GROUP = 6;
     const TYPE_HASHTAG = 7;
-    const TYPE_POST = 8;
-    const TYPE_COMMENT = 9;
-    const TYPE_ARCHIVE = 10;
-    const TYPE_EXTEND = 11;
-    const TYPE_OPERATION = 12;
-    const TYPE_FILE = 13;
-    const TYPE_MAP = 14;
-    const TYPE_CONTENT_READ_AUTH = 15;
-    const TYPE_CONTENT_USER_LIST = 16;
-    const TYPE_CONTENT_COMMENT_BUTTON = 17;
-    const TYPE_CONTENT_COMMENT_CONFIG = 18;
+    const TYPE_GEOTAG = 8;
+    const TYPE_POST = 9;
+    const TYPE_COMMENT = 10;
+    const TYPE_ARCHIVE = 11;
+    const TYPE_EXTEND = 12;
+    const TYPE_OPERATION = 13;
+    const TYPE_FILE = 14;
+    const TYPE_MAP = 15;
 
     protected $casts = [
         'content' => 'json',
