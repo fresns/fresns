@@ -20,9 +20,9 @@ class UserLike extends Model
     const TYPE_POST = 5;
     const TYPE_COMMENT = 6;
 
-    public function scopeMarkType($query, int $type)
+    public function scopeMarkType($query, int $markType)
     {
-        return $query->where('mark_type', $type);
+        return $query->where('mark_type', $markType);
     }
 
     public function scopeType($query, int $type)
@@ -48,6 +48,11 @@ class UserLike extends Model
     public function hashtag()
     {
         return $this->belongsTo(Hashtag::class, 'like_id', 'id');
+    }
+
+    public function geotag()
+    {
+        return $this->belongsTo(Geotag::class, 'like_id', 'id');
     }
 
     public function post()

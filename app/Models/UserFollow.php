@@ -24,9 +24,9 @@ class UserFollow extends Model
         'expired_at',
     ];
 
-    public function scopeMarkType($query, int $type)
+    public function scopeMarkType($query, int $markType)
     {
-        return $query->where('mark_type', $type);
+        return $query->where('mark_type', $markType);
     }
 
     public function scopeType($query, int $type)
@@ -52,6 +52,11 @@ class UserFollow extends Model
     public function hashtag()
     {
         return $this->belongsTo(Hashtag::class, 'follow_id', 'id');
+    }
+
+    public function geotag()
+    {
+        return $this->belongsTo(Geotag::class, 'follow_id', 'id');
     }
 
     public function post()

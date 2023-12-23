@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class ExtendUsage extends Model
+class GeotagUsage extends Model
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -16,17 +16,15 @@ class ExtendUsage extends Model
     const TYPE_GEOTAG = 4;
     const TYPE_POST = 5;
     const TYPE_COMMENT = 6;
-    const TYPE_POST_LOG = 7;
-    const TYPE_COMMENT_LOG = 8;
 
     public function scopeType($query, int $type)
     {
         return $query->where('usage_type', $type);
     }
 
-    public function extend()
+    public function geotagInfo()
     {
-        return $this->belongsTo(Extend::class, 'extend_id', 'id');
+        return $this->belongsTo(Geotag::class, 'geotag_id', 'id');
     }
 
     public function user()
