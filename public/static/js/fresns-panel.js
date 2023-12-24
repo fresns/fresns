@@ -815,6 +815,80 @@ $(document).ready(function () {
         $(this).find('input:radio[name=itemValue][value="' + status + '"]').prop('checked', true).click();
     });
 
+    // configSeoModal
+    $('#configSeoModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            title = button.data('title'),
+            action = button.data('action'),
+            languages = button.data('languages');
+
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        if (languages) {
+            Object.entries(languages).forEach(([langTag, langContent]) => {
+                form.find("input[name='languages[" + langTag + "][title]']").val(langContent.title);
+                form.find("textarea[name='languages[" + langTag + "][description]']").val(langContent.description);
+                form.find("textarea[name='languages[" + langTag + "][keywords]']").val(langContent.keywords);
+            });
+        }
+    });
+
+    // configListModal
+    $('#configListModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            title = button.data('title'),
+            action = button.data('action'),
+            indexType = button.data('indexType'),
+            queryState = button.data('queryState'),
+            queryConfig = button.data('queryConfig');
+
+        $('.lang-modal-title').text(trans('panel.button_setting')); //FsLang
+        $('.lang-modal-description').addClass('d-none');
+        $('.index-type').hide();
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (title) {
+            $('.lang-modal-title').text(title);
+        }
+
+        if (indexType) {
+            $('.index-type').show();
+            form.find('input:radio[name=index_type][value="' + indexType + '"]').prop('checked', true);
+        }
+
+        if (queryState) {
+            form.find('input:radio[name=query_state][value="' + queryState + '"]').prop('checked', true);
+        }
+
+        if (queryConfig) {
+            form.find("textarea[name='query_config']").val(queryConfig);
+        }
+    });
+
+    // configDefaultListModal
+    $('#configDefaultListModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            action = button.data('action'),
+            itemValue = button.data('itemValue');
+
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        if (itemValue) {
+            form.find('input:radio[name=itemValue][value="' + itemValue + '"]').prop('checked', true);
+        }
+    });
+
     // user roles
     $('#emptyColor').change(function () {
         if ($(this).is(':checked')) {

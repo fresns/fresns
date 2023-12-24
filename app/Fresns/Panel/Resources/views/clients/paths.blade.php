@@ -101,6 +101,27 @@
             </div>
         </div>
 
+        <!--geotag-->
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.geotag') }}:</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-text">{{ $siteUrl.'/' }}</span>
+                    <input type="text" class="form-control" name="website_geotag_path" value="{{ $params['website_geotag_path'] }}" required placeholder="geotags">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'] }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'].'/list' }}</span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'].'/likes' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'].'/dislikes' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'].'/following' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_path'].'/blocking' }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!--post-->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.post') }}:</label>
@@ -187,6 +208,21 @@
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_hashtag_detail_path'].'/123456' }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--geotag_detail-->
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.geotag_detail') }}:</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-text">{{ $siteUrl.'/' }}</span>
+                    <input type="text" class="form-control" name="website_geotag_detail_path" value="{{ $params['website_geotag_detail_path'] }}" required placeholder="geotag">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_geotag_detail_path'].'/123456' }}</span></li>
                     </ul>
                 </div>
             </div>
