@@ -398,7 +398,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configStateModal"
                             data-title="{{ __('FsLang::panel.table_status') }}"
-                            data-action="{{ route('panel.update.status', ['itemKey' => "extcredits{$extcreditsId}_state"]) }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => "extcredits{$extcreditsId}_state"]) }}"
                             data-state="{{ $params["extcredits{$extcreditsId}_state"] }}">
                             @if ($params["extcredits{$extcreditsId}_state"] == 2)
                                 {{ __('FsLang::panel.user_extcredits_state_private') }}
