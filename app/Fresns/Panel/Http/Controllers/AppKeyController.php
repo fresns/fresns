@@ -14,7 +14,7 @@ use App\Models\Config;
 use App\Models\SessionKey;
 use Illuminate\Support\Str;
 
-class SessionKeyController extends Controller
+class AppKeyController extends Controller
 {
     public function index()
     {
@@ -35,7 +35,7 @@ class SessionKeyController extends Controller
             return in_array('apiKey', $plugin->panel_usages);
         });
 
-        return view('FsView::extensions.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));
+        return view('FsView::clients.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));
     }
 
     public function store(UpdateSessionKeyRequest $request)
@@ -43,7 +43,7 @@ class SessionKeyController extends Controller
         $key = new SessionKey;
         $key->fill($request->all());
         $key->app_id = Str::random(8);
-        $key->app_secret = Str::random(32);
+        $key->app_key = Str::random(32);
         $key->save();
 
         return $this->createSuccess();
@@ -53,7 +53,7 @@ class SessionKeyController extends Controller
     {
         $attributes = $request->all();
         if ($request->type != 3) {
-            $attributes['plugin_fskey'] = null;
+            $attributes['app_fskey'] = null;
         }
         $key->update($attributes);
 
@@ -62,7 +62,7 @@ class SessionKeyController extends Controller
 
     public function reset(SessionKey $key)
     {
-        $key->app_secret = Str::random(32);
+        $key->app_key = Str::random(32);
         $key->save();
 
         return $this->updateSuccess();

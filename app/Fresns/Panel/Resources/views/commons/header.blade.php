@@ -53,9 +53,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is([
                             'panel.channels.*',
-                            'panel.language.packs.*',
-                            'panel.code.messages.*',
                             'panel.paths.*',
+                            'panel.language-packs.*',
+                            'panel.code-messages.*',
                             'panel.keys.*',
                             'panel.client.*',
                         ]) ? 'active' : '' }}" href="{{ route('panel.channels.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>

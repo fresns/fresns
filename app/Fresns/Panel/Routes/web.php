@@ -9,6 +9,7 @@
 use App\Fresns\Panel\Http\Controllers\AccountController;
 use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\AppController;
+use App\Fresns\Panel\Http\Controllers\AppKeyController;
 use App\Fresns\Panel\Http\Controllers\AppManageController;
 use App\Fresns\Panel\Http\Controllers\AppUsageController;
 use App\Fresns\Panel\Http\Controllers\ChannelController;
@@ -28,7 +29,6 @@ use App\Fresns\Panel\Http\Controllers\PolicyController;
 use App\Fresns\Panel\Http\Controllers\PublishController;
 use App\Fresns\Panel\Http\Controllers\RoleController;
 use App\Fresns\Panel\Http\Controllers\SendController;
-use App\Fresns\Panel\Http\Controllers\SessionKeyController;
 use App\Fresns\Panel\Http\Controllers\SettingController;
 use App\Fresns\Panel\Http\Controllers\StickerController;
 use App\Fresns\Panel\Http\Controllers\StickerGroupController;
@@ -201,20 +201,19 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('channels', [ChannelController::class, 'index'])->name('channels.index');
         Route::put('channels/{type}', [ChannelController::class, 'update'])->name('channels.update');
         // language pack
-        Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language.packs.index');
-        Route::get('language-packs/{langTag}/edit', [LanguagePackController::class, 'edit'])->name('language.packs.edit');
-        Route::put('language-packs/{langTag}', [LanguagePackController::class, 'update'])->name('language.packs.update');
+        Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language-packs.index');
+        Route::put('language-packs/{langKey}', [LanguagePackController::class, 'update'])->name('language-packs.update');
         // code messages
-        Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
-        Route::put('code-messages/{codeMessage}', [CodeMessageController::class, 'update'])->name('code.messages.update');
+        Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code-messages.index');
+        Route::put('code-messages/{code}', [CodeMessageController::class, 'update'])->name('code-messages.update');
         // path
         Route::get('paths', [ClientController::class, 'pathIndex'])->name('paths.index');
         Route::put('paths', [ClientController::class, 'pathUpdate'])->name('paths.update');
         // app key
-        Route::resource('keys', SessionKeyController::class)->only([
+        Route::resource('keys', AppKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('keys/{key}/reset', [SessionKeyController::class, 'reset'])->name('keys.reset');
+        Route::patch('keys/{key}/reset', [AppKeyController::class, 'reset'])->name('keys.reset');
         // basic
         Route::get('basic', [ClientController::class, 'basicIndex'])->name('client.basic');
         Route::put('basic', [ClientController::class, 'basicUpdate'])->name('client.basic.update');

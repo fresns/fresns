@@ -189,6 +189,7 @@ return [
     'button_add_group' => '新增社團',
     'button_group_move' => '合併',
     'button_add_key' => '新增密鑰',
+    'button_reset_key' => '重設 Key',
     'button_reset_secret' => '重設 Secret',
     'button_clear_cache' => '清除緩存',
     'button_clear_all_cache' => '清除所有緩存',

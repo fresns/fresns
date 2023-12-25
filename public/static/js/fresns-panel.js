@@ -478,64 +478,7 @@ $(document).ready(function () {
         $('#panelConfig').find('#panelUrl').text(systemUrl + '/fresns/' + panelPath);
     });
 
-    // update session key
-    $('#updateKey').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget),
-            name = button.data('name'),
-            type = button.data('type'),
-            isReadOnly = button.data('is_read_only'),
-            isEnabled = button.data('is_enabled'),
-            pluginFskey = button.data('plugin_fskey'),
-            action = button.data('action'),
-            platformId = button.data('platform_id');
-
-        $(this).find('form').attr('action', action);
-        $(this).find('#key_platform').val(platformId);
-        $(this).find('#key_name').val(name);
-        $(this).find('input:radio[name=type][value="' + type + '"]').prop('checked', true).click();
-
-        if (type == 3) {
-            $(this).find('#key_plugin').prop('required', true);
-        } else {
-            $(this).find('#key_plugin').prop('required', false);
-        }
-        $(this).find('input:radio[name=is_read_only][value="' + isReadOnly + '"]').prop('checked', true);
-        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
-        $(this).find('#key_plugin').val(pluginFskey);
-    });
-
-    $('#updateKey,#createKey').find('input[name=type]').change(function () {
-        if ($(this).val() == 3) {
-            $(this).closest('form').find('select[name=plugin_fskey]').prop('required', true);
-        } else {
-            $(this).closest('form').find('select[name=plugin_fskey]').prop('required', false);
-        }
-    });
-
-    // reset session app secret
-    $('#resetSecret').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget),
-            appId = button.data('app_id'),
-            name = button.data('name'),
-            action = button.data('action');
-
-        $(this).find('form').attr('action', action);
-        $(this).find('.app-id').text(appId);
-        $(this).find('.modal-title').text(name);
-    });
-
-    // delete session key
-    $('#deleteKey').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget),
-            appId = button.data('app_id'),
-            name = button.data('name'),
-            action = button.data('action');
-
-        $(this).find('form').attr('action', action);
-        $(this).find('.app-id').text(appId);
-        $(this).find('.modal-title').text(name);
-    });
-
+    // languages
     $('.select-continent').change(function () {
         let areas = $(this).data('children');
         let continent = $(this).val();
@@ -1493,8 +1436,8 @@ $(document).ready(function () {
         });
     }
 
-    // plugin-usages
-    $('.plugin-usage-modal').on('show.bs.modal', function (e) {
+    // app-usages
+    $('.app-usage-modal').on('show.bs.modal', function (e) {
         if ($(this).data('is_back')) {
             return;
         }
@@ -1579,7 +1522,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.plugin-usage-modal').on('hide.bs.modal', function (e) {
+    $('.app-usage-modal').on('hide.bs.modal', function (e) {
         $(this).data('is_back', false);
     });
 
@@ -1617,88 +1560,52 @@ $(document).ready(function () {
         fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
     });
 
-    // change default homepage
-    $('.update-config').change(function () {
-        $.ajax({
-            method: 'post',
-            url: $(this).data('action'),
-            data: {
-                _method: 'put',
-                item_value: $(this).data('item_value'),
-            },
-            success: function (response) {
-                window.tips(response.message);
-            },
-        });
-    });
-
-    // menu edit
-    $('#menuEdit').on('show.bs.modal', function (e) {
+    // app key
+    $('#appKeyModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            action = button.data('action');
-            isEnabled = button.data('is_enabled');
-            noType = button.data('no_type');
-            indexType = button.data('type');
-            noQueryState = button.data('no_query_state');
-            queryState = button.data('query_state');
-            noQueryConfig = button.data('no_query_config');
-            queryConfig = button.data('query_config');
+            action = button.data('action'),
+            params = button.data('params');
 
-        if (noType) {
-            $(this).find('.index-type').hide();
-        } else {
-            $(this).find('.index-type').show();
+        let form = $(this).find('form');
+
+        form.attr('action', action);
+        form.find('input[name=_method]').val(params ? 'put' : 'post');
+
+        // reset default
+        form.trigger('reset');
+
+        if (!params) {
+            return;
         }
 
-        if (noQueryState) {
-            $(this).find('.query-state').hide();
+        console.log('params', params);
+
+        $('.key-modal-title').text(trans('panel.button_setting')); //FsLang
+
+        form.find('select[name=platform_id]').val(params.platform_id);
+        form.find('input[name=name]').val(params.name);
+        form.find('input:radio[name=type][value="' + params.type + '"]').prop('checked', true).click();
+        form.find('input:radio[name=is_read_only][value="' + params.is_read_only + '"]').prop('checked', true).click();
+        form.find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
+
+        if (params.type == 3) {
+            form.find('#app_key_plugin').prop('required', true);
+            form.find('select[name=app_fskey]').val(params.app_fskey);
         } else {
-            $(this).find('.query-state').show();
-        }
-
-        if (noQueryConfig) {
-            $(this).find('.query-config').hide();
-        } else {
-            $(this).find('.query-config').show();
-        }
-
-        $(this).find('form').attr('action', action);
-        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
-        $(this).find('input:radio[name=index_type][value="' + indexType + '"]').prop('checked', true);
-        $(this).find('input:radio[name=query_state][value="' + queryState + '"]').prop('checked', true);
-        $(this).find('textarea[name=query_config]').val(queryConfig);
-    });
-
-    $('#menuLangModal').on('shown.bs.modal', function (e) {
-        let button = $(e.relatedTarget),
-            languages = button.data('languages'),
-            action = button.data('action');
-
-        $(this).find('form').trigger('reset');
-        $(this).find('form').attr('action', action);
-
-        if (languages) {
-            languages.map((language, index) => {
-                $(this).find("input[name='languages[" + language.lang_tag + "]'").val(language.lang_content);
-            });
+            form.find('#app_key_plugin').prop('required', false);
         }
     });
 
-    $('#menuLangTextareaModal').on('shown.bs.modal', function (e) {
+    // app key - reset and delete
+    $('#resetKey,#deleteKey').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            languages = button.data('languages'),
+            name = button.data('name'),
+            appId = button.data('appId'),
             action = button.data('action');
 
-        $(this).find('form').trigger('reset');
         $(this).find('form').attr('action', action);
-
-        if (languages) {
-            languages.map((language, index) => {
-                $(this)
-                    .find("textarea[name='languages[" + language.lang_tag + "]'")
-                    .val(language.lang_content);
-            });
-        }
+        $(this).find('.modal-title').text(name);
+        $(this).find('.app-id').text(appId);
     });
 
     // plugin setting

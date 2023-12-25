@@ -189,7 +189,8 @@ return [
     'button_add_group' => 'グループを追加します',
     'button_group_move' => '動く',
     'button_add_key' => 'キーを追加してください',
-    'button_reset_secret' => 'シークレットをリセットします',
+    'button_reset_key' => 'キーをリセット',
+    'button_reset_secret' => '秘密のリセット',
     'button_clear_cache' => 'クリアキャッシュ',
     'button_clear_all_cache' => 'すべてのキャッシュを消去',
     // Page table

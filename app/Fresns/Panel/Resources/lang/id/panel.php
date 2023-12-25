@@ -189,7 +189,8 @@ return [
     'button_add_group' => 'Tambahkan Grup',
     'button_group_move' => 'Bergerak',
     'button_add_key' => 'Tambahkan kunci',
-    'button_reset_secret' => 'Reset Rahasia',
+    'button_reset_key' => 'Setel Ulang Kunci',
+    'button_reset_secret' => 'Atur Ulang Rahasia',
     'button_clear_cache' => 'bersihkan cache',
     'button_clear_all_cache' => 'Hapus Semua Cache',
     // Page table

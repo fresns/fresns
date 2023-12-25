@@ -189,7 +189,8 @@ return [
     'button_add_group' => 'Adicionar grupo',
     'button_group_move' => 'Mover',
     'button_add_key' => 'Adicionar chave',
-    'button_reset_secret' => 'Redefinir o segredo',
+    'button_reset_key' => 'Repor a chave',
+    'button_reset_secret' => 'Redefinir segredo',
     'button_clear_cache' => 'cache claro',
     'button_clear_all_cache' => 'Limpar todas as Caches',
     // Page table

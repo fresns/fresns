@@ -189,6 +189,7 @@ return [
     'button_add_group' => 'समूह जोड़ें',
     'button_group_move' => 'कदम',
     'button_add_key' => 'कुंजी जोड़ें',
+    'button_reset_key' => 'कुंजी रीसेट करें',
     'button_reset_secret' => 'गुप्त रीसेट',
     'button_clear_cache' => 'कैश को साफ़ करें',
     'button_clear_all_cache' => 'सभी कैश साफ़ करें',

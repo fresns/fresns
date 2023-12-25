@@ -189,6 +189,7 @@ return [
     'button_add_group' => '新增小组',
     'button_group_move' => '合并',
     'button_add_key' => '新增密钥',
+    'button_reset_key' => '重置 Key',
     'button_reset_secret' => '重置 Secret',
     'button_clear_cache' => '清理缓存',
     'button_clear_all_cache' => '清空全部缓存',

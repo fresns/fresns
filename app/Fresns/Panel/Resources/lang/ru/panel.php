@@ -189,6 +189,7 @@ return [
     'button_add_group' => 'Добавить группу',
     'button_group_move' => 'Переехать',
     'button_add_key' => 'Добавить ключ',
+    'button_reset_key' => 'Сброс ключа',
     'button_reset_secret' => 'Сброс секрета',
     'button_clear_cache' => 'очистить кэш',
     'button_clear_all_cache' => 'Очистить весь кэш',

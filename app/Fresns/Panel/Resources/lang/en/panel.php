@@ -189,6 +189,7 @@ return [
     'button_add_group' => 'Add Group',
     'button_group_move' => 'Move',
     'button_add_key' => 'Add Key',
+    'button_reset_key' => 'Reset Key',
     'button_reset_secret' => 'Reset Secret',
     'button_clear_cache' => 'Clear Cache',
     'button_clear_all_cache' => 'Clear All Cache',

@@ -189,6 +189,7 @@ return [
     'button_add_group' => 'Gruppe hinzufügen',
     'button_group_move' => 'Umzug',
     'button_add_key' => 'Schlüssel hinzufügen',
+    'button_reset_key' => 'Taste zurücksetzen',
     'button_reset_secret' => 'Sensibles zurücksetzen',
     'button_clear_cache' => 'Cache löschen',
     'button_clear_all_cache' => 'Alle Caches löschen',

@@ -189,6 +189,7 @@ return [
     'button_add_group' => 'Añadir grupo',
     'button_group_move' => 'Moverse',
     'button_add_key' => 'Agregar clave',
+    'button_reset_key' => 'Tecla Reset',
     'button_reset_secret' => 'Reinicio secreto',
     'button_clear_cache' => 'borrar el caché',
     'button_clear_all_cache' => 'Borrar toda la caché',

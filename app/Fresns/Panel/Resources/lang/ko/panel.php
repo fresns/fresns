@@ -189,7 +189,8 @@ return [
     'button_add_group' => '그룹 추가',
     'button_group_move' => '이동하다',
     'button_add_key' => '키를 추가하십시오',
-    'button_reset_secret' => '재설정 비밀',
+    'button_reset_key' => '키 재설정',
+    'button_reset_secret' => '비밀 재설정',
     'button_clear_cache' => '캐시 지우기',
     'button_clear_all_cache' => '모든 캐시 지우기',
     // Page table
