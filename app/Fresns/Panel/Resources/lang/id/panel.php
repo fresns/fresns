@@ -878,6 +878,7 @@ return [
     'channel_table_page' => 'Halaman',
     'channel_table_page_home' => 'Beranda',
     'channel_table_page_list' => 'Daftar',
+    'channel_table_page_detail' => 'Detail',
     'channel_table_page_interaction' => 'Interaksi',
     'channel_table_path' => 'Jalur',
     'channel_table_seo' => 'Info SEO',

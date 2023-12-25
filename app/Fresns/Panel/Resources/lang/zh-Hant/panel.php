@@ -878,6 +878,7 @@ return [
     'channel_table_page' => '頁面',
     'channel_table_page_home' => '首頁',
     'channel_table_page_list' => '清單頁',
+    'channel_table_page_detail' => '詳情頁',
     'channel_table_page_interaction' => '互動頁',
     'channel_table_path' => '路徑',
     'channel_table_seo' => 'SEO 訊息',

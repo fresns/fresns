@@ -878,6 +878,7 @@ return [
     'channel_table_page' => 'पृष्ठ',
     'channel_table_page_home' => 'घर',
     'channel_table_page_list' => 'सूची',
+    'channel_table_page_detail' => 'विवरण',
     'channel_table_page_interaction' => 'इंटरैक्शन',
     'channel_table_path' => 'पथ',
     'channel_table_seo' => 'एसईओ जानकारी',

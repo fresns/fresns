@@ -878,6 +878,7 @@ return [
     'channel_table_page' => 'Page d\'accueil',
     'channel_table_page_home' => 'Accueil',
     'channel_table_page_list' => 'Liste des canaux',
+    'channel_table_page_detail' => 'Détail',
     'channel_table_page_interaction' => 'Interaction',
     'channel_table_path' => 'Chemin d\'accès',
     'channel_table_seo' => 'Informations sur le référencement',

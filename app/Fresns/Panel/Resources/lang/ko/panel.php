@@ -878,6 +878,7 @@ return [
     'channel_table_page' => '페이지',
     'channel_table_page_home' => '홈',
     'channel_table_page_list' => '목록',
+    'channel_table_page_detail' => '세부 정보',
     'channel_table_page_interaction' => '상호작용',
     'channel_table_path' => '경로',
     'channel_table_seo' => 'SEO 정보',

@@ -75,7 +75,11 @@
                 {{-- user, group, hashtag, geotag, post, comment --}}
                 @foreach (['user', 'group', 'hashtag', 'geotag', 'post', 'comment'] as $item)
                     <tr>
-                        <th scope="row" rowspan="6" class="text-center">{{ __("FsLang::panel.{$item}") }}</th>
+                        @if (in_array($item, ['group', 'hashtag', 'geotag']))
+                            <th scope="row" rowspan="7" class="text-center">{{ __("FsLang::panel.{$item}") }}</th>
+                        @else
+                            <th scope="row" rowspan="6" class="text-center">{{ __("FsLang::panel.{$item}") }}</th>
+                        @endif
                         <td colspan="2">{{ __('FsLang::panel.channel_table_page_home') }}</td>
                         <td>{{ '/'.$params["website_{$item}_path"] }}</td>
                         <td>
@@ -146,6 +150,32 @@
                             </button>
                         </td>
                     </tr>
+                    @if (in_array($item, ['group', 'hashtag', 'geotag']))
+                        <tr>
+                            <td colspan="2">{{ __('FsLang::panel.channel_table_page_detail') }}</td>
+                            <td>
+                                {{ '/'.$params["website_{$item}_detail_path"].'/' }}
+                                @if ($item == 'group')
+                                    <mark>{gid}</mark>
+                                @elseif ($item == 'hashtag')
+                                    <mark>{htid}</mark>
+                                @elseif ($item == 'geotag')
+                                    <mark>{gtid}</mark>
+                                @endif
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#configDefaultListModal"
+                                    data-action="{{ route('panel.update.item', ['itemKey' => "channel_{$item}_detail_type"]) }}"
+                                    data-item-value="{{ $params["channel_{$item}_detail_type"] }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
+                            </td>
+                        </tr>
+                    @endif
                     <tr>
                         <td rowspan="4">{{ __('FsLang::panel.channel_table_page_interaction') }}</td>
                         <td>{{ __('FsLang::panel.like') }}</td>

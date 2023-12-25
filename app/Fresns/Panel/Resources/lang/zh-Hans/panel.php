@@ -878,6 +878,7 @@ return [
     'channel_table_page' => '页面',
     'channel_table_page_home' => '主页',
     'channel_table_page_list' => '列表页',
+    'channel_table_page_detail' => '详情页',
     'channel_table_page_interaction' => '互动页',
     'channel_table_path' => '路径',
     'channel_table_seo' => 'SEO 信息',

@@ -878,6 +878,7 @@ return [
     'channel_table_page' => 'Страница',
     'channel_table_page_home' => 'Главная',
     'channel_table_page_list' => 'Список',
+    'channel_table_page_detail' => 'Деталь',
     'channel_table_page_interaction' => 'Взаимодействие',
     'channel_table_path' => 'Путь',
     'channel_table_seo' => 'SEO-информация',
