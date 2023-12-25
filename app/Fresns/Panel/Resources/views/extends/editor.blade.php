@@ -76,11 +76,14 @@
                             <form action="{{ route('panel.app-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-params="{{ $item->toJson() }}"
-                                    data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal"
                                     data-action="{{ route('panel.app-usages.update', $item->id) }}"
-                                    data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
+                                    data-params="{{ $item->toJson() }}">
+                                    {{ __('FsLang::panel.button_edit') }}
+                                </button>
                                 @if ($item->can_delete)
                                     <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 @endif
@@ -100,7 +103,7 @@
         @csrf
         @method('post')
         <!-- Config Modal -->
-        <div class="modal fade plugin-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+        <div class="modal fade app-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

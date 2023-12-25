@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.roles.store') }}" data-bs-target="#editRoleModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editRoleModal" data-action="{{ route('panel.roles.store') }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_role') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}

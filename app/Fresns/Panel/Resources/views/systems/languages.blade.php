@@ -70,7 +70,7 @@
                             <form action="{{ route('panel.languageMenus.destroy', ['langTag' => $language['langTag']]) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-language="{{ json_encode($language) }}" data-action="{{ route('panel.languageMenus.update', ['langTag' => $language['langTag']]) }}" data-bs-toggle="modal" data-bs-target="#updateLanguageMenu">{{ __('FsLang::panel.button_edit') }}</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateLanguageMenu" data-action="{{ route('panel.languageMenus.update', ['langTag' => $language['langTag']]) }}" data-language="{{ json_encode($language) }}">{{ __('FsLang::panel.button_edit') }}</button>
                                 <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                             </form>
                         </td>

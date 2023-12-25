@@ -176,8 +176,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_terms') }}"
-                                    data-lang_label="{{ $langName }}"
                                     data-action="{{ route('panel.update.language', ['itemKey' => 'account_terms_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_label="{{ $langName }}"
                                     data-lang_content="{{ $params['account_terms_policy'][$lang['langTag']] ?? '' }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
@@ -187,8 +187,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_privacy') }}"
-                                    data-lang_label="{{ $langName }}"
                                     data-action="{{ route('panel.update.language', ['itemKey' => 'account_privacy_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_label="{{ $langName }}"
                                     data-lang_content="{{ $params['account_privacy_policy'][$lang['langTag']] ?? '' }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
@@ -197,8 +197,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_cookie') }}"
-                                    data-lang_label="{{ $langName }}"
                                     data-action="{{ route('panel.update.language', ['itemKey' => 'account_cookie_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_label="{{ $langName }}"
                                     data-lang_content="{{ $params['account_cookie_policy'][$lang['langTag']] ?? '' }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
@@ -207,8 +207,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#updatePolicy"
                                     data-title="{{ __('FsLang::panel.policy_delete_account') }}"
-                                    data-lang_label="{{ $langName }}"
                                     data-action="{{ route('panel.update.language', ['itemKey' => 'account_delete_policy', 'langTag' => $lang['langTag']]) }}"
+                                    data-lang_label="{{ $langName }}"
                                     data-lang_content="{{ $params['account_delete_policy'][$lang['langTag']] ?? '' }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>

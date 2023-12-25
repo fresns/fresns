@@ -89,10 +89,10 @@
                                 <button type="button" class="btn btn-outline-primary btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editModal"
+                                    data-action="{{ route('panel.app-usages.update', $item->id) }}"
                                     data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
                                     data-group-id="{{ $item?->group?->id }}"
                                     data-group-name="{{ $item?->group?->getLangContent('name', $defaultLanguage) }}"
-                                    data-action="{{ route('panel.app-usages.update', $item->id) }}"
                                     data-params="{{ $item->toJson() }}">
                                     {{ __('FsLang::panel.button_edit') }}
                                 </button>
@@ -114,7 +114,7 @@
     <form action="" method="post" enctype="multipart/form-data">
         @csrf
         @method('post')
-        <div class="modal fade plugin-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+        <div class="modal fade app-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

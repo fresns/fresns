@@ -184,19 +184,21 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary btn-sm me-3"
-                                        data-languages="{{ json_encode($codeParams[$key]['email']['templates'] ?? []) }}"
-                                        data-enable="{{ $codeParams[$key]['email']['isEnabled'] ?? false }}"
-                                        data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#emailModal"
                                         data-title="{{ $name }}"
-                                        data-bs-toggle="modal" data-bs-target="#emailModal">
+                                        data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
+                                        data-enable="{{ $codeParams[$key]['email']['isEnabled'] ?? false }}"
+                                        data-languages="{{ json_encode($codeParams[$key]['email']['templates'] ?? []) }}">
                                         {{ __('FsLang::panel.button_config_email_template') }}
                                     </button>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        data-languages="{{ json_encode($codeParams[$key]['sms']['templates'] ?? []) }}"
-                                        data-enable="{{ $codeParams[$key]['sms']['isEnabled'] ?? false }}"
-                                        data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#smsModal"
                                         data-title="{{ $name }}"
-                                        data-bs-toggle="modal" data-bs-target="#smsModal">
+                                        data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
+                                        data-enable="{{ $codeParams[$key]['sms']['isEnabled'] ?? false }}"
+                                        data-languages="{{ json_encode($codeParams[$key]['sms']['templates'] ?? []) }}">
                                         {{ __('FsLang::panel.button_config_sms_template') }}
                                     </button>
                                 </td>
