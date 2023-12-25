@@ -24,7 +24,7 @@ class UploadFileDTO extends DTO
             'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
             'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
             'type' => ['integer', 'required', 'in:1,2,3,4'],
-            'file' =>['file', 'required'],
+            'file' => ['file', 'required'],
             'moreJson' => ['array', 'nullable'],
         ];
     }
