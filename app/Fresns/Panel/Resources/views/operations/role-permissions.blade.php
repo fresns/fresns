@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" {{ $permissions['post_kyc_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_kyc_verify]" id="publish.post.verify.prove" value="1">
-                            <label class="form-check-label" for="publish.post.verify.prove">{{ __('FsLang::panel.permission_option_prove') }}</label>
+                            <label class="form-check-label" for="publish.post.verify.prove">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" {{ $permissions['comment_kyc_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_kyc_verify]" id="publish.comment.verify.prove" value="1">
-                            <label class="form-check-label" for="publish.comment.verify.prove">{{ __('FsLang::panel.permission_option_prove') }}</label>
+                            <label class="form-check-label" for="publish.comment.verify.prove">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                         </div>
                     </div>
                 </div>

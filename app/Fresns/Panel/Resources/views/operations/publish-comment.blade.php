@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" name="comment_kyc_verify" id="comment_kyc_verify" value="true" {{ $params['comment_kyc_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_kyc_verify">{{ __('FsLang::panel.permission_option_prove') }}</label>
+                    <label class="form-check-label" for="comment_kyc_verify">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_verify_desc') }}</div>

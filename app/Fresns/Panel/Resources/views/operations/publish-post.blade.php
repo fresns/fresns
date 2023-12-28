@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" name="post_kyc_verify" id="post_kyc_verify" value="true" {{ $params['post_kyc_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="post_kyc_verify">{{ __('FsLang::panel.permission_option_prove') }}</label>
+                    <label class="form-check-label" for="post_kyc_verify">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_verify_desc') }}</div>
@@ -280,12 +280,12 @@
                     <label class="input-group-text">{{ __('FsLang::panel.publish_editor_title_input_box') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="post_editor_title_view" id="post_editor_title_view_false" value="2" {{ $params['post_editor_title_view'] == '2' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_editor_title_view_false">{{ __('FsLang::panel.permission_option_title_optional_display') }}</label>
+                            <input class="form-check-input" type="radio" name="post_editor_title_show" id="post_editor_title_show_false" value="false" {{ !$params['post_editor_title_show'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_editor_title_show_false">{{ __('FsLang::panel.permission_option_title_optional_display') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="post_editor_title_view" id="post_editor_title_view_true" value="1" {{ $params['post_editor_title_view'] == '1' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_editor_title_view_true">{{ __('FsLang::panel.permission_option_title_direct_display') }}</label>
+                            <input class="form-check-input" type="radio" name="post_editor_title_show" id="post_editor_title_show_true" value="true" {{ $params['post_editor_title_show'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_editor_title_show_true">{{ __('FsLang::panel.permission_option_title_direct_display') }}</label>
                         </div>
                     </div>
                 </div>
