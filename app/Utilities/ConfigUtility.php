@@ -173,7 +173,7 @@ class ConfigUtility
             "{$type}_editor_document_upload_form",
             "{$type}_editor_document_upload_number",
             'post_editor_title',
-            'post_editor_title_view',
+            'post_editor_title_show',
             'post_editor_title_required',
             'post_editor_title_length',
             'mention_status',
@@ -243,8 +243,8 @@ class ConfigUtility
         // title
         if ($type == 'post') {
             $title['status'] = $editorConfig['post_editor_title'];
-            $title['view'] = $editorConfig['post_editor_title_view'];
             $title['required'] = $editorConfig['post_editor_title_required'];
+            $title['show'] = $editorConfig['post_editor_title_show'];
             $title['length'] = $editorConfig['post_editor_title_length'];
 
             $group['status'] = $editorConfig['post_editor_group'];
