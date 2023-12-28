@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Config;
+use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -261,6 +262,45 @@ class ClientController extends Controller
 
         $editContent = json_encode($statusJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         file_put_contents($statusJsonFile, $editContent);
+
+        return $this->updateSuccess();
+    }
+
+    // web engine update
+    public function engineUpdate(Request $request)
+    {
+        $apiHost = Str::of($request->get('webengine_api_host'))->trim();
+        $apiHost = Str::of($apiHost)->rtrim('/');
+
+        $fresnsConfigItems = [
+            [
+                'item_key' => 'webengine_api_type',
+                'item_value' => $request->webengine_api_type,
+                'item_type' => 'string',
+            ],
+            [
+                'item_key' => 'webengine_api_host',
+                'item_value' => $apiHost,
+                'item_type' => 'string',
+            ],
+            [
+                'item_key' => 'webengine_api_app_id',
+                'item_value' => $request->webengine_api_app_id,
+                'item_type' => 'string',
+            ],
+            [
+                'item_key' => 'webengine_api_app_key',
+                'item_value' => $request->webengine_api_app_key,
+                'item_type' => 'string',
+            ],
+            [
+                'item_key' => 'webengine_key_id',
+                'item_value' => $request->webengine_key_id,
+                'item_type' => 'number',
+            ],
+        ];
+
+        ConfigUtility::changeFresnsConfigItems($fresnsConfigItems);
 
         return $this->updateSuccess();
     }

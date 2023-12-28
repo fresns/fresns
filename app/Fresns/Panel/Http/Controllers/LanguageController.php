@@ -42,17 +42,6 @@ class LanguageController extends Controller
         return view('FsView::systems.languages', compact('languages', 'defaultLanguage', 'languageStatus', 'languageCodes', 'continents', 'areaCodes'));
     }
 
-    public function switchStatus()
-    {
-        $statusConfig = Config::where('item_key', 'language_status')->firstOrFail();
-        $statusConfig->item_value = ! $statusConfig->item_value;
-        $statusConfig->save();
-
-        CacheHelper::forgetFresnsConfigs('language_status');
-
-        return $this->updateSuccess();
-    }
-
     public function updateDefaultLanguage(UpdateDefaultLanguageRequest $request)
     {
         $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
@@ -129,7 +118,6 @@ class LanguageController extends Controller
             'timeFormatDay' => $request->time_format_day,
             'timeFormatMonth' => $request->time_format_month,
             'timeFormatYear' => $request->time_format_year,
-            'packVersion' => 1,
             'isEnabled' => (bool) $request->is_enabled,
         ];
 
@@ -176,7 +164,6 @@ class LanguageController extends Controller
             'timeFormatDay' => $request->time_format_day,
             'timeFormatMonth' => $request->time_format_month,
             'timeFormatYear' => $request->time_format_year,
-            'packVersion' => $langConfig['packVersion'] ?? 1,
             'isEnabled' => (bool) $request->is_enabled,
         ];
 
