@@ -23,6 +23,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $languageStatus;
+
     protected $defaultLanguage;
 
     protected $optionalLanguages;
@@ -47,6 +49,10 @@ class Controller extends BaseController
         $checkVersionDatetime = $configs->where('item_key', 'check_version_datetime')->first()?->item_value ?? now();
 
         try {
+            // language status
+            $this->languageStatus = $languageStatus;
+            View::share('languageStatus', $languageStatus);
+
             // default language
             $this->defaultLanguage = $defaultLanguage;
             View::share('defaultLanguage', $defaultLanguage);
