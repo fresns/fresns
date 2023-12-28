@@ -1249,7 +1249,7 @@ $(document).ready(function () {
         form.find('input:radio[name=visibility][value="' + params.visibility + '"]').prop('checked', true).click();
         form.find('select[name="permissions[private_whitelist_roles][]"]').val(privateWhitelistRoles).change();
         form.find('input:radio[name=follow_type][value="' + params.follow_type + '"]').prop('checked', true).click();
-        form.find('select[name=follow_plugin_fskey]').val(params.follow_plugin_fskey);
+        form.find('select[name=follow_app_fskey]').val(params.follow_app_fskey);
         form.find('input:radio[name=is_recommend][value="' + params.is_recommend + '"]').prop('checked', true).click();
 
         let adminIds = [];
@@ -1482,7 +1482,7 @@ $(document).ready(function () {
         form.find('.group-button').text(groupName);
         form.find('input[name=group_id]').val(params.group_id);
         form.find('input[name=sort_order]').val(params.sort_order);
-        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
+        form.find('select[name=app_fskey]').val(params.app_fskey);
         form.find('input[name=parameter]').val(params.parameter);
         form.find('input[name=editor_number]').val(params.editor_number);
         form.find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]').prop('checked', true).click();
@@ -1578,8 +1578,6 @@ $(document).ready(function () {
             return;
         }
 
-        console.log('params', params);
-
         $('.key-modal-title').text(trans('panel.button_setting')); //FsLang
 
         form.find('select[name=platform_id]').val(params.platform_id);
@@ -1627,11 +1625,9 @@ $(document).ready(function () {
     $('#uninstallConfirm').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
             window.pluginName = button.data('name');
-            window.clearDataDesc = button.data('clear_data_desc');
             window.url = button.data('action');
 
         $(this).find('.modal-title').text( window.pluginName );
-        $(this).find('.form-check-label').text( window.clearDataDesc );
     });
 
     $('#uninstallStepModal').on('show.bs.modal', function (e) {
@@ -1674,8 +1670,8 @@ $(document).ready(function () {
 
     $('#installModal').on('show.bs.modal', function (e) {
         $('#inputFskeyOrInputFile').text('').hide()
-        $('input[name=plugin_fskey]').removeClass('is-invalid')
-        $('input[name=plugin_zipball]').removeClass('is-invalid')
+        $('input[name=app_fskey]').removeClass('is-invalid')
+        $('input[name=app_zipball]').removeClass('is-invalid')
     });
 
     $('.install_method').click(function (e) {
@@ -1687,30 +1683,30 @@ $(document).ready(function () {
         e.preventDefault();
 
         let install_method = $('input[name=install_method]').val()
-        let plugin_fskey = $('input[name=plugin_fskey]').val()
-        let plugin_directory = $('input[name=plugin_directory]').val()
-        let plugin_zipball = $('input[name=plugin_zipball]').val()
+        let app_fskey = $('input[name=app_fskey]').val()
+        let app_directory = $('input[name=app_directory]').val()
+        let app_zipball = $('input[name=app_zipball]').val()
 
-        if (plugin_fskey || plugin_zipball || plugin_directory) {
+        if (app_fskey || app_zipball || app_directory) {
             $(this).submit()
             $('#installStepModal').modal('toggle')
             return;
         }
 
-        if (install_method == 'inputFskey' && !plugin_fskey) {
-            $('input[name=plugin_fskey]').addClass('is-invalid')
+        if (install_method == 'inputFskey' && !app_fskey) {
+            $('input[name=app_fskey]').addClass('is-invalid')
             $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_key')).show() // FsLang
             return;
         }
 
-        if (install_method == 'inputDirectory' && !plugin_zipball) {
-            $('input[name=plugin_directory]').addClass('is-invalid')
+        if (install_method == 'inputDirectory' && !app_zipball) {
+            $('input[name=app_directory]').addClass('is-invalid')
             $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_directory')).show() // FsLang
             return;
         }
 
-        if (install_method == 'inputZipball' && !plugin_zipball) {
-            $('input[name=plugin_zipball]').addClass('is-invalid')
+        if (install_method == 'inputZipball' && !app_zipball) {
+            $('input[name=app_zipball]').addClass('is-invalid')
             $('#inputFskeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
             return;
         }
@@ -1769,13 +1765,22 @@ $(document).ready(function () {
         $('input[name=app_fskey]').val(fskey)
     });
 
-    // delete app
-    $('.delete-app').on('click', function () {
-        let fskey = $(this).data('fskey');
-        let name = $(this).data('name');
+    $('#deleteApp,#deleteTheme').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            action = button.data('action'),
+            name = button.data('name'),
+            fskey = button.data('fskey');
 
-        $('.app-name').text(name)
-        $('input[name=app_fskey]').val(fskey)
+        let form = $(this).find('form');
+
+        form.attr('action', action);
+
+        // reset default
+        form.trigger('reset');
+
+        $('.app-name').text(name);
+
+        form.find('input[name=app_fskey]').val(fskey);
     });
 
     // plugin upgrade form
@@ -1885,10 +1890,10 @@ window.onmessage = function (event) {
 
                 $('.showSelectTypeName').text($('#installModal .selectInputType li[data-name="inputDirectory"]').text())
                 $('input[name="install_method"]').val('inputFskey')
-                $('input[name="plugin_fskey"]').val(fresnsCallback.data.fskey)
+                $('input[name="app_fskey"]').val(fresnsCallback.data.fskey)
 
-                $('input[name="plugin_fskey"]').css('display', 'block').siblings('input').css('display', 'none')
-                $('input[name="plugin_fskey"]').attr('required', true).siblings('input').attr('required', false)
+                $('input[name="app_fskey"]').css('display', 'block').siblings('input').css('display', 'none')
+                $('input[name="app_fskey"]').attr('required', true).siblings('input').attr('required', false)
 
                 $('#installSubmit').click()
             }, 1000);

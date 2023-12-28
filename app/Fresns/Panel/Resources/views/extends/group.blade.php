@@ -53,7 +53,7 @@
                             @endif
                             {{ $item?->group?->getLangContent('name', $defaultLanguage) }}
                         </td>
-                        <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
+                        <td>{{ optional($item->app)->name ?? $item->app_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
                                 <img src="{{ $item->getIconUrl() }}" width="24" height="24">
@@ -140,7 +140,7 @@
                         <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_plugin') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="plugin_fskey" required>
+                                <select class="form-select" name="app_fskey" required>
                                     <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_plugin') }}</option>
                                     @foreach ($plugins as $plugin)
                                         <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>

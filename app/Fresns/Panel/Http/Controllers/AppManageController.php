@@ -12,6 +12,7 @@ use App\Models\App;
 use App\Utilities\AppUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class AppManageController extends Controller
 {
@@ -22,15 +23,15 @@ class AppManageController extends Controller
         switch ($installMethod) {
             // fskey
             case 'inputFskey':
-                $pluginFskey = $request->plugin_fskey;
+                $appFskey = $request->app_fskey;
 
-                if (empty($pluginFskey)) {
+                if (empty($appFskey)) {
                     return back()->with('failure', __('FsLang::tips.install_not_entered_key'));
                 }
 
                 // market-manager
                 $exitCode = Artisan::call('market:require', [
-                    'fskey' => $pluginFskey,
+                    'fskey' => $appFskey,
                     '--install_type' => 'market',
                 ]);
                 $output = Artisan::output();
@@ -38,15 +39,17 @@ class AppManageController extends Controller
 
                 // directory
             case 'inputDirectory':
-                $pluginDirectory = $request->plugin_directory;
+                $appDirectory = $request->app_directory;
 
-                if (empty($pluginDirectory)) {
+                if (empty($appDirectory)) {
                     return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
                 }
 
+                $isTheme = Str::contains($appDirectory, 'themes/');
+
                 // plugin-manager
                 $exitCode = Artisan::call('market:require', [
-                    'fskey' => $pluginDirectory,
+                    'fskey' => $appDirectory,
                     '--install_type' => 'local',
                 ]);
                 $output = Artisan::output();
@@ -55,7 +58,7 @@ class AppManageController extends Controller
                 // zipball
             case 'inputZipball':
                 $pluginZipball = null;
-                $file = $request->file('plugin_zipball');
+                $file = $request->file('app_zipball');
                 if ($file && $file->isValid()) {
                     $dir = config('markets.paths.uploads');
                     $filename = $file->hashName();
@@ -168,6 +171,20 @@ class AppManageController extends Controller
         }
 
         return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
+    }
+
+    public function themeUninstall(Request $request)
+    {
+        $fskey = $request->app_fskey;
+        $deleteData = $request->delete_data;
+
+        if (empty($fskey)) {
+            return back()->with('failure', 'fskey cannot be empty');
+        }
+
+        // App::where('fskey', $fskey)->delete();
+
+        return $this->deleteSuccess();
     }
 
     public function appDownload(Request $request)

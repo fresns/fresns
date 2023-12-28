@@ -93,7 +93,7 @@ class GroupController extends Controller
         $group->privacy = $request->privacy;
         $group->visibility = $request->visibility;
         $group->follow_type = $request->follow_type;
-        $group->follow_plugin_fskey = $request->follow_plugin_fskey;
+        $group->follow_app_fskey = $request->follow_app_fskey;
         $group->is_recommend = $request->is_recommend;
 
         $requestPerms = $request->permissions;
@@ -173,7 +173,7 @@ class GroupController extends Controller
         $group->privacy = $request->privacy;
         $group->visibility = $request->visibility;
         $group->follow_type = $request->follow_type;
-        $group->follow_plugin_fskey = $request->follow_plugin_fskey;
+        $group->follow_app_fskey = $request->follow_app_fskey;
         $group->is_recommend = $request->is_recommend;
 
         $requestPerms = $request->permissions;

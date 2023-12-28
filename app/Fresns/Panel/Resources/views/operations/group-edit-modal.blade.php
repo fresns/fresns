@@ -128,7 +128,7 @@
                             <div class="collapse follow_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
-                                    <select class="form-select" name="follow_plugin_fskey">
+                                    <select class="form-select" name="follow_app_fskey">
                                         <option selected disabled>{{ __('FsLang::tips.select_box_tip_plugin') }}</option>
                                         @foreach ($plugins as $plugin)
                                             <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>

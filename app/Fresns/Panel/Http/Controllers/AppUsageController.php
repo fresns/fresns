@@ -96,7 +96,7 @@ class AppUsageController extends Controller
 
         $appUsage = new AppUsage;
         $appUsage->usage_type = $type;
-        $appUsage->plugin_fskey = $request->plugin_fskey;
+        $appUsage->app_fskey = $request->app_fskey;
         $appUsage->name = $request->names;
         $appUsage->scene = $request->scene ? implode(',', $request->scene) : null;
         $appUsage->roles = $request->roles ? implode(',', $request->roles) : null;
@@ -140,7 +140,7 @@ class AppUsageController extends Controller
     public function update(int $id, Request $request)
     {
         $appUsage = AppUsage::findOrFail($id);
-        $appUsage->plugin_fskey = $request->plugin_fskey;
+        $appUsage->app_fskey = $request->app_fskey;
         $appUsage->name = $request->names;
         $appUsage->scene = $request->scene ? implode(',', $request->scene) : null;
         $appUsage->roles = $request->roles ? implode(',', $request->roles) : null;

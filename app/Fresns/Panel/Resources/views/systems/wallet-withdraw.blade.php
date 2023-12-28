@@ -43,7 +43,7 @@
                 @foreach ($appUsages as $item)
                     <tr>
                         <td><input type="number" class="form-control input-number update-order" data-action="{{ route('panel.app-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
-                        <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
+                        <td>{{ optional($item->app)->name ?? $item->app_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
                                 <img src="{{ $item->getIconUrl() }}" width="24" height="24">
@@ -104,7 +104,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_plugin') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="plugin_fskey" required>
+                                <select class="form-select" name="app_fskey" required>
                                     <option selected disabled value="">{{ __('FsLang::tips.select_box_tip_plugin') }}</option>
                                     @foreach ($plugins as $plugin)
                                         <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
