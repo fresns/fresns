@@ -9,6 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\App;
+use App\Models\Config;
+use App\Models\SessionKey;
 use Illuminate\Http\Request;
 
 class AppController extends Controller
@@ -43,7 +45,35 @@ class AppController extends Controller
     {
         $themes = App::type(App::TYPE_THEME)->latest()->get();
 
-        return view('FsView::app-center.themes', compact('themes'));
+        // config keys
+        $configKeys = [
+            'platforms',
+            'webengine_status',
+            'webengine_api_type',
+            'webengine_api_host',
+            'webengine_api_app_id',
+            'webengine_api_app_key',
+            'webengine_key_id',
+            'webengine_view_desktop',
+            'webengine_view_mobile',
+        ];
+
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        $params = [];
+        foreach ($configs as $config) {
+            $params[$config->item_key] = $config->item_value;
+        }
+
+        $desktopFskey = $params['webengine_view_desktop'] ?? null;
+        $mobileFskey = $params['webengine_view_mobile'] ?? null;
+
+        $desktopThemeName = $themes->firstWhere('fskey', $desktopFskey)?->name ?? '';
+        $mobileThemeName = $themes->firstWhere('fskey', $mobileFskey)?->name ?? '';
+
+        $keys = SessionKey::where('type', SessionKey::TYPE_CORE)->where('platform_id', SessionKey::PLATFORM_WEB_RESPONSIVE)->isEnabled()->get();
+
+        return view('FsView::app-center.themes', compact('themes', 'params', 'desktopThemeName', 'mobileThemeName', 'keys'));
     }
 
     // apps

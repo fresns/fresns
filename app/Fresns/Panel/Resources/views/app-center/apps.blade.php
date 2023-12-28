@@ -48,7 +48,7 @@
                             @endif
                         </td>
                         <td>
-                            <button type="button" class="btn btn-link btn-sm text-danger fresns-link delete-app"
+                            <button type="button" class="btn btn-link btn-sm text-danger fresns-link"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteApp"
                                 data-fskey="{{ $app->fskey }}"
@@ -65,15 +65,12 @@
         {{ $apps->appends(request()->all())->links() }}
     @endif
 
-    <!-- Upgrade Extensions Modal: delete apps -->
+    <!-- delete app -->
     <div class="modal fade" id="deleteApp" tabindex="-1" aria-labelledby="deleteApp" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-cloud-arrow-down"></i>
-                        <span class="app-name"></span>
-                    </h5>
+                    <h5 class="modal-title"><i class="bi bi-app-indicator"></i> <span class="app-name"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

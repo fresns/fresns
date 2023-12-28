@@ -98,7 +98,6 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('systems')->group(function () {
         // languages
         Route::get('languages', [LanguageController::class, 'index'])->name('languages.index');
-        Route::put('languageMenus/status', [LanguageController::class, 'switchStatus'])->name('languageMenus.status');
         Route::post('languageMenus', [LanguageController::class, 'store'])->name('languageMenus.store');
         Route::put('languageMenus/update-default', [LanguageController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
         Route::put('languageMenus/{langTag}', [LanguageController::class, 'update'])->name('languageMenus.update');
@@ -220,6 +219,8 @@ Route::middleware(['panelAuth'])->group(function () {
         // status
         Route::get('status', [ClientController::class, 'statusIndex'])->name('client.status');
         Route::put('status', [ClientController::class, 'statusUpdate'])->name('client.status.update');
+        // web engine
+        Route::put('web-engine', [ClientController::class, 'engineUpdate'])->name('client.engine.update');
     });
 
     // app center
@@ -254,7 +255,7 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('theme')->name('theme.')->group(function () {
         Route::get('{fskey}/functions', [AppManageController::class, 'themeFunctions'])->name('functions');
         Route::put('{fskey}/update', [AppManageController::class, 'themeUpdate'])->name('update');
-        Route::delete('{fskey}/uninstall', [AppManageController::class, 'themeUninstall'])->name('uninstall');
+        Route::delete('uninstall', [AppManageController::class, 'themeUninstall'])->name('uninstall');
     });
 
     // app manage
