@@ -15,7 +15,7 @@
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <label class="input-group-text"><i class="bi bi-house-fill me-1"></i> {{ __('FsLang::panel.channel_default_homepage') }}</label>
                 <span class="input-group-text">{{ __("FsLang::panel.{$params['default_homepage']}") }}</span>
-                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_edit') }}</button>
+                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_modify') }}</button>
                 <ul class="dropdown-menu">
                     @foreach (['portal', 'user', 'group', 'hashtag', 'geotag', 'post', 'comment'] as $item)
                         <form action="{{ route('panel.update.item', ['itemKey' => 'default_homepage']) }}" method="post">
@@ -67,7 +67,7 @@
                             data-title="{{ __('FsLang::panel.portal').': '.__('FsLang::panel.channel_table_seo') }}"
                             data-action="{{ route('panel.update.languages', ['itemKey' => 'channel_portal_seo']) }}"
                             data-languages="{{ json_encode($params['channel_portal_seo']) }}">
-                            {{ __('FsLang::panel.button_edit') }}
+                            {{ __('FsLang::panel.button_config') }}
                         </button>
                     </td>
                     <td></td>
@@ -99,7 +99,7 @@
                                 data-title="{{ __('FsLang::panel.channel_table_seo') }}"
                                 data-action="{{ route('panel.update.languages', ['itemKey' => "channel_{$item}_seo"]) }}"
                                 data-languages="{{ json_encode($params["channel_{$item}_seo"]) }}">
-                                {{ __('FsLang::panel.button_edit') }}
+                                {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
                         <td>
@@ -111,7 +111,7 @@
                                 @if ($item == 'group') data-index-type="{{ $params["channel_{$item}_type"] }}" @endif
                                 data-query-state="{{ $params["channel_{$item}_query_state"] }}"
                                 data-query-config="{{ $params["channel_{$item}_query_config"] }}">
-                                {{ __('FsLang::panel.button_edit') }}
+                                {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
                     </tr>
@@ -135,7 +135,7 @@
                                 data-title="{{ __('FsLang::panel.channel_table_seo') }}"
                                 data-action="{{ route('panel.update.languages', ['itemKey' => "channel_{$item}_list_seo"]) }}"
                                 data-languages="{{ json_encode($params["channel_{$item}_list_seo"]) }}">
-                                {{ __('FsLang::panel.button_edit') }}
+                                {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
                         <td>
@@ -146,7 +146,7 @@
                                 data-action="{{ route('panel.channels.update', ['type' => "{$item}_list"]) }}"
                                 data-query-state="{{ $params["channel_{$item}_list_query_state"] }}"
                                 data-query-config="{{ $params["channel_{$item}_list_query_config"] }}">
-                                {{ __('FsLang::panel.button_edit') }}
+                                {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
                     </tr>
@@ -171,7 +171,7 @@
                                     data-bs-target="#configDefaultListModal"
                                     data-action="{{ route('panel.update.item', ['itemKey' => "channel_{$item}_detail_type"]) }}"
                                     data-item-value="{{ $params["channel_{$item}_detail_type"] }}">
-                                    {{ __('FsLang::panel.button_edit') }}
+                                    {{ __('FsLang::panel.button_config') }}
                                 </button>
                             </td>
                         </tr>
@@ -185,9 +185,9 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configLangModal"
                                 data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_my_like_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_my_like_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_my_like_{$item}s_name"] ?? '' }}
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_likes_{$item}s_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_likes_{$item}s_name"]) }}">
+                                {{ $defaultLangParams["channel_likes_{$item}s_name"] ?? '' }}
                             </button>
                         </td>
                         <td></td>
@@ -201,9 +201,9 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configLangModal"
                                 data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_my_dislike_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_my_dislike_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_my_dislike_{$item}s_name"] ?? '' }}
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_dislikes_{$item}s_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_dislikes_{$item}s_name"]) }}">
+                                {{ $defaultLangParams["channel_dislikes_{$item}s_name"] ?? '' }}
                             </button>
                         </td>
                         <td></td>
@@ -217,9 +217,9 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configLangModal"
                                 data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_my_follow_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_my_follow_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_my_follow_{$item}s_name"] ?? '' }}
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_following_{$item}s_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_following_{$item}s_name"]) }}">
+                                {{ $defaultLangParams["channel_following_{$item}s_name"] ?? '' }}
                             </button>
                         </td>
                         <td></td>
@@ -233,9 +233,9 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#configLangModal"
                                 data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_my_block_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_my_block_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_my_block_{$item}s_name"] ?? '' }}
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_blocking_{$item}s_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_blocking_{$item}s_name"]) }}">
+                                {{ $defaultLangParams["channel_blocking_{$item}s_name"] ?? '' }}
                             </button>
                         </td>
                         <td></td>
@@ -264,7 +264,7 @@
                             data-bs-target="#configDefaultListModal"
                             data-action="{{ route('panel.update.item', ['itemKey' => 'channel_timeline_type']) }}"
                             data-item-value="{{ $params['channel_timeline_type'] }}">
-                            {{ __('FsLang::panel.button_edit') }}
+                            {{ __('FsLang::panel.button_config') }}
                         </button>
                     </td>
                 </tr>
@@ -387,7 +387,7 @@
                             data-bs-target="#configDefaultListModal"
                             data-action="{{ route('panel.update.item', ['itemKey' => 'channel_nearby_type']) }}"
                             data-item-value="{{ $params['channel_nearby_type'] }}">
-                            {{ __('FsLang::panel.button_edit') }}
+                            {{ __('FsLang::panel.button_config') }}
                         </button>
                     </td>
                 </tr>

@@ -11,9 +11,9 @@
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.paths.*') ? 'active' : '' }}" href="{{ route('panel.paths.index') }}">{{ __('FsLang::panel.sidebar_paths') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.language-packs.*') ? 'active' : '' }}" href="{{ route('panel.language-packs.index') }}">{{ __('FsLang::panel.sidebar_language_packs') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.code-messages.*') ? 'active' : '' }}" href="{{ route('panel.code-messages.index') }}">{{ __('FsLang::panel.sidebar_code_messages') }}</a></li>
-                    <li class="nav-item"><hr></li>
+                    <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.keys.index') ? 'active' : '' }}" href="{{ route('panel.keys.index') }}">{{ __('FsLang::panel.sidebar_keys') }}</a></li>
-                    <li class="nav-item"><hr></li>
+                    <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.client.basic') ? 'active' : '' }}" href="{{ route('panel.client.basic') }}">{{ __('FsLang::panel.sidebar_client_basic') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.client.status') ? 'active' : '' }}" href="{{ route('panel.client.status') }}">{{ __('FsLang::panel.sidebar_client_status') }}</a></li>
                 </ul>

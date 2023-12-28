@@ -11,7 +11,7 @@
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.content.*') ? 'active' : ''}}" href="{{ route('panel.content.index') }}">{{ __('FsLang::panel.sidebar_content') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.interaction.*') ? 'active' : '' }}" href="{{ route('panel.interaction.index') }}">{{ __('FsLang::panel.sidebar_interaction') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.publish.*') ? 'active' : '' }}" href="{{ route('panel.publish.post.index') }}">{{ __('FsLang::panel.sidebar_publish') }}</a></li>
-                    <li class="nav-item"><hr></li>
+                    <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.roles.*') ? 'active' : '' }}" href="{{ route('panel.roles.index') }}">{{ __('FsLang::panel.sidebar_roles') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.stickers.*') ? 'active' : '' }}" href="{{ route('panel.stickers.index') }}">{{ __('FsLang::panel.sidebar_stickers') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.groups.*') ? 'active' : '' }}" href="{{ route('panel.groups.index') }}">{{ __('FsLang::panel.sidebar_groups') }}</a></li>
