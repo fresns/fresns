@@ -1560,6 +1560,86 @@ $(document).ready(function () {
         fetchAndAppendSubgroups($(this), subgroupDiv, 0, unselect);
     });
 
+    // language pack
+    $('#editLanguagePacks').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            action = button.data('action'),
+            params = button.data('params');
+
+        let form = $(this).find('form');
+            form.find('.modal-title').text(trans('panel.button_add')); //FsLang
+            form.attr('action', action);
+            form.find('input[name=_method]').val(params ? 'put' : 'post');
+            form.find('input[name=langKey]').val('').prop('disabled', false).prop('readonly', false);
+            form.trigger('reset');
+
+        if (!params) {
+            return;
+        }
+
+        form.find('.modal-title').text(trans('panel.button_edit')); //FsLang
+        form.find('input[name=langKey]').val(params.lang_key).prop('disabled', true).prop('readonly', true);
+
+        if (params.lang_values) {
+            Object.entries(params.lang_values).forEach(([langTag, langContent]) => {
+                form.find("textarea[name='langValues[" + langTag + "]']").val(langContent);
+            });
+        }
+    });
+
+    // language pack - delete
+    $('#deleteLangKey').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            action = button.data('action'),
+            key = button.data('key'),
+            value = button.data('value');
+
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.find('.modal-title>span').text(key);
+            form.find('.modal-body').text(value);
+    });
+
+    // code messages
+    $('#editCodeMessages').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            appName = button.data('appName'),
+            action = button.data('action'),
+            params = button.data('params');
+
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
+
+        $('.message-app-name').text(appName);
+        $('.message-app-fskey').text(params.app_fskey);
+        $('.message-code').text(params.code);
+
+        if (params.messages) {
+            Object.entries(params.messages).forEach(([langTag, langContent]) => {
+                form.find("textarea[name='messages[" + langTag + "]']").val(langContent);
+            });
+        }
+    });
+
+    // code messages - delete
+    $('#deleteCodeMessages').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            appName = button.data('appName'),
+            codeMessage = button.data('codeMessage'),
+            action = button.data('action'),
+            params = button.data('params');
+
+        let form = $(this).find('form');
+            form.attr('action', action);
+
+        form.find('.message-app-name').text(appName);
+        form.find('.message-app-fskey').text(params.app_fskey);
+        form.find('.message-code').text(params.code);
+        form.find('.modal-body').text(codeMessage);
+    });
+
+
     // app key
     $('#appKeyModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),

@@ -8,87 +8,68 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\LanguageHelper;
-use App\Models\Config;
-use App\Models\Language;
+use App\Models\LanguagePack;
 use Illuminate\Http\Request;
 
 class LanguagePackController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('FsView::clients.language-packs');
-    }
+        $languagesQuery = LanguagePack::query();
 
-    public function edit($langTag)
-    {
-        $languagePack = Config::tag('languages')->where('item_key', 'language_pack')->first();
-        $languageKeys = $languagePack ? $languagePack->item_value : [];
-
-        $languages = LanguageHelper::fresnsLanguageByTableKey('language_pack_contents', 'object', $langTag);
-
-        if ($langTag != $this->defaultLanguage) {
-            $defaultLanguages = LanguageHelper::fresnsLanguageByTableKey('language_pack_contents', 'object', $this->defaultLanguage);
-        } else {
-            $defaultLanguages = $languages;
-        }
-
-        return view('FsView::clients.language-pack-config', compact(
-            'languages', 'defaultLanguages', 'languageKeys', 'langTag'
-        ));
-    }
-
-    public function update($langTag, Request $request)
-    {
-        $languagePack = Config::tag('languages')->where('item_key', 'language_pack')->first();
-        $defaultKeys = $languagePack->item_value;
-
-        $keys = $request->keys;
-        $contents = $request->contents;
-
-        // delete keys
-        $defaultKeys = collect($defaultKeys)->reject(function ($defaultKey) use ($keys) {
-            return $defaultKey['canDelete'] && ! in_array($defaultKey['name'], $keys);
+        $languagesQuery->when($request->key, function ($query, $value) {
+            $query->where('lang_key', $value);
         });
-        $defaultKeyNames = $defaultKeys->pluck('name');
 
-        $languagePackContents = [];
+        $languages = $languagesQuery->paginate(50);
 
-        $languageContent = Language::where([
-            'table_name' => 'configs',
-            'table_column' => 'item_value',
-            'table_key' => 'language_pack_contents',
-            'lang_tag' => $langTag,
-        ])->first();
+        return view('FsView::clients.language-packs', compact('languages'));
+    }
 
-        if (! $languageContent) {
-            $languageContent = new Language;
-            $languageContent->table_name = 'configs';
-            $languageContent->table_column = 'item_value';
-            $languageContent->table_key = 'language_pack_contents';
-            $languageContent->lang_tag = $langTag;
+    public function store(Request $request)
+    {
+        $language = LanguagePack::where('lang_key', $request->langKey)->first();
+
+        if ($language) {
+            return back()->with('failure', __('FsLang::tips.language_exists'));
         }
 
-        foreach ($keys as $key => $langKey) {
-            if (! $defaultKeyNames->contains($langKey)) {
-                $defaultKeys->push([
-                    'name' => $langKey,
-                    'canDelete' => true,
-                ]);
-            }
-            if (! isset($contents[$key]) || ! $contents[$key]) {
-                continue;
-            }
+        $languageItem = [
+            'lang_key' => $request->langKey,
+            'lang_values' => $request->langValues,
+        ];
 
-            $languagePackContents[$langKey] = $contents[$key];
+        LanguagePack::create($languageItem);
+
+        return $this->createSuccess();
+    }
+
+    public function update(LanguagePack $languagePack, Request $request)
+    {
+        if (! $languagePack) {
+            return back()->with('failure', __('FsLang::tips.updateFailure'));
         }
 
-        $languagePack->item_value = $defaultKeys->toArray();
+        $langValues = $languagePack->langValues;
+
+        foreach ($request->langValues as $langTag => $langContent) {
+            $langValues[$langTag] = $langContent;
+        }
+
+        $languagePack->lang_values = $langValues;
         $languagePack->save();
 
-        $languageContent->lang_content = json_encode($languagePackContents);
-        $languageContent->save();
-
         return $this->updateSuccess();
+    }
+
+    public function destroy(LanguagePack $languagePack)
+    {
+        if (! $languagePack->is_custom) {
+            return back()->with('failure', __('FsLang::tips.deleteFailure'));
+        }
+
+        $languagePack->delete();
+
+        return $this->deleteSuccess();
     }
 }

@@ -200,11 +200,13 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('channels', [ChannelController::class, 'index'])->name('channels.index');
         Route::put('channels/{type}', [ChannelController::class, 'update'])->name('channels.update');
         // language pack
-        Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language-packs.index');
-        Route::put('language-packs/{langKey}', [LanguagePackController::class, 'update'])->name('language-packs.update');
+        Route::resource('language-packs', LanguagePackController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
         // code messages
-        Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code-messages.index');
-        Route::put('code-messages/{code}', [CodeMessageController::class, 'update'])->name('code-messages.update');
+        Route::resource('code-messages', CodeMessageController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
         // path
         Route::get('paths', [ClientController::class, 'pathIndex'])->name('paths.index');
         Route::put('paths', [ClientController::class, 'pathUpdate'])->name('paths.update');
