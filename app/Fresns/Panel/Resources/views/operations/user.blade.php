@@ -273,30 +273,30 @@
                         <option value="dislikers" {{ $params['profile_default_homepage'] == 'dislikers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikers') }}</option>
                         <option value="followers" {{ $params['profile_default_homepage'] == 'followers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_followers') }}</option>
                         <option value="blockers" {{ $params['profile_default_homepage'] == 'blockers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blockers') }}</option>
-                        <option value="like_users" {{ $params['profile_default_homepage'] == 'like_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_users') }}</option>
-                        <option value="like_groups" {{ $params['profile_default_homepage'] == 'like_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_groups') }}</option>
-                        <option value="like_hashtags" {{ $params['profile_default_homepage'] == 'like_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_hashtags') }}</option>
-                        <option value="like_geotags" {{ $params['profile_default_homepage'] == 'like_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_geotags') }}</option>
-                        <option value="like_posts" {{ $params['profile_default_homepage'] == 'like_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_posts') }}</option>
-                        <option value="like_comments" {{ $params['profile_default_homepage'] == 'like_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_comments') }}</option>
-                        <option value="dislike_users" {{ $params['profile_default_homepage'] == 'dislike_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_users') }}</option>
-                        <option value="dislike_groups" {{ $params['profile_default_homepage'] == 'dislike_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_groups') }}</option>
-                        <option value="dislike_hashtags" {{ $params['profile_default_homepage'] == 'dislike_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_hashtags') }}</option>
-                        <option value="dislike_geotags" {{ $params['profile_default_homepage'] == 'dislike_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_geotags') }}</option>
-                        <option value="dislike_posts" {{ $params['profile_default_homepage'] == 'dislike_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_posts') }}</option>
-                        <option value="dislike_comments" {{ $params['profile_default_homepage'] == 'dislike_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_comments') }}</option>
-                        <option value="follow_users" {{ $params['profile_default_homepage'] == 'follow_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_users') }}</option>
-                        <option value="follow_groups" {{ $params['profile_default_homepage'] == 'follow_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_groups') }}</option>
-                        <option value="follow_hashtags" {{ $params['profile_default_homepage'] == 'follow_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_hashtags') }}</option>
-                        <option value="follow_geotags" {{ $params['profile_default_homepage'] == 'follow_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_geotags') }}</option>
-                        <option value="follow_posts" {{ $params['profile_default_homepage'] == 'follow_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_posts') }}</option>
-                        <option value="follow_comments" {{ $params['profile_default_homepage'] == 'follow_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_comments') }}</option>
-                        <option value="block_users" {{ $params['profile_default_homepage'] == 'block_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_users') }}</option>
-                        <option value="block_groups" {{ $params['profile_default_homepage'] == 'block_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_groups') }}</option>
-                        <option value="block_hashtags" {{ $params['profile_default_homepage'] == 'block_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_hashtags') }}</option>
-                        <option value="block_geotags" {{ $params['profile_default_homepage'] == 'block_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_geotags') }}</option>
-                        <option value="block_posts" {{ $params['profile_default_homepage'] == 'block_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_posts') }}</option>
-                        <option value="block_comments" {{ $params['profile_default_homepage'] == 'block_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_comments') }}</option>
+                        <option value="likes_users" {{ $params['profile_default_homepage'] == 'likes_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_users') }}</option>
+                        <option value="likes_groups" {{ $params['profile_default_homepage'] == 'likes_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_groups') }}</option>
+                        <option value="likes_hashtags" {{ $params['profile_default_homepage'] == 'likes_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_hashtags') }}</option>
+                        <option value="likes_geotags" {{ $params['profile_default_homepage'] == 'likes_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_geotags') }}</option>
+                        <option value="likes_posts" {{ $params['profile_default_homepage'] == 'likes_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_posts') }}</option>
+                        <option value="likes_comments" {{ $params['profile_default_homepage'] == 'likes_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likes_comments') }}</option>
+                        <option value="dislikes_users" {{ $params['profile_default_homepage'] == 'dislikes_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_users') }}</option>
+                        <option value="dislikes_groups" {{ $params['profile_default_homepage'] == 'dislikes_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_groups') }}</option>
+                        <option value="dislikes_hashtags" {{ $params['profile_default_homepage'] == 'dislikes_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_hashtags') }}</option>
+                        <option value="dislikes_geotags" {{ $params['profile_default_homepage'] == 'dislikes_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_geotags') }}</option>
+                        <option value="dislikes_posts" {{ $params['profile_default_homepage'] == 'dislikes_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_posts') }}</option>
+                        <option value="dislikes_comments" {{ $params['profile_default_homepage'] == 'dislikes_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikes_comments') }}</option>
+                        <option value="following_users" {{ $params['profile_default_homepage'] == 'following_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_users') }}</option>
+                        <option value="following_groups" {{ $params['profile_default_homepage'] == 'following_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_groups') }}</option>
+                        <option value="following_hashtags" {{ $params['profile_default_homepage'] == 'following_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_hashtags') }}</option>
+                        <option value="following_geotags" {{ $params['profile_default_homepage'] == 'following_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_geotags') }}</option>
+                        <option value="following_posts" {{ $params['profile_default_homepage'] == 'following_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_posts') }}</option>
+                        <option value="following_comments" {{ $params['profile_default_homepage'] == 'following_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_following_comments') }}</option>
+                        <option value="blocking_users" {{ $params['profile_default_homepage'] == 'blocking_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_users') }}</option>
+                        <option value="blocking_groups" {{ $params['profile_default_homepage'] == 'blocking_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_groups') }}</option>
+                        <option value="blocking_hashtags" {{ $params['profile_default_homepage'] == 'blocking_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_hashtags') }}</option>
+                        <option value="blocking_geotags" {{ $params['profile_default_homepage'] == 'blocking_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_geotags') }}</option>
+                        <option value="blocking_posts" {{ $params['profile_default_homepage'] == 'blocking_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_posts') }}</option>
+                        <option value="blocking_comments" {{ $params['profile_default_homepage'] == 'blocking_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blocking_comments') }}</option>
                     </select>
                 </div>
             </div>

@@ -18,10 +18,12 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <form action="{{ route('panel.languageMenus.status') }}" method="post">
+                        <form action="{{ route('panel.update.item', ['itemKey' => 'language_status']) }}" method="post">
                             @csrf
-                            @method('put')
-                            <button class="dropdown-item" type="submit">{{ $languageStatus ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
+                            @method('patch')
+                            <input type="hidden" name="itemValue" value="{{ $languageStatus ? 'false' : 'true' }}">
+                            <input type="hidden" name="itemType" value="boolean">
+                            <button class="dropdown-item text-center" type="submit">{{ $languageStatus ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
                         </form>
                     </li>
                 </ul>

@@ -77,20 +77,6 @@
                         </div>
                     </div>
                 </div>
-                <!--policy_ip_location-->
-                <div class="row mb-3">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_ip_location') }}:</label>
-                    <div class="col-lg-6 pt-2">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_ip_location_status" id="account_ip_location_false" value="false" {{ !$params['account_ip_location_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="account_ip_location_false">{{ __('FsLang::panel.option_hidden') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_ip_location_status" id="account_ip_location_true" value="true" {{ $params['account_ip_location_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="account_ip_location_true">{{ __('FsLang::panel.option_visible') }}</label>
-                        </div>
-                    </div>
-                </div>
                 <!--policy_delete_account-->
                 <div class="row mb-3">
                     <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_delete_account') }}:</label>

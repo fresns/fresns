@@ -104,7 +104,7 @@
                         </td>
                     </tr>
                 @endforeach
-                <!--group-->
+                <!--group, hashtag, geotag, post, comment-->
                 @foreach (['group', 'hashtag', 'geotag', 'post', 'comment'] as $item)
                     @foreach (['like', 'dislike', 'follow', 'block'] as $type)
                         <tr>
@@ -324,7 +324,7 @@
                     </td>
                 </tr>
                 <!--user interaction-->
-                @foreach (['like', 'dislike', 'follow', 'block'] as $type)
+                @foreach (['likes', 'dislikes', 'following', 'blocking'] as $type)
                     @foreach (['users', 'groups', 'hashtags', 'geotags', 'posts', 'comments'] as $item)
                         <tr>
                             @if ($item == 'users')
