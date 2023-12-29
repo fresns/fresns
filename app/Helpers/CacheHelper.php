@@ -776,9 +776,7 @@ class CacheHelper
     // fresns_news
     // fresns_database_timezone
     // fresns_database_datetime
-    // fresns_panel_login_path
     // fresns_panel_translation_{$locale}
-    // fresns_model_key_{$appId}
 
     /**
      * tag: fresnsConfigs.
@@ -788,13 +786,6 @@ class CacheHelper
     // fresns_config_api_{$itemKey}_{$langTag}
     // fresns_config_file_accept
     // fresns_config_file_url_expire
-    // fresns_content_block_words       // fresns_{$type}_block_words
-    // fresns_user_block_words          // fresns_{$type}_block_words
-    // fresns_conversation_block_words  // fresns_{$type}_block_words
-    // fresns_content_ban_words
-    // fresns_content_review_words
-    // fresns_user_ban_words
-    // fresns_conversation_ban_words
     // fresns_role_{$id}_{$langTag}
     // fresns_code_messages_{$fskey}_{$langTag}
     // fresns_api_config_models

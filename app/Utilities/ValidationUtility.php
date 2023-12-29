@@ -185,27 +185,10 @@ class ValidationUtility
             'nickname_min',
             'nickname_max',
             'nickname_unique',
-            'ban_names',
+            'user_ban_names',
         ]);
+
         $length = Str::length($nickname);
-
-        $cacheKey = 'fresns_user_ban_words';
-        $cacheTag = 'fresnsConfigs';
-
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            $banNames = [];
-        } else {
-            $banNames = CacheHelper::get($cacheKey, $cacheTag);
-
-            if (empty($banNames)) {
-                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
-
-                $banNames = array_map('strtolower', $banNameData);
-
-                CacheHelper::put($banNames, $cacheKey, $cacheTag);
-            }
-        }
 
         // formatString
         $formatString = true;
@@ -246,9 +229,7 @@ class ValidationUtility
         }
 
         // banName
-        $configBanNames = array_map('strtolower', $config['ban_names']);
-        $newBanNames = array_merge($banNames, $configBanNames);
-        $isBanName = Str::contains(Str::lower($nickname), $newBanNames);
+        $isBanName = in_array(Str::lower($nickname), $config['user_ban_names']);
 
         $validateNickname = [
             'formatString' => $formatString,
@@ -266,6 +247,7 @@ class ValidationUtility
     public static function bio(string $bio): array
     {
         $lengthConfig = ConfigHelper::fresnsConfigByItemKey('bio_length');
+
         $bioLength = Str::length($bio);
 
         $length = true;
@@ -273,31 +255,8 @@ class ValidationUtility
             $length = false;
         }
 
-        $cacheKey = 'fresns_user_ban_words';
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            $banNameArray = [];
-            $isBanWord = false;
-        } else {
-            $banNameArray = CacheHelper::get($cacheKey, $cacheTag);
-
-            if (empty($banNameArray)) {
-                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
-
-                $banNameArray = array_map('strtolower', $banNameData);
-
-                CacheHelper::put($banNameArray, $cacheKey, $cacheTag);
-            }
-
-            $isBanWord = Str::contains(Str::lower($bio), $banNameArray);
-        }
-
         $validateBio = [
             'length' => $length,
-            'banWord' => $isBanWord ? false : true,
         ];
 
         return $validateBio;
@@ -340,81 +299,6 @@ class ValidationUtility
         return true;
     }
 
-    // Validate content ban words
-    public static function contentBanWords(string $content): bool
-    {
-        $cacheKey = 'fresns_content_ban_words';
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return true;
-        }
-
-        $lowerBanWords = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($lowerBanWords)) {
-            $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
-
-            $lowerBanWords = array_map('strtolower', $banWords);
-
-            CacheHelper::put($lowerBanWords, $cacheKey, $cacheTag);
-        }
-
-        return ! Str::contains(Str::lower($content), $lowerBanWords);
-    }
-
-    // Validate content is review
-    public static function contentReviewWords(string $content): bool
-    {
-        $cacheKey = 'fresns_content_review_words';
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return true;
-        }
-
-        $lowerReviewWords = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($lowerReviewWords)) {
-            $reviewWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
-
-            $lowerReviewWords = array_map('strtolower', $reviewWords);
-
-            CacheHelper::put($lowerReviewWords, $cacheKey, $cacheTag);
-        }
-
-        return ! Str::contains(Str::lower($content), $lowerReviewWords);
-    }
-
-    // Validate message ban words
-    public static function messageBanWords(string $message): bool
-    {
-        $cacheKey = 'fresns_conversation_ban_words';
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return true;
-        }
-
-        $lowerBanWords = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($lowerBanWords)) {
-            $banWords = BlockWord::where('conversation_mode', 3)->pluck('word')->toArray();
-
-            $lowerBanWords = array_map('strtolower', $banWords);
-
-            CacheHelper::put($lowerBanWords, $cacheKey, $cacheTag);
-        }
-
-        return ! Str::contains(Str::lower($message), $lowerBanWords);
-    }
-
     // Validate draft
     public static function draft(string $type, array $draft): int
     {
@@ -447,11 +331,6 @@ class ValidationUtility
             return 38205;
         }
 
-        $checkContentBanWords = ValidationUtility::contentBanWords($draft['content']);
-        if (! $checkContentBanWords) {
-            return 38207;
-        }
-
         switch ($type) {
             case 'post':
                 if ($draft['postId']) {
@@ -478,11 +357,6 @@ class ValidationUtility
                     $titleLength = Str::length($draft['postTitle']);
                     if ($titleLength > $editorConfig['post_editor_title_length']) {
                         return 38203;
-                    }
-
-                    $checkTitleBanWords = ValidationUtility::contentBanWords($draft['postTitle']);
-                    if (! $checkTitleBanWords) {
-                        return 38206;
                     }
                 }
 
@@ -574,8 +448,7 @@ class ValidationUtility
             $checkRule = false;
         }
 
-        $checkReview = ValidationUtility::contentReviewWords($draft['content']);
-        if (! $checkRule || ! $checkReview) {
+        if (! $checkRule) {
             return 38200;
         }
 

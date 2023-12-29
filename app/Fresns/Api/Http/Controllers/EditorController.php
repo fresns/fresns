@@ -477,11 +477,6 @@ class EditorController extends Controller
             if ($request->has('postTitle')) {
                 if ($dtoRequest->postTitle) {
                     $postTitle = Str::of($dtoRequest->postTitle)->trim();
-                    $checkBanWords = ValidationUtility::contentBanWords($postTitle);
-
-                    if (! $checkBanWords) {
-                        throw new ApiException(38206);
-                    }
 
                     $draft->update([
                         'title' => $postTitle,
@@ -519,11 +514,6 @@ class EditorController extends Controller
         if ($request->has('content')) {
             if ($dtoRequest->content) {
                 $content = Str::of($dtoRequest->content)->trim();
-                $checkBanWords = ValidationUtility::contentBanWords($content);
-
-                if (! $checkBanWords) {
-                    throw new ApiException(38207);
-                }
 
                 $draft->update([
                     'content' => $content,

@@ -236,7 +236,9 @@ class UserController extends Controller
 
             $value = $request->$configKey;
             if ($configKey == 'user_ban_names') {
-                $value = explode("\r\n", $request->user_ban_names);
+                $userBanNames = explode("\r\n", $request->user_ban_names);
+
+                $value = array_map('strtolower', $userBanNames);
             }
 
             $config->item_value = $value;

@@ -16,7 +16,6 @@ use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
-use App\Models\BlockWord;
 use App\Models\Comment;
 use App\Models\CommentAppend;
 use App\Models\CommentLog;
@@ -1367,42 +1366,5 @@ class ContentUtility
         ContentUtility::batchCopyContentExtends('comment', $comment->id, $commentLog->id);
 
         return $commentLog;
-    }
-
-    // Replace block words
-    public static function replaceBlockWords(string $type, ?string $content = null): ?string
-    {
-        if (empty($content)) {
-            return null;
-        }
-
-        $cacheKey = "fresns_{$type}_block_words";
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return $content;
-        }
-
-        $blockWords = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($blockWords)) {
-            $blockWords = match ($type) {
-                'content' => BlockWord::where('content_mode', '!=', 1)->get(['word', 'replace_word']),
-                'user' => BlockWord::where('user_mode', '!=', 1)->get(['word', 'replace_word']),
-                'conversation' => BlockWord::where('conversation_mode', '!=', 1)->get(['word', 'replace_word']),
-            };
-
-            CacheHelper::put($blockWords, $cacheKey, $cacheTag);
-        }
-
-        if (empty($blockWords)) {
-            return $content;
-        }
-
-        $newContent = str_ireplace($blockWords->pluck('word')->toArray(), $blockWords->pluck('replace_word')->toArray(), $content);
-
-        return $newContent;
     }
 }

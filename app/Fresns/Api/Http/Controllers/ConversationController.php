@@ -24,7 +24,6 @@ use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Utilities\ContentUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
@@ -67,7 +66,7 @@ class ConversationController extends Controller
             if ($latestMessageModel?->message_type == 2) {
                 $message = File::TYPE_MAP[$latestMessageModel->file->type];
             } else {
-                $message = ContentUtility::replaceBlockWords('conversation', $latestMessageModel?->message_text);
+                $message = $latestMessageModel?->message_text;
             }
 
             $latestMessage['id'] = $latestMessageModel?->id;
@@ -206,7 +205,7 @@ class ConversationController extends Controller
             $item['user'] = $userService->userData($message?->sendUser, 'list', $langTag, $timezone, $authUser->id);
             $item['isMe'] = ($message->send_user_id == $authUser->id) ? true : false;
             $item['type'] = $message->message_type;
-            $item['content'] = ContentUtility::replaceBlockWords('conversation', $message->message_text);
+            $item['content'] = $message->message_text;
             $item['file'] = $message->message_file_id ? FileHelper::fresnsFileInfoById($message->message_file_id) : null;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($message->created_at, $timezone, $langTag);
@@ -261,11 +260,6 @@ class ConversationController extends Controller
             $messageFileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->fid);
         } else {
             $message = Str::of($dtoRequest->message)->trim();
-            $validateMessage = ValidationUtility::messageBanWords($message);
-
-            if (! $validateMessage) {
-                throw new ApiException(36605);
-            }
 
             $messageType = 1;
             $messageText = $message;
