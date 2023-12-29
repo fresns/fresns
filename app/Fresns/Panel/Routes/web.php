@@ -141,7 +141,6 @@ Route::middleware(['panelAuth'])->group(function () {
         // content
         Route::get('content', [ContentController::class, 'show'])->name('content.index');
         Route::put('content', [ContentController::class, 'update'])->name('content.update');
-        Route::patch('content/hashtag-regexp', [ContentController::class, 'updateHashtagRegexp'])->name('content.update.hashtag-regexp');
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
         // publish-post

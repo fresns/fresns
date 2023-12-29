@@ -137,8 +137,7 @@
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.config_interaction') }}:</label>
             <div class="col-lg-6">
-                <!-- mention -->
-                <div class="input-group mb-3">
+                <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.content_mention_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
@@ -151,7 +150,23 @@
                         </div>
                     </div>
                 </div>
-                <!-- hashtag -->
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.content_mention_number') }}</label>
+                    <input type="number" class="form-control input-number" name="mention_number" value="{{ $params['mention_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.content_mention_number_desc') !!}</div>
+        </div>
+        <!-- hashtag -->
+        <div class="row mb-3">
+            <label class="col-lg-2"></label>
+            <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.content_hashtag_status') }}</label>
                     <div class="form-control bg-white">
@@ -186,14 +201,30 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.content_hashtag_format_desc') !!}</div>
         </div>
-        <div class="row mb-5">
+        <div class="row mb-3">
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
-                <div class="input-group mb-3">
+                <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.content_hashtag_length') }}</label>
                     <input type="number" class="form-control input-number" name="hashtag_length" value="{{ $params['hashtag_length'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
                 </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.content_hashtag_number') }}</label>
+                    <input type="number" class="form-control input-number" name="hashtag_number" value="{{ $params['hashtag_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.content_hashtag_number_desc') !!}</div>
+        </div>
+        <div class="row mb-5">
+            <label class="col-lg-2"></label>
+            <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.content_hashtag_regexp') }}</label>
                     <button class="btn btn-outline-secondary" style="flex: 1 1 auto;" type="button" data-bs-toggle="modal" data-bs-target="#hashtagRegexpModal">{{ __('FsLang::panel.button_config') }}</button>
@@ -650,19 +681,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.content.update.hashtag-regexp') }}" method="post">
+                    <form action="{{ route('panel.update.item', ['itemKey' => 'hashtag_regexp']) }}" method="post">
                         @csrf
                         @method('patch')
+                        <input type="hidden" name="itemType" value="object">
 
                         <div class="input-group">
                             <span class="input-group-text">{{ __('FsLang::panel.content_hashtag_format_1') }}</span>
-                            <input type="text" class="form-control" name="hashtagRegexp[space]" value="{{ $params['hashtag_regexp']['space'] ?? '' }}">
+                            <input type="text" class="form-control" name="itemValue[space]" value="{{ $params['hashtag_regexp']['space'] ?? '' }}">
                         </div>
                         <div class="form-text mb-3 ps-1">{{ __('FsLang::panel.option_default') }}: <code>/#[\p{L}\p{N}\p{M}]+[^\n\p{P}\s]/u</code></div>
 
                         <div class="input-group">
                             <span class="input-group-text">{{ __('FsLang::panel.content_hashtag_format_2') }}</span>
-                            <input type="text" class="form-control" name="hashtagRegexp[hash]" value="{{ $params['hashtag_regexp']['hash'] ?? '' }}">
+                            <input type="text" class="form-control" name="itemValue[hash]" value="{{ $params['hashtag_regexp']['hash'] ?? '' }}">
                         </div>
                         <div class="form-text mb-3 ps-1">{{ __('FsLang::panel.option_default') }}: <code>/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u</code></div>
 

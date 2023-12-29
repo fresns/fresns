@@ -27,9 +27,11 @@ class ContentController extends Controller
             'publish_post_name',
             'publish_comment_name',
             'mention_status',
+            'mention_number',
             'hashtag_status',
             'hashtag_format',
             'hashtag_length',
+            'hashtag_number',
             'hashtag_regexp',
             'view_posts_by_timelines',
             'view_comments_by_timelines',
@@ -93,9 +95,11 @@ class ContentController extends Controller
     {
         $configKeys = [
             'mention_status',
+            'mention_number',
             'hashtag_status',
             'hashtag_format',
             'hashtag_length',
+            'hashtag_number',
             'view_posts_by_timelines',
             'view_comments_by_timelines',
             'view_posts_by_nearby',
@@ -146,17 +150,6 @@ class ContentController extends Controller
             $config->item_value = $request->$configKey;
             $config->save();
         }
-
-        return $this->updateSuccess();
-    }
-
-    public function updateHashtagRegexp(Request $request)
-    {
-        $hashtagRegexp = Config::where('item_key', 'hashtag_regexp')->first();
-
-        $hashtagRegexp->item_value = $request->hashtagRegexp;
-        $hashtagRegexp->item_type = 'object';
-        $hashtagRegexp->save();
 
         return $this->updateSuccess();
     }
