@@ -11,7 +11,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateContentConfigRequest;
 use App\Helpers\StrHelper;
 use App\Models\Config;
-use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
