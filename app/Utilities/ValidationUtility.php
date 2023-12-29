@@ -8,10 +8,8 @@
 
 namespace App\Utilities;
 
-use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
-use App\Models\BlockWord;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
