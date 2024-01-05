@@ -46,7 +46,7 @@ trait UserServiceTrait
             }
         }
 
-        $fsid = $configKeys['user_identifier'] == 'uid' ? $userData->uid :  $userData->username;
+        $fsid = $configKeys['user_identifier'] == 'uid' ? $userData->uid : $userData->username;
 
         $profile['fsid'] = $fsid;
         $profile['uid'] = $userData->uid;
