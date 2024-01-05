@@ -29,6 +29,7 @@ class SubscribeUtility
     const VIEW_TYPE_USER = 'user';
     const VIEW_TYPE_GROUP = 'group';
     const VIEW_TYPE_HASHTAG = 'hashtag';
+    const VIEW_TYPE_GEOTAG = 'geotag';
     const VIEW_TYPE_POST = 'post';
     const VIEW_TYPE_COMMENT = 'comment';
 
@@ -193,40 +194,21 @@ class SubscribeUtility
     }
 
     // notifyViewContent
-    public static function notifyViewContent(string $type, string $fsid, ?string $viewType = null, ?int $authUserId = null): void
+    public static function notifyViewContent(string $type, string $fsid, string $viewType, ?int $authUserId = null): void
     {
-        if (! in_array($type, [
-            'user',
-            'group',
-            'hashtag',
-            'post',
-            'comment',
-        ])) {
+        if (! in_array($type, ['user', 'group', 'hashtag', 'geotag', 'post', 'comment']) || ! in_array($viewType, ['list', 'detail'])) {
             return;
-        }
-
-        $routeName = request()?->route()?->getName();
-        if (empty($viewType) && $routeName) {
-            $checkRouteName = in_array($routeName, [
-                'api.user.detail',
-                'api.group.detail',
-                'api.hashtag.detail',
-                'api.post.detail',
-                'api.comment.detail',
-            ]);
-
-            $viewType = $checkRouteName ? 'detail' : 'list';
         }
 
         $wordBody = [
             'ip' => request()?->ip(),
             'port' => $_SERVER['REMOTE_PORT'] ?? null,
             'uri' => request()?->getRequestUri(),
-            'routeName' => $routeName,
+            'routeName' => request()?->route()?->getName(),
             'headers' => AppHelper::getHeaders(),
             'type' => $type,
             'fsid' => $fsid,
-            'viewType' => $viewType ?? 'list', // list or detail
+            'viewType' => $viewType, // list or detail
             'authUserId' => $authUserId,
         ];
 

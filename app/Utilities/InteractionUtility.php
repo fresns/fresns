@@ -32,8 +32,9 @@ class InteractionUtility
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
+    const TYPE_GEOTAG = 4;
+    const TYPE_POST = 5;
+    const TYPE_COMMENT = 6;
 
     // check interaction
     public static function checkUserLike(int $likeType, int $likeId, ?int $userId = null): bool
@@ -73,6 +74,7 @@ class InteractionUtility
         }
 
         $checkFollow = UserFollow::where('user_id', $userId)
+            ->markType(UserFollow::MARK_TYPE_FOLLOW)
             ->type($followType)
             ->where('follow_id', $followId)
             ->first();
@@ -80,63 +82,33 @@ class InteractionUtility
         return (bool) $checkFollow;
     }
 
-    public static function checkUserBlock(int $blockType, ?int $blockId = null, ?int $userId = null): bool
+    public static function getInteractionStatus(int $type, int $markId, int $userId): array
     {
-        if (empty($blockId) || empty($userId)) {
-            return false;
-        }
-
-        $checkBlock = UserBlock::where('user_id', $userId)
-            ->type($blockType)
-            ->where('block_id', $blockId)
-            ->first();
-
-        return (bool) $checkBlock;
-    }
-
-    public static function getInteractionStatus(int $markType, int $markId, ?int $userId = null): array
-    {
-        if (empty($userId)) {
-            $status['likeStatus'] = false;
-            $status['dislikeStatus'] = false;
-            $status['followStatus'] = false;
-            $status['followMeStatus'] = false;
-            $status['followNote'] = null;
-            $status['followExpired'] = false;
-            $status['followExpiryDateTime'] = null;
-            $status['blockStatus'] = false;
-            $status['blockMeStatus'] = false;
-            $status['blockNote'] = null;
-
-            return $status;
-        }
-
-        $cacheKey = "fresns_interaction_status_{$markType}_{$markId}_{$userId}";
+        $cacheKey = "fresns_interaction_status_{$type}_{$markId}_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         $status = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($status)) {
-            $userFollow = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->first();
-            $userBlock = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->first();
+            $userLike = UserLike::where('user_id', $userId)->type($type)->where('like_id', $markId)->first();
+            $userFollow = UserFollow::where('user_id', $userId)->type($type)->where('follow_id', $markId)->first();
 
-            $now = time();
-            $expiryTime = $userFollow?->expired_at ? strtotime($userFollow?->expired_at) : time();
+            $status['likeStatus'] = (bool) $userLike?->mark_type == UserLike::MARK_TYPE_LIKE;
+            $status['dislikeStatus'] = (bool) $userLike?->mark_type == UserLike::MARK_TYPE_DISLIKE;
+            $status['followStatus'] = (bool) $userFollow?->mark_type == UserFollow::MARK_TYPE_FOLLOW;
+            $status['blockStatus'] = (bool) $userFollow?->mark_type == UserFollow::MARK_TYPE_BLOCK;
+            $status['note'] = $userFollow?->user_note;
 
-            $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
-            $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
-            $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
-            $status['followMeStatus'] = false;
-            $status['followNote'] = $userFollow?->user_note;
-            $status['followExpired'] = ($expiryTime <= $now) ? true : false;
-            $status['followExpiryDateTime'] = $userFollow?->expired_at;
-            $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
-            $status['blockMeStatus'] = false;
-            $status['blockNote'] = $userBlock?->user_note;
+            if ($type == InteractionUtility::TYPE_USER) {
+                $userFollowMe = UserFollow::where('user_id', $markId)->type($type)->where('follow_id', $userId)->first();
 
-            if ($markType == InteractionUtility::TYPE_USER) {
-                $status['followMeStatus'] = self::checkUserFollow($markType, $userId, $markId);
-                $status['blockMeStatus'] = self::checkUserBlock($markType, $userId, $markId);
+                $status['followMeStatus'] = (bool) $userFollowMe?->mark_type == UserFollow::MARK_TYPE_FOLLOW;
+                $status['blockMeStatus'] = (bool) $userFollowMe?->mark_type == UserFollow::MARK_TYPE_BLOCK;
+            }
+
+            if ($type == InteractionUtility::TYPE_USER || $type == InteractionUtility::TYPE_GROUP) {
+                $status['followExpired'] = $userFollow->expired_at->isPast();
+                $status['followExpiryDateTime'] = $userFollow?->expired_at;
             }
 
             CacheHelper::put($status, $cacheKey, $cacheTag);

@@ -41,16 +41,13 @@ class PermissionUtility
         if (empty($mainRoleConfig)) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
 
-            $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
+            $userRole = UserRole::where('user_id', $userId)->where('is_main', true)->first();
 
             $roleId = $userRole?->role_id;
             $restoreRoleId = $userRole?->restore_role_id ?? $defaultRoleId;
             $expiryDateTime = $userRole?->expired_at;
 
-            $expireTime = strtotime($expiryDateTime);
-            $now = time();
-
-            if ($expireTime && $expireTime < $now) {
+            if ($expiryDateTime && $userRole?->expired_at?->isPast()) {
                 $roleId = $restoreRoleId;
                 $expiryDateTime = null;
             }
@@ -64,7 +61,6 @@ class PermissionUtility
         }
 
         $mainRole = InteractionHelper::fresnsRoleInfo($mainRoleConfig['rid'], $langTag);
-        $mainRole['isMain'] = true;
         $mainRole['expiryDateTime'] = $mainRoleConfig['expiryDateTime'];
 
         return $mainRole;
@@ -77,44 +73,51 @@ class PermissionUtility
             return [];
         }
 
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
+        $cacheKey = "fresns_user_{$userId}_roles";
         $cacheTag = 'fresnsUsers';
 
-        $roleListArr = [];
-
+        // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if (! $isKnownEmpty) {
-            $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
+        if ($isKnownEmpty) {
+            return [];
+        }
 
-            if (empty($roleAllConfig)) {
-                $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
-                $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
+        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
 
-                $roleArr = $roleArr1->union($roleArr2)->get();
+        if (empty($roleAllConfig)) {
+            $roleArr1 = UserRole::with(['roleInfo'])->where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
+            $roleArr2 = UserRole::with(['roleInfo'])->where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
 
-                $roleList = [];
-                foreach ($roleArr as $role) {
-                    $item['rid'] = $role->role_id;
-                    $item['expiryDateTime'] = $role->expired_at;
+            $roleArr = $roleArr1->union($roleArr2)->get();
 
-                    $roleList[] = $item;
+            $roleAllConfig = [];
+            foreach ($roleArr as $role) {
+                $roleInfo = $role?->roleInfo;
+
+                if (empty($roleInfo)) {
+                    continue;
                 }
 
-                $roleAllConfig = $roleList;
+                $item['rid'] = $roleInfo->rid;
+                $item['expiryDateTime'] = $role->expired_at;
 
-                CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
+                $roleAllConfig[] = $item;
             }
 
-            foreach ($roleAllConfig as $config) {
-                $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
-                $role['expiryDateTime'] = $config['expiryDateTime'];
+            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
+        }
 
-                unset($role['permissions']);
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-                $roleListArr[] = $role;
-            }
+        $roleListArr = [];
+        foreach ($roleAllConfig as $config) {
+            $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
+
+            $role['expiryDateTime'] = $config['expiryDateTime'];
+
+            unset($role['permissions']);
+
+            $roleListArr[] = $role;
         }
 
         $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
@@ -318,18 +321,19 @@ class PermissionUtility
             return 36116;
         }
 
-        $checkBlock = InteractionUtility::checkUserBlock(InteractionUtility::TYPE_USER, $authUserId, $receiveUser->id);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $authUserId, $receiveUser->id);
+        $checkFollow = $interactionStatus['followStatus'];
+        $checkBlock = $interactionStatus['blockStatus'];
 
         // The other party has set the conversation off function
         if ($receiveUser->conversation_limit == 4 || $checkBlock) {
             return 36608;
         }
 
-        $checkFollow = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $receiveUser->id, $authUserId);
-        $authUserVerifiedStatus = User::where('id', $authUserId)->value('verified_status') ?? 0;
+        $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
 
         // The user has set that only the users he follows and the verified users can send messages
-        if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUserVerifiedStatus) {
+        if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUser?->verified_status) {
             return 36607;
         }
 

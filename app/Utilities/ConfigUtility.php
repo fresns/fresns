@@ -14,6 +14,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\CodeMessage;
 use App\Models\CommentLog;
 use App\Models\Config;
@@ -90,7 +91,7 @@ class ConfigUtility
         $fskey = $fskey ?: 'Fresns';
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_code_messages_{$fskey}_{$langTag}";
+        $cacheKey = "fresns_code_messages_{$fskey}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -102,18 +103,14 @@ class ConfigUtility
         $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($codeMessages)) {
-            $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', $langTag)->get();
-
-            if (empty($codeMessages)) {
-                $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', 'en')->get();
-            }
+            $codeMessages = CodeMessage::where('app_fskey', $fskey)->get();
 
             CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
         }
 
-        $message = $codeMessages->where('code', $code)?->value('message');
+        $messages = $codeMessages->where('code', $code)?->value('messages');
 
-        return $message ?? 'Unknown Error';
+        return StrHelper::languageContent($messages, $langTag);
     }
 
     // get login error count

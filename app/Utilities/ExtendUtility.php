@@ -11,7 +11,6 @@ namespace App\Utilities;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
@@ -27,6 +26,153 @@ use Illuminate\Support\Arr;
 
 class ExtendUtility
 {
+    // get archives
+    public static function getArchives(int $type, int $id, ?string $langTag = null): ?array
+    {
+        $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id);
+
+        $archiveQuery->whereHas('archive', function ($query) {
+            $query->where('is_enabled', true)->orderBy('sort_order');
+        });
+
+        $archiveUsages = $archiveQuery->get();
+
+        $archiveList = [];
+        foreach ($archiveUsages as $usageInfo) {
+            $archiveInfo = $usageInfo?->archive;
+
+            if (empty($archiveInfo)) {
+                continue;
+            }
+
+            $pluginArr = [];
+            if ($archiveInfo->value_type == 'plugins' && $usageInfo->archive_value) {
+                $plugins = json_encode($usageInfo->archive_value) ?? [];
+
+                foreach ($plugins as $plugin) {
+                    $item['code'] = $plugin['code'];
+                    $item['fskey'] = $plugin['fskey'];
+                    $item['appUrl'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
+
+                    $pluginArr[] = $item;
+                }
+            }
+
+            $archiveValue = match ($archiveInfo->value_type) {
+                'file' => StrHelper::isPureInt($usageInfo->archive_value) ? FileHelper::fresnsFileUrlById($usageInfo->archive_value) : $usageInfo->archive_value,
+                'plugin' => PluginHelper::fresnsPluginUrlByFskey($usageInfo->archive_value),
+                'plugins' => $pluginArr,
+                'number' => (int) $usageInfo->archive_value,
+                'boolean' => (bool) $usageInfo->archive_value,
+                'array' => (array) $usageInfo->archive_value,
+                'object' => (object) $usageInfo->archive_value,
+                default => $usageInfo->archive_value,
+            };
+
+            $item['code'] = $archiveInfo->code;
+            $item['name'] = StrHelper::languageContent($archiveInfo->name, $langTag); // Multilingual
+            $item['description'] = StrHelper::languageContent($archiveInfo->description, $langTag); // Multilingual
+            $item['value'] = $archiveValue;
+            $item['isPrivate'] = (bool) $usageInfo->is_private;
+
+            $archiveList[] = $item;
+        }
+
+        return $archiveList;
+    }
+
+    // get operations
+    public static function getOperations(int $type, int $id, ?string $langTag = null): ?array
+    {
+        $operationQuery = OperationUsage::with('operation')->type($type)->where('usage_id', $id);
+
+        $operationQuery->whereHas('operation', function ($query) {
+            $query->where('is_enabled', true);
+        });
+
+        $operations = $operationQuery->get()->map(function ($usageInfo) use ($langTag) {
+            $operationInfo = $usageInfo->operation;
+
+            $item['code'] = $operationInfo->code;
+            $item['style'] = $operationInfo->style;
+            $item['name'] = StrHelper::languageContent($operationInfo->name, $langTag); // Multilingual
+            $item['description'] = StrHelper::languageContent($operationInfo->description, $langTag); // Multilingual
+            $item['image'] = FileHelper::fresnsFileUrlByTableColumn($operationInfo->image_file_id, $operationInfo->image_file_url);
+            $item['activeImage'] = FileHelper::fresnsFileUrlByTableColumn($operationInfo->image_active_file_id, $operationInfo->image_active_file_url);
+            $item['displayType'] = $operationInfo->display_type;
+            $item['appUrl'] = PluginHelper::fresnsPluginUsageUrl($operationInfo->app_fskey);
+
+            return $item;
+        })->groupBy('type');
+
+        $operationList['customizes'] = $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? [];
+        $operationList['buttonIcons'] = $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? [];
+        $operationList['diversifyImages'] = $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? [];
+        $operationList['tips'] = $operations->get(Operation::TYPE_TIP)?->all() ?? [];
+
+        return $operationList;
+    }
+
+    // get extends
+    public static function getExtends(int $type, int $id, ?string $langTag = null): ?array
+    {
+        $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('sort_order');
+
+        $extendQuery->whereHas('extend', function ($query) {
+            $query->where('is_enabled', true);
+        });
+
+        $extends = $extendQuery->get()->map(function ($extendUsage) use ($langTag) {
+            $extend = $extendUsage->extend;
+            $content = $extend->content;
+
+            $item['eid'] = $extend->eid;
+            $item['type'] = $extend->view_type;
+            $item['typeString'] = StrHelper::extendViewTypeString($extend->view_type);
+            $item['image'] = FileHelper::fresnsFileUrlByTableColumn($extend->image_file_id, $extend->image_file_url);
+            switch ($extend->type) {
+                case Extend::TYPE_TEXT:
+                    $item['content'] = $content['content'] ?? null;
+                    $item['isMarkdown'] = $content['isMarkdown'] ?? false;
+                    break;
+
+                case Extend::TYPE_INFO:
+                    $item['title'] = StrHelper::languageContent($content['title'] ?? null, $langTag);
+                    $item['titleColor'] = $content['titleColor'] ?? null;
+                    $item['descPrimary'] = StrHelper::languageContent($content['descPrimary'] ?? null, $langTag);
+                    $item['descPrimaryColor'] = $content['descPrimaryColor'] ?? null;
+                    $item['descSecondary'] = StrHelper::languageContent($content['descSecondary'] ?? null, $langTag);
+                    $item['descSecondaryColor'] = $content['descSecondaryColor'] ?? null;
+                    $item['buttonName'] = StrHelper::languageContent($content['buttonName'] ?? null, $langTag);
+                    $item['buttonColor'] = $content['buttonColor'] ?? null;
+                    break;
+
+                case Extend::TYPE_ACTION:
+                    $item['title'] = StrHelper::languageContent($content['title'] ?? null, $langTag);
+                    $item['titleColor'] = $content['titleColor'] ?? null;
+                    $item['endDateTime'] = $extend->ended_at;
+                    $item['status'] = $extend->ended_at->isPast();
+                    $item['hasOperated'] = false;
+                    $item['items'] = $extend->action_items;
+                    break;
+            }
+            $item['position'] = $extend->position;
+            $item['appUrl'] = PluginHelper::fresnsPluginUsageUrl($extend->app_fskey, $extend->url_parameter);
+
+            return $item;
+        })->groupBy('type');
+
+        $extendList['texts'] = $extends->get(Extend::TYPE_TEXT)?->all() ?? [];
+        $extendList['infos'] = $extends->get(Extend::TYPE_INFO)?->all() ?? [];
+        $extendList['actions'] = $extends->get(Extend::TYPE_ACTION)?->all() ?? [];
+
+        return $extendList;
+    }
+
+    /**
+     * get app usages
+     */
+
     // get extend cache key
     public static function getExtendCacheKey(int $type, string $typeName, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): ?string
     {
@@ -126,129 +272,6 @@ class ExtendUtility
         }
 
         return $dataPlugin->fskey;
-    }
-
-    // get operations
-    public static function getOperations(int $type, int $id, ?string $langTag = null): array
-    {
-        $operationQuery = OperationUsage::with('operation')->type($type)->where('usage_id', $id);
-
-        $operationQuery->whereHas('operation', function ($query) {
-            $query->where('is_enabled', true);
-        });
-
-        $operations = $operationQuery->get()->map(function ($operationUse) use ($langTag) {
-            $item['type'] = $operationUse->operation->type;
-            $item['code'] = $operationUse->operation->code;
-            $item['style'] = $operationUse->operation->style;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('operations', 'name', $operationUse->operation->id, $langTag);
-            $item['description'] = LanguageHelper::fresnsLanguageByTableId('operations', 'description', $operationUse->operation->id, $langTag);
-            $item['imageUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_file_id, $operationUse->operation->image_file_url);
-            $item['imageActiveUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_active_file_id, $operationUse->operation->image_active_file_url);
-            $item['displayType'] = $operationUse->operation->display_type;
-            $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($operationUse->operation->plugin_fskey);
-
-            return $item;
-        })->groupBy('type');
-
-        $operationList['customizes'] = $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? [];
-        $operationList['buttonIcons'] = $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? [];
-        $operationList['diversifyImages'] = $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? [];
-        $operationList['tips'] = $operations->get(Operation::TYPE_TIP)?->all() ?? [];
-
-        return $operationList;
-    }
-
-    // get archives
-    public static function getArchives(int $type, int $id, ?string $langTag = null): array
-    {
-        $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id);
-
-        $archiveQuery->whereHas('archive', function ($query) {
-            $query->where('is_enabled', true)->orderBy('rating');
-        });
-
-        $archiveUsages = $archiveQuery->get();
-
-        $archiveList = [];
-        foreach ($archiveUsages as $use) {
-            $archive = $use->archive;
-            if (empty($archive)) {
-                continue;
-            }
-
-            $pluginArr = [];
-            if ($archive->value_type == 'plugins') {
-                foreach ($use->archive_value ?? [] as $plugin) {
-                    $plugin['code'] = $plugin['code'];
-                    $plugin['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']) ?? $plugin['fskey'];
-
-                    $pluginArr[] = $plugin;
-                }
-            }
-
-            $archiveValue = match ($archive->value_type) {
-                'file' => StrHelper::isPureInt($use->archive_value) ? FileHelper::fresnsFileUrlById($use->archive_value) : $use->archive_value,
-                'plugin' => PluginHelper::fresnsPluginUrlByFskey($use->archive_value) ?? $use->archive_value,
-                'plugins' => $pluginArr,
-                'number' => (int) $use->archive_value,
-                'boolean' => (bool) $use->archive_value,
-                'array' => (array) $use->archive_value,
-                'object' => (object) $use->archive_value,
-                default => $use->archive_value,
-            };
-
-            $item['code'] = $archive->code;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archive->id, $langTag) ?? $archive->name;
-            $item['description'] = LanguageHelper::fresnsLanguageByTableId('archives', 'description', $archive->id, $langTag) ?? $archive->description;
-            $item['value'] = $archiveValue;
-            $item['isPrivate'] = (bool) $use->is_private;
-
-            $archiveList[] = $item;
-        }
-
-        return $archiveList;
-    }
-
-    // get content extends
-    public static function getContentExtends(int $type, int $id, ?string $langTag = null): array
-    {
-        $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('rating');
-
-        $extendQuery->whereHas('extend', function ($query) {
-            $query->where('is_enabled', true);
-        });
-
-        $extends = $extendQuery->get()->map(function ($extendUsage) use ($langTag) {
-            $extend = $extendUsage->extend;
-
-            $item['eid'] = $extend->eid;
-            $item['type'] = $extend->type;
-            $item['textContent'] = $extend->text_content;
-            $item['textIsMarkdown'] = (bool) $extend->text_is_markdown;
-            $item['infoBoxType'] = $extend->info_box_type;
-            $item['infoBoxTypeString'] = StrHelper::infoBoxTypeString($extend->info_box_type);
-            $item['cover'] = FileHelper::fresnsFileUrlByTableColumn($extend->cover_file_id, $extend->cover_file_url);
-            $item['title'] = LanguageHelper::fresnsLanguageByTableId('extends', 'title', $extend->id, $langTag) ?? $extend->title;
-            $item['titleColor'] = $extend->title_color;
-            $item['descPrimary'] = LanguageHelper::fresnsLanguageByTableId('extends', 'desc_primary', $extend->id, $langTag) ?? $extend->desc_primary;
-            $item['descPrimaryColor'] = $extend->desc_primary_color;
-            $item['descSecondary'] = LanguageHelper::fresnsLanguageByTableId('extends', 'desc_secondary', $extend->id, $langTag) ?? $extend->desc_secondary;
-            $item['descSecondaryColor'] = $extend->desc_secondary_color;
-            $item['buttonName'] = LanguageHelper::fresnsLanguageByTableId('extends', 'button_name', $extend->id, $langTag) ?? $extend->button_name;
-            $item['buttonColor'] = $extend->button_color;
-            $item['position'] = $extend->position;
-            $item['accessUrl'] = PluginHelper::fresnsPluginUsageUrl($extend->plugin_fskey, $extend->parameter);
-            $item['moreJson'] = $extend->more_json;
-
-            return $item;
-        })->groupBy('type');
-
-        $operationList['textBox'] = $extends->get(Extend::TYPE_TEXT_BOX)?->all() ?? [];
-        $operationList['infoBox'] = $extends->get(Extend::TYPE_INFO_BOX)?->all() ?? [];
-        $operationList['interactionBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? [];
-
-        return $operationList;
     }
 
     // get extends by everyone
