@@ -170,7 +170,7 @@ class ExtendUtility
     }
 
     /**
-     * get app usages
+     * get app usages.
      */
 
     // get extend cache key
