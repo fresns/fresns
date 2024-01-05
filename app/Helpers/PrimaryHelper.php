@@ -15,6 +15,7 @@ use App\Models\Config;
 use App\Models\Conversation;
 use App\Models\Extend;
 use App\Models\File;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Operation;
@@ -44,6 +45,7 @@ class PrimaryHelper
             'user' => ['fresnsModels', 'fresnsUsers'],
             'group' => ['fresnsModels', 'fresnsGroups'],
             'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'geotag' => ['fresnsModels', 'fresnsGeotags'],
             'post' => ['fresnsModels', 'fresnsPosts'],
             'comment' => ['fresnsModels', 'fresnsComments'],
             'file' => ['fresnsModels', 'fresnsFiles'],
@@ -88,6 +90,10 @@ class PrimaryHelper
 
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('slug', $fsid)->first();
+                    break;
+
+                case 'geotag':
+                    $fresnsModel = Geotag::withTrashed()->where('gtid', $fsid)->first();
                     break;
 
                 case 'post':
@@ -135,6 +141,7 @@ class PrimaryHelper
             'user' => ['fresnsModels', 'fresnsUsers'],
             'group' => ['fresnsModels', 'fresnsGroups'],
             'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'geotag' => ['fresnsModels', 'fresnsGeotags'],
             'post' => ['fresnsModels', 'fresnsPosts'],
             'comment' => ['fresnsModels', 'fresnsComments'],
             'file' => ['fresnsModels', 'fresnsFiles'],
@@ -173,6 +180,10 @@ class PrimaryHelper
 
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('id', $id)->first();
+                    break;
+
+                case 'geotag':
+                    $fresnsModel = Geotag::withTrashed()->where('id', $id)->first();
                     break;
 
                 case 'post':
@@ -284,6 +295,7 @@ class PrimaryHelper
             'user' => ['fresnsModels', 'fresnsUsers'],
             'group' => ['fresnsModels', 'fresnsGroups'],
             'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'geotag' => ['fresnsModels', 'fresnsGeotags'],
             'post' => ['fresnsModels', 'fresnsPosts'],
             'comment' => ['fresnsModels', 'fresnsComments'],
         };
@@ -301,6 +313,7 @@ class PrimaryHelper
                 'user' => UserFollow::TYPE_USER,
                 'group' => UserFollow::TYPE_GROUP,
                 'hashtag' => UserFollow::TYPE_HASHTAG,
+                'geotag' => UserFollow::TYPE_GEOTAG,
                 'post' => UserFollow::TYPE_POST,
                 'comment' => UserFollow::TYPE_COMMENT,
                 default => null,

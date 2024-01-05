@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Extend;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -216,6 +217,10 @@ class StrHelper
     // language content
     public static function languageContent(?array $contentArr = [], ?string $langTag = null): mixed
     {
+        if (is_string($contentArr)) {
+            return $contentArr;
+        }
+
         if (empty($contentArr)) {
             return null;
         }
@@ -246,21 +251,25 @@ class StrHelper
         return $slug;
     }
 
-    // infoBoxTypeString
-    public static function infoBoxTypeString(?int $infoBoxType = null): ?string
+    // extendViewTypeString
+    public static function extendViewTypeString(int $type, ?int $viewType = null): ?string
     {
-        if (empty($infoBoxType)) {
+        if (empty($viewType)) {
             return null;
         }
 
-        $infoBoxTypeString = match ($infoBoxType) {
-            1 => 'basic',
-            2 => 'big',
-            3 => 'portrait',
-            4 => 'landscape',
-            default => 'basic',
-        };
+        if ($type == Extend::TYPE_INFO) {
+            $viewTypeString = match ($viewType) {
+                Extend::INFO_TYPE_BASIC => 'basic',
+                Extend::INFO_TYPE_BIG => 'big',
+                Extend::INFO_TYPE_PORTRAIT => 'portrait',
+                Extend::INFO_TYPE_LANDSCAPE => 'landscape',
+                default => 'basic',
+            };
 
-        return $infoBoxTypeString;
+            return $viewTypeString;
+        }
+
+        return null;
     }
 }

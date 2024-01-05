@@ -35,35 +35,34 @@ class InteractionHelper
         return $overview;
     }
 
-    public static function fresnsRoleInfo(int $roleId, ?string $langTag = null): array
+    public static function fresnsRoleInfo(string $rid, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_role_{$roleId}_{$langTag}";
+        $cacheKey = "fresns_role_{$rid}";
         $cacheTag = 'fresnsConfigs';
 
         $roleData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($roleData)) {
-            $roleModel = Role::whereId($roleId)->first();
+            $roleModel = Role::where('rid', $rid)->first();
 
             if (empty($roleModel)) {
                 return null;
             }
 
             foreach ($roleModel->permissions as $perm) {
-                $permission['rid'] = $roleModel->id;
                 $permission[$perm['permKey']] = $perm['permValue'];
             }
 
-            $item['rid'] = $roleModel->id;
+            $item['id'] = $roleModel->id;
+            $item['rid'] = $roleModel->rid;
             $item['isMain'] = false;
             $item['nicknameColor'] = $roleModel->nickname_color;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleModel->id, $langTag);
+            $item['name'] = $roleModel->name;
             $item['nameDisplay'] = (bool) $roleModel->is_display_name;
             $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleModel->icon_file_id, $roleModel->icon_file_url);
             $item['iconDisplay'] = (bool) $roleModel->is_display_icon;
-            $item['expiryDateTime'] = null;
             $item['rankState'] = $roleModel->rank_state;
             $item['permissions'] = $permission;
             $item['status'] = (bool) $roleModel->is_enabled;
@@ -74,36 +73,68 @@ class InteractionHelper
             CacheHelper::put($roleData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
+        $roleData['name'] = StrHelper::languageContent($roleData['name'], $langTag);
+
         return $roleData;
     }
 
-    public static function fresnsUserInteraction(?string $langTag = null): array
+    public static function fresnsInteraction(string $type, ?string $langTag = null, ?int $groupFollowType = 1): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
-            'user_name', 'user_uid_name', 'user_username_name', 'user_nickname_name', 'user_role_name', 'user_bio_name',
-            'like_user_setting', 'like_user_name',
-            'dislike_user_setting', 'dislike_user_name',
-            'follow_user_setting', 'follow_user_name',
-            'block_user_setting', 'block_user_name',
-            'publish_post_name', 'publish_comment_name',
+            "{$type}_like_enabled", "{$type}_like_name", "{$type}_like_user_title", "{$type}_like_public_record", "{$type}_like_public_count",
+            "{$type}_dislike_enabled", "{$type}_dislike_name", "{$type}_dislike_user_title", "{$type}_dislike_public_record", "{$type}_dislike_public_count",
+            "{$type}_follow_enabled", "{$type}_follow_name", "{$type}_follow_user_title", "{$type}_follow_public_record", "{$type}_follow_public_count",
+            "{$type}_block_enabled", "{$type}_block_name", "{$type}_block_user_title", "{$type}_block_public_record", "{$type}_block_public_count",
         ], $langTag);
 
-        $interaction['userName'] = $itemData['user_name'];
-        $interaction['userUidName'] = $itemData['user_uid_name'];
-        $interaction['userUsernameName'] = $itemData['user_username_name'];
-        $interaction['userNicknameName'] = $itemData['user_nickname_name'];
-        $interaction['userRoleName'] = $itemData['user_role_name'];
-        $interaction['userBioName'] = $itemData['user_bio_name'];
-        $interaction['followSetting'] = $itemData['follow_user_setting'];
-        $interaction['followName'] = $itemData['follow_user_name'];
-        $interaction['likeSetting'] = $itemData['like_user_setting'];
-        $interaction['likeName'] = $itemData['like_user_name'];
-        $interaction['dislikeSetting'] = $itemData['dislike_user_setting'];
-        $interaction['dislikeName'] = $itemData['dislike_user_name'];
-        $interaction['blockSetting'] = $itemData['block_user_setting'];
-        $interaction['blockName'] = $itemData['block_user_name'];
-        $interaction['publishPostName'] = $itemData['publish_post_name'];
-        $interaction['publishCommentName'] = $itemData['publish_comment_name'];
+        $interaction['likeEnabled'] = $itemData["{$type}_like_enabled"];
+        $interaction['likeName'] = $itemData["{$type}_like_name"];
+        $interaction['likeUserTitle'] = $itemData["{$type}_like_user_title"];
+        $interaction['likePublicRecord'] = $itemData["{$type}_like_public_record"];
+        $interaction['likePublicCount'] = $itemData["{$type}_like_public_count"];
+        $interaction['dislikeEnabled'] = $itemData["{$type}_dislike_enabled"];
+        $interaction['dislikeName'] = $itemData["{$type}_dislike_name"];
+        $interaction['dislikeUserTitle'] = $itemData["{$type}_dislike_user_title"];
+        $interaction['dislikePublicRecord'] = $itemData["{$type}_dislike_public_record"];
+        $interaction['dislikePublicCount'] = $itemData["{$type}_dislike_public_count"];
+        $interaction['followEnabled'] = $itemData["{$type}_follow_enabled"];
+        $interaction['followName'] = $itemData["{$type}_follow_name"];
+        $interaction['followUserTitle'] = $itemData["{$type}_follow_user_title"];
+        $interaction['followPublicRecord'] = $itemData["{$type}_follow_public_record"];
+        $interaction['followPublicCount'] = $itemData["{$type}_follow_public_count"];
+        $interaction['blockEnabled'] = $itemData["{$type}_block_enabled"];
+        $interaction['blockName'] = $itemData["{$type}_block_name"];
+        $interaction['blockUserTitle'] = $itemData["{$type}_block_user_title"];
+        $interaction['blockPublicRecord'] = $itemData["{$type}_block_public_record"];
+        $interaction['blockPublicCount'] = $itemData["{$type}_block_public_count"];
+        $interaction['likeStatus'] = false;
+        $interaction['dislikeStatus'] = false;
+        $interaction['followStatus'] = false;
+        $interaction['blockStatus'] = false;
+        $interaction['note'] = null;
+
+        switch ($type) {
+            case 'user':
+                $interaction['followMeStatus'] = false;
+                $interaction['blockMeStatus'] = false;
+                $interaction['followType'] = 1;
+                $interaction['followUrl'] = null;
+                $interaction['followExpired'] = false;
+                $interaction['followExpiryDateTime'] = null;
+                break;
+
+            case 'group':
+                $interaction['followEnabled'] = ($groupFollowType == Group::FOLLOW_CLOSE) ? false : $itemData["{$type}_follow_enabled"];
+                $interaction['followType'] = $groupFollowType;
+                $interaction['followUrl'] = null;
+                $interaction['followExpired'] = false;
+                $interaction['followExpiryDateTime'] = null;
+                break;
+
+            case 'comment':
+                $item['postAuthorLikeStatus'] = false;
+                break;
+        }
 
         return $interaction;
     }
@@ -151,110 +182,6 @@ class InteractionHelper
         return $interaction;
     }
 
-    public static function fresnsGroupInteraction(?string $langTag = null, ?int $typeFollow = 1): array
-    {
-        $itemData = ConfigHelper::fresnsConfigByItemKeys([
-            'group_name',
-            'like_group_setting', 'like_group_name',
-            'dislike_group_setting', 'dislike_group_name',
-            'follow_group_setting', 'follow_group_name',
-            'block_group_setting', 'block_group_name',
-            'publish_post_name', 'publish_comment_name',
-        ], $langTag);
-
-        $interaction['groupName'] = $itemData['group_name'];
-        $interaction['likeSetting'] = $itemData['like_group_setting'];
-        $interaction['likeName'] = $itemData['like_group_name'];
-        $interaction['dislikeSetting'] = $itemData['dislike_group_setting'];
-        $interaction['dislikeName'] = $itemData['dislike_group_name'];
-        $interaction['followSetting'] = $typeFollow == Group::FOLLOW_CLOSE ? false : $itemData['follow_group_setting'];
-        $interaction['followName'] = $itemData['follow_group_name'];
-        $interaction['blockSetting'] = $itemData['block_group_setting'];
-        $interaction['blockName'] = $itemData['block_group_name'];
-        $interaction['publishPostName'] = $itemData['publish_post_name'];
-        $interaction['publishCommentName'] = $itemData['publish_comment_name'];
-
-        return $interaction;
-    }
-
-    public static function fresnsHashtagInteraction(?string $langTag = null): array
-    {
-        $itemData = ConfigHelper::fresnsConfigByItemKeys([
-            'hashtag_name',
-            'like_hashtag_setting', 'like_hashtag_name',
-            'dislike_hashtag_setting', 'dislike_hashtag_name',
-            'follow_hashtag_setting', 'follow_hashtag_name',
-            'block_hashtag_setting', 'block_hashtag_name',
-            'publish_post_name', 'publish_comment_name',
-        ], $langTag);
-
-        $interaction['hashtagName'] = $itemData['hashtag_name'];
-        $interaction['likeSetting'] = $itemData['like_hashtag_setting'];
-        $interaction['likeName'] = $itemData['like_hashtag_name'];
-        $interaction['dislikeSetting'] = $itemData['dislike_hashtag_setting'];
-        $interaction['dislikeName'] = $itemData['dislike_hashtag_name'];
-        $interaction['followSetting'] = $itemData['follow_hashtag_setting'];
-        $interaction['followName'] = $itemData['follow_hashtag_name'];
-        $interaction['blockSetting'] = $itemData['block_hashtag_setting'];
-        $interaction['blockName'] = $itemData['block_hashtag_name'];
-        $interaction['publishPostName'] = $itemData['publish_post_name'];
-        $interaction['publishCommentName'] = $itemData['publish_comment_name'];
-
-        return $interaction;
-    }
-
-    public static function fresnsPostInteraction(?string $langTag = null): array
-    {
-        $itemData = ConfigHelper::fresnsConfigByItemKeys([
-            'post_name',
-            'like_post_setting', 'like_post_name',
-            'dislike_post_setting', 'dislike_post_name',
-            'follow_post_setting', 'follow_post_name',
-            'block_post_setting', 'block_post_name',
-            'publish_post_name', 'publish_comment_name',
-        ], $langTag);
-
-        $interaction['postName'] = $itemData['post_name'];
-        $interaction['likeSetting'] = $itemData['like_post_setting'];
-        $interaction['likeName'] = $itemData['like_post_name'];
-        $interaction['dislikeSetting'] = $itemData['dislike_post_setting'];
-        $interaction['dislikeName'] = $itemData['dislike_post_name'];
-        $interaction['followSetting'] = $itemData['follow_post_setting'];
-        $interaction['followName'] = $itemData['follow_post_name'];
-        $interaction['blockSetting'] = $itemData['block_post_setting'];
-        $interaction['blockName'] = $itemData['block_post_name'];
-        $interaction['publishPostName'] = $itemData['publish_post_name'];
-        $interaction['publishCommentName'] = $itemData['publish_comment_name'];
-
-        return $interaction;
-    }
-
-    public static function fresnsCommentInteraction(?string $langTag = null): array
-    {
-        $itemData = ConfigHelper::fresnsConfigByItemKeys([
-            'comment_name',
-            'like_comment_setting', 'like_comment_name',
-            'dislike_comment_setting', 'dislike_comment_name',
-            'follow_comment_setting', 'follow_comment_name',
-            'block_comment_setting', 'block_comment_name',
-            'publish_post_name', 'publish_comment_name',
-        ], $langTag);
-
-        $interaction['commentName'] = $itemData['comment_name'];
-        $interaction['likeSetting'] = $itemData['like_comment_setting'];
-        $interaction['likeName'] = $itemData['like_comment_name'];
-        $interaction['dislikeSetting'] = $itemData['dislike_comment_setting'];
-        $interaction['dislikeName'] = $itemData['dislike_comment_name'];
-        $interaction['followSetting'] = $itemData['follow_comment_setting'];
-        $interaction['followName'] = $itemData['follow_comment_name'];
-        $interaction['blockSetting'] = $itemData['block_comment_setting'];
-        $interaction['blockName'] = $itemData['block_comment_name'];
-        $interaction['publishPostName'] = $itemData['publish_post_name'];
-        $interaction['publishCommentName'] = $itemData['publish_comment_name'];
-
-        return $interaction;
-    }
-
     // user substitution profile
     public static function fresnsUserSubstitutionProfile(?string $type = null): array
     {
@@ -279,15 +206,18 @@ class InteractionHelper
             'avatar' => $avatar,
             'decorate' => null,
             'banner' => null,
+            'hasPin' => false,
             'gender' => 1,
+            'genderPronoun' => null,
+            'genderCustom' => null,
             'birthday' => null,
             'bio' => null,
             'bioHtml' => null,
             'location' => null,
             'conversationLimit' => 1,
             'commentLimit' => 1,
-            'timezone' => null,
-            'verifiedStatus' => false,
+            'contentLimit' => 1,
+            'verified' => false,
             'verifiedIcon' => null,
             'verifiedDesc' => null,
             'verifiedDateTime' => null,
@@ -298,24 +228,12 @@ class InteractionHelper
             'lastEditUsername' => null,
             'lastEditNickname' => null,
             'registerDate' => null,
-            'hasPassword' => false,
             'rankState' => 1,
             'status' => $status,
             'waitDelete' => false,
             'waitDeleteDateTime' => null,
+            'moreInfo' => [],
 
-            'nicknameColor' => null,
-            'rid' => null,
-            'roleName' => null,
-            'roleNameDisplay' => false,
-            'roleIcon' => null,
-            'roleIconDisplay' => false,
-            'roleExpiryDateTime' => null,
-            'roleRankState' => 1,
-            'rolePermissions' => [],
-            'roleStatus' => true,
-
-            'stats' => null,
             'archives' => [],
             'operations' => [
                 'customizes' => [],
@@ -324,10 +242,24 @@ class InteractionHelper
                 'tips' => [],
             ],
             'extends' => [
-                'textBox' => [],
-                'infoBox' => [],
-                'interactionBox' => [],
+                'texts' => [],
+                'infos' => [],
+                'actions' => [],
             ],
+
+            'nicknameColor' => null,
+            'roleRid' => null,
+            'roleName' => null,
+            'roleNameDisplay' => false,
+            'roleIcon' => null,
+            'roleIconDisplay' => false,
+            'roleExpiryDateTime' => null,
+            'roleRankState' => 1,
+            'roleStatus' => true,
+
+            'stats' => null,
+
+            'roles' => [],
         ];
 
         return $profile;

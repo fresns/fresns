@@ -8,8 +8,8 @@
 
 namespace App\Helpers;
 
-use App\Models\Plugin;
-use App\Models\PluginCallback;
+use App\Models\App;
+use App\Models\AppCallback;
 
 class PluginHelper
 {
@@ -28,7 +28,7 @@ class PluginHelper
         $pluginHost = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($pluginHost)) {
-            $pluginHost = Plugin::where('fskey', $fskey)->value('plugin_host');
+            $pluginHost = App::where('fskey', $fskey)->value('app_host');
 
             CacheHelper::put($pluginHost, $cacheKey, $cacheTags);
         }
@@ -55,7 +55,7 @@ class PluginHelper
         $pluginUrl = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($pluginUrl)) {
-            $plugin = Plugin::where('fskey', $fskey)->first();
+            $plugin = App::where('fskey', $fskey)->first();
 
             $link = null;
             if ($plugin) {
@@ -92,7 +92,7 @@ class PluginHelper
             'data' => [],
         ];
 
-        $plugin = Plugin::where('fskey', $fskey)->first();
+        $plugin = App::where('fskey', $fskey)->first();
 
         if (empty($plugin)) {
             $callbackArr['code'] = 32101;
@@ -106,7 +106,7 @@ class PluginHelper
             return $callbackArr;
         }
 
-        $callback = PluginCallback::where('ulid', $ulid)->first();
+        $callback = AppCallback::where('ulid', $ulid)->first();
 
         if (empty($callback)) {
             $callbackArr['code'] = 32303;
@@ -162,7 +162,7 @@ class PluginHelper
         $version = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($version)) {
-            $version = Plugin::where('fskey', $fskey)->value('version');
+            $version = App::where('fskey', $fskey)->value('version');
 
             if (empty($version)) {
                 return null;
@@ -177,7 +177,7 @@ class PluginHelper
     // get plugin upgrade code
     public static function fresnsPluginUpgradeCodeByFskey(string $fskey): ?string
     {
-        $upgradeCode = Plugin::where('fskey', $fskey)->value('upgrade_code');
+        $upgradeCode = App::where('fskey', $fskey)->value('upgrade_code');
 
         if (empty($upgradeCode)) {
             return null;
