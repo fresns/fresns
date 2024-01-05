@@ -10,7 +10,8 @@ namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
+use App\Helpers\StrHelper;
+use App\Models\File;
 use Illuminate\Support\Str;
 
 trait ArchiveServiceTrait
@@ -27,20 +28,20 @@ trait ArchiveServiceTrait
         ]);
 
         $fileExt = match ($archiveData->file_type) {
-            1 => $fileExtName['image_extension_names'],
-            2 => $fileExtName['video_extension_names'],
-            3 => $fileExtName['audio_extension_names'],
-            4 => $fileExtName['document_extension_names'],
+            File::TYPE_IMAGE => $fileExtName['image_extension_names'],
+            File::TYPE_VIDEO => $fileExtName['video_extension_names'],
+            File::TYPE_AUDIO => $fileExtName['audio_extension_names'],
+            File::TYPE_DOCUMENT => $fileExtName['document_extension_names'],
             default => null,
         };
 
-        $info['plugin'] = $archiveData->plugin_fskey;
-        $info['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archiveData->id, $langTag) ?? $archiveData->name;
-        $info['description'] = LanguageHelper::fresnsLanguageByTableId('archives', 'description', $archiveData->id, $langTag) ?? $archiveData->description;
+        $info['fskey'] = $archiveData->app_fskey;
+        $info['name'] = StrHelper::languageContent($archiveData->name, $langTag); // Multilingual
+        $info['description'] = StrHelper::languageContent($archiveData->description, $langTag); // Multilingual
         $info['code'] = $archiveData->code;
         $info['formElement'] = $archiveData->form_element;
         $info['elementType'] = $archiveData->element_type;
-        $info['elementOptions'] = $archiveData->element_options;
+        $info['elementOptions'] = StrHelper::languageContent($archiveData->element_options, $langTag); // Multilingual
         $info['isMultiple'] = (bool) $archiveData->is_multiple;
         $info['isRequired'] = (bool) $archiveData->is_required;
         $info['fileType'] = $archiveData->file_type;

@@ -10,21 +10,22 @@ namespace App\Models;
 
 class Extend extends Model
 {
-    const TYPE_TEXT_BOX = 1;
-    const TYPE_INFO_BOX = 2;
-    const TYPE_INTERACTIVE_BOX = 3;
+    const TYPE_TEXT = 1;
+    const TYPE_INFO = 2;
+    const TYPE_ACTION = 3;
 
-    const INFO_BOX_SQUARE = 1;
-    const INFO_BOX_SQUARE_BIG = 2;
-    const INFO_BOX_PORTRAIT = 3;
-    const INFO_BOX_LANDSCAPE = 4;
+    const INFO_TYPE_BASIC = 1;
+    const INFO_TYPE_BIG = 2;
+    const INFO_TYPE_PORTRAIT = 3;
+    const INFO_TYPE_LANDSCAPE = 4;
 
     use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
     use Traits\ExtendServiceTrait;
 
     protected $casts = [
-        'more_json' => 'json',
+        'content' => 'json',
+        'action_items' => 'json',
     ];
 
     public function getFsidKey()

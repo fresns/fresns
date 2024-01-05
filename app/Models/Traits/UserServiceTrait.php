@@ -10,7 +10,7 @@ namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
+use App\Helpers\StrHelper;
 use App\Models\Role;
 use App\Models\UserRole;
 use App\Utilities\PermissionUtility;
@@ -30,14 +30,6 @@ trait UserServiceTrait
 
         $siteUrl = $configKeys['site_url'] ?? config('app.url');
 
-        if ($configKeys['user_identifier'] == 'uid') {
-            $profile['fsid'] = $userData->uid;
-            $url = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$userData->uid;
-        } else {
-            $profile['fsid'] = $userData->username;
-            $url = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$userData->username;
-        }
-
         $expired = false;
         if ($configKeys['site_mode'] == 'private') {
             $checkUserRolePrivateWhitelist = PermissionUtility::checkUserRolePrivateWhitelist($userData->id);
@@ -54,20 +46,27 @@ trait UserServiceTrait
             }
         }
 
+        $fsid = $configKeys['user_identifier'] == 'uid' ? $userData->uid :  $userData->username;
+
+        $profile['fsid'] = $fsid;
         $profile['uid'] = $userData->uid;
         $profile['username'] = $userData->username;
-        $profile['url'] = $url;
+        $profile['url'] = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$fsid;
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = $userData->getUserAvatar();
         $profile['decorate'] = null;
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
+        $profile['hasPin'] = (bool) $userData->pin;
         $profile['gender'] = $userData->gender;
+        $profile['genderPronoun'] = $userData->gender_pronoun;
+        $profile['genderCustom'] = $userData->gender_custom;
         $profile['birthday'] = $userData->birthday;
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;
         $profile['conversationLimit'] = $userData->conversation_limit;
         $profile['commentLimit'] = $userData->comment_limit;
-        $profile['verifiedStatus'] = (bool) $userData->verified_status;
+        $profile['contentLimit'] = $userData->content_limit;
+        $profile['verified'] = (bool) $userData->verified_status;
         $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;
         $profile['verifiedDateTime'] = $userData->verified_at;
@@ -78,11 +77,11 @@ trait UserServiceTrait
         $profile['lastEditUsername'] = $userData->last_username_at;
         $profile['lastEditNickname'] = $userData->last_nickname_at;
         $profile['registerDate'] = $userData->created_at;
-        $profile['hasPassword'] = (bool) $userData->password;
         $profile['rankState'] = $userData->rank_state;
         $profile['status'] = (bool) $userData->is_enabled;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
         $profile['waitDeleteDateTime'] = $userData->wait_delete_at;
+        $profile['moreInfo'] = $userData->more_info;
 
         return $profile;
     }
@@ -120,21 +119,14 @@ trait UserServiceTrait
             $roleData = Role::where('id', $defaultRoleId)->first();
         }
 
-        $permissions = $roleData?->permissions ?? [];
-        foreach ($permissions as $perm) {
-            $permission['rid'] = $roleData->id;
-            $permission[$perm['permKey']] = $perm['permValue'];
-        }
-
         $mainRole['nicknameColor'] = $roleData?->nickname_color;
-        $mainRole['rid'] = $roleData?->id;
-        $mainRole['roleName'] = $roleData?->id ? (LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleData?->id, $langTag) ?? $roleData?->name) : null;
+        $mainRole['roleRid'] = $roleData?->rid;
+        $mainRole['roleName'] = StrHelper::languageContent($roleData?->name, $langTag);
         $mainRole['roleNameDisplay'] = (bool) $roleData?->is_display_name;
         $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData?->icon_file_id, $roleData?->icon_file_url);
         $mainRole['roleIconDisplay'] = (bool) $roleData?->is_display_icon;
         $mainRole['roleExpiryDateTime'] = $mainRoleData?->expired_at;
         $mainRole['roleRankState'] = $roleData?->rank_state;
-        $mainRole['rolePermissions'] = $permission;
         $mainRole['roleStatus'] = (bool) $roleData?->is_enabled;
 
         return $mainRole;
@@ -144,17 +136,24 @@ trait UserServiceTrait
     {
         $userData = $this;
 
-        $roleArr = UserRole::where('user_id', $userData->id)->get();
+        $roleArr = UserRole::with('roleInfo')->where('user_id', $userData->id)->get();
 
         $roles = [];
         foreach ($roleArr as $role) {
-            $item['id'] = $role->id;
-            $item['rid'] = $role->role_id;
-            $item['name'] = $role->roleInfo?->getLangName($langTag);
+            $roleInfo = $role?->roleInfo;
+
+            if (empty($roleInfo)) {
+                continue;
+            }
+
+            $item['rid'] = $roleInfo->rid;
             $item['isMain'] = (bool) $role->is_main;
-            $item['expiryDateTime'] = $role->expired_at;
-            $item['restoreRoleId'] = $role->restore_role_id;
-            $item['restoreRoleName'] = $role->restoreRole?->getLangName($langTag);
+            $item['nicknameColor'] = $roleInfo->nickname_color;
+            $item['name'] = StrHelper::languageContent($roleInfo->name, $langTag);
+            $item['nameDisplay'] = (bool) $roleInfo->is_display_name;
+            $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleInfo->icon_file_id, $roleInfo->icon_file_url);
+            $item['iconDisplay'] = (bool) $roleInfo->is_display_icon;
+            $item['status'] = (bool) $roleInfo->is_enabled;
 
             $roles[] = $item;
         }
@@ -162,85 +161,98 @@ trait UserServiceTrait
         return $roles;
     }
 
-    public function getUserStats(?string $langTag = null): array
+    public function getUserStats(?string $langTag = null, ?int $authUserId = null): array
     {
         $statData = $this->stat;
 
-        $statConfig = ConfigHelper::fresnsConfigByItemKeys([
+        $isMe = $statData->user_id == $authUserId;
+
+        $config = ConfigHelper::fresnsConfigByItemKeys([
+            'profile_posts_enabled', 'profile_comments_enabled',
+            'profile_likes_users_enabled', 'profile_likes_groups_enabled', 'profile_likes_hashtags_enabled', 'profile_likes_geotags_enabled', 'profile_likes_posts_enabled', 'profile_likes_comments_enabled',
+            'profile_dislikes_users_enabled', 'profile_dislikes_groups_enabled', 'profile_dislikes_hashtags_enabled', 'profile_dislikes_geotags_enabled', 'profile_dislikes_posts_enabled', 'profile_dislikes_comments_enabled',
+            'profile_following_users_enabled', 'profile_following_groups_enabled', 'profile_following_hashtags_enabled', 'profile_following_geotags_enabled', 'profile_following_posts_enabled', 'profile_following_comments_enabled',
+            'profile_blocking_users_enabled', 'profile_blocking_groups_enabled', 'profile_blocking_hashtags_enabled', 'profile_blocking_geotags_enabled', 'profile_blocking_posts_enabled', 'profile_blocking_comments_enabled',
+
+            'user_like_public_count', 'user_dislike_public_count', 'user_follow_public_count', 'user_block_public_count',
+            'post_like_public_count', 'post_dislike_public_count', 'post_follow_public_count', 'post_block_public_count',
+            'comment_like_public_count', 'comment_dislike_public_count', 'comment_follow_public_count', 'comment_block_public_count',
+
             'extcredits1_state', 'extcredits1_name', 'extcredits1_unit',
             'extcredits2_state', 'extcredits2_name', 'extcredits2_unit',
             'extcredits3_state', 'extcredits3_name', 'extcredits3_unit',
             'extcredits4_state', 'extcredits4_name', 'extcredits4_unit',
             'extcredits5_state', 'extcredits5_name', 'extcredits5_unit',
-
-            'post_liker_count', 'post_disliker_count', 'post_follower_count', 'post_blocker_count',
-            'comment_liker_count', 'comment_disliker_count', 'comment_follower_count', 'comment_blocker_count',
         ], $langTag);
 
-        $stats['likeUserCount'] = $statData->like_user_count;
-        $stats['likeGroupCount'] = $statData->like_group_count;
-        $stats['likeHashtagCount'] = $statData->like_hashtag_count;
-        $stats['likePostCount'] = $statData->like_post_count;
-        $stats['likeCommentCount'] = $statData->like_comment_count;
+        $stats['likeUserCount'] = $config['profile_likes_users_enabled'] ? $statData->like_user_count : null;
+        $stats['likeGroupCount'] = $config['profile_likes_groups_enabled'] ? $statData->like_group_count : null;
+        $stats['likeHashtagCount'] = $config['profile_likes_hashtags_enabled'] ? $statData->like_hashtag_count : null;
+        $stats['likeGeotagCount'] = $config['profile_likes_geotags_enabled'] ? $statData->like_geotag_count : null;
+        $stats['likePostCount'] = $config['profile_likes_posts_enabled'] ? $statData->like_post_count : null;
+        $stats['likeCommentCount'] = $config['profile_likes_comments_enabled'] ? $statData->like_comment_count : null;
 
-        $stats['dislikeUserCount'] = $statData->dislike_user_count;
-        $stats['dislikeGroupCount'] = $statData->dislike_group_count;
-        $stats['dislikeHashtagCount'] = $statData->dislike_hashtag_count;
-        $stats['dislikePostCount'] = $statData->dislike_post_count;
-        $stats['dislikeCommentCount'] = $statData->dislike_comment_count;
+        $stats['dislikeUserCount'] = $config['profile_dislikes_users_enabled'] ? $statData->dislike_user_count : null;
+        $stats['dislikeGroupCount'] = $config['profile_dislikes_groups_enabled'] ? $statData->dislike_group_count : null;
+        $stats['dislikeHashtagCount'] = $config['profile_dislikes_hashtags_enabled'] ? $statData->dislike_hashtag_count : null;
+        $stats['dislikeGeotagCount'] = $config['profile_dislikes_geotags_enabled'] ? $statData->dislike_geotag_count : null;
+        $stats['dislikePostCount'] = $config['profile_dislikes_posts_enabled'] ? $statData->dislike_post_count : null;
+        $stats['dislikeCommentCount'] = $config['profile_dislikes_comments_enabled'] ? $statData->dislike_comment_count : null;
 
-        $stats['followUserCount'] = $statData->follow_user_count;
-        $stats['followGroupCount'] = $statData->follow_group_count;
-        $stats['followHashtagCount'] = $statData->follow_hashtag_count;
-        $stats['followPostCount'] = $statData->follow_post_count;
-        $stats['followCommentCount'] = $statData->follow_comment_count;
+        $stats['followUserCount'] = $config['profile_following_users_enabled'] ? $statData->follow_user_count : null;
+        $stats['followGroupCount'] = $config['profile_following_groups_enabled'] ? $statData->follow_group_count : null;
+        $stats['followHashtagCount'] = $config['profile_following_hashtags_enabled'] ? $statData->follow_hashtag_count : null;
+        $stats['followGeotagCount'] = $config['profile_following_geotags_enabled'] ? $statData->follow_geotag_count : null;
+        $stats['followPostCount'] = $config['profile_following_posts_enabled'] ? $statData->follow_post_count : null;
+        $stats['followCommentCount'] = $config['profile_following_comments_enabled'] ? $statData->follow_comment_count : null;
 
-        $stats['blockUserCount'] = $statData->block_user_count;
-        $stats['blockGroupCount'] = $statData->block_group_count;
-        $stats['blockHashtagCount'] = $statData->block_hashtag_count;
-        $stats['blockPostCount'] = $statData->block_post_count;
-        $stats['blockCommentCount'] = $statData->block_comment_count;
+        $stats['blockUserCount'] = $config['profile_blocking_users_enabled'] ? $statData->block_user_count : null;
+        $stats['blockGroupCount'] = $config['profile_blocking_groups_enabled'] ? $statData->block_group_count : null;
+        $stats['blockHashtagCount'] = $config['profile_blocking_hashtags_enabled'] ? $statData->block_hashtag_count : null;
+        $stats['blockGeotagCount'] = $config['profile_blocking_geotags_enabled'] ? $statData->block_geotag_count : null;
+        $stats['blockPostCount'] = $config['profile_blocking_posts_enabled'] ? $statData->block_post_count : null;
+        $stats['blockCommentCount'] = $config['profile_blocking_comments_enabled'] ? $statData->block_comment_count : null;
 
         $stats['viewMeCount'] = $statData->view_me_count;
-        $stats['likeMeCount'] = $statData->like_me_count;
-        $stats['dislikeMeCount'] = $statData->dislike_me_count;
-        $stats['followMeCount'] = $statData->follow_me_count;
-        $stats['blockMeCount'] = $statData->block_me_count;
+        $stats['likeMeCount'] = ($config['user_like_public_count'] == 3 || $isMe) ? $statData->like_me_count : null;
+        $stats['dislikeMeCount'] = ($config['user_dislike_public_count'] == 3 || $isMe) ? $statData->dislike_me_count : null;
+        $stats['followMeCount'] = ($config['user_follow_public_count'] == 3 || $isMe) ? $statData->follow_me_count : null;
+        $stats['blockMeCount'] = ($config['user_block_public_count'] == 3 || $isMe) ? $statData->block_me_count : null;
 
-        $stats['postPublishCount'] = $statData->post_publish_count;
-        $stats['postDigestCount'] = $statData->post_digest_count;
-        $stats['postLikeCount'] = $statConfig['post_liker_count'] ? $statData->post_like_count : null;
-        $stats['postDislikeCount'] = $statConfig['post_disliker_count'] ? $statData->post_dislike_count : null;
-        $stats['postFollowCount'] = $statConfig['post_follower_count'] ? $statData->post_follow_count : null;
-        $stats['postBlockCount'] = $statConfig['post_blocker_count'] ? $statData->post_block_count : null;
+        $stats['postPublishCount'] = $config['profile_posts_enabled'] ? $statData->post_publish_count : null;
+        $stats['postDigestCount'] = $config['profile_posts_enabled'] ? $statData->post_digest_count : null;
+        $stats['postLikeCount'] = $config['post_like_public_count'] ? $statData->post_like_count : null;
+        $stats['postDislikeCount'] = $config['post_dislike_public_count'] ? $statData->post_dislike_count : null;
+        $stats['postFollowCount'] = $config['post_follow_public_count'] ? $statData->post_follow_count : null;
+        $stats['postBlockCount'] = $config['post_block_public_count'] ? $statData->post_block_count : null;
 
-        $stats['commentPublishCount'] = $statData->comment_publish_count;
-        $stats['commentDigestCount'] = $statData->comment_digest_count;
-        $stats['commentLikeCount'] = $statConfig['comment_liker_count'] ? $statData->comment_like_count : null;
-        $stats['commentDislikeCount'] = $statConfig['comment_disliker_count'] ? $statData->comment_dislike_count : null;
-        $stats['commentFollowCount'] = $statConfig['comment_follower_count'] ? $statData->comment_follow_count : null;
-        $stats['commentBlockCount'] = $statConfig['comment_blocker_count'] ? $statData->comment_block_count : null;
+        $stats['commentPublishCount'] = $config['profile_comments_enabled'] ? $statData->comment_publish_count : null;
+        $stats['commentDigestCount'] = $config['profile_comments_enabled'] ? $statData->comment_digest_count : null;
+        $stats['commentLikeCount'] = $config['comment_like_public_count'] ? $statData->comment_like_count : null;
+        $stats['commentDislikeCount'] = $config['comment_dislike_public_count'] ? $statData->comment_dislike_count : null;
+        $stats['commentFollowCount'] = $config['comment_follow_public_count'] ? $statData->comment_follow_count : null;
+        $stats['commentBlockCount'] = $config['comment_block_public_count'] ? $statData->comment_block_count : null;
 
-        $stats['extcredits1'] = ($statConfig['extcredits1_state'] != 1) ? $statData->extcredits1 : null;
-        $stats['extcredits1State'] = $statConfig['extcredits1_state'];
-        $stats['extcredits1Name'] = $statConfig['extcredits1_name'] ?? 'extcredits1';
-        $stats['extcredits1Unit'] = $statConfig['extcredits1_unit'];
-        $stats['extcredits2'] = ($statConfig['extcredits2_state'] != 1) ? $statData->extcredits2 : null;
-        $stats['extcredits2State'] = $statConfig['extcredits2_state'];
-        $stats['extcredits2Name'] = $statConfig['extcredits2_name'] ?? 'extcredits2';
-        $stats['extcredits2Unit'] = $statConfig['extcredits2_unit'];
-        $stats['extcredits3'] = ($statConfig['extcredits3_state'] != 1) ? $statData->extcredits3 : null;
-        $stats['extcredits3State'] = $statConfig['extcredits3_state'];
-        $stats['extcredits3Name'] = $statConfig['extcredits3_name'] ?? 'extcredits3';
-        $stats['extcredits3Unit'] = $statConfig['extcredits3_unit'];
-        $stats['extcredits4'] = ($statConfig['extcredits4_state'] != 1) ? $statData->extcredits4 : null;
-        $stats['extcredits4State'] = $statConfig['extcredits4_state'];
-        $stats['extcredits4Name'] = $statConfig['extcredits4_name'] ?? 'extcredits4';
-        $stats['extcredits4Unit'] = $statConfig['extcredits4_unit'];
-        $stats['extcredits5'] = ($statConfig['extcredits5_state'] != 1) ? $statData->extcredits5 : null;
-        $stats['extcredits5State'] = $statConfig['extcredits5_state'];
-        $stats['extcredits5Name'] = $statConfig['extcredits5_name'] ?? 'extcredits5';
-        $stats['extcredits5Unit'] = $statConfig['extcredits5_unit'];
+        $stats['extcredits1'] = ($config['extcredits1_state'] == 3 || $isMe) ? $statData->extcredits1 : null;
+        $stats['extcredits1State'] = $config['extcredits1_state'];
+        $stats['extcredits1Name'] = $config['extcredits1_name'] ?? 'extcredits1';
+        $stats['extcredits1Unit'] = $config['extcredits1_unit'];
+        $stats['extcredits2'] = ($config['extcredits2_state'] == 3 || $isMe) ? $statData->extcredits2 : null;
+        $stats['extcredits2State'] = $config['extcredits2_state'];
+        $stats['extcredits2Name'] = $config['extcredits2_name'] ?? 'extcredits2';
+        $stats['extcredits2Unit'] = $config['extcredits2_unit'];
+        $stats['extcredits3'] = ($config['extcredits3_state'] == 3 || $isMe) ? $statData->extcredits3 : null;
+        $stats['extcredits3State'] = $config['extcredits3_state'];
+        $stats['extcredits3Name'] = $config['extcredits3_name'] ?? 'extcredits3';
+        $stats['extcredits3Unit'] = $config['extcredits3_unit'];
+        $stats['extcredits4'] = ($config['extcredits4_state'] == 3 || $isMe) ? $statData->extcredits4 : null;
+        $stats['extcredits4State'] = $config['extcredits4_state'];
+        $stats['extcredits4Name'] = $config['extcredits4_name'] ?? 'extcredits4';
+        $stats['extcredits4Unit'] = $config['extcredits4_unit'];
+        $stats['extcredits5'] = ($config['extcredits5_state'] == 3 || $isMe) ? $statData->extcredits5 : null;
+        $stats['extcredits5State'] = $config['extcredits5_state'];
+        $stats['extcredits5Name'] = $config['extcredits5_name'] ?? 'extcredits5';
+        $stats['extcredits5Unit'] = $config['extcredits5_unit'];
 
         return $stats;
     }
