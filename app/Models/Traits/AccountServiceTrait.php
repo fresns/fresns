@@ -12,6 +12,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\AccountConnect;
+use Illuminate\Support\Str;
 
 trait AccountServiceTrait
 {
@@ -155,7 +156,7 @@ trait AccountServiceTrait
         $wallet['bankName'] = $walletData->bank_name;
         $wallet['swiftCode'] = $walletData->swift_code;
         $wallet['bankAddress'] = $walletData->bank_address;
-        $wallet['bankAccount'] = $walletData->bank_account ? \Str::mask($walletData->bank_account, '*', -8, 4) : null;
+        $wallet['bankAccount'] = $walletData->bank_account ? Str::mask($walletData->bank_account, '*', -8, 4) : null;
         $wallet['bankStatus'] = (bool) $walletData->bank_status;
 
         return $wallet;

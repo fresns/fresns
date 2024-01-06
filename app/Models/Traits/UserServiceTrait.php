@@ -213,11 +213,11 @@ trait UserServiceTrait
         $stats['blockPostCount'] = $config['profile_blocking_posts_enabled'] ? $statData->block_post_count : null;
         $stats['blockCommentCount'] = $config['profile_blocking_comments_enabled'] ? $statData->block_comment_count : null;
 
-        $stats['viewMeCount'] = $statData->view_me_count;
-        $stats['likeMeCount'] = ($config['user_like_public_count'] == 3 || $isMe) ? $statData->like_me_count : null;
-        $stats['dislikeMeCount'] = ($config['user_dislike_public_count'] == 3 || $isMe) ? $statData->dislike_me_count : null;
-        $stats['followMeCount'] = ($config['user_follow_public_count'] == 3 || $isMe) ? $statData->follow_me_count : null;
-        $stats['blockMeCount'] = ($config['user_block_public_count'] == 3 || $isMe) ? $statData->block_me_count : null;
+        $stats['viewCount'] = $statData->view_count;
+        $stats['likerCount'] = ($config['user_like_public_count'] == 3 || $isMe) ? $statData->liker_count : null;
+        $stats['dislikerCount'] = ($config['user_dislike_public_count'] == 3 || $isMe) ? $statData->disliker_count : null;
+        $stats['followerCount'] = ($config['user_follow_public_count'] == 3 || $isMe) ? $statData->follower_count : null;
+        $stats['blockerCount'] = ($config['user_block_public_count'] == 3 || $isMe) ? $statData->blocker_count : null;
 
         $stats['postPublishCount'] = $config['profile_posts_enabled'] ? $statData->post_publish_count : null;
         $stats['postDigestCount'] = $config['profile_posts_enabled'] ? $statData->post_digest_count : null;

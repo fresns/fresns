@@ -11,4 +11,16 @@ namespace App\Models;
 class Geotag extends Model
 {
     use Traits\IsEnabledTrait;
+
+    protected $casts = [
+        'name' => 'json',
+        'description' => 'json',
+        'map_info' => 'json',
+        'more_info' => 'json',
+    ];
+
+    public function getFsidKey()
+    {
+        return 'gtid';
+    }
 }

@@ -1189,7 +1189,7 @@ class InteractionUtility
         $groupIdArr = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($groupIdArr)) {
-            $groupIdArr = Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
+            $groupIdArr = Group::where('privacy', Group::PRIVACY_PRIVATE)->pluck('id')->toArray();
 
             CacheHelper::put($groupIdArr, $cacheKey, $cacheTag);
         }

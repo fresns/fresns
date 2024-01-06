@@ -20,6 +20,7 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Operation;
 use App\Models\Post;
+use App\Models\Seo;
 use App\Models\SessionKey;
 use App\Models\User;
 use App\Models\UserFollow;
@@ -38,19 +39,19 @@ class PrimaryHelper
             $cacheKey = $cacheKey.'_by_fsid';
         }
 
-        $cacheTags = match ($modelName) {
-            'config' => ['fresnsModels', 'fresnsConfigs'],
-            'key' => ['fresnsModels', 'fresnsSystems'],
-            'account' => ['fresnsModels', 'fresnsAccounts'],
-            'user' => ['fresnsModels', 'fresnsUsers'],
-            'group' => ['fresnsModels', 'fresnsGroups'],
-            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
-            'geotag' => ['fresnsModels', 'fresnsGeotags'],
-            'post' => ['fresnsModels', 'fresnsPosts'],
-            'comment' => ['fresnsModels', 'fresnsComments'],
-            'file' => ['fresnsModels', 'fresnsFiles'],
-            'extend' => ['fresnsModels', 'fresnsExtends'],
-            'archive' => ['fresnsModels', 'fresnsArchives'],
+        $cacheTag = match ($modelName) {
+            'config' => 'fresnsConfigs',
+            'key' => 'fresnsSystems',
+            'account' => 'fresnsAccounts',
+            'user' => 'fresnsUsers',
+            'group' => 'fresnsGroups',
+            'hashtag' => 'fresnsHashtags',
+            'geotag' => 'fresnsGeotags',
+            'post' => 'fresnsPosts',
+            'comment' => 'fresnsComments',
+            'file' => 'fresnsFiles',
+            'extend' => 'fresnsExtends',
+            'archive' => 'fresnsArchives',
             default => 'fresnsModels',
         };
 
@@ -60,16 +61,18 @@ class PrimaryHelper
             return null;
         }
 
-        $fresnsModel = CacheHelper::get($cacheKey, $cacheTags);
+        $fresnsModel = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($fresnsModel)) {
-            switch ($modelName) {
-                case 'key':
-                    $fresnsModel = SessionKey::where('app_id', $fsid)->first();
-                    break;
+            $fresnsModel = null;
 
+            switch ($modelName) {
                 case 'config':
                     $fresnsModel = Config::where('item_key', $fsid)->first();
+                    break;
+
+                case 'key':
+                    $fresnsModel = SessionKey::where('app_id', $fsid)->first();
                     break;
 
                 case 'account':
@@ -115,13 +118,9 @@ class PrimaryHelper
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('code', $fsid)->first();
                     break;
-
-                default:
-                    throw new \RuntimeException("unknown modelName {$modelName}");
-                    break;
             }
 
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
         }
 
         return $fresnsModel;
@@ -135,20 +134,20 @@ class PrimaryHelper
         }
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
-        $cacheTags = match ($modelName) {
-            'key' => ['fresnsModels', 'fresnsSystems'],
-            'account' => ['fresnsModels', 'fresnsAccounts'],
-            'user' => ['fresnsModels', 'fresnsUsers'],
-            'group' => ['fresnsModels', 'fresnsGroups'],
-            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
-            'geotag' => ['fresnsModels', 'fresnsGeotags'],
-            'post' => ['fresnsModels', 'fresnsPosts'],
-            'comment' => ['fresnsModels', 'fresnsComments'],
-            'file' => ['fresnsModels', 'fresnsFiles'],
-            'extend' => ['fresnsModels', 'fresnsExtends'],
-            'archive' => ['fresnsModels', 'fresnsArchives'],
-            'operation' => ['fresnsModels', 'fresnsOperations'],
-            'conversation' => ['fresnsModels', 'fresnsConversations'],
+        $cacheTag = match ($modelName) {
+            'key' => 'fresnsSystems',
+            'account' => 'fresnsAccounts',
+            'user' => 'fresnsUsers',
+            'group' => 'fresnsGroups',
+            'hashtag' => 'fresnsHashtags',
+            'geotag' => 'fresnsGeotags',
+            'post' => 'fresnsPosts',
+            'comment' => 'fresnsComments',
+            'file' => 'fresnsFiles',
+            'extend' => 'fresnsExtends',
+            'archive' => 'fresnsArchives',
+            'operation' => 'fresnsOperations',
+            'conversation' => 'fresnsConversations',
             default => 'fresnsModels',
         };
 
@@ -158,9 +157,11 @@ class PrimaryHelper
             return null;
         }
 
-        $fresnsModel = CacheHelper::get($cacheKey, $cacheTags);
+        $fresnsModel = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($fresnsModel)) {
+            $fresnsModel = null;
+
             switch ($modelName) {
                 case 'key':
                     $fresnsModel = SessionKey::where('id', $id)->first();
@@ -213,23 +214,19 @@ class PrimaryHelper
                 case 'conversation':
                     $fresnsModel = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
                     break;
-
-                default:
-                    throw new \RuntimeException("unknown modelName {$modelName}");
-                    break;
             }
 
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
         }
 
         return $fresnsModel;
     }
 
-    // get groups model
-    public static function fresnsModelGroups(int|string $idOrGid): mixed
+    // get seo
+    public static function fresnsModelSeo(int $usageType, int $usageId): mixed
     {
-        $cacheKey = "fresns_model_groups_{$idOrGid}";
-        $cacheTags = ['fresnsModels', 'fresnsGroups'];
+        $cacheKey = "fresns_model_seo_{$usageType}_{$usageId}";
+        $cacheTag = 'fresnsSeo';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -237,7 +234,30 @@ class PrimaryHelper
             return null;
         }
 
-        $flattenGroups = CacheHelper::get($cacheKey, $cacheTags);
+        $seoData = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($seoData)) {
+            $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $usageId)->get();
+
+            CacheHelper::put($seoData, $cacheKey, $cacheTag);
+        }
+
+        return $seoData;
+    }
+
+    // get all subgroups model
+    public static function fresnsModelSubgroups(int|string $idOrGid): mixed
+    {
+        $cacheKey = "fresns_model_subgroups_{$idOrGid}";
+        $cacheTag = 'fresnsGroups';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $flattenGroups = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($flattenGroups)) {
             if (StrHelper::isPureInt($idOrGid)) {
@@ -248,7 +268,7 @@ class PrimaryHelper
 
             $flattenGroups = $groupModel->flattenGroups();
 
-            CacheHelper::put($flattenGroups, $cacheKey, $cacheTags);
+            CacheHelper::put($flattenGroups, $cacheKey, $cacheTag);
         }
 
         return $flattenGroups;
@@ -258,9 +278,9 @@ class PrimaryHelper
     public static function fresnsModelConversation(int $authUserId, int $conversationUserId): Conversation
     {
         $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
-        $cacheTags = ['fresnsModels', 'fresnsUsers'];
+        $cacheTag = 'fresnsUsers';
 
-        $conversationModel = CacheHelper::get($cacheKey, $cacheTags);
+        $conversationModel = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($conversationModel)) {
             $aConversation = Conversation::where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
@@ -277,7 +297,7 @@ class PrimaryHelper
                 $conversationModel = $aConversation;
             }
 
-            CacheHelper::put($conversationModel, $cacheKey, $cacheTags);
+            CacheHelper::put($conversationModel, $cacheKey, $cacheTag);
         }
 
         return $conversationModel;

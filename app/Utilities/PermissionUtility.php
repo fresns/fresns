@@ -44,16 +44,17 @@ class PermissionUtility
             $userRole = UserRole::where('user_id', $userId)->where('is_main', true)->first();
 
             $roleId = $userRole?->role_id;
-            $restoreRoleId = $userRole?->restore_role_id ?? $defaultRoleId;
+            $defaultRoleId = $userRole?->restore_role_id ?? $defaultRoleId;
+
             $expiryDateTime = $userRole?->expired_at;
 
             if ($expiryDateTime && $userRole?->expired_at?->isPast()) {
-                $roleId = $restoreRoleId;
+                $roleId = $defaultRoleId;
                 $expiryDateTime = null;
             }
 
             $mainRoleConfig = [
-                'rid' => $roleId ?? $defaultRoleId,
+                'id' => $roleId ?? $defaultRoleId,
                 'expiryDateTime' => $expiryDateTime,
             ];
 
@@ -82,52 +83,26 @@ class PermissionUtility
             return [];
         }
 
-        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
+        $userRoles = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($roleAllConfig)) {
-            $roleArr1 = UserRole::with(['roleInfo'])->where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
-            $roleArr2 = UserRole::with(['roleInfo'])->where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
+        if (empty($userRoles)) {
+            $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
+            $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
 
             $roleArr = $roleArr1->union($roleArr2)->get();
 
-            $roleAllConfig = [];
+            $userRoles = [];
             foreach ($roleArr as $role) {
-                $roleInfo = $role?->roleInfo;
-
-                if (empty($roleInfo)) {
-                    continue;
-                }
-
-                $item['rid'] = $roleInfo->rid;
+                $item['id'] = $role->role_id;
                 $item['expiryDateTime'] = $role->expired_at;
 
-                $roleAllConfig[] = $item;
+                $userRoles[] = $item;
             }
 
-            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
+            CacheHelper::put($userRoles, $cacheKey, $cacheTag);
         }
 
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $roleListArr = [];
-        foreach ($roleAllConfig as $config) {
-            $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
-
-            $role['expiryDateTime'] = $config['expiryDateTime'];
-
-            unset($role['permissions']);
-
-            $roleListArr[] = $role;
-        }
-
-        $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
-        unset($mainRole['permissions']);
-
-        $mainRoleArr = [$mainRole];
-
-        $roleAllList = array_merge($mainRoleArr, $roleListArr);
-
-        return $roleAllList;
+        return $userRoles;
     }
 
     // Get group filter ids
@@ -146,7 +121,7 @@ class PermissionUtility
 
         $hiddenGroups = CacheHelper::get($allCacheKey, $cacheTag);
         if (empty($hiddenGroups)) {
-            $hiddenGroups = Group::where('type_mode', Group::MODE_PRIVATE)->where('type_find', Group::FIND_HIDDEN)->get();
+            $hiddenGroups = Group::where('privacy', Group::PRIVACY_PRIVATE)->where('visibility', Group::VISIBILITY_HIDDEN)->get();
 
             CacheHelper::put($hiddenGroups, $allCacheKey, $cacheTag);
         }
@@ -185,9 +160,9 @@ class PermissionUtility
             foreach ($hiddenGroups as $group) {
                 $permissions = $group->permissions;
 
-                $whitelistRoles = $permissions['mode_whitelist_roles'] ?? [];
+                $whitelistRoles = $permissions['private_whitelist_roles'] ?? [];
 
-                if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+                if ($whitelistRoles && in_array($userRole['id'], $whitelistRoles)) {
                     continue;
                 }
 
@@ -207,7 +182,7 @@ class PermissionUtility
     // Get post filter by group ids
     public static function getPostFilterByGroupIds(?int $userId = null): array
     {
-        $privateGroupIds = Group::where('type_mode', Group::MODE_PRIVATE)->get();
+        $privateGroupIds = Group::where('privacy', Group::PRIVACY_PRIVATE)->get();
 
         if (empty($userId)) {
             return $privateGroupIds->pluck('id')->toArray();
@@ -219,9 +194,9 @@ class PermissionUtility
         foreach ($privateGroupIds as $group) {
             $permissions = $group->permissions;
 
-            $whitelistRoles = $permissions['mode_whitelist_roles'] ?? [];
+            $whitelistRoles = $permissions['private_whitelist_roles'] ?? [];
 
-            if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+            if ($whitelistRoles && in_array($userRole['id'], $whitelistRoles)) {
                 continue;
             }
 
@@ -278,7 +253,7 @@ class PermissionUtility
 
         $userRole = PermissionUtility::getUserMainRole($userId);
 
-        return in_array($userRole['rid'], $whitelist) ? true : false;
+        return in_array($userRole['id'], $whitelist) ? true : false;
     }
 
     // Check user conversation permission
@@ -362,8 +337,8 @@ class PermissionUtility
     public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null): array
     {
         $permConfig = [
+            'can_publish' => $permissions['can_publish'] ?? true,
             'publish_post' => (int) ($permissions['publish_post'] ?? 1),
-            'publish_post_subgroup' => $permissions['publish_post_subgroup'] ?? false,
             'publish_post_roles' => $permissions['publish_post_roles'] ?? [],
             'publish_post_review' => $permissions['publish_post_review'] ?? false,
             'publish_comment' => (int) ($permissions['publish_comment'] ?? 1),
@@ -371,8 +346,8 @@ class PermissionUtility
             'publish_comment_review' => $permissions['publish_comment_review'] ?? false,
         ];
 
+        $perm['canPublish'] = false;
         $perm['allowPost'] = false;
-        $perm['subGroupPost'] = $permConfig['publish_post_subgroup'];
         $perm['reviewPost'] = $permConfig['publish_post_review'];
         $perm['allowComment'] = false;
         $perm['reviewComment'] = $permConfig['publish_comment_review'];
@@ -393,7 +368,6 @@ class PermissionUtility
 
         if ($checkGroupAdmin) {
             $adminPerm['allowPost'] = true;
-            $adminPerm['subGroupPost'] = $permConfig['publish_post_subgroup'];
             $adminPerm['reviewPost'] = false;
             $adminPerm['allowComment'] = true;
             $adminPerm['reviewComment'] = false;
@@ -819,7 +793,7 @@ class PermissionUtility
 
         if ($roleArr) {
             $userRoleArr = PermissionUtility::getUserRoles($userId);
-            $userRoleIdArr = array_column($userRoleArr, 'rid');
+            $userRoleIdArr = array_column($userRoleArr, 'id');
 
             $intersect = array_intersect($roleArr, $userRoleIdArr);
 
