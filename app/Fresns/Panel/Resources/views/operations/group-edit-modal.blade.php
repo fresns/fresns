@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.table_whitelist_rules') }}</span>
-                                    <select class="form-select select2" name="permissions[mode_whitelist_roles][]" multiple="multiple">
+                                    <select class="form-select select2" name="permissions[private_whitelist_roles][]" multiple="multiple">
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->getLangContent('name', $defaultLanguage) }}</option>
                                         @endforeach
