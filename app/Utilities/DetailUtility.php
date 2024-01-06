@@ -18,6 +18,7 @@ use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Group;
+use App\Models\Hashtag;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\User;
@@ -46,7 +47,7 @@ class DetailUtility
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_detail_account_{$account->aid}_{$langTag}";
+        $cacheKey = "fresns_detail_account_{$account->id}_{$langTag}";
         $cacheTag = 'fresnsAccounts';
 
         $accountDetail = CacheHelper::get($cacheKey, $cacheTag);
@@ -59,7 +60,7 @@ class DetailUtility
 
             $userList = [];
             foreach ($account->users as $user) {
-                $userList[] = self::userDetail($user, $langTag, $timezone, $user->id, $options);
+                $userList[] = $user->uid;
             }
 
             $item['users'] = $userList;
@@ -70,7 +71,18 @@ class DetailUtility
             CacheHelper::put($accountDetail, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
-        return self::handleAccountDate($accountDetail, $timezone, $langTag);
+        $users = [];
+        foreach ($accountDetail['users'] as $user) {
+            $users[] = self::userDetail($user, $langTag, $timezone, null, $options);
+        }
+        $accountDetail['users'] = $users;
+
+        // handle date
+        $accountDetail['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['verifyDateTime'], $timezone, $langTag);
+        $accountDetail['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['registerDateTime'], $timezone, $langTag);
+        $accountDetail['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['waitDeleteDateTime'], $timezone, $langTag);
+
+        return $accountDetail;
     }
 
     // userDetail
@@ -96,7 +108,7 @@ class DetailUtility
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_detail_user_{$user->uid}_{$langTag}";
+        $cacheKey = "fresns_detail_user_{$user->id}_{$langTag}";
         $cacheTag = 'fresnsUsers';
 
         $userDetail = CacheHelper::get($cacheKey, $cacheTag);
@@ -177,7 +189,7 @@ class DetailUtility
         if ($options['isLiveStats'] ?? null) {
             $userStats = $user->getUserStats($langTag, $authUserId);
         } else {
-            $cacheStatsKey = "fresns_detail_user_stats_{$user->uid}";
+            $cacheStatsKey = "fresns_detail_user_stats_{$user->id}";
             $userStats = CacheHelper::get($cacheStatsKey, $cacheTag);
             if (empty($userStats)) {
                 $userStats = $user->getUserStats($langTag);
@@ -251,7 +263,7 @@ class DetailUtility
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_detail_group_{$group->gid}_{$langTag}";
+        $cacheKey = "fresns_detail_group_{$group->id}_{$langTag}";
         $cacheTag = 'fresnsGroups';
 
         // get cache
@@ -333,8 +345,11 @@ class DetailUtility
             $groupDetail['interaction'] = array_replace($groupDetail['interaction'], $interactionStatus);
         }
 
-        $groupDetail = self::handleGroupCount($groupDetail, $group);
-        $result = self::handleGroupDate($groupDetail, $timezone, $langTag);
+        // handle date
+        $groupDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['createdDatetime'], $timezone, $langTag);
+        $groupDetail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['interaction']['followExpiryDateTime'], $timezone, $langTag);
+
+        $result = self::handleGroupCount($groupDetail, $group);
 
         // subscribe
         $viewType = $options['viewType'] ?? null;
@@ -354,19 +369,79 @@ class DetailUtility
         return $result;
     }
 
-    /**
-     * handle detail date.
-     */
-
-    // handle account data date
-    private static function handleAccountDate(array $accountDetail, ?string $timezone = null, ?string $langTag = null): array
+    // hashtagDetail
+    public static function hashtagDetail(Hashtag|string $hashtagOrHtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = [])
     {
-        $accountDetail['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['verifyDateTime'], $timezone, $langTag);
-        $accountDetail['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['registerDateTime'], $timezone, $langTag);
-        $accountDetail['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['waitDeleteDateTime'], $timezone, $langTag);
+        // $options = [
+        //     'viewType' => '', // list, detail, quoted
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
 
-        return $accountDetail;
+        if (! $hashtagOrHtid) {
+            return null;
+        }
+
+        $hashtag = $hashtagOrHtid;
+        if (is_string($hashtagOrHtid)) {
+            $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hashtagOrHtid);
+        }
+
+        $cacheKey = "fresns_detail_hashtag_{$hashtag->id}_{$langTag}";
+        $cacheTag = 'fresnsHashtags';
+
+        $hashtagDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($hashtagDetail)) {
+            $hashtagInfo = $hashtag->getHashtagInfo($langTag);
+
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+
+            // interaction
+            $item['interaction'] = InteractionHelper::fresnsInteraction('hashtag', $langTag);
+
+            $hashtagDetail = array_merge($hashtagInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($hashtagDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        if ($authUserId) {
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
+
+            $hashtagDetail['interaction'] = array_replace($hashtagDetail['interaction'], $interactionStatus);
+        }
+
+        // handle date
+        $hashtagDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($hashtagDetail['createdDatetime'], $timezone, $langTag);
+
+        $result = self::handleHashtagCount($hashtagDetail, $hashtag);
+
+        // subscribe
+        $viewType = $options['viewType'] ?? null;
+        if ($viewType && $viewType != 'quoted') {
+            SubscribeUtility::notifyViewContent('hashtag', $hashtag->slug, $viewType, $authUserId);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($result, $filterType, $filterKeysArr);
+        }
+
+        return $result;
     }
+
+    /**
+     * handle detail date and count.
+     */
 
     // handle user data date
     private static function handleUserDate(array $userDetail, ?string $timezone = null, ?string $langTag = null): array
@@ -415,13 +490,26 @@ class DetailUtility
         return $groupDetail;
     }
 
-    // handle group data date
-    private static function handleGroupDate(array $groupDetail, ?string $timezone = null, ?string $langTag = null): array
+    // handle hashtag data count
+    private static function handleHashtagCount(array $hashtagDetail, Hashtag $hashtag): array
     {
-        $groupDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['createdDatetime'], $timezone, $langTag);
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'hashtag_like_public_count',
+            'hashtag_dislike_public_count',
+            'hashtag_follow_public_count',
+            'hashtag_block_public_count',
+        ]);
 
-        $groupDetail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['interaction']['followExpiryDateTime'], $timezone, $langTag);
+        $hashtagDetail['viewCount'] = $hashtag->view_count;
+        $hashtagDetail['likeCount'] = $configKeys['hashtag_like_public_count'] ? $hashtag->like_count : null;
+        $hashtagDetail['dislikeCount'] = $configKeys['hashtag_dislike_public_count'] ? $hashtag->dislike_count : null;
+        $hashtagDetail['followCount'] = $configKeys['hashtag_follow_public_count'] ? $hashtag->follow_count : null;
+        $hashtagDetail['blockCount'] = $configKeys['hashtag_block_public_count'] ? $hashtag->block_count : null;
+        $hashtagDetail['postCount'] = $hashtag->post_count;
+        $hashtagDetail['postDigestCount'] = $hashtag->post_digest_count;
+        $hashtagDetail['commentCount'] = $hashtag->comment_count;
+        $hashtagDetail['commentDigestCount'] = $hashtag->comment_digest_count;
 
-        return $groupDetail;
+        return $hashtagDetail;
     }
 }
