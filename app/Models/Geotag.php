@@ -10,6 +10,7 @@ namespace App\Models;
 
 class Geotag extends Model
 {
+    use Traits\GeotagServiceTrait;
     use Traits\IsEnabledTrait;
 
     protected $casts = [

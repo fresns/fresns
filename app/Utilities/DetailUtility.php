@@ -17,6 +17,7 @@ use App\Models\Account;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Mention;
@@ -349,7 +350,7 @@ class DetailUtility
         $groupDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['createdDatetime'], $timezone, $langTag);
         $groupDetail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
-        $result = self::handleGroupCount($groupDetail, $group);
+        $result = self::handleDetailCount('group', $groupDetail, $group);
 
         // subscribe
         $viewType = $options['viewType'] ?? null;
@@ -419,12 +420,82 @@ class DetailUtility
         // handle date
         $hashtagDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($hashtagDetail['createdDatetime'], $timezone, $langTag);
 
-        $result = self::handleHashtagCount($hashtagDetail, $hashtag);
+        $result = self::handleDetailCount('hashtag', $hashtagDetail, $hashtag);
 
         // subscribe
         $viewType = $options['viewType'] ?? null;
         if ($viewType && $viewType != 'quoted') {
             SubscribeUtility::notifyViewContent('hashtag', $hashtag->slug, $viewType, $authUserId);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($result, $filterType, $filterKeysArr);
+        }
+
+        return $result;
+    }
+
+    // geotagDetail
+    public static function geotagDetail(Geotag|string $geotagOrGtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = [])
+    {
+        // $options = [
+        //     'viewType' => '', // list, detail, quoted
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
+
+        if (! $geotagOrGtid) {
+            return null;
+        }
+
+        $geotag = $geotagOrGtid;
+        if (is_string($geotagOrGtid)) {
+            $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $geotagOrGtid);
+        }
+
+        $cacheKey = "fresns_detail_geotag_{$geotag->id}_{$langTag}";
+        $cacheTag = 'fresnsHashtags';
+
+        $geotagDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($geotagDetail)) {
+            $geotagInfo = $geotag->getGeotagInfo($langTag);
+
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GEOTAG, $geotag->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GEOTAG, $geotag->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GEOTAG, $geotag->id, $langTag);
+
+            // interaction
+            $item['interaction'] = InteractionHelper::fresnsInteraction('geotag', $langTag);
+
+            $geotagDetail = array_merge($geotagInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($geotagDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        if ($authUserId) {
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $geotag->id, $authUserId);
+
+            $geotagDetail['interaction'] = array_replace($geotagDetail['interaction'], $interactionStatus);
+        }
+
+        // handle date
+        $geotagDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($geotagDetail['createdDatetime'], $timezone, $langTag);
+
+        $result = self::handleDetailCount('geotag', $geotagDetail, $geotag);
+
+        // subscribe
+        $viewType = $options['viewType'] ?? null;
+        if ($viewType && $viewType != 'quoted') {
+            SubscribeUtility::notifyViewContent('geotag', $geotag->gtid, $viewType, $authUserId);
         }
 
         // filter
@@ -467,49 +538,28 @@ class DetailUtility
     }
 
     // handle group data count
-    private static function handleGroupCount(array $groupDetail, Group $group): array
+    private static function handleDetailCount(string $type, array $detail, Group|Hashtag|Geotag $model): array
     {
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
-            'group_like_public_count',
-            'group_dislike_public_count',
-            'group_follow_public_count',
-            'group_block_public_count',
+            "{$type}_like_public_count",
+            "{$type}_dislike_public_count",
+            "{$type}_follow_public_count",
+            "{$type}_block_public_count",
         ]);
 
-        $groupDetail['subgroupCount'] = $group->subgroup_count;
-        $groupDetail['viewCount'] = $group->view_count;
-        $groupDetail['likeCount'] = $configKeys['group_like_public_count'] ? $group->like_count : null;
-        $groupDetail['dislikeCount'] = $configKeys['group_dislike_public_count'] ? $group->dislike_count : null;
-        $groupDetail['followCount'] = $configKeys['group_follow_public_count'] ? $group->follow_count : null;
-        $groupDetail['blockCount'] = $configKeys['group_block_public_count'] ? $group->block_count : null;
-        $groupDetail['postCount'] = $group->post_count;
-        $groupDetail['postDigestCount'] = $group->post_digest_count;
-        $groupDetail['commentCount'] = $group->comment_count;
-        $groupDetail['commentDigestCount'] = $group->comment_digest_count;
+        if ($type == 'group') {
+            $detail['subgroupCount'] = $model->subgroup_count;
+        }
+        $detail['viewCount'] = $model->view_count;
+        $detail['likeCount'] = $configKeys["{$type}_like_public_count"] ? $model->like_count : null;
+        $detail['dislikeCount'] = $configKeys["{$type}_dislike_public_count"] ? $model->dislike_count : null;
+        $detail['followCount'] = $configKeys["{$type}_follow_public_count"] ? $model->follow_count : null;
+        $detail['blockCount'] = $configKeys["{$type}_block_public_count"] ? $model->block_count : null;
+        $detail['postCount'] = $model->post_count;
+        $detail['postDigestCount'] = $model->post_digest_count;
+        $detail['commentCount'] = $model->comment_count;
+        $detail['commentDigestCount'] = $model->comment_digest_count;
 
-        return $groupDetail;
-    }
-
-    // handle hashtag data count
-    private static function handleHashtagCount(array $hashtagDetail, Hashtag $hashtag): array
-    {
-        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
-            'hashtag_like_public_count',
-            'hashtag_dislike_public_count',
-            'hashtag_follow_public_count',
-            'hashtag_block_public_count',
-        ]);
-
-        $hashtagDetail['viewCount'] = $hashtag->view_count;
-        $hashtagDetail['likeCount'] = $configKeys['hashtag_like_public_count'] ? $hashtag->like_count : null;
-        $hashtagDetail['dislikeCount'] = $configKeys['hashtag_dislike_public_count'] ? $hashtag->dislike_count : null;
-        $hashtagDetail['followCount'] = $configKeys['hashtag_follow_public_count'] ? $hashtag->follow_count : null;
-        $hashtagDetail['blockCount'] = $configKeys['hashtag_block_public_count'] ? $hashtag->block_count : null;
-        $hashtagDetail['postCount'] = $hashtag->post_count;
-        $hashtagDetail['postDigestCount'] = $hashtag->post_digest_count;
-        $hashtagDetail['commentCount'] = $hashtag->comment_count;
-        $hashtagDetail['commentDigestCount'] = $hashtag->comment_digest_count;
-
-        return $hashtagDetail;
+        return $detail;
     }
 }
