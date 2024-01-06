@@ -180,7 +180,7 @@ class PostController extends Controller
             $groupDateLimit = $checkLimit['datetime'];
 
             if ($dtoRequest->includeSubgroups) {
-                $allGroups = PrimaryHelper::fresnsModelGroups($viewGroup->id);
+                $allGroups = PrimaryHelper::fresnsModelSubgroups($viewGroup->id);
 
                 $groupsArr = $allGroups->pluck('id');
 

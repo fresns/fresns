@@ -213,7 +213,7 @@ class CommentController extends Controller
             $groupDateLimit = $checkLimit['datetime'];
 
             if ($dtoRequest->includeSubgroups) {
-                $allGroups = PrimaryHelper::fresnsModelGroups($groupId);
+                $allGroups = PrimaryHelper::fresnsModelSubgroups($groupId);
 
                 $groupsArr = $allGroups->pluck('id');
 
