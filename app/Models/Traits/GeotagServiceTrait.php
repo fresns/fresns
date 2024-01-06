@@ -30,7 +30,6 @@ trait GeotagServiceTrait
 
         $siteUrl = $configKeys['site_url'] ?? config('app.url');
 
-
         $info['gtid'] = $geotagData->gtid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid;
         $info['name'] = StrHelper::languageContent($geotagData->name, $langTag);
