@@ -184,7 +184,7 @@ class InteractionHelper
     }
 
     // user substitution profile
-    public static function fresnsUserSubstitutionProfile(?string $type = null, ?string $filterType = null, ?string $filterKeys = null,): array
+    public static function fresnsUserSubstitutionProfile(?string $type = null, ?string $filterType = null, ?string $filterKeys = null): array
     {
         $avatar = match ($type) {
             'anonymous' => ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl'),
