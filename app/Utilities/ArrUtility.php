@@ -142,8 +142,12 @@ class ArrUtility
 
     // array filter
     // $type = whitelist or blacklist
-    public static function filter(array $array, string $type, array $filterKeys): array
+    public static function filter(?array $array = null, ?string $type = null, ?array $filterKeys = []): ?array
     {
+        if (empty($array) || empty($filterKeys)) {
+            return null;
+        }
+
         $dotData = Arr::dot($array);
         $dotDataKeys = array_keys($dotData);
 

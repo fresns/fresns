@@ -16,6 +16,7 @@ use App\Models\Hashtag;
 use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
+use App\Utilities\ArrUtility;
 
 class InteractionHelper
 {
@@ -183,7 +184,7 @@ class InteractionHelper
     }
 
     // user substitution profile
-    public static function fresnsUserSubstitutionProfile(?string $type = null): array
+    public static function fresnsUserSubstitutionProfile(?string $type = null, ?string $filterType = null, ?string $filterKeys = null,): array
     {
         $avatar = match ($type) {
             'anonymous' => ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl'),
@@ -261,6 +262,13 @@ class InteractionHelper
 
             'roles' => [],
         ];
+
+        // filter
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($profile, $filterType, $filterKeysArr);
+        }
 
         return $profile;
     }

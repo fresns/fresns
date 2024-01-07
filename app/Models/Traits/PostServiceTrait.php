@@ -9,8 +9,8 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 use App\Models\PostUser;
 use Illuminate\Support\Str;
 
@@ -19,19 +19,19 @@ trait PostServiceTrait
     public function getPostInfo(?string $langTag = null): array
     {
         $postData = $this;
-        $appendData = $this->postAppend;
+        $permissions = $postData->permissions;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_post_detail_path',
             'site_url',
-            'post_liker_count',
-            'post_disliker_count',
-            'post_follower_count',
-            'post_blocker_count',
-            'comment_liker_count',
-            'comment_disliker_count',
-            'comment_follower_count',
-            'comment_blocker_count',
+            'post_like_public_count',
+            'post_dislike_public_count',
+            'post_follow_public_count',
+            'post_block_public_count',
+            'comment_like_public_count',
+            'comment_dislike_public_count',
+            'comment_follow_public_count',
+            'comment_block_public_count',
         ]);
 
         $siteUrl = $configKeys['site_url'] ?? config('app.url');
@@ -42,62 +42,65 @@ trait PostServiceTrait
         $info['content'] = $postData->content;
         $info['contentLength'] = Str::length($postData->content);
         $info['langTag'] = $postData->lang_tag;
-        $info['writingDirection'] = $postData->writing_direction;
+        $info['writingDirection'] = $permissions['contentWritingDirection'] ?? 'ltr'; // ltr or rtl
         $info['isBrief'] = false;
         $info['isMarkdown'] = (bool) $postData->is_markdown;
         $info['isAnonymous'] = (bool) $postData->is_anonymous;
         $info['stickyState'] = $postData->sticky_state;
         $info['digestState'] = $postData->digest_state;
         $info['viewCount'] = $postData->view_count;
-        $info['likeCount'] = $configKeys['post_liker_count'] ? $postData->like_count : null;
-        $info['dislikeCount'] = $configKeys['post_disliker_count'] ? $postData->dislike_count : null;
-        $info['followCount'] = $configKeys['post_follower_count'] ? $postData->follow_count : null;
-        $info['blockCount'] = $configKeys['post_blocker_count'] ? $postData->block_count : null;
+        $info['likeCount'] = $configKeys['post_like_public_count'] ? $postData->like_count : null;
+        $info['dislikeCount'] = $configKeys['post_dislike_public_count'] ? $postData->dislike_count : null;
+        $info['followCount'] = $configKeys['post_follow_public_count'] ? $postData->follow_count : null;
+        $info['blockCount'] = $configKeys['post_block_public_count'] ? $postData->block_count : null;
         $info['commentCount'] = $postData->comment_count;
         $info['commentDigestCount'] = $postData->comment_digest_count;
-        $info['commentLikeCount'] = $configKeys['comment_liker_count'] ? $postData->comment_like_count : null;
-        $info['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $postData->comment_dislike_count : null;
-        $info['commentFollowCount'] = $configKeys['comment_follower_count'] ? $postData->comment_follow_count : null;
-        $info['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $postData->comment_block_count : null;
+        $info['commentLikeCount'] = $configKeys['comment_like_public_count'] ? $postData->comment_like_count : null;
+        $info['commentDislikeCount'] = $configKeys['comment_dislike_public_count'] ? $postData->comment_dislike_count : null;
+        $info['commentFollowCount'] = $configKeys['comment_follow_public_count'] ? $postData->comment_follow_count : null;
+        $info['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $postData->comment_block_count : null;
         $info['postCount'] = $postData->post_count;
         $info['createdDatetime'] = $postData->created_at;
-        $info['createdTimeAgo'] = $postData->created_at;
+        $info['createdTimeAgo'] = null;
         $info['editedDatetime'] = $postData->latest_edit_at;
-        $info['editedTimeAgo'] = $postData->latest_edit_at;
-        $info['editedCount'] = $appendData->edit_count;
+        $info['editedTimeAgo'] = null;
+        $info['editedCount'] = $postData->edit_count;
         $info['latestCommentDatetime'] = $postData->latest_comment_at;
-        $info['latestCommentTimeAgo'] = $postData->latest_comment_at;
+        $info['latestCommentTimeAgo'] = null;
         $info['rankState'] = $postData->rank_state;
         $info['status'] = (bool) $postData->is_enabled;
 
+        $readConfig = $permissions['readConfig'] ?? [];
+        $associatedUserListConfig = $permissions['associatedUserListConfig'] ?? [];
+        $commentConfig = $permissions['commentConfig'] ?? [];
+
         $info['readConfig'] = [
-            'isReadLocked' => (bool) $appendData->is_read_locked,
-            'previewPercentage' => $appendData->read_pre_percentage,
-            'buttonName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'read_btn_name', $appendData->post_id, $langTag) ?? $appendData->read_btn_name,
-            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($appendData->read_plugin_fskey),
+            'isReadLocked' => $readConfig['isReadLocked'] ?? false,
+            'previewPercentage' => $readConfig['previewPercentage'] ?? 0,
+            'buttonName' => StrHelper::languageContent($readConfig['buttonName'] ?? null, $langTag),
+            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($readConfig['appFskey'] ?? null),
         ];
 
-        $info['affiliatedUserConfig'] = [
-            'hasUserList' => (bool) $appendData->is_user_list,
-            'userListName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag) ?? $appendData->user_list_name,
-            'userListUrl' => PluginHelper::fresnsPluginUrlByFskey($appendData->user_list_plugin_fskey),
-            'userListCount' => $appendData->is_user_list ? PostUser::where('post_id', $postData->id)->count() : 0,
+        $info['associatedUserListConfig'] = [
+            'hasUserList' => $associatedUserListConfig['hasUserList'] ?? false,
+            'userListName' => StrHelper::languageContent($associatedUserListConfig['buttonName'] ?? null, $langTag),
+            'userListCount' => ($associatedUserListConfig['hasUserList'] ?? false) ? PostUser::where('post_id', $postData->id)->count() : 0,
+            'userListUrl' => PluginHelper::fresnsPluginUrlByFskey($associatedUserListConfig['appFskey'] ?? null),
         ];
 
-        $info['moreJson'] = $appendData->more_json;
+        $info['commentConfig'] = [
+            'hidden' => $commentConfig['hidden'] ?? false,
+            'disabled' => $commentConfig['disabled'] ?? false,
+            'private' => $commentConfig['private'] ?? false,
+            'action' => [
+                'hasActionButton' => $commentConfig['action']['hasActionButton'] ?? false,
+                'buttonName' => StrHelper::languageContent($commentConfig['action']['buttonName'] ?? null, $langTag),
+                'buttonStyle' => $commentConfig['action']['buttonStyle'] ?? null,
+                'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($commentConfig['action']['appFskey'] ?? null),
+            ],
+        ];
 
-        $mapJson = $appendData->map_json;
-        $poi = $mapJson['poi'] ?? null;
-        $mapJson['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude && $poi);
-        $mapJson['distance'] = null;
-        $mapJson['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
-
-        $info['location'] = $mapJson;
-        $info['location']['encode'] = urlencode(base64_encode(json_encode($mapJson)));
-
-        $info['isCommentHidden'] = false;
-        $info['isCommentDisabled'] = (bool) $appendData->is_comment_disabled;
-        $info['isCommentPrivate'] = (bool) $appendData->is_comment_private;
+        $info['moreInfo'] = $postData->more_info;
 
         return $info;
     }

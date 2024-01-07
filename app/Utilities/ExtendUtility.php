@@ -13,14 +13,14 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
+use App\Models\AppBadge;
+use App\Models\AppUsage;
 use App\Models\ArchiveUsage;
 use App\Models\Extend;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Operation;
 use App\Models\OperationUsage;
-use App\Models\Plugin;
-use App\Models\PluginBadge;
 use App\Models\PluginUsage;
 use Illuminate\Support\Arr;
 
@@ -177,22 +177,22 @@ class ExtendUtility
     public static function getExtendCacheKey(int $type, string $typeName, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): ?string
     {
         $sceneName = match ($scene) {
-            PluginUsage::SCENE_POST => 'post',
-            PluginUsage::SCENE_COMMENT => 'comment',
-            PluginUsage::SCENE_USER => 'user',
+            AppUsage::SCENE_POST => 'post',
+            AppUsage::SCENE_COMMENT => 'comment',
+            AppUsage::SCENE_USER => 'user',
             default => null,
         };
 
         $cacheKey = match ($type) {
-            PluginUsage::TYPE_WALLET_RECHARGE => "fresns_wallet_recharge_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_WALLET_WITHDRAW => "fresns_wallet_withdraw_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_EDITOR => "fresns_editor_{$sceneName}_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_CONTENT => "fresns_{$sceneName}_content_types_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_MANAGE => "fresns_manage_{$sceneName}_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_GROUP => "fresns_group_{$groupId}_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_FEATURE => "fresns_feature_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_PROFILE => "fresns_profile_extends_by_{$typeName}_{$langTag}",
-            PluginUsage::TYPE_CHANNEL => "fresns_channel_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_WALLET_RECHARGE => "fresns_wallet_recharge_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_WALLET_WITHDRAW => "fresns_wallet_withdraw_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_EDITOR => "fresns_editor_{$sceneName}_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_CONTENT => "fresns_{$sceneName}_content_types_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_MANAGE => "fresns_manage_{$sceneName}_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_GROUP => "fresns_group_{$groupId}_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_FEATURE => "fresns_feature_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_PROFILE => "fresns_profile_extends_by_{$typeName}_{$langTag}",
+            AppUsage::TYPE_CHANNEL => "fresns_channel_extends_by_{$typeName}_{$langTag}",
             default => null,
         };
 
@@ -203,22 +203,22 @@ class ExtendUtility
     public static function getExtendCacheTags(int $type): array
     {
         $cacheTags = match ($type) {
-            PluginUsage::TYPE_WALLET_RECHARGE => ['fresnsExtensions'],
-            PluginUsage::TYPE_WALLET_WITHDRAW => ['fresnsExtensions'],
-            PluginUsage::TYPE_EDITOR => ['fresnsExtensions'],
-            PluginUsage::TYPE_CONTENT => ['fresnsExtensions', 'fresnsConfigs'],
-            PluginUsage::TYPE_MANAGE => ['fresnsExtensions'],
-            PluginUsage::TYPE_GROUP => ['fresnsExtensions', 'fresnsGroups'],
-            PluginUsage::TYPE_FEATURE => ['fresnsExtensions'],
-            PluginUsage::TYPE_PROFILE => ['fresnsExtensions'],
-            PluginUsage::TYPE_CHANNEL => ['fresnsExtensions'],
+            AppUsage::TYPE_WALLET_RECHARGE => ['fresnsExtensions'],
+            AppUsage::TYPE_WALLET_WITHDRAW => ['fresnsExtensions'],
+            AppUsage::TYPE_EDITOR => ['fresnsExtensions'],
+            AppUsage::TYPE_CONTENT => ['fresnsExtensions', 'fresnsConfigs'],
+            AppUsage::TYPE_MANAGE => ['fresnsExtensions'],
+            AppUsage::TYPE_GROUP => ['fresnsExtensions', 'fresnsGroups'],
+            AppUsage::TYPE_FEATURE => ['fresnsExtensions'],
+            AppUsage::TYPE_PROFILE => ['fresnsExtensions'],
+            AppUsage::TYPE_CHANNEL => ['fresnsExtensions'],
         };
 
         return $cacheTags;
     }
 
-    // get plugin badge
-    public static function getPluginBadge(string $fskey, ?int $userId = null): array
+    // get app badge
+    public static function getAppBadge(string $fskey, ?int $userId = null): array
     {
         $badge['badgeType'] = null;
         $badge['badgeValue'] = null;
@@ -227,7 +227,7 @@ class ExtendUtility
             return $badge;
         }
 
-        $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
+        $cacheKey = "fresns_app_{$fskey}_badge_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         // is known to be empty
@@ -239,12 +239,12 @@ class ExtendUtility
         $badge = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($badge)) {
-            $badgeModel = PluginBadge::where('plugin_fskey', $fskey)->where('user_id', $userId)->first();
+            $badgeModel = AppBadge::where('app_fskey', $fskey)->where('user_id', $userId)->first();
 
             $badge['badgeType'] = $badgeModel?->display_type;
             $badge['badgeValue'] = match ($badgeModel?->display_type) {
-                PluginBadge::TYPE_NUMBER => $badgeModel?->value_number,
-                PluginBadge::TYPE_TEXT => $badgeModel?->value_text,
+                AppBadge::TYPE_NUMBER => $badgeModel?->value_number,
+                AppBadge::TYPE_TEXT => $badgeModel?->value_text,
                 default => null,
             };
 
@@ -254,28 +254,8 @@ class ExtendUtility
         return $badge;
     }
 
-    // get data extend
-    public static function getDataExtend(string $contentType, string $dataType): ?string
-    {
-        $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_fskey', $contentType)->isEnabled()->value('data_sources');
-
-        if (empty($dataConfig)) {
-            return null;
-        }
-
-        $dataPluginFskey = $dataConfig[$dataType]['pluginFskey'] ?? null;
-
-        $dataPlugin = Plugin::where('fskey', $dataPluginFskey)->isEnabled()->first();
-
-        if (empty($dataPlugin)) {
-            return null;
-        }
-
-        return $dataPlugin->fskey;
-    }
-
-    // get extends by everyone
-    public static function getExtendsByEveryone(int $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
+    // get app extends by everyone
+    public static function getAppExtendsByEveryone(int $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'everyone', $scene, $groupId, $langTag);
@@ -294,7 +274,7 @@ class ExtendUtility
         $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
-            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
+            $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
                 $query->where('scene', 'like', "%$value%");
@@ -304,7 +284,7 @@ class ExtendUtility
                 $query->where('group_id', $value);
             });
 
-            $extendArr = $extendQuery->orderBy('rating')->get();
+            $extendArr = $extendQuery->orderBy('sort_order')->get();
 
             $extendList = [];
             foreach ($extendArr as $extend) {
@@ -322,8 +302,8 @@ class ExtendUtility
         return $extendList;
     }
 
-    // get extends by role
-    public static function getExtendsByRole(int $type, int $roleId, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
+    // get app extends by role
+    public static function getAppExtendsByRole(int $type, int $roleId, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, "role_{$roleId}", $scene, $groupId, $langTag);
@@ -342,7 +322,7 @@ class ExtendUtility
         $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
-            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
+            $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
                 $query->where('scene', 'like', "%$value%");
@@ -352,7 +332,7 @@ class ExtendUtility
                 $query->where('group_id', $value);
             });
 
-            $extendArr = $extendQuery->orderBy('rating')->get();
+            $extendArr = $extendQuery->orderBy('sort_order')->get();
 
             $extendList = [];
             foreach ($extendArr as $extend) {
@@ -376,8 +356,8 @@ class ExtendUtility
         return $extendList;
     }
 
-    // get extends by group admin
-    public static function getExtendsByGroupAdmin(string $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
+    // get app extends by group admin
+    public static function getAppExtendsByGroupAdmin(string $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'group_admin', $scene, $groupId, $langTag);
@@ -396,7 +376,7 @@ class ExtendUtility
         $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
-            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 1);
+            $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 1);
 
             $extendQuery->when($scene, function ($query, $value) {
                 $query->where('scene', 'like', "%$value%");
@@ -406,7 +386,7 @@ class ExtendUtility
                 $query->where('group_id', $value);
             });
 
-            $extendArr = $extendQuery->orderBy('rating')->get();
+            $extendArr = $extendQuery->orderBy('sort_order')->get();
 
             $extendList = [];
             foreach ($extendArr as $extend) {
@@ -428,10 +408,10 @@ class ExtendUtility
     public static function getEditorExtensions(string $type, int $authUserId, string $langTag): array
     {
         $scene = match ($type) {
-            'post' => 1,
-            'comment' => 2,
-            'posts' => 1,
-            'comments' => 2,
+            'post' => AppUsage::SCENE_POST,
+            'comment' => AppUsage::SCENE_COMMENT,
+            'posts' => AppUsage::SCENE_POST,
+            'comments' => AppUsage::SCENE_COMMENT,
             default => null,
         };
 
@@ -439,12 +419,12 @@ class ExtendUtility
             return [];
         }
 
-        $everyoneExtends = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_EDITOR, $scene, null, $langTag);
+        $everyoneExtends = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_EDITOR, $scene, null, $langTag);
 
         $roleExtends = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
         foreach ($roleArr as $role) {
-            $roleExtends[] = ExtendUtility::getExtendsByRole(PluginUsage::TYPE_EDITOR, $role['rid'], $scene, null, $langTag);
+            $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_EDITOR, $role['id'], $scene, null, $langTag);
         }
 
         $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends));
@@ -468,24 +448,24 @@ class ExtendUtility
         }
 
         $scene = match ($type) {
-            'post' => PluginUsage::SCENE_POST,
-            'comment' => PluginUsage::SCENE_COMMENT,
-            'user' => PluginUsage::SCENE_USER,
+            'post' => AppUsage::SCENE_POST,
+            'comment' => AppUsage::SCENE_COMMENT,
+            'user' => AppUsage::SCENE_USER,
             default => null,
         };
 
-        $everyoneManages = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_MANAGE, $scene, null, $langTag);
+        $everyoneManages = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_MANAGE, $scene, null, $langTag);
 
         $roleManages = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
         foreach ($roleArr as $role) {
-            $roleManages[] = ExtendUtility::getExtendsByRole(PluginUsage::TYPE_MANAGE, $role['rid'], $scene, null, $langTag);
+            $roleManages[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_MANAGE, $role['rid'], $scene, null, $langTag);
         }
 
         $groupManages = [];
         if ($groupId) {
             $checkGroupAdmin = PermissionUtility::checkUserGroupAdmin($groupId, $authUserId);
-            $groupManages = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_MANAGE, $scene, null, $langTag) : [];
+            $groupManages = $checkGroupAdmin ? ExtendUtility::getAppExtendsByGroupAdmin(AppUsage::TYPE_MANAGE, $scene, null, $langTag) : [];
         }
 
         $allManageExtends = array_merge($everyoneManages, Arr::collapse($roleManages), $groupManages);
@@ -505,10 +485,10 @@ class ExtendUtility
     public static function getUserExtensions(string $type, int $authUserId, string $langTag): array
     {
         $usageType = match ($type) {
-            'feature' => PluginUsage::TYPE_FEATURE,
-            'profile' => PluginUsage::TYPE_PROFILE,
-            'features' => PluginUsage::TYPE_FEATURE,
-            'profiles' => PluginUsage::TYPE_PROFILE,
+            'feature' => AppUsage::TYPE_FEATURE,
+            'profile' => AppUsage::TYPE_PROFILE,
+            'features' => AppUsage::TYPE_FEATURE,
+            'profiles' => AppUsage::TYPE_PROFILE,
             default => null,
         };
 
@@ -516,12 +496,12 @@ class ExtendUtility
             return [];
         }
 
-        $everyoneExtends = ExtendUtility::getExtendsByEveryone($usageType, null, null, $langTag);
+        $everyoneExtends = ExtendUtility::getAppExtendsByEveryone($usageType, null, null, $langTag);
 
         $roleExtends = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
         foreach ($roleArr as $role) {
-            $roleExtends[] = ExtendUtility::getExtendsByRole($usageType, $role['rid'], null, null, $langTag);
+            $roleExtends[] = ExtendUtility::getAppExtendsByRole($usageType, $role['rid'], null, null, $langTag);
         }
 
         $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends));
@@ -537,7 +517,7 @@ class ExtendUtility
 
         $userExtensions = [];
         foreach ($newAllExtends as $extend) {
-            $badge = ExtendUtility::getPluginBadge($extend['fskey'], $authUserId);
+            $badge = ExtendUtility::getAppBadge($extend['fskey'], $authUserId);
 
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
@@ -551,18 +531,18 @@ class ExtendUtility
     // get group extensions
     public static function getGroupExtensions(int $groupId, string $langTag, ?int $authUserId = null): array
     {
-        $everyoneExtends = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_GROUP, null, $groupId, $langTag);
+        $everyoneExtends = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_GROUP, null, $groupId, $langTag);
 
         $roleExtends = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
         foreach ($roleArr as $role) {
-            $roleExtends[] = ExtendUtility::getExtendsByRole(PluginUsage::TYPE_GROUP, $role['rid'], null, $groupId, $langTag);
+            $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_GROUP, $role['rid'], null, $groupId, $langTag);
         }
 
         $groupAdminExtends = [];
         if ($groupId) {
             $checkGroupAdmin = PermissionUtility::checkUserGroupAdmin($groupId, $authUserId);
-            $groupAdminExtends = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_GROUP, null, $groupId, $langTag) : [];
+            $groupAdminExtends = $checkGroupAdmin ? ExtendUtility::getAppExtendsByGroupAdmin(AppUsage::TYPE_GROUP, null, $groupId, $langTag) : [];
         }
 
         $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends), $groupAdminExtends);
@@ -578,7 +558,7 @@ class ExtendUtility
 
         $groupExtensions = [];
         foreach ($newAllExtends as $extend) {
-            $badge = ExtendUtility::getPluginBadge($extend['fskey'], $authUserId);
+            $badge = ExtendUtility::getAppBadge($extend['fskey'], $authUserId);
 
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];

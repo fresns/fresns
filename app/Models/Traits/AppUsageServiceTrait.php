@@ -9,8 +9,8 @@
 namespace App\Models\Traits;
 
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 
 trait AppUsageServiceTrait
 {
@@ -24,9 +24,9 @@ trait AppUsageServiceTrait
         $usageData = $this;
 
         $info['fskey'] = $usageData->plugin_fskey;
-        $info['name'] = LanguageHelper::fresnsLanguageByTableId('plugin_usages', 'name', $usageData->id, $langTag) ?? $usageData->name;
         $info['icon'] = FileHelper::fresnsFileUrlByTableColumn($usageData->icon_file_id, $usageData->icon_file_url);
-        $info['url'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_fskey, $usageData->parameter);
+        $info['name'] = StrHelper::languageContent($usageData->name, $langTag);
+        $info['appUrl'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_fskey, $usageData->parameter);
 
         $info['badgeType'] = null;
         $info['badgeValue'] = null;
