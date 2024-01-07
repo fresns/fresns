@@ -358,7 +358,7 @@ class CommonController extends Controller
             'objectOrderId' => $dtoRequest->objectOrderId,
             'deviceInfo' => $deviceInfo,
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => $dtoRequest->moreJson,
+            'moreInfo' => $dtoRequest->moreInfo,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($wordBody);
@@ -605,7 +605,7 @@ class CommonController extends Controller
                     'aid' => \request()->header('X-Fresns-Aid'),
                     'uid' => \request()->header('X-Fresns-Uid'),
                     'type' => $fileType,
-                    'moreJson' => $dtoRequest->moreJson,
+                    'moreInfo' => $dtoRequest->moreInfo,
                     'file' => $dtoRequest->file,
                 ];
 

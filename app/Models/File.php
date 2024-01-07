@@ -64,7 +64,7 @@ class File extends Model
     use Traits\FsidTrait;
 
     protected $casts = [
-        'more_json' => 'json',
+        'more_info' => 'json',
     ];
 
     public function getFsidKey()

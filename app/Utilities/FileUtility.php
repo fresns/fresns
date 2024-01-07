@@ -53,7 +53,7 @@ class FileUtility
         //     'shaType' => 'files->shaType',
         //     'disk' => 'files->disk',
         //     'imageHandlePosition' => 'files->image_handle_position',
-        //     'moreJson' => 'files->more_json',
+        //     'moreInfo' => 'files->more_info',
         // ];
 
         // $diskConfig >> /config/filesystems.php
@@ -103,11 +103,11 @@ class FileUtility
         //             'videoPosterPath' => 'Video Only: files->video_poster_path',
         //             'audioTime' => 'Audio Only: files->audio_time',
         //             'transcodingState' => 'Audio and Video Only: files->transcoding_state',
-        //             'moreJson' => [
-        //                 // files->more_json
+        //             'moreInfo' => [
+        //                 // files->more_info
         //             ],
         //             'originalPath' => 'files->original_path',
-        //             'rating' => 'file_usages->rating',
+        //             'sort_order' => 'file_usages->sort_order',
         //             'remark' => 'file_usages->remark',
         //         ]
         //     ]
@@ -147,7 +147,7 @@ class FileUtility
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
                 'audio_time' => $fileInfo['audioTime'] ?? null,
                 'transcoding_state' => $fileInfo['transcodingState'] ?? 1,
-                'more_json' => $fileInfo['moreJson'],
+                'more_info' => $fileInfo['moreInfo'],
                 'original_path' => $fileInfo['originalPath'] ?? null,
             ];
             $fileId = File::create($fileInput)->id;
@@ -173,7 +173,7 @@ class FileUtility
                 'table_column' => $bodyInfo['tableColumn'],
                 'table_id' => $tableId,
                 'table_key' => $bodyInfo['tableKey'] ?? null,
-                'rating' => $fileInfo['rating'] ?? 9,
+                'sort_order' => $fileInfo['sortOrder'] ?? 9,
                 'remark' => $fileInfo['remark'] ?? null,
                 'account_id' => $accountId,
                 'user_id' => $userId,
@@ -234,7 +234,7 @@ class FileUtility
             'video_poster_path' => $bodyInfo['videoPosterPath'] ?? null,
             'audio_time' => $bodyInfo['audioTime'] ?? null,
             'transcoding_state' => $bodyInfo['transcodingState'] ?? 1,
-            'more_json' => $bodyInfo['moreJson'] ?? null,
+            'more_info' => $bodyInfo['moreInfo'] ?? null,
         ];
 
         $fileId = File::create($fileInput)->id;

@@ -26,7 +26,7 @@ class AccountWalletLog extends Model
     const STATE_REVERSED = 5;
 
     protected $casts = [
-        'more_json' => 'json',
+        'more_info' => 'json',
     ];
 
     public function scopeType($query, int $type)

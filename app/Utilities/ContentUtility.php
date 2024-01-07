@@ -734,7 +734,7 @@ class ContentUtility
                 'extend_id' => $extendModel->id,
             ], [
                 'can_delete' => $extend['canDelete'] ?? true,
-                'rating' => $extend['rating'] ?? 9,
+                'sort_order' => $extend['sortOrder'] ?? 9,
                 'plugin_fskey' => $extend['fskey'] ?? $extendModel->plugin_fskey,
             ]);
         }
@@ -789,7 +789,7 @@ class ContentUtility
                 'table_name' => $tableName,
                 'table_column' => 'id',
                 'table_id' => $primaryId,
-                'rating' => $fileUsage->rating,
+                'sort_order' => $fileUsage->sort_order,
                 'account_id' => $fileUsage->account_id,
                 'user_id' => $fileUsage->user_id,
                 'remark' => $fileUsage->remark,
@@ -822,7 +822,7 @@ class ContentUtility
                 'usage_id' => $primaryId,
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
-                'rating' => $extend->rating,
+                'sort_order' => $extend->sort_order,
                 'plugin_fskey' => $extend->plugin_fskey,
             ];
 
@@ -1200,7 +1200,7 @@ class ContentUtility
                 'table_name' => $logTableName,
                 'table_column' => 'id',
                 'table_id' => $logId,
-                'rating' => $fileUsage->rating,
+                'sort_order' => $fileUsage->sort_order,
                 'account_id' => $fileUsage->account_id,
                 'user_id' => $fileUsage->user_id,
                 'remark' => $fileUsage->remark,
@@ -1248,7 +1248,7 @@ class ContentUtility
                 'usage_id' => $logId,
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
-                'rating' => $extend->rating,
+                'sort_order' => $extend->sort_order,
                 'plugin_fskey' => $extend->plugin_fskey,
             ];
 

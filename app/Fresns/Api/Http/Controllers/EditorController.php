@@ -215,7 +215,7 @@ class EditorController extends Controller
             'objectOrderId' => $fresnsResp->getData('logId'),
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // upload session log
@@ -294,7 +294,7 @@ class EditorController extends Controller
             'objectOrderId' => $fresnsResp->getData('logId'),
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // upload session log
@@ -707,7 +707,7 @@ class EditorController extends Controller
             'objectOrderId' => $draft->id,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // cmd word
@@ -990,7 +990,7 @@ class EditorController extends Controller
                 'aid' => $this->account()->aid,
                 'uid' => $authUser->uid,
                 'type' => File::TYPE_IMAGE,
-                'moreJson' => null,
+                'moreInfo' => null,
                 'file' => $dtoRequest->image,
             ];
 
@@ -1013,7 +1013,7 @@ class EditorController extends Controller
             'objectOrderId' => $tableId,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // upload session log

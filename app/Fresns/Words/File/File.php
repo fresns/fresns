@@ -60,7 +60,7 @@ class File
         //     'aid' => $dtoWordBody->aid,
         //     'uid' => $dtoWordBody->uid,
         //     'type' => $dtoWordBody->type,
-        //     'moreJson' => $dtoWordBody->moreJson,
+        //     'moreInfo' => $dtoWordBody->moreInfo,
         // ];
         // $uploadFile = FileUtility::uploadFile($bodyInfo, $dtoWordBody->file);
 

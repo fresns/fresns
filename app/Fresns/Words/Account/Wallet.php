@@ -123,7 +123,7 @@ class Wallet
             'closing_balance' => $closingBalance,
             'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         AccountWalletLog::create($logData);
@@ -214,7 +214,7 @@ class Wallet
             'closing_balance' => $closingBalance,
             'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         AccountWalletLog::create($logData);
@@ -409,7 +409,7 @@ class Wallet
             'closing_balance' => $wallet->balance,
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         AccountWalletLog::create($logData);
@@ -482,7 +482,7 @@ class Wallet
             'closing_balance' => $wallet->balance,
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         AccountWalletLog::create($logData);
@@ -555,7 +555,7 @@ class Wallet
             'object_user_id' => $originUserId,
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         // Increase
@@ -615,7 +615,7 @@ class Wallet
                 'object_wallet_log_id' => $increaseLog->id,
                 'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
-                'more_json' => $dtoWordBody->moreJson,
+                'more_info' => $dtoWordBody->moreInfo,
             ];
 
             // decrement
@@ -710,7 +710,7 @@ class Wallet
             'object_user_id' => $originUserId,
             'remark' => $dtoWordBody->remark,
             'state' => AccountWalletLog::STATE_SUCCESS,
-            'more_json' => $dtoWordBody->moreJson,
+            'more_info' => $dtoWordBody->moreInfo,
         ];
 
         // decrement
@@ -761,7 +761,7 @@ class Wallet
                 'object_wallet_log_id' => $decrementLog->id,
                 'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
-                'more_json' => $dtoWordBody->moreJson,
+                'more_info' => $dtoWordBody->moreInfo,
             ];
 
             // increment

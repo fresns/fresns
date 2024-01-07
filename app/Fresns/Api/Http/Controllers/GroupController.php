@@ -48,7 +48,7 @@ class GroupController extends Controller
                 })
                 ->isEnabled()
                 ->orderBy('recommend_rating')
-                ->orderBy('rating')
+                ->orderBy('sort_order')
                 ->get();
 
             $groupData = [];
@@ -84,7 +84,7 @@ class GroupController extends Controller
                 })
                 ->isEnabled()
                 ->orderBy('recommend_rating')
-                ->orderBy('rating')
+                ->orderBy('sort_order')
                 ->get();
 
             CacheHelper::put($groups, $cacheKey, $cacheTags);
@@ -104,7 +104,7 @@ class GroupController extends Controller
     {
         $langTag = $this->langTag();
 
-        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('rating')->isEnabled();
+        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('sort_order')->isEnabled();
 
         $categories = $groupQuery->paginate($request->get('pageSize', 30));
 
@@ -268,7 +268,7 @@ class GroupController extends Controller
             $groupQuery->inRandomOrder();
         } else {
             $orderType = match ($dtoRequest->orderType) {
-                default => 'rating',
+                default => 'sortOrder',
                 'createdTime' => 'created_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
@@ -277,7 +277,7 @@ class GroupController extends Controller
                 'block' => 'block_count',
                 'post' => 'post_count',
                 'postDigest' => 'post_digest_count',
-                'rating' => 'rating',
+                'sortOrder' => 'sort_order',
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {

@@ -496,7 +496,7 @@ class UserController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // login
@@ -997,7 +997,7 @@ class UserController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);

@@ -298,7 +298,7 @@ class Basic
             'object_order_id' => $dtoWordBody->objectOrderId ?? null,
             'device_info' => $dtoWordBody->deviceInfo ?? null,
             'device_token' => $dtoWordBody->deviceToken ?? null,
-            'more_json' => $dtoWordBody->moreJson ?? null,
+            'more_info' => $dtoWordBody->moreInfo ?? null,
         ];
 
         SessionLog::create($input);

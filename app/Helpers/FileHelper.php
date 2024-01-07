@@ -249,7 +249,7 @@ class FileHelper
         $fileUsageQuery = FileUsage::with('file')
             ->where('table_name', $tableName)
             ->where('table_column', $tableColumn)
-            ->orderBy('rating');
+            ->orderBy('sort_order');
 
         if (empty($tableId)) {
             $fileUsageQuery->where('table_key', $tableKey);

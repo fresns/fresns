@@ -187,7 +187,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         if ($createAccountResp->isErrorResponse()) {
@@ -236,7 +236,7 @@ class AccountController extends Controller
             'objectOrderId' => $fresnsTokenResponse->getData('aidTokenId'),
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($tokenSessionLog);
 
@@ -295,7 +295,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // login
@@ -483,7 +483,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // check code
@@ -696,7 +696,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
 
         // edit email
@@ -1030,7 +1030,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
@@ -1068,7 +1068,7 @@ class AccountController extends Controller
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
-            'moreJson' => null,
+            'moreInfo' => null,
         ];
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 

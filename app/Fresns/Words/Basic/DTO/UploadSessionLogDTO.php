@@ -29,7 +29,7 @@ class UploadSessionLogDTO extends DTO
             'objectOrderId' => ['integer', 'nullable'],
             'deviceInfo' => ['array', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
-            'moreJson' => ['array', 'nullable'],
+            'moreInfo' => ['array', 'nullable'],
         ];
     }
 }

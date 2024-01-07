@@ -19,7 +19,7 @@ class SetPostAffiliateUserDTO extends DTO
             'type' => ['string', 'required', 'in:add,remove'],
             'uid' => ['integer', 'required'],
             'fskey' => ['string', 'required', 'exists:App\Models\App,fskey'],
-            'moreJson' => ['json', 'nullable'],
+            'moreInfo' => ['json', 'nullable'],
         ];
     }
 }

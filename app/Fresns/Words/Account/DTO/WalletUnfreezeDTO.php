@@ -22,7 +22,7 @@ class WalletUnfreezeDTO extends DTO
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],
-            'moreJson' => ['json', 'nullable'],
+            'moreInfo' => ['json', 'nullable'],
         ];
     }
 }

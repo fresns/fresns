@@ -133,7 +133,7 @@ class Account
                     'connect_nickname' => $info['connectNickname'] ?? null,
                     'connect_avatar' => $info['connectAvatar'] ?? null,
                     'plugin_fskey' => $info['pluginFskey'],
-                    'more_json' => $info['moreJson'] ?? null,
+                    'more_info' => $info['moreInfo'] ?? null,
                     'refresh_token_expired_at' => $info['refreshTokenExpiredDatetime'] ?? null,
                 ]);
             }
@@ -293,7 +293,7 @@ class Account
                 'connect_username' => $dtoWordBody->connectUsername,
                 'connect_nickname' => $dtoWordBody->connectNickname,
                 'connect_avatar' => $dtoWordBody->connectAvatar,
-                'more_json' => $dtoWordBody->moreJson,
+                'more_info' => $dtoWordBody->moreInfo,
                 'plugin_fskey' => $dtoWordBody->fskey,
                 'deleted_at' => null,
             ]);

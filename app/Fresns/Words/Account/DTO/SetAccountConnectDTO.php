@@ -25,7 +25,7 @@ class SetAccountConnectDTO extends DTO
             'connectUsername' => ['string', 'nullable'],
             'connectNickname' => ['string', 'nullable'],
             'connectAvatar' => ['string', 'nullable'],
-            'moreJson' => ['json', 'nullable'],
+            'moreInfo' => ['json', 'nullable'],
             'connectEmail' => ['email', 'nullable'],
             'connectPhone' => ['integer', 'nullable'],
             'connectCountryCode' => ['integer', 'nullable', 'required_with:connectPhone'],

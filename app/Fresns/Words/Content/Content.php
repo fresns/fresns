@@ -867,12 +867,12 @@ class Content
             );
         }
 
-        $moreJson = $model->more_json ?? [];
+        $moreInfo = $model->more_info ?? [];
 
-        $newMoreJson = Arr::add($moreJson, $dtoWordBody->key, $dtoWordBody->value);
+        $newmoreInfo = Arr::add($moreInfo, $dtoWordBody->key, $dtoWordBody->value);
 
         $model->update([
-            'more_json' => $newMoreJson,
+            'more_info' => $newmoreInfo,
         ]);
 
         $typeName = match ($dtoWordBody->type) {
@@ -1096,7 +1096,7 @@ class Content
                     'user_id' => $userId,
                 ], [
                     'plugin_fskey' => $dtoWordBody->fskey,
-                    'more_json' => $dtoWordBody->moreJson ?? null,
+                    'more_info' => $dtoWordBody->moreInfo ?? null,
                 ]);
                 break;
 

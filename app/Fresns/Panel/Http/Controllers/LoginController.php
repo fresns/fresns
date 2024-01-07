@@ -94,7 +94,7 @@ class LoginController extends Controller
                 'objectOrderId' => null,
                 'deviceInfo' => AppHelper::getDeviceInfo(),
                 'deviceToken' => null,
-                'moreJson' => null,
+                'moreInfo' => null,
             ];
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($wordBody);
         }

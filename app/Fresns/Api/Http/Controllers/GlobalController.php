@@ -212,7 +212,7 @@ class GlobalController extends Controller
                 })
                 ->where('usage_group_id', 0)
                 ->isEnabled()
-                ->orderBy('rating')
+                ->orderBy('sort_order')
                 ->get();
 
             $items = [];
@@ -263,7 +263,7 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalRolesDTO($request->all());
         $langTag = $this->langTag();
 
-        $roleQuery = Role::orderBy('rating');
+        $roleQuery = Role::orderBy('sort_order');
 
         if (isset($dtoRequest->status)) {
             $roleQuery->where('is_enabled', $dtoRequest->status);
@@ -340,7 +340,7 @@ class GlobalController extends Controller
         $stickerTree = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($stickerTree)) {
-            $stickers = Sticker::isEnabled()->orderBy('rating')->get();
+            $stickers = Sticker::isEnabled()->orderBy('sort_order')->get();
 
             $stickerData = [];
             foreach ($stickers as $index => $sticker) {

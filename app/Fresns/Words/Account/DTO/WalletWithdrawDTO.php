@@ -24,7 +24,7 @@ class WalletWithdrawDTO extends DTO
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],
-            'moreJson' => ['json', 'nullable'],
+            'moreInfo' => ['json', 'nullable'],
             'immediate' => ['boolean', 'nullable'],
         ];
     }

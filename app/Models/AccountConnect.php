@@ -50,7 +50,7 @@ class AccountConnect extends Model
     const CONNECT_BYTEDANCE = 36;
 
     protected $casts = [
-        'more_json' => 'json',
+        'more_info' => 'json',
     ];
 
     public function account()

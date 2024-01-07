@@ -11,7 +11,7 @@ namespace App\Models;
 class PostUser extends Model
 {
     protected $casts = [
-        'more_json' => 'json',
+        'more_info' => 'json',
     ];
 
     public function user()
