@@ -23,7 +23,6 @@ use App\Models\Post;
 use App\Models\Seo;
 use App\Models\SessionKey;
 use App\Models\User;
-use App\Models\UserFollow;
 
 class PrimaryHelper
 {
