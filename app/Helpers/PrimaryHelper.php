@@ -303,54 +303,6 @@ class PrimaryHelper
         return $conversationModel;
     }
 
-    // get follow model by type
-    public static function fresnsFollowModelByType(string $type, int $id, ?int $authUserId = null): ?UserFollow
-    {
-        if (empty($authUserId)) {
-            return null;
-        }
-
-        $cacheKey = "fresns_model_follow_{$type}_{$id}_by_{$authUserId}";
-        $cacheTags = match ($type) {
-            'user' => ['fresnsModels', 'fresnsUsers'],
-            'group' => ['fresnsModels', 'fresnsGroups'],
-            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
-            'geotag' => ['fresnsModels', 'fresnsGeotags'],
-            'post' => ['fresnsModels', 'fresnsPosts'],
-            'comment' => ['fresnsModels', 'fresnsComments'],
-        };
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return null;
-        }
-
-        $fresnsModel = CacheHelper::get($cacheKey, $cacheTags);
-
-        if (empty($fresnsModel)) {
-            $followType = match ($type) {
-                'user' => UserFollow::TYPE_USER,
-                'group' => UserFollow::TYPE_GROUP,
-                'hashtag' => UserFollow::TYPE_HASHTAG,
-                'geotag' => UserFollow::TYPE_GEOTAG,
-                'post' => UserFollow::TYPE_POST,
-                'comment' => UserFollow::TYPE_COMMENT,
-                default => null,
-            };
-
-            if (empty($followType)) {
-                throw new \RuntimeException("unknown type {$type}");
-            }
-
-            $fresnsModel = UserFollow::where('user_id', $authUserId)->where('follow_type', $followType)->where('follow_id', $id)->first();
-
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
-        }
-
-        return $fresnsModel;
-    }
-
     // get table id
     public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null): ?int
     {

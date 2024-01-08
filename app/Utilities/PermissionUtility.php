@@ -214,6 +214,69 @@ class PermissionUtility
         return $filterGroupIdsArr;
     }
 
+    // get group content date limit
+    public static function getGroupContentDateLimit(?int $groupId = null, ?int $authUserId = null): array
+    {
+        $checkResp = [
+            'code' => 0,
+            'datetime' => null,
+        ];
+
+        if (empty($groupId)) {
+            return $checkResp;
+        }
+
+        $group = PrimaryHelper::fresnsModelById('group', $groupId);
+
+        if ($group->privacy == Group::PRIVACY_PUBLIC) {
+            return $checkResp;
+        }
+
+        if (empty($authUserId)) {
+            $checkResp['code'] = 37103;
+
+            return $checkResp;
+        }
+
+        $userRole = PermissionUtility::getUserMainRole($authUserId);
+        $whitelistRoles = $group->permissions['private_whitelist_roles'] ?? [];
+
+        if ($whitelistRoles && in_array($userRole['id'], $whitelistRoles)) {
+            return $checkResp;
+        }
+
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $groupId, $authUserId);
+        if (! $interactionStatus['followStatus']) {
+            $checkResp['code'] = 37103;
+
+            return $checkResp;
+        }
+
+        if ($group->private_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
+            return $checkResp;
+        }
+
+        if ($group->private_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
+            if (! $interactionStatus['followExpiryDateTime']) {
+                $checkResp['code'] = 37105;
+
+                return $checkResp;
+            }
+
+            $now = time();
+            $expiryTime = strtotime($interactionStatus['followExpiryDateTime']);
+            if ($expiryTime < $now) {
+                $checkResp['code'] = 37105;
+
+                return $checkResp;
+            }
+        }
+
+        $checkResp['datetime'] = $interactionStatus['followExpiryDateTime'];
+
+        return $checkResp;
+    }
+
     // Check if the user belongs to the account
     public static function checkUserAffiliation(int $userId, int $accountId): bool
     {
@@ -404,14 +467,7 @@ class PermissionUtility
             return false;
         }
 
-        $pid = PrimaryHelper::fresnsModelById('post', $postId)?->pid;
-        $uid = PrimaryHelper::fresnsModelById('user', $userId)?->uid;
-
-        if (empty($uid) || empty($pid)) {
-            return false;
-        }
-
-        $cacheKey = "fresns_user_post_read_{$pid}_{$uid}";
+        $cacheKey = "fresns_user_post_auth_{$postId}_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
