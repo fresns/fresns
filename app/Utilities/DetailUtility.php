@@ -667,7 +667,7 @@ class DetailUtility
                     $previewContent = Str::limit($readContent, $briefLength);
                     $previewContent = strip_tags($previewContent);
 
-                    $listPreviewContent = ContentUtility::handleAndReplaceAll($previewContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);;
+                    $listPreviewContent = ContentUtility::handleAndReplaceAll($previewContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
                     $listIsBrief = true;
                 }
 
