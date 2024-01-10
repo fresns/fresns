@@ -21,6 +21,11 @@ class Post extends Model
     const STICKY_GROUP = 2;
     const STICKY_GLOBAL = 3;
 
+    protected $casts = [
+        'more_info' => 'json',
+        'permissions' => 'json',
+    ];
+
     protected $dates = [
         'latest_edit_at',
         'latest_comment_at',
@@ -29,24 +34,6 @@ class Post extends Model
     public function getFsidKey()
     {
         return 'pid';
-    }
-
-    public function getPostAppendAttribute()
-    {
-        $postAppend = $this->postAppend()->first();
-
-        if (empty($postAppend)) {
-            $postAppend = PostAppend::create([
-                'post_id' => $this->id,
-            ]);
-        }
-
-        return $postAppend;
-    }
-
-    public function postAppend()
-    {
-        return $this->hasOne(PostAppend::class);
     }
 
     public function author()
@@ -59,6 +46,16 @@ class Post extends Model
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
+    public function fileUsages()
+    {
+        return $this->hasMany(FileUsage::class, 'table_id', 'id')->where('table_name', 'posts')->where('table_column', 'id');
+    }
+
+    public function extendUsages()
+    {
+        return $this->hasMany(ExtendUsage::class, 'usage_id', 'id')->where('usage_type', ExtendUsage::TYPE_POST);
+    }
+
     public function hashtags()
     {
         return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'usage_id', 'hashtag_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST)->wherePivotNull('deleted_at');
@@ -69,14 +66,9 @@ class Post extends Model
         return $this->hasMany(HashtagUsage::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_POST);
     }
 
-    public function fileUsages()
+    public function geotag()
     {
-        return $this->hasMany(FileUsage::class, 'table_id', 'id')->where('table_name', 'posts')->where('table_column', 'id');
-    }
-
-    public function extendUsages()
-    {
-        return $this->hasMany(ExtendUsage::class, 'usage_id', 'id')->where('usage_type', ExtendUsage::TYPE_POST);
+        return $this->belongsTo(Geotag::class, 'geotag_usages', 'usage_id', 'geotag_id')->wherePivot('usage_type', GeotagUsage::TYPE_POST)->wherePivotNull('deleted_at');
     }
 
     public function users()

@@ -36,37 +36,6 @@ class InteractionUtility
     const TYPE_POST = 5;
     const TYPE_COMMENT = 6;
 
-    // check interaction
-    public static function checkUserLike(int $likeType, int $likeId, ?int $userId = null): bool
-    {
-        if (empty($userId)) {
-            return false;
-        }
-
-        $checkLike = UserLike::where('user_id', $userId)
-            ->markType(UserLike::MARK_TYPE_LIKE)
-            ->type($likeType)
-            ->where('like_id', $likeId)
-            ->first();
-
-        return (bool) $checkLike;
-    }
-
-    public static function checkUserDislike(int $dislikeType, int $dislikeId, ?int $userId = null): bool
-    {
-        if (empty($userId)) {
-            return false;
-        }
-
-        $checkDislike = UserLike::where('user_id', $userId)
-            ->markType(UserLike::MARK_TYPE_DISLIKE)
-            ->type($dislikeType)
-            ->where('like_id', $dislikeId)
-            ->first();
-
-        return (bool) $checkDislike;
-    }
-
     public static function checkUserFollow(int $followType, ?int $followId = null, ?int $userId = null): bool
     {
         if (empty($followId) || empty($userId)) {
@@ -82,8 +51,42 @@ class InteractionUtility
         return (bool) $checkFollow;
     }
 
-    public static function getInteractionStatus(int $type, int $markId, int $userId): array
+    public static function getInteractionStatus(int $type, int $markId, ?int $userId = null): array
     {
+        $status = [
+            'likeStatus' => false,
+            'dislikeStatus' => false,
+            'followStatus' => false,
+            'blockStatus' => false,
+            'note' => null,
+        ];
+
+        $postAuthorLikeStatus = false;
+        if ($type == InteractionUtility::TYPE_COMMENT) {
+            $comment = PrimaryHelper::fresnsModelById('comment', $markId);
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $markId, $comment?->post?->user_id);
+
+            $postAuthorLikeStatus = $interactionStatus['likeStatus'];
+        }
+
+        if (empty($userId)) {
+            if ($type == InteractionUtility::TYPE_USER) {
+                $status['followMeStatus'] = false;
+                $status['blockMeStatus'] = false;
+            }
+
+            if ($type == InteractionUtility::TYPE_USER || $type == InteractionUtility::TYPE_GROUP) {
+                $status['followExpired'] = false;
+                $status['followExpiryDateTime'] = null;
+            }
+
+            if ($type == InteractionUtility::TYPE_COMMENT) {
+                $status['postAuthorLikeStatus'] = $postAuthorLikeStatus;
+            }
+
+            return $status;
+        }
+
         $cacheKey = "fresns_interaction_status_{$type}_{$markId}_{$userId}";
         $cacheTag = 'fresnsUsers';
 
@@ -112,6 +115,10 @@ class InteractionUtility
             }
 
             CacheHelper::put($status, $cacheKey, $cacheTag);
+        }
+
+        if ($type == InteractionUtility::TYPE_COMMENT) {
+            $status['postAuthorLikeStatus'] = $postAuthorLikeStatus;
         }
 
         return $status;

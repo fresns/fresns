@@ -99,11 +99,11 @@ class PrimaryHelper
                     break;
 
                 case 'post':
-                    $fresnsModel = Post::withTrashed()->with(['postAppend', 'author', 'group', 'hashtags'])->where('pid', $fsid)->first();
+                    $fresnsModel = Post::withTrashed()->with(['author', 'group', 'hashtags'])->where('pid', $fsid)->first();
                     break;
 
                 case 'comment':
-                    $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'author', 'hashtags'])->where('cid', $fsid)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['post', 'author', 'hashtags'])->where('cid', $fsid)->first();
                     break;
 
                 case 'file':
@@ -187,11 +187,11 @@ class PrimaryHelper
                     break;
 
                 case 'post':
-                    $fresnsModel = Post::withTrashed()->with(['postAppend', 'author', 'group', 'hashtags'])->where('id', $id)->first();
+                    $fresnsModel = Post::withTrashed()->with(['author', 'group', 'hashtags'])->where('id', $id)->first();
                     break;
 
                 case 'comment':
-                    $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'author', 'hashtags'])->where('id', $id)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['post', 'author', 'hashtags'])->where('id', $id)->first();
                     break;
 
                 case 'file':

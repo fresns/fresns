@@ -522,7 +522,9 @@ class PermissionUtility
             return $commentPerm;
         }
 
-        if ($post->postAppend->is_comment_disabled) {
+        $postPermissions = $post->permissions;
+
+        if ($postPermissions['commentConfig']['disabled'] ?? false) {
             $commentPerm['code'] = 38108;
 
             return $commentPerm;
