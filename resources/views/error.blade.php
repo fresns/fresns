@@ -1,11 +1,11 @@
-<!doctype html>
-<html lang="{{ App::getLocale() }}">
+@use('App\Helpers\ConfigHelper')
 
 @php
-    use App\Helpers\ConfigHelper;
-
     $email = ConfigHelper::fresnsConfigByItemKey('site_email');
 @endphp
+
+<!doctype html>
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="utf-8">
