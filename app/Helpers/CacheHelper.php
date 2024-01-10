@@ -794,7 +794,7 @@ class CacheHelper
     // fresns_detail_post_{$id}_{$langTag}                          // tag: fresnsPosts
     // fresns_detail_post_{$id}_preview_like_users_{$langTag}       // tag: fresnsPosts
     // fresns_detail_post_{$id}_preview_comments_{$langTag}         // tag: fresnsPosts
-    // fresns_detail_comment_{$id}                                  // tag: fresnsComments
+    // fresns_detail_comment_{$id}_{$langTag}                       // tag: fresnsComments
     // fresns_detail_comment_{$id}_preview_like_users_{$langTag}    // tag: fresnsComments
     // fresns_detail_comment_{$id}_preview_comments_{$langTag}      // tag: fresnsComments
 
