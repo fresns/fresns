@@ -11,10 +11,13 @@ namespace App\Utilities;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\InteractionHelper;
+use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\ArchiveUsage;
+use App\Models\Comment;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Geotag;
@@ -22,7 +25,10 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Mention;
 use App\Models\OperationUsage;
+use App\Models\Post;
 use App\Models\User;
+use App\Models\UserLike;
+use Illuminate\Support\Str;
 
 class DetailUtility
 {
@@ -174,7 +180,7 @@ class DetailUtility
         }
 
         // archives
-        if ($user->id != $authUserId && $userDetail['archives']) {
+        if ($userDetail['archives'] && $user->id != $authUserId) {
             $archives = [];
             foreach ($userDetail['archives'] as $archive) {
                 $item = $archive;
@@ -235,19 +241,11 @@ class DetailUtility
     }
 
     // groupDetail
-    public static function groupDetail(Group|string $groupOrGid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = [])
+    public static function groupDetail(Group|string $groupOrGid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
         //     'filter' => [
-        //         'type' => '', // whitelist or blacklist
-        //         'keys' => '',
-        //     ],
-        //     'filterCreator' => [
-        //         'type' => '', // whitelist or blacklist
-        //         'keys' => '',
-        //     ],
-        //     'filterAdmin' => [
         //         'type' => '', // whitelist or blacklist
         //         'keys' => '',
         //     ],
@@ -280,16 +278,6 @@ class DetailUtility
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
 
-            // creator
-            $item['creator'] = $group?->creator?->uid;
-
-            // admins
-            $adminList = [];
-            foreach ($group->admins as $admin) {
-                $adminList[] = $admin->uid;
-            }
-            $item['admins'] = $adminList;
-
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag);
 
@@ -297,38 +285,6 @@ class DetailUtility
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($groupDetail, $cacheKey, $cacheTag, null, $cacheTime);
-        }
-
-        // creator
-        if ($groupDetail['creator']) {
-            $creatorOptions = [
-                'viewType' => 'quoted',
-                'isLiveStats' => false,
-                'filter' => [
-                    'type' => $options['filterCreator']['type'] ?? null,
-                    'keys' => $options['filterCreator']['keys'] ?? null,
-                ],
-            ];
-
-            $groupDetail['creator'] = self::userDetail($groupDetail['creator'], $langTag, $timezone, $authUserId, $creatorOptions);
-        }
-
-        // admins
-        if ($groupDetail['admins']) {
-            $adminOptions = [
-                'viewType' => 'quoted',
-                'isLiveStats' => false,
-                'filter' => [
-                    'type' => $options['filterAdmin']['type'] ?? null,
-                    'keys' => $options['filterAdmin']['keys'] ?? null,
-                ],
-            ];
-
-            $admins = [];
-            foreach ($groupDetail['admins'] as $admin) {
-                $admins[] = self::userDetail($admin, $langTag, $timezone, $authUserId, $adminOptions);
-            }
-            $groupDetail['admins'] = $admins;
         }
 
         if ($authUserId) {
@@ -371,7 +327,7 @@ class DetailUtility
     }
 
     // hashtagDetail
-    public static function hashtagDetail(Hashtag|string $hashtagOrHtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = [])
+    public static function hashtagDetail(Hashtag|string $hashtagOrHtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -389,6 +345,8 @@ class DetailUtility
         if (is_string($hashtagOrHtid)) {
             $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hashtagOrHtid);
         }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_detail_hashtag_{$hashtag->id}_{$langTag}";
         $cacheTag = 'fresnsHashtags';
@@ -441,10 +399,15 @@ class DetailUtility
     }
 
     // geotagDetail
-    public static function geotagDetail(Geotag|string $geotagOrGtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = [])
+    public static function geotagDetail(Geotag|string $geotagOrGtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
+        //     'location' => [
+        //         'mapId' => '',
+        //         'longitude' => '',
+        //         'latitude' => '',
+        //     ],
         //     'filter' => [
         //         'type' => '', // whitelist or blacklist
         //         'keys' => '',
@@ -460,8 +423,10 @@ class DetailUtility
             $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $geotagOrGtid);
         }
 
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $cacheKey = "fresns_detail_geotag_{$geotag->id}_{$langTag}";
-        $cacheTag = 'fresnsHashtags';
+        $cacheTag = 'fresnsGeotags';
 
         $geotagDetail = CacheHelper::get($cacheKey, $cacheTag);
 
@@ -472,6 +437,10 @@ class DetailUtility
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GEOTAG, $geotag->id, $langTag);
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GEOTAG, $geotag->id, $langTag);
 
+            // distance
+            $item['distance'] = null;
+            $item['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
+
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('geotag', $langTag);
 
@@ -481,8 +450,24 @@ class DetailUtility
             CacheHelper::put($geotagDetail, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
+        // distance
+        $mapId = $options['location']['mapId'] ?? null;
+        $longitude = $options['location']['longitude'] ?? null;
+        $latitude = $options['location']['latitude'] ?? null;
+        if ($longitude && $latitude) {
+            $geotagDetail['distance'] = GeneralUtility::distanceOfLocation(
+                $langTag,
+                $geotag->map_longitude,
+                $geotag->map_latitude,
+                $longitude,
+                $latitude,
+                $geotag->map_id,
+                $mapId,
+            );
+        }
+
         if ($authUserId) {
-            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $geotag->id, $authUserId);
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GEOTAG, $geotag->id, $authUserId);
 
             $geotagDetail['interaction'] = array_replace($geotagDetail['interaction'], $interactionStatus);
         }
@@ -510,10 +495,740 @@ class DetailUtility
         return $result;
     }
 
+    // postDetail
+    public static function postDetail(Post|string $postOrPid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    {
+        // $options = [
+        //     'viewType' => '', // list, detail, quoted
+        //     'contentFormat' => '', // html
+        //     'location' => [
+        //         'mapId' => '',
+        //         'longitude' => '',
+        //         'latitude' => '',
+        //     ],
+        //     'checkPermissions' => false,
+        //     'isPreviewLikeUsers' => false,
+        //     'isPreviewComments' => false,
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterGroup' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterHashtag' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterGeotag' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterAuthor' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterQuotedPost' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterPreviewLikeUser' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterPreviewComment' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
+        $viewType = $options['viewType'] ?? 'quoted';
+
+        if (! $postOrPid) {
+            return null;
+        }
+
+        $post = $postOrPid;
+        if (is_string($postOrPid)) {
+            $post = PrimaryHelper::fresnsModelByFsid('post', $postOrPid);
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_detail_post_{$post->id}_{$langTag}";
+        $cacheTag = 'fresnsPosts';
+
+        $postDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($postDetail)) {
+            $postInfo = $post->getPostInfo($langTag);
+            $permissions = $post->permissions;
+
+            // extend list
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $post->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST, $post->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
+
+            // file
+            $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
+
+            // group
+            $item['group'] = $post?->group?->gid;
+
+            // hashtags
+            $item['hashtags'] = [];
+            if ($post->hashtags->isNotEmpty()) {
+                foreach ($post->hashtags as $hashtag) {
+                    $hashtagItem[] = $hashtag->slug;
+                }
+
+                $item['hashtags'] = $hashtagItem;
+            }
+
+            // geotag
+            $item['geotag'] = $post?->geotag?->gtid;
+
+            // author
+            $item['author'] = $post?->author?->id;
+
+            // quoted post
+            $parentPost = $post?->parentPost;
+            $item['isMultiLevelQuote'] = (bool) $parentPost?->parent_id;
+            $item['quotedPost'] = $parentPost?->pid;
+
+            $item['previewLikeUsers'] = [];
+            $item['previewComments'] = [];
+            $item['manages'] = [];
+
+            $item['editControls'] = [
+                'isAuthor' => false,
+                'canDelete' => (bool) $permissions['canDelete'] ?? true,
+                'canEdit' => false,
+                'isAppEditor' => (bool) $permissions['editor']['isAppEditor'] ?? false,
+                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
+            ];
+
+            // interaction
+            $item['interaction'] = InteractionHelper::fresnsInteraction('post', $langTag);
+            $item['followType'] = null;
+
+            // handle post detail content
+            $newContent = ContentUtility::handleAndReplaceAll($postInfo['content'], $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
+
+            $detailContent = [
+                'content' => $newContent,
+                'files' => $item['files'],
+            ];
+
+            $fidArr = ContentUtility::extractFile($postInfo['content']);
+            if ($fidArr) {
+                $detailContent['content'] = ContentUtility::replaceFile($postInfo['content']);
+
+                $detailContent['files'] = [
+                    'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($item['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($item['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($item['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
+            $briefLength = ConfigHelper::fresnsConfigByItemKey('post_brief_length');
+            if ($postInfo['contentLength'] > $briefLength) {
+                $postContent = Str::limit($postInfo['content'], $briefLength);
+                $postContent = strip_tags($postContent);
+
+                $postInfo['content'] = ContentUtility::handleAndReplaceAll($postContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
+                $postInfo['isBrief'] = true;
+            } else {
+                $postInfo['content'] = $newContent;
+            }
+
+            $item['detailContent'] = $detailContent;
+
+            // handle post permissions
+            $readConfigContent = [
+                'listContent' => null,
+                'listIsBrief' => false,
+                'detailContent' => null,
+            ];
+            if ($postInfo['readConfig']['isReadLocked']) {
+                $previewPercentage = $postInfo['readConfig']['previewPercentage'] / 100;
+                $readLength = intval($postInfo['contentLength'] * $previewPercentage);
+
+                $readContent = Str::limit($post->content, $readLength);
+                $readContentLength = Str::length($readContent);
+
+                $newReadContent = ContentUtility::handleAndReplaceAll($readContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
+
+                $listPreviewContent = $newReadContent;
+                $listIsBrief = false;
+                $detailPreviewContent = $newReadContent;
+                if ($readContentLength > $briefLength) {
+                    $previewContent = Str::limit($readContent, $briefLength);
+                    $previewContent = strip_tags($previewContent);
+
+                    $listPreviewContent = ContentUtility::handleAndReplaceAll($previewContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);;
+                    $listIsBrief = true;
+                }
+
+                $readConfigContent = [
+                    'listContent' => $listPreviewContent,
+                    'listIsBrief' => $listIsBrief,
+                    'detailContent' => $detailPreviewContent,
+                ];
+            }
+
+            $item['readConfigContent'] = $readConfigContent;
+
+            $postDetail = array_merge($postInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($postDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // group
+        if ($postDetail['group']) {
+            $groupOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterGroup']['type'] ?? null,
+                    'keys' => $options['filterGroup']['keys'] ?? null,
+                ],
+            ];
+
+            $postDetail['group'] = self::groupDetail($postDetail['group'], $langTag, null, $authUserId, $groupOptions);
+        }
+
+        // hashtags
+        if ($postDetail['hashtags']) {
+            $hashtagOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterHashtag']['type'] ?? null,
+                    'keys' => $options['filterHashtag']['keys'] ?? null,
+                ],
+            ];
+
+            $hashtags = [];
+            foreach ($postDetail['hashtags'] as $hashtag) {
+                $hashtags[] = self::hashtagDetail($hashtag, $langTag, null, $authUserId, $hashtagOptions);
+            }
+            $postDetail['hashtags'] = $hashtags;
+        }
+
+        // geotag
+        if ($postDetail['geotag']) {
+            $geotagOptions = [
+                'viewType' => 'quoted',
+                'location' => [
+                    'mapId' => $options['location']['mapId'] ?? null,
+                    'longitude' => $options['location']['longitude'] ?? null,
+                    'latitude' => $options['location']['latitude'] ?? null,
+                ],
+                'filter' => [
+                    'type' => $options['filterGeotag']['type'] ?? null,
+                    'keys' => $options['filterGeotag']['keys'] ?? null,
+                ],
+            ];
+
+            $postDetail['geotag'] = self::geotagDetail($postDetail['geotag'], $langTag, null, $authUserId, $geotagOptions);
+        }
+
+        // author
+        $authorOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $options['filterAuthor']['type'] ?? null,
+                'keys' => $options['filterAuthor']['keys'] ?? null,
+            ],
+        ];
+        if ($postDetail['author']) {
+            $postDetail['author'] = $postDetail['isAnonymous'] ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $authorOptions['filter']['type'], $authorOptions['filter']['keys']) : self::userDetail($postDetail['author'], $langTag, null, $authUserId, $authorOptions);
+        } else {
+            $postDetail['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate', $authorOptions['filter']['type'], $authorOptions['filter']['keys']);
+        }
+
+        // quoted post
+        if ($postDetail['quotedPost'] && $viewType != 'quoted') {
+            $quotedPostOptions = [
+                'viewType' => 'quoted',
+                'isPreviewLikeUsers' => false,
+                'isPreviewComments' => false,
+                'filter' => [
+                    'type' => $options['filterQuotedPost']['type'] ?? null,
+                    'keys' => $options['filterQuotedPost']['keys'] ?? null,
+                ],
+            ];
+
+            $postDetail['quotedPost'] = self::postDetail($postDetail['geotag'], $langTag, null, $authUserId, $quotedPostOptions);
+        }
+
+        // get preview configs
+        $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'preview_post_like_users',
+            'preview_post_comments',
+            'comment_visibility_rule',
+        ]);
+
+        // comment visibility rule
+        if ($previewConfig['comment_visibility_rule'] > 0) {
+            $visibilityTime = $post->created_at->addDay($previewConfig['comment_visibility_rule']);
+
+            $postDetail['commentConfig']['hidden'] = $visibilityTime->lt(now());
+        }
+
+        $isPreviewLikeUsers = $options['isPreviewLikeUsers'] ?? false;
+        $isPreviewComments = $options['isPreviewComments'] ?? false;
+        $publicComment = (! $postDetail['commentConfig']['hidden'] && ! $postDetail['commentConfig']['private']);
+
+        // get preview like users
+        if ($isPreviewLikeUsers && $previewConfig['preview_post_like_users'] != 0) {
+            $previewLikeUserOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterPreviewLikeUser']['type'] ?? null,
+                    'keys' => $options['filterPreviewLikeUser']['keys'] ?? null,
+                ],
+            ];
+
+            $postDetail['previewLikeUsers'] = self::getPreviewLikeUsers('post', $post->id, $post->like_count, $previewConfig['preview_post_like_users'], $langTag, $previewLikeUserOptions);
+        }
+
+        // get preview comments
+        if ($isPreviewComments && $previewConfig['preview_post_comments'] != 0 && $publicComment) {
+            $previewCommentOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterPreviewComment']['type'] ?? null,
+                    'keys' => $options['filterPreviewComment']['keys'] ?? null,
+                ],
+            ];
+
+            $postDetail['previewComments'] = self::getPostPreviewComments($post, $previewConfig['preview_post_comments'], $langTag, $previewCommentOptions);
+        }
+
+        // authUserId
+        if ($authUserId) {
+            // manages
+            $postDetail['manages'] = ExtendUtility::getManageExtensions('post', $langTag, $authUserId, $post->group_id);
+
+            if ($post->user_id == $authUserId) {
+                $postDetail['editControls']['isAuthor'] = true;
+                $postDetail['editControls']['canDelete'] = $postDetail['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state) : false;
+                $postDetail['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->digest_state, $post->sticky_state, $timezone, $langTag);
+            }
+
+            // interaction
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_POST, $post->id, $authUserId);
+            $postDetail['interaction'] = array_replace($postDetail['interaction'], $interactionStatus);
+        }
+
+        // detail content
+        if ($viewType == 'detail') {
+            $postDetail['content'] = $postDetail['detailContent']['content'];
+            $postDetail['isBrief'] = false;
+            $postDetail['files'] = $postDetail['detailContent']['files'];
+        }
+        unset($postDetail['detailContent']);
+
+        // checkPermissions
+        if ($options['checkPermissions'] ?? false) {
+            $postDetail = self::handlePostPermissions($postDetail, $post, $viewType, $authUserId);
+        }
+
+        // contentFormat
+        $contentFormat = $options['contentFormat'] ?? null;
+        if ($contentFormat == 'html' && $postDetail['content']) {
+            $postDetail['content'] = $post->is_markdown ? Str::markdown($postDetail['content']) : nl2br($postDetail['content']);
+        }
+
+        $postDetail = self::handlePostAndCommentDate($postDetail, $timezone, $langTag);
+        $result = self::handlePostDetailCount($postDetail, $post);
+
+        // subscribe
+        if ($viewType && $viewType != 'quoted') {
+            SubscribeUtility::notifyViewContent('post', $post->pid, $viewType, $authUserId);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($result, $filterType, $filterKeysArr);
+        }
+
+        return $result;
+    }
+
+    public static function commentDetail(Comment|string $commentOrCid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    {
+        // $options = [
+        //     'viewType' => '', // list, detail, quoted
+        //     'contentFormat' => '', // html
+        //     'location' => [
+        //         'mapId' => '',
+        //         'longitude' => '',
+        //         'latitude' => '',
+        //     ],
+        //     'checkPermissions' => false,
+        //     'isPreviewLikeUsers' => false,
+        //     'isPreviewComments' => false,
+        //     'outputReplyToPost' => false,
+        //     'outputReplyToComment' => false,
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterHashtag' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterGeotag' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterAuthor' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterPreviewLikeUser' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterPreviewComment' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterReplyToPost' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterReplyToComment' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
+        $viewType = $options['viewType'] ?? 'quoted';
+
+        if (! $commentOrCid) {
+            return null;
+        }
+
+        $comment = $commentOrCid;
+        if (is_string($commentOrCid)) {
+            $comment = PrimaryHelper::fresnsModelByFsid('comment', $commentOrCid);
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_detail_comment_{$comment->id}_{$langTag}";
+        $cacheTag = 'fresnsComments';
+
+        $commentDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($commentDetail)) {
+            $post = $comment->post;
+
+            $commentInfo = $comment->getCommentInfo($langTag);
+            $permissions = $comment->permissions;
+            $postPermissions = $post->permissions;
+
+            $item['isPrivate'] = $postPermissions['commentConfig']['private'] ?? false;
+
+            // extend list
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
+
+            // file
+            $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comments', 'id', $comment->id);
+
+            // hashtags
+            $item['hashtags'] = [];
+            if ($comment->hashtags->isNotEmpty()) {
+                foreach ($comment->hashtags as $hashtag) {
+                    $hashtagItem[] = $hashtag->slug;
+                }
+
+                $item['hashtags'] = $hashtagItem;
+            }
+
+            // geotag
+            $item['geotag'] = $comment?->geotag?->gtid;
+
+            // author
+            $item['author'] = $comment?->author?->id;
+            $item['isPostAuthor'] = $comment->user_id == $post?->user_id ? true : false;
+
+            $item['previewLikeUsers'] = [];
+            $item['previewComments'] = [];
+
+            $item['manages'] = [];
+
+            $item['editControls'] = [
+                'isAuthor' => false,
+                'canDelete' => (bool) $permissions['canDelete'] ?? true,
+                'canEdit' => false,
+                'isAppEditor' => (bool) $permissions['editor']['isAppEditor'] ?? false,
+                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
+            ];
+
+            // interaction
+            $item['interaction'] = InteractionHelper::fresnsInteraction('comment', $langTag);
+
+            // reply info
+            $item['replyToPost'] = null;
+            $item['replyToComment'] = null;
+            $item['replyInfo'] = [
+                'post' => $post?->pid,
+                'comment' => $comment?->parentComment?->cid,
+            ];
+
+            $item['followType'] = null;
+
+            // handle post detail content
+            $newContent = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
+
+            $detailContent = [
+                'content' => $newContent,
+                'files' => $item['files'],
+            ];
+
+            $fidArr = ContentUtility::extractFile($commentInfo['content']);
+            if ($fidArr) {
+                $detailContent['content'] = ContentUtility::replaceFile($commentInfo['content']);
+
+                $detailContent['files'] = [
+                    'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($item['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($item['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($item['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
+            $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_brief_length');
+            if ($commentInfo['contentLength'] > $briefLength) {
+                $commentContent = Str::limit($commentInfo['content'], $briefLength);
+                $commentContent = strip_tags($commentContent);
+
+                $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentContent, $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
+                $commentInfo['isBrief'] = true;
+            } else {
+                $commentInfo['content'] = $newContent;
+            }
+
+            $item['detailContent'] = $detailContent;
+
+            $commentDetail = array_merge($commentInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($commentDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // hashtags
+        if ($commentDetail['hashtags']) {
+            $hashtagOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterHashtag']['type'] ?? null,
+                    'keys' => $options['filterHashtag']['keys'] ?? null,
+                ],
+            ];
+
+            $hashtags = [];
+            foreach ($commentDetail['hashtags'] as $hashtag) {
+                $hashtags[] = self::hashtagDetail($hashtag, $langTag, null, $authUserId, $hashtagOptions);
+            }
+            $commentDetail['hashtags'] = $hashtags;
+        }
+
+        // geotag
+        if ($commentDetail['geotag']) {
+            $geotagOptions = [
+                'viewType' => 'quoted',
+                'location' => [
+                    'mapId' => $options['location']['mapId'] ?? null,
+                    'longitude' => $options['location']['longitude'] ?? null,
+                    'latitude' => $options['location']['latitude'] ?? null,
+                ],
+                'filter' => [
+                    'type' => $options['filterGeotag']['type'] ?? null,
+                    'keys' => $options['filterGeotag']['keys'] ?? null,
+                ],
+            ];
+
+            $commentDetail['geotag'] = self::geotagDetail($commentDetail['geotag'], $langTag, null, $authUserId, $geotagOptions);
+        }
+
+        // author
+        $authorOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $options['filterAuthor']['type'] ?? null,
+                'keys' => $options['filterAuthor']['keys'] ?? null,
+            ],
+        ];
+        if ($commentDetail['author']) {
+            $commentDetail['author'] = $commentDetail['isAnonymous'] ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $authorOptions['filter']['type'], $authorOptions['filter']['keys']) : self::userDetail($commentDetail['author'], $langTag, null, $authUserId, $authorOptions);
+        } else {
+            $commentDetail['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate', $authorOptions['filter']['type'], $authorOptions['filter']['keys']);
+        }
+
+        $commentDetail['author']['isPostAuthor'] = $commentDetail['isAnonymous'] ? false : $commentDetail['isPostAuthor'];
+        unset($commentDetail['isPostAuthor']);
+
+        // get preview configs
+        $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'preview_comment_like_users',
+            'preview_comment_replies',
+        ]);
+
+        $isPreviewLikeUsers = $options['isPreviewLikeUsers'] ?? false;
+        $isPreviewComments = $options['isPreviewComments'] ?? false;
+
+        // get preview like users
+        if ($isPreviewLikeUsers && $previewConfig['preview_comment_like_users'] != 0) {
+            $previewLikeUserOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterPreviewLikeUser']['type'] ?? null,
+                    'keys' => $options['filterPreviewLikeUser']['keys'] ?? null,
+                ],
+            ];
+
+            $commentDetail['previewLikeUsers'] = self::getPreviewLikeUsers('comment', $comment->id, $comment->like_count, $previewConfig['preview_comment_like_users'], $langTag, $previewLikeUserOptions);
+        }
+
+        // get preview comments
+        if ($isPreviewComments && $previewConfig['preview_comment_replies'] != 0 && ! $commentDetail['isPrivate']) {
+            $previewCommentOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterPreviewComment']['type'] ?? null,
+                    'keys' => $options['filterPreviewComment']['keys'] ?? null,
+                ],
+            ];
+
+            $commentDetail['previewComments'] = self::getCommentPreviewComments($comment, $previewConfig['preview_comment_replies'], $langTag, $previewCommentOptions);
+        }
+
+        // detail content
+        if ($viewType == 'detail') {
+            $commentDetail['content'] = $commentDetail['detailContent']['content'];
+            $commentDetail['isBrief'] = false;
+            $commentDetail['files'] = $commentDetail['detailContent']['files'];
+        }
+        unset($commentDetail['detailContent']);
+
+        // private
+        $isPrivate = $commentDetail['isPrivate'];
+
+        // authUserId
+        if ($authUserId) {
+            $commentModel = PrimaryHelper::fresnsModelByFsid('comment', $commentDetail['cid']);
+
+            // manages
+            $commentDetail['manages'] = ExtendUtility::getManageExtensions('comment', $langTag, $authUserId, $commentModel?->post?->group_id);
+
+            if ($comment->user_id == $authUserId) {
+                $isPrivate = false;
+
+                $commentDetail['editControls']['isAuthor'] = true;
+                $commentDetail['editControls']['canDelete'] = $commentDetail['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky) : false;
+                $commentDetail['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->digest_state, $comment->is_sticky, $timezone, $langTag);
+            }
+
+            if ($commentModel?->post?->user_id == $authUserId) {
+                $isPrivate = false;
+            }
+
+            // interaction
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
+            $commentDetail['interaction'] = array_replace($commentDetail['interaction'], $interactionStatus);
+        }
+
+        // checkPermissions
+        if ($options['checkPermissions'] ?? false && $isPrivate) {
+            $newContent = [
+                'content' => null,
+                'isBrief' => false,
+                'archives' => [],
+                'extends' => [
+                    'texts' => [],
+                    'infos' => [],
+                    'actions' => [],
+                ],
+                'files' => [
+                    'images' => [],
+                    'videos' => [],
+                    'audios' => [],
+                    'documents' => [],
+                ],
+            ];
+
+            $commentDetail = array_replace($commentDetail, $newContent);
+        }
+
+        $commentDetail['isPrivate'] = $isPrivate;
+
+        if ($options['outputReplyToPost'] ?? false && $commentDetail['replyInfo']['post']) {
+            $replyToPostOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterReplyToPost']['type'] ?? null,
+                    'keys' => $options['filterReplyToPost']['keys'] ?? null,
+                ],
+            ];
+
+            $commentDetail['replyToPost'] = self::postDetail($commentDetail['replyToPost'], $langTag, null, $authUserId, $replyToPostOptions);
+        }
+        if ($options['outputReplyToComment'] ?? false && $commentDetail['replyInfo']['comment']) {
+            $replyToCommentOptions = [
+                'viewType' => 'quoted',
+                'filter' => [
+                    'type' => $options['filterReplyToComment']['type'] ?? null,
+                    'keys' => $options['filterReplyToComment']['keys'] ?? null,
+                ],
+            ];
+
+            $commentDetail['replyToComment'] = self::commentDetail($commentDetail['replyToComment'], $langTag, null, $authUserId, $replyToCommentOptions);
+        }
+
+        unset($commentDetail['replyInfo']);
+
+        // contentFormat
+        $contentFormat = $options['contentFormat'] ?? null;
+        if ($contentFormat == 'html' && $commentDetail['content']) {
+            $commentDetail['content'] = $comment->is_markdown ? Str::markdown($commentDetail['content']) : nl2br($commentDetail['content']);
+        }
+
+        $commentDetail = self::handlePostAndCommentDate($commentDetail, $timezone, $langTag);
+        $result = self::handleCommentDetailCount($commentDetail, $comment);
+
+        // subscribe
+        if ($viewType && $viewType != 'quoted') {
+            SubscribeUtility::notifyViewContent('comment', $comment->cid, $viewType, $authUserId);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($result, $filterType, $filterKeysArr);
+        }
+
+        return $result;
+    }
+
     /**
      * handle detail date and count.
      */
-
     // handle user data date
     private static function handleUserDate(array $userDetail, ?string $timezone = null, ?string $langTag = null): array
     {
@@ -561,5 +1276,356 @@ class DetailUtility
         $detail['commentDigestCount'] = $model->comment_digest_count;
 
         return $detail;
+    }
+
+    // handle post and comment data date
+    private static function handlePostAndCommentDate(array $detail, ?string $timezone = null, ?string $langTag = null): array
+    {
+        $detail['createdDatetime'] = DateHelper::fresnsFormatDateTime($detail['createdDatetime'], $timezone, $langTag);
+        $detail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['createdDatetime'], $langTag);
+        $detail['editedDatetime'] = DateHelper::fresnsFormatDateTime($detail['editedDatetime'], $timezone, $langTag);
+        $detail['editedTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['editedDatetime'], $langTag);
+        $detail['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['latestCommentDatetime'], $timezone, $langTag);
+        $detail['latestCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['latestCommentDatetime'], $langTag);
+
+        return $detail;
+    }
+
+    // handle post detail count
+    private static function handlePostDetailCount(array $postDetail, Post $post): array
+    {
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'post_like_public_count',
+            'post_dislike_public_count',
+            'post_follow_public_count',
+            'post_block_public_count',
+            'comment_like_public_count',
+            'comment_dislike_public_count',
+            'comment_follow_public_count',
+            'comment_block_public_count',
+        ]);
+
+        $postDetail['viewCount'] = $post->view_count;
+        $postDetail['likeCount'] = $configKeys['post_like_public_count'] ? $post->like_count : null;
+        $postDetail['dislikeCount'] = $configKeys['post_dislike_public_count'] ? $post->dislike_count : null;
+        $postDetail['followCount'] = $configKeys['post_follow_public_count'] ? $post->follow_count : null;
+        $postDetail['blockCount'] = $configKeys['post_block_public_count'] ? $post->block_count : null;
+        $postDetail['commentCount'] = $post->comment_count;
+        $postDetail['commentDigestCount'] = $post->comment_digest_count;
+        $postDetail['commentLikeCount'] = $configKeys['comment_like_public_count'] ? $post->comment_like_count : null;
+        $postDetail['commentDislikeCount'] = $configKeys['comment_dislike_public_count'] ? $post->comment_dislike_count : null;
+        $postDetail['commentFollowCount'] = $configKeys['comment_follow_public_count'] ? $post->comment_follow_count : null;
+        $postDetail['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $post->comment_block_count : null;
+        $postDetail['postCount'] = $post->post_count;
+        $postDetail['editedCount'] = $post->edit_count;
+
+        return $postDetail;
+    }
+
+    // handle post permissions
+    private static function handlePostPermissions(array $postDetail, Post $post, string $viewType, ?int $authUserId = null): array
+    {
+        $newContent = [
+            'content' => null,
+            'isBrief' => false,
+            'archives' => [],
+            'extends' => [
+                'texts' => [],
+                'infos' => [],
+                'actions' => [],
+            ],
+            'files' => [
+                'images' => [],
+                'videos' => [],
+                'audios' => [],
+                'documents' => [],
+            ],
+        ];
+
+        // groupDateLimit
+        $groupDateLimit = PermissionUtility::getGroupContentDateLimit($post->group_id, $authUserId);
+        if ($groupDateLimit['code'] == 37103) {
+            return array_replace($postDetail, $newContent);
+        }
+
+        if ($groupDateLimit['datetime']) {
+            $postTime = strtotime($post->created_at);
+            $dateLimit = strtotime($groupDateLimit['datetime']);
+
+            if ($postTime > $dateLimit) {
+                return array_replace($postDetail, $newContent);
+            }
+        }
+
+        // readConfig
+        if (! $postDetail['readConfig']['isReadLocked']) {
+            unset($postDetail['readConfigContent']);
+
+            return $postDetail;
+        }
+
+        $checkPostAuth = PermissionUtility::checkPostAuth($post->id, $authUserId);
+
+        if ($checkPostAuth) {
+            $postDetail['readConfig']['isReadLocked'] = false;
+            unset($postDetail['readConfigContent']);
+
+            return $postDetail;
+        }
+
+        if ($viewType == 'detail') {
+            $newContent['content'] = $postDetail['readConfigContent']['detailContent'];
+
+            $postDetail = array_replace($postDetail, $newContent);
+
+            unset($postDetail['readConfigContent']);
+
+            return $postDetail;
+        }
+
+        $newContent['content'] = $postDetail['readConfigContent']['listContent'];
+        $newContent['isBrief'] = $postDetail['readConfigContent']['listIsBrief'];
+
+        $postDetail = array_replace($postDetail, $newContent);
+
+        unset($postDetail['readConfigContent']);
+
+        return $postDetail;
+    }
+
+    // handle comment detail count
+    private static function handleCommentDetailCount(array $commentDetail, Comment $comment): array
+    {
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'comment_like_public_count',
+            'comment_dislike_public_count',
+            'comment_follow_public_count',
+            'comment_block_public_count',
+        ]);
+
+        $commentDetail['viewCount'] = $comment->view_count;
+        $commentDetail['likeCount'] = $configKeys['comment_like_public_count'] ? $comment->like_count : null;
+        $commentDetail['dislikeCount'] = $configKeys['comment_dislike_public_count'] ? $comment->dislike_count : null;
+        $commentDetail['followCount'] = $configKeys['comment_follow_public_count'] ? $comment->follow_count : null;
+        $commentDetail['blockCount'] = $configKeys['comment_block_public_count'] ? $comment->block_count : null;
+        $commentDetail['commentCount'] = $comment->comment_count;
+        $commentDetail['commentDigestCount'] = $comment->comment_digest_count;
+        $commentDetail['commentLikeCount'] = $configKeys['comment_like_public_count'] ? $comment->comment_like_count : null;
+        $commentDetail['commentDislikeCount'] = $configKeys['comment_dislike_public_count'] ? $comment->comment_dislike_count : null;
+        $commentDetail['commentFollowCount'] = $configKeys['comment_follow_public_count'] ? $comment->comment_follow_count : null;
+        $commentDetail['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $comment->comment_block_count : null;
+        $commentDetail['editedCount'] = $comment->edit_count;
+
+        return $commentDetail;
+    }
+
+    /**
+     * handle preview data.
+     */
+    // get preview like users
+    private static function getPreviewLikeUsers(string $type, int $id, int $likeCount, int $limit, string $langTag, ?array $options = []): ?array
+    {
+        $cacheKey = "fresns_detail_{$type}_{$id}_preview_like_users_{$langTag}";
+        $cacheTag = ($type == 'post') ? 'fresnsPosts' : 'fresnsComments';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        // get cache
+        $userList = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($userList)) {
+            $likeType = ($type == 'post') ? UserLike::TYPE_POST : UserLike::TYPE_COMMENT;
+
+            $userLikes = UserLike::with('creator')
+                ->has('creator')
+                ->markType(UserLike::MARK_TYPE_LIKE)
+                ->type($likeType)
+                ->where('like_id', $id)
+                ->limit($limit)
+                ->oldest()
+                ->get();
+
+            $userList = [];
+            foreach ($userLikes as $like) {
+                $userList[] = self::userDetail($like->creator, $langTag);
+            }
+
+            CacheHelper::put($userList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+        }
+
+        $userCount = count($userList);
+        if ($userCount > 0 && $userCount < $likeCount) {
+            CacheHelper::forgetFresnsMultilingual("fresns_detail_{$type}_{$id}_preview_like_users", $cacheTag);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            $newUserList = [];
+            foreach ($userList as $user) {
+                $newUserList[] = ArrUtility::filter($user, $filterType, $filterKeysArr);
+            }
+
+            return $newUserList;
+        }
+
+        return $userList;
+    }
+
+    // get post preview comments
+    private static function getPostPreviewComments(Post $post, int $limit, string $langTag, ?array $options = []): ?array
+    {
+        $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'preview_post_comments_type',
+            'preview_post_comments_threshold',
+        ]);
+
+        if ($previewConfig['preview_post_comments_type'] == 'like' && $post->comment_like_count < $previewConfig['preview_post_comments_threshold']) {
+            return [];
+        }
+
+        $cacheKey = "fresns_detail_post_{$post->id}_preview_comments_{$langTag}";
+        $cacheTags = 'fresnsComments';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        // get cache
+        $commentList = CacheHelper::get($cacheKey, $cacheTags);
+
+        if (empty($commentList)) {
+            $commentQuery = Comment::with(['author'])
+                ->has('author')
+                ->where('post_id', $post->id)
+                ->where('top_parent_id', 0)
+                ->isEnabled()
+                ->limit($limit);
+
+            if ($previewConfig['preview_post_comments_type'] == 'like') {
+                $commentQuery->orderByDesc('like_count');
+            }
+
+            if ($previewConfig['preview_post_comments_type'] == 'comment') {
+                $commentQuery->where('comment_count', '>', $previewConfig['preview_post_comments_threshold'])->orderByDesc('comment_count');
+            }
+
+            if ($previewConfig['preview_post_comments_type'] == 'oldest') {
+                $commentQuery->oldest();
+            }
+
+            if ($previewConfig['preview_post_comments_type'] == 'latest') {
+                $commentQuery->latest();
+            }
+
+            $comments = $commentQuery->get();
+
+            $options = [
+                'viewType' => 'quoted',
+                'isPreviewLikeUsers' => false,
+                'isPreviewComments' => false,
+                'outputReplyToPost' => false,
+                'outputReplyToComment' => false,
+            ];
+
+            $commentList = [];
+            foreach ($comments as $comment) {
+                $commentList[] = self::commentDetail($comment, $langTag);
+            }
+
+            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            $newCommentList = [];
+            foreach ($commentList as $comment) {
+                $newCommentList[] = ArrUtility::filter($comment, $filterType, $filterKeysArr);
+            }
+
+            return $newCommentList;
+        }
+
+        return $commentList;
+    }
+
+    // get comment preview comments
+    private static function getCommentPreviewComments(Comment $comment, int $limit, string $langTag, ?array $options = []): ?array
+    {
+        $cacheKey = "fresns_detail_comment_{$comment->id}_preview_comments_{$langTag}";
+        $cacheTags = 'fresnsComments';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        // get cache
+        $commentList = CacheHelper::get($cacheKey, $cacheTags);
+
+        if (empty($commentList)) {
+            $previewConfig = ConfigHelper::fresnsConfigByItemKey('preview_comment_replies_type');
+
+            $commentQuery = Comment::with(['author'])->has('author')->where('top_parent_id', $comment->id)->isEnabled();
+
+            if ($previewConfig == 'like') {
+                $commentQuery->orderByDesc('like_count');
+            }
+
+            if ($previewConfig == 'oldest') {
+                $commentQuery->oldest();
+            }
+
+            if ($previewConfig == 'latest') {
+                $commentQuery->latest();
+            }
+
+            $comments = $commentQuery->limit($limit)->get();
+
+            $options = [
+                'viewType' => 'quoted',
+                'isPreviewLikeUsers' => false,
+                'isPreviewComments' => false,
+                'outputReplyToPost' => false,
+                'outputReplyToComment' => false,
+            ];
+
+            $commentList = [];
+            foreach ($comments as $comment) {
+                $commentList[] = self::commentDetail($comment, $langTag);
+            }
+
+            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            $newCommentList = [];
+            foreach ($commentList as $comment) {
+                $newCommentList[] = ArrUtility::filter($comment, $filterType, $filterKeysArr);
+            }
+
+            return $newCommentList;
+        }
+
+        return $commentList;
     }
 }

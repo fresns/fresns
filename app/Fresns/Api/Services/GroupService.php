@@ -15,65 +15,6 @@ use App\Utilities\PermissionUtility;
 
 class GroupService
 {
-    // get group content date limit
-    public static function getGroupContentDateLimit(int $groupId, ?int $authUserId = null)
-    {
-        $group = PrimaryHelper::fresnsModelById('group', $groupId);
-
-        $checkResp = [
-            'code' => 0,
-            'datetime' => null,
-        ];
-
-        if ($group->privacy == Group::PRIVACY_PUBLIC) {
-            return $checkResp;
-        }
-
-        if (empty($authUserId)) {
-            $checkResp['code'] = 37103;
-
-            return $checkResp;
-        }
-
-        $userRole = PermissionUtility::getUserMainRole($authUserId);
-        $whitelistRoles = $group->permissions['private_whitelist_roles'] ?? [];
-
-        if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
-            return $checkResp;
-        }
-
-        $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
-        if (empty($follow)) {
-            $checkResp['code'] = 37103;
-
-            return $checkResp;
-        }
-
-        if ($group->private_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
-            return $checkResp;
-        }
-
-        if ($group->private_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
-            if (empty($follow?->expired_at)) {
-                $checkResp['code'] = 37105;
-
-                return $checkResp;
-            }
-
-            $now = time();
-            $expiryTime = strtotime($follow->expired_at);
-            if ($expiryTime < $now) {
-                $checkResp['code'] = 37105;
-
-                return $checkResp;
-            }
-        }
-
-        $checkResp['datetime'] = $follow->expired_at;
-
-        return $checkResp;
-    }
-
     // check content view permission
     public static function checkGroupContentViewPerm(string $dateTime, ?int $groupId = null, ?int $authUserId = null)
     {
