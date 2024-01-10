@@ -32,9 +32,9 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^10.39",
+        "laravel/framework": "^10.40",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8",
+        "laravel/tinker": "^2.9",
         "laravel/scout": "^9.8",
         "laravel/ui": "^4.3",
         "doctrine/dbal": "^3.7",
@@ -50,11 +50,11 @@
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
-        "laravel/sail": "^1.26",
+        "laravel/sail": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^10.5",
-        "spatie/laravel-ignition": "^2.3"
+        "spatie/laravel-ignition": "^2.4"
     },
     "autoload": {
         "psr-4": {
