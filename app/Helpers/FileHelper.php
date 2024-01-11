@@ -511,6 +511,7 @@ class FileHelper
 
         $files['images'] = array_map(function ($item) {
             unset($item['imageConfigUrl']);
+
             return $item;
         }, $files['images']);
 
