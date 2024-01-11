@@ -509,6 +509,11 @@ class FileHelper
             $files['images'] = array_map(fn ($item) => $item->getFileInfo(), $files['images']);
         }
 
+        $files['images'] = array_map(function ($item) {
+            unset($item['imageConfigUrl']);
+            return $item;
+        }, $files['images']);
+
         // video
         if ($videoStorageConfig['antiLinkStatus'] && $files['videos']) {
             $fids = array_column($files['videos'], 'fid');
