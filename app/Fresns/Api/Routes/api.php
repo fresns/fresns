@@ -11,6 +11,8 @@ use App\Fresns\Api\Http\Controllers\CommentController;
 use App\Fresns\Api\Http\Controllers\CommonController;
 use App\Fresns\Api\Http\Controllers\ConversationController;
 use App\Fresns\Api\Http\Controllers\EditorController;
+use App\Fresns\Api\Http\Controllers\FileController;
+use App\Fresns\Api\Http\Controllers\GeotagController;
 use App\Fresns\Api\Http\Controllers\GlobalController;
 use App\Fresns\Api\Http\Controllers\GroupController;
 use App\Fresns\Api\Http\Controllers\HashtagController;
@@ -23,7 +25,7 @@ use App\Fresns\Api\Http\Middleware\CheckReadOnly;
 use App\Fresns\Api\Http\Middleware\CheckSiteMode;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v2')->middleware([
+Route::prefix('fresns/v1')->middleware([
     CheckHeaderByWhitelist::class,
     CheckSiteMode::class,
     CheckReadOnly::class,
@@ -31,14 +33,12 @@ Route::prefix('v2')->middleware([
     // global
     Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('configs', [GlobalController::class, 'configs'])->name('configs');
-        Route::get('code-messages', [GlobalController::class, 'codeMessages'])->name('code.messages');
+        Route::get('language-pack', [GlobalController::class, 'languagePack'])->name('language.pack');
         Route::get('channels', [GlobalController::class, 'channels'])->name('channels');
         Route::get('{type}/archives', [GlobalController::class, 'archives'])->name('archives');
-        Route::get('upload-token', [GlobalController::class, 'uploadToken'])->name('upload.token');
-        Route::get('roles', [GlobalController::class, 'roles'])->name('roles');
         Route::get('{type}/content-types', [GlobalController::class, 'contentTypes'])->name('content.types');
+        Route::get('roles', [GlobalController::class, 'roles'])->name('roles');
         Route::get('stickers', [GlobalController::class, 'stickers'])->name('stickers');
-        Route::get('block-words', [GlobalController::class, 'blockWords'])->name('block.words');
     });
 
     // common
@@ -46,17 +46,23 @@ Route::prefix('v2')->middleware([
         Route::get('ip-info', [CommonController::class, 'ipInfo'])->name('ip.info')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
         Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
-        Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verify.code')->withoutMiddleware([CheckSiteMode::class]);
-        Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log')->withoutMiddleware([CheckSiteMode::class]);
-        Route::post('upload-file', [CommonController::class, 'uploadFile'])->name('upload.file');
-        Route::get('file/{fid}/link', [CommonController::class, 'fileLink'])->name('file.link');
-        Route::get('file/{fid}/users', [CommonController::class, 'fileUsers'])->name('file.users');
+        Route::post('cmd-word', [CommonController::class, 'cmdWord'])->name('cmd.word');
+    });
+
+    // file
+    Route::prefix('file')->name('file.')->group(function () {
+        Route::get('storage-token', [FileController::class, 'storageToken'])->name('storage.token');
+        Route::post('uploads', [FileController::class, 'uploads'])->name('uploads');
+        Route::patch('{fid}/warning', [FileController::class, 'warning'])->name('warning');
+        Route::get('{fid}/link', [FileController::class, 'link'])->name('link');
+        Route::get('{fid}/users', [FileController::class, 'users'])->name('users');
     });
 
     // search
     Route::prefix('search')->name('search.')->group(function () {
         Route::get('users', [SearchController::class, 'users'])->name('users');
         Route::get('groups', [SearchController::class, 'groups'])->name('groups');
+        Route::get('geotags', [SearchController::class, 'geotags'])->name('geotags');
         Route::get('hashtags', [SearchController::class, 'hashtags'])->name('hashtags');
         Route::get('posts', [SearchController::class, 'posts'])->name('posts');
         Route::get('comments', [SearchController::class, 'comments'])->name('comments');
@@ -64,37 +70,34 @@ Route::prefix('v2')->middleware([
 
     // account
     Route::prefix('account')->name('account.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
-        Route::post('register', [AccountController::class, 'register'])->name('register');
-        Route::post('login', [AccountController::class, 'login'])->name('login');
-        Route::put('reset-password', [AccountController::class, 'resetPassword'])->name('reset.password');
+        Route::post('auth-token', [AccountController::class, 'login'])->name('login');
+        Route::delete('auth-token', [AccountController::class, 'logout'])->name('logout');
         Route::get('detail', [AccountController::class, 'detail'])->name('detail');
-        Route::get('wallet-logs', [AccountController::class, 'walletLogs'])->name('wallet.logs');
-        Route::post('verify-identity', [AccountController::class, 'verifyIdentity'])->name('verify.identity');
-        Route::put('edit', [AccountController::class, 'edit'])->name('edit');
-        Route::delete('logout', [AccountController::class, 'logout'])->name('logout');
-        Route::post('apply-delete', [AccountController::class, 'applyDelete'])->name('apply.delete');
-        Route::post('recall-delete', [AccountController::class, 'recallDelete'])->name('recall.delete');
+        Route::get('wallet-records', [AccountController::class, 'walletRecords'])->name('wallet.records');
     });
 
     // user
     Route::prefix('user')->name('user.')->group(function () {
+        // function
+        Route::post('auth-token', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteMode::class]);
+        Route::get('overview', [UserController::class, 'overview'])->name('overview')->withoutMiddleware([CheckSiteMode::class]);
+        Route::get('extcredits-records', [UserController::class, 'extcreditsRecords'])->name('extcredits.records')->withoutMiddleware([CheckSiteMode::class]);
+        Route::patch('profile', [UserController::class, 'edit'])->name('edit');
+        Route::post('mark', [UserController::class, 'mark'])->name('mark');
+        Route::patch('mark-note', [UserController::class, 'markNote'])->name('mark.note');
+        Route::post('extend-action', [UserController::class, 'extendAction'])->name('extend.action');
+        // interactive
         Route::get('list', [UserController::class, 'list'])->name('list');
         Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('{uidOrUsername}/followers-you-follow', [UserController::class, 'followersYouFollow'])->name('followers.you.follow');
         Route::get('{uidOrUsername}/interaction/{type}', [UserController::class, 'interaction'])->name('interaction');
         Route::get('{uidOrUsername}/mark/{markType}/{listType}', [UserController::class, 'markList'])->name('mark.list');
-        Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteMode::class]);
-        Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteMode::class]);
-        Route::get('extcredits-logs', [UserController::class, 'extcreditsLogs'])->name('extcredits.logs')->withoutMiddleware([CheckSiteMode::class]);
-        Route::put('edit', [UserController::class, 'edit'])->name('edit');
-        Route::post('mark', [UserController::class, 'mark'])->name('mark');
-        Route::put('mark-note', [UserController::class, 'markNote'])->name('mark.note');
     });
 
     // notification
     Route::prefix('notification')->name('notification.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('list', [NotificationController::class, 'list'])->name('list');
-        Route::put('mark-as-read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::patch('read-status', [NotificationController::class, 'readStatus'])->name('read');
         Route::delete('delete', [NotificationController::class, 'delete'])->name('delete');
     });
 
@@ -103,65 +106,74 @@ Route::prefix('v2')->middleware([
         Route::get('list', [ConversationController::class, 'list'])->name('list')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('{uidOrUsername}/detail', [ConversationController::class, 'detail'])->name('detail');
         Route::get('{uidOrUsername}/messages', [ConversationController::class, 'messages'])->name('messages');
-        Route::post('send-message', [ConversationController::class, 'sendMessage'])->name('send.message');
-        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read')->withoutMiddleware([CheckSiteMode::class]);
-        Route::put('pin', [ConversationController::class, 'pin'])->name('pin');
-        Route::delete('delete', [ConversationController::class, 'delete'])->name('delete');
+        Route::put('{uidOrUsername}/pin', [ConversationController::class, 'pin'])->name('pin');
+        Route::patch('{uidOrUsername}/read-status', [ConversationController::class, 'readStatus'])->name('read')->withoutMiddleware([CheckSiteMode::class]);
+        Route::delete('{uidOrUsername}/messages', [ConversationController::class, 'deleteMessages'])->name('delete.messages');
+        Route::delete('{uidOrUsername}', [ConversationController::class, 'deleteConversation'])->name('delete.conversation');
+        Route::post('message', [ConversationController::class, 'sendMessage'])->name('send.message');
     });
 
     // group
     Route::prefix('group')->name('group.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('tree', [GroupController::class, 'tree'])->name('tree');
-        Route::get('categories', [GroupController::class, 'categories'])->name('categories');
         Route::get('list', [GroupController::class, 'list'])->name('list');
         Route::get('{gid}/detail', [GroupController::class, 'detail'])->name('detail');
+        Route::get('{gid}/creator', [GroupController::class, 'creator'])->name('creator');
+        Route::get('{gid}/admins', [GroupController::class, 'admins'])->name('admins');
         Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction')->middleware([CheckSiteMode::class]);
     });
 
     // hashtag
     Route::prefix('hashtag')->name('hashtag.')->group(function () {
         Route::get('list', [HashtagController::class, 'list'])->name('list');
-        Route::get('{hid}/detail', [HashtagController::class, 'detail'])->name('detail');
-        Route::get('{hid}/interaction/{type}', [HashtagController::class, 'interaction'])->name('interaction');
+        Route::get('{htid}/detail', [HashtagController::class, 'detail'])->name('detail');
+        Route::get('{htid}/interaction/{type}', [HashtagController::class, 'interaction'])->name('interaction');
+    });
+
+    // geotag
+    Route::prefix('geotag')->name('geotag.')->group(function () {
+        Route::get('list', [GeotagController::class, 'list'])->name('list');
+        Route::get('{gtid}/detail', [GeotagController::class, 'detail'])->name('detail');
+        Route::get('{gtid}/interaction/{type}', [GeotagController::class, 'interaction'])->name('interaction');
     });
 
     // post
     Route::prefix('post')->name('post.')->group(function () {
         Route::get('list', [PostController::class, 'list'])->name('list');
+        Route::get('timelines', [PostController::class, 'timelines'])->name('timelines');
+        Route::get('nearby', [PostController::class, 'nearby'])->name('nearby');
         Route::get('{pid}/detail', [PostController::class, 'detail'])->name('detail');
         Route::get('{pid}/interaction/{type}', [PostController::class, 'interaction'])->name('interaction');
         Route::get('{pid}/users', [PostController::class, 'users'])->name('users');
         Route::get('{pid}/quotes', [PostController::class, 'quotes'])->name('quotes');
-        Route::get('{pid}/logs', [PostController::class, 'postLogs'])->name('logs');
-        Route::get('{pid}/log/{logId}', [PostController::class, 'logDetail'])->name('log.detail');
         Route::delete('{pid}', [PostController::class, 'delete'])->name('delete');
-        Route::get('follow/{type}', [PostController::class, 'follow'])->name('follow');
-        Route::get('nearby', [PostController::class, 'nearby'])->name('nearby');
+        Route::get('{pid}/histories', [PostController::class, 'histories'])->name('histories');
+        Route::get('history/{hpid}/detail', [PostController::class, 'logDetail'])->name('history.detail');
     });
 
     // comment
     Route::prefix('comment')->name('comment.')->group(function () {
         Route::get('list', [CommentController::class, 'list'])->name('list');
+        Route::get('timelines', [CommentController::class, 'timelines'])->name('timelines');
+        Route::get('nearby', [CommentController::class, 'nearby'])->name('nearby');
         Route::get('{cid}/detail', [CommentController::class, 'detail'])->name('detail');
         Route::get('{cid}/interaction/{type}', [CommentController::class, 'interaction'])->name('interaction');
-        Route::get('{cid}/logs', [CommentController::class, 'commentLogs'])->name('logs');
-        Route::get('{cid}/log/{logId}', [CommentController::class, 'logDetail'])->name('log.detail');
         Route::delete('{cid}', [CommentController::class, 'delete'])->name('delete');
-        Route::get('follow/{type}', [CommentController::class, 'follow'])->name('follow');
-        Route::get('nearby', [CommentController::class, 'nearby'])->name('nearby');
+        Route::get('{cid}/histories', [CommentController::class, 'histories'])->name('histories');
+        Route::get('history/{hpid}/detail', [CommentController::class, 'logDetail'])->name('history.detail');
     });
 
     // editor
     Route::prefix('editor')->name('editor.')->group(function () {
-        Route::post('{type}/quick-publish', [EditorController::class, 'quickPublish'])->name('quick.publish');
-        Route::get('{type}/config', [EditorController::class, 'config'])->name('config');
-        Route::get('{type}/drafts', [EditorController::class, 'drafts'])->name('drafts');
-        Route::post('{type}/create', [EditorController::class, 'create'])->name('create');
-        Route::post('{type}/generate/{fsid}', [EditorController::class, 'generate'])->name('generate');
-        Route::get('{type}/{draftId}', [EditorController::class, 'detail'])->name('detail');
-        Route::put('{type}/{draftId}', [EditorController::class, 'update'])->name('update');
-        Route::post('{type}/{draftId}', [EditorController::class, 'publish'])->name('publish');
-        Route::patch('{type}/{draftId}', [EditorController::class, 'recall'])->name('recall');
-        Route::delete('{type}/{draftId}', [EditorController::class, 'delete'])->name('delete');
+        Route::get('{type}/configs', [EditorController::class, 'configs'])->name('configs'); // Editor Configs
+        Route::post('{type}/publish', [EditorController::class, 'publish'])->name('publish'); // Quick Publish
+        Route::post('{type}/edit/{fsid}', [EditorController::class, 'edit'])->name('edit'); // Edit Post or Comment
+        Route::post('{type}/draft', [EditorController::class, 'draftCreate'])->name('draft.create'); // Create Draft
+        Route::get('{type}/drafts', [EditorController::class, 'draftList'])->name('draft.list'); // Draft List
+        Route::get('{type}/draft/{did}', [EditorController::class, 'draftDetail'])->name('draft.detail'); // Draft Detail
+        Route::put('{type}/draft/{did}', [EditorController::class, 'draftUpdate'])->name('draft.update'); // Update Draft
+        Route::post('{type}/draft/{did}', [EditorController::class, 'draftPublish'])->name('draft.publish'); // Publish Draft
+        Route::patch('{type}/draft/{did}', [EditorController::class, 'draftRecall'])->name('draft.recall'); // Recall Draft (Draft under review)
+        Route::delete('{type}/draft/{did}', [EditorController::class, 'draftDelete'])->name('draft.delete'); // Delete Draft
     });
 });
