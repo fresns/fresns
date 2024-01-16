@@ -681,7 +681,7 @@ class ContentUtility
                 'usage_id' => $usageId,
                 'operation_id' => $operation->id,
             ], [
-                'plugin_fskey' => $operation['fskey'] ?? $operationModel->plugin_fskey,
+                'app_fskey' => $operation['fskey'] ?? $operationModel->app_fskey,
             ]);
         }
     }
@@ -708,7 +708,7 @@ class ContentUtility
             ], [
                 'archive_value' => $archive['value'] ?? null,
                 'is_private' => $archive['isPrivate'] ?? false,
-                'plugin_fskey' => $archive['fskey'] ?? $archiveModel->plugin_fskey,
+                'app_fskey' => $archive['fskey'] ?? $archiveModel->app_fskey,
             ]);
         }
     }
@@ -735,7 +735,7 @@ class ContentUtility
             ], [
                 'can_delete' => $extend['canDelete'] ?? true,
                 'sort_order' => $extend['sortOrder'] ?? 9,
-                'plugin_fskey' => $extend['fskey'] ?? $extendModel->plugin_fskey,
+                'app_fskey' => $extend['fskey'] ?? $extendModel->app_fskey,
             ]);
         }
     }
@@ -823,7 +823,7 @@ class ContentUtility
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
                 'sort_order' => $extend->sort_order,
-                'plugin_fskey' => $extend->plugin_fskey,
+                'app_fskey' => $extend->app_fskey,
             ];
 
             ExtendUsage::create($extendDataItem);
@@ -890,7 +890,7 @@ class ContentUtility
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'operation_id' => $operation->operation_id,
-                'plugin_fskey' => $operation->plugin_fskey,
+                'app_fskey' => $operation->app_fskey,
             ];
 
             OperationUsage::create($operationDataItem);
@@ -921,7 +921,7 @@ class ContentUtility
                 'archive_id' => $archive->archive_id,
                 'archive_value' => $archive->archive_value,
                 'is_private' => $archive->is_private,
-                'plugin_fskey' => $archive->plugin_fskey,
+                'app_fskey' => $archive->app_fskey,
             ];
 
             ArchiveUsage::create($archiveDataItem);
@@ -1217,7 +1217,7 @@ class ContentUtility
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'operation_id' => $operation->operation_id,
-                'plugin_fskey' => $operation->plugin_fskey,
+                'app_fskey' => $operation->app_fskey,
             ];
 
             OperationUsage::create($operationDataItem);
@@ -1233,7 +1233,7 @@ class ContentUtility
                 'archive_id' => $archive->archive_id,
                 'archive_value' => $archive->archive_value,
                 'is_private' => $archive->is_private,
-                'plugin_fskey' => $archive->plugin_fskey,
+                'app_fskey' => $archive->app_fskey,
             ];
 
             ArchiveUsage::create($archiveDataItem);
@@ -1249,7 +1249,7 @@ class ContentUtility
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
                 'sort_order' => $extend->sort_order,
-                'plugin_fskey' => $extend->plugin_fskey,
+                'app_fskey' => $extend->app_fskey,
             ];
 
             ExtendUsage::create($extendDataItem);

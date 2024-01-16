@@ -789,14 +789,14 @@ class PermissionUtility
         // get usage list
         if ($usageType == AppUsage::TYPE_GROUP) {
             $usages = AppUsage::where('usage_type', $usageType)
-                ->where('plugin_fskey', $fskey)
+                ->where('app_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', true)
                 ->where('is_enabled', true)
                 ->get();
         } else {
             $usages = AppUsage::where('usage_type', $usageType)
-                ->where('plugin_fskey', $fskey)
+                ->where('app_fskey', $fskey)
                 ->where('is_group_admin', true)
                 ->where('is_enabled', true)
                 ->get();
@@ -820,14 +820,14 @@ class PermissionUtility
         // get usage list
         if ($usageType == AppUsage::TYPE_GROUP) {
             $usages = AppUsage::where('usage_type', $usageType)
-                ->where('plugin_fskey', $fskey)
+                ->where('app_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', false)
                 ->where('is_enabled', true)
                 ->get();
         } else {
             $usages = AppUsage::where('usage_type', $usageType)
-                ->where('plugin_fskey', $fskey)
+                ->where('app_fskey', $fskey)
                 ->where('is_group_admin', false)
                 ->where('is_enabled', true)
                 ->get();

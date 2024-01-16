@@ -1095,7 +1095,7 @@ class Content
                     'post_id' => $postId,
                     'user_id' => $userId,
                 ], [
-                    'plugin_fskey' => $dtoWordBody->fskey,
+                    'app_fskey' => $dtoWordBody->fskey,
                     'more_info' => $dtoWordBody->moreInfo ?? null,
                 ]);
                 break;

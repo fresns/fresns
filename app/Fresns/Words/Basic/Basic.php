@@ -105,7 +105,7 @@ class Basic
             );
         }
 
-        if ($keyType == SessionKey::TYPE_APP && $keyInfo->plugin_fskey != $keyFskey) {
+        if ($keyType == SessionKey::TYPE_APP && $keyInfo->app_fskey != $keyFskey) {
             return $this->failure(
                 31304,
                 ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
@@ -155,7 +155,7 @@ class Basic
 
         $withoutEmptyCheckArr = array_filter($includeEmptyCheckArr);
 
-        $checkSign = SignHelper::checkSign($withoutEmptyCheckArr, $keyInfo->app_secret);
+        $checkSign = SignHelper::checkSign($withoutEmptyCheckArr, $keyInfo->app_key);
 
         if (! $checkSign) {
             return $this->failure(
@@ -285,7 +285,7 @@ class Basic
 
         $input = [
             'type' => $dtoWordBody->type,
-            'plugin_fskey' => $dtoWordBody->fskey ?? 'Fresns',
+            'app_fskey' => $dtoWordBody->fskey ?? 'Fresns',
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
             'app_id' => $dtoWordBody->appId ?? null,

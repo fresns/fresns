@@ -23,10 +23,10 @@ trait AppUsageServiceTrait
     {
         $usageData = $this;
 
-        $info['fskey'] = $usageData->plugin_fskey;
+        $info['fskey'] = $usageData->app_fskey;
         $info['icon'] = FileHelper::fresnsFileUrlByTableColumn($usageData->icon_file_id, $usageData->icon_file_url);
         $info['name'] = StrHelper::languageContent($usageData->name, $langTag);
-        $info['appUrl'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_fskey, $usageData->parameter);
+        $info['appUrl'] = PluginHelper::fresnsPluginUsageUrl($usageData->app_fskey, $usageData->parameter);
 
         $info['badgeType'] = null;
         $info['badgeValue'] = null;

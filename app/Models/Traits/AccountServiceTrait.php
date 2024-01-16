@@ -67,7 +67,7 @@ trait AccountServiceTrait
                 $connectName = $connects[$connectKey]['name'];
             }
 
-            $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($connect->plugin_fskey);
+            $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($connect->app_fskey);
             if (empty($pluginUrl)) {
                 // service fskey
                 $fskey = null;

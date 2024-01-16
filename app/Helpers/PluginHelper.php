@@ -135,7 +135,7 @@ class PluginHelper
         }
 
         $callback->is_used = 1;
-        $callback->used_plugin_fskey = $fskey;
+        $callback->used_app_fskey = $fskey;
         $callback->save();
 
         $data = [

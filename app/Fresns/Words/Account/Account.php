@@ -119,7 +119,7 @@ class Account
         // Account Connects Table
         if ($dtoWordBody->connectInfo) {
             foreach ($dtoWordBody->connectInfo as $info) {
-                if (empty($info['connectPlatformId']) || empty($info['connectAccountId']) || empty($info['pluginFskey'])) {
+                if (empty($info['connectPlatformId']) || empty($info['connectAccountId']) || empty($info['appFskey'])) {
                     continue;
                 }
 
@@ -132,7 +132,7 @@ class Account
                     'connect_username' => $info['connectUsername'] ?? null,
                     'connect_nickname' => $info['connectNickname'] ?? null,
                     'connect_avatar' => $info['connectAvatar'] ?? null,
-                    'plugin_fskey' => $info['pluginFskey'],
+                    'app_fskey' => $info['appFskey'],
                     'more_info' => $info['moreInfo'] ?? null,
                     'refresh_token_expired_at' => $info['refreshTokenExpiredDatetime'] ?? null,
                 ]);
@@ -294,7 +294,7 @@ class Account
                 'connect_nickname' => $dtoWordBody->connectNickname,
                 'connect_avatar' => $dtoWordBody->connectAvatar,
                 'more_info' => $dtoWordBody->moreInfo,
-                'plugin_fskey' => $dtoWordBody->fskey,
+                'app_fskey' => $dtoWordBody->fskey,
                 'deleted_at' => null,
             ]);
         } catch (\Exception $e) {
