@@ -32,6 +32,7 @@ Route::prefix('fresns/v1')->middleware([
 ])->group(function () {
     // global
     Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
+        Route::get('status', [GlobalController::class, 'status'])->name('status');
         Route::get('configs', [GlobalController::class, 'configs'])->name('configs');
         Route::get('language-pack', [GlobalController::class, 'languagePack'])->name('language.pack');
         Route::get('channels', [GlobalController::class, 'channels'])->name('channels');

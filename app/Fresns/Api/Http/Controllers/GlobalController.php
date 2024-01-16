@@ -20,6 +20,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 use App\Models\Archive;
 use App\Models\BlockWord;
 use App\Models\CodeMessage;
@@ -34,81 +35,92 @@ use Illuminate\Http\Request;
 
 class GlobalController extends Controller
 {
+    // status
+    public function status()
+    {
+        $statusJson = [
+            'name' => 'Fresns',
+            'activate' => true,
+            'deactivateDescribe' => [
+                'default' => '',
+            ],
+        ];
+
+        $statusJsonFile = public_path('status.json');
+
+        if (file_exists($statusJsonFile)) {
+            $statusJson = json_decode(file_get_contents($statusJsonFile), true);
+        }
+
+        return $statusJson;
+    }
+
     // configs
     public function configs(Request $request)
     {
         $dtoRequest = new GlobalConfigsDTO($request->all());
         $langTag = $this->langTag();
 
-        $modelCacheKey = 'fresns_api_config_models';
-        $itemCacheKey = "fresns_api_configs_{$langTag}";
+        $cacheKey = "fresns_api_configs_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
-        $configModels = CacheHelper::get($modelCacheKey, $cacheTag);
-        if (empty($configModels)) {
+        $configs = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($configs)) {
             $configModels = Config::where('is_api', 1)->get();
 
-            CacheHelper::put($configModels, $modelCacheKey, $cacheTag);
-        }
+            $configs = null;
+            foreach ($configModels as $model) {
+                $itemValue = null;
 
-        $configAll = CacheHelper::get($itemCacheKey, $cacheTag);
+                switch ($model->item_type) {
+                    case 'file':
+                        $itemValue = ConfigHelper::fresnsConfigFileUrlByItemKey($model->item_key);
+                        break;
 
-        if (empty($configAll)) {
-            $item = null;
-            foreach ($configModels as $config) {
-                if ($config->is_multilingual) {
-                    $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
-                } elseif ($config->item_type == 'file') {
-                    $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
-                } elseif ($config->item_type == 'plugin') {
-                    $item[$config->item_key] = PluginHelper::fresnsPluginUrlByFskey($config->item_value) ?? $config->item_value;
-                } elseif ($config->item_type == 'plugins') {
-                    if ($config->item_value) {
-                        foreach ($config->item_value as $plugin) {
-                            $pluginItem['code'] = $plugin['code'];
-                            $pluginItem['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
-                            $itemArr[] = $pluginItem;
+                    case 'plugin':
+                        $itemValue = PluginHelper::fresnsPluginUrlByFskey($model->item_value) ?? $model->item_value;
+                        break;
+
+                    case 'plugins':
+                        $itemValue = [];
+                        if ($model->item_value) {
+                            foreach ($model->item_value as $plugin) {
+                                $pluginItem['code'] = $plugin['code'];
+                                $pluginItem['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
+
+                                $itemArr[] = $pluginItem;
+                            }
+
+                            $itemValue = $itemArr;
                         }
-                        $item[$config->item_key] = $itemArr;
-                    }
-                } else {
-                    $item[$config->item_key] = $config->item_value;
+                        break;
+
+                    default:
+                        $itemValue = $model->is_multilingual ? StrHelper::languageContent($model->item_value, $langTag) : $model->item_value;
                 }
+
+                $configs[$model->item_key] = $itemValue;
             }
 
-            $item['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
-
-            $configAll = $item;
+            $configs['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($configAll, $itemCacheKey, $cacheTag, 10, $cacheTime);
+            CacheHelper::put($configs, $cacheTag, $cacheTag, 10, $cacheTime);
         }
 
-        if (empty($dtoRequest->keys) && empty($dtoRequest->tags)) {
-            return $this->success($configAll);
+        if (empty($dtoRequest->keys)) {
+            return $this->success($configs);
         }
 
         $itemKeys = array_filter(explode(',', $dtoRequest->keys));
-        $itemTags = array_filter(explode(',', $dtoRequest->tags));
 
-        if ($itemKeys && $itemTags) {
-            $configs = $configModels->whereIn('item_key', $itemKeys)->orWhereIn('item_tag', $itemTags);
-        } elseif ($itemKeys && empty($itemTags)) {
-            $configs = $configModels->whereIn('item_key', $itemKeys);
-        } elseif ($itemTags && empty($itemKeys)) {
-            $configs = $configModels->whereIn('item_tag', $itemTags);
+        $items = [];
+        foreach ($itemKeys as $itemKey) {
+            $items[$itemKey] = $configs[$itemKey];
         }
 
-        $item = null;
-        foreach ($configs as $config) {
-            $item[$config->item_key] = $configAll[$config->item_key];
-        }
-
-        if (in_array('cache_datetime', $itemKeys) || in_array('cache_minutes', $itemKeys)) {
-            $item['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
-        }
-
-        return $this->success($item);
+        return $this->success($items);
     }
 
     // code messages

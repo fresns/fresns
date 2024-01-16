@@ -16,7 +16,6 @@ class GlobalConfigsDTO extends DTO
     {
         return [
             'keys' => ['string', 'nullable'],
-            'tags' => ['string', 'nullable'],
         ];
     }
 }

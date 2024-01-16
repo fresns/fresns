@@ -15,6 +15,7 @@ return [
 
     // Public mode account
     'publicAccount' => [
+        'api.global.status',
         'api.global.configs',
         'api.global.language.pack',
         'api.global.channels',
@@ -68,6 +69,7 @@ return [
 
     // Public mode user
     'publicUser' => [
+        'api.global.status',
         'api.global.configs',
         'api.global.language.pack',
         'api.global.channels',
@@ -123,6 +125,7 @@ return [
 
     // Private mode account
     'privateAccount' => [
+        'api.global.status',
         'api.global.configs',
         'api.global.language.pack',
         'api.global.channels',
@@ -134,6 +137,7 @@ return [
 
     // Private mode user
     'privateUser' => [
+        'api.global.status',
         'api.global.configs',
         'api.global.language.pack',
         'api.global.channels',
