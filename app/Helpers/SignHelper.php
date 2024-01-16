@@ -22,7 +22,7 @@ class SignHelper
     ];
 
     // Check Sign
-    public static function checkSign(array $signMap, string $appSecret): bool
+    public static function checkSign(array $signMap, string $appKey): bool
     {
         $checkArr = [
             'X-Fresns-App-Id' => $signMap['X-Fresns-App-Id'] ?? $signMap['appId'] ?? null,
@@ -37,13 +37,13 @@ class SignHelper
 
         $inputSign = $signMap['X-Fresns-Signature'] ?? $signMap['signature'];
 
-        $makeSign = SignHelper::makeSign($checkArr, $appSecret);
+        $makeSign = SignHelper::makeSign($checkArr, $appKey);
 
         return $inputSign == $makeSign;
     }
 
     // Make Sign
-    public static function makeSign(array $signMap, string $appSecret): string
+    public static function makeSign(array $signMap, string $appKey): string
     {
         $signParams = collect($signMap)->filter(function ($value, $key) {
             return in_array($key, SignHelper::SIGN_PARAM_ARR);
@@ -55,10 +55,10 @@ class SignHelper
 
         $params = http_build_query($signParams);
 
-        $signData = $params."&AppSecret={$appSecret}";
+        $signData = $params."&AppKey={$appKey}";
 
         // Generate sign
-        $sign = md5($signData);
+        $sign = hash('sha256', $signData);
 
         return $sign;
     }
