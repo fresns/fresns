@@ -750,10 +750,9 @@ class CacheHelper
     // fresns_config_file_url_expire
     // fresns_role_{$id}
     // fresns_code_messages_{$fskey}
-    // fresns_api_config_models
-    // fresns_api_configs_{$langTag}
-    // fresns_api_archives_{$type}_{$fskey}_{$langTag}
-    // fresns_api_sticker_tree_{$langTag}
+    // fresns_plugin_url_{$fskey}
+    // fresns_plugin_host_{$fskey}
+    // fresns_plugin_version_{$fskey}
 
     /**
      * fresns model.
@@ -799,14 +798,22 @@ class CacheHelper
     // fresns_detail_comment_{$id}_preview_comments_{$langTag}      // tag: fresnsComments
 
     /**
-     * tag: fresnsAccounts.
+     * fresns token.
      */
-    // fresns_token_account_{$accountId}_{$token}
+    // fresns_token_account_{$accountId}_{$token}                   // tag: fresnsAccounts
+    // fresns_token_user_{$userId}_{$token}                         // tag: fresnsUsers
+
+    /**
+     * fresns api.
+     */
+    // fresns_api_configs_{$langTag}                                // tag: fresnsConfigs
+    // fresns_api_language_pack_{$langTag}                          // tag: fresnsConfigs
+    // fresns_api_archives_{$type}_{$fskey}_{$langTag}              // tag: fresnsConfigs
+    // fresns_api_sticker_tree_{$langTag}                           // tag: fresnsConfigs
 
     /**
      * tag: fresnsUsers.
      */
-    // fresns_token_user_{$userId}_{$token}
     // fresns_user_{$userId}_main_role_{$langTag}
     // fresns_user_{$userId}_roles_{$langTag}
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
@@ -860,8 +867,4 @@ class CacheHelper
     // fresns_manage_post_extends_by_group_admin_{$langTag}
     // fresns_manage_comment_extends_by_group_admin_{$langTag}
     // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroups
-
-    // fresns_plugin_url_{$fskey}                                      // +tag: fresnsConfigs
-    // fresns_plugin_host_{$fskey}                                     // +tag: fresnsConfigs
-    // fresns_plugin_version_{$fskey}                                  // +tag: fresnsConfigs
 }

@@ -17,7 +17,7 @@ class PluginHelper
     public static function fresnsPluginHostByFskey(string $fskey): ?string
     {
         $cacheKey = "fresns_plugin_host_{$fskey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -25,12 +25,12 @@ class PluginHelper
             return null;
         }
 
-        $pluginHost = CacheHelper::get($cacheKey, $cacheTags);
+        $pluginHost = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($pluginHost)) {
             $pluginHost = App::where('fskey', $fskey)->value('app_host');
 
-            CacheHelper::put($pluginHost, $cacheKey, $cacheTags);
+            CacheHelper::put($pluginHost, $cacheKey, $cacheTag);
         }
 
         return $pluginHost;
@@ -44,7 +44,7 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$fskey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -52,7 +52,7 @@ class PluginHelper
             return null;
         }
 
-        $pluginUrl = CacheHelper::get($cacheKey, $cacheTags);
+        $pluginUrl = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($pluginUrl)) {
             $plugin = App::where('fskey', $fskey)->first();
@@ -66,7 +66,7 @@ class PluginHelper
 
             $pluginUrl = $link;
 
-            CacheHelper::put($pluginUrl, $cacheKey, $cacheTags);
+            CacheHelper::put($pluginUrl, $cacheKey, $cacheTag);
         }
 
         return $pluginUrl ?? null;
@@ -157,9 +157,9 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_version_{$fskey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
+        $cacheTag = 'fresnsConfigs';
 
-        $version = CacheHelper::get($cacheKey, $cacheTags);
+        $version = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($version)) {
             $version = App::where('fskey', $fskey)->value('version');
@@ -168,7 +168,7 @@ class PluginHelper
                 return null;
             }
 
-            CacheHelper::put($version, $cacheKey, $cacheTags);
+            CacheHelper::put($version, $cacheKey, $cacheTag);
         }
 
         return $version;
