@@ -1492,7 +1492,7 @@ class DetailUtility
         }
 
         $cacheKey = "fresns_detail_post_{$post->id}_preview_comments_{$langTag}";
-        $cacheTags = 'fresnsComments';
+        $cacheTag = 'fresnsComments';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1501,7 +1501,7 @@ class DetailUtility
         }
 
         // get cache
-        $commentList = CacheHelper::get($cacheKey, $cacheTags);
+        $commentList = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentList)) {
             $commentQuery = Comment::with(['author'])
@@ -1542,7 +1542,7 @@ class DetailUtility
                 $commentList[] = self::commentDetail($comment, $langTag);
             }
 
-            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
         }
 
         // filter
@@ -1566,7 +1566,7 @@ class DetailUtility
     private static function getCommentPreviewComments(Comment $comment, int $limit, string $langTag, ?array $options = []): ?array
     {
         $cacheKey = "fresns_detail_comment_{$comment->id}_preview_comments_{$langTag}";
-        $cacheTags = 'fresnsComments';
+        $cacheTag = 'fresnsComments';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1575,7 +1575,7 @@ class DetailUtility
         }
 
         // get cache
-        $commentList = CacheHelper::get($cacheKey, $cacheTags);
+        $commentList = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentList)) {
             $previewConfig = ConfigHelper::fresnsConfigByItemKey('preview_comment_replies_type');
@@ -1609,7 +1609,7 @@ class DetailUtility
                 $commentList[] = self::commentDetail($comment, $langTag);
             }
 
-            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
         }
 
         // filter
