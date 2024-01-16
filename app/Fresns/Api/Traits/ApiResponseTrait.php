@@ -40,7 +40,7 @@ trait ApiResponseTrait
             Response::HTTP_OK,
             array_merge([
                 'Fresns-Version' => AppHelper::VERSION,
-                'Fresns-Api' => 'v2',
+                'Fresns-Api' => 'v1',
                 'Fresns-Author' => 'Jevan Tang',
                 'Content-Type' => 'application/json',
             ], $headers)
@@ -78,7 +78,7 @@ trait ApiResponseTrait
                 $code,
                 array_merge([
                     'Fresns-Version' => AppHelper::VERSION,
-                    'Fresns-Api' => 'v2',
+                    'Fresns-Api' => 'v1',
                     'Fresns-Author' => 'Jevan Tang',
                     'Content-Type' => 'application/json',
                 ], $headers)
