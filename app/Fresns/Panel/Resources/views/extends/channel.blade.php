@@ -29,6 +29,7 @@
                     <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.table_authorized_roles') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_authorized_roles_desc') }}"></i></th>
                     <th scope="col">{{ __('FsLang::panel.table_parameter') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
@@ -44,6 +45,13 @@
                                 <img src="{{ $item->getIconUrl() }}" width="24" height="24">
                             @endif
                             {{ $item->getLangContent('name', $defaultLanguage) }}
+                        </td>
+                        <td>
+                            @foreach ($roles as $role)
+                                @if (in_array($role->id, explode(',', $item->roles)))
+                                    <span class="badge bg-light text-dark">{{ $role->getLangContent('name', $defaultLanguage) }}</span>
+                                @endif
+                            @endforeach
                         </td>
                         <td>{{ $item->parameter }}</td>
                         <td>
@@ -127,6 +135,16 @@
                                 <button type="button" class="name-button btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#editModal" data-bs-toggle="modal" data-bs-target="#langModal">
                                     {{ __('FsLang::panel.table_name') }}
                                 </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_authorized_roles') }}</label>
+                            <div class="col-sm-9">
+                                <select class="form-select select2" multiple name="roles[]" id='roles'>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->getLangContent('name', $defaultLanguage) }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
