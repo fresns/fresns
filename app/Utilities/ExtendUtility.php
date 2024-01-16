@@ -421,7 +421,7 @@ class ExtendUtility
         $everyoneExtends = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_EDITOR, $scene, null, $langTag);
 
         $roleExtends = [];
-        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
+        $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
             $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_EDITOR, $role['id'], $scene, null, $langTag);
         }
@@ -456,7 +456,7 @@ class ExtendUtility
         $everyoneManages = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_MANAGE, $scene, null, $langTag);
 
         $roleManages = [];
-        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
+        $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
             $roleManages[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_MANAGE, $role['rid'], $scene, null, $langTag);
         }
@@ -498,7 +498,7 @@ class ExtendUtility
         $everyoneExtends = ExtendUtility::getAppExtendsByEveryone($usageType, null, null, $langTag);
 
         $roleExtends = [];
-        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
+        $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
             $roleExtends[] = ExtendUtility::getAppExtendsByRole($usageType, $role['rid'], null, null, $langTag);
         }
@@ -533,7 +533,7 @@ class ExtendUtility
         $everyoneExtends = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_GROUP, null, $groupId, $langTag);
 
         $roleExtends = [];
-        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
+        $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
             $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_GROUP, $role['rid'], null, $groupId, $langTag);
         }

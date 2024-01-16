@@ -68,7 +68,7 @@ class PermissionUtility
     }
 
     // Get user roles
-    public static function getUserRoles(?int $userId = null, ?string $langTag = null): array
+    public static function getUserRoles(?int $userId = null): array
     {
         if (empty($userId)) {
             return [];
