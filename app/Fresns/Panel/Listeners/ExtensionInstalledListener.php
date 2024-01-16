@@ -32,6 +32,7 @@ class ExtensionInstalledListener
             return;
         }
 
-        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}");
+        $cacheTag = 'fresnsConfigs';
+        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}", $cacheTag);
     }
 }
