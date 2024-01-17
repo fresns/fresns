@@ -18,6 +18,7 @@ trait GroupServiceTrait
     public function getGroupInfo(?string $langTag = null): array
     {
         $groupData = $this;
+        $parentGroup = $this->parentGroup;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_group_detail_path',
@@ -40,6 +41,7 @@ trait GroupServiceTrait
         $info['privacy'] = ($groupData->privacy == Group::PRIVACY_PUBLIC) ? 'public' : 'private';
         $info['privateEndAfter'] = $groupData->private_end_after;
         $info['visibility'] = $groupData->visibility;
+        $info['parentGid'] = $parentGroup?->gid ?? null;
         $info['parentInfo'] = $groupData->getParentInfo($langTag);
         $info['subgroupCount'] = $groupData->subgroup_count;
         $info['viewCount'] = $groupData->view_count;

@@ -89,9 +89,9 @@ trait PostServiceTrait
         ];
 
         $info['commentConfig'] = [
-            'hidden' => $commentConfig['hidden'] ?? false,
-            'disabled' => $commentConfig['disabled'] ?? false,
-            'private' => $commentConfig['private'] ?? false,
+            'visible' => $commentConfig['visible'] ?? true,
+            'enabled' => $commentConfig['enabled'] ?? true,
+            'privacy' => $commentConfig['privacy'] ?? 'public',
             'action' => [
                 'hasActionButton' => $commentConfig['action']['hasActionButton'] ?? false,
                 'buttonName' => StrHelper::languageContent($commentConfig['action']['buttonName'] ?? null, $langTag),
