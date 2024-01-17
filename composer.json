@@ -32,11 +32,11 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^10.40",
+        "laravel/framework": "^10.41",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.9",
         "laravel/scout": "^9.8",
-        "laravel/ui": "^4.3",
+        "laravel/ui": "^4.4",
         "doctrine/dbal": "^3.7",
         "fresns/dto": "^1.2",
         "fresns/cmd-word-manager": "^1.5",
@@ -52,7 +52,7 @@
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.27",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.0",
+        "nunomaduro/collision": "^8.1",
         "phpunit/phpunit": "^10.5",
         "spatie/laravel-ignition": "^2.4"
     },
