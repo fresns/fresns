@@ -509,10 +509,8 @@ class CacheHelper
 
         foreach ($itemKeys as $key) {
             $cacheKey = "fresns_config_{$key}";
-            $cacheApiKey = "fresns_config_api_{$key}";
 
             CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsConfigs');
-            CacheHelper::forgetFresnsMultilingual($cacheApiKey, 'fresnsConfigs');
 
             $configKeys = Cache::get('fresns_cache_config_keys') ?? [];
             $configKeysCacheKey = $configKeys[$key] ?? null;
@@ -745,7 +743,6 @@ class CacheHelper
      */
     // fresns_default_langTag
     // fresns_lang_tags
-    // fresns_config_api_{$itemKey}_{$langTag}
     // fresns_config_file_accept
     // fresns_config_file_url_expire
     // fresns_role_{$id}
@@ -809,15 +806,16 @@ class CacheHelper
     // fresns_api_configs_{$langTag}                                // tag: fresnsConfigs
     // fresns_api_language_pack_{$langTag}                          // tag: fresnsConfigs
     // fresns_api_archives_{$type}_{$fskey}_{$langTag}              // tag: fresnsConfigs
-    // fresns_api_sticker_tree_{$langTag}                           // tag: fresnsConfigs
+    // fresns_api_stickers_{$langTag}                               // tag: fresnsConfigs
 
     /**
      * tag: fresnsUsers.
      */
-    // fresns_user_{$userId}_main_role_{$langTag}
-    // fresns_user_{$userId}_roles_{$langTag}
+    // fresns_user_{$userId}_main_role
+    // fresns_user_{$userId}_roles
+    // fresns_app_badge_{$fskey}_{$userId}
+
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
-    // fresns_app_{$fskey}_badge_{$userId}
     // fresns_interaction_status_{$markType}_{$markId}_{$userId}
     // fresns_follow_{$type}_array_by_{$userId}
     // fresns_user_activity_{$uid}

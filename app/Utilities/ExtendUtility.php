@@ -226,7 +226,7 @@ class ExtendUtility
             return $badge;
         }
 
-        $cacheKey = "fresns_app_{$fskey}_badge_{$userId}";
+        $cacheKey = "fresns_app_badge_{$fskey}_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         // is known to be empty

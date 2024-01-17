@@ -93,60 +93,6 @@ class ConfigHelper
         return $keysData;
     }
 
-    // Get config api value based on Key
-    public static function fresnsConfigApiByItemKey(string $itemKey, ?string $langTag = null): mixed
-    {
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $cacheKey = "fresns_config_api_{$itemKey}_{$langTag}";
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return null;
-        }
-
-        // get cache
-        $apiValue = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($apiValue)) {
-            $config = Config::where('item_key', $itemKey)->first();
-
-            if (empty($config)) {
-                return null;
-            }
-
-            $itemValue = $config->item_value;
-
-            if ($config->is_multilingual) {
-                $itemValue = StrHelper::languageContent($config->item_value, $langTag);
-            } elseif ($config->item_type == 'file') {
-                $itemValue = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
-            } elseif ($config->item_type == 'plugin') {
-                $itemValue = PluginHelper::fresnsPluginUrlByFskey($config->item_value) ?? $config->item_value;
-            } elseif ($config->item_type == 'plugins') {
-                if ($config->item_value) {
-                    foreach ($config->item_value as $plugin) {
-                        $pluginItem['order'] = (int) $plugin['order'] ?? 9;
-                        $pluginItem['code'] = $plugin['code'];
-                        $pluginItem['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
-
-                        $itemArr[] = $pluginItem;
-                    }
-                    $itemValue = $itemArr;
-                }
-            }
-
-            $apiValue = $itemValue;
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($apiValue, $cacheKey, $cacheTag, null, $cacheTime);
-        }
-
-        return $apiValue;
-    }
-
     // Determine the storage type based on the file key value
     public static function fresnsConfigFileValueTypeByItemKey(string $itemKey): string
     {

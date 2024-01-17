@@ -36,17 +36,17 @@ class InteractionHelper
         return $overview;
     }
 
-    public static function fresnsRoleInfo(string $rid, ?string $langTag = null): array
+    public static function fresnsRoleInfo(int $id, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_role_{$rid}";
+        $cacheKey = "fresns_role_{$id}";
         $cacheTag = 'fresnsConfigs';
 
         $roleData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($roleData)) {
-            $roleModel = Role::where('rid', $rid)->first();
+            $roleModel = Role::where('id', $id)->first();
 
             if (empty($roleModel)) {
                 return null;

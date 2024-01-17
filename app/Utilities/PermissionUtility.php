@@ -33,7 +33,7 @@ class PermissionUtility
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_user_{$userId}_main_role_{$langTag}";
+        $cacheKey = "fresns_user_{$userId}_main_role";
         $cacheTag = 'fresnsUsers';
 
         $mainRoleConfig = CacheHelper::get($cacheKey, $cacheTag);
@@ -61,7 +61,7 @@ class PermissionUtility
             CacheHelper::put($mainRoleConfig, $cacheKey, $cacheTag);
         }
 
-        $mainRole = InteractionHelper::fresnsRoleInfo($mainRoleConfig['rid'], $langTag);
+        $mainRole = InteractionHelper::fresnsRoleInfo($mainRoleConfig['id'], $langTag);
         $mainRole['expiryDateTime'] = $mainRoleConfig['expiryDateTime'];
 
         return $mainRole;
