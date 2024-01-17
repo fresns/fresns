@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function success(mixed $data = null, ?string $message = null, int $code = 0, array $headers = [])
+    public function success(mixed $data, ?string $message = null, int $code = 0, array $headers = [])
     {
         if (is_string($data)) {
             $code = $message;
@@ -32,7 +32,6 @@ trait ApiResponseTrait
 
         $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag());
 
-        $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('pagination'));
 
         return \response(
