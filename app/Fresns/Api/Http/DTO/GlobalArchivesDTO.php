@@ -15,7 +15,7 @@ class GlobalArchivesDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
+            'type' => ['string', 'required', 'in:user,group,hashtag,geotag,post,comment'],
             'fskey' => ['string', 'nullable', 'exists:App\Models\Plugin,fskey'],
         ];
     }

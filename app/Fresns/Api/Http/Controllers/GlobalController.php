@@ -10,27 +10,23 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\GlobalArchivesDTO;
-use App\Fresns\Api\Http\DTO\GlobalBlockWordsDTO;
-use App\Fresns\Api\Http\DTO\GlobalCodeMessagesDTO;
 use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
 use App\Fresns\Api\Http\DTO\GlobalRolesDTO;
-use App\Fresns\Api\Http\DTO\GlobalUploadTokenDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
+use App\Models\AppUsage;
 use App\Models\Archive;
-use App\Models\BlockWord;
-use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\File;
-use App\Models\PluginUsage;
+use App\Models\LanguagePack;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Utilities\ExtendUtility;
 use App\Utilities\GeneralUtility;
+use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 
 class GlobalController extends Controller
@@ -123,16 +119,12 @@ class GlobalController extends Controller
         return $this->success($items);
     }
 
-    // code messages
-    public function codeMessages(Request $request)
+    // language pack
+    public function languagePack()
     {
-        $dtoRequest = new GlobalCodeMessagesDTO($request->all());
-
         $langTag = $this->langTag();
-        $fskey = $dtoRequest->fskey ?? 'Fresns';
-        $isAll = $dtoRequest->isAll ?? false;
 
-        $cacheKey = "fresns_code_messages_{$fskey}_{$langTag}";
+        $cacheKey = "fresns_language_pack_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -141,46 +133,48 @@ class GlobalController extends Controller
             return $this->success([]);
         }
 
-        $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
+        $languagePack = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($codeMessages)) {
-            $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', $langTag)->get();
+        if (empty($languagePack)) {
+            $languages = LanguagePack::all();
 
-            if (empty($codeMessages)) {
-                $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', 'en')->get();
+            $languagePack = [];
+            foreach ($languages as $language) {
+                $languagePack[$language->lang_key] = StrHelper::languageContent($language->lang_values, $langTag);
             }
 
-            CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
+            CacheHelper::put($languagePack, $cacheKey, $cacheTag);
         }
 
-        if ($isAll) {
-            $messages = $codeMessages;
-        } else {
-            $codeArr = array_filter(explode(',', $dtoRequest->codes));
-
-            $messages = $codeMessages->whereIn('code', $codeArr);
-        }
-
-        $item = null;
-        foreach ($messages as $message) {
-            $item[$message->code] = $message->message;
-        }
-
-        return $this->success($item);
+        return $this->success($languagePack);
     }
 
     // channels
-    public function channels(Request $request)
+    public function channels()
     {
-        $channels = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_CHANNEL, null, null, $this->langTag());
+        $langTag = $this->langTag();
         $authUserId = $this->user()?->id;
 
+        $channels = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_CHANNEL, null, null, $langTag);
+
+        $roleArr = PermissionUtility::getUserRoles($authUserId);
+
+        $roleChannels = [];
+        foreach ($roleArr as $role) {
+            $roleChannels[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_CHANNEL, $role['id'], null, null, $langTag);
+        }
+
+        $allChannels = array_merge($channels, $roleChannels);
+
         $channelList = [];
-        foreach ($channels as $channel) {
-            $badge = ExtendUtility::getPluginBadge($channel['fskey'], $authUserId);
+        foreach ($allChannels as $channel) {
+            $badge = ExtendUtility::getAppBadge($channel['fskey'], $authUserId);
 
             $channel['badgeType'] = $badge['badgeType'];
             $channel['badgeValue'] = $badge['badgeValue'];
+
+            unset($channel['editorToolbar']);
+            unset($channel['editorNumber']);
 
             $channelList[] = $channel;
         }
@@ -202,11 +196,12 @@ class GlobalController extends Controller
             'user' => Archive::TYPE_USER,
             'group' => Archive::TYPE_GROUP,
             'hashtag' => Archive::TYPE_HASHTAG,
+            'geotag' => Archive::TYPE_GEOTAG,
             'post' => Archive::TYPE_POST,
             'comment' => Archive::TYPE_COMMENT,
         };
 
-        $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$fskey}_{$langTag}";
+        $cacheKey = "fresns_api_archives_{$type}_{$fskey}_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -220,7 +215,7 @@ class GlobalController extends Controller
         if (empty($archives)) {
             $archiveData = Archive::type($usageType)
                 ->when($fskey, function ($query, $value) {
-                    $query->where('plugin_fskey', $value);
+                    $query->where('app_fskey', $value);
                 })
                 ->where('usage_group_id', 0)
                 ->isEnabled()
@@ -240,79 +235,6 @@ class GlobalController extends Controller
         return $this->success($archives);
     }
 
-    // get upload token
-    public function uploadToken(Request $request)
-    {
-        $dtoRequest = new GlobalUploadTokenDTO($request->all());
-
-        $fileType = match ($dtoRequest->type) {
-            'image' => 1,
-            'video' => 2,
-            'audio' => 3,
-            'document' => 4,
-        };
-
-        $storageConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
-
-        if (! $storageConfig['storageConfigStatus']) {
-            throw new ApiException(32103);
-        }
-
-        $wordBody = [
-            'type' => $fileType,
-            'name' => $dtoRequest->name,
-            'expireTime' => $dtoRequest->expireTime,
-        ];
-
-        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
-
-        return $fresnsResp->getOrigin();
-    }
-
-    // roles
-    public function roles(Request $request)
-    {
-        $dtoRequest = new GlobalRolesDTO($request->all());
-        $langTag = $this->langTag();
-
-        $roleQuery = Role::orderBy('sort_order');
-
-        if (isset($dtoRequest->status)) {
-            $roleQuery->where('is_enabled', $dtoRequest->status);
-        }
-
-        if ($dtoRequest->ids) {
-            $ids = array_filter(explode(',', $dtoRequest->ids));
-            $roleQuery->whereIn('id', $ids);
-        }
-
-        $roleQuery->when($dtoRequest->type, function ($query, $value) {
-            $query->where('type', $value);
-        });
-
-        $roles = $roleQuery->paginate($dtoRequest->pageSize ?? 15);
-
-        $roleList = [];
-        foreach ($roles as $role) {
-            foreach ($role->permissions as $perm) {
-                $permissions[$perm['permKey']] = $perm['permValue'];
-            }
-
-            $item['type'] = $role->type;
-            $item['rid'] = $role->id;
-            $item['nicknameColor'] = $role->nickname_color;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $langTag);
-            $item['nameDisplay'] = (bool) $role->is_display_name;
-            $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
-            $item['iconDisplay'] = (bool) $role->is_display_icon;
-            $item['permissions'] = $permissions;
-            $item['status'] = (bool) $role->is_enabled;
-            $roleList[] = $item;
-        }
-
-        return $this->fresnsPaginate($roleList, $roles->total(), $roles->perPage());
-    }
-
     // contentTypes
     public function contentTypes($type)
     {
@@ -330,9 +252,58 @@ class GlobalController extends Controller
 
         $langTag = $this->langTag();
 
-        $data = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_CONTENT, null, null, $langTag);
+        $data = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_CONTENT, null, null, $langTag);
 
-        return $this->success($data);
+        $types = array_map(function ($item) {
+            unset($item['appUrl']);
+            unset($item['editorToolbar']);
+            unset($item['editorNumber']);
+
+            return $item;
+        }, $data);
+
+        return $this->success($types);
+    }
+
+    // roles
+    public function roles(Request $request)
+    {
+        $dtoRequest = new GlobalRolesDTO($request->all());
+        $langTag = $this->langTag();
+
+        $roleQuery = Role::orderBy('sort_order');
+
+        if (isset($dtoRequest->status)) {
+            $roleQuery->where('is_enabled', $dtoRequest->status);
+        }
+
+        $roleQuery->when($dtoRequest->rids, function ($query, $value) {
+            $rids = array_filter(explode(',', $value));
+
+            $query->whereIn('rid', $rids);
+        });
+
+        $roles = $roleQuery->paginate($dtoRequest->pageSize ?? 15);
+
+        $roleList = [];
+        foreach ($roles as $role) {
+            foreach ($role->permissions as $perm) {
+                $permissions[$perm['permKey']] = $perm['permValue'];
+            }
+
+            $item['rid'] = $role->rid;
+            $item['nicknameColor'] = $role->nickname_color;
+            $item['name'] = StrHelper::languageContent($role->name, $langTag);
+            $item['nameDisplay'] = (bool) $role->is_display_name;
+            $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
+            $item['iconDisplay'] = (bool) $role->is_display_icon;
+            $item['permissions'] = $permissions;
+            $item['status'] = (bool) $role->is_enabled;
+
+            $roleList[] = $item;
+        }
+
+        return $this->fresnsPaginate($roleList, $roles->total(), $roles->perPage());
     }
 
     // stickers
@@ -340,7 +311,7 @@ class GlobalController extends Controller
     {
         $langTag = $this->langTag();
 
-        $cacheKey = "fresns_api_sticker_tree_{$langTag}";
+        $cacheKey = "fresns_api_stickers_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -357,7 +328,7 @@ class GlobalController extends Controller
             $stickerData = [];
             foreach ($stickers as $index => $sticker) {
                 $stickerData[$index]['parentCode'] = $stickers->where('id', $sticker->parent_id)->first()?->code;
-                $stickerData[$index]['name'] = LanguageHelper::fresnsLanguageByTableId('stickers', 'name', $sticker->id, $langTag);
+                $stickerData[$index]['name'] = StrHelper::languageContent($sticker->name, $langTag);
                 $stickerData[$index]['code'] = $sticker->code;
                 $stickerData[$index]['codeFormat'] = '['.$sticker->code.']';
                 $stickerData[$index]['image'] = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
@@ -370,36 +341,5 @@ class GlobalController extends Controller
         }
 
         return $this->success($stickerTree);
-    }
-
-    // blockWords
-    public function blockWords(Request $request)
-    {
-        $dtoRequest = new GlobalBlockWordsDTO($request->all());
-
-        $wordQuery = BlockWord::all();
-
-        if ($dtoRequest->type == 'content') {
-            $wordQuery = BlockWord::where('content_mode', '!=', 1);
-        } elseif ($dtoRequest->type == 'user') {
-            $wordQuery = BlockWord::where('user_mode', '!=', 1);
-        } elseif ($dtoRequest->type == 'conversation') {
-            $wordQuery = BlockWord::where('conversation_mode', '!=', 1);
-        }
-
-        $words = $wordQuery->paginate($dtoRequest->pageSize ?? 50);
-
-        $wordList = [];
-        foreach ($words as $word) {
-            $item['word'] = $word->word;
-            $item['contentMode'] = $word->content_mode;
-            $item['userMode'] = $word->user_mode;
-            $item['conversationMode'] = $word->conversation_mode;
-            $item['replaceWord'] = $word->replace_word;
-
-            $wordList[] = $item;
-        }
-
-        return $this->fresnsPaginate($wordList, $words->total(), $words->perPage());
     }
 }
