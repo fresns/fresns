@@ -30,9 +30,10 @@ composer.lock
 
 # R&D File
 /config/plugins.php
+/config/themes.php
 /config/markets.php
 /plugins/*
-/website
+/themes/*
 /Web-Engine
 composer-dev.json
 fresns-dev.json
