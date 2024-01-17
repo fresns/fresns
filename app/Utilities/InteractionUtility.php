@@ -96,21 +96,21 @@ class InteractionUtility
             $userLike = UserLike::where('user_id', $userId)->type($type)->where('like_id', $markId)->first();
             $userFollow = UserFollow::where('user_id', $userId)->type($type)->where('follow_id', $markId)->first();
 
-            $status['likeStatus'] = (bool) $userLike?->mark_type == UserLike::MARK_TYPE_LIKE;
-            $status['dislikeStatus'] = (bool) $userLike?->mark_type == UserLike::MARK_TYPE_DISLIKE;
-            $status['followStatus'] = (bool) $userFollow?->mark_type == UserFollow::MARK_TYPE_FOLLOW;
-            $status['blockStatus'] = (bool) $userFollow?->mark_type == UserFollow::MARK_TYPE_BLOCK;
+            $status['likeStatus'] = $userLike?->mark_type === UserLike::MARK_TYPE_LIKE;
+            $status['dislikeStatus'] = $userLike?->mark_type === UserLike::MARK_TYPE_DISLIKE;
+            $status['followStatus'] = $userFollow?->mark_type === UserFollow::MARK_TYPE_FOLLOW;
+            $status['blockStatus'] = $userFollow?->mark_type === UserFollow::MARK_TYPE_BLOCK;
             $status['note'] = $userFollow?->user_note;
 
             if ($type == InteractionUtility::TYPE_USER) {
                 $userFollowMe = UserFollow::where('user_id', $markId)->type($type)->where('follow_id', $userId)->first();
 
-                $status['followMeStatus'] = (bool) $userFollowMe?->mark_type == UserFollow::MARK_TYPE_FOLLOW;
-                $status['blockMeStatus'] = (bool) $userFollowMe?->mark_type == UserFollow::MARK_TYPE_BLOCK;
+                $status['followMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_FOLLOW;
+                $status['blockMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_BLOCK;
             }
 
             if ($type == InteractionUtility::TYPE_USER || $type == InteractionUtility::TYPE_GROUP) {
-                $status['followExpired'] = $userFollow->expired_at->isPast();
+                $status['followExpired'] = $userFollow?->expired_at?->isPast();
                 $status['followExpiryDateTime'] = $userFollow?->expired_at;
             }
 

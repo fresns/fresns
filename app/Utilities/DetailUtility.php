@@ -302,10 +302,8 @@ class DetailUtility
             $groupDetail['interaction'] = array_replace($groupDetail['interaction'], $interactionStatus);
         }
 
-        // handle date
-        $groupDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['createdDatetime'], $timezone, $langTag);
-        $groupDetail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupDetail['interaction']['followExpiryDateTime'], $timezone, $langTag);
-
+        // handle date and count
+        $groupDetail = self::handleDetailDate('group', $groupDetail, $timezone, $langTag);
         $result = self::handleDetailCount('group', $groupDetail, $group);
 
         // subscribe
@@ -375,9 +373,8 @@ class DetailUtility
             $hashtagDetail['interaction'] = array_replace($hashtagDetail['interaction'], $interactionStatus);
         }
 
-        // handle date
-        $hashtagDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($hashtagDetail['createdDatetime'], $timezone, $langTag);
-
+        // handle date and count
+        $hashtagDetail = self::handleDetailDate('hashtag', $hashtagDetail, $timezone, $langTag);
         $result = self::handleDetailCount('hashtag', $hashtagDetail, $hashtag);
 
         // subscribe
@@ -472,9 +469,8 @@ class DetailUtility
             $geotagDetail['interaction'] = array_replace($geotagDetail['interaction'], $interactionStatus);
         }
 
-        // handle date
-        $geotagDetail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($geotagDetail['createdDatetime'], $timezone, $langTag);
-
+        // handle date and count
+        $geotagDetail = self::handleDetailDate('geotag', $geotagDetail, $timezone, $langTag);
         $result = self::handleDetailCount('geotag', $geotagDetail, $geotag);
 
         // subscribe
@@ -936,7 +932,7 @@ class DetailUtility
             $permissions = $comment->permissions;
             $postPermissions = $post->permissions;
 
-            $item['isPrivate'] = $postPermissions['commentConfig']['private'] ?? false;
+            $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
             // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
@@ -1104,7 +1100,7 @@ class DetailUtility
         }
 
         // get preview comments
-        if ($isPreviewComments && $previewConfig['preview_comment_replies'] != 0 && ! $commentDetail['isPrivate']) {
+        if ($isPreviewComments && $previewConfig['preview_comment_replies'] != 0 && $commentDetail['privacy'] == 'public') {
             $previewCommentOptions = [
                 'viewType' => 'quoted',
                 'filter' => [
@@ -1124,8 +1120,8 @@ class DetailUtility
         }
         unset($commentDetail['detailContent']);
 
-        // private
-        $isPrivate = $commentDetail['isPrivate'];
+        // public or private
+        $commentPrivacy = $commentDetail['privacy'];
 
         // authUserId
         if ($authUserId) {
@@ -1135,7 +1131,7 @@ class DetailUtility
             $commentDetail['manages'] = ExtendUtility::getManageExtensions('comment', $langTag, $authUserId, $commentModel?->post?->group_id);
 
             if ($comment->user_id == $authUserId) {
-                $isPrivate = false;
+                $commentPrivacy = 'public';
 
                 $commentDetail['editControls']['isAuthor'] = true;
                 $commentDetail['editControls']['canDelete'] = $commentDetail['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky) : false;
@@ -1143,7 +1139,7 @@ class DetailUtility
             }
 
             if ($commentModel?->post?->user_id == $authUserId) {
-                $isPrivate = false;
+                $commentPrivacy = 'public';
             }
 
             // interaction
@@ -1152,7 +1148,7 @@ class DetailUtility
         }
 
         // checkPermissions
-        if ($options['checkPermissions'] ?? false && $isPrivate) {
+        if ($options['checkPermissions'] ?? false && $commentPrivacy == 'private') {
             $newContent = [
                 'content' => null,
                 'isBrief' => false,
@@ -1173,7 +1169,7 @@ class DetailUtility
             $commentDetail = array_replace($commentDetail, $newContent);
         }
 
-        $commentDetail['isPrivate'] = $isPrivate;
+        $commentDetail['privacy'] = $commentPrivacy;
 
         if ($options['outputReplyToPost'] ?? false && $commentDetail['replyInfo']['post']) {
             $replyToPostOptions = [
@@ -1235,13 +1231,14 @@ class DetailUtility
         $userDetail['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['verifiedDateTime'], $timezone, $langTag);
 
         $userDetail['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['expiryDateTime'], $timezone, $langTag);
+        $userDetail['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['registerDateTime'], $timezone, $langTag);
 
-        $userDetail['lastPublishPost'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishPost'], $timezone, $langTag);
-        $userDetail['lastPublishComment'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishComment'], $timezone, $langTag);
-        $userDetail['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditUsername'], $timezone, $langTag);
-        $userDetail['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditNickname'], $timezone, $langTag);
-
-        $userDetail['registerDate'] = DateHelper::fresnsDateTimeByTimezone($userDetail['registerDate'], $timezone, $langTag);
+        $userDetail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishPostDateTime'], $timezone, $langTag);
+        $userDetail['lastPublishPostTimeAgo'] = DateHelper::fresnsHumanReadableTime($userDetail['lastPublishPostDateTime'], $langTag);
+        $userDetail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishCommentDateTime'], $timezone, $langTag);
+        $userDetail['lastPublishCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($userDetail['lastPublishCommentDateTime'], $langTag);
+        $userDetail['lastEditUsernameDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditUsernameDateTime'], $timezone, $langTag);
+        $userDetail['lastEditNicknameDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditNicknameDateTime'], $timezone, $langTag);
 
         $userDetail['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['waitDeleteDateTime'], $timezone, $langTag);
 
@@ -1252,7 +1249,26 @@ class DetailUtility
         return $userDetail;
     }
 
-    // handle group data count
+    // handle data date (group, hashtag, geotag)
+    private static function handleDetailDate(string $type, array $detail, ?string $timezone = null, ?string $langTag = null): array
+    {
+        $detail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($detail['createdDatetime'], $timezone, $langTag);
+        $detail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['createdDatetime'], $langTag);
+
+        $detail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishPostDateTime'], $timezone, $langTag);
+        $detail['lastPublishPostTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastPublishPostDateTime'], $langTag);
+
+        $detail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishCommentDateTime'], $timezone, $langTag);
+        $detail['lastPublishCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastPublishCommentDateTime'], $langTag);
+
+        if ($type == 'group') {
+            $detail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['interaction']['followExpiryDateTime'], $timezone, $langTag);
+        }
+
+        return $detail;
+    }
+
+    // handle data count (group, hashtag, geotag)
     private static function handleDetailCount(string $type, array $detail, Group|Hashtag|Geotag $model): array
     {
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
@@ -1283,8 +1299,10 @@ class DetailUtility
     {
         $detail['createdDatetime'] = DateHelper::fresnsFormatDateTime($detail['createdDatetime'], $timezone, $langTag);
         $detail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['createdDatetime'], $langTag);
+
         $detail['editedDatetime'] = DateHelper::fresnsFormatDateTime($detail['editedDatetime'], $timezone, $langTag);
         $detail['editedTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['editedDatetime'], $langTag);
+
         $detail['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['latestCommentDatetime'], $timezone, $langTag);
         $detail['latestCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['latestCommentDatetime'], $langTag);
 
