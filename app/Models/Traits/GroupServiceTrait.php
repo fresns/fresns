@@ -54,6 +54,11 @@ trait GroupServiceTrait
         $info['commentCount'] = $groupData->comment_count;
         $info['commentDigestCount'] = $groupData->comment_digest_count;
         $info['createdDatetime'] = $groupData->created_at;
+        $info['createdTimeAgo'] = null;
+        $info['lastPublishPostDateTime'] = $groupData->last_post_at;
+        $info['lastPublishPostTimeAgo'] = null;
+        $info['lastPublishCommentDateTime'] = $groupData->last_comment_at;
+        $info['lastPublishCommentTimeAgo'] = null;
         $info['moreInfo'] = $groupData->more_info;
 
         return $info;

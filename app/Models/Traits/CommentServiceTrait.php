@@ -33,6 +33,7 @@ trait CommentServiceTrait
 
         $info['cid'] = $commentData->cid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
+        $info['privacy'] = 'public';
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);
         $info['langTag'] = $commentData->lang_tag;

@@ -62,6 +62,11 @@ trait GeotagServiceTrait
         $info['commentCount'] = $geotagData->comment_count;
         $info['commentDigestCount'] = $geotagData->comment_digest_count;
         $info['createdDatetime'] = $geotagData->created_at;
+        $info['createdTimeAgo'] = null;
+        $info['lastPublishPostDateTime'] = $geotagData->last_post_at;
+        $info['lastPublishPostTimeAgo'] = null;
+        $info['lastPublishCommentDateTime'] = $geotagData->last_comment_at;
+        $info['lastPublishCommentTimeAgo'] = null;
         $info['moreInfo'] = $geotagData->more_info;
 
         return $info;
