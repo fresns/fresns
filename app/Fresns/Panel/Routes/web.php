@@ -18,7 +18,7 @@ use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\CommonController;
 use App\Fresns\Panel\Http\Controllers\ContentController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
-use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
+use App\Fresns\Panel\Http\Controllers\ExtendController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\InteractionController;
@@ -180,8 +180,12 @@ Route::middleware(['panelAuth'])->group(function () {
     // extends
     Route::prefix('extends')->group(function () {
         // content-handler
-        Route::get('content-handler', [ExtendContentHandlerController::class, 'index'])->name('content-handler.index');
-        Route::put('content-handler', [ExtendContentHandlerController::class, 'update'])->name('content-handler.update');
+        Route::get('content-handler', [ExtendController::class, 'contentHandlerIndex'])->name('content-handler.index');
+        Route::put('content-handler', [ExtendController::class, 'contentHandlerUpdate'])->name('content-handler.update');
+        // command-words
+        Route::get('command-words', [ExtendController::class, 'commandWordsIndex'])->name('command-words.index');
+        Route::post('command-words', [ExtendController::class, 'commandWordsStore'])->name('command-words.store');
+        Route::delete('command-words', [ExtendController::class, 'commandWordsDestroy'])->name('command-words.destroy');
     });
 
     // app usages

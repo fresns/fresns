@@ -15,6 +15,7 @@
                     <li class="nav-item"><a class="nav-link {{ (request()->route('usageType') == 'user-feature') ? 'active' : '' }}" href="{{ route('panel.app-usages.index', ['usageType' => 'user-feature']) }}">{{ __('FsLang::panel.sidebar_extend_user_feature') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ (request()->route('usageType') == 'user-profile') ? 'active' : '' }}" href="{{ route('panel.app-usages.index', ['usageType' => 'user-profile']) }}">{{ __('FsLang::panel.sidebar_extend_user_profile') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ (request()->route('usageType') == 'channel') ? 'active' : '' }}" href="{{ route('panel.app-usages.index', ['usageType' => 'channel']) }}">{{ __('FsLang::panel.sidebar_extend_channel') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.command-words.*') ? 'active' : '' }}" href="{{ route('panel.command-words.index') }}">{{ __('FsLang::panel.sidebar_extend_command_words') }}</a></li>
                 </ul>
             </div>
         </div>
