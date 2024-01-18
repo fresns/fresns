@@ -54,7 +54,7 @@ Route::prefix('fresns/v1')->middleware([
     Route::prefix('file')->name('file.')->group(function () {
         Route::get('storage-token', [FileController::class, 'storageToken'])->name('storage.token');
         Route::post('uploads', [FileController::class, 'uploads'])->name('uploads');
-        Route::patch('{fid}/warning', [FileController::class, 'warning'])->name('warning');
+        Route::patch('{fid}/warning', [FileController::class, 'updateWarning'])->name('warning');
         Route::get('{fid}/link', [FileController::class, 'link'])->name('link');
         Route::get('{fid}/users', [FileController::class, 'users'])->name('users');
     });
