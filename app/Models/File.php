@@ -28,6 +28,11 @@ class File extends Model
     const TRANSCODING_STATE_DONE = 3;
     const TRANSCODING_STATE_FAILURE = 4;
 
+    const WARNING_NONE = 1;
+    const WARNING_NUDITY = 2;
+    const WARNING_VIOLENCE = 3;
+    const WARNING_SENSITIVE = 4;
+
     use Traits\FileServiceTrait;
     use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
