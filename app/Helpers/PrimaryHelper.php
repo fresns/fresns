@@ -134,7 +134,6 @@ class PrimaryHelper
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTag = match ($modelName) {
-            'key' => 'fresnsSystems',
             'account' => 'fresnsAccounts',
             'user' => 'fresnsUsers',
             'group' => 'fresnsGroups',
@@ -143,10 +142,7 @@ class PrimaryHelper
             'post' => 'fresnsPosts',
             'comment' => 'fresnsComments',
             'file' => 'fresnsFiles',
-            'extend' => 'fresnsExtends',
-            'archive' => 'fresnsArchives',
             'operation' => 'fresnsOperations',
-            'conversation' => 'fresnsConversations',
             default => 'fresnsModels',
         };
 
@@ -162,10 +158,6 @@ class PrimaryHelper
             $fresnsModel = null;
 
             switch ($modelName) {
-                case 'key':
-                    $fresnsModel = SessionKey::where('id', $id)->first();
-                    break;
-
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
                     break;
@@ -198,20 +190,8 @@ class PrimaryHelper
                     $fresnsModel = File::withTrashed()->where('id', $id)->first();
                     break;
 
-                case 'extend':
-                    $fresnsModel = Extend::withTrashed()->where('id', $id)->first();
-                    break;
-
                 case 'operation':
                     $fresnsModel = Operation::withTrashed()->where('id', $id)->first();
-                    break;
-
-                case 'archive':
-                    $fresnsModel = Archive::withTrashed()->where('id', $id)->first();
-                    break;
-
-                case 'conversation':
-                    $fresnsModel = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
                     break;
             }
 
@@ -221,7 +201,7 @@ class PrimaryHelper
         return $fresnsModel;
     }
 
-    // get seo
+    // get seo info model
     public static function fresnsModelSeo(int $usageType, int $usageId): mixed
     {
         $cacheKey = "fresns_model_seo_{$usageType}_{$usageId}";
@@ -282,18 +262,18 @@ class PrimaryHelper
         $conversationModel = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($conversationModel)) {
-            $aConversation = Conversation::where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
-            $bConversation = Conversation::where('b_user_id', $conversationUserId)->where('a_user_id', $authUserId)->first();
+            $aConversation = Conversation::where('a_user_id', $authUserId)->where('b_user_id', $conversationUserId)->first();
+            $bConversation = Conversation::where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
 
-            if (empty($aConversation) && empty($bConversation)) {
-                $conversationColumn['a_user_id'] = $authUserId;
-                $conversationColumn['b_user_id'] = $conversationUserId;
+            $conversationModel = $aConversation ?? $bConversation;
 
-                $conversationModel = Conversation::create($conversationColumn);
-            } elseif (empty($aConversation)) {
-                $conversationModel = $bConversation;
-            } else {
-                $conversationModel = $aConversation;
+            if (empty($conversationModel)) {
+                $item = [
+                    'a_user_id' => $authUserId,
+                    'b_user_id' => $conversationUserId,
+                ];
+
+                $conversationModel = Conversation::create($item);
             }
 
             CacheHelper::put($conversationModel, $cacheKey, $cacheTag);

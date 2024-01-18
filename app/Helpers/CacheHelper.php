@@ -755,15 +755,16 @@ class CacheHelper
      * fresns model.
      */
     // fresns_model_config_{$itemKey}                               // tag: fresnsConfigs
+    // fresns_model_key_{$appId}                                    // tag: fresnsSystems
     // fresns_model_account_{$aid}                                  // tag: fresnsAccounts
     // fresns_model_user_{$uidOrUsername}_by_fsid                   // tag: fresnsUsers
     // fresns_model_user_{$userId}                                  // tag: fresnsUsers
-    // fresns_model_conversation_{$userId}_{$conversationUserId}    // tag: fresnsUsers
     // fresns_model_group_{$gid}                                    // tag: fresnsGroups
     // fresns_model_group_{$groupId}                                // tag: fresnsGroups
-    // fresns_model_subgroups_{$idOrGid}                            // tag: fresnsGroups
-    // fresns_model_hashtag_{$hid}                                  // tag: fresnsHashtags
+    // fresns_model_hashtag_{$htid}                                 // tag: fresnsHashtags
     // fresns_model_hashtag_{$hashtagId}                            // tag: fresnsHashtags
+    // fresns_model_geotag_{$gtid}                                  // tag: fresnsGeotags
+    // fresns_model_geotag_{$geotagId}                              // tag: fresnsGeotags
     // fresns_model_post_{$pid}                                     // tag: fresnsPosts
     // fresns_model_post_{$postId}                                  // tag: fresnsPosts
     // fresns_model_comment_{$cid}                                  // tag: fresnsComments
@@ -771,12 +772,12 @@ class CacheHelper
     // fresns_model_file_{$fid}                                     // tag: fresnsFiles
     // fresns_model_file_{$fileId}                                  // tag: fresnsFiles
     // fresns_model_extend_{$eid}                                   // tag: fresnsExtends
-    // fresns_model_extend_{$extendId}                              // tag: fresnsExtends
     // fresns_model_archive_{$code}                                 // tag: fresnsArchives
-    // fresns_model_archive_{$archiveId}                            // tag: fresnsArchives
     // fresns_model_operation_{$operationId}                        // tag: fresnsOperations
     // fresns_model_conversation_{$conversationId}                  // tag: fresnsConversations
     // fresns_model_seo_{$usageType}_{$usageId}                     // tag: fresnsSeo
+    // fresns_model_subgroups_{$idOrGid}                            // tag: fresnsGroups
+    // fresns_model_conversation_{$userId}_{$conversationUserId}    // tag: fresnsUsers
 
     /**
      * fresns detail.

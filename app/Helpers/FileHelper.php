@@ -178,14 +178,13 @@ class FileHelper
         $usageTypeDir = match ($usageType) {
             FileUsage::TYPE_OTHER => '/others/{YYYYMM}/',
             FileUsage::TYPE_SYSTEM => '/systems/{YYYYMM}/',
-            FileUsage::TYPE_OPERATION => '/operations/{YYYYMM}/',
             FileUsage::TYPE_STICKER => '/stickers/{YYYYMM}/',
             FileUsage::TYPE_USER => '/users/{YYYYMM}/{DD}/',
             FileUsage::TYPE_CONVERSATION => '/conversations/{YYYYMM}/{DD}/',
             FileUsage::TYPE_POST => '/posts/{YYYYMM}/{DD}/',
             FileUsage::TYPE_COMMENT => '/comments/{YYYYMM}/{DD}/',
             FileUsage::TYPE_EXTEND => '/extends/{YYYYMM}/{DD}/',
-            FileUsage::TYPE_PLUGIN => '/plugins/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_App => '/apps/{YYYYMM}/{DD}/',
             default => '/others/{YYYYMM}/',
         };
 
