@@ -141,7 +141,7 @@ class ConfigUtility
     }
 
     // get editor config by type(post or comment)
-    public static function getEditorConfigByType(int $userId, string $type, ?string $langTag = null): array
+    public static function getEditorConfigByType(string $type, int $userId, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -153,21 +153,21 @@ class ConfigUtility
             "{$type}_editor_document",
             'image_extension_names',
             'image_max_size',
-            "{$type}_editor_image_upload_form",
+            "{$type}_editor_image_upload_type",
             "{$type}_editor_image_upload_number",
             'video_extension_names',
             'video_max_size',
             'video_max_time',
-            "{$type}_editor_video_upload_form",
+            "{$type}_editor_video_upload_type",
             "{$type}_editor_video_upload_number",
             'audio_extension_names',
             'audio_max_size',
             'audio_max_time',
-            "{$type}_editor_audio_upload_form",
+            "{$type}_editor_audio_upload_type",
             "{$type}_editor_audio_upload_number",
             'document_extension_names',
             'document_max_size',
-            "{$type}_editor_document_upload_form",
+            "{$type}_editor_document_upload_type",
             "{$type}_editor_document_upload_number",
             'post_editor_title',
             'post_editor_title_show',
@@ -203,7 +203,7 @@ class ConfigUtility
         $image['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
         $image['maxSize'] = (int) (empty($rolePerm['image_max_size']) ? $editorConfig['image_max_size'] : $rolePerm['image_max_size']);
         $image['maxTime'] = null;
-        $image['uploadForm'] = $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_form"] : 'fresns';
+        $image['uploadType'] = $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_type"] : 'api';
         $image['uploadUrl'] = $imageUploadUrl;
         $image['uploadNumber'] = (int) (empty($rolePerm["{$type}_editor_image_upload_number"]) ? $editorConfig["{$type}_editor_image_upload_number"] : $rolePerm["{$type}_editor_image_upload_number"]);
 
@@ -213,7 +213,7 @@ class ConfigUtility
         $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
         $video['maxSize'] = (int) (empty($rolePerm['video_max_size']) ? $editorConfig['video_max_size'] : $rolePerm['video_max_size']);
         $video['maxTime'] = (int) (empty($rolePerm['video_max_time']) ? $editorConfig['video_max_time'] : $rolePerm['video_max_time']);
-        $video['uploadForm'] = $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_form"] : 'fresns';
+        $video['uploadType'] = $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_type"] : 'api';
         $video['uploadUrl'] = $videoUploadUrl;
         $video['uploadNumber'] = (int) (empty($rolePerm["{$type}_editor_video_upload_number"]) ? $editorConfig["{$type}_editor_video_upload_number"] : $rolePerm["{$type}_editor_video_upload_number"]);
 
@@ -223,7 +223,7 @@ class ConfigUtility
         $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
         $audio['maxSize'] = (int) (empty($rolePerm['audio_max_size']) ? $editorConfig['audio_max_size'] : $rolePerm['audio_max_size']);
         $audio['maxTime'] = (int) (empty($rolePerm['audio_max_time']) ? $editorConfig['audio_max_time'] : $rolePerm['audio_max_time']);
-        $audio['uploadForm'] = $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_form"] : 'fresns';
+        $audio['uploadType'] = $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_type"] : 'api';
         $audio['uploadUrl'] = $audioUploadUrl;
         $audio['uploadNumber'] = (int) (empty($rolePerm["{$type}_editor_audio_upload_number"]) ? $editorConfig["{$type}_editor_audio_upload_number"] : $rolePerm["{$type}_editor_audio_upload_number"]);
 
@@ -233,7 +233,7 @@ class ConfigUtility
         $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
         $document['maxSize'] = (int) (empty($rolePerm['document_max_size']) ? $editorConfig['document_max_size'] : $rolePerm['document_max_size']);
         $document['maxTime'] = null;
-        $document['uploadForm'] = $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_form"] : 'fresns';
+        $document['uploadType'] = $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_type"] : 'api';
         $document['uploadUrl'] = $documentUploadUrl;
         $document['uploadNumber'] = (int) (empty($rolePerm["{$type}_editor_document_upload_number"]) ? $editorConfig["{$type}_editor_document_upload_number"] : $rolePerm["{$type}_editor_document_upload_number"]);
 
@@ -297,7 +297,7 @@ class ConfigUtility
     }
 
     // get publish config by type(post or comment)
-    public static function getPublishConfigByType(int $userId, string $type, ?string $langTag = null, ?string $timezone = null): array
+    public static function getPublishConfigByType(string $type, int $userId, ?string $langTag = null, ?string $timezone = null): array
     {
         $cacheKey = "fresns_publish_{$type}_config_{$userId}_{$langTag}";
         $cacheTag = 'fresnsUsers';

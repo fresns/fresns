@@ -431,7 +431,7 @@ class ValidationUtility
         }
 
         // Publish config
-        $publishConfig = ConfigUtility::getPublishConfigByType($draft['userId'], $type);
+        $publishConfig = ConfigUtility::getPublishConfigByType($type, $draft['userId']);
 
         // check perm
         $permConfig = $publishConfig['perm'];
