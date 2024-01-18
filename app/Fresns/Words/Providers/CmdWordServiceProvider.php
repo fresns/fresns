@@ -12,7 +12,6 @@ use App\Fresns\Words\Account\Account;
 use App\Fresns\Words\Account\Wallet;
 use App\Fresns\Words\Basic\Basic;
 use App\Fresns\Words\Content\Content;
-use App\Fresns\Words\Detail\Detail;
 use App\Fresns\Words\Feature\Crontab;
 use App\Fresns\Words\Feature\Subscribe;
 use App\Fresns\Words\File\File;
@@ -85,7 +84,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'clearUserAllBadges', 'provider' => [User::class, 'clearUserAllBadges']],
 
         // File
-        ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],
+        ['word' => 'getStorageToken', 'provider' => [File::class, 'getStorageToken']],
         ['word' => 'uploadFile', 'provider' => [File::class, 'uploadFile']],
         ['word' => 'uploadFileInfo', 'provider' => [File::class, 'uploadFileInfo']],
         ['word' => 'getAntiLinkFileInfo', 'provider' => [File::class, 'getAntiLinkFileInfo']],
@@ -108,14 +107,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'setPostAuth', 'provider' => [Content::class, 'setPostAuth']],
         ['word' => 'setPostAffiliateUser', 'provider' => [Content::class, 'setPostAffiliateUser']],
         ['word' => 'setCommentExtendButton', 'provider' => [Content::class, 'setCommentExtendButton']],
-
-        // Detail
-        ['word' => 'getAccountDetail', 'provider' => [Detail::class, 'getAccountDetail']],
-        ['word' => 'getUserDetail', 'provider' => [Detail::class, 'getUserDetail']],
-        ['word' => 'getGroupDetail', 'provider' => [Detail::class, 'getGroupDetail']],
-        ['word' => 'getHashtagDetail', 'provider' => [Detail::class, 'getHashtagDetail']],
-        ['word' => 'getPostDetail', 'provider' => [Detail::class, 'getPostDetail']],
-        ['word' => 'getCommentDetail', 'provider' => [Detail::class, 'getCommentDetail']],
 
         // Manage
         ['word' => 'getPortalContent', 'provider' => [Manage::class, 'getPortalContent']],

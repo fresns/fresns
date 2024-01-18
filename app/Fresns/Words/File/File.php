@@ -11,7 +11,7 @@ namespace App\Fresns\Words\File;
 use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoDTO;
 use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoListDTO;
 use App\Fresns\Words\File\DTO\GetAntiLinkFileOriginalUrlDTO;
-use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
+use App\Fresns\Words\File\DTO\GetStorageTokenDTO;
 use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
@@ -26,9 +26,9 @@ class File
 {
     use CmdWordResponseTrait;
 
-    public function getUploadToken($wordBody)
+    public function getStorageToken($wordBody)
     {
-        $dtoWordBody = new GetUploadTokenDTO($wordBody);
+        $dtoWordBody = new GetStorageTokenDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
@@ -40,7 +40,7 @@ class File
             );
         }
 
-        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getStorageToken($wordBody);
 
         return $fresnsResp->getOrigin();
     }
