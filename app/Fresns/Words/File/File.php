@@ -60,6 +60,7 @@ class File
         //     'aid' => $dtoWordBody->aid,
         //     'uid' => $dtoWordBody->uid,
         //     'type' => $dtoWordBody->type,
+        //     'warningType' => $dtoWordBody->warningType,
         //     'moreInfo' => $dtoWordBody->moreInfo,
         // ];
         // $uploadFile = FileUtility::uploadFile($bodyInfo, $dtoWordBody->file);
@@ -83,36 +84,24 @@ class File
     public function uploadFileInfo($wordBody)
     {
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
-        // $bodyInfo = [
-        //     'platformId' => $dtoWordBody->platformId,
-        //     'usageType' => $dtoWordBody->usageType,
-        //     'tableName' => $dtoWordBody->tableName,
-        //     'tableColumn' => $dtoWordBody->tableColumn,
-        //     'tableId' => $dtoWordBody->tableId,
-        //     'tableKey' => $dtoWordBody->tableKey,
-        //     'aid' => $dtoWordBody->aid,
-        //     'uid' => $dtoWordBody->uid,
-        //     'type' => $dtoWordBody->type,
-        //     'fileInfo' => $dtoWordBody->fileInfo,
-        // ];
-        // $uploadFileInfo = FileUtility::uploadFileInfo($bodyInfo);
+        $bodyInfo = [
+            'platformId' => $dtoWordBody->platformId,
+            'usageType' => $dtoWordBody->usageType,
+            'tableName' => $dtoWordBody->tableName,
+            'tableColumn' => $dtoWordBody->tableColumn,
+            'tableId' => $dtoWordBody->tableId,
+            'tableKey' => $dtoWordBody->tableKey,
+            'aid' => $dtoWordBody->aid,
+            'uid' => $dtoWordBody->uid,
+            'type' => $dtoWordBody->type,
+            'fileInfo' => $dtoWordBody->fileInfo,
+            'warningType' => $dtoWordBody->warningType,
+            'moreInfo' => $dtoWordBody->moreInfo,
+        ];
+        $uploadFileInfo = FileUtility::uploadFileInfo($bodyInfo);
 
-        // return $this->success($uploadFileInfo);
-
-        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
-
-        if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
-            );
-        }
-
-        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFileInfo($wordBody);
-
-        return $fresnsResp->getOrigin();
+        return $this->success($uploadFileInfo);
     }
 
     public function getAntiLinkFileInfo($wordBody)

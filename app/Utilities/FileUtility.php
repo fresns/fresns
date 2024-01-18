@@ -87,30 +87,29 @@ class FileUtility
         //     'uid' => 'file_usages->user_id',
         //     'type' => 'files->type and file_usages->file_type',
         //     'fileInfo' => [
-        //         [
-        //             'name' => 'files->name',
-        //             'mime' => 'files->mime',
-        //             'extension' => 'files->extension',
-        //             'size' => 'files->size', // Unit: Byte
-        //             'md5' => 'files->md5',
-        //             'sha' => 'files->sha',
-        //             'shaType' => 'files->sha_type',
-        //             'disk' => 'files->disk',
-        //             'path' => 'files->path',
-        //             'imageWidth' => 'Image Only: files->image_width',
-        //             'imageHeight' => 'Image Only: files->image_height',
-        //             'videoTime' => 'Video Only: files->video_time',
-        //             'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //             'audioTime' => 'Audio Only: files->audio_time',
-        //             'transcodingState' => 'Audio and Video Only: files->transcoding_state',
-        //             'moreInfo' => [
-        //                 // files->more_info
-        //             ],
-        //             'originalPath' => 'files->original_path',
-        //             'sort_order' => 'file_usages->sort_order',
-        //             'remark' => 'file_usages->remark',
-        //         ]
-        //     ]
+        //         'name' => 'files->name',
+        //         'mime' => 'files->mime',
+        //         'extension' => 'files->extension',
+        //         'size' => 'files->size', // Unit: Byte
+        //         'md5' => 'files->md5',
+        //         'sha' => 'files->sha',
+        //         'shaType' => 'files->sha_type',
+        //         'disk' => 'files->disk',
+        //         'path' => 'files->path',
+        //         'imageWidth' => 'Image Only: files->image_width',
+        //         'imageHeight' => 'Image Only: files->image_height',
+        //         'videoTime' => 'Video Only: files->video_time',
+        //         'videoPosterPath' => 'Video Only: files->video_poster_path',
+        //         'audioTime' => 'Audio Only: files->audio_time',
+        //         'transcodingState' => 'Audio and Video Only: files->transcoding_state',
+        //         'originalPath' => 'files->original_path',
+        //         'sort_order' => 'file_usages->sort_order',
+        //         'remark' => 'file_usages->remark',
+        //     ],
+        //     'warningType' => 'files->warning_type',
+        //     'moreInfo' => [
+        //         // files->more_info
+        //     ],
         // ];
 
         // if (! Str::isJson($bodyInfo['fileInfo'])) {
@@ -147,8 +146,9 @@ class FileUtility
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
                 'audio_time' => $fileInfo['audioTime'] ?? null,
                 'transcoding_state' => $fileInfo['transcodingState'] ?? 1,
-                'more_info' => $fileInfo['moreInfo'],
+                'more_info' => $bodyInfo['moreInfo'], // bodyInfo
                 'original_path' => $fileInfo['originalPath'] ?? null,
+                'warning_type' => $bodyInfo['warningType'] ?? 1, // bodyInfo
             ];
             $fileId = File::create($fileInput)->id;
 
@@ -235,6 +235,7 @@ class FileUtility
             'audio_time' => $bodyInfo['audioTime'] ?? null,
             'transcoding_state' => $bodyInfo['transcodingState'] ?? 1,
             'more_info' => $bodyInfo['moreInfo'] ?? null,
+            'warning_type' => $bodyInfo['warningType'] ?? 1, // bodyInfo
         ];
 
         $fileId = File::create($fileInput)->id;

@@ -12,14 +12,13 @@ class FileUsage extends Model
 {
     const TYPE_OTHER = 1;
     const TYPE_SYSTEM = 2;
-    const TYPE_OPERATION = 3;
-    const TYPE_STICKER = 4;
-    const TYPE_USER = 5;
-    const TYPE_CONVERSATION = 6;
-    const TYPE_POST = 7;
-    const TYPE_COMMENT = 8;
-    const TYPE_EXTEND = 9;
-    const TYPE_PLUGIN = 10;
+    const TYPE_STICKER = 3;
+    const TYPE_USER = 4;
+    const TYPE_CONVERSATION = 5;
+    const TYPE_POST = 6;
+    const TYPE_COMMENT = 7;
+    const TYPE_EXTEND = 8;
+    const TYPE_App = 9;
 
     public function scopeFileType($query, int $type)
     {

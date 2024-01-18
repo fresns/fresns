@@ -18,13 +18,15 @@ class UploadFileInfoDTO extends DTO
             'platformId' => ['integer', 'required', 'between:1,11'],
             'usageType' => ['integer', 'required', 'between:1,10'],
             'tableName' => ['string', 'required'],
-            'tableColumn' => ['required', 'string'],
+            'tableColumn' => ['string', 'required'],
             'tableId' => ['integer', 'nullable', 'required_without:tableKey'],
             'tableKey' => ['string', 'nullable', 'required_without:tableId'],
             'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
             'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
             'type' => ['integer', 'required', 'in:1,2,3,4'],
             'fileInfo' => ['array', 'required'],
+            'warningType' => ['integer', 'nullable'],
+            'moreInfo' => ['array', 'nullable'],
         ];
     }
 }
