@@ -10,6 +10,8 @@ namespace App\Models;
 
 class CommentLog extends Model
 {
+    use Traits\FsidTrait;
+
     const STATE_DRAFT = 1;
     const STATE_UNDER_REVIEW = 2;
     const STATE_SUCCESS = 3;
@@ -18,6 +20,11 @@ class CommentLog extends Model
     protected $casts = [
         'map_json' => 'json',
     ];
+
+    public function getFsidKey()
+    {
+        return 'hcid';
+    }
 
     public function comment()
     {

@@ -10,6 +10,8 @@ namespace App\Models;
 
 class PostLog extends Model
 {
+    use Traits\FsidTrait;
+
     const STATE_DRAFT = 1;
     const STATE_UNDER_REVIEW = 2;
     const STATE_SUCCESS = 3;
@@ -21,6 +23,11 @@ class PostLog extends Model
         'user_list_json' => 'json',
         'comment_btn_json' => 'json',
     ];
+
+    public function getFsidKey()
+    {
+        return 'hpid';
+    }
 
     public function post()
     {
