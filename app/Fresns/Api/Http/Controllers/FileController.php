@@ -415,9 +415,7 @@ class FileController extends Controller
             'warning_type' => $warningType,
         ]);
 
-        $data = null;
-
-        return $this->success($data);
+        return $this->success();
     }
 
     // file download link

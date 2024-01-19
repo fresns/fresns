@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function success(mixed $data, ?string $message = null, int $code = 0, array $headers = [])
+    public function success(mixed $data = null, ?string $message = null, int $code = 0, array $headers = [])
     {
         if (is_string($data)) {
             $code = $message;
