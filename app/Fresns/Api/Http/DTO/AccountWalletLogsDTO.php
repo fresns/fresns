@@ -17,8 +17,8 @@ class AccountWalletLogsDTO extends DTO
         return [
             'type' => ['string', 'nullable'],
             'state' => ['integer', 'nullable', 'in:1,2,3,4,5'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterUserKeys' => ['string', 'nullable', 'required_with:filterUserType'],
             'pageSize' => ['integer', 'nullable', 'between:1,50'],
             'page' => ['integer', 'nullable'],
         ];
