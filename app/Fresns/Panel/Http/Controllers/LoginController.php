@@ -88,15 +88,16 @@ class LoginController extends Controller
                 'langTag' => $langTag,
                 'aid' => (string) $account->aid,
                 'uid' => null,
-                'objectName' => self::class,
-                'objectAction' => 'Panel Login',
-                'objectResult' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
-                'objectOrderId' => null,
+                'actionName' => self::class,
+                'actionDesc' => 'Panel Login',
+                'actionResult' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
+                'actionId' => null,
                 'deviceInfo' => AppHelper::getDeviceInfo(),
                 'deviceToken' => null,
+                'loginToken' => null,
                 'moreInfo' => null,
             ];
-            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($wordBody);
+            \FresnsCmdWord::plugin('Fresns')->createSessionLog($wordBody);
         }
 
         return $result;
