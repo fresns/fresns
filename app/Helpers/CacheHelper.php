@@ -814,6 +814,9 @@ class CacheHelper
      */
     // fresns_user_{$userId}_main_role
     // fresns_user_{$userId}_roles
+    // fresns_user_overview_conversations_{$uid}
+    // fresns_user_overview_notifications_{$uid}
+    // fresns_user_overview_drafts_{$uid}
     // fresns_app_badge_{$fskey}_{$userId}
 
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
@@ -821,9 +824,6 @@ class CacheHelper
     // fresns_follow_{$type}_array_by_{$userId}
     // fresns_user_activity_{$uid}
     // fresns_user_post_auth_{$postId}_{$userId}
-    // fresns_api_user_panel_conversations_{$uid}
-    // fresns_api_user_panel_notifications_{$uid}
-    // fresns_api_user_panel_drafts_{$uid}
 
     /**
      * tag: fresnsGroups.

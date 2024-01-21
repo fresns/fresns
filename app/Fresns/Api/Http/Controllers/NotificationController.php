@@ -154,7 +154,7 @@ class NotificationController extends Controller
             ]);
         }
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_notifications_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }
@@ -174,7 +174,7 @@ class NotificationController extends Controller
             Notification::where('user_id', $authUser->id)->whereIn('id', $idArr)->delete();
         }
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_notifications_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }

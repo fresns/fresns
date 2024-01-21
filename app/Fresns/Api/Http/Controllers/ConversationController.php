@@ -312,8 +312,8 @@ class ConversationController extends Controller
         $data['timeAgo'] = DateHelper::fresnsHumanReadableTime($conversationMessage->created_at, $langTag);
         $data['readStatus'] = (bool) $conversationMessage->receive_read_at;
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}", 'fresnsUsers');
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$receiveUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$receiveUser->uid}", 'fresnsUsers');
 
         return $this->success($data);
     }
@@ -346,7 +346,7 @@ class ConversationController extends Controller
             ]);
         }
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }
@@ -465,7 +465,7 @@ class ConversationController extends Controller
             ]);
         }
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }

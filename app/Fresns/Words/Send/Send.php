@@ -85,7 +85,7 @@ class Send
 
         $send = self::generateNotification($user->id, $dtoWordBody->toArray());
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$dtoWordBody->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_notifications_{$dtoWordBody->uid}", 'fresnsUsers');
 
         if ($send != 0) {
             return $this->failure($send);
