@@ -84,7 +84,24 @@ class AccountController extends Controller
 
         $loginToken->update([
             'action_id' => $fresnsResp->getData('aidTokenId'),
+            'device_token' => $dtoRequest->deviceToken,
         ]);
+
+        $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());
+        $walletRecharges = array_map(function ($item) {
+            unset($item['editorToolbar']);
+            unset($item['editorNumber']);
+
+            return $item;
+        }, $recharges);
+
+        $withdraws = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag());
+        $walletWithdraws = array_map(function ($item) {
+            unset($item['editorToolbar']);
+            unset($item['editorNumber']);
+
+            return $item;
+        }, $withdraws);
 
         $data = [
             'authToken' => [
@@ -95,8 +112,8 @@ class AccountController extends Controller
                 'expiredDateTime' => $fresnsResp->getData('expiredDateTime'),
             ],
             'items' => [
-                'walletRecharges' => ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag()),
-                'walletWithdraws' => ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag()),
+                'walletRecharges' => $walletRecharges,
+                'walletWithdraws' => $walletWithdraws,
             ],
             'detail' => DetailUtility::accountDetail($account, $this->langTag(), $this->timezone()),
         ];
@@ -139,10 +156,26 @@ class AccountController extends Controller
             throw new ApiException(31502);
         }
 
+        $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());
+        $walletRecharges = array_map(function ($item) {
+            unset($item['editorToolbar']);
+            unset($item['editorNumber']);
+
+            return $item;
+        }, $recharges);
+
+        $withdraws = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag());
+        $walletWithdraws = array_map(function ($item) {
+            unset($item['editorToolbar']);
+            unset($item['editorNumber']);
+
+            return $item;
+        }, $withdraws);
+
         $data = [
             'items' => [
-                'walletRecharges' => ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag()),
-                'walletWithdraws' => ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag()),
+                'walletRecharges' => $walletRecharges,
+                'walletWithdraws' => $walletWithdraws,
             ],
             'detail' => DetailUtility::accountDetail($authAccount, $this->langTag(), $this->timezone()),
         ];

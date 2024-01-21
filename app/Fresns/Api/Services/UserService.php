@@ -77,7 +77,7 @@ class UserService
             throw new ApiException(36120);
         }
 
-        $publishConfig = ConfigUtility::getPublishConfigByType($authUserId, $type, $langTag, $timezone);
+        $publishConfig = ConfigUtility::getPublishConfigByType($type, $authUserId, $langTag, $timezone);
 
         // Check publication requirements
         if (! $publishConfig['perm']['publish']) {

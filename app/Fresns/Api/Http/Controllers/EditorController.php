@@ -40,8 +40,8 @@ use Illuminate\Support\Str;
 
 class EditorController extends Controller
 {
-    // config
-    public function config($type)
+    // configs
+    public function configs($type)
     {
         $langTag = $this->langTag();
         $timezone = $this->timezone();
@@ -49,14 +49,14 @@ class EditorController extends Controller
 
         switch ($type) {
             case 'post':
-                $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'post', $langTag);
-                $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'post', $langTag, $timezone);
+                $config['editor'] = ConfigUtility::getEditorConfigByType('post', $authUser->id, $langTag);
+                $config['publish'] = ConfigUtility::getPublishConfigByType('post', $authUser->id, $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('post');
                 break;
 
             case 'comment':
-                $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'comment', $langTag);
-                $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'comment', $langTag, $timezone);
+                $config['editor'] = ConfigUtility::getEditorConfigByType('comment', $authUser->id, $langTag);
+                $config['publish'] = ConfigUtility::getPublishConfigByType('comment', $authUser->id, $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('comment');
                 break;
 
@@ -209,17 +209,18 @@ class EditorController extends Controller
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => \request()->path(),
-            'objectAction' => 'Editor Create Draft',
-            'objectResult' => SessionLog::STATE_SUCCESS,
-            'objectOrderId' => $fresnsResp->getData('logId'),
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Editor Create Draft',
+            'actionResult' => SessionLog::STATE_SUCCESS,
+            'actionId' => $fresnsResp->getData('logId'),
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
+            'loginToken' => null,
             'moreInfo' => null,
         ];
 
         // upload session log
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         switch ($dtoRequest->type) {
             case 'post':
@@ -243,7 +244,7 @@ class EditorController extends Controller
         $edit['deadlineTime'] = null;
         $data['editControls'] = $edit;
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success($data);
     }
@@ -288,17 +289,18 @@ class EditorController extends Controller
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => \request()->path(),
-            'objectAction' => 'Editor Generate Draft',
-            'objectResult' => SessionLog::STATE_SUCCESS,
-            'objectOrderId' => $fresnsResp->getData('logId'),
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Editor Generate Draft',
+            'actionResult' => SessionLog::STATE_SUCCESS,
+            'actionId' => $fresnsResp->getData('logId'),
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
+            'loginToken' => null,
             'moreInfo' => null,
         ];
 
         // upload session log
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         switch ($type) {
             case 'post':
@@ -322,7 +324,7 @@ class EditorController extends Controller
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
         $data['editControls'] = $edit;
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success($data);
     }
@@ -701,12 +703,13 @@ class EditorController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => \request()->path(),
-            'objectAction' => 'Editor Publish',
-            'objectResult' => SessionLog::STATE_UNKNOWN,
-            'objectOrderId' => $draft->id,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Editor Publish',
+            'actionResult' => SessionLog::STATE_UNKNOWN,
+            'actionId' => $draft->id,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
+            'loginToken' => null,
             'moreInfo' => null,
         ];
 
@@ -734,7 +737,7 @@ class EditorController extends Controller
 
         if ($checkDraftCode == 38200) {
             // upload session log
-            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+            \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
             // change state
             $draft->update([
@@ -772,11 +775,11 @@ class EditorController extends Controller
             'comment' => SessionLog::TYPE_COMMENT_PUBLISH,
         };
         $sessionLog['type'] = $sessionLogType;
-        $sessionLog['objectResult'] = SessionLog::STATE_SUCCESS;
-        $sessionLog['objectOrderId'] = $fresnsResp->getData('id');
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        $sessionLog['actionResult'] = SessionLog::STATE_SUCCESS;
+        $sessionLog['actionId'] = $fresnsResp->getData('id');
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
         $data = [
             'fsid' => $fresnsResp->getData('fsid'),
@@ -852,7 +855,7 @@ class EditorController extends Controller
 
         $draft->delete();
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }
@@ -1007,19 +1010,20 @@ class EditorController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => \request()->path(),
-            'objectAction' => "Editor quick publish {$dtoRequest->type}",
-            'objectResult' => SessionLog::STATE_SUCCESS,
-            'objectOrderId' => $tableId,
+            'actionName' => \request()->path(),
+            'actionDesc' => "Editor quick publish {$dtoRequest->type}",
+            'actionResult' => SessionLog::STATE_SUCCESS,
+            'actionId' => $tableId,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,
+            'loginToken' => null,
             'moreInfo' => null,
         ];
 
         // upload session log
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
         $data = [
             'type' => $dtoRequest->type,
