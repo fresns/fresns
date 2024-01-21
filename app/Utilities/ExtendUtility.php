@@ -476,8 +476,17 @@ class ExtendUtility
         $fskeys = array_column($allManageExtends, 'name');
         $fskeys = array_unique($fskeys);
         $newManageExtends = array_intersect_key($allManageExtends, $fskeys);
+        $newManageExtends = array_values($newManageExtends);
 
-        return array_values($newManageExtends);
+        $manageExtensions = [];
+        foreach ($newManageExtends as $extend) {
+            unset($extend['editorToolbar']);
+            unset($extend['editorNumber']);
+
+            $manageExtensions[] = $extend;
+        }
+
+        return $manageExtensions;
     }
 
     // get user extensions
@@ -521,6 +530,9 @@ class ExtendUtility
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
 
+            unset($extend['editorToolbar']);
+            unset($extend['editorNumber']);
+
             $userExtensions[] = $extend;
         }
 
@@ -561,6 +573,9 @@ class ExtendUtility
 
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
+
+            unset($extend['editorToolbar']);
+            unset($extend['editorNumber']);
 
             $groupExtensions[] = $extend;
         }
