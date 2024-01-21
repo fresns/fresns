@@ -80,7 +80,7 @@ Route::prefix('fresns/v1')->middleware([
     // user
     Route::prefix('user')->name('user.')->group(function () {
         // function
-        Route::post('auth-token', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteMode::class]);
+        Route::post('auth-token', [UserController::class, 'login'])->name('login')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('overview', [UserController::class, 'overview'])->name('overview')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('extcredits-records', [UserController::class, 'extcreditsRecords'])->name('extcredits.records')->withoutMiddleware([CheckSiteMode::class]);
         Route::patch('profile', [UserController::class, 'edit'])->name('edit');

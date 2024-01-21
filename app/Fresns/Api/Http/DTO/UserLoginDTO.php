@@ -10,13 +10,13 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class UserAuthDTO extends DTO
+class UserLoginDTO extends DTO
 {
     public function rules(): array
     {
         return [
             'uidOrUsername' => ['required'],
-            'password' => ['string', 'nullable'],
+            'pin' => ['string', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
         ];
     }
