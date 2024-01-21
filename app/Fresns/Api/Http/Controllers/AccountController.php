@@ -14,7 +14,6 @@ use App\Fresns\Api\Http\DTO\AccountWalletLogsDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
 use App\Models\Account;
-use App\Models\AccountLoginToken;
 use App\Models\AccountWalletLog;
 use App\Models\AppUsage;
 use App\Models\SessionLog;
@@ -32,15 +31,29 @@ class AccountController extends Controller
     {
         $dtoRequest = new AccountLoginDTO($request->all());
 
-        $loginToken = AccountLoginToken::where('token', $dtoRequest->loginToken)->first();
+        $platformId = $this->platformId();
+        $version = $this->version();
+        $appId = $this->appId();
+
+        $loginToken = SessionLog::where('type', SessionLog::TYPE_ACCOUNT_LOGIN)
+            ->where('platform_id', $platformId)
+            ->where('version', $version)
+            ->where('app_id', $appId)
+            ->where('action_result', SessionLog::STATE_SUCCESS)
+            ->where('login_token', $dtoRequest->loginToken)
+            ->first();
 
         if (! $loginToken) {
             throw new ApiException(31506);
         }
 
+        if (empty($loginToken->account_id)) {
+            throw new ApiException(31502);
+        }
+
         $timeDifference = time() - strtotime($loginToken->created_at);
 
-        if (! $loginToken->is_enabled || $timeDifference > 300) {
+        if ($loginToken->action_id || $timeDifference > 300) {
             throw new ApiException(31507);
         }
 
@@ -65,37 +78,13 @@ class AccountController extends Controller
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccountToken($wordBody);
 
-        // session log
-        $sessionLog = [
-            'type' => SessionLog::TYPE_ACCOUNT_LOGIN,
-            'fskey' => 'Fresns',
-            'platformId' => $this->platformId(),
-            'version' => $this->version(),
-            'appId' => $this->appId(),
-            'langTag' => $this->langTag(),
-            'aid' => $account->aid,
-            'uid' => null,
-            'objectName' => \request()->path(),
-            'objectAction' => 'Account Login',
-            'objectResult' => SessionLog::STATE_SUCCESS,
-            'objectOrderId' => null,
-            'deviceInfo' => $this->deviceInfo(),
-            'deviceToken' => $dtoRequest->deviceToken,
-            'moreInfo' => null,
-        ];
-
         if ($fresnsResp->isErrorResponse()) {
-            // upload error log
-            $sessionLog['objectAction'] = 'createAccountToken';
-            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
-            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
-
             return $fresnsResp->errorResponse();
         }
 
-        // upload success log
-        $sessionLog['objectOrderId'] = $fresnsResp->getData('aidTokenId');
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        $loginToken->update([
+            'action_id' => $fresnsResp->getData('aidTokenId'),
+        ]);
 
         $data = [
             'authToken' => [
@@ -111,10 +100,6 @@ class AccountController extends Controller
             ],
             'detail' => DetailUtility::accountDetail($account, $this->langTag(), $this->timezone()),
         ];
-
-        $loginToken->update([
-            'is_enabled' => false,
-        ]);
 
         // notify subscribe
         SubscribeUtility::notifyAccountAndUserLogin($account->id, $data['authToken'], $data['detail']);
