@@ -10,12 +10,12 @@ namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 
-class VerifyUrlAuthorizationDTO extends DTO
+class VerifyAccessTokenDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'urlAuthorization' => ['string', 'required'],
+            'accessToken' => ['string', 'required'],
             'accountLogin' => ['boolean', 'nullable'],
             'userLogin' => ['boolean', 'nullable'],
         ];

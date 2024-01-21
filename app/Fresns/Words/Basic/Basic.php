@@ -14,8 +14,8 @@ use App\Fresns\Words\Basic\DTO\CreateSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
+use App\Fresns\Words\Basic\DTO\VerifyAccessTokenDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
-use App\Fresns\Words\Basic\DTO\VerifyUrlAuthorizationDTO;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -183,16 +183,16 @@ class Basic
         return $this->success();
     }
 
-    public function verifyUrlAuthorization($wordBody)
+    public function verifyAccessToken($wordBody)
     {
-        $dtoWordBody = new VerifyUrlAuthorizationDTO($wordBody);
+        $dtoWordBody = new VerifyAccessTokenDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
         try {
-            $urlAuthorizationData = base64_decode(urldecode($dtoWordBody->urlAuthorization));
-            $authorizationJson = json_decode($urlAuthorizationData, true) ?? [];
+            $accessTokenData = base64_decode(urldecode($dtoWordBody->accessToken));
+            $accessTokenJson = json_decode($accessTokenData, true) ?? [];
 
-            if (empty($authorizationJson)) {
+            if (empty($accessTokenJson)) {
                 return $this->failure(
                     30002,
                     ConfigUtility::getCodeMessage(30002, 'Fresns', $langTag)
@@ -205,11 +205,11 @@ class Basic
             );
         }
 
-        $langTag = $authorizationJson['X-Fresns-Client-Lang-Tag'] ?? $langTag;
+        $langTag = $accessTokenJson['X-Fresns-Client-Lang-Tag'] ?? $langTag;
 
         // check deviceInfo
         try {
-            $stringify = base64_decode($authorizationJson['X-Fresns-Client-Device-Info'], true);
+            $stringify = base64_decode($accessTokenJson['X-Fresns-Client-Device-Info'], true);
             $deviceInfoStringify = preg_replace('/[\x00-\x1F\x80-\xFF]/', ' ', $stringify); // sanitize JSON String
             $deviceInfo = json_decode($deviceInfoStringify, true);
 
@@ -218,26 +218,26 @@ class Basic
             }
         } catch (\Exception $e) {
             $deviceInfo = [];
-            info('urlAuthorization device info error', [$authorizationJson['X-Fresns-Client-Device-Info']]);
+            info('access device info error', [$accessTokenJson['X-Fresns-Client-Device-Info']]);
         }
 
         new DeviceInfoDTO($deviceInfo);
 
         // check headers
         $headers = [
-            'appId' => $authorizationJson['X-Fresns-App-Id'] ?? null,
-            'platformId' => $authorizationJson['X-Fresns-Client-Platform-Id'] ?? null,
-            'version' => $authorizationJson['X-Fresns-Client-Version'] ?? null,
+            'appId' => $accessTokenJson['X-Fresns-App-Id'] ?? null,
+            'platformId' => $accessTokenJson['X-Fresns-Client-Platform-Id'] ?? null,
+            'version' => $accessTokenJson['X-Fresns-Client-Version'] ?? null,
             'deviceInfo' => $deviceInfo,
             'langTag' => $langTag,
-            'timezone' => $authorizationJson['X-Fresns-Client-Timezone'] ?? null,
-            'contentFormat' => $authorizationJson['X-Fresns-Client-Content-Format'] ?? null,
-            'aid' => $authorizationJson['X-Fresns-Aid'] ?? null,
-            'aidToken' => $authorizationJson['X-Fresns-Aid-Token'] ?? null,
-            'uid' => $authorizationJson['X-Fresns-Uid'] ?? null,
-            'uidToken' => $authorizationJson['X-Fresns-Uid-Token'] ?? null,
-            'signature' => $authorizationJson['X-Fresns-Signature'] ?? null,
-            'timestamp' => $authorizationJson['X-Fresns-Signature-Timestamp'] ?? null,
+            'timezone' => $accessTokenJson['X-Fresns-Client-Timezone'] ?? null,
+            'contentFormat' => $accessTokenJson['X-Fresns-Client-Content-Format'] ?? null,
+            'aid' => $accessTokenJson['X-Fresns-Aid'] ?? null,
+            'aidToken' => $accessTokenJson['X-Fresns-Aid-Token'] ?? null,
+            'uid' => $accessTokenJson['X-Fresns-Uid'] ?? null,
+            'uidToken' => $accessTokenJson['X-Fresns-Uid-Token'] ?? null,
+            'signature' => $accessTokenJson['X-Fresns-Signature'] ?? null,
+            'timestamp' => $accessTokenJson['X-Fresns-Signature-Timestamp'] ?? null,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
