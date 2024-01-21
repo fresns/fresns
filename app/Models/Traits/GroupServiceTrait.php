@@ -22,14 +22,13 @@ trait GroupServiceTrait
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_group_detail_path',
-            'site_url',
             'group_like_public_count',
             'group_dislike_public_count',
             'group_follow_public_count',
             'group_block_public_count',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['gid'] = $groupData->gid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
@@ -84,15 +83,12 @@ trait GroupServiceTrait
             return null;
         }
 
-        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
-            'website_group_detail_path',
-            'site_url',
-        ]);
+        $detailPath = ConfigHelper::fresnsConfigByItemKey('website_group_detail_path');
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['gid'] = $parentGroup->gid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$parentGroup->gid;
+        $info['url'] = $siteUrl.'/'.$detailPath.'/'.$parentGroup->gid;
         $info['name'] = StrHelper::languageContent($parentGroup->name, $langTag);
         $info['description'] = StrHelper::languageContent($parentGroup->description, $langTag);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($parentGroup->cover_file_id, $parentGroup->cover_file_url);

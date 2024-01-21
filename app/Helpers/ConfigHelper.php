@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
 {
+    // site url
+    public static function fresnsSiteUrl(): string
+    {
+        $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url');
+
+        return $siteUrl ?? config('app.url');
+    }
+
     // default langTag
     public static function fresnsConfigDefaultLangTag(): string
     {

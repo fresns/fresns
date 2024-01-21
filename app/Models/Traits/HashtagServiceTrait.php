@@ -20,14 +20,13 @@ trait HashtagServiceTrait
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_hashtag_detail_path',
-            'site_url',
             'hashtag_like_public_count',
             'hashtag_dislike_public_count',
             'hashtag_follow_public_count',
             'hashtag_block_public_count',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['htid'] = $hashtagData->slug;
         $info['url'] = $siteUrl.'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug;

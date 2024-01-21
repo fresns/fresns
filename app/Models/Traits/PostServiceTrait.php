@@ -23,7 +23,6 @@ trait PostServiceTrait
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_post_detail_path',
-            'site_url',
             'post_like_public_count',
             'post_dislike_public_count',
             'post_follow_public_count',
@@ -34,7 +33,7 @@ trait PostServiceTrait
             'comment_block_public_count',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['pid'] = $postData->pid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid;

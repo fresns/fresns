@@ -22,14 +22,13 @@ trait CommentServiceTrait
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_comment_detail_path',
-            'site_url',
             'comment_like_public_count',
             'comment_dislike_public_count',
             'comment_follow_public_count',
             'comment_block_public_count',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['cid'] = $commentData->cid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;

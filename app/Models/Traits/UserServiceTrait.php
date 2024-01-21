@@ -24,11 +24,10 @@ trait UserServiceTrait
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'user_identifier',
             'website_user_detail_path',
-            'site_url',
             'site_mode',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $expired = false;
         if ($configKeys['site_mode'] == 'private') {

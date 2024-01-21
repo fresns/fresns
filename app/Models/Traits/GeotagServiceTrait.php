@@ -21,14 +21,13 @@ trait GeotagServiceTrait
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_geotag_detail_path',
-            'site_url',
             'geotag_like_public_count',
             'geotag_dislike_public_count',
             'geotag_follow_public_count',
             'geotag_block_public_count',
         ]);
 
-        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['gtid'] = $geotagData->gtid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid;
