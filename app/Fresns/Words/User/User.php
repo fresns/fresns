@@ -133,15 +133,15 @@ class User
             );
         }
 
-        if ($user->password) {
-            if (empty($dtoWordBody->password)) {
+        if ($user->pin) {
+            if (empty($dtoWordBody->pin)) {
                 return $this->failure(
                     34111,
                     ConfigUtility::getCodeMessage(34111, 'Fresns', $langTag),
                 );
             }
 
-            if (! Hash::check($dtoWordBody->password, $user->password)) {
+            if (! Hash::check($dtoWordBody->pin, $user->pin)) {
                 return $this->failure(
                     35204,
                     ConfigUtility::getCodeMessage(35204, 'Fresns', $langTag),

@@ -21,7 +21,7 @@ class VerifyUserDTO extends DTO
             'aid' => ['string', 'required'],
             'aidToken' => ['string', 'required'],
             'uid' => ['integer', 'required'],
-            'password' => ['string', 'nullable'],
+            'pin' => ['string', 'nullable'],
         ];
     }
 }
