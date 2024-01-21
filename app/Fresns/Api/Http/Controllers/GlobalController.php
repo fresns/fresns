@@ -99,6 +99,26 @@ class GlobalController extends Controller
                 $configs[$model->item_key] = $itemValue;
             }
 
+            // account center
+            $accountConfigs = ConfigHelper::fresnsConfigByItemKeys([
+                'account_center_service',
+                'account_register_service',
+                'account_login_service',
+            ]);
+
+            if (empty($accountConfigs['account_center_service'])) {
+                $configs['account_center_service'] = config('app.url').'/account-center?authorization={accessToken}&callbackKey={postMessageKey}';
+            }
+
+            if (empty($accountConfigs['account_register_service'])) {
+                $configs['account_register_service'] = config('app.url').'/account-center/sign-up?authorization={accessToken}&callbackKey={postMessageKey}';
+            }
+
+            if (empty($accountConfigs['account_login_service'])) {
+                $configs['account_login_service'] = config('app.url').'/account-center/login?authorization={accessToken}&callbackKey={postMessageKey}';
+            }
+
+            // cache minutes
             $configs['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
