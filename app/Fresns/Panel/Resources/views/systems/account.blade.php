@@ -36,10 +36,6 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.account_center_path') }}</label>
-                    <input type="text" class="form-control" name="account_center_path" value="{{ $params['account_center_path'] }}">
-                </div>
 
                 <div class="card">
                     <div class="card-header">{{ __('FsLang::panel.account_center_captcha') }}</div>
@@ -73,23 +69,19 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.account_register_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.account_register_path') }}</label>
-                    <input type="text" class="form-control" name="account_register_path" value="{{ $params['account_register_path'] }}">
-                </div>
-                <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.account_register_status') }}</label>
-                    <select class="form-select" id="account_register_status" name="account_register_status">
-                        <option value="false" {{ $params['account_register_status'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
-                        <option value="true" {{ $params['account_register_status'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.account_register_service') }}</label>
                     <select class="form-select" name="account_register_service">
                         <option value="" {{ !$params['account_register_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($accountRegisterPlugins as $plugin)
                             <option value="{{ $plugin->fskey }}" {{ $params['account_register_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.account_register_status') }}</label>
+                    <select class="form-select" id="account_register_status" name="account_register_status">
+                        <option value="false" {{ $params['account_register_status'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                        <option value="true" {{ $params['account_register_status'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -113,8 +105,13 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.account_login_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.account_login_path') }}</label>
-                    <input type="text" class="form-control" name="account_login_path" value="{{ $params['account_login_path'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.account_login_service') }}</label>
+                    <select class="form-select" name="account_login_service">
+                        <option value="" {{ !$params['account_login_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
+                        @foreach ($accountLoginPlugins as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['account_login_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.account_login_support') }}</label>

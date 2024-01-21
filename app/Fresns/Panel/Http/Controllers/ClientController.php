@@ -74,6 +74,7 @@ class ClientController extends Controller
             'fresns',
             'location',
             'account',
+            'account-center',
             'messages',
             'conversations',
             'notifications',

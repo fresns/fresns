@@ -11,7 +11,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateAccountRequest;
 use App\Models\App;
 use App\Models\Config;
-use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -21,15 +20,13 @@ class AccountController extends Controller
         $configKeys = [
             'connects',
             'account_center_service',
-            'account_center_path',
             'account_center_captcha',
             'account_center_captcha_configs',
-            'account_register_path',
-            'account_register_status',
             'account_register_service',
+            'account_register_status',
             'account_email_register',
             'account_phone_register',
-            'account_login_path',
+            'account_login_service',
             'account_email_login',
             'account_phone_login',
             'account_login_with_code',
@@ -54,6 +51,9 @@ class AccountController extends Controller
         $accountRegisterPlugins = $plugins->filter(function ($plugin) {
             return in_array('accountRegister', $plugin->panel_usages);
         });
+        $accountLoginPlugins = $plugins->filter(function ($plugin) {
+            return in_array('accountLogin', $plugin->panel_usages);
+        });
         $accountConnectPlugins = $plugins->filter(function ($plugin) {
             return in_array('accountConnect', $plugin->panel_usages);
         });
@@ -61,22 +61,20 @@ class AccountController extends Controller
             return in_array('accountKyc', $plugin->panel_usages);
         });
 
-        return view('FsView::systems.account', compact('params', 'accountCenterPlugins', 'accountRegisterPlugins', 'accountConnectPlugins', 'accountKycPlugins'));
+        return view('FsView::systems.account', compact('params', 'accountCenterPlugins', 'accountRegisterPlugins', 'accountLoginPlugins', 'accountConnectPlugins', 'accountKycPlugins'));
     }
 
     public function update(UpdateAccountRequest $request)
     {
         $configKeys = [
             'account_center_service',
-            'account_center_path',
             'account_center_captcha',
             'account_center_captcha_configs',
-            'account_register_path',
-            'account_register_status',
             'account_register_service',
+            'account_register_status',
             'account_email_register',
             'account_phone_register',
-            'account_login_path',
+            'account_login_service',
             'account_email_login',
             'account_phone_login',
             'account_login_with_code',
@@ -101,18 +99,7 @@ class AccountController extends Controller
                 continue;
             }
 
-            $value = $request->$configKey;
-
-            if (in_array($configKey, [
-                'account_center_path',
-                'account_login_path',
-                'account_register_path',
-            ])) {
-                $value = Str::of($value)->trim();
-                $value = Str::of($value)->trim('/');
-            }
-
-            $config->item_value = $value;
+            $config->item_value = $request->$configKey;
             $config->save();
         }
 
