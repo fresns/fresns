@@ -10,10 +10,10 @@ namespace App\Fresns\Words\Basic;
 
 use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
 use App\Fresns\Words\Basic\DTO\CheckHeadersDTO;
+use App\Fresns\Words\Basic\DTO\CreateSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
-use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
 use App\Fresns\Words\Basic\DTO\VerifyUrlAuthorizationDTO;
 use App\Helpers\AppHelper;
@@ -267,9 +267,9 @@ class Basic
         return $this->success($headers);
     }
 
-    public function uploadSessionLog($wordBody)
+    public function createSessionLog($wordBody)
     {
-        $dtoWordBody = new UploadSessionLogDTO($wordBody);
+        $dtoWordBody = new CreateSessionLogDTO($wordBody);
 
         new DeviceInfoDTO($dtoWordBody->deviceInfo);
 
@@ -292,12 +292,13 @@ class Basic
             'lang_tag' => $dtoWordBody->langTag ?? null,
             'account_id' => $accountId,
             'user_id' => $userId,
-            'object_name' => $dtoWordBody->objectName,
-            'object_action' => $dtoWordBody->objectAction,
-            'object_result' => $dtoWordBody->objectResult,
-            'object_order_id' => $dtoWordBody->objectOrderId ?? null,
+            'action_name' => $dtoWordBody->actionName,
+            'action_desc' => $dtoWordBody->actionDesc,
+            'action_result' => $dtoWordBody->actionResult,
+            'action_id' => $dtoWordBody->actionId ?? null,
             'device_info' => $dtoWordBody->deviceInfo ?? null,
             'device_token' => $dtoWordBody->deviceToken ?? null,
+            'login_token' => $dtoWordBody->loginToken ?? null,
             'more_info' => $dtoWordBody->moreInfo ?? null,
         ];
 

@@ -34,7 +34,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'checkHeaders', 'provider' => [Basic::class, 'checkHeaders']],
         ['word' => 'verifySign', 'provider' => [Basic::class, 'verifySign']],
         ['word' => 'verifyUrlAuthorization', 'provider' => [Basic::class, 'verifyUrlAuthorization']],
-        ['word' => 'uploadSessionLog', 'provider' => [Basic::class, 'uploadSessionLog']],
+        ['word' => 'createSessionLog', 'provider' => [Basic::class, 'createSessionLog']],
         ['word' => 'sendCode', 'provider' => [Basic::class, 'sendCode']],
         ['word' => 'checkCode', 'provider' => [Basic::class, 'checkCode']],
         ['word' => 'ipInfo', 'provider' => [Basic::class, 'ipInfo']],
@@ -44,7 +44,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'sendSms', 'provider' => [Send::class, 'sendSms']],
         ['word' => 'sendNotification', 'provider' => [Send::class, 'sendNotification']],
         ['word' => 'sendAppNotification', 'provider' => [Send::class, 'sendAppNotification']],
-        ['word' => 'sendWechatMessage', 'provider' => [Send::class, 'sendWechatMessage']],
 
         // Account
         ['word' => 'createAccount', 'provider' => [Account::class, 'createAccount']],

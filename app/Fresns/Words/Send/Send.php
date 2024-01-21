@@ -12,7 +12,6 @@ use App\Fresns\Words\Send\DTO\SendAppNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendEmailDTO;
 use App\Fresns\Words\Send\DTO\SendNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendSmsDTO;
-use App\Fresns\Words\Send\DTO\SendWechatMessageDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -102,6 +101,7 @@ class Send
         $channelMap = [
             1 => 'ios_notifications_service',
             2 => 'android_notifications_service',
+            3 => 'desktop_notifications_service',
         ];
 
         $itemKey = $channelMap[$dtoWordBody->channel];
@@ -115,19 +115,6 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    public function sendWechatMessage($wordBody)
-    {
-        $dtoWordBody = new SendWechatMessageDTO($wordBody);
-
-        $this->ensureFskeyIsNotEmpty(
-            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('wechat_notifications_service')
-        );
-
-        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendWechatMessage($wordBody);
-
-        return $fresnsResp->getOrigin();
-    }
-
     protected function ensureFskeyIsNotEmpty(?string $string = null)
     {
         if (empty($string)) {
@@ -136,7 +123,7 @@ class Send
     }
 
     // generate notification
-    public static function generateNotification(int $userId, array $dtoWordBody): int
+    private static function generateNotification(int $userId, array $dtoWordBody): int
     {
         $actionUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody['actionUid']);
 

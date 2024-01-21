@@ -16,7 +16,7 @@ class SendAppNotificationDTO extends DTO
     {
         return [
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
-            'channel' => ['integer', 'required', 'in:1,2'],
+            'channel' => ['integer', 'required', 'in:1,2,3'],
             'template' => ['string', 'nullable'],
             'coverUrl' => ['url', 'nullable'],
             'title' => ['string', 'nullable'],

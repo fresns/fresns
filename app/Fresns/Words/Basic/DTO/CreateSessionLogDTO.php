@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 
-class UploadSessionLogDTO extends DTO
+class CreateSessionLogDTO extends DTO
 {
     public function rules(): array
     {
@@ -23,12 +23,13 @@ class UploadSessionLogDTO extends DTO
             'fskey' => ['string', 'nullable'],
             'aid' => ['string', 'nullable'],
             'uid' => ['integer', 'nullable'],
-            'objectName' => ['string', 'required'],
-            'objectAction' => ['string', 'required'],
-            'objectResult' => ['integer', 'required', 'in:1,2,3'],
-            'objectOrderId' => ['integer', 'nullable'],
+            'actionName' => ['string', 'required'],
+            'actionDesc' => ['string', 'nullable'],
+            'actionResult' => ['integer', 'required', 'in:1,2,3'],
+            'actionId' => ['integer', 'nullable'],
             'deviceInfo' => ['array', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
+            'loginToken' => ['string', 'nullable'],
             'moreInfo' => ['array', 'nullable'],
         ];
     }
