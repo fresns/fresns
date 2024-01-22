@@ -294,7 +294,8 @@ class PrimaryHelper
             'account' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
             'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
             'group' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtag' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
+            'hashtag' => PrimaryHelper::fresnsHashtagIdByHtid($tableKey),
+            'geotag' => PrimaryHelper::fresnsGeotagIdByGtid($tableKey),
             'post' => PrimaryHelper::fresnsPostIdByPid($tableKey),
             'comment' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
             'file' => PrimaryHelper::fresnsFileIdByFid($tableKey),
@@ -304,7 +305,8 @@ class PrimaryHelper
             'accounts' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
             'users' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
             'groups' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtags' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
+            'hashtags' => PrimaryHelper::fresnsHashtagIdByHtid($tableKey),
+            'geotags' => PrimaryHelper::fresnsGeotagIdByGtid($tableKey),
             'posts' => PrimaryHelper::fresnsPostIdByPid($tableKey),
             'comments' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
             'files' => PrimaryHelper::fresnsFileIdByFid($tableKey),
@@ -391,13 +393,22 @@ class PrimaryHelper
         return $comment?->post?->group_id;
     }
 
-    public static function fresnsHashtagIdByHid(?string $hid = null): ?int
+    public static function fresnsHashtagIdByHtid(?string $htid = null): ?int
     {
-        if (empty($hid)) {
+        if (empty($htid)) {
             return null;
         }
 
-        return PrimaryHelper::fresnsModelByFsid('hashtag', $hid)?->id;
+        return PrimaryHelper::fresnsModelByFsid('hashtag', $htid)?->id;
+    }
+
+    public static function fresnsGeotagIdByGtid(?string $gtid = null): ?int
+    {
+        if (empty($gtid)) {
+            return null;
+        }
+
+        return PrimaryHelper::fresnsModelByFsid('geotag', $gtid)?->id;
     }
 
     public static function fresnsPostIdByPid(?string $pid = null): ?int
