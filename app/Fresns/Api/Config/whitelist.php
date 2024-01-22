@@ -88,7 +88,7 @@ return [
         'api.search.posts',
         'api.search.comments',
         'api.account.login',
-        'api.user.auth',
+        'api.user.login',
         'api.user.overview',
         'api.user.list',
         'api.user.detail',
@@ -145,7 +145,7 @@ return [
         'api.common.callback',
         'api.common.cmd.word',
         'api.account.login',
-        'api.user.auth',
+        'api.user.login',
         'api.user.overview',
     ],
 ];
