@@ -60,6 +60,7 @@ trait UserServiceTrait
         $profile['genderPronoun'] = $userData->gender_pronoun;
         $profile['genderCustom'] = $userData->gender_custom;
         $profile['birthday'] = $userData->birthday;
+        $profile['birthdayDisplayType'] = $userData->birthday_display_type;
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;
         $profile['conversationLimit'] = $userData->conversation_limit;
