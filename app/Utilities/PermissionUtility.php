@@ -20,7 +20,6 @@ use App\Models\Group;
 use App\Models\Post;
 use App\Models\PostAuth;
 use App\Models\User;
-use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserRole;
 use Carbon\Carbon;
@@ -207,7 +206,7 @@ class PermissionUtility
 
         $filterIds = array_values(array_diff($privateGroupIdArr, $followGroupIds));
 
-        $blockGroupIds = UserBlock::type(UserBlock::TYPE_GROUP)->where('user_id', $userId)->pluck('block_id')->toArray();
+        $blockGroupIds = UserFollow::where('user_id', $userId)->markType(UserFollow::MARK_TYPE_BLOCK)->type(UserFollow::TYPE_GROUP)->pluck('follow_id')->toArray();
 
         $filterGroupIdsArr = array_values(array_unique(array_merge($blockGroupIds, $filterIds)));
 
@@ -438,9 +437,14 @@ class PermissionUtility
             return $adminPerm;
         }
 
+        $checkFollowGroup = false;
+        if ($permConfig['publish_post'] == 2 || $permConfig['publish_comment'] == 2) {
+            $checkFollowGroup = (bool) UserFollow::where('user_id', $userId)->markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_GROUP)->where('follow_id', $groupId)->first();
+        }
+
         $allowPost = match ($permConfig['publish_post']) {
             1 => true,
-            2 => InteractionUtility::checkUserFollow(InteractionUtility::TYPE_GROUP, $groupId, $userId),
+            2 => $checkFollowGroup,
             3 => static::checkUserRolePerm($userId, $permConfig['publish_post_roles']),
             4 => false,
             default => false,
@@ -448,7 +452,7 @@ class PermissionUtility
 
         $allowComment = match ($permConfig['publish_comment']) {
             1 => true,
-            2 => InteractionUtility::checkUserFollow(InteractionUtility::TYPE_GROUP, $groupId, $userId),
+            2 => $checkFollowGroup,
             3 => static::checkUserRolePerm($userId, $permConfig['publish_comment_roles']),
             4 => false,
             default => false,
@@ -539,7 +543,7 @@ class PermissionUtility
                 return $commentPerm;
             }
 
-            $checkUserFollow = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $post->user_id, $userId);
+            $checkUserFollow = UserFollow::where('user_id', $userId)->markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_USER)->where('follow_id', $post->user_id)->first();
             if (! $checkUserFollow) {
                 $commentPerm['code'] = 38209;
 

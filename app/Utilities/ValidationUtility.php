@@ -109,7 +109,7 @@ class ValidationUtility
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'username_min',
             'username_max',
-            'ban_names',
+            'user_ban_names',
         ]);
         $length = Str::length($username);
         $checkUser = User::withTrashed()->where('username', $username)->first();
@@ -157,7 +157,7 @@ class ValidationUtility
 
         // banName
         $banName = true;
-        $newBanNames = array_map('strtolower', $config['ban_names']);
+        $newBanNames = array_map('strtolower', $config['user_ban_names']);
         $isBanName = Str::contains(Str::lower($username), $newBanNames);
         if ($isBanName) {
             $banName = false;
@@ -261,16 +261,17 @@ class ValidationUtility
     }
 
     // validation user mark
-    public static function userMarkOwn(int $userId, int $markType, int $markId): bool
+    public static function userMarkOwn(int $userId, int|string $markType, int $markId): bool
     {
-        if (! is_numeric($markType)) {
+        if (is_string($markType)) {
             $markType = match ($markType) {
+                'user' => InteractionUtility::TYPE_USER,
+                'group' => InteractionUtility::TYPE_GROUP,
+                'hashtag' => InteractionUtility::TYPE_HASHTAG,
+                'geotag' => InteractionUtility::TYPE_GEOTAG,
+                'post' => InteractionUtility::TYPE_POST,
+                'comment' => InteractionUtility::TYPE_COMMENT,
                 default => null,
-                'user' => 1,
-                'group' => 2,
-                'hashtag' => 3,
-                'post' => 4,
-                'comment' => 5,
             };
         }
 

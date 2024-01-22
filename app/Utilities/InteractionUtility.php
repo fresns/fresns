@@ -14,6 +14,7 @@ use App\Models\Comment;
 use App\Models\Domain;
 use App\Models\DomainLink;
 use App\Models\DomainLinkUsage;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Mention;
@@ -36,21 +37,7 @@ class InteractionUtility
     const TYPE_POST = 5;
     const TYPE_COMMENT = 6;
 
-    public static function checkUserFollow(int $followType, ?int $followId = null, ?int $userId = null): bool
-    {
-        if (empty($followId) || empty($userId)) {
-            return false;
-        }
-
-        $checkFollow = UserFollow::where('user_id', $userId)
-            ->markType(UserFollow::MARK_TYPE_FOLLOW)
-            ->type($followType)
-            ->where('follow_id', $followId)
-            ->first();
-
-        return (bool) $checkFollow;
-    }
-
+    // get interaction status
     public static function getInteractionStatus(int $type, int $markId, ?int $userId = null): array
     {
         $status = [
@@ -248,17 +235,29 @@ class InteractionUtility
             ->first();
 
         if ($userFollow?->trashed() || empty($userFollow)) {
-            if ($userFollow?->trashed()) {
-                // trashed data
+            if ($userFollow?->trashed() && $userFollow->mark_type == UserFollow::MARK_TYPE_FOLLOW) {
+                // trashed data, mark type=follow
                 $userFollow->restore();
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+            } elseif ($userFollow?->trashed() && $userFollow->mark_type == UserFollow::MARK_TYPE_BLOCK) {
+                // trashed data, mark type=block
+                $userFollow->restore();
+
+                $userFollow->update([
+                    'mark_type' => UserFollow::MARK_TYPE_FOLLOW,
+                ]);
+
+                InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+                InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
             } else {
                 // follow null
                 UserFollow::updateOrCreate([
                     'user_id' => $userId,
                     'follow_type' => $followType,
                     'follow_id' => $followId,
+                ], [
+                    'mark_type' => UserFollow::MARK_TYPE_FOLLOW,
                 ]);
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
@@ -267,53 +266,55 @@ class InteractionUtility
             // send notification
             InteractionUtility::sendMarkNotification(Notification::TYPE_FOLLOW, $userId, $followType, $followId);
         } else {
-            $userFollow->delete();
+            if ($userFollow->mark_type == UserFollow::MARK_TYPE_FOLLOW) {
+                // documented, mark type=follow
+                $userFollow->delete();
 
-            InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'decrement');
-        }
-
-        // is_mutual
-        if ($followType == UserFollow::TYPE_USER) {
-            $myFollow = UserFollow::where('user_id', $userId)->type(UserFollow::TYPE_USER)->where('follow_id', $followId)->first();
-            $itFollow = UserFollow::where('user_id', $followId)->type(UserFollow::TYPE_USER)->where('follow_id', $userId)->first();
-
-            if ($myFollow && $itFollow) {
-                $myFollow->update(['is_mutual' => 1]);
-                $itFollow->update(['is_mutual' => 1]);
+                InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'decrement');
             } else {
-                $myFollow?->update(['is_mutual' => 0]);
-                $itFollow?->update(['is_mutual' => 0]);
+                // documented, mark type=block
+                $userFollow->update([
+                    'mark_type' => userFollow::MARK_TYPE_BLOCK,
+                ]);
+
+                InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+                InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
             }
-        }
-
-        $userBlock = UserBlock::where('user_id', $userId)->type($followType)->where('block_id', $followId)->first();
-        if ($userBlock) {
-            $userBlock->delete();
-
-            InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
         }
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId): void
     {
-        $userBlock = UserBlock::withTrashed()
+        $userBlock = UserFollow::withTrashed()
             ->where('user_id', $userId)
             ->type($blockType)
-            ->where('block_id', $blockId)
+            ->where('follow_id', $blockId)
             ->first();
 
         if ($userBlock?->trashed() || empty($userBlock)) {
-            if ($userBlock?->trashed()) {
-                // trashed data
+            if ($userBlock?->trashed() && $userBlock->mark_type == UserFollow::MARK_TYPE_BLOCK) {
+                // trashed data, mark type=block
                 $userBlock->restore();
 
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
+            } elseif ($userBlock?->trashed() && $userBlock->mark_type == UserFollow::MARK_TYPE_FOLLOW) {
+                // trashed data, mark type=follow
+                $userBlock->restore();
+
+                $userBlock->update([
+                    'mark_type' => UserFollow::MARK_TYPE_BLOCK,
+                ]);
+
+                InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
+                InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
             } else {
-                // block null
-                UserBlock::updateOrCreate([
+                // dislike null
+                UserFollow::updateOrCreate([
                     'user_id' => $userId,
-                    'block_type' => $blockType,
-                    'block_id' => $blockId,
+                    'like_type' => $blockType,
+                    'like_id' => $blockId,
+                ], [
+                    'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
 
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
@@ -322,16 +323,20 @@ class InteractionUtility
             // send notification
             InteractionUtility::sendMarkNotification(Notification::TYPE_BLOCK, $userId, $blockType, $blockId);
         } else {
-            $userBlock->delete();
+            if ($userBlock->mark_type == UserFollow::MARK_TYPE_BLOCK) {
+                // documented, mark type=block
+                $userBlock->delete();
 
-            InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
-        }
+                InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
+            } else {
+                // documented, mark type=follow
+                $userBlock->update([
+                    'mark_type' => UserFollow::MARK_TYPE_BLOCK,
+                ]);
 
-        $userFollow = UserFollow::where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
-        if ($userFollow) {
-            $userFollow->delete();
-
-            InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
+                InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
+                InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
+            }
         }
     }
 
@@ -435,168 +440,178 @@ class InteractionUtility
      * interacted with.
      *
      * @param int userId The user who is performing the action.
-     * @param string interactionType The type of interaction action(like, dislike, follow, block).
-     * @param int markType 1 = user, 2 = group, 3 = hashtag, 4 = post, 5 = comment
-     * @param int markId The id of the user, group, hashtag, post, or comment that is being marked.
+     * @param string markType The type of interaction action(like, dislike, follow, block).
+     * @param int contentType 1 = user, 2 = group, 3 = hashtag, 4 = geotag, 5 = post, 6 = comment
+     * @param int contentId The id of the user, group, hashtag, geotag, post, or comment that is being marked.
      * @param string actionType increment or decrement
      */
-    public static function markStats(int $userId, string $interactionType, int $markType, int $markId, string $actionType): void
+    public static function markStats(int $userId, string $markType, int $contentType, int $contentId, string $actionType): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
         }
 
-        if (! in_array($interactionType, ['like', 'dislike', 'follow', 'block'])) {
+        if (! in_array($markType, ['like', 'dislike', 'follow', 'block'])) {
             return;
         }
 
-        $tableClass = match ($markType) {
-            1 => 'user',
-            2 => 'group',
-            3 => 'hashtag',
-            4 => 'post',
-            5 => 'comment',
-        };
+        $userState = UserStat::where('user_id', $userId)->first();
 
-        switch ($tableClass) {
-            case 'user':
-                $userState = UserStat::where('user_id', $userId)->first();
-                $userMeState = UserStat::where('user_id', $markId)->first();
+        switch ($contentType) {
+            case InteractionUtility::TYPE_USER:
+                $userMeState = UserStat::where('user_id', $contentId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactionType}_user_count");
-                    $userMeState?->increment("{$interactionType}_me_count");
+                    $userState?->increment("{$markType}_user_count");
+                    $userMeState?->increment("{$markType}_me_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactionType}_user_count"} ?? 0;
+                $userStateCount = $userState?->{"{$markType}_user_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactionType}_user_count");
+                    $userState->decrement("{$markType}_user_count");
                 }
 
-                $userMeStateCount = $userMeState?->{"{$interactionType}_me_count"} ?? 0;
+                $userMeStateCount = $userMeState?->{"{$markType}_me_count"} ?? 0;
                 if ($userMeStateCount > 0) {
-                    $userMeState->decrement("{$interactionType}_me_count");
+                    $userMeState->decrement("{$markType}_me_count");
                 }
                 break;
 
-            case 'group':
-                $userState = UserStat::where('user_id', $userId)->first();
-                $groupState = Group::where('id', $markId)->first();
+            case InteractionUtility::TYPE_GROUP:
+                $groupState = Group::where('id', $contentId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactionType}_group_count");
-                    $groupState?->increment("{$interactionType}_count");
+                    $userState?->increment("{$markType}_group_count");
+                    $groupState?->increment("{$markType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactionType}_group_count"} ?? 0;
+                $userStateCount = $userState?->{"{$markType}_group_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactionType}_group_count");
+                    $userState->decrement("{$markType}_group_count");
                 }
 
-                $groupStateCount = $groupState?->{"{$interactionType}_count"} ?? 0;
+                $groupStateCount = $groupState?->{"{$markType}_count"} ?? 0;
                 if ($groupStateCount > 0) {
-                    $groupState->decrement("{$interactionType}_count");
+                    $groupState->decrement("{$markType}_count");
                 }
                 break;
 
-            case 'hashtag':
-                $userState = UserStat::where('user_id', $userId)->first();
-                $hashtagState = Hashtag::where('id', $markId)->first();
+            case InteractionUtility::TYPE_HASHTAG:
+                $hashtagState = Hashtag::where('id', $contentId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactionType}_hashtag_count");
-                    $hashtagState?->increment("{$interactionType}_count");
+                    $userState?->increment("{$markType}_hashtag_count");
+                    $hashtagState?->increment("{$markType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactionType}_hashtag_count"} ?? 0;
+                $userStateCount = $userState?->{"{$markType}_hashtag_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactionType}_hashtag_count");
+                    $userState->decrement("{$markType}_hashtag_count");
                 }
 
-                $hashtagStateCount = $hashtagState?->{"{$interactionType}_count"} ?? 0;
+                $hashtagStateCount = $hashtagState?->{"{$markType}_count"} ?? 0;
                 if ($hashtagStateCount > 0) {
-                    $hashtagState->decrement("{$interactionType}_count");
+                    $hashtagState->decrement("{$markType}_count");
                 }
                 break;
 
-            case 'post':
-                $userState = UserStat::where('user_id', $userId)->first();
-                $post = Post::where('id', $markId)->first();
+            case InteractionUtility::TYPE_GEOTAG:
+                $geotagState = Geotag::where('id', $contentId)->first();
+
+                if ($actionType == 'increment') {
+                    $userState?->increment("{$markType}_geotag_count");
+                    $geotagState?->increment("{$markType}_count");
+
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$markType}_geotag_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement("{$markType}_geotag_count");
+                }
+
+                $geotagStateCount = $geotagState?->{"{$markType}_count"} ?? 0;
+                if ($geotagStateCount > 0) {
+                    $geotagState->decrement("{$markType}_count");
+                }
+                break;
+
+            case InteractionUtility::TYPE_POST:
+                $post = Post::where('id', $contentId)->first();
                 $postAuthorState = UserStat::where('user_id', $post?->user_id)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactionType}_post_count");
-                    $post?->increment("{$interactionType}_count");
-                    $postAuthorState?->increment("post_{$interactionType}_count");
+                    $userState?->increment("{$markType}_post_count");
+                    $post?->increment("{$markType}_count");
+                    $postAuthorState?->increment("post_{$markType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactionType}_post_count"} ?? 0;
+                $userStateCount = $userState?->{"{$markType}_post_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState?->decrement("{$interactionType}_post_count");
+                    $userState?->decrement("{$markType}_post_count");
                 }
 
-                $postStateCount = $post?->{"{$interactionType}_count"} ?? 0;
+                $postStateCount = $post?->{"{$markType}_count"} ?? 0;
                 if ($postStateCount > 0) {
-                    $post?->decrement("{$interactionType}_count");
+                    $post?->decrement("{$markType}_count");
                 }
 
-                $postAuthorStateCount = $postAuthorState?->{"post_{$interactionType}_count"} ?? 0;
+                $postAuthorStateCount = $postAuthorState?->{"post_{$markType}_count"} ?? 0;
                 if ($postAuthorStateCount > 0) {
-                    $postAuthorState?->decrement("post_{$interactionType}_count");
+                    $postAuthorState?->decrement("post_{$markType}_count");
                 }
                 break;
 
-            case 'comment':
-                $userState = UserStat::where('user_id', $userId)->first();
-                $comment = Comment::where('id', $markId)->first();
+            case InteractionUtility::TYPE_COMMENT:
+                $comment = Comment::where('id', $contentId)->first();
                 $commentAuthorState = UserStat::where('user_id', $comment?->user_id)->first();
                 $commentPost = Post::where('id', $comment?->post_id)->first();
 
                 if ($actionType == 'increment') {
-                    $userState->increment("{$interactionType}_comment_count");
-                    $comment?->increment("{$interactionType}_count");
-                    $commentAuthorState?->increment("comment_{$interactionType}_count");
-                    $commentPost?->increment("comment_{$interactionType}_count");
+                    $userState->increment("{$markType}_comment_count");
+                    $comment?->increment("{$markType}_count");
+                    $commentAuthorState?->increment("comment_{$markType}_count");
+                    $commentPost?->increment("comment_{$markType}_count");
 
                     // parent comment
                     if ($comment?->parent_id) {
-                        InteractionUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactionType}_count");
+                        InteractionUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$markType}_count");
                     }
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactionType}_comment_count"} ?? 0;
+                $userStateCount = $userState?->{"{$markType}_comment_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState?->decrement("{$interactionType}_comment_count");
+                    $userState?->decrement("{$markType}_comment_count");
                 }
 
-                $commentStateCount = $comment?->{"{$interactionType}_count"} ?? 0;
+                $commentStateCount = $comment?->{"{$markType}_count"} ?? 0;
                 if ($commentStateCount > 0) {
-                    $comment?->decrement("{$interactionType}_count");
+                    $comment?->decrement("{$markType}_count");
                 }
 
-                $commentAuthorStateCount = $commentAuthorState?->{"comment_{$interactionType}_count"} ?? 0;
+                $commentAuthorStateCount = $commentAuthorState?->{"comment_{$markType}_count"} ?? 0;
                 if ($commentAuthorStateCount > 0) {
-                    $commentAuthorState?->decrement("comment_{$interactionType}_count");
+                    $commentAuthorState?->decrement("comment_{$markType}_count");
                 }
 
-                $commentPostCount = $commentPost?->{"comment_{$interactionType}_count"} ?? 0;
+                $commentPostCount = $commentPost?->{"comment_{$markType}_count"} ?? 0;
                 if ($commentPostCount > 0) {
-                    $commentPost?->decrement("comment_{$interactionType}_count");
+                    $commentPost?->decrement("comment_{$markType}_count");
                 }
 
                 // parent comment
                 if ($comment?->parent_id) {
-                    InteractionUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactionType}_count");
+                    InteractionUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$markType}_count");
                 }
                 break;
         }
@@ -1211,7 +1226,11 @@ class InteractionUtility
             return null;
         }
 
-        $checkFollowUser = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $creatorId, $authUserId);
+        $checkFollowUser = UserFollow::where('user_id', $authUserId)
+            ->markType(UserFollow::MARK_TYPE_FOLLOW)
+            ->type(UserFollow::TYPE_USER)
+            ->where('follow_id', $creatorId)
+            ->first();
         if ($checkFollowUser) {
             return 'user';
         }
@@ -1221,7 +1240,11 @@ class InteractionUtility
         }
 
         if ($groupId) {
-            $checkFollowGroup = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $groupId, $authUserId);
+            $checkFollowGroup = UserFollow::where('user_id', $authUserId)
+                ->markType(UserFollow::MARK_TYPE_FOLLOW)
+                ->type(UserFollow::TYPE_GROUP)
+                ->where('follow_id', $groupId)
+                ->first();
 
             if ($checkFollowGroup) {
                 return 'group';

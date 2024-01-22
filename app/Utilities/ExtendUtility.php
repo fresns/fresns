@@ -147,12 +147,28 @@ class ExtendUtility
                     break;
 
                 case Extend::TYPE_ACTION:
+                    $actionItemArr = $extend->action_items;
+
+                    $actionItems = [];
+                    foreach ($actionItemArr as $actionItem) {
+                        if (empty($actionItem['key'] ?? null)) {
+                            continue;
+                        }
+
+                        $ai['name'] = StrHelper::languageContent($actionItem['name'] ?? null, $langTag);
+                        $ai['key'] = $actionItem['key'];
+                        $ai['value'] = $actionItem['value'] ?? null;
+                        $ai['hasOperated'] = $actionItem['hasOperated'] ?? false;
+
+                        $actionItems[] = $ai;
+                    }
+
                     $item['title'] = StrHelper::languageContent($content['title'] ?? null, $langTag);
                     $item['titleColor'] = $content['titleColor'] ?? null;
                     $item['endDateTime'] = $extend->ended_at;
                     $item['status'] = $extend->ended_at->isPast();
                     $item['hasOperated'] = false;
-                    $item['items'] = $extend->action_items;
+                    $item['items'] = $actionItems;
                     break;
             }
             $item['position'] = $extend->position;

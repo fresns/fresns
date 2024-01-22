@@ -146,10 +146,8 @@ class DetailUtility
             }
             $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
-            // extend
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_USER, $user->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
 
             // roles
             $item['roles'] = $userRoles;
@@ -276,7 +274,6 @@ class DetailUtility
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
 
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag);
@@ -356,7 +353,6 @@ class DetailUtility
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
 
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('hashtag', $langTag);
@@ -432,7 +428,6 @@ class DetailUtility
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GEOTAG, $geotag->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GEOTAG, $geotag->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GEOTAG, $geotag->id, $langTag);
 
             // distance
             $item['distance'] = null;
@@ -560,13 +555,14 @@ class DetailUtility
             $postInfo = $post->getPostInfo($langTag);
             $permissions = $post->permissions;
 
-            // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $post->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST, $post->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
 
             // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
+
+            // extends
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
 
             // group
             $item['group'] = $post?->group?->gid;
@@ -859,6 +855,7 @@ class DetailUtility
         return $result;
     }
 
+    // commentDetail
     public static function commentDetail(Comment|string $commentOrCid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
@@ -934,13 +931,14 @@ class DetailUtility
 
             $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
-            // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
 
             // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comments', 'id', $comment->id);
+
+            // extends
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
 
             // hashtags
             $item['hashtags'] = [];
