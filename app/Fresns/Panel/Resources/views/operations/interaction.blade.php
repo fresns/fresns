@@ -328,7 +328,25 @@
                     @foreach (['users', 'groups', 'hashtags', 'geotags', 'posts', 'comments'] as $item)
                         <tr>
                             @if ($item == 'users')
-                                <th scope="row" rowspan="6" class="text-center">{{ __("FsLang::panel.{$type}") }}</th>
+                                <th scope="row" rowspan="6" class="text-center">
+                                    @switch($type)
+                                        @case('likes')
+                                            {{ __("FsLang::panel.like") }}
+                                            @break
+
+                                        @case('dislikes')
+                                            {{ __("FsLang::panel.dislike") }}
+                                            @break
+
+                                        @case('following')
+                                            {{ __("FsLang::panel.follow") }}
+                                            @break
+
+                                        @case('blocking')
+                                            {{ __("FsLang::panel.block") }}
+                                            @break
+                                    @endswitch
+                                </th>
                             @endif
                             <td>{{ __("FsLang::panel.profile_{$type}_{$item}") }}</td>
                             <td>

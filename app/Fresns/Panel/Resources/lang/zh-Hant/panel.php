@@ -279,7 +279,7 @@ return [
     'geotag_detail' => '地理詳情',
     'post_detail' => '貼文詳情',
     'comment_detail' => '留言詳情',
-    'like' => '讚',
+    'like' => '喜歡',
     'dislike' => '不喜歡',
     'follow' => '跟隨',
     'block' => '封鎖',
