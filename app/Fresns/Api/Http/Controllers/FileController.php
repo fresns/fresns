@@ -302,6 +302,11 @@ class FileController extends Controller
             default => File::WARNING_NONE,
         };
 
+        // header info
+        $platformId = $this->platformId();
+        $aid = \request()->header('X-Fresns-Aid');
+        $uid = \request()->header('X-Fresns-Uid');
+
         // upload
         switch ($dtoRequest->uploadMode) {
             case 'file':
@@ -322,14 +327,14 @@ class FileController extends Controller
                 }
 
                 $wordBody = [
-                    'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
+                    'platformId' => $platformId,
                     'usageType' => $usageType,
                     'tableName' => $tableName,
                     'tableColumn' => $tableColumn,
                     'tableId' => $tableId,
                     'tableKey' => $fsid,
-                    'aid' => \request()->header('X-Fresns-Aid'),
-                    'uid' => \request()->header('X-Fresns-Uid'),
+                    'aid' => $aid,
+                    'uid' => $uid,
                     'type' => $fileType,
                     'file' => $dtoRequest->file,
                     'warningType' => $warningType,
@@ -341,14 +346,14 @@ class FileController extends Controller
 
             case 'fileInfo':
                 $wordBody = [
-                    'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
+                    'platformId' => $platformId,
                     'usageType' => $usageType,
                     'tableName' => $tableName,
                     'tableColumn' => $tableColumn,
                     'tableId' => $tableId,
                     'tableKey' => $fsid,
-                    'aid' => \request()->header('X-Fresns-Aid'),
-                    'uid' => \request()->header('X-Fresns-Uid'),
+                    'aid' => $aid,
+                    'uid' => $uid,
                     'type' => $fileType,
                     'fileInfo' => $dtoRequest->fileInfo,
                     'warningType' => $warningType,

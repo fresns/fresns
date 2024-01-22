@@ -128,18 +128,18 @@ class AccountController extends Controller
     public function logout()
     {
         $authAccount = $this->account();
+        $authAccountToken = $this->accountToken();
         $authUser = $this->user();
-        $aidToken = \request()->header('X-Fresns-Aid-Token');
 
         if (empty($authAccount)) {
             throw new ApiException(31502);
         }
 
-        if (empty($aidToken)) {
+        if (empty($authAccountToken)) {
             throw new ApiException(31505);
         }
 
-        SessionToken::where('account_id', $authAccount->id)->where('account_token', $aidToken)->delete();
+        SessionToken::where('account_id', $authAccount->id)->where('account_token', $authAccountToken)->delete();
 
         CacheHelper::forgetFresnsAccount($authAccount->aid);
         CacheHelper::forgetFresnsUser($authUser?->id, $authUser?->uid);
