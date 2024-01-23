@@ -21,10 +21,15 @@ class User extends Model
     const GENDER_MALE = 2;
     const GENDER_FEMALE = 3;
 
+    protected $casts = [
+        'more_info' => 'json',
+    ];
+
     protected $dates = [
         'birthday',
         'verified_at',
         'expired_at',
+        'last_activity_at',
         'last_post_at',
         'last_comment_at',
         'last_username_at',

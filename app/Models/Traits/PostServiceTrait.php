@@ -61,11 +61,11 @@ trait PostServiceTrait
         $info['postCount'] = $postData->post_count;
         $info['createdDatetime'] = $postData->created_at;
         $info['createdTimeAgo'] = null;
-        $info['editedDatetime'] = $postData->latest_edit_at;
+        $info['editedDatetime'] = $postData->last_edit_at;
         $info['editedTimeAgo'] = null;
         $info['editedCount'] = $postData->edit_count;
-        $info['latestCommentDatetime'] = $postData->latest_comment_at;
-        $info['latestCommentTimeAgo'] = null;
+        $info['lastCommentDatetime'] = $postData->last_comment_at;
+        $info['lastCommentTimeAgo'] = null;
         $info['rankState'] = $postData->rank_state;
         $info['status'] = (bool) $postData->is_enabled;
 

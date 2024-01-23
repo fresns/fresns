@@ -31,8 +31,13 @@ class Group extends Model
     protected $casts = [
         'name' => 'json',
         'description' => 'json',
-        'permissions' => 'json',
         'more_info' => 'json',
+        'permissions' => 'json',
+    ];
+
+    protected $dates = [
+        'last_post_at',
+        'last_comment_at',
     ];
 
     public function getFsidKey()

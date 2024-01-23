@@ -55,11 +55,11 @@ trait CommentServiceTrait
         $info['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $commentData->comment_block_count : null;
         $info['createdDatetime'] = $commentData->created_at;
         $info['createdTimeAgo'] = null;
-        $info['editedDatetime'] = $commentData->latest_edit_at;
+        $info['editedDatetime'] = $commentData->last_edit_at;
         $info['editedTimeAgo'] = null;
         $info['editedCount'] = $commentData->edit_count;
-        $info['latestCommentDatetime'] = $commentData->latest_comment_at;
-        $info['latestCommentTimeAgo'] = null;
+        $info['lastCommentDatetime'] = $commentData->last_comment_at;
+        $info['lastCommentTimeAgo'] = null;
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enabled;
         $info['moreInfo'] = $commentData->more_info;

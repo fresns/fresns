@@ -26,8 +26,8 @@ class Comment extends Model
     ];
 
     protected $dates = [
-        'latest_edit_at',
-        'latest_comment_at',
+        'last_edit_at',
+        'last_comment_at',
     ];
 
     public function getFsidKey()
