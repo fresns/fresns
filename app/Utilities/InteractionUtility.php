@@ -274,7 +274,7 @@ class InteractionUtility
             } else {
                 // documented, mark type=block
                 $userFollow->update([
-                    'mark_type' => userFollow::MARK_TYPE_BLOCK,
+                    'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');

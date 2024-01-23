@@ -12,16 +12,19 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\AppBadge;
 use App\Models\AppUsage;
 use App\Models\ArchiveUsage;
 use App\Models\Extend;
 use App\Models\ExtendUsage;
+use App\Models\ExtendUser;
 use App\Models\File;
 use App\Models\Operation;
 use App\Models\OperationUsage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class ExtendUtility
 {
@@ -123,56 +126,8 @@ class ExtendUtility
 
         $extends = $extendQuery->get()->map(function ($extendUsage) use ($langTag) {
             $extend = $extendUsage->extend;
-            $content = $extend->content;
 
-            $item['eid'] = $extend->eid;
-            $item['type'] = $extend->view_type;
-            $item['typeString'] = StrHelper::extendViewTypeString($extend->view_type);
-            $item['image'] = FileHelper::fresnsFileUrlByTableColumn($extend->image_file_id, $extend->image_file_url);
-            switch ($extend->type) {
-                case Extend::TYPE_TEXT:
-                    $item['content'] = $content['content'] ?? null;
-                    $item['isMarkdown'] = $content['isMarkdown'] ?? false;
-                    break;
-
-                case Extend::TYPE_INFO:
-                    $item['title'] = StrHelper::languageContent($content['title'] ?? null, $langTag);
-                    $item['titleColor'] = $content['titleColor'] ?? null;
-                    $item['descPrimary'] = StrHelper::languageContent($content['descPrimary'] ?? null, $langTag);
-                    $item['descPrimaryColor'] = $content['descPrimaryColor'] ?? null;
-                    $item['descSecondary'] = StrHelper::languageContent($content['descSecondary'] ?? null, $langTag);
-                    $item['descSecondaryColor'] = $content['descSecondaryColor'] ?? null;
-                    $item['buttonName'] = StrHelper::languageContent($content['buttonName'] ?? null, $langTag);
-                    $item['buttonColor'] = $content['buttonColor'] ?? null;
-                    break;
-
-                case Extend::TYPE_ACTION:
-                    $actionItemArr = $extend->action_items;
-
-                    $actionItems = [];
-                    foreach ($actionItemArr as $actionItem) {
-                        if (empty($actionItem['key'] ?? null)) {
-                            continue;
-                        }
-
-                        $ai['name'] = StrHelper::languageContent($actionItem['name'] ?? null, $langTag);
-                        $ai['key'] = $actionItem['key'];
-                        $ai['value'] = $actionItem['value'] ?? null;
-                        $ai['hasOperated'] = $actionItem['hasOperated'] ?? false;
-
-                        $actionItems[] = $ai;
-                    }
-
-                    $item['title'] = StrHelper::languageContent($content['title'] ?? null, $langTag);
-                    $item['titleColor'] = $content['titleColor'] ?? null;
-                    $item['endDateTime'] = $extend->ended_at;
-                    $item['status'] = $extend->ended_at->isPast();
-                    $item['hasOperated'] = false;
-                    $item['items'] = $actionItems;
-                    break;
-            }
-            $item['position'] = $extend->position;
-            $item['appUrl'] = PluginHelper::fresnsPluginUsageUrl($extend->app_fskey, $extend->url_parameter);
+            $item = $extend->getExtendInfo($langTag);
 
             return $item;
         })->groupBy('type');
@@ -182,6 +137,43 @@ class ExtendUtility
         $extendList['actions'] = $extends->get(Extend::TYPE_ACTION)?->all() ?? [];
 
         return $extendList;
+    }
+
+    /**
+     * handle extend action.
+     */
+
+    public static function handleExtendAction(array $extendAction, ?int $authUserId = null): array
+    {
+        $extend = PrimaryHelper::fresnsModelByFsid('extend', $extendAction['eid']);
+
+        $actionItems = $extendAction['items'];
+
+        $extendAllUserActionCounts = ExtendUser::where('extend_id', $extend->id)
+            ->select('action_key', DB::raw('count(*) as count'))
+            ->groupBy('action_key')
+            ->pluck('count', 'action_key');
+
+        $extendUserActions = null;
+        if ($authUserId) {
+            $extendUserActions = ExtendUser::where('extend_id', $extend->id)->where('user_id', $authUserId)->get();
+        }
+
+        $actionItemArr = [];
+        foreach ($actionItems as $actionItem) {
+            $actionKey = $actionItem['key'];
+
+            $actionItem['actionUserCount'] = $extendAllUserActionCounts[$actionKey] ?? 0;
+            $actionItem['hasOperated'] = $authUserId ? $extendUserActions->where('action_key', $actionKey)->isNotEmpty() : false; // bool
+
+            $actionItemArr[] = $actionItem;
+        }
+
+        $extendAction['actionUserCount'] = $extendAllUserActionCounts->sum();
+        $extendAction['hasOperated'] = $authUserId ? $extendUserActions->isNotEmpty() : false; // bool
+        $extendAction['items'] = $actionItemArr;
+
+        return $extendAction;
     }
 
     /**
