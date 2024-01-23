@@ -142,7 +142,6 @@ class ExtendUtility
     /**
      * handle extend action.
      */
-
     public static function handleExtendAction(array $extendAction, ?int $authUserId = null): array
     {
         $extend = PrimaryHelper::fresnsModelByFsid('extend', $extendAction['eid']);
