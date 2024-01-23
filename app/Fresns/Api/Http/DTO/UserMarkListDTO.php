@@ -15,11 +15,11 @@ class UserMarkListDTO extends DTO
     public function rules(): array
     {
         return [
-            'markType' => ['string', 'required', 'in:like,dislike,follow,block'],
-            'listType' => ['string', 'required', 'in:users,groups,hashtags,posts,comments'],
+            'markType' => ['string', 'required', 'in:likes,dislikes,following,blocking'],
+            'listType' => ['string', 'required', 'in:users,groups,hashtags,geotags,posts,comments'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

@@ -10,14 +10,13 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class UserMarkNoteDTO extends DTO
+class DetailDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:user,group,hashtag,geotag,post,comment'],
-            'fsid' => ['required'],
-            'note' => ['string', 'max:128', 'nullable'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
         ];
     }
 }

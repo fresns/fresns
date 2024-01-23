@@ -17,21 +17,21 @@ class UserListDTO extends DTO
         return [
             'roles' => ['string', 'nullable'],
             'verified' => ['boolean', 'nullable'],
-            'gender' => ['integer', 'nullable', 'in:1,2,3'],
+            'gender' => ['integer', 'nullable', 'in:1,2,3,4'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // user_stats->created_at
             'createdDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createdDateGt'],
-            'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // user_stats->view_me_count
+            'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // user_stats->view_count
             'viewCountLt' => ['integer', 'nullable', 'gt:viewCountGt'],
-            'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // user_stats->like_me_count
-            'likeCountLt' => ['integer', 'nullable', 'gt:likeCountGt'],
-            'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // user_stats->dislike_me_count
-            'dislikeCountLt' => ['integer', 'nullable', 'gt:dislikeCountGt'],
-            'followCountGt' => ['integer', 'nullable', 'lt:followCountLt'], // user_stats->follow_me_count
-            'followCountLt' => ['integer', 'nullable', 'gt:followCountGt'],
-            'blockCountGt' => ['integer', 'nullable', 'lt:blockCountLt'], // user_stats->block_me_count
-            'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
+            'likerCountGt' => ['integer', 'nullable', 'lt:likerCountLt'], // user_stats->liker_count
+            'likerCountLt' => ['integer', 'nullable', 'gt:likerCountGt'],
+            'dislikerCountGt' => ['integer', 'nullable', 'lt:dislikerCountLt'], // user_stats->disliker_count
+            'dislikerCountLt' => ['integer', 'nullable', 'gt:dislikerCountGt'],
+            'followerCountGt' => ['integer', 'nullable', 'lt:followerCountLt'], // user_stats->follower_count
+            'followerCountLt' => ['integer', 'nullable', 'gt:followerCountGt'],
+            'blockerCountGt' => ['integer', 'nullable', 'lt:blockerCountLt'], // user_stats->blocker_count
+            'blockerCountLt' => ['integer', 'nullable', 'gt:blockerCountGt'],
             'postCountGt' => ['integer', 'nullable', 'lt:postCountLt'], // user_stats->post_publish_count
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
             'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // user_stats->comment_publish_count
@@ -50,10 +50,10 @@ class UserListDTO extends DTO
             'extcredits4CountLt' => ['integer', 'nullable', 'gt:extcredits4CountGt'],
             'extcredits5CountGt' => ['integer', 'nullable', 'lt:extcredits5CountLt'], // user_stats->extcredits5
             'extcredits5CountLt' => ['integer', 'nullable', 'gt:extcredits5CountGt'],
-            'orderType' => ['string', 'nullable', 'in:createdTime,random,view,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
+            'orderType' => ['string', 'nullable', 'in:createdTime,random,view,liker,disliker,follower,blocker,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

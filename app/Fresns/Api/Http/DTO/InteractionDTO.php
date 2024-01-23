@@ -17,8 +17,8 @@ class InteractionDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:likers,dislikers,followers,blockers'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

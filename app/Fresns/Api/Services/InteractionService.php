@@ -10,44 +10,77 @@ namespace App\Fresns\Api\Services;
 
 use App\Exceptions\ApiException;
 use App\Helpers\ConfigHelper;
-use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
-use App\Utilities\ArrUtility;
+use App\Utilities\DetailUtility;
 
 class InteractionService
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
+    const TYPE_GEOTAG = 4;
+    const TYPE_POST = 5;
+    const TYPE_COMMENT = 6;
 
     // check interaction setting
-    public static function checkInteractionSetting(string $interactionType, string $markType)
+    public static function checkInteractionSetting(string $markType, string $contentType)
     {
-        $setKey = "{$markType}_{$interactionType}";
+        $markType = match ($markType) {
+            'like' => 'like',
+            'dislike' => 'dislike',
+            'follow' => 'follow',
+            'block' => 'block',
+            'likers' => 'like',
+            'dislikers' => 'dislike',
+            'followers' => 'follow',
+            'blockers' => 'block',
+        };
+
+        $setKey = "{$markType}_{$contentType}_public_record";
 
         $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
+
+        if ($contentType == 'user') {
+            if ($interactionSet != 3) {
+                throw new ApiException(36201);
+            }
+
+            return;
+        }
+
         if (! $interactionSet) {
             throw new ApiException(36201);
         }
     }
 
     // check my interaction setting
-    public static function checkMyInteractionSetting(string $interactionType, string $markType)
+    public static function checkMyInteractionSetting(string $markType, string $contentType)
     {
-        $setKey = "{$markType}_{$interactionType}";
+        $markType = match ($markType) {
+            'like' => 'like',
+            'dislike' => 'dislike',
+            'follow' => 'follow',
+            'block' => 'block',
+            'likers' => 'like',
+            'dislikers' => 'dislike',
+            'followers' => 'follow',
+            'blockers' => 'block',
+        };
+
+        $setKey = "{$markType}_{$contentType}_public_record";
 
         $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
-        if ($interactionSet) {
+
+        if ($contentType == 'user') {
+            if ($interactionSet == 1) {
+                throw new ApiException(36201);
+            }
+
             return;
         }
 
-        $mySetKey = "my_{$interactionType}";
-
-        $myInteractionSet = ConfigHelper::fresnsConfigByItemKey($mySetKey);
-        if (! $myInteractionSet) {
+        if (! $interactionSet) {
             throw new ApiException(36201);
         }
     }
@@ -65,11 +98,11 @@ class InteractionService
                 break;
 
             case 'followers':
-                $interactionQuery = UserFollow::where('follow_id', $markId);
+                $interactionQuery = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->where('follow_id', $markId);
                 break;
 
             case 'blockers':
-                $interactionQuery = UserBlock::where('block_id', $markId);
+                $interactionQuery = UserFollow::markType(UserFollow::MARK_TYPE_BLOCK)->where('follow_id', $markId);
                 break;
         }
 
@@ -78,164 +111,27 @@ class InteractionService
             ->orderBy('created_at', $orderDirection)
             ->paginate(\request()->get('pageSize', 15));
 
-        $service = new UserService();
+        $userOptions = [
+            'viewType' => 'list',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => \request()->get('filterType'),
+                'keys' => \request()->get('filterKeys'),
+            ],
+        ];
 
         $paginateData = [];
         foreach ($interactionData as $interaction) {
-            if (empty($interaction->creator)) {
+            if (empty($interaction?->creator)) {
                 continue;
             }
 
-            $paginateData[] = $service->userData($interaction->creator, 'list', $langTag, $timezone, $authUserId);
+            $paginateData[] = DetailUtility::userDetail($interaction->creator, $langTag, $timezone, $authUserId, $userOptions);
         }
 
         return [
             'paginateData' => $paginateData,
             'interactionData' => $interactionData,
-        ];
-    }
-
-    // get a list of the content it marks
-    public function getItMarkList(string $getType, string $markTypeName, int $userId, string $orderDirection, string $langTag, ?string $timezone = null, ?int $authUserId = null)
-    {
-        switch ($getType) {
-            case 'like':
-                $markQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE);
-                break;
-
-            case 'dislike':
-                $markQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE);
-                break;
-
-            case 'follow':
-                $markQuery = UserFollow::query();
-                break;
-
-            case 'block':
-                $markQuery = UserBlock::query();
-                break;
-        }
-
-        $markType = match ($markTypeName) {
-            'user' => InteractionService::TYPE_USER,
-            'group' => InteractionService::TYPE_GROUP,
-            'hashtag' => InteractionService::TYPE_HASHTAG,
-            'post' => InteractionService::TYPE_POST,
-            'comment' => InteractionService::TYPE_COMMENT,
-
-            'users' => InteractionService::TYPE_USER,
-            'groups' => InteractionService::TYPE_GROUP,
-            'hashtags' => InteractionService::TYPE_HASHTAG,
-            'posts' => InteractionService::TYPE_POST,
-            'comments' => InteractionService::TYPE_COMMENT,
-        };
-
-        $markData = $markQuery->with('user')
-            ->where('user_id', $userId)
-            ->type($markType)
-            ->orderBy('created_at', $orderDirection)
-            ->paginate(\request()->get('pageSize', 15));
-
-        // filter
-        $filterKeys = \request()->get('whitelistKeys') ?? \request()->get('blacklistKeys');
-        $filter = [
-            'type' => \request()->get('whitelistKeys') ? 'whitelist' : 'blacklist',
-            'keys' => array_filter(explode(',', $filterKeys)),
-        ];
-
-        // data
-        $paginateData = [];
-
-        switch ($markTypeName) {
-            case 'users':
-                $service = new UserService();
-                foreach ($markData as $mark) {
-                    if (empty($mark->user)) {
-                        continue;
-                    }
-
-                    $itemData = $service->userData($mark->user, 'list', $langTag, $timezone, $authUserId);
-
-                    if ($filter['keys']) {
-                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
-                    }
-
-                    $paginateData[] = $itemData;
-                }
-                break;
-
-            case 'groups':
-                $service = new GroupService();
-                foreach ($markData as $mark) {
-                    if (empty($mark->group)) {
-                        continue;
-                    }
-
-                    $itemData = $service->groupData($mark->group, $langTag, $timezone, $authUserId);
-
-                    if ($filter['keys']) {
-                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
-                    }
-
-                    $paginateData[] = $itemData;
-                }
-                break;
-
-            case 'hashtags':
-                $service = new HashtagService();
-                foreach ($markData as $mark) {
-                    if (empty($mark->hashtag)) {
-                        continue;
-                    }
-
-                    $itemData = $service->hashtagData($mark->hashtag, $langTag, $timezone, $authUserId);
-
-                    if ($filter['keys']) {
-                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
-                    }
-
-                    $paginateData[] = $itemData;
-                }
-                break;
-
-            case 'posts':
-                $service = new PostService();
-                foreach ($markData as $mark) {
-                    if (empty($mark->post)) {
-                        continue;
-                    }
-
-                    $itemData = $service->postData($mark->post, 'list', $langTag, $timezone, $authUserId);
-
-                    if ($filter['keys']) {
-                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
-                    }
-
-                    $paginateData[] = $itemData;
-                }
-                break;
-
-            case 'comments':
-                $service = new CommentService();
-                foreach ($markData as $mark) {
-                    if (empty($mark->comment)) {
-                        continue;
-                    }
-
-                    $itemData = $service->commentData($mark->comment, 'list', $langTag, $timezone, true, $authUserId);
-
-                    if ($filter['keys']) {
-                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
-                    }
-
-                    $paginateData[] = $itemData;
-                }
-                break;
-        }
-
-        return [
-            'paginateData' => $paginateData,
-            'markData' => $markData,
         ];
     }
 }
