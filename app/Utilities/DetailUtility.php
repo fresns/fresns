@@ -1301,8 +1301,8 @@ class DetailUtility
         $detail['editedDatetime'] = DateHelper::fresnsFormatDateTime($detail['editedDatetime'], $timezone, $langTag);
         $detail['editedTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['editedDatetime'], $langTag);
 
-        $detail['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['latestCommentDatetime'], $timezone, $langTag);
-        $detail['latestCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['latestCommentDatetime'], $langTag);
+        $detail['lastCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['lastCommentDatetime'], $timezone, $langTag);
+        $detail['lastCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastCommentDatetime'], $langTag);
 
         return $detail;
     }

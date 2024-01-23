@@ -1028,7 +1028,7 @@ class ContentUtility
             InteractionUtility::editStats('post', $post->id, 'increment');
 
             $post->update([
-                'latest_edit_at' => now(),
+                'last_edit_at' => now(),
             ]);
             $postAppend->increment('edit_count');
 
@@ -1114,7 +1114,7 @@ class ContentUtility
             InteractionUtility::editStats('comment', $comment->id, 'increment');
 
             $comment->update([
-                'latest_edit_at' => now(),
+                'last_edit_at' => now(),
             ]);
             $commentAppend->increment('edit_count');
 
@@ -1138,11 +1138,11 @@ class ContentUtility
 
         $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
         $post->update([
-            'latest_comment_at' => now(),
+            'last_comment_at' => now(),
         ]);
 
         if ($comment->parent_id) {
-            ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+            ContentUtility::parentCommentLastCommentTime($comment->parent_id);
         }
 
         // send notification
@@ -1151,18 +1151,18 @@ class ContentUtility
         return $comment;
     }
 
-    // parent comment latest release time
-    public static function parentCommentLatestCommentTime(int $parentId): void
+    // parent comment last release time
+    public static function parentCommentLastCommentTime(int $parentId): void
     {
         $comment = PrimaryHelper::fresnsModelById('comment', $parentId);
 
         $comment->update([
-            'latest_comment_at' => now(),
+            'last_comment_at' => now(),
         ]);
 
         // parent comment
         if ($comment?->parent_id) {
-            ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+            ContentUtility::parentCommentLastCommentTime($comment->parent_id);
         }
     }
 

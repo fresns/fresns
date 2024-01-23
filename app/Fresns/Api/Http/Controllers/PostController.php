@@ -112,7 +112,7 @@ class PostController extends Controller
         if ($filterHashtags) {
             $hashtagIds = [];
             foreach ($filterHashtags as $hid) {
-                $hashtagIds[] = PrimaryHelper::fresnsHashtagIdByHid($hid);
+                $hashtagIds[] = PrimaryHelper::fresnsHashtagIdByHtid($hid);
             }
 
             $blockHashtagIds = array_merge($blockHashtagIds, $hashtagIds);
@@ -353,7 +353,7 @@ class PostController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
                 'createdTime' => 'created_at',
-                'commentTime' => 'latest_comment_at',
+                'commentTime' => 'last_comment_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
@@ -369,7 +369,7 @@ class PostController extends Controller
             };
 
             if ($dtoRequest->orderType == 'commentTime') {
-                $postQuery->orderBy(DB::raw('COALESCE(latest_comment_at, created_at)'), $orderDirection);
+                $postQuery->orderBy(DB::raw('COALESCE(last_comment_at, created_at)'), $orderDirection);
             } else {
                 $postQuery->orderBy($orderType, $orderDirection);
             }

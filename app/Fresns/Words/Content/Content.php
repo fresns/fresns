@@ -557,7 +557,7 @@ class Content
                 ]);
 
                 $post->update([
-                    'latest_comment_at' => now(),
+                    'last_comment_at' => now(),
                 ]);
 
                 if ($comment->parent_id) {

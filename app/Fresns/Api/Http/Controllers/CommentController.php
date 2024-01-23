@@ -389,7 +389,7 @@ class CommentController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
                 'createdTime' => 'created_at',
-                'commentTime' => 'latest_comment_at',
+                'commentTime' => 'last_comment_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
@@ -405,7 +405,7 @@ class CommentController extends Controller
             };
 
             if ($dtoRequest->orderType == 'commentTime') {
-                $commentQuery->orderBy(DB::raw('COALESCE(latest_comment_at, created_at)'), $orderDirection);
+                $commentQuery->orderBy(DB::raw('COALESCE(last_comment_at, created_at)'), $orderDirection);
             } else {
                 $commentQuery->orderBy($orderType, $orderDirection);
             }
