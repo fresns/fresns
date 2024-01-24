@@ -216,7 +216,7 @@ class PrimaryHelper
         $seoData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($seoData)) {
-            $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $usageId)->get();
+            $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $usageId)->first();
 
             CacheHelper::put($seoData, $cacheKey, $cacheTag);
         }

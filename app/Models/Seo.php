@@ -19,6 +19,12 @@ class Seo extends Model
 
     protected $table = 'seo';
 
+    protected $casts = [
+        'title' => 'json',
+        'keywords' => 'json',
+        'description' => 'json',
+    ];
+
     public function scopeType($query, int $type)
     {
         return $query->where('usage_type', $type);
