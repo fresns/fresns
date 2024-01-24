@@ -1051,7 +1051,7 @@ class UserController extends Controller
 
         $userList = [];
         foreach ($userData as $user) {
-            $userList[] = DetailUtility::userDetail($user, $langTag, $timezone, $authUserId, $userOptions);
+            $userList[] = DetailUtility::userDetail($user->profile, $langTag, $timezone, $authUserId, $userOptions);
         }
 
         return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());
@@ -1199,11 +1199,9 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($viewUser->id == $authUserId) {
-            InteractionService::checkMyInteractionSetting($dtoRequest->type, 'user');
-        } else {
-            InteractionService::checkInteractionSetting($dtoRequest->type, 'user');
-        }
+        $isMe = $viewUser->id == $authUserId;
+
+        InteractionService::checkInteractionSetting('user', $dtoRequest->type, $isMe);
 
         $service = new InteractionService();
         $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_USER, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
@@ -1229,8 +1227,15 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
+        $profileMarkType = match ($markType) {
+            'like' => 'likes',
+            'dislike' => 'dislikes',
+            'follow' => 'following',
+            'block' => 'blocking',
+        };
+
         if ($viewUser->id != $authUserId) {
-            $setKey = "profile_{$dtoRequest->markType}_{$dtoRequest->listType}_enabled";
+            $setKey = "profile_{$profileMarkType}_{$dtoRequest->listType}_enabled";
 
             $markSet = ConfigHelper::fresnsConfigByItemKey($setKey);
 
@@ -1240,24 +1245,24 @@ class UserController extends Controller
         }
 
         switch ($dtoRequest->markType) {
-            case 'likes':
+            case 'like':
                 $markQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE);
                 break;
 
-            case 'dislikes':
+            case 'dislike':
                 $markQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE);
                 break;
 
-            case 'following':
+            case 'follow':
                 $markQuery = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW);
                 break;
 
-            case 'blocking':
+            case 'block':
                 $markQuery = UserFollow::markType(UserFollow::MARK_TYPE_BLOCK);
                 break;
         }
 
-        $markType = match ($dtoRequest->listType) {
+        $markTypeInt = match ($dtoRequest->listType) {
             'users' => InteractionService::TYPE_USER,
             'groups' => InteractionService::TYPE_GROUP,
             'hashtags' => InteractionService::TYPE_HASHTAG,
@@ -1270,7 +1275,7 @@ class UserController extends Controller
 
         $markData = $markQuery->with('user')
             ->where('user_id', $authUserId)
-            ->type($markType)
+            ->type($markTypeInt)
             ->orderBy('created_at', $orderDirection)
             ->paginate($dtoRequest->pageSize ?? 15);
 

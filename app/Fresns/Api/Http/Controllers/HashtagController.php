@@ -227,7 +227,7 @@ class HashtagController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractionDTO($requestData);
 
-        InteractionService::checkInteractionSetting($dtoRequest->type, 'hashtag');
+        InteractionService::checkInteractionSetting('hashtag', $dtoRequest->type);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 

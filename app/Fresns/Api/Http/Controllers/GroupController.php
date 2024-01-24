@@ -351,7 +351,7 @@ class GroupController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractionDTO($requestData);
 
-        InteractionService::checkInteractionSetting($dtoRequest->type, 'group');
+        InteractionService::checkInteractionSetting('group', $dtoRequest->type);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 

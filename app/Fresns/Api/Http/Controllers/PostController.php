@@ -474,7 +474,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        InteractionService::checkInteractionSetting($dtoRequest->type, 'post');
+        InteractionService::checkInteractionSetting('post', $dtoRequest->type);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 

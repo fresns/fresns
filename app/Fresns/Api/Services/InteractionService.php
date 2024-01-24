@@ -24,7 +24,7 @@ class InteractionService
     const TYPE_COMMENT = 6;
 
     // check interaction setting
-    public static function checkInteractionSetting(string $markType, string $contentType)
+    public static function checkInteractionSetting(string $contentType, string $markType, ?bool $isMe = false)
     {
         $markType = match ($markType) {
             'like' => 'like',
@@ -37,43 +37,16 @@ class InteractionService
             'blockers' => 'block',
         };
 
-        $setKey = "{$markType}_{$contentType}_public_record";
-
-        $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
-
-        if ($contentType == 'user') {
-            if ($interactionSet != 3) {
-                throw new ApiException(36201);
-            }
-
-            return;
-        }
-
-        if (! $interactionSet) {
-            throw new ApiException(36201);
-        }
-    }
-
-    // check my interaction setting
-    public static function checkMyInteractionSetting(string $markType, string $contentType)
-    {
-        $markType = match ($markType) {
-            'like' => 'like',
-            'dislike' => 'dislike',
-            'follow' => 'follow',
-            'block' => 'block',
-            'likers' => 'like',
-            'dislikers' => 'dislike',
-            'followers' => 'follow',
-            'blockers' => 'block',
-        };
-
-        $setKey = "{$markType}_{$contentType}_public_record";
+        $setKey = "{$contentType}_{$markType}_public_record";
 
         $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
 
         if ($contentType == 'user') {
             if ($interactionSet == 1) {
+                throw new ApiException(36201);
+            }
+
+            if ($interactionSet == 2 && ! $isMe) {
                 throw new ApiException(36201);
             }
 

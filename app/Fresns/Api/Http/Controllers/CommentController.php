@@ -564,7 +564,7 @@ class CommentController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractionDTO($requestData);
 
-        InteractionService::checkInteractionSetting($dtoRequest->type, 'comment');
+        InteractionService::checkInteractionSetting('comment', $dtoRequest->type);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 

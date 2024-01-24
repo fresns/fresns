@@ -15,7 +15,7 @@ class UserMarkListDTO extends DTO
     public function rules(): array
     {
         return [
-            'markType' => ['string', 'required', 'in:likes,dislikes,following,blocking'],
+            'markType' => ['string', 'required', 'in:like,dislike,follow,block'],
             'listType' => ['string', 'required', 'in:users,groups,hashtags,geotags,posts,comments'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
