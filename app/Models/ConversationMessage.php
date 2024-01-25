@@ -10,7 +10,13 @@ namespace App\Models;
 
 class ConversationMessage extends Model
 {
+    use Traits\FsidTrait;
     use Traits\IsEnabledTrait;
+
+    public function getFsidKey()
+    {
+        return 'cmid';
+    }
 
     public function sendUser()
     {

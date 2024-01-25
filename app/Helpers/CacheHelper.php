@@ -526,17 +526,18 @@ class CacheHelper
     public static function forgetFresnsModel(string $modelName, int|string $fsid): void
     {
         $cacheTag = match ($modelName) {
+            'config' => 'fresnsConfigs',
+            'key' => 'fresnsSystems',
             'account' => 'fresnsAccounts',
             'user' => 'fresnsUsers',
             'group' => 'fresnsGroups',
             'hashtag' => 'fresnsHashtags',
+            'geotag' => 'fresnsGeotags',
             'post' => 'fresnsPosts',
             'comment' => 'fresnsComments',
             'file' => 'fresnsFiles',
             'extend' => 'fresnsExtends',
             'archive' => 'fresnsArchives',
-            'operation' => 'fresnsOperations',
-            'conversation' => 'fresnsConversations',
             default => 'fresnsModels',
         };
 
@@ -570,14 +571,17 @@ class CacheHelper
 
             $modelFsid = match ($modelName) {
                 'config' => $model?->item_key,
+                'key' => $model?->app_id,
                 'account' => $model?->aid,
                 'user' => $model?->uid,
                 'group' => $model?->aid,
                 'hashtag' => $model?->slug,
+                'geotag' => $model?->gtid,
                 'post' => $model?->pid,
                 'comment' => $model?->cid,
                 'file' => $model?->fid,
                 'extend' => $model?->eid,
+                'archive' => $model?->code,
 
                 default => null,
             };
@@ -682,19 +686,21 @@ class CacheHelper
     public static function forgetFresnsInteraction(int $type, int $id, int $userId): void
     {
         $typeName = match ($type) {
-            1 => 'user',
-            2 => 'group',
-            3 => 'hashtag',
-            4 => 'post',
-            5 => 'comment',
+            InteractionUtility::TYPE_USER => 'user',
+            InteractionUtility::TYPE_GROUP => 'group',
+            InteractionUtility::TYPE_HASHTAG => 'hashtag',
+            InteractionUtility::TYPE_GEOTAG => 'geotag',
+            InteractionUtility::TYPE_POST => 'post',
+            InteractionUtility::TYPE_COMMENT => 'comment',
         };
 
         $cacheTag = match ($type) {
-            1 => 'fresnsUsers',
-            2 => 'fresnsGroups',
-            3 => 'fresnsHashtags',
-            4 => 'fresnsPosts',
-            5 => 'fresnsComments',
+            InteractionUtility::TYPE_USER => 'fresnsUsers',
+            InteractionUtility::TYPE_GROUP => 'fresnsGroups',
+            InteractionUtility::TYPE_HASHTAG => 'fresnsHashtags',
+            InteractionUtility::TYPE_GEOTAG => 'fresnsGeotags',
+            InteractionUtility::TYPE_POST => 'fresnsPosts',
+            InteractionUtility::TYPE_COMMENT => 'fresnsComments',
         };
 
         CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$id}_{$userId}", 'fresnsUsers');
@@ -775,6 +781,10 @@ class CacheHelper
     // fresns_model_archive_{$code}                                 // tag: fresnsArchives
     // fresns_model_operation_{$operationId}                        // tag: fresnsOperations
     // fresns_model_conversation_{$conversationId}                  // tag: fresnsConversations
+    // fresns_model_post_log_{$hpid}                                // tag: fresnsPosts
+    // fresns_model_post_log_{$postLogId}                           // tag: fresnsPosts
+    // fresns_model_comment_log_{$hcid}                             // tag: fresnsComments
+    // fresns_model_comment_log_{$commentLogId}                     // tag: fresnsComments
     // fresns_model_seo_{$usageType}_{$usageId}                     // tag: fresnsSeo
     // fresns_model_subgroups_{$idOrGid}                            // tag: fresnsGroups
     // fresns_model_conversation_{$userId}_{$conversationUserId}    // tag: fresnsUsers
@@ -818,9 +828,9 @@ class CacheHelper
     // fresns_user_overview_notifications_{$uid}
     // fresns_user_overview_drafts_{$uid}
     // fresns_app_badge_{$fskey}_{$userId}
+    // fresns_interaction_status_{$markType}_{$markId}_{$userId}
 
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
-    // fresns_interaction_status_{$markType}_{$markId}_{$userId}
     // fresns_follow_{$type}_array_by_{$userId}
     // fresns_user_activity_{$uid}
     // fresns_user_post_auth_{$postId}_{$userId}

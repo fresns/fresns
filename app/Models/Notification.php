@@ -10,6 +10,8 @@ namespace App\Models;
 
 class Notification extends Model
 {
+    use Traits\FsidTrait;
+
     const TYPE_SYSTEM = 1;
     const TYPE_RECOMMEND = 2;
     const TYPE_LIKE = 3;
@@ -34,11 +36,21 @@ class Notification extends Model
     const ACTION_OBJECT_USER = 1;
     const ACTION_OBJECT_GROUP = 2;
     const ACTION_OBJECT_HASHTAG = 3;
-    const ACTION_OBJECT_POST = 4;
-    const ACTION_OBJECT_COMMENT = 5;
-    const ACTION_OBJECT_POST_LOG = 6;
-    const ACTION_OBJECT_COMMENT_LOG = 7;
-    const ACTION_OBJECT_EXTEND = 8;
+    const ACTION_OBJECT_GEOTAG = 4;
+    const ACTION_OBJECT_POST = 5;
+    const ACTION_OBJECT_COMMENT = 6;
+    const ACTION_OBJECT_POST_LOG = 7;
+    const ACTION_OBJECT_COMMENT_LOG = 8;
+    const ACTION_OBJECT_EXTEND = 9;
+
+    protected $casts = [
+        'content' => 'json',
+    ];
+
+    public function getFsidKey()
+    {
+        return 'nmid';
+    }
 
     public function scopeType($query, int $type)
     {
@@ -63,6 +75,11 @@ class Notification extends Model
     public function hashtag()
     {
         return $this->belongsTo(Hashtag::class, 'action_id', 'id');
+    }
+
+    public function geotag()
+    {
+        return $this->belongsTo(Geotag::class, 'action_id', 'id');
     }
 
     public function post()

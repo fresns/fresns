@@ -11,6 +11,7 @@ namespace App\Helpers;
 use App\Models\Account;
 use App\Models\Archive;
 use App\Models\Comment;
+use App\Models\CommentLog;
 use App\Models\Config;
 use App\Models\Conversation;
 use App\Models\Extend;
@@ -20,6 +21,7 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Operation;
 use App\Models\Post;
+use App\Models\PostLog;
 use App\Models\Seo;
 use App\Models\SessionKey;
 use App\Models\User;
@@ -51,6 +53,8 @@ class PrimaryHelper
             'file' => 'fresnsFiles',
             'extend' => 'fresnsExtends',
             'archive' => 'fresnsArchives',
+            'postLog' => 'fresnsPosts',
+            'commentLog' => 'fresnsComments',
             default => 'fresnsModels',
         };
 
@@ -103,7 +107,7 @@ class PrimaryHelper
                     break;
 
                 case 'comment':
-                    $fresnsModel = Comment::withTrashed()->with(['post', 'author', 'hashtags'])->where('cid', $fsid)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['author', 'post', 'hashtags'])->where('cid', $fsid)->first();
                     break;
 
                 case 'file':
@@ -116,6 +120,14 @@ class PrimaryHelper
 
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('code', $fsid)->first();
+                    break;
+
+                case 'postLog':
+                    $fresnsModel = PostLog::withTrashed()->with(['author', 'group'])->where('hpid', $fsid)->first();
+                    break;
+
+                case 'commentLog':
+                    $fresnsModel = CommentLog::withTrashed()->with(['author', 'post'])->where('hcid', $fsid)->first();
                     break;
             }
 
@@ -143,6 +155,8 @@ class PrimaryHelper
             'comment' => 'fresnsComments',
             'file' => 'fresnsFiles',
             'operation' => 'fresnsOperations',
+            'postLog' => 'fresnsPosts',
+            'commentLog' => 'fresnsComments',
             default => 'fresnsModels',
         };
 
@@ -183,7 +197,7 @@ class PrimaryHelper
                     break;
 
                 case 'comment':
-                    $fresnsModel = Comment::withTrashed()->with(['post', 'author', 'hashtags'])->where('id', $id)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['author', 'post', 'hashtags'])->where('id', $id)->first();
                     break;
 
                 case 'file':
@@ -192,6 +206,14 @@ class PrimaryHelper
 
                 case 'operation':
                     $fresnsModel = Operation::withTrashed()->where('id', $id)->first();
+                    break;
+
+                case 'postLog':
+                    $fresnsModel = PostLog::withTrashed()->with(['author', 'group'])->where('id', $id)->first();
+                    break;
+
+                case 'commentLog':
+                    $fresnsModel = CommentLog::withTrashed()->with(['author', 'post'])->where('id', $id)->first();
                     break;
             }
 
