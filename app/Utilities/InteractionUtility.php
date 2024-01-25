@@ -38,7 +38,7 @@ class InteractionUtility
     const TYPE_COMMENT = 6;
 
     // get interaction status
-    public static function getInteractionStatus(int $type, int $markId, ?int $userId = null): array
+    public static function getInteractionStatus(int $type, int $markId, ?int $userId = null, ?bool $checkPostAuthorLikeStatus = false): array
     {
         $status = [
             'likeStatus' => false,
@@ -49,7 +49,7 @@ class InteractionUtility
         ];
 
         $postAuthorLikeStatus = false;
-        if ($type == InteractionUtility::TYPE_COMMENT) {
+        if ($type == InteractionUtility::TYPE_COMMENT && $checkPostAuthorLikeStatus) {
             $comment = PrimaryHelper::fresnsModelById('comment', $markId);
             $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $markId, $comment?->post?->user_id);
 
