@@ -10,19 +10,14 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Fresns\Api\Http\DTO\NotificationDTO;
 use App\Fresns\Api\Http\DTO\NotificationListDTO;
-use App\Fresns\Api\Services\CommentService;
-use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Services\HashtagService;
-use App\Fresns\Api\Services\PostService;
-use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractionHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Notification;
-use App\Utilities\ArrUtility;
+use App\Utilities\DetailUtility;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -50,79 +45,67 @@ class NotificationController extends Controller
 
         $notifications = $notificationQuery->latest()->paginate($dtoRequest->pageSize ?? 15);
 
-        $userService = new UserService();
-        $groupService = new GroupService();
-        $hashtagService = new HashtagService();
-        $postService = new PostService();
-        $commentService = new CommentService();
-
-        // actionUser filter
-        $actionUserFilterKeys = $dtoRequest->userWhitelistKeys ?? $dtoRequest->userBlacklistKeys;
-        $actionUserFilter = [
-            'type' => $dtoRequest->userWhitelistKeys ? 'whitelist' : 'blacklist',
-            'keys' => array_filter(explode(',', $actionUserFilterKeys)),
+        // filter
+        $userOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $dtoRequest->filterUserType,
+                'keys' => $dtoRequest->filterUserKeys,
+            ],
         ];
-
-        // actionInfo user filter
-        $filterKeys = $dtoRequest->whitelistKeys ?? $dtoRequest->blacklistKeys;
-        $filter = [
-            'type' => $dtoRequest->whitelistKeys ? 'whitelist' : 'blacklist',
-            'keys' => array_filter(explode(',', $filterKeys)),
+        $infoOptions = [
+            'viewType' => 'quoted',
+            'filter' => [
+                'type' => $dtoRequest->filterInfoType,
+                'keys' => $dtoRequest->filterInfoKeys,
+            ],
         ];
 
         $notificationList = [];
-        foreach ($notifications as $notification) {
+        foreach ($notifications as $notify) {
             $actionUser = null;
-            if ($notification->action_user_id) {
-                $actionUser = $notification->action_is_anonymous ? InteractionHelper::fresnsUserSubstitutionProfile() : $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId);
+            if ($notify->action_user_id) {
+                $actionUser = $notify->action_is_anonymous ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $dtoRequest->filterUserType, $dtoRequest->filterUserKeys) : DetailUtility::userDetail($notify?->actionUser, $langTag, $timezone, $authUserId, $userOptions);
             }
 
-            // actionUser filter
-            if ($actionUserFilter['keys'] && $actionUser) {
-                $actionUser = ArrUtility::filter($actionUser, $actionUserFilter['type'], $actionUserFilter['keys']);
-            }
-
-            $contentFsid = match ($notification->type) {
-                Notification::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $notification?->action_content_id)?->cid,
-                Notification::TYPE_QUOTE => PrimaryHelper::fresnsModelById('post', $notification?->action_content_id)?->pid,
+            $contentFsid = match ($notify->type) {
+                Notification::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $notify?->action_content_id)?->cid,
+                Notification::TYPE_QUOTE => PrimaryHelper::fresnsModelById('post', $notify?->action_content_id)?->pid,
                 default => null,
             };
 
-            $item['id'] = $notification->id;
-            $item['type'] = $notification->type;
-            $item['content'] = $notification->is_multilingual ? LanguageHelper::fresnsLanguageByTableId('notifications', 'content', $notification->id, $langTag) : $notification->content;
-            $item['isMarkdown'] = (bool) $notification->is_markdown;
-            $item['isMention'] = (bool) $notification->is_mention;
-            $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
-            $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($notification->plugin_fskey);
+            $item['nmid'] = $notify->nmid;
+            $item['type'] = $notify->type;
+            $item['content'] = StrHelper::languageContent($notify->content, $langTag);
+            $item['isMarkdown'] = (bool) $notify->is_markdown;
+            $item['isMention'] = (bool) $notify->is_mention;
+            $item['isAccessApp'] = (bool) $notify->is_access_app;
+            $item['appUrl'] = PluginHelper::fresnsPluginUrlByFskey($notify->app_fskey);
             $item['actionUser'] = $actionUser;
-            $item['actionUserIsAnonymous'] = (bool) $notification->action_is_anonymous;
-            $item['actionType'] = $notification->action_type;
-            $item['actionObject'] = $notification->action_object;
+            $item['actionUserIsAnonymous'] = (bool) $notify->action_is_anonymous;
+            $item['actionType'] = $notify->action_type;
+            $item['actionObject'] = $notify->action_object;
             $item['actionInfo'] = null;
             $item['contentFsid'] = $contentFsid;
-            $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($notification->created_at, $timezone, $langTag);
-            $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($notification->created_at, $timezone, $langTag);
-            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($notification->created_at, $langTag);
-            $item['readStatus'] = (bool) $notification->is_read;
+            $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($notify->created_at, $timezone, $langTag);
+            $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($notify->created_at, $timezone, $langTag);
+            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($notify->created_at, $langTag);
+            $item['readStatus'] = (bool) $notify->is_read;
 
-            if ($notification->action_object && $notification->action_id) {
-                $actionInfo = match ($notification->action_object) {
-                    Notification::ACTION_OBJECT_USER => $userService->userData($notification?->user, 'list', $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_GROUP => $groupService->groupData($notification?->group, $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_HASHTAG => $hashtagService->hashtagData($notification?->hashtag, $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_POST => $postService->postData($notification?->post, 'list', $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_COMMENT => $commentService->commentData($notification?->comment, 'list', $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_POST_LOG => $postService->postLogData($notification?->postLog, 'list', $langTag, $timezone),
-                    Notification::ACTION_OBJECT_COMMENT_LOG => $commentService->commentLogData($notification?->commentLog, 'list', $langTag, $timezone),
-                    Notification::ACTION_OBJECT_EXTEND => $notification?->extend->getExtendInfo($langTag),
+            if ($notify->action_object && $notify->action_id) {
+                $actionInfo = match ($notify->action_object) {
+                    Notification::ACTION_OBJECT_USER => DetailUtility::userDetail($notify?->user, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_GROUP => DetailUtility::groupDetail($notify?->group, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_HASHTAG => DetailUtility::hashtagDetail($notify?->hashtag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_GEOTAG => DetailUtility::geotagDetail($notify?->geotag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_POST => DetailUtility::postDetail($notify?->post, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_COMMENT => DetailUtility::commentDetail($notify?->comment, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_POST_LOG => DetailUtility::postLogDetail($notify?->postLog, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_COMMENT_LOG => DetailUtility::commentLogDetail($notify?->commentLog, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_EXTEND => $notify?->extend?->getExtendInfo($langTag),
                     default => null,
                 };
-
-                // actionInfo user filter
-                if ($filter['keys'] && $actionInfo) {
-                    $actionInfo = ArrUtility::filter($actionInfo, $filter['type'], $filter['keys']);
-                }
 
                 $item['actionInfo'] = $actionInfo;
             }
@@ -133,8 +116,8 @@ class NotificationController extends Controller
         return $this->fresnsPaginate($notificationList, $notifications->total(), $notifications->perPage());
     }
 
-    // markAsRead
-    public function markAsRead(Request $request)
+    // readStatus
+    public function readStatus(Request $request)
     {
         $dtoRequest = new NotificationDTO($request->all());
 
@@ -147,9 +130,9 @@ class NotificationController extends Controller
                 'is_read' => 1,
             ]);
         } else {
-            $idArr = array_filter(explode(',', $dtoRequest->notificationIds));
+            $nmidArr = array_filter(explode(',', $dtoRequest->notificationIds));
 
-            Notification::where('user_id', $authUser->id)->whereIn('id', $idArr)->where('is_read', 0)->update([
+            Notification::where('user_id', $authUser->id)->whereIn('nmid', $nmidArr)->where('is_read', 0)->update([
                 'is_read' => 1,
             ]);
         }
@@ -169,9 +152,9 @@ class NotificationController extends Controller
         if ($dtoRequest->type == 'all') {
             Notification::where('user_id', $authUser->id)->where('type', $dtoRequest->notificationType)->delete();
         } else {
-            $idArr = array_filter(explode(',', $dtoRequest->notificationIds));
+            $nmidArr = array_filter(explode(',', $dtoRequest->notificationIds));
 
-            Notification::where('user_id', $authUser->id)->whereIn('id', $idArr)->delete();
+            Notification::where('user_id', $authUser->id)->whereIn('id', $nmidArr)->delete();
         }
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_notifications_{$authUser->uid}", 'fresnsUsers');

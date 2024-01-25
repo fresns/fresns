@@ -17,10 +17,10 @@ class NotificationListDTO extends DTO
         return [
             'types' => ['string', 'nullable'],
             'status' => ['boolean', 'nullable'],
-            'userWhitelistKeys' => ['string', 'nullable'],
-            'userBlacklistKeys' => ['string', 'nullable'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterUserKeys' => ['string', 'nullable', 'required_with:filterUserType'],
+            'filterInfoType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterInfoKeys' => ['string', 'nullable', 'required_with:filterInfoType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
