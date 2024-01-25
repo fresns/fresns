@@ -412,6 +412,10 @@ class ContentUtility
             } else {
                 $fileInfo = FileHelper::fresnsFileInfoById($file->id);
 
+                if (! $fileInfo) {
+                    continue;
+                }
+
                 $linkList[] = match ($file->type) {
                     File::TYPE_IMAGE => sprintf('<img class="fresns_file_image" loading="lazy" src="%s" alt="%s">', $fileInfo['imageBigUrl'], $fileInfo['name']),
                     File::TYPE_VIDEO => sprintf('<video class="fresns_file_video" controls preload="metadata" controlslist="nodownload" poster="%s"><source src="%s" type="%s"></video>', $fileInfo['videoPosterUrl'], $fileInfo['videoUrl'], $fileInfo['mime']),
