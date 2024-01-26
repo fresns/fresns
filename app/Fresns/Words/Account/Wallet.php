@@ -971,7 +971,7 @@ class Wallet
     }
 
     // check wallet password
-    public static function checkWalletPassword(AccountWallet $wallet, ?string $walletPassword = null): bool
+    private static function checkWalletPassword(AccountWallet $wallet, ?string $walletPassword = null): bool
     {
         if ($wallet->password && empty($walletPassword)) {
             return false;
@@ -981,7 +981,7 @@ class Wallet
     }
 
     // check balance
-    public static function checkBalance(AccountWallet $wallet, float $amount): bool
+    private static function checkBalance(AccountWallet $wallet, float $amount): bool
     {
         $balance = $wallet->balance - $wallet->freeze_amount;
 
@@ -993,7 +993,7 @@ class Wallet
     }
 
     // check closing balance
-    public static function checkClosingBalance(AccountWallet $wallet): bool
+    private static function checkClosingBalance(AccountWallet $wallet): bool
     {
         $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)
             ->where('state', AccountWalletLog::STATE_SUCCESS)
@@ -1006,7 +1006,7 @@ class Wallet
     }
 
     // wallet balance
-    public static function balanceChange(AccountWallet $wallet, string $actionType, float $transactionAmount)
+    private static function balanceChange(AccountWallet $wallet, string $actionType, float $transactionAmount)
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -1016,7 +1016,7 @@ class Wallet
     }
 
     // wallet freeze amount
-    public static function freezeAmountChange(AccountWallet $wallet, string $actionType, float $transactionAmount)
+    private static function freezeAmountChange(AccountWallet $wallet, string $actionType, float $transactionAmount)
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
