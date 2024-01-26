@@ -383,6 +383,26 @@ class FileController extends Controller
             CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
         }
 
+        // conversation
+        if ($fresnsResp->isSuccessResponse() && $tableName == 'conversations') {
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $receiveUserId = ($authUser->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
+
+            // conversation message
+            $messageInput = [
+                'conversation_id' => $conversation->id,
+                'send_user_id' => $authUser->id,
+                'message_type' => ConversationMessage::TYPE_FILE,
+                'message_text' => null,
+                'message_file_id' => $fileId,
+                'receive_user_id' => $receiveUserId,
+            ];
+            ConversationMessage::create($messageInput);
+
+            CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
+            CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$receiveUserId}", 'fresnsUsers');
+        }
+
         return $fresnsResp->getOrigin();
     }
 
