@@ -10,17 +10,13 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class ConversationMessagesDTO extends DTO
+class ConversationDetailDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageListDirection' => ['string', 'nullable', 'in:latest,oldest'],
             'filterUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterUserKeys' => ['string', 'nullable', 'required_with:filterUserType'],
-            'pageSize' => ['integer', 'nullable', 'between:1,30'],
-            'page' => ['integer', 'nullable'],
         ];
     }
 }

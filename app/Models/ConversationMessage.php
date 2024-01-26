@@ -13,6 +13,9 @@ class ConversationMessage extends Model
     use Traits\FsidTrait;
     use Traits\IsEnabledTrait;
 
+    const TYPE_TEXT = 1;
+    const TYPE_FILE = 2;
+
     public function getFsidKey()
     {
         return 'cmid';

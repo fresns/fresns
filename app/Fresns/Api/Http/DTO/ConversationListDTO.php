@@ -16,8 +16,8 @@ class ConversationListDTO extends DTO
     {
         return [
             'pinned' => ['boolean', 'nullable'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterUserKeys' => ['string', 'nullable', 'required_with:filterUserType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

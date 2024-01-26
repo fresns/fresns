@@ -110,8 +110,7 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('{uidOrUsername}/messages', [ConversationController::class, 'messages'])->name('messages');
         Route::put('{uidOrUsername}/pin', [ConversationController::class, 'pin'])->name('pin');
         Route::patch('{uidOrUsername}/read-status', [ConversationController::class, 'readStatus'])->name('read')->withoutMiddleware([CheckSiteMode::class]);
-        Route::delete('{uidOrUsername}/messages', [ConversationController::class, 'deleteMessages'])->name('delete.messages');
-        Route::delete('{uidOrUsername}', [ConversationController::class, 'deleteConversation'])->name('delete.conversation');
+        Route::delete('{uidOrUsername}', [ConversationController::class, 'delete'])->name('delete');
         Route::post('message', [ConversationController::class, 'sendMessage'])->name('send.message');
     });
 
