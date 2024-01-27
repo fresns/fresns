@@ -780,7 +780,6 @@ class CacheHelper
     // fresns_model_extend_{$eid}                                   // tag: fresnsExtends
     // fresns_model_archive_{$code}                                 // tag: fresnsArchives
     // fresns_model_operation_{$operationId}                        // tag: fresnsOperations
-    // fresns_model_conversation_{$conversationId}                  // tag: fresnsConversations
     // fresns_model_post_log_{$hpid}                                // tag: fresnsPosts
     // fresns_model_post_log_{$postLogId}                           // tag: fresnsPosts
     // fresns_model_comment_log_{$hcid}                             // tag: fresnsComments

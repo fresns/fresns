@@ -73,7 +73,7 @@ class ConversationController extends Controller
 
             $latestMessage = [
                 'cmid' => $latestMessageModel?->cmid,
-                'type' => $latestMessageModel?->message_type,
+                'type' => ($latestMessageModel?->message_type == ConversationMessage::TYPE_TEXT) ? 'text' : 'file',
                 'message' => $latestMessageModel?->message_type == ConversationMessage::TYPE_FILE ? File::TYPE_MAP[$latestMessageModel?->file?->type] : $latestMessageModel?->message_text,
                 'datetime' => DateHelper::fresnsDateTimeByTimezone($latestMessageModel?->created_at, $timezone, $langTag),
                 'datetimeFormat' => DateHelper::fresnsFormatDateTime($latestMessageModel?->created_at, $timezone, $langTag),
@@ -308,7 +308,7 @@ class ConversationController extends Controller
             $item['cmid'] = $message->cmid;
             $item['user'] = DetailUtility::userDetail($message?->sendUser, $langTag, $timezone, $authUser->id, $userOptions);
             $item['isMe'] = ($message->send_user_id == $authUser->id) ? true : false;
-            $item['type'] = $message->message_type;
+            $item['type'] = ($message->message_type == ConversationMessage::TYPE_TEXT) ? 'text' : 'file';
             $item['content'] = $message->message_text;
             $item['file'] = $message->message_file_id ? FileHelper::fresnsFileInfoById($message->message_file_id) : null;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
@@ -596,7 +596,7 @@ class ConversationController extends Controller
         $data['cmid'] = $conversationMessage->cmid;
         $data['user'] = DetailUtility::userDetail($conversationMessage?->sendUser, $langTag, $timezone, $authUser->id);
         $data['isMe'] = true;
-        $data['type'] = $conversationMessage->message_type;
+        $data['type'] = ($conversationMessage->message_type == ConversationMessage::TYPE_TEXT) ? 'text' : 'file';;
         $data['content'] = $conversationMessage->message_text;
         $data['file'] = $conversationMessage->message_file_id ? FileHelper::fresnsFileInfoById($conversationMessage->message_file_id) : null;
         $data['datetime'] = DateHelper::fresnsDateTimeByTimezone($conversationMessage->created_at, $timezone, $langTag);
