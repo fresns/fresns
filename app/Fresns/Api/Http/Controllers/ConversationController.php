@@ -596,7 +596,7 @@ class ConversationController extends Controller
         $data['cmid'] = $conversationMessage->cmid;
         $data['user'] = DetailUtility::userDetail($conversationMessage?->sendUser, $langTag, $timezone, $authUser->id);
         $data['isMe'] = true;
-        $data['type'] = ($conversationMessage->message_type == ConversationMessage::TYPE_TEXT) ? 'text' : 'file';;
+        $data['type'] = ($conversationMessage->message_type == ConversationMessage::TYPE_TEXT) ? 'text' : 'file';
         $data['content'] = $conversationMessage->message_text;
         $data['file'] = $conversationMessage->message_file_id ? FileHelper::fresnsFileInfoById($conversationMessage->message_file_id) : null;
         $data['datetime'] = DateHelper::fresnsDateTimeByTimezone($conversationMessage->created_at, $timezone, $langTag);
