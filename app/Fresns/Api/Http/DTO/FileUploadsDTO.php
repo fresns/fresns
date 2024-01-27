@@ -20,9 +20,9 @@ class FileUploadsDTO extends DTO
             'type' => ['string', 'required', 'in:image,video,audio,document'],
             'uploadMode' => ['string', 'required', 'in:file,fileInfo'],
             'file' => ['file', 'nullable', 'required_if:uploadMode,file'],
-            'fileInfo' => ['array', 'nullable', 'required_if:uploadMode,fileInfo'],
+            'fileInfo' => ['string', 'nullable', 'required_if:uploadMode,fileInfo'],
             'warning' => ['string', 'nullable', 'in:nudity,violence,sensitive'],
-            'moreInfo' => ['array', 'nullable'],
+            'moreInfo' => ['string', 'nullable'],
         ];
     }
 }

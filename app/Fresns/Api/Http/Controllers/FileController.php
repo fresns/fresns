@@ -9,6 +9,7 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Http\DTO\FileInfoDTO;
 use App\Fresns\Api\Http\DTO\FileLinkDTO;
 use App\Fresns\Api\Http\DTO\FileStorageTokenDTO;
 use App\Fresns\Api\Http\DTO\FileUploadsDTO;
@@ -102,6 +103,20 @@ class FileController extends Controller
 
         if (! $servicePlugin) {
             throw new ApiException(32102);
+        }
+
+        // check file info
+        if ($dtoRequest->uploadMode == 'fileInfo') {
+            $fileInfoArr = json_decode($dtoRequest->fileInfo, true);
+            $fileInfoArr['fileType'] = $dtoRequest->type;
+
+            new FileInfoDTO($fileInfoArr);
+        }
+
+        // more info
+        $moreInfo = null;
+        if ($dtoRequest->moreInfo) {
+            $moreInfo = json_decode($dtoRequest->moreInfo, true);
         }
 
         $tableName = match ($dtoRequest->usageType) {
@@ -338,7 +353,7 @@ class FileController extends Controller
                     'type' => $fileType,
                     'file' => $dtoRequest->file,
                     'warningType' => $warningType,
-                    'moreInfo' => $dtoRequest->moreInfo,
+                    'moreInfo' => $moreInfo,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
@@ -357,7 +372,7 @@ class FileController extends Controller
                     'type' => $fileType,
                     'fileInfo' => $dtoRequest->fileInfo,
                     'warningType' => $warningType,
-                    'moreInfo' => $dtoRequest->moreInfo,
+                    'moreInfo' => $moreInfo,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo($wordBody);

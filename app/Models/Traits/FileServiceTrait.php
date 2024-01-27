@@ -121,7 +121,7 @@ trait FileServiceTrait
             'image_thumb_big',
         ]);
 
-        $imageHandlePosition = $fileData->image_handle_position ?? $imageConfig['image_handle_position'];
+        $imageHandlePosition = $imageConfig['image_handle_position'];
 
         if ($fileData->disk == 'local') {
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);

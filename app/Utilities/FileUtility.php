@@ -52,7 +52,6 @@ class FileUtility
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->shaType',
         //     'disk' => 'files->disk',
-        //     'imageHandlePosition' => 'files->image_handle_position',
         //     'moreInfo' => 'files->more_info',
         // ];
 
@@ -128,10 +127,17 @@ class FileUtility
                 }
             }
 
+            $mime = $fileInfo['mime'] ?? null;
+            if (empty($mime)) {
+                $mimes = new \Mimey\MimeTypes;
+
+                $mime = $mimes->getMimeType($fileInfo['extension']);
+            }
+
             $fileInput = [
                 'type' => $bodyInfo['type'], // bodyInfo
                 'name' => $fileInfo['name'],
-                'mime' => $fileInfo['mime'] ?? null,
+                'mime' => $mime,
                 'extension' => $fileInfo['extension'],
                 'size' => $fileInfo['size'],
                 'md5' => $fileInfo['md5'] ?? null,
@@ -226,7 +232,6 @@ class FileUtility
             'sha_type' => $bodyInfo['shaType'] ?? null,
             'disk' => $bodyInfo['disk'] ?? 'remote',
             'path' => $diskPath,
-            'image_handle_position' => $bodyInfo['imageHandlePosition'] ?? null,
             'image_width' => $imageWidth,
             'image_height' => $imageHeight,
             'image_is_long' => $imageIsLong,
