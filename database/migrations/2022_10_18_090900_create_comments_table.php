@@ -45,8 +45,24 @@ class CreateCommentsTable extends Migration
             $table->unsignedInteger('comment_dislike_count')->default(0);
             $table->unsignedInteger('comment_follow_count')->default(0);
             $table->unsignedInteger('comment_block_count')->default(0);
-            $table->timestamp('latest_edit_at')->nullable();
-            $table->timestamp('latest_comment_at')->nullable();
+            $table->unsignedSmallInteger('edit_count')->default(0);
+            $table->timestamp('last_edit_at')->nullable();
+            $table->timestamp('last_comment_at')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('more_info')->nullable();
+                    $table->jsonb('permissions')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    $table->nvarchar('permissions', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('more_info')->nullable();
+                    $table->json('permissions')->nullable();
+            }
             $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
@@ -54,48 +70,9 @@ class CreateCommentsTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('comment_appends', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('comment_id')->unique('comment_id');
-            $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_close_btn')->default(0);
-            $table->unsignedTinyInteger('is_change_btn')->default(0);
-            $table->string('btn_name_key', 64)->nullable();
-            $table->string('btn_style', 64)->nullable();
-            switch (config('database.default')) {
-                case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
-                    $table->jsonb('map_json')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
-                    $table->nvarchar('map_json', 'max')->nullable();
-                    break;
-
-                default:
-                    $table->json('more_json')->nullable();
-                    $table->json('map_json')->nullable();
-            }
-            $table->unsignedTinyInteger('map_id')->nullable();
-            $table->string('map_continent_code', 8)->nullable();
-            $table->string('map_country_code', 8)->nullable();
-            $table->string('map_region_code', 8)->nullable()->index('comment_map_region_code');
-            $table->string('map_city_code', 8)->nullable()->index('comment_map_city_code');
-            $table->string('map_zip', 32)->nullable();
-            $table->string('map_poi_id', 64)->nullable()->index('comment_map_poi_id');
-            $table->unsignedSmallInteger('edit_count')->default(0);
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
-            $table->softDeletes();
-
-            $table->index(['map_continent_code', 'map_country_code'], 'comment_continent_country');
-        });
-
         Schema::create('comment_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('hcid', 32)->unique('hcid');
             $table->unsignedBigInteger('user_id')->index('comment_log_user_id');
             $table->unsignedBigInteger('comment_id')->nullable()->index('comment_log_comment_id');
             $table->unsignedBigInteger('post_id');

@@ -22,7 +22,7 @@ class CreateSessionsTable extends Migration
             $table->unsignedTinyInteger('platform_id');
             $table->string('name', 64);
             $table->unsignedTinyInteger('type')->default(1);
-            $table->string('plugin_fskey', 32)->nullable();
+            $table->string('app_fskey', 32)->nullable();
             $table->string('app_id', 8)->unique('app_id');
             $table->string('app_secret', 32);
             $table->unsignedTinyInteger('is_read_only')->default(0);
@@ -56,33 +56,34 @@ class CreateSessionsTable extends Migration
 
         Schema::create('session_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('plugin_fskey', 64)->default('Fresns')->index('log_plugin_fskey');
+            $table->string('app_fskey', 64)->default('Fresns')->index('log_app_fskey');
             $table->unsignedTinyInteger('type')->default(1)->index('log_type');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
             $table->string('app_id', 8)->nullable()->index('log_app_id');
             $table->string('lang_tag', 16)->nullable();
-            $table->string('object_name', 128);
-            $table->string('object_action', 128)->nullable();
-            $table->unsignedTinyInteger('object_result');
-            $table->unsignedBigInteger('object_order_id')->nullable();
+            $table->string('action_name', 128);
+            $table->string('action_desc', 128)->nullable();
+            $table->unsignedTinyInteger('action_result');
+            $table->unsignedBigInteger('action_id')->nullable();
             $table->unsignedBigInteger('account_id')->nullable()->index('log_account_id');
             $table->unsignedBigInteger('user_id')->nullable()->index('log_user_id');
+            $table->string('login_token', 64)->nullable()->index('account_login_token');
             $table->string('device_token', 128)->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('device_info')->nullable();
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
                     $table->nvarchar('device_info', 'max')->nullable();
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
                     $table->json('device_info')->nullable();
-                    $table->json('more_json')->nullable();
+                    $table->json('more_info')->nullable();
             }
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

@@ -18,18 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Initial data
+        $this->call(AppUsagesTableSeeder::class);
         $this->call(CodeMessagesTableSeeder::class);
         $this->call(ConfigsTableSeeder::class);
         $this->call(DomainsTableSeeder::class);
-        $this->call(LanguagesTableSeeder::class);
+        $this->call(LanguagePacksTableSeeder::class);
         $this->call(RolesTableSeeder::class);
-        $this->call(PluginUsagesTableSeeder::class);
-
-        // Test data (account and user)
-        //$this->call(AccountsTableSeeder::class);
-        //$this->call(AccountWalletsTableSeeder::class);
-        //$this->call(UsersTableSeeder::class);
-        //$this->call(UserStatsTableSeeder::class);
-        //$this->call(UserRolesTableSeeder::class);
     }
 }

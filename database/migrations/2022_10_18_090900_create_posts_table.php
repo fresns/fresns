@@ -26,7 +26,6 @@ class CreatePostsTable extends Migration
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->string('lang_tag', 16)->nullable();
-            $table->string('writing_direction', 3)->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             $table->decimal('map_longitude', 12, 8)->nullable();
@@ -46,62 +45,29 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('comment_follow_count')->default(0);
             $table->unsignedInteger('comment_block_count')->default(0);
             $table->unsignedInteger('post_count')->default(0);
-            $table->timestamp('latest_edit_at')->nullable();
-            $table->timestamp('latest_comment_at')->nullable();
+            $table->unsignedInteger('edit_count')->default(0);
+            $table->timestamp('last_edit_at')->nullable();
+            $table->timestamp('last_comment_at')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('more_info')->nullable();
+                    $table->jsonb('permissions')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    $table->nvarchar('permissions', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('more_info')->nullable();
+                    $table->json('permissions')->nullable();
+            }
             $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
-        });
-
-        Schema::create('post_appends', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('post_id')->unique('post_id');
-            $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_read_locked')->default(0);
-            $table->unsignedTinyInteger('read_pre_percentage')->nullable();
-            $table->string('read_btn_name', 64)->nullable();
-            $table->string('read_plugin_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('is_user_list')->default(0);
-            $table->string('user_list_name', 128)->nullable();
-            $table->string('user_list_plugin_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('is_comment_disabled')->default(0);
-            $table->unsignedTinyInteger('is_comment_private')->default(0);
-            $table->unsignedTinyInteger('is_comment_btn')->default(0);
-            $table->string('comment_btn_name', 64)->nullable();
-            $table->string('comment_btn_style', 64)->nullable();
-            $table->string('comment_btn_plugin_fskey', 64)->nullable();
-            switch (config('database.default')) {
-                case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
-                    $table->jsonb('map_json')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
-                    $table->nvarchar('map_json', 'max')->nullable();
-                    break;
-
-                default:
-                    $table->json('more_json')->nullable();
-                    $table->json('map_json')->nullable();
-            }
-            $table->unsignedTinyInteger('map_id')->nullable();
-            $table->string('map_continent_code', 8)->nullable();
-            $table->string('map_country_code', 8)->nullable();
-            $table->string('map_region_code', 8)->nullable()->index('post_map_region_code');
-            $table->string('map_city_code', 8)->nullable()->index('post_map_city_code');
-            $table->string('map_zip', 32)->nullable();
-            $table->string('map_poi_id', 64)->nullable()->index('post_map_poi_id');
-            $table->unsignedInteger('edit_count')->default(0);
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
-            $table->softDeletes();
-
-            $table->index(['map_continent_code', 'map_country_code'], 'post_continent_country');
         });
 
         Schema::create('post_auths', function (Blueprint $table) {
@@ -121,18 +87,18 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('post_id')->index('post_affiliated_post_id');
             $table->unsignedBigInteger('user_id')->index('post_affiliated_user_id');
-            $table->string('plugin_fskey', 64);
+            $table->string('app_fskey', 64);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('more_json')->nullable();
+                    $table->json('more_info')->nullable();
             }
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -141,6 +107,7 @@ class CreatePostsTable extends Migration
 
         Schema::create('post_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('hpid', 32)->unique('hpid');
             $table->unsignedBigInteger('user_id')->index('post_log_user_id');
             $table->unsignedBigInteger('post_id')->nullable()->index('post_log_post_id');
             $table->unsignedBigInteger('parent_post_id')->nullable();

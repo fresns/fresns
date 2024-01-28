@@ -21,15 +21,29 @@ class CreateSeoTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->string('lang_tag', 16);
-            $table->string('title')->nullable();
-            $table->string('keywords')->nullable();
-            $table->string('description')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('title')->nullable();
+                    $table->jsonb('keywords')->nullable();
+                    $table->jsonb('description')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('title', 'max')->nullable();
+                    $table->nvarchar('keywords', 'max')->nullable();
+                    $table->nvarchar('description', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('title')->nullable();
+                    $table->json('keywords')->nullable();
+                    $table->json('description')->nullable();
+            }
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id', 'lang_tag'], 'seo_lang');
+            $table->index(['usage_type', 'usage_id'], 'seo_lang');
         });
     }
 

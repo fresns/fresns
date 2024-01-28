@@ -28,7 +28,7 @@ class CreateAccountsTable extends Migration
             $table->string('password', 64)->nullable();
             $table->timestamp('last_login_at');
             $table->unsignedTinyInteger('is_verify')->default(0);
-            $table->string('verify_plugin_fskey', 32)->nullable();
+            $table->string('verify_app_fskey', 32)->nullable();
             $table->string('verify_real_name', 128)->nullable();
             $table->unsignedTinyInteger('verify_gender')->default(1);
             $table->string('verify_cert_type', 32)->nullable();
@@ -57,19 +57,19 @@ class CreateAccountsTable extends Migration
             $table->string('connect_username', 128)->nullable();
             $table->string('connect_nickname', 128)->nullable();
             $table->string('connect_avatar')->nullable();
-            $table->string('plugin_fskey', 64);
+            $table->string('app_fskey', 64);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('more_json')->nullable();
+                    $table->json('more_info')->nullable();
             }
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -101,7 +101,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('account_id')->index('wallet_log_account_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedTinyInteger('type');
-            $table->string('plugin_fskey', 64);
+            $table->string('app_fskey', 64);
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('transaction_code', 128)->nullable();
             $table->unsignedDecimal('amount_total', 10);
@@ -116,15 +116,15 @@ class CreateAccountsTable extends Migration
             $table->text('remark')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('more_json')->nullable();
+                    $table->json('more_info')->nullable();
             }
             $table->timestamp('success_at')->nullable();
             $table->timestamp('created_at')->useCurrent();

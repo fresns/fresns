@@ -10,62 +10,71 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
+class CreateGeotagsTable extends Migration
 {
     /**
      * Run fresns migrations.
      */
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('gid', 32)->unique('gid');
-            $table->unsignedInteger('parent_id')->default(0)->index('group_parent_id');
-            $table->unsignedBigInteger('user_id')->nullable();
+        Schema::create('geotags', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('gtid')->unique('gtid');
+            $table->string('place_id')->nullable()->unique('place_id');
+            $table->string('place_type')->default('unknown')->index('place_type');
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('name');
+                    $table->jsonb('name')->nullable();
                     $table->jsonb('description')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('name', 'max');
+                    $table->nvarchar('name', 'max')->nullable();
                     $table->nvarchar('description', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('name');
+                    $table->json('name')->nullable();
                     $table->json('description')->nullable();
             }
-            $table->unsignedSmallInteger('type')->default(1);
-            $table->unsignedTinyInteger('privacy')->default(1);
-            $table->unsignedTinyInteger('private_end_after')->default(1);
-            $table->unsignedTinyInteger('visibility')->default(1);
-            $table->unsignedTinyInteger('follow_type')->default(1);
-            $table->string('follow_app_fskey', 64)->nullable();
-            $table->unsignedBigInteger('cover_file_id')->nullable();
-            $table->string('cover_file_url')->nullable();
-            $table->unsignedBigInteger('banner_file_id')->nullable();
-            $table->string('banner_file_url')->nullable();
-            $table->unsignedSmallInteger('sort_order')->default(9);
-            $table->unsignedTinyInteger('is_recommend')->default(0);
-            $table->unsignedSmallInteger('recommend_sort_order')->default(9);
+            $table->unsignedTinyInteger('map_id')->default(1);
+            $table->decimal('map_longitude', 12, 8);
+            $table->decimal('map_latitude', 12, 8);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('permissions')->nullable();
+                    $table->point('map_location');
+                    $table->jsonb('map_info')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->geography('map_location');
+                    $table->nvarchar('map_info', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->point('map_location');
+                    $table->json('map_info')->nullable();
+            }
+            $table->unsignedSmallInteger('type')->default(1);
+            $table->unsignedBigInteger('cover_file_id')->nullable();
+            $table->string('cover_file_url')->nullable();
+            $table->string('continent_code', 8)->nullable();
+            $table->string('country_code', 8)->nullable();
+            $table->string('region_code', 8)->nullable()->index('region_code');
+            $table->string('city_code', 8)->nullable()->index('city_code');
+            $table->string('zip', 32)->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
                     $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('permissions', 'max')->nullable();
                     $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('permissions')->nullable();
                     $table->json('more_info')->nullable();
             }
-            $table->unsignedInteger('subgroup_count')->default(0);
             $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
@@ -81,15 +90,20 @@ class CreateGroupsTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
+
+            $table->index(['continent_code', 'country_code'], 'continent_country');
         });
 
-        Schema::create('group_admins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('group_id')->index('admin_group_id');
-            $table->unsignedBigInteger('user_id');
+        Schema::create('geotag_usages', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedTinyInteger('usage_type');
+            $table->unsignedBigInteger('usage_id');
+            $table->unsignedBigInteger('geotag_id')->index('usage_geotag_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
+
+            $table->index(['usage_type', 'usage_id'], 'geotag_usages');
         });
     }
 
@@ -98,7 +112,7 @@ class CreateGroupsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
-        Schema::dropIfExists('group_admins');
+        Schema::dropIfExists('geotags');
+        Schema::dropIfExists('geotag_usages');
     }
 }

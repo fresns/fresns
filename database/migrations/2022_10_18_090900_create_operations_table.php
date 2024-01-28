@@ -22,14 +22,27 @@ class CreateOperationsTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->string('code', 32);
             $table->string('style', 64);
-            $table->string('name', 128)->nullable();
-            $table->text('description')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('name')->nullable();
+                    $table->jsonb('description')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('name', 'max')->nullable();
+                    $table->nvarchar('description', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('name')->nullable();
+                    $table->json('description')->nullable();
+            }
             $table->unsignedBigInteger('image_file_id')->nullable();
             $table->string('image_file_url')->nullable();
             $table->unsignedBigInteger('image_active_file_id')->nullable();
             $table->string('image_active_file_url')->nullable();
             $table->unsignedTinyInteger('display_type')->default(1);
-            $table->string('plugin_fskey', 64);
+            $table->string('app_fskey', 64);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -41,7 +54,7 @@ class CreateOperationsTable extends Migration
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
             $table->unsignedInteger('operation_id')->index('usage_operation_id');
-            $table->string('plugin_fskey', 64)->nullable();
+            $table->string('app_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

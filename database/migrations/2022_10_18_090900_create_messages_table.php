@@ -19,14 +19,15 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nmid', 32)->unique('nmid');
             $table->unsignedTinyInteger('type');
             $table->unsignedBigInteger('user_id');
             $table->text('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_multilingual')->default(0);
             $table->unsignedTinyInteger('is_mention')->default(0);
-            $table->unsignedTinyInteger('is_access_plugin')->default(0);
-            $table->string('plugin_fskey', 64)->nullable();
+            $table->unsignedTinyInteger('is_access_app')->default(0);
+            $table->string('app_fskey', 64)->nullable();
             $table->unsignedBigInteger('action_user_id')->nullable();
             $table->unsignedTinyInteger('action_is_anonymous')->default(0);
             $table->unsignedSmallInteger('action_type')->nullable();
@@ -55,6 +56,7 @@ class CreateMessagesTable extends Migration
 
         Schema::create('conversation_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('cmid', 32)->unique('cmid');
             $table->unsignedBigInteger('conversation_id');
             $table->unsignedBigInteger('send_user_id');
             $table->timestamp('send_deleted_at')->nullable();

@@ -23,13 +23,16 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('uid')->unique('uid');
             $table->string('username', 64)->unique('username');
             $table->string('nickname', 64)->index('nickname');
-            $table->string('password', 64)->nullable();
+            $table->string('pin', 64)->nullable();
             $table->unsignedBigInteger('avatar_file_id')->nullable();
             $table->string('avatar_file_url')->nullable();
             $table->unsignedBigInteger('banner_file_id')->nullable();
             $table->string('banner_file_url')->nullable();
             $table->unsignedTinyInteger('gender')->default(1);
+            $table->unsignedTinyInteger('gender_pronoun')->nullable();
+            $table->string('gender_custom')->nullable();
             $table->timestamp('birthday')->nullable();
+            $table->unsignedTinyInteger('birthday_display_type')->default(1);
             $table->text('bio')->nullable();
             $table->string('location', 128)->nullable();
             $table->unsignedTinyInteger('verified_status')->default(0);
@@ -37,10 +40,21 @@ class CreateUsersTable extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->unsignedTinyInteger('conversation_limit')->default(1);
             $table->unsignedTinyInteger('comment_limit')->default(1);
+            $table->unsignedTinyInteger('content_limit')->default(1);
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('more_info')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('more_info')->nullable();
+            }
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('last_activity_at')->nullable();
-            $table->timestamp('last_post_at')->nullable();
-            $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('last_username_at')->nullable();
             $table->timestamp('last_nickname_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);
@@ -58,28 +72,32 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('like_user_count')->default(0);
             $table->unsignedInteger('like_group_count')->default(0);
             $table->unsignedInteger('like_hashtag_count')->default(0);
+            $table->unsignedInteger('like_geotag_count')->default(0);
             $table->unsignedInteger('like_post_count')->default(0);
             $table->unsignedInteger('like_comment_count')->default(0);
             $table->unsignedInteger('dislike_user_count')->default(0);
             $table->unsignedInteger('dislike_group_count')->default(0);
             $table->unsignedInteger('dislike_hashtag_count')->default(0);
+            $table->unsignedInteger('dislike_geotag_count')->default(0);
             $table->unsignedInteger('dislike_post_count')->default(0);
             $table->unsignedInteger('dislike_comment_count')->default(0);
             $table->unsignedInteger('follow_user_count')->default(0);
             $table->unsignedInteger('follow_group_count')->default(0);
             $table->unsignedInteger('follow_hashtag_count')->default(0);
+            $table->unsignedInteger('follow_geotag_count')->default(0);
             $table->unsignedInteger('follow_post_count')->default(0);
             $table->unsignedInteger('follow_comment_count')->default(0);
             $table->unsignedInteger('block_user_count')->default(0);
             $table->unsignedInteger('block_group_count')->default(0);
             $table->unsignedInteger('block_hashtag_count')->default(0);
+            $table->unsignedInteger('block_geotag_count')->default(0);
             $table->unsignedInteger('block_post_count')->default(0);
             $table->unsignedInteger('block_comment_count')->default(0);
-            $table->unsignedInteger('view_me_count')->default(0);
-            $table->unsignedInteger('like_me_count')->default(0);
-            $table->unsignedInteger('dislike_me_count')->default(0);
-            $table->unsignedInteger('follow_me_count')->default(0);
-            $table->unsignedInteger('block_me_count')->default(0);
+            $table->unsignedInteger('view_count')->default(0);
+            $table->unsignedInteger('liker_count')->default(0);
+            $table->unsignedInteger('disliker_count')->default(0);
+            $table->unsignedInteger('follower_count')->default(0);
+            $table->unsignedInteger('blocker_count')->default(0);
             $table->unsignedInteger('post_publish_count')->default(0);
             $table->unsignedInteger('post_digest_count')->default(0);
             $table->unsignedInteger('post_like_count')->default(0);
@@ -97,6 +115,8 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('extcredits3')->default(0);
             $table->unsignedInteger('extcredits4')->default(0);
             $table->unsignedInteger('extcredits5')->default(0);
+            $table->timestamp('last_post_at')->nullable();
+            $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -110,7 +130,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('amount');
             $table->unsignedInteger('opening_amount');
             $table->unsignedInteger('closing_amount');
-            $table->string('plugin_fskey', 64);
+            $table->string('app_fskey', 64);
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -145,6 +165,7 @@ class CreateUsersTable extends Migration
         Schema::create('user_follows', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('mark_type')->default(1);
             $table->unsignedTinyInteger('follow_type');
             $table->unsignedBigInteger('follow_id');
             $table->string('user_note', 128)->nullable();
@@ -156,19 +177,6 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
 
             $table->unique(['user_id', 'follow_type', 'follow_id'], 'user_follow');
-        });
-
-        Schema::create('user_blocks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedTinyInteger('block_type');
-            $table->unsignedBigInteger('block_id');
-            $table->string('user_note', 128)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
-            $table->softDeletes();
-
-            $table->unique(['user_id', 'block_type', 'block_id'], 'user_block');
         });
     }
 
@@ -183,6 +191,5 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('user_roles');
         Schema::dropIfExists('user_likes');
         Schema::dropIfExists('user_follows');
-        Schema::dropIfExists('user_blocks');
     }
 }

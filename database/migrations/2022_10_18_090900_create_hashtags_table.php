@@ -21,10 +21,22 @@ class CreateHashtagsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 64)->unique('hashtag_name');
             $table->string('slug')->unique('hashtag_slug');
-            $table->unsignedSmallInteger('type')->default(1);
             $table->text('description')->nullable();
+            $table->unsignedSmallInteger('type')->default(1);
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('more_info')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('more_info')->nullable();
+            }
             $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
@@ -34,6 +46,8 @@ class CreateHashtagsTable extends Migration
             $table->unsignedInteger('comment_count')->default(0);
             $table->unsignedInteger('post_digest_count')->default(0);
             $table->unsignedInteger('comment_digest_count')->default(0);
+            $table->timestamp('last_post_at')->nullable();
+            $table->timestamp('last_comment_at')->nullable();
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

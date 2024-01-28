@@ -19,9 +19,22 @@ class CreateArchivesTable extends Migration
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('plugin_fskey', 64);
-            $table->string('name', 64)->nullable();
-            $table->text('description')->nullable();
+            $table->string('app_fskey', 64);
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('name')->nullable();
+                    $table->jsonb('description')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('name', 'max')->nullable();
+                    $table->nvarchar('description', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('name')->nullable();
+                    $table->json('description')->nullable();
+            }
             $table->string('code', 32)->unique('archive_code');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedInteger('usage_group_id')->default(0);
@@ -50,7 +63,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedSmallInteger('input_minlength')->nullable();
             $table->unsignedSmallInteger('input_size')->nullable();
             $table->unsignedSmallInteger('input_step')->nullable();
-            $table->unsignedSmallInteger('rating')->default(9);
+            $table->unsignedSmallInteger('sort_order')->default(9);
             $table->string('value_type', 16)->default('string');
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
@@ -65,7 +78,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedInteger('archive_id')->index('usage_archive_id');
             $table->text('archive_value')->nullable();
             $table->tinyInteger('is_private')->default(0);
-            $table->string('plugin_fskey', 64)->nullable();
+            $table->string('app_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

@@ -21,36 +21,30 @@ class CreateExtendsTable extends Migration
             $table->bigIncrements('id');
             $table->string('eid', 32)->unique('eid');
             $table->unsignedBigInteger('user_id');
-            $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('type')->default(1);
-            $table->text('text_content')->nullable();
-            $table->unsignedTinyInteger('text_is_markdown')->default(0);
-            $table->unsignedTinyInteger('info_box_type')->nullable();
-            $table->unsignedBigInteger('cover_file_id')->nullable();
-            $table->string('cover_file_url')->nullable();
-            $table->string('title')->nullable();
-            $table->string('title_color', 6)->nullable();
-            $table->string('desc_primary')->nullable();
-            $table->string('desc_primary_color', 6)->nullable();
-            $table->string('desc_secondary')->nullable();
-            $table->string('desc_secondary_color', 6)->nullable();
-            $table->string('button_name', 64)->nullable();
-            $table->string('button_color', 6)->nullable();
-            $table->string('parameter', 128)->nullable();
-            $table->unsignedTinyInteger('position')->default(2);
+            $table->unsignedTinyInteger('view_type')->default(1);
+            $table->string('app_fskey', 64);
+            $table->string('url_parameter', 128)->nullable();
+            $table->unsignedBigInteger('image_file_id')->nullable();
+            $table->string('image_file_url')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('content')->nullable();
+                    $table->jsonb('action_items')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('content', 'max')->nullable();
+                    $table->nvarchar('action_items', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('more_json')->nullable();
+                    $table->json('content')->nullable();
+                    $table->json('action_items')->nullable();
             }
+            $table->unsignedTinyInteger('position')->default(2);
             $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->timestamp('ended_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -62,13 +56,23 @@ class CreateExtendsTable extends Migration
             $table->unsignedBigInteger('usage_id');
             $table->unsignedBigInteger('extend_id')->index('usage_extend_id');
             $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedSmallInteger('rating')->default(9);
-            $table->string('plugin_fskey', 64);
+            $table->unsignedSmallInteger('sort_order')->default(9);
+            $table->string('app_fskey', 64);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
             $table->index(['usage_type', 'usage_id'], 'extend_usages');
+        });
+
+        Schema::create('extend_users', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('extend_id')->index('extend_id');
+            $table->unsignedBigInteger('user_id')->index('extend_user_id');
+            $table->string('action_key', 64)->nullable()->index('extend_action_key');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
         });
     }
 
@@ -79,5 +83,6 @@ class CreateExtendsTable extends Migration
     {
         Schema::dropIfExists('extends');
         Schema::dropIfExists('extend_usages');
+        Schema::dropIfExists('extend_users');
     }
 }

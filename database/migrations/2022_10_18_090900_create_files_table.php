@@ -30,7 +30,6 @@ class CreateFilesTable extends Migration
             $table->string('sha_type', 16)->nullable();
             $table->string('disk', 32)->default('remote');
             $table->string('path')->unique('file_path');
-            $table->string('image_handle_position', 16)->nullable();
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
             $table->unsignedTinyInteger('image_is_long')->default(0);
@@ -39,20 +38,20 @@ class CreateFilesTable extends Migration
             $table->string('video_poster_path')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('more_json')->nullable();
+                    $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('more_json', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('more_json')->nullable();
+                    $table->json('more_info')->nullable();
             }
             $table->unsignedTinyInteger('transcoding_state')->default(1);
             $table->string('transcoding_reason')->nullable();
             $table->string('original_path')->nullable();
-            $table->unsignedTinyInteger('is_sensitive')->default(0);
+            $table->unsignedTinyInteger('warning_type')->default(1);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('physical_deletion')->default(0);
             $table->timestamp('created_at')->useCurrent();
@@ -70,7 +69,7 @@ class CreateFilesTable extends Migration
             $table->string('table_column', 64);
             $table->unsignedBigInteger('table_id')->nullable();
             $table->string('table_key', 64)->nullable();
-            $table->unsignedSmallInteger('rating')->nullable();
+            $table->unsignedSmallInteger('sort_order')->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->text('remark')->nullable();
@@ -87,7 +86,7 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('file_type');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('plugin_fskey', 64)->nullable();
+            $table->string('app_fskey', 64)->nullable();
             $table->unsignedTinyInteger('object_type');
             $table->unsignedBigInteger('object_id');
             $table->timestamp('created_at')->useCurrent();
