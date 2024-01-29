@@ -9,15 +9,17 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\GroupListDTO;
+use App\Fresns\Api\Http\DTO\GroupTreeDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
-use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\CacheHelper;
-use App\Helpers\InteractionHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Group;
+use App\Models\Seo;
+use App\Utilities\DetailUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\GeneralUtility;
 use App\Utilities\PermissionUtility;
@@ -26,95 +28,56 @@ use Illuminate\Http\Request;
 class GroupController extends Controller
 {
     // tree
-    public function tree()
+    public function tree(Request $request)
     {
+        $dtoRequest = new GroupTreeDTO($request->all());
+
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $groupCount = InteractionHelper::fresnsGroupCount();
-
-        $service = new GroupService();
-        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
-
-        if ($groupCount < 30) {
-            $groups = Group::where(function ($query) {
-                $query->whereIn('type', [1, 2])->orWhere(function ($query) {
-                    $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                });
-            })
-                ->when($groupFilterIds, function ($query, $value) {
-                    $query->whereNotIn('id', $value);
-                })
-                ->isEnabled()
-                ->orderBy('recommend_rating')
-                ->orderBy('sort_order')
-                ->get();
-
-            $groupData = [];
-            foreach ($groups as $index => $group) {
-                $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
-            }
-
-            $groupTree = GeneralUtility::collectionToTree($groupData, 'gid', 'parentGid', 'groups');
-
-            return $this->success($groupTree);
-        }
-
-        // cache groups
-
-        if (empty($authUser)) {
-            $cacheKey = 'fresns_guest_all_groups';
-            $cacheTags = 'fresnsGroups';
-        } else {
-            $cacheKey = "fresns_user_all_groups_{$authUser->id}";
+        $cacheKey = 'fresns_group_tree_by_guest';
+        $cacheTags = 'fresnsGroups';
+        if ($authUser) {
+            $cacheKey = "fresns_group_tree_by_user_{$authUser->id}";
             $cacheTags = ['fresnsGroups', 'fresnsUsers'];
         }
 
         $groups = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groups)) {
-            $groups = Group::where(function ($query) {
-                $query->whereIn('type', [1, 2])->orWhere(function ($query) {
-                    $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                });
-            })
-                ->when($groupFilterIds, function ($query, $value) {
-                    $query->whereNotIn('id', $value);
-                })
-                ->isEnabled()
-                ->orderBy('recommend_rating')
-                ->orderBy('sort_order')
-                ->get();
+            $groupQuery = Group::isEnabled();
+
+            if (empty($authUser)) {
+                $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
+            }
+
+            $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
+            $groupQuery->when($groupFilterIds, function ($query, $value) {
+                $query->whereNotIn('id', $value);
+            });
+
+            $groups = $groupQuery->orderBy('recommend_sort_order')->orderBy('sort_order')->get();
 
             CacheHelper::put($groups, $cacheKey, $cacheTags);
         }
 
+        $groupOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys ? $dtoRequest->filterKeys.',gid,parentGid' : null,
+            ],
+        ];
+
         $groupData = [];
         foreach ($groups as $index => $group) {
-            $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
+            $groupData[$index] = DetailUtility::groupDetail($group, $langTag, $timezone, $authUser?->id, $groupOptions);
         }
 
         $groupTree = GeneralUtility::collectionToTree($groupData, 'gid', 'parentGid', 'groups');
 
         return $this->success($groupTree);
-    }
-
-    public function categories(Request $request)
-    {
-        $langTag = $this->langTag();
-
-        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('sort_order')->isEnabled();
-
-        $categories = $groupQuery->paginate($request->get('pageSize', 30));
-
-        $catList = [];
-        foreach ($categories as $category) {
-            $item = $category->getCategoryInfo($langTag);
-            $catList[] = $item;
-        }
-
-        return $this->fresnsPaginate($catList, $categories->total(), $categories->perPage());
     }
 
     // list
@@ -126,21 +89,23 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->isEnabled();
+        $groupQuery = Group::isEnabled();
+
+        if (empty($authUserId)) {
+            $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
+        }
 
         $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
         $groupQuery->when($groupFilterIds, function ($query, $value) {
             $query->whereNotIn('id', $value);
         });
 
-        $groupQuery->where(function ($query) {
-            $query->whereIn('type', [1, 2])->orWhere(function ($query) {
-                $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-            });
+        $groupQuery->when($dtoRequest->type, function ($query, $value) {
+            $query->where('type', $value);
         });
 
-        if ($dtoRequest->gid) {
-            $parentGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
+        $groupQuery->when($dtoRequest->gid, function ($query, $value) {
+            $parentGroup = PrimaryHelper::fresnsModelByFsid('group', $value);
 
             if (empty($parentGroup) || $parentGroup->trashed()) {
                 throw new ApiException(37100);
@@ -150,8 +115,8 @@ class GroupController extends Controller
                 throw new ApiException(37101);
             }
 
-            $groupQuery->where('parent_id', $parentGroup->id);
-        }
+            $query->where('parent_id', $parentGroup->id);
+        });
 
         if (isset($dtoRequest->recommend)) {
             $groupQuery->where('is_recommend', $dtoRequest->recommend);
@@ -268,7 +233,6 @@ class GroupController extends Controller
             $groupQuery->inRandomOrder();
         } else {
             $orderType = match ($dtoRequest->orderType) {
-                default => 'sortOrder',
                 'createdTime' => 'created_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
@@ -278,6 +242,7 @@ class GroupController extends Controller
                 'post' => 'post_count',
                 'postDigest' => 'post_digest_count',
                 'sortOrder' => 'sort_order',
+                default => 'sort_order',
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {
@@ -286,23 +251,32 @@ class GroupController extends Controller
                 'desc' => 'desc',
             };
 
-            $groupQuery->orderBy('recommend_rating')->orderBy($orderType, $orderDirection);
+            $groupQuery->orderBy('recommend_sort_order')->orderBy($orderType, $orderDirection);
         }
 
         $groupData = $groupQuery->paginate($dtoRequest->pageSize ?? 15);
 
+        $groupOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
         $groupList = [];
-        $service = new GroupService();
         foreach ($groupData as $group) {
-            $groupList[] = $service->groupData($group, $langTag, $timezone, $authUserId);
+            $groupList[] = DetailUtility::groupDetail($group, $langTag, $timezone, $authUserId, $groupOptions);
         }
 
         return $this->fresnsPaginate($groupList, $groupData->total(), $groupData->perPage());
     }
 
     // detail
-    public function detail(string $gid)
+    public function detail(string $gid, Request $request)
     {
+        $dtoRequest = new DetailDTO($request->all());
+
         $group = Group::where('gid', $gid)->first();
 
         if (empty($group)) {
@@ -317,39 +291,120 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $seoData = LanguageHelper::fresnsLanguageSeoDataById('group', $group->id, $langTag);
+        $seoData = PrimaryHelper::fresnsModelSeo(Seo::TYPE_GROUP, $group->id);
 
-        $extensions = [];
+        $item['title'] = StrHelper::languageContent($seoData?->title, $langTag);
+        $item['keywords'] = StrHelper::languageContent($seoData?->keywords, $langTag);
+        $item['description'] = StrHelper::languageContent($seoData?->description, $langTag);
+        $item['extensions'] = [];
 
         // check limit
-        $checkLimit = GroupService::getGroupContentDateLimit($group->id, $authUserId);
+        $checkLimit = PermissionUtility::getGroupContentDateLimit($group->id, $authUserId);
         if ($checkLimit['code'] == 0 && empty($checkLimit['datetime'])) {
-            $extensions = ExtendUtility::getGroupExtensions($group->id, $langTag, $authUserId);
+            $item['extensions'] = ExtendUtility::getGroupExtensions($group->id, $langTag, $authUserId);
         }
 
-        $item['title'] = $seoData?->title;
-        $item['keywords'] = $seoData?->keywords;
-        $item['description'] = $seoData?->description;
-        $item['extensions'] = $extensions;
-        $data['items'] = $item;
+        $groupOptions = [
+            'viewType' => 'detail',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
 
-        $service = new GroupService();
-        $data['detail'] = $service->groupData($group, $langTag, $timezone, $authUserId);
+        $data = [
+            'items' => $item,
+            'detail' => DetailUtility::groupDetail($group, $langTag, $timezone, $authUserId, $groupOptions),
+        ];
 
         return $this->success($data);
+    }
+
+    // creator
+    public function creator(string $gid, Request $request)
+    {
+        $dtoRequest = new DetailDTO($request->all());
+
+        $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
+
+        if (empty($group)) {
+            throw new ApiException(37100);
+        }
+
+        if (! $group?->creator) {
+            return $this->success();
+        }
+
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
+        $userOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        $data = DetailUtility::userDetail($group->creator, $langTag, $timezone, $authUserId, $userOptions);
+
+        return $this->success($data);
+    }
+
+    // admins
+    public function admins(string $gid, Request $request)
+    {
+        $dtoRequest = new DetailDTO($request->all());
+
+        $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
+
+        if (empty($group)) {
+            throw new ApiException(37100);
+        }
+
+        if (! $group?->admins) {
+            return $this->success([]);
+        }
+
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
+        $userOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        $users = [];
+        foreach ($group->admins as $adminUser) {
+            $users[] = DetailUtility::userDetail($adminUser, $langTag, $timezone, $authUserId, $userOptions);
+        }
+
+        return $this->success($users);
     }
 
     // interaction
     public function interaction(string $gid, string $type, Request $request)
     {
-        $group = Group::where('gid', $gid)->isEnabled()->first();
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new InteractionDTO($requestData);
+
+        $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
+
         if (empty($group)) {
             throw new ApiException(37100);
         }
 
-        $requestData = $request->all();
-        $requestData['type'] = $type;
-        $dtoRequest = new InteractionDTO($requestData);
+        if (! $group->is_enabled) {
+            throw new ApiException(37101);
+        }
 
         InteractionService::checkInteractionSetting('group', $dtoRequest->type);
 
