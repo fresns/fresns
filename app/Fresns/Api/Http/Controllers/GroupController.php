@@ -329,7 +329,7 @@ class GroupController extends Controller
 
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
-        if (empty($group)) {
+        if (empty($group) || $group?->deleted_at) {
             throw new ApiException(37100);
         }
 
@@ -362,7 +362,7 @@ class GroupController extends Controller
 
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
-        if (empty($group)) {
+        if (empty($group) || $group?->deleted_at) {
             throw new ApiException(37100);
         }
 
@@ -400,7 +400,7 @@ class GroupController extends Controller
 
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
-        if (empty($group)) {
+        if (empty($group) || $group?->deleted_at) {
             throw new ApiException(37100);
         }
 

@@ -43,7 +43,7 @@ class HashtagController extends Controller
             $query->where('type', $value);
         });
 
-        if ($dtoRequest->createdDate) {
+        if ($dtoRequest->createdDays || $dtoRequest->createdDate) {
             switch ($dtoRequest->createdDate) {
                 case 'today':
                     $hashtagQuery->whereDate('created_at', now()->format('Y-m-d'));
@@ -83,6 +83,9 @@ class HashtagController extends Controller
                 case 'lastYear':
                     $hashtagQuery->whereYear('created_at', now()->subYear()->year);
                     break;
+
+                default:
+                    $hashtagQuery->whereDate('created_at', '>=', now()->subDays($dtoRequest->createdDays ?? 1)->format('Y-m-d'));
             }
         } else {
             $hashtagQuery->when($dtoRequest->createdDateGt, function ($query, $value) {
@@ -246,9 +249,9 @@ class HashtagController extends Controller
 
         $slug = StrHelper::slug($htid);
 
-        $hashtag = Hashtag::where('slug', $slug)->isEnabled()->first();
+        $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
 
-        if (empty($hashtag)) {
+        if (empty($hashtag) || $hashtag?->deleted_at) {
             throw new ApiException(37200);
         }
 
