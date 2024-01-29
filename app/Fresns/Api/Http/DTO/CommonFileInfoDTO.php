@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class FileInfoDTO extends DTO
+class CommonFileInfoDTO extends DTO
 {
     public function rules(): array
     {

@@ -10,12 +10,13 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class FileWarningDTO extends DTO
+class CommonFileLinkDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'warning' => ['string', 'nullable', 'in:nudity,violence,sensitive'],
+            'type' => ['string', 'required', 'in:post,comment,conversation'],
+            'fsid' => ['string', 'required'],
         ];
     }
 }

@@ -11,7 +11,6 @@ use App\Fresns\Api\Http\Controllers\CommentController;
 use App\Fresns\Api\Http\Controllers\CommonController;
 use App\Fresns\Api\Http\Controllers\ConversationController;
 use App\Fresns\Api\Http\Controllers\EditorController;
-use App\Fresns\Api\Http\Controllers\FileController;
 use App\Fresns\Api\Http\Controllers\GeotagController;
 use App\Fresns\Api\Http\Controllers\GlobalController;
 use App\Fresns\Api\Http\Controllers\GroupController;
@@ -48,15 +47,13 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
         Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('cmd-word', [CommonController::class, 'cmdWord'])->name('cmd.word');
-    });
-
-    // file
-    Route::prefix('file')->name('file.')->group(function () {
-        Route::get('storage-token', [FileController::class, 'storageToken'])->name('storage.token');
-        Route::post('uploads', [FileController::class, 'uploads'])->name('uploads');
-        Route::patch('{fid}/warning', [FileController::class, 'updateWarning'])->name('warning');
-        Route::get('{fid}/link', [FileController::class, 'link'])->name('link');
-        Route::get('{fid}/users', [FileController::class, 'users'])->name('users');
+        Route::prefix('file')->name('file.')->group(function () {
+            Route::get('storage-token', [CommonController::class, 'fileStorageToken'])->name('storage.token');
+            Route::post('uploads', [CommonController::class, 'fileUploads'])->name('uploads');
+            Route::patch('{fid}/warning', [CommonController::class, 'fileUpdateWarning'])->name('warning');
+            Route::get('{fid}/link', [CommonController::class, 'fileLink'])->name('link');
+            Route::get('{fid}/users', [CommonController::class, 'fileUsers'])->name('users');
+        });
     });
 
     // search

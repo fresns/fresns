@@ -10,13 +10,12 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class FileStorageTokenDTO extends DTO
+class CommonFileWarningDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:image,video,audio,document'],
-            'usageType' => ['string', 'required', 'in:userAvatar,userBanner,conversationMessage,post,comment,postDraft,commentDraft'],
+            'warning' => ['string', 'nullable', 'in:nudity,violence,sensitive'],
         ];
     }
 }
