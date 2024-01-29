@@ -20,7 +20,6 @@ use App\Models\Hashtag;
 use App\Models\Mention;
 use App\Models\Notification;
 use App\Models\Post;
-use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
