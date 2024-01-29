@@ -811,6 +811,18 @@ class CacheHelper
     // fresns_token_user_{$userId}_{$token}                         // tag: fresnsUsers
 
     /**
+     * fresns follow.
+     * fresns_user_follow_{$type}_ids_by_{$userId}
+     */
+    //
+    // fresns_user_follow_1_ids_by_{$userId}                        // tag: fresnsUsers
+    // fresns_user_follow_2_ids_by_{$userId}                        // tag: fresnsGroups
+    // fresns_user_follow_3_ids_by_{$userId}                        // tag: fresnsHashtags
+    // fresns_user_follow_4_ids_by_{$userId}                        // tag: fresnsGeotags
+    // fresns_user_follow_5_ids_by_{$userId}                        // tag: fresnsPosts
+    // fresns_user_follow_6_ids_by_{$userId}                        // tag: fresnsComments
+
+    /**
      * fresns api.
      */
     // fresns_api_configs_{$langTag}                                // tag: fresnsConfigs
@@ -830,20 +842,16 @@ class CacheHelper
     // fresns_interaction_status_{$markType}_{$markId}_{$userId}
 
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
-    // fresns_follow_{$type}_array_by_{$userId}
     // fresns_user_activity_{$uid}
     // fresns_user_post_auth_{$postId}_{$userId}
 
     /**
      * tag: fresnsGroups.
      */
-    // fresns_group_count
-    // fresns_private_groups
-    // fresns_filter_group_models
-    // fresns_filter_groups_by_guest
-    // fresns_filter_groups_by_user_{$userId}   // +tag: fresnsUsers
-    // fresns_guest_all_groups
-    // fresns_user_all_groups_{$userId}         // +tag: fresnsUsers
+    // fresns_group_tree_by_guest
+    // fresns_group_tree_by_user_{$userId}          // +tag: fresnsUsers
+    // fresns_group_filter_ids_by_user_{$userId}    // +tag: fresnsUsers
+    // fresns_group_private_ids
 
     /**
      * tag: fresnsExtensions.

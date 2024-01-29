@@ -272,27 +272,4 @@ class InteractionHelper
 
         return $profile;
     }
-
-    // group count
-    public static function fresnsGroupCount(): int
-    {
-        $cacheKey = 'fresns_group_count';
-        $cacheTag = 'fresnsGroups';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return 0;
-        }
-
-        $groupCount = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($groupCount)) {
-            $groupCount = Group::count();
-
-            CacheHelper::put($groupCount, $cacheKey, $cacheTag);
-        }
-
-        return $groupCount;
-    }
 }
