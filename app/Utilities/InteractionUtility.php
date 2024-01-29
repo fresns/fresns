@@ -24,7 +24,6 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 
