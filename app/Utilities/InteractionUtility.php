@@ -1094,7 +1094,7 @@ class InteractionUtility
     }
 
     // get follow id array
-    public static function getFollowIdArr(int $type, ?int $userId = null): array
+    public static function getFollowIdArr(int $type, ?int $userId = null): ?array
     {
         if (empty($userId)) {
             return [];
@@ -1120,7 +1120,9 @@ class InteractionUtility
         $followIds = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($followIds)) {
-            $followIds = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
+            $followIdArr = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
+
+            $followIds = array_values($followIdArr);
 
             CacheHelper::put($followIds, $cacheKey, $cacheTag);
         }
@@ -1129,19 +1131,20 @@ class InteractionUtility
     }
 
     // get block id array
-    public static function getBlockIdArr(int $type, ?int $userId = null): array
+    public static function getBlockIdArr(int $type, ?int $userId = null): ?array
     {
         if (empty($userId)) {
             return [];
         }
 
-        $cacheKey = "fresns_block_{$type}_array_by_{$userId}";
+        $cacheKey = "fresns_user_block_{$type}_ids_by_{$userId}";
         $cacheTag = match ($type) {
-            UserBlock::TYPE_USER => 'fresnsUsers',
-            UserBlock::TYPE_GROUP => 'fresnsGroups',
-            UserBlock::TYPE_HASHTAG => 'fresnsHashtags',
-            UserBlock::TYPE_POST => 'fresnsPosts',
-            UserBlock::TYPE_COMMENT => 'fresnsComments',
+            UserFollow::TYPE_USER => 'fresnsUsers',
+            UserFollow::TYPE_GROUP => 'fresnsGroups',
+            UserFollow::TYPE_HASHTAG => 'fresnsHashtags',
+            UserFollow::TYPE_GEOTAG => 'fresnsGeotags',
+            UserFollow::TYPE_POST => 'fresnsPosts',
+            UserFollow::TYPE_COMMENT => 'fresnsComments',
         };
 
         // is known to be empty
@@ -1154,25 +1157,9 @@ class InteractionUtility
         $blockIds = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($blockIds)) {
-            switch ($type) {
-                case UserBlock::TYPE_USER:
-                    $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
-                    $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
+            $blockIdArr = UserFollow::markType(UserFollow::MARK_TYPE_BLOCK)->type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
-                    $allUserIds = array_unique(array_merge($myBlockUserIds, $blockMeUserIds));
-
-                    $blockIds = array_values($allUserIds);
-                    break;
-
-                case UserBlock::TYPE_GROUP:
-                    $blockIds = PermissionUtility::getPostFilterByGroupIds($userId);
-                    break;
-
-                default:
-                    $blockArr = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
-
-                    $blockIds = array_values($blockArr);
-            }
+            $blockIds = array_values($blockIdArr);
 
             CacheHelper::put($blockIds, $cacheKey, $cacheTag);
         }
@@ -1181,7 +1168,7 @@ class InteractionUtility
     }
 
     // get private group id array
-    public static function getPrivateGroupIdArr(): array
+    public static function getPrivateGroupIdArr(): ?array
     {
         $cacheKey = 'fresns_group_private_ids';
         $cacheTag = 'fresnsGroups';
@@ -1192,15 +1179,15 @@ class InteractionUtility
             return [];
         }
 
-        $groupIdArr = CacheHelper::get($cacheKey, $cacheTag);
+        $groupIds = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($groupIdArr)) {
-            $groupIdArr = Group::where('privacy', Group::PRIVACY_PRIVATE)->pluck('id')->toArray();
+        if (empty($groupIds)) {
+            $groupIds = Group::where('privacy', Group::PRIVACY_PRIVATE)->pluck('id')->toArray();
 
-            CacheHelper::put($groupIdArr, $cacheKey, $cacheTag);
+            CacheHelper::put($groupIds, $cacheKey, $cacheTag);
         }
 
-        return $groupIdArr;
+        return $groupIds;
     }
 
     // get follow type

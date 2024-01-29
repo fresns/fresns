@@ -104,14 +104,14 @@ class PermissionUtility
         return $userRoles;
     }
 
-    // Get group filter ids
-    public static function getGroupFilterIds(?int $userId = null): ?array
+    // Get group list filter ids
+    public static function getGroupListFilterIdArr(?int $userId = null): ?array
     {
         if (empty($userId)) {
             return [];
         }
 
-        $cacheKey = "fresns_group_filter_ids_by_user_{$userId}";
+        $cacheKey = "fresns_group_list_filter_ids_by_user_{$userId}";
         $cacheTags = ['fresnsGroups', 'fresnsUsers'];
 
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -122,11 +122,12 @@ class PermissionUtility
         $groupIds = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groupIds)) {
+            // private hidden groups
             $hiddenGroups = Group::where('privacy', Group::PRIVACY_PRIVATE)->where('visibility', Group::VISIBILITY_HIDDEN)->get();
 
             $userRole = PermissionUtility::getUserMainRole($userId);
 
-            $idArr = [];
+            $privateIds = [];
             foreach ($hiddenGroups as $group) {
                 $permissions = $group->permissions;
 
@@ -136,20 +137,20 @@ class PermissionUtility
                     continue;
                 }
 
-                $idArr[] = $group->id;
+                $privateIds[] = $group->id;
             }
 
-            $groupIds = $idArr;
+            // block groups
+            $blockIds = UserFollow::markType(UserFollow::MARK_TYPE_BLOCK)->type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
-            if ($idArr) {
-                $followGroupIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
+            $groupIds = array_values(array_unique(array_merge($privateIds, $blockIds)));
 
-                $groupIds = array_values(array_diff($idArr, $followGroupIds));
+            if ($groupIds) {
+                // follow groups
+                $followIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
+
+                $groupIds = array_values(array_diff($groupIds, $followIds));
             }
-
-            // $blockGroupIds = UserFollow::markType(UserFollow::MARK_TYPE_BLOCK)->type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
-
-            // $groupIds = array_values(array_unique(array_merge($blockGroupIds, $groupIds)));
 
             CacheHelper::put($groupIds, $cacheKey, $cacheTags);
         }
@@ -157,39 +158,58 @@ class PermissionUtility
         return $groupIds;
     }
 
-    // Get post filter by group ids
-    public static function getPostFilterByGroupIds(?int $userId = null): array
+    // Get group content filter ids
+    public static function getGroupContentFilterIdArr(?int $userId = null): ?array
     {
-        $privateGroupIds = Group::where('privacy', Group::PRIVACY_PRIVATE)->get();
+        $privateIds = InteractionUtility::getPrivateGroupIdArr();
 
         if (empty($userId)) {
-            return $privateGroupIds->pluck('id')->toArray();
+            return $privateIds;
         }
 
-        $userRole = PermissionUtility::getUserMainRole($userId);
+        $cacheKey = "fresns_group_content_filter_ids_by_user_{$userId}";
+        $cacheTags = ['fresnsGroups', 'fresnsUsers'];
 
-        $privateGroupIdArr = [];
-        foreach ($privateGroupIds as $group) {
-            $permissions = $group->permissions;
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
 
-            $whitelistRoles = $permissions['private_whitelist_roles'] ?? [];
+        $groupIds = CacheHelper::get($cacheKey, $cacheTags);
 
-            if ($whitelistRoles && in_array($userRole['id'], $whitelistRoles)) {
-                continue;
+        if (empty($groupIds)) {
+            $privateGroupIdArr = [];
+
+            if ($privateIds) {
+                $groups = Group::whereIn('id', $privateIds)->get();
+
+                $userRole = PermissionUtility::getUserMainRole($userId);
+
+                foreach ($groups as $group) {
+                    $permissions = $group->permissions;
+
+                    $whitelistRoles = $permissions['private_whitelist_roles'] ?? [];
+
+                    if ($whitelistRoles && in_array($userRole['id'], $whitelistRoles)) {
+                        continue;
+                    }
+
+                    $privateGroupIdArr[] = $group->id;
+                }
             }
 
-            $privateGroupIdArr[] = $group->id;
+            $blockGroupIds = InteractionUtility::getBlockIdArr(UserFollow::TYPE_GROUP, $userId);
+            $filterGroupIdsArr = array_values(array_unique(array_merge($blockGroupIds, $privateGroupIdArr)));
+
+            $followGroupIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
+
+            $groupIds = array_values(array_diff($filterGroupIdsArr, $followGroupIds));
+
+            CacheHelper::put($groupIds, $cacheKey, $cacheTags);
         }
 
-        $followGroupIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
-
-        $filterIds = array_values(array_diff($privateGroupIdArr, $followGroupIds));
-
-        $blockGroupIds = UserFollow::where('user_id', $userId)->markType(UserFollow::MARK_TYPE_BLOCK)->type(UserFollow::TYPE_GROUP)->pluck('follow_id')->toArray();
-
-        $filterGroupIdsArr = array_values(array_unique(array_merge($blockGroupIds, $filterIds)));
-
-        return $filterGroupIdsArr;
+        return $groupIds;
     }
 
     // get group content date limit
