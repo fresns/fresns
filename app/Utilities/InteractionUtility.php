@@ -1101,11 +1101,12 @@ class InteractionUtility
             return [];
         }
 
-        $cacheKey = "fresns_follow_{$type}_array_by_{$userId}";
+        $cacheKey = "fresns_user_follow_{$type}_ids_by_{$userId}";
         $cacheTag = match ($type) {
             UserFollow::TYPE_USER => 'fresnsUsers',
             UserFollow::TYPE_GROUP => 'fresnsGroups',
             UserFollow::TYPE_HASHTAG => 'fresnsHashtags',
+            UserFollow::TYPE_GEOTAG => 'fresnsGeotags',
             UserFollow::TYPE_POST => 'fresnsPosts',
             UserFollow::TYPE_COMMENT => 'fresnsComments',
         };
@@ -1120,23 +1121,7 @@ class InteractionUtility
         $followIds = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($followIds)) {
-            if ($type == UserFollow::TYPE_USER) {
-                $followUserIds = UserFollow::type(UserFollow::TYPE_USER)->where('user_id', $userId)->pluck('follow_id')->toArray();
-                $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
-
-                $filterIds = array_diff($followUserIds, $blockMeUserIds);
-
-                $allUserIds = $filterIds;
-                if ($filterIds) {
-                    $allUserIds = Arr::prepend($filterIds, $userId);
-                }
-
-                $followIds = array_values($allUserIds);
-            } else {
-                $followArr = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
-
-                $followIds = array_values($followArr);
-            }
+            $followIds = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
             CacheHelper::put($followIds, $cacheKey, $cacheTag);
         }
@@ -1199,7 +1184,7 @@ class InteractionUtility
     // get private group id array
     public static function getPrivateGroupIdArr(): array
     {
-        $cacheKey = 'fresns_private_groups';
+        $cacheKey = 'fresns_group_private_ids';
         $cacheTag = 'fresnsGroups';
 
         // is known to be empty
