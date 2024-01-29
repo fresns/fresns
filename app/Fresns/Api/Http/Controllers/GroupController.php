@@ -52,7 +52,7 @@ class GroupController extends Controller
                 $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
             }
 
-            $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
+            $groupFilterIds = PermissionUtility::getGroupListFilterIdArr($authUser?->id);
             $groupQuery->when($groupFilterIds, function ($query, $value) {
                 $query->whereNotIn('id', $value);
             });
@@ -95,7 +95,7 @@ class GroupController extends Controller
             $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
         }
 
-        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
+        $groupFilterIds = PermissionUtility::getGroupListFilterIdArr($authUserId);
         $groupQuery->when($groupFilterIds, function ($query, $value) {
             $query->whereNotIn('id', $value);
         });
@@ -234,6 +234,8 @@ class GroupController extends Controller
         } else {
             $orderType = match ($dtoRequest->orderType) {
                 'createdTime' => 'created_at',
+                'lastPostTime' => 'last_post_at',
+                'lastCommentTime' => 'last_comment_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
