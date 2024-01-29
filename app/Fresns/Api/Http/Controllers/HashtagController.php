@@ -9,13 +9,15 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
-use App\Fresns\Api\Services\HashtagService;
 use App\Fresns\Api\Services\InteractionService;
-use App\Helpers\LanguageHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Hashtag;
+use App\Models\Seo;
+use App\Utilities\DetailUtility;
 use App\Utilities\InteractionUtility;
 use Illuminate\Http\Request;
 
@@ -32,8 +34,8 @@ class HashtagController extends Controller
 
         $hashtagQuery = Hashtag::isEnabled();
 
-        $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
-        $hashtagQuery->when($blockHashtagIds, function ($query, $value) {
+        $blockIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
+        $hashtagQuery->when($blockIds, function ($query, $value) {
             $query->whereNotIn('id', $value);
         });
 
@@ -152,8 +154,9 @@ class HashtagController extends Controller
             $hashtagQuery->inRandomOrder();
         } else {
             $orderType = match ($dtoRequest->orderType) {
-                default => 'created_at',
                 'createdTime' => 'created_at',
+                'lastPostTime' => 'last_post_at',
+                'lastCommentTime' => 'last_comment_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
@@ -161,6 +164,7 @@ class HashtagController extends Controller
                 'block' => 'block_count',
                 'post' => 'post_count',
                 'postDigest' => 'post_digest_count',
+                default => 'created_at',
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {
@@ -174,21 +178,30 @@ class HashtagController extends Controller
 
         $hashtagData = $hashtagQuery->paginate($dtoRequest->pageSize ?? 30);
 
+        $hashtagOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
         $hashtagList = [];
-        $service = new HashtagService();
         foreach ($hashtagData as $hashtag) {
-            $hashtagList[] = $service->hashtagData($hashtag, $langTag, $timezone, $authUserId);
+            $hashtagList[] = DetailUtility::hashtagDetail($hashtag, $langTag, $timezone, $authUserId, $hashtagOptions);
         }
 
         return $this->fresnsPaginate($hashtagList, $hashtagData->total(), $hashtagData->perPage());
     }
 
     // detail
-    public function detail(string $hid)
+    public function detail(string $htid, Request $request)
     {
-        $hid = StrHelper::slug($hid);
+        $dtoRequest = new DetailDTO($request->all());
 
-        $hashtag = Hashtag::where('slug', $hid)->first();
+        $slug = StrHelper::slug($htid);
+
+        $hashtag = Hashtag::where('slug', $slug)->first();
 
         if (empty($hashtag)) {
             throw new ApiException(37200);
@@ -202,30 +215,46 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $seoData = LanguageHelper::fresnsLanguageSeoDataById('hashtag', $hashtag->id, $langTag);
+        $seoData = PrimaryHelper::fresnsModelSeo(Seo::TYPE_HASHTAG, $hashtag->id);
 
-        $item['title'] = $seoData?->title;
-        $item['keywords'] = $seoData?->keywords;
-        $item['description'] = $seoData?->description;
-        $data['items'] = $item;
+        $item['title'] = StrHelper::languageContent($seoData?->title, $langTag);
+        $item['keywords'] = StrHelper::languageContent($seoData?->keywords, $langTag);
+        $item['description'] = StrHelper::languageContent($seoData?->description, $langTag);
 
-        $service = new HashtagService();
-        $data['detail'] = $service->hashtagData($hashtag, $langTag, $timezone, $authUserId);
+        $hashtagOptions = [
+            'viewType' => 'detail',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        $data = [
+            'items' => $item,
+            'detail' => DetailUtility::hashtagDetail($hashtag, $langTag, $timezone, $authUserId, $hashtagOptions),
+        ];
 
         return $this->success($data);
     }
 
     // interaction
-    public function interaction(string $hid, string $type, Request $request)
+    public function interaction(string $htid, string $type, Request $request)
     {
-        $hashtag = Hashtag::where('slug', $hid)->isEnabled()->first();
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new InteractionDTO($requestData);
+
+        $slug = StrHelper::slug($htid);
+
+        $hashtag = Hashtag::where('slug', $slug)->isEnabled()->first();
+
         if (empty($hashtag)) {
             throw new ApiException(37200);
         }
 
-        $requestData = $request->all();
-        $requestData['type'] = $type;
-        $dtoRequest = new InteractionDTO($requestData);
+        if (! $hashtag->is_enabled) {
+            throw new ApiException(37201);
+        }
 
         InteractionService::checkInteractionSetting('hashtag', $dtoRequest->type);
 
