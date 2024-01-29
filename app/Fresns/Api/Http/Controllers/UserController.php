@@ -903,35 +903,35 @@ class UserController extends Controller
             $query->where('view_count', '<=', $value);
         });
 
-        $userQuery->when($dtoRequest->likerCountGt, function ($query, $value) {
+        $userQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('liker_count', '>=', $value);
         });
 
-        $userQuery->when($dtoRequest->likerCountLt, function ($query, $value) {
+        $userQuery->when($dtoRequest->likeCountLt, function ($query, $value) {
             $query->where('liker_count', '<=', $value);
         });
 
-        $userQuery->when($dtoRequest->dislikerCountGt, function ($query, $value) {
+        $userQuery->when($dtoRequest->dislikeCountGt, function ($query, $value) {
             $query->where('disliker_count', '>=', $value);
         });
 
-        $userQuery->when($dtoRequest->dislikerCountLt, function ($query, $value) {
+        $userQuery->when($dtoRequest->dislikeCountLt, function ($query, $value) {
             $query->where('disliker_count', '<=', $value);
         });
 
-        $userQuery->when($dtoRequest->followerCountGt, function ($query, $value) {
+        $userQuery->when($dtoRequest->followCountGt, function ($query, $value) {
             $query->where('follower_count', '>=', $value);
         });
 
-        $userQuery->when($dtoRequest->followerCountLt, function ($query, $value) {
+        $userQuery->when($dtoRequest->followCountLt, function ($query, $value) {
             $query->where('follower_count', '<=', $value);
         });
 
-        $userQuery->when($dtoRequest->blockerCountGt, function ($query, $value) {
+        $userQuery->when($dtoRequest->blockCountGt, function ($query, $value) {
             $query->where('blocker_count', '>=', $value);
         });
 
-        $userQuery->when($dtoRequest->blockerCountLt, function ($query, $value) {
+        $userQuery->when($dtoRequest->blockCountLt, function ($query, $value) {
             $query->where('blocker_count', '<=', $value);
         });
 
@@ -1013,10 +1013,10 @@ class UserController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 'createdTime' => 'created_at',
                 'view' => 'view_count',
-                'liker' => 'liker_count',
-                'disliker' => 'disliker_count',
-                'follower' => 'follower_count',
-                'blocker' => 'blocker_count',
+                'like' => 'liker_count',
+                'dislike' => 'disliker_count',
+                'follow' => 'follower_count',
+                'block' => 'blocker_count',
                 'post' => 'post_publish_count',
                 'comment' => 'comment_publish_count',
                 'postDigest' => 'post_digest_count',
