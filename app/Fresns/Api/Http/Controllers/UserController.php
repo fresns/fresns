@@ -828,6 +828,11 @@ class UserController extends Controller
 
         $userQuery = UserStat::with(['profile', 'mainRoleId'])->whereRelation('profile', 'is_enabled', true)->whereRelation('profile', 'wait_delete', false);
 
+        $blockIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
+        $userQuery->when($blockIds, function ($query, $value) {
+            $query->whereNotIn('user_id', $value);
+        });
+
         $userQuery->when($dtoRequest->roles, function ($query, $value) {
             $ridArr = array_filter(explode(',', $value));
 
@@ -1132,6 +1137,7 @@ class UserController extends Controller
             ],
         ];
 
+        // mutual follow
         if ($authUser->id == $viewUser->id) {
             $userFollows = UserFollow::with(['user'])
                 ->markType(UserFollow::MARK_TYPE_FOLLOW)
@@ -1153,10 +1159,11 @@ class UserController extends Controller
             return $this->fresnsPaginate($userList, $userFollows->total(), $userFollows->perPage());
         }
 
-        $viewUserFollowers = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_USER)->where('follow_id', $viewUser->id)->latest()->pluck('user_id')->toArray();
+        // followers you follow
         $authUserFollowing = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_USER)->where('user_id', $authUser->id)->latest()->pluck('follow_id')->toArray();
+        $viewUserFollowers = UserFollow::markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_USER)->where('follow_id', $viewUser->id)->latest()->pluck('user_id')->toArray();
 
-        if (empty($viewUserFollowers) && empty($authUserFollowing)) {
+        if (empty($authUserFollowing) && empty($viewUserFollowers)) {
             return $this->fresnsPaginate([], 0, $pageSize);
         }
 
@@ -1185,15 +1192,15 @@ class UserController extends Controller
     // interaction
     public function interaction(string $uidOrUsername, string $type, Request $request)
     {
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new InteractionDTO($requestData);
+
         $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($viewUser)) {
             throw new ApiException(31602);
         }
-
-        $requestData = $request->all();
-        $requestData['type'] = $type;
-        $dtoRequest = new InteractionDTO($requestData);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
