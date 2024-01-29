@@ -812,9 +812,8 @@ class CacheHelper
 
     /**
      * fresns follow.
-     * fresns_user_follow_{$type}_ids_by_{$userId}.
      */
-    //
+    // fresns_user_follow_{$type}_ids_by_{$userId}
     // fresns_user_follow_1_ids_by_{$userId}                        // tag: fresnsUsers
     // fresns_user_follow_2_ids_by_{$userId}                        // tag: fresnsGroups
     // fresns_user_follow_3_ids_by_{$userId}                        // tag: fresnsHashtags

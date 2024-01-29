@@ -307,6 +307,7 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $dtoRequest = new UserEditDTO($request->all());
+
         if ($dtoRequest->isEmpty()) {
             throw new ApiException(30001);
         }
@@ -623,6 +624,7 @@ class UserController extends Controller
     public function mark(Request $request)
     {
         $dtoRequest = new UserMarkDTO($request->all());
+
         $authUser = $this->user();
         if (! $authUser->is_enabled) {
             throw new ApiException(35202);
