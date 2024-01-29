@@ -812,7 +812,7 @@ class CacheHelper
 
     /**
      * fresns follow.
-     * fresns_user_follow_{$type}_ids_by_{$userId}
+     * fresns_user_follow_{$type}_ids_by_{$userId}.
      */
     //
     // fresns_user_follow_1_ids_by_{$userId}                        // tag: fresnsUsers
