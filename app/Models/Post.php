@@ -71,6 +71,11 @@ class Post extends Model
         return $this->belongsTo(Geotag::class, 'geotag_usages', 'usage_id', 'geotag_id')->wherePivot('usage_type', GeotagUsage::TYPE_POST)->wherePivotNull('deleted_at');
     }
 
+    public function geotagUsage()
+    {
+        return $this->hasOne(GeotagUsage::class, 'usage_id', 'id')->where('usage_type', GeotagUsage::TYPE_POST);
+    }
+
     public function users()
     {
         return $this->hasMany(PostUser::class);
