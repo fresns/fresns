@@ -382,8 +382,12 @@ class FileHelper
     }
 
     // get file type number
-    public static function fresnsFileTypeNumber(?string $fileName = null): int
+    public static function fresnsFileTypeNumber(?string $fileName = null): ?int
     {
+        if (empty($fileName)) {
+            return null;
+        }
+
         $fileName = Str::lower($fileName);
 
         $fileTypeNumber = match ($fileName) {
@@ -395,7 +399,7 @@ class FileHelper
             'videos' => File::TYPE_VIDEO,
             'audios' => File::TYPE_AUDIO,
             'documents' => File::TYPE_DOCUMENT,
-            default => File::TYPE_IMAGE,
+            default => null,
         };
 
         return $fileTypeNumber;
