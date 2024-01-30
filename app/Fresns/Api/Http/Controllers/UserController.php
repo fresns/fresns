@@ -826,7 +826,11 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with(['profile', 'mainRoleId'])->whereRelation('profile', 'is_enabled', true)->whereRelation('profile', 'wait_delete', false);
+        $userQuery = UserStat::query();
+
+        $userQuery->whereRelation('profile', 'is_enabled', true);
+
+        $userQuery->whereRelation('profile', 'wait_delete', false);
 
         $blockIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $userQuery->when($blockIds, function ($query, $value) {
@@ -838,9 +842,7 @@ class UserController extends Controller
 
             $roleIdArr = Role::whereIn('rid', $ridArr)->pluck('id')->toArray();
 
-            $query->whereHas('mainRoleId', function ($query) use ($roleIdArr) {
-                $query->whereIn('role_id', $roleIdArr);
-            });
+            $query->whereRelation('mainRoleId', 'role_id', $roleIdArr);
         });
 
         if (isset($dtoRequest->verified)) {
