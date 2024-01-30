@@ -1166,6 +1166,37 @@ class InteractionUtility
         return $blockIds;
     }
 
+    // explode id array
+    public static function explodeIdArr(string $type, ?string $string = null): ?array
+    {
+        if (empty($string)) {
+            return [];
+        }
+
+        $fsidArr = array_filter(explode(',', $string));
+
+        $idArr = [];
+        foreach ($fsidArr as $fsid) {
+            $id = match ($type) {
+                'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($fsid),
+                'group' => PrimaryHelper::fresnsGroupIdByGid($fsid),
+                'hashtag' => PrimaryHelper::fresnsHashtagIdByHtid($fsid),
+                'geotag' => PrimaryHelper::fresnsGeotagIdByGtid($fsid),
+                'post' => PrimaryHelper::fresnsPostIdByPid($fsid),
+                'comment' => PrimaryHelper::fresnsCommentIdByCid($fsid),
+                default => null,
+            };
+
+            if (empty($id)) {
+                continue;
+            }
+
+            $idArr[] = $id;
+        }
+
+        return $idArr;
+    }
+
     // get private group id array
     public static function getPrivateGroupIdArr(): ?array
     {
