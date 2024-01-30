@@ -273,12 +273,12 @@ class ConversationController extends Controller
         }
 
         // messages
-        $sendMessages = ConversationMessage::with(['sendUser', 'file'])
+        $sendMessages = ConversationMessage::with(['sendUser'])
             ->where('conversation_id', $conversation->id)
             ->where('send_user_id', $authUser->id)
             ->whereNull('send_deleted_at')
             ->isEnabled();
-        $receiveMessages = ConversationMessage::with(['sendUser', 'file'])
+        $receiveMessages = ConversationMessage::with(['sendUser'])
             ->where('conversation_id', $conversation->id)
             ->where('receive_user_id', $authUser->id)
             ->whereNull('receive_deleted_at')

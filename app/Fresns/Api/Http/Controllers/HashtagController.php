@@ -171,9 +171,9 @@ class HashtagController extends Controller
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {
-                default => 'desc',
                 'asc' => 'asc',
                 'desc' => 'desc',
+                default => 'desc',
             };
 
             $hashtagQuery->orderBy($orderType, $orderDirection);

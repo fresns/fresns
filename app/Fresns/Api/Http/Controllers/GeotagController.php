@@ -208,9 +208,9 @@ class GeotagController extends Controller
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {
-                default => 'desc',
                 'asc' => 'asc',
                 'desc' => 'desc',
+                default => 'desc',
             };
 
             $geotagQuery->orderBy($orderType, $orderDirection);

@@ -399,9 +399,9 @@ class CommentController extends Controller
             };
 
             $orderDirection = match ($dtoRequest->orderDirection) {
-                default => 'desc',
                 'asc' => 'asc',
                 'desc' => 'desc',
+                default => 'desc',
             };
 
             if ($dtoRequest->orderType == 'commentTime') {
