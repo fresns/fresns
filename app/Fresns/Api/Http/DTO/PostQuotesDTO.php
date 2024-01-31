@@ -10,14 +10,11 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class PostDetailDTO extends DTO
+class PostQuotesDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'between:1,11'],
-            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
-            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'filterGroupType' => ['string', 'nullable', 'in:whitelist,blacklist'],
@@ -34,6 +31,8 @@ class PostDetailDTO extends DTO
             'filterPreviewLikeUserKeys' => ['string', 'nullable', 'required_with:filterPreviewLikeUserType'],
             'filterPreviewCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterPreviewCommentKeys' => ['string', 'nullable', 'required_with:filterPreviewCommentType'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
+            'page' => ['integer', 'nullable'],
         ];
     }
 }

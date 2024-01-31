@@ -15,17 +15,15 @@ class PostListDTO extends DTO
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'between:1,11'],
-            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
-            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'uidOrUsername' => ['nullable'], // posts->user_id
-            'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'htid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'gtid' => ['string', 'nullable'], // geotag_usages->geotag_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
+            'contentType' => ['string', 'nullable'],
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
-            'contentType' => ['string', 'nullable'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // posts->created_at
@@ -42,13 +40,33 @@ class PostListDTO extends DTO
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
             'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // posts->comment_count
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createdTime,commentTime,random,view,like,dislike,follow,block,comment'],
-            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
+            'blockUsers' => ['string', 'nullable'],
             'blockGroups' => ['string', 'nullable'],
             'blockHashtags' => ['string', 'nullable'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
-            'pluginRatingId' => ['integer', 'nullable'],
+            'blockGeotags' => ['string', 'nullable'],
+            'sincePid' => ['string', 'nullable'],
+            'beforePid' => ['string', 'nullable'],
+            'orderType' => ['string', 'nullable', 'in:createdTime,commentTime,random,view,like,dislike,follow,block,comment'],
+            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
+            'mapId' => ['integer', 'nullable', 'between:1,11'],
+            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
+            'filterGroupType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterGroupKeys' => ['string', 'nullable', 'required_with:filterGroupType'],
+            'filterHashtagType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterHashtagKeys' => ['string', 'nullable', 'required_with:filterHashtagType'],
+            'filterGeotagType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterGeotagKeys' => ['string', 'nullable', 'required_with:filterGeotagType'],
+            'filterAuthorType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterAuthorKeys' => ['string', 'nullable', 'required_with:filterAuthorType'],
+            'filterQuotedPostType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterQuotedPostKeys' => ['string', 'nullable', 'required_with:filterQuotedPostType'],
+            'filterPreviewLikeUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterPreviewLikeUserKeys' => ['string', 'nullable', 'required_with:filterPreviewLikeUserType'],
+            'filterPreviewCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterPreviewCommentKeys' => ['string', 'nullable', 'required_with:filterPreviewCommentType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

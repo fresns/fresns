@@ -146,7 +146,7 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('{pid}/quotes', [PostController::class, 'quotes'])->name('quotes');
         Route::delete('{pid}', [PostController::class, 'delete'])->name('delete');
         Route::get('{pid}/histories', [PostController::class, 'histories'])->name('histories');
-        Route::get('history/{hpid}/detail', [PostController::class, 'logDetail'])->name('history.detail');
+        Route::get('history/{hpid}/detail', [PostController::class, 'historyDetail'])->name('history.detail');
     });
 
     // comment
