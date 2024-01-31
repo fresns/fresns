@@ -1221,50 +1221,42 @@ class InteractionUtility
     }
 
     // get follow type
-    public static function getFollowType(int $creatorId, ?int $authUserId = null, ?int $groupId = null, ?array $hashtags = null): ?string
+    public static function getFollowType(int $creatorId, int $digestState, ?int $authUserId = null, ?int $groupId = null, ?int $geotagId = null): ?string
     {
         if (empty($authUserId)) {
             return null;
         }
 
-        $checkFollowUser = UserFollow::where('user_id', $authUserId)
-            ->markType(UserFollow::MARK_TYPE_FOLLOW)
-            ->type(UserFollow::TYPE_USER)
-            ->where('follow_id', $creatorId)
-            ->first();
-        if ($checkFollowUser) {
+        // user
+        $userInteractionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $creatorId, $authUserId);
+        if ($userInteractionStatus['followStatus']) {
             return 'user';
         }
 
-        if (empty($groupId) && empty($hashtags)) {
-            return 'digest';
-        }
-
+        // group
         if ($groupId) {
-            $checkFollowGroup = UserFollow::where('user_id', $authUserId)
-                ->markType(UserFollow::MARK_TYPE_FOLLOW)
-                ->type(UserFollow::TYPE_GROUP)
-                ->where('follow_id', $groupId)
-                ->first();
+            $groupInteractionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $groupId, $authUserId);
 
-            if ($checkFollowGroup) {
+            if ($groupInteractionStatus['followStatus']) {
                 return 'group';
             }
         }
 
-        if ($hashtags) {
-            $hashtagIds = array_column($hashtags, 'id');
+        // geotag
+        if ($geotagId) {
+            $geotagInteractionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GEOTAG, $geotagId, $authUserId);
 
-            $checkFollowHashtag = UserFollow::where('user_id', $authUserId)
-                ->type(UserFollow::TYPE_HASHTAG)
-                ->whereIn('follow_id', $hashtagIds)
-                ->first();
-
-            if ($checkFollowHashtag) {
-                return 'hashtag';
+            if ($geotagInteractionStatus['followStatus']) {
+                return 'geotag';
             }
         }
 
-        return null;
+        // digest
+        if ($digestState != Post::DIGEST_NO) {
+            return 'digest';
+        }
+
+        // hashtag
+        return 'hashtag';
     }
 }
