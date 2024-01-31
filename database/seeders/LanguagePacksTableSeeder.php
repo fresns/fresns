@@ -894,6 +894,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'repost',
+                'lang_values' => '{"en":"Repost","zh-Hans":"转发","zh-Hant":"轉發"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'quote',
                 'lang_values' => '{"en":"Quote","zh-Hans":"引用","zh-Hant":"引用"}',
                 'is_custom' => 0,
@@ -2487,7 +2495,15 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'userDeactivated',
-                'lang_values' => '{"en":"User Deactivated","zh-Hans":"用户已停用","zh-Hant":"使用者已停用"}',
+                'lang_values' => '{"en":"User Deactivated","zh-Hans":"用户已注销","zh-Hant":"使用者已停用"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'lang_key' => 'userSuspended',
+                'lang_values' => '{"en":"User Suspended","zh-Hans":"用户被停用","zh-Hant":"使用者被暫停"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,

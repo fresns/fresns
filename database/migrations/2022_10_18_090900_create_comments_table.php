@@ -73,28 +73,34 @@ class CreateCommentsTable extends Migration
         Schema::create('comment_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('hcid', 32)->unique('hcid');
-            $table->unsignedBigInteger('user_id')->index('comment_log_user_id');
-            $table->unsignedBigInteger('comment_id')->nullable()->index('comment_log_comment_id');
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('parent_comment_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
-            $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_fskey', 64)->nullable();
+            $table->unsignedBigInteger('user_id')->index('comment_log_user_id');
+            $table->unsignedBigInteger('post_id')->index('comment_log_post_id');
+            $table->unsignedBigInteger('comment_id')->nullable()->index('comment_log_comment_id');
+            $table->unsignedBigInteger('parent_comment_id')->nullable();
+            $table->unsignedInteger('geotag_id')->nullable();
             $table->longText('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('map_json')->nullable();
+                    $table->jsonb('location_info')->nullable();
+                    $table->jsonb('more_info')->nullable();
+                    $table->jsonb('permissions')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('map_json', 'max')->nullable();
+                    $table->nvarchar('location_info', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    $table->nvarchar('permissions', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('map_json')->nullable();
+                    $table->json('location_info')->nullable();
+                    $table->json('more_info')->nullable();
+                    $table->json('permissions')->nullable();
             }
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('state')->default(1);
             $table->string('reason')->nullable();
             $table->timestamp('submit_at')->nullable();
@@ -110,7 +116,6 @@ class CreateCommentsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('comments');
-        Schema::dropIfExists('comment_appends');
         Schema::dropIfExists('comment_logs');
     }
 }

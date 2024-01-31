@@ -20,8 +20,8 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pid', 32)->unique('pid');
-            $table->unsignedBigInteger('parent_id')->default(0)->index('post_parent_id');
             $table->unsignedBigInteger('user_id')->index('post_user_id');
+            $table->unsignedBigInteger('quoted_post_id')->default(0)->index('post_quoted_id');
             $table->unsignedInteger('group_id')->default(0)->index('post_group_id');
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
@@ -44,7 +44,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('comment_dislike_count')->default(0);
             $table->unsignedInteger('comment_follow_count')->default(0);
             $table->unsignedInteger('comment_block_count')->default(0);
-            $table->unsignedInteger('post_count')->default(0);
+            $table->unsignedInteger('quote_count')->default(0);
             $table->unsignedInteger('edit_count')->default(0);
             $table->timestamp('last_edit_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
@@ -85,8 +85,8 @@ class CreatePostsTable extends Migration
 
         Schema::create('post_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('post_id')->index('post_affiliated_post_id');
-            $table->unsignedBigInteger('user_id')->index('post_affiliated_user_id');
+            $table->unsignedBigInteger('post_id')->index('post_associated_post_id');
+            $table->unsignedBigInteger('user_id')->index('post_associated_user_id');
             $table->string('app_fskey', 64);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -108,40 +108,36 @@ class CreatePostsTable extends Migration
         Schema::create('post_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('hpid', 32)->unique('hpid');
+            $table->unsignedTinyInteger('create_type')->default(1);
             $table->unsignedBigInteger('user_id')->index('post_log_user_id');
             $table->unsignedBigInteger('post_id')->nullable()->index('post_log_post_id');
-            $table->unsignedBigInteger('parent_post_id')->nullable();
-            $table->unsignedTinyInteger('create_type')->default(1);
-            $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_fskey', 64)->nullable();
+            $table->unsignedBigInteger('quoted_post_id')->nullable();
             $table->unsignedInteger('group_id')->nullable();
+            $table->unsignedInteger('geotag_id')->nullable();
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
+            $table->string('lang_tag', 16)->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
-            $table->unsignedTinyInteger('is_comment_disabled')->default(0);
-            $table->unsignedTinyInteger('is_comment_private')->default(0);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('map_json')->nullable();
-                    $table->jsonb('read_json')->nullable();
-                    $table->jsonb('user_list_json')->nullable();
-                    $table->jsonb('comment_btn_json')->nullable();
+                    $table->jsonb('location_info')->nullable();
+                    $table->jsonb('more_info')->nullable();
+                    $table->jsonb('permissions')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->nvarchar('map_json', 'max')->nullable();
-                    $table->nvarchar('read_json', 'max')->nullable();
-                    $table->nvarchar('user_list_json', 'max')->nullable();
-                    $table->nvarchar('comment_btn_json', 'max')->nullable();
+                    $table->nvarchar('location_info', 'max')->nullable();
+                    $table->nvarchar('more_info', 'max')->nullable();
+                    $table->nvarchar('permissions', 'max')->nullable();
                     break;
 
                 default:
-                    $table->json('map_json')->nullable();
-                    $table->json('read_json')->nullable();
-                    $table->json('user_list_json')->nullable();
-                    $table->json('comment_btn_json')->nullable();
+                    $table->json('location_info')->nullable();
+                    $table->json('more_info')->nullable();
+                    $table->json('permissions')->nullable();
             }
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('state')->default(1);
             $table->string('reason')->nullable();
             $table->timestamp('submit_at')->nullable();
@@ -157,8 +153,7 @@ class CreatePostsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('posts');
-        Schema::dropIfExists('post_appends');
-        Schema::dropIfExists('post_allows');
+        Schema::dropIfExists('post_auths');
         Schema::dropIfExists('post_users');
         Schema::dropIfExists('post_logs');
     }

@@ -43,17 +43,17 @@ class CreateGeotagsTable extends Migration
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->point('map_location');
-                    $table->jsonb('map_info')->nullable();
+                    $table->jsonb('location_info')->nullable();
                     break;
 
                 case 'sqlsrv':
                     $table->geography('map_location');
-                    $table->nvarchar('map_info', 'max')->nullable();
+                    $table->nvarchar('location_info', 'max')->nullable();
                     break;
 
                 default:
                     $table->point('map_location');
-                    $table->json('map_info')->nullable();
+                    $table->json('location_info')->nullable();
             }
             $table->unsignedSmallInteger('type')->default(1);
             $table->unsignedBigInteger('cover_file_id')->nullable();
