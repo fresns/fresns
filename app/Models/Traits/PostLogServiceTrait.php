@@ -79,7 +79,7 @@ trait PostLogServiceTrait
         $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone) : null;
 
         $info['createdDatetime'] = $postLogData->created_at;
-        $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($postLogData->created_at, $langTag);;
+        $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($postLogData->created_at, $langTag);
         $info['state'] = $postLogData->state;
         $info['reason'] = $postLogData->reason;
 
