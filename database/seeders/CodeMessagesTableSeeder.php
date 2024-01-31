@@ -1672,6 +1672,14 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37403,
+                'messages' => '{"en":"Post log suspended","zh-Hans":"帖子日志已被禁用","zh-Hant":"貼文日誌已停用"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 37404,
                 'messages' => '{"en":"The content could not be accessed without authorization","zh-Hans":"该内容需要授权后才能浏览","zh-Hant":"該內容需要授權後才能瀏覽"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1704,7 +1712,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37503,
-                'messages' => '{"en":"Comments are only visible to the author of the post","zh-Hans":"评论仅限帖子作者可见","zh-Hant":"留言僅限貼文作者可見"}',
+                'messages' => '{"en":"Comment log suspended","zh-Hans":"评论日志已被禁用","zh-Hant":"留言日誌已停用"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1712,6 +1720,14 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37504,
+                'messages' => '{"en":"Comments are only visible to the author of the post","zh-Hans":"评论仅限帖子作者可见","zh-Hant":"留言僅限貼文作者可見"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 37505,
                 'messages' => '{"en":"The post has timed out and no longer shows comments","zh-Hans":"帖子已超时，不再显示评论","zh-Hant":"貼文已超時，不再顯示留言"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
