@@ -643,8 +643,8 @@ class InteractionUtility
                 $hashtagIds = $post?->hashtags?->pluck('id');
 
                 if ($actionType == 'increment') {
-                    if ($post?->parent_id) {
-                        Post::where('id', $post->parent_id)->increment('post_count');
+                    if ($post?->quoted_post_id) {
+                        Post::where('id', $post->quoted_post_id)->increment('quote_count');
                     }
 
                     $userState?->increment('post_publish_count');
@@ -655,8 +655,8 @@ class InteractionUtility
                     Domain::whereIn('id', $domainIds)->increment('post_count');
                     Hashtag::whereIn('id', $hashtagIds)->increment('post_count');
                 } else {
-                    if ($post?->parent_id) {
-                        Post::where('id', $post->parent_id)->decrement('post_count');
+                    if ($post?->quoted_post_id) {
+                        Post::where('id', $post->quoted_post_id)->decrement('quote_count');
                     }
 
                     $userStateCount = $userState?->{'post_publish_count'} ?? 0;
@@ -1015,8 +1015,8 @@ class InteractionUtility
                 }
             }
 
-            if ($type == 'post' && $actionModel->parent_id) {
-                $notifyPost = PrimaryHelper::fresnsModelById('post', $actionModel->parent_id);
+            if ($type == 'post' && $actionModel->quoted_post_id) {
+                $notifyPost = PrimaryHelper::fresnsModelById('post', $actionModel->quoted_post_id);
 
                 if ($notifyPost->user_id == $actionModel->user_id) {
                     return;

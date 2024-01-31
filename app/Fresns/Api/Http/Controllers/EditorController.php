@@ -88,7 +88,7 @@ class EditorController extends Controller
         $draftList = [];
         switch ($type) {
             case 'post':
-                $drafts = PostLog::with(['parentPost', 'group', 'author'])
+                $drafts = PostLog::with(['quotedPost', 'group', 'author'])
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
@@ -226,7 +226,7 @@ class EditorController extends Controller
             case 'post':
                 $service = new PostService();
 
-                $postLog = PostLog::with(['parentPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
+                $postLog = PostLog::with(['quotedPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
@@ -306,7 +306,7 @@ class EditorController extends Controller
             case 'post':
                 $service = new PostService();
 
-                $postLog = PostLog::with(['parentPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
+                $postLog = PostLog::with(['quotedPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
@@ -337,7 +337,7 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         $draft = match ($type) {
-            'post' => PostLog::with(['parentPost', 'group', 'author'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
+            'post' => PostLog::with(['quotedPost', 'group', 'author'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             'comment' => CommentLog::with(['parentComment', 'post', 'author'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             default => null,
         };

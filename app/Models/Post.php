@@ -86,9 +86,9 @@ class Post extends Model
         return $this->hasMany(PostAuth::class);
     }
 
-    public function parentPost()
+    public function quotedPost()
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        return $this->belongsTo(self::class, 'quoted_post_id', 'id');
     }
 
     public function postLogs()

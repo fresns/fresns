@@ -943,7 +943,7 @@ class ContentUtility
             'id' => $postLog->post_id,
         ], [
             'user_id' => $postLog->user_id,
-            'parent_id' => $postLog->parent_post_id ?? 0,
+            'quoted_post_id' => $postLog->quoted_post_id ?? 0,
             'group_id' => $postLog->group_id ?? 0,
             'title' => $postLog->title,
             'content' => $postLog->content,
@@ -1318,7 +1318,7 @@ class ContentUtility
         $logData = [
             'user_id' => $post->user_id,
             'post_id' => $post->id,
-            'parent_post_id' => $post->parent_id ?: null,
+            'quoted_post_id' => $post->quoted_post_id ?: null,
             'create_type' => 3,
             'is_plugin_editor' => $post->postAppend->is_plugin_editor,
             'editor_fskey' => $post->postAppend->editor_fskey,
