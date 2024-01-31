@@ -10,6 +10,8 @@ namespace App\Models;
 
 class PostLog extends Model
 {
+    use Traits\PostLogServiceTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     const STATE_DRAFT = 1;
@@ -18,10 +20,9 @@ class PostLog extends Model
     const STATE_FAILURE = 4;
 
     protected $casts = [
-        'map_json' => 'json',
-        'read_json' => 'json',
-        'user_list_json' => 'json',
-        'comment_btn_json' => 'json',
+        'location_info' => 'json',
+        'more_info' => 'json',
+        'permissions' => 'json',
     ];
 
     public function getFsidKey()
@@ -34,9 +35,14 @@ class PostLog extends Model
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
 
-    public function parentPost()
+    public function quotedPost()
     {
-        return $this->belongsTo(Post::class, 'parent_post_id', 'id');
+        return $this->belongsTo(Post::class, 'quoted_post_id', 'id');
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function group()
@@ -44,9 +50,9 @@ class PostLog extends Model
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
-    public function author()
+    public function geotag()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(Geotag::class, 'geotag_id', 'id');
     }
 
     public function fileUsages()

@@ -10,6 +10,8 @@ namespace App\Models;
 
 class CommentLog extends Model
 {
+    use Traits\CommentLogServiceTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     const STATE_DRAFT = 1;
@@ -18,7 +20,9 @@ class CommentLog extends Model
     const STATE_FAILURE = 4;
 
     protected $casts = [
-        'map_json' => 'json',
+        'location_info' => 'json',
+        'more_info' => 'json',
+        'permissions' => 'json',
     ];
 
     public function getFsidKey()
@@ -44,6 +48,11 @@ class CommentLog extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function geotag()
+    {
+        return $this->belongsTo(Geotag::class, 'geotag_id', 'id');
     }
 
     public function fileUsages()
