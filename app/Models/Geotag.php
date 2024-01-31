@@ -16,7 +16,7 @@ class Geotag extends Model
     protected $casts = [
         'name' => 'json',
         'description' => 'json',
-        'map_info' => 'json',
+        'location_info' => 'json',
         'more_info' => 'json',
     ];
 
