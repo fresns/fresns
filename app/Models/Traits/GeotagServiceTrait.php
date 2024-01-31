@@ -17,7 +17,7 @@ trait GeotagServiceTrait
     public function getGeotagInfo(?string $langTag = null): array
     {
         $geotagData = $this;
-        $mapInfo = $geotagData->map_info;
+        $locationInfo = $geotagData->location_info;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_geotag_detail_path',
@@ -30,7 +30,7 @@ trait GeotagServiceTrait
         $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['gtid'] = $geotagData->gtid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid; // https://example.com/geotag/{gtid}
         $info['name'] = StrHelper::languageContent($geotagData->name, $langTag);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($geotagData->cover_file_id, $geotagData->cover_file_url);
         $info['description'] = StrHelper::languageContent($geotagData->description, $langTag);
@@ -39,17 +39,17 @@ trait GeotagServiceTrait
         $info['mapId'] = $geotagData->map_id;
         $info['latitude'] = $geotagData->map_latitude;
         $info['longitude'] = $geotagData->map_longitude;
-        $info['scale'] = $mapInfo['scale'] ?? null;
-        $info['continent'] = $mapInfo['continent'] ?? null;
+        $info['scale'] = $locationInfo['scale'] ?? null;
+        $info['continent'] = $locationInfo['continent'] ?? null;
         $info['continentCode'] = $geotagData->continent_code;
-        $info['country'] = $mapInfo['country'] ?? null;
+        $info['country'] = $locationInfo['country'] ?? null;
         $info['countryCode'] = $geotagData->country_code;
-        $info['region'] = $mapInfo['region'] ?? null;
+        $info['region'] = $locationInfo['region'] ?? null;
         $info['regionCode'] = $geotagData->region_code;
-        $info['city'] = $mapInfo['city'] ?? null;
+        $info['city'] = $locationInfo['city'] ?? null;
         $info['cityCode'] = $geotagData->city_code;
-        $info['district'] = $mapInfo['district'] ?? null;
-        $info['address'] = $mapInfo['address'] ?? null;
+        $info['district'] = $locationInfo['district'] ?? null;
+        $info['address'] = $locationInfo['address'] ?? null;
         $info['zip'] = $geotagData->zip;
         $info['viewCount'] = $geotagData->view_count;
         $info['likeCount'] = $configKeys['geotag_like_public_count'] ? $geotagData->like_count : null;

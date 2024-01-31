@@ -31,7 +31,7 @@ trait CommentServiceTrait
         $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['cid'] = $commentData->cid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid; // https://example.com/comment/{cid}
         $info['privacy'] = 'public';
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);

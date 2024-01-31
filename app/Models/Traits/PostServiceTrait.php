@@ -36,7 +36,7 @@ trait PostServiceTrait
         $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['pid'] = $postData->pid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid; // https://example.com/post/{pid}
         $info['title'] = $postData->title;
         $info['content'] = $postData->content;
         $info['contentLength'] = Str::length($postData->content);
@@ -58,7 +58,7 @@ trait PostServiceTrait
         $info['commentDislikeCount'] = $configKeys['comment_dislike_public_count'] ? $postData->comment_dislike_count : null;
         $info['commentFollowCount'] = $configKeys['comment_follow_public_count'] ? $postData->comment_follow_count : null;
         $info['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $postData->comment_block_count : null;
-        $info['postCount'] = $postData->post_count;
+        $info['quoteCount'] = $postData->quote_count;
         $info['createdDatetime'] = $postData->created_at;
         $info['createdTimeAgo'] = null;
         $info['editedDatetime'] = $postData->last_edit_at;

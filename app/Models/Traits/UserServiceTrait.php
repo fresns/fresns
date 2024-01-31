@@ -50,7 +50,7 @@ trait UserServiceTrait
         $profile['fsid'] = $fsid;
         $profile['uid'] = $userData->uid;
         $profile['username'] = $userData->username;
-        $profile['url'] = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$fsid;
+        $profile['url'] = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$fsid; // https://example.com/user/{fsid}
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = $userData->getUserAvatar();
         $profile['decorate'] = null;

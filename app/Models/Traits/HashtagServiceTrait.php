@@ -29,7 +29,7 @@ trait HashtagServiceTrait
         $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['htid'] = $hashtagData->slug;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug; // https://example.com/hashtag/{htid}
         $info['name'] = $hashtagData->name;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($hashtagData->cover_file_id, $hashtagData->cover_file_url);
         $info['description'] = StrHelper::languageContent($hashtagData->description, $langTag);

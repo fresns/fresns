@@ -31,7 +31,7 @@ trait GroupServiceTrait
         $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $info['gid'] = $groupData->gid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid; // https://example.com/group/{gid}
         $info['name'] = StrHelper::languageContent($groupData->name, $langTag);
         $info['description'] = StrHelper::languageContent($groupData->description, $langTag);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($groupData->cover_file_id, $groupData->cover_file_url);
