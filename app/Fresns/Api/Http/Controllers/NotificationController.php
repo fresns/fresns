@@ -101,8 +101,6 @@ class NotificationController extends Controller
                     Notification::ACTION_OBJECT_GEOTAG => DetailUtility::geotagDetail($notify?->geotag, $langTag, $timezone, $authUserId, $infoOptions),
                     Notification::ACTION_OBJECT_POST => DetailUtility::postDetail($notify?->post, $langTag, $timezone, $authUserId, $infoOptions),
                     Notification::ACTION_OBJECT_COMMENT => DetailUtility::commentDetail($notify?->comment, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_POST_LOG => DetailUtility::postLogDetail($notify?->postLog, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_COMMENT_LOG => DetailUtility::commentLogDetail($notify?->commentLog, $langTag, $timezone, $authUserId, $infoOptions),
                     Notification::ACTION_OBJECT_EXTEND => $notify?->extend?->getExtendInfo($langTag),
                     default => null,
                 };
