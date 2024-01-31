@@ -81,7 +81,7 @@ trait CommentLogServiceTrait
         $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone) : null;
 
         $info['createdDatetime'] = $commentLogData->created_at;
-        $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($commentLogData->created_at, $langTag);;
+        $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($commentLogData->created_at, $langTag);
         $info['state'] = $commentLogData->state;
         $info['reason'] = $commentLogData->reason;
 
