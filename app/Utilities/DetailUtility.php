@@ -18,6 +18,7 @@ use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\ArchiveUsage;
 use App\Models\Comment;
+use App\Models\CommentLog;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Geotag;
@@ -26,6 +27,7 @@ use App\Models\Hashtag;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
+use App\Models\PostLog;
 use App\Models\User;
 use App\Models\UserLike;
 use Illuminate\Support\Str;
@@ -43,13 +45,13 @@ class DetailUtility
         //     ],
         // ];
 
-        if (! $accountOrAid) {
-            return null;
-        }
-
         $account = $accountOrAid;
         if (is_string($accountOrAid)) {
             $account = PrimaryHelper::fresnsModelByFsid('account', $accountOrAid);
+        }
+
+        if (empty($account)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -104,13 +106,13 @@ class DetailUtility
         //     ],
         // ];
 
-        if (empty($userOrUid)) {
-            return InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
-        }
-
         $user = $userOrUid;
         if (is_numeric($userOrUid)) {
             $user = PrimaryHelper::fresnsModelByFsid('user', $userOrUid);
+        }
+
+        if (empty($user)) {
+            return InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -249,13 +251,13 @@ class DetailUtility
         //     ],
         // ];
 
-        if (! $groupOrGid) {
-            return null;
-        }
-
         $group = $groupOrGid;
         if (is_string($groupOrGid)) {
             $group = PrimaryHelper::fresnsModelByFsid('group', $groupOrGid);
+        }
+
+        if (empty($group)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -332,13 +334,13 @@ class DetailUtility
         //     ],
         // ];
 
-        if (! $hashtagOrHtid) {
-            return null;
-        }
-
         $hashtag = $hashtagOrHtid;
         if (is_string($hashtagOrHtid)) {
             $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hashtagOrHtid);
+        }
+
+        if (empty($hashtag)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -407,13 +409,13 @@ class DetailUtility
         //     ],
         // ];
 
-        if (! $geotagOrGtid) {
-            return null;
-        }
-
         $geotag = $geotagOrGtid;
         if (is_string($geotagOrGtid)) {
             $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $geotagOrGtid);
+        }
+
+        if (empty($geotag)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -535,13 +537,13 @@ class DetailUtility
         // ];
         $viewType = $options['viewType'] ?? 'quoted';
 
-        if (! $postOrPid) {
-            return null;
-        }
-
         $post = $postOrPid;
         if (is_string($postOrPid)) {
             $post = PrimaryHelper::fresnsModelByFsid('post', $postOrPid);
+        }
+
+        if (empty($post)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -569,7 +571,7 @@ class DetailUtility
 
             // hashtags
             $item['hashtags'] = [];
-            if ($post->hashtags->isNotEmpty()) {
+            if ($post?->hashtags?->isNotEmpty()) {
                 foreach ($post->hashtags as $hashtag) {
                     $hashtagItem[] = $hashtag->slug;
                 }
@@ -581,12 +583,12 @@ class DetailUtility
             $item['geotag'] = $post?->geotag?->gtid;
 
             // author
-            $item['author'] = $post?->author?->id;
+            $item['author'] = $post?->author?->uid;
 
             // quoted post
-            $parentPost = $post?->parentPost;
-            $item['isMultiLevelQuote'] = (bool) $parentPost?->parent_id;
-            $item['quotedPost'] = $parentPost?->pid;
+            $quotedPost = $post?->quotedPost;
+            $item['isMultiLevelQuote'] = (bool) $quotedPost?->quoted_post_id;
+            $item['quotedPost'] = $quotedPost?->pid;
 
             $item['previewLikeUsers'] = [];
             $item['previewComments'] = [];
@@ -594,9 +596,9 @@ class DetailUtility
 
             $item['editControls'] = [
                 'isAuthor' => false,
-                'canDelete' => (bool) $permissions['canDelete'] ?? true,
+                'canDelete' => $permissions['canDelete'] ?? true,
                 'canEdit' => false,
-                'isAppEditor' => (bool) $permissions['editor']['isAppEditor'] ?? false,
+                'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
                 'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
             ];
 
@@ -767,12 +769,12 @@ class DetailUtility
         if ($previewConfig['comment_visibility_rule'] > 0) {
             $visibilityTime = $post->created_at->addDay($previewConfig['comment_visibility_rule']);
 
-            $postDetail['commentConfig']['hidden'] = $visibilityTime->lt(now());
+            $postDetail['commentConfig']['visible'] = $visibilityTime->gt(now());
         }
 
         $isPreviewLikeUsers = $options['isPreviewLikeUsers'] ?? false;
         $isPreviewComments = $options['isPreviewComments'] ?? false;
-        $publicComment = (! $postDetail['commentConfig']['hidden'] && ! $postDetail['commentConfig']['private']);
+        $publicComment = ($postDetail['commentConfig']['visible'] && $postDetail['commentConfig']['privacy'] == 'public');
 
         // get preview like users
         if ($isPreviewLikeUsers && $previewConfig['preview_post_like_users'] != 0) {
@@ -906,13 +908,13 @@ class DetailUtility
         // ];
         $viewType = $options['viewType'] ?? 'quoted';
 
-        if (! $commentOrCid) {
-            return null;
-        }
-
         $comment = $commentOrCid;
         if (is_string($commentOrCid)) {
             $comment = PrimaryHelper::fresnsModelByFsid('comment', $commentOrCid);
+        }
+
+        if (empty($comment)) {
+            return null;
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -923,11 +925,12 @@ class DetailUtility
         $commentDetail = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentDetail)) {
-            $post = $comment->post;
-
             $commentInfo = $comment->getCommentInfo($langTag);
+
             $permissions = $comment->permissions;
-            $postPermissions = $post->permissions;
+
+            $post = $comment?->post;
+            $postPermissions = $post?->permissions;
 
             $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
@@ -942,7 +945,7 @@ class DetailUtility
 
             // hashtags
             $item['hashtags'] = [];
-            if ($comment->hashtags->isNotEmpty()) {
+            if ($comment?->hashtags?->isNotEmpty()) {
                 foreach ($comment->hashtags as $hashtag) {
                     $hashtagItem[] = $hashtag->slug;
                 }
@@ -954,7 +957,7 @@ class DetailUtility
             $item['geotag'] = $comment?->geotag?->gtid;
 
             // author
-            $item['author'] = $comment?->author?->id;
+            $item['author'] = $comment?->author?->uid;
             $item['isPostAuthor'] = $comment->user_id == $post?->user_id ? true : false;
 
             $item['previewLikeUsers'] = [];
@@ -964,9 +967,9 @@ class DetailUtility
 
             $item['editControls'] = [
                 'isAuthor' => false,
-                'canDelete' => (bool) $permissions['canDelete'] ?? true,
+                'canDelete' => $permissions['canDelete'] ?? true,
                 'canEdit' => false,
-                'isAppEditor' => (bool) $permissions['editor']['isAppEditor'] ?? false,
+                'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
                 'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
             ];
 
@@ -1123,7 +1126,7 @@ class DetailUtility
 
         // authUserId
         if ($authUserId) {
-            $commentModel = PrimaryHelper::fresnsModelByFsid('comment', $commentDetail['cid']);
+            $commentModel = PrimaryHelper::fresnsModelByFsid('comment', $commentDetail['cid']); // use with (post)
 
             // manages
             $commentDetail['manages'] = ExtendUtility::getManageExtensions('comment', $langTag, $authUserId, $commentModel?->post?->group_id);
@@ -1141,7 +1144,7 @@ class DetailUtility
             }
 
             // interaction
-            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId, true);
             $commentDetail['interaction'] = array_replace($commentDetail['interaction'], $interactionStatus);
         }
 
@@ -1218,6 +1221,369 @@ class DetailUtility
         }
 
         return $result;
+    }
+
+    // postHistoryDetail
+    public static function postHistoryDetail(PostLog|string $postLogOrHpid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    {
+        // $options = [
+        //     'viewType' => '', // list, detail
+        //     'contentFormat' => '', // html
+        //     'checkPermissions' => false,
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterAuthor' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
+        $viewType = $options['viewType'] ?? 'list';
+
+        $postLog = $postLogOrHpid;
+        if (is_string($postLogOrHpid)) {
+            $postLog = PrimaryHelper::fresnsModelByFsid('postLog', $postLogOrHpid);
+        }
+
+        if (empty($postLog)) {
+            return null;
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_detail_post_history_{$postLog->id}_{$langTag}";
+        $cacheTag = 'fresnsPosts';
+
+        $historyDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($historyDetail)) {
+            $historyInfo = $postLog->getPostHistoryInfo();
+
+            $post = $postLog?->post;
+
+            if (empty($post)) {
+                return null;
+            }
+
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $postLog->id, $langTag);
+
+            // file
+            $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $postLog->id);
+
+            // extends
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $postLog->id, $langTag);
+
+            // author
+            $item['author'] = $postLog?->author?->uid;
+
+            // handle post detail content
+            $newContent = ContentUtility::handleAndReplaceAll($historyInfo['content'], $postLog->is_markdown, $postLog->user_id, Mention::TYPE_POST, $post->id);
+
+            $detailContent = [
+                'content' => $newContent,
+                'files' => $item['files'],
+            ];
+
+            $fidArr = ContentUtility::extractFile($historyInfo['content']);
+            if ($fidArr) {
+                $detailContent['content'] = ContentUtility::replaceFile($historyInfo['content']);
+
+                $detailContent['files'] = [
+                    'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($item['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($item['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($item['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
+            $briefLength = ConfigHelper::fresnsConfigByItemKey('post_brief_length');
+            if ($historyInfo['contentLength'] > $briefLength) {
+                $postContent = Str::limit($historyInfo['content'], $briefLength);
+                $postContent = strip_tags($postContent);
+
+                $historyInfo['content'] = ContentUtility::handleAndReplaceAll($postContent, $postLog->is_markdown, $postLog->user_id, Mention::TYPE_POST, $post->id);
+                $historyInfo['isBrief'] = true;
+            } else {
+                $historyInfo['content'] = $newContent;
+            }
+
+            $item['detailContent'] = $detailContent;
+
+            // handle post permissions
+            $permissions = $post->permissions;
+            $readConfigIsReadLocked = $permissions['readConfig']['isReadLocked'] ?? false;
+            $readConfigPreviewPercentage = $permissions['readConfig']['previewPercentage'] ?? 0;
+
+            $readConfigContent = [
+                'listContent' => null,
+                'listIsBrief' => false,
+                'detailContent' => null,
+            ];
+            if ($readConfigIsReadLocked) {
+                $previewPercentage = $readConfigPreviewPercentage / 100;
+                $readLength = intval($historyInfo['contentLength'] * $previewPercentage);
+
+                $readContent = Str::limit($postLog->content, $readLength);
+                $readContentLength = Str::length($readContent);
+
+                $newReadContent = ContentUtility::handleAndReplaceAll($readContent, $postLog->is_markdown, $postLog->user_id, Mention::TYPE_POST, $post->id);
+
+                $listPreviewContent = $newReadContent;
+                $listIsBrief = false;
+                $detailPreviewContent = $newReadContent;
+                if ($readContentLength > $briefLength) {
+                    $previewContent = Str::limit($readContent, $briefLength);
+                    $previewContent = strip_tags($previewContent);
+
+                    $listPreviewContent = ContentUtility::handleAndReplaceAll($previewContent, $postLog->is_markdown, $postLog->user_id, Mention::TYPE_POST, $post->id);
+                    $listIsBrief = true;
+                }
+
+                $readConfigContent = [
+                    'listContent' => $listPreviewContent,
+                    'listIsBrief' => $listIsBrief,
+                    'detailContent' => $detailPreviewContent,
+                ];
+            }
+
+            $item['readConfigContent'] = $readConfigContent;
+
+            $historyDetail = array_merge($historyInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // detail content
+        if ($viewType == 'detail') {
+            $historyDetail['content'] = $historyDetail['detailContent']['content'];
+            $historyDetail['isBrief'] = false;
+            $historyDetail['files'] = $historyDetail['detailContent']['files'];
+        }
+        unset($historyDetail['detailContent']);
+
+        // checkPermissions
+        if ($options['checkPermissions'] ?? false) {
+            $postModel = PrimaryHelper::fresnsModelById('post', $postLog->post_id);
+
+            $historyDetail = self::handlePostPermissions($historyDetail, $postModel, $viewType, $authUserId);
+        }
+
+        // author
+        $authorOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $options['filterAuthor']['type'] ?? null,
+                'keys' => $options['filterAuthor']['keys'] ?? null,
+            ],
+        ];
+        if ($historyDetail['author']) {
+            $historyDetail['author'] = $historyDetail['isAnonymous'] ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $authorOptions['filter']['type'], $authorOptions['filter']['keys']) : self::userDetail($historyDetail['author'], $langTag, null, $authUserId, $authorOptions);
+        } else {
+            $historyDetail['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate', $authorOptions['filter']['type'], $authorOptions['filter']['keys']);
+        }
+
+        // datetime
+        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
+        $historyDetail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($historyDetail['createdDatetime'], $langTag);
+
+        // contentFormat
+        $contentFormat = $options['contentFormat'] ?? null;
+        if ($contentFormat == 'html' && $historyDetail['content']) {
+            $historyDetail['content'] = $postLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($historyDetail, $filterType, $filterKeysArr);
+        }
+
+        return $historyDetail;
+    }
+
+    // commentHistoryDetail
+    public static function commentHistoryDetail(CommentLog|string $commentLogOrHcid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    {
+        // $options = [
+        //     'viewType' => '', // list, detail
+        //     'contentFormat' => '', // html
+        //     'checkPermissions' => false,
+        //     'filter' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        //     'filterAuthor' => [
+        //         'type' => '', // whitelist or blacklist
+        //         'keys' => '',
+        //     ],
+        // ];
+        $viewType = $options['viewType'] ?? 'list';
+
+        $commentLog = $commentLogOrHcid;
+        if (is_string($commentLogOrHcid)) {
+            $commentLog = PrimaryHelper::fresnsModelByFsid('commentLog', $commentLogOrHcid);
+        }
+
+        if (empty($commentLog)) {
+            return null;
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_detail_comment_history_{$commentLog->id}_{$langTag}";
+        $cacheTag = 'fresnsComments';
+
+        $historyDetail = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($historyDetail)) {
+            $historyInfo = $commentLog->getCommentHistoryInfo();
+
+            $comment = $commentLog?->comment;
+
+            if (empty($comment)) {
+                return null;
+            }
+
+            $post = $commentLog?->post;
+            $postPermissions = $post?->permissions;
+
+            $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
+
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT_LOG, $commentLog->id, $langTag);
+
+            // file
+            $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $commentLog->id);
+
+            // extends
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT_LOG, $commentLog->id, $langTag);
+
+            // author
+            $item['author'] = $commentLog?->author?->uid;
+
+            // handle post detail content
+            $newContent = ContentUtility::handleAndReplaceAll($historyInfo['content'], $commentLog->is_markdown, $commentLog->user_id, Mention::TYPE_COMMENT, $comment->id);
+
+            $detailContent = [
+                'content' => $newContent,
+                'files' => $item['files'],
+            ];
+
+            $fidArr = ContentUtility::extractFile($historyInfo['content']);
+            if ($fidArr) {
+                $detailContent['content'] = ContentUtility::replaceFile($historyInfo['content']);
+
+                $detailContent['files'] = [
+                    'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($item['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($item['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($item['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
+            $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_brief_length');
+            if ($historyInfo['contentLength'] > $briefLength) {
+                $commentContent = Str::limit($historyInfo['content'], $briefLength);
+                $commentContent = strip_tags($commentContent);
+
+                $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentContent, $commentLog->is_markdown, $commentLog->user_id, Mention::TYPE_COMMENT, $comment->id);
+                $commentInfo['isBrief'] = true;
+            } else {
+                $commentInfo['content'] = $newContent;
+            }
+
+            $item['detailContent'] = $detailContent;
+
+            $historyDetail = array_merge($historyInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // author
+        $authorOptions = [
+            'viewType' => 'quoted',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $options['filterAuthor']['type'] ?? null,
+                'keys' => $options['filterAuthor']['keys'] ?? null,
+            ],
+        ];
+        if ($historyDetail['author']) {
+            $historyDetail['author'] = $historyDetail['isAnonymous'] ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $authorOptions['filter']['type'], $authorOptions['filter']['keys']) : self::userDetail($historyDetail['author'], $langTag, null, $authUserId, $authorOptions);
+        } else {
+            $historyDetail['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate', $authorOptions['filter']['type'], $authorOptions['filter']['keys']);
+        }
+
+        // detail content
+        if ($viewType == 'detail') {
+            $historyDetail['content'] = $historyDetail['detailContent']['content'];
+            $historyDetail['isBrief'] = false;
+            $historyDetail['files'] = $historyDetail['detailContent']['files'];
+        }
+        unset($historyDetail['detailContent']);
+
+        // public or private
+        $commentPrivacy = $historyDetail['privacy'];
+
+        // authUserId
+        if ($authUserId) {
+            $commentLogModel = PrimaryHelper::fresnsModelByFsid('commentLog', $historyDetail['hcid']); // use with (post)
+
+            if ($commentLog->user_id == $authUserId || $commentLogModel?->post?->user_id == $authUserId) {
+                $commentPrivacy = 'public';
+            }
+        }
+
+        // checkPermissions
+        if ($options['checkPermissions'] ?? false && $commentPrivacy == 'private') {
+            $newContent = [
+                'content' => null,
+                'isBrief' => false,
+                'archives' => [],
+                'extends' => [
+                    'texts' => [],
+                    'infos' => [],
+                    'actions' => [],
+                ],
+                'files' => [
+                    'images' => [],
+                    'videos' => [],
+                    'audios' => [],
+                    'documents' => [],
+                ],
+            ];
+
+            $historyDetail = array_replace($historyDetail, $newContent);
+        }
+
+        $historyDetail['privacy'] = $commentPrivacy;
+
+        // datetime
+        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
+        $historyDetail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($historyDetail['createdDatetime'], $langTag);
+
+        // contentFormat
+        $contentFormat = $options['contentFormat'] ?? null;
+        if ($contentFormat == 'html' && $historyDetail['content']) {
+            $historyDetail['content'] = $commentLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+        }
+
+        // filter
+        $filterType = $options['filter']['type'] ?? null;
+        $filterKeys = $options['filter']['keys'] ?? null;
+        $filterKeysArr = $filterKeys ? array_filter(explode(',', $filterKeys)) : [];
+
+        if ($filterType && $filterKeysArr) {
+            return ArrUtility::filter($historyDetail, $filterType, $filterKeysArr);
+        }
+
+        return $historyDetail;
     }
 
     /**
@@ -1332,7 +1698,7 @@ class DetailUtility
         $postDetail['commentDislikeCount'] = $configKeys['comment_dislike_public_count'] ? $post->comment_dislike_count : null;
         $postDetail['commentFollowCount'] = $configKeys['comment_follow_public_count'] ? $post->comment_follow_count : null;
         $postDetail['commentBlockCount'] = $configKeys['comment_block_public_count'] ? $post->comment_block_count : null;
-        $postDetail['postCount'] = $post->post_count;
+        $postDetail['quoteCount'] = $post->quote_count;
         $postDetail['editedCount'] = $post->edit_count;
 
         return $postDetail;
@@ -1520,8 +1886,7 @@ class DetailUtility
         $commentList = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentList)) {
-            $commentQuery = Comment::with(['author'])
-                ->has('author')
+            $commentQuery = Comment::has('author')
                 ->where('post_id', $post->id)
                 ->where('top_parent_id', 0)
                 ->isEnabled()
@@ -1596,7 +1961,7 @@ class DetailUtility
         if (empty($commentList)) {
             $previewConfig = ConfigHelper::fresnsConfigByItemKey('preview_comment_replies_type');
 
-            $commentQuery = Comment::with(['author'])->has('author')->where('top_parent_id', $comment->id)->isEnabled();
+            $commentQuery = Comment::has('author')->where('top_parent_id', $comment->id)->isEnabled();
 
             if ($previewConfig == 'like') {
                 $commentQuery->orderByDesc('like_count');
