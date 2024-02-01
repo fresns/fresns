@@ -25,12 +25,21 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('parent_id')->default(0)->index('comment_parent_id');
             $table->unsignedBigInteger('user_id')->index('comment_user_id');
             $table->longText('content')->nullable();
-            $table->string('lang_tag', 16)->nullable();
-            $table->string('writing_direction', 3)->nullable();
+            $table->string('lang_tag', 16)->nullable()->index('comment_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
-            $table->unsignedTinyInteger('is_anonymous')->default(0);
-            $table->decimal('map_longitude', 12, 8)->nullable();
-            $table->decimal('map_latitude', 12, 8)->nullable();
+            $table->unsignedTinyInteger('is_anonymous')->default(0)->index('comment_is_anonymous');
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->point('map_location')->nullable()->index('comment_map_location');
+                    break;
+
+                case 'sqlsrv':
+                    $table->geography('map_location')->nullable()->index('comment_map_location');
+                    break;
+
+                default:
+                    $table->point('map_location')->nullable()->index('comment_map_location');
+            }
             $table->unsignedTinyInteger('is_sticky')->default(0);
             $table->unsignedTinyInteger('digest_state')->default(1)->index('comment_digest_state');
             $table->timestamp('digested_at')->nullable();
@@ -64,7 +73,7 @@ class CreateCommentsTable extends Migration
                     $table->json('permissions')->nullable();
             }
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('comment_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -80,6 +89,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('parent_comment_id')->nullable();
             $table->unsignedInteger('geotag_id')->nullable();
             $table->longText('content')->nullable();
+            $table->string('lang_tag', 16)->nullable()->index('comment_log_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             switch (config('database.default')) {
@@ -101,7 +111,7 @@ class CreateCommentsTable extends Migration
                     $table->json('permissions')->nullable();
             }
             $table->unsignedTinyInteger('is_enabled')->default(1);
-            $table->unsignedTinyInteger('state')->default(1);
+            $table->unsignedTinyInteger('state')->default(1)->index('comment_log_state');
             $table->string('reason')->nullable();
             $table->timestamp('submit_at')->nullable();
             $table->timestamp('created_at')->useCurrent();

@@ -53,7 +53,7 @@ class CreateAppsTable extends Migration
 
         Schema::create('app_callbacks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('app_fskey', 64);
+            $table->string('app_fskey', 64)->index('callback_app_fskey');
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('ulid', 64)->unique('callback_ulid');
@@ -71,7 +71,7 @@ class CreateAppsTable extends Migration
                     $table->json('content')->nullable();
             }
             $table->unsignedTinyInteger('is_used')->default(0);
-            $table->string('used_app_fskey', 64)->nullable();
+            $table->string('used_app_fskey', 64)->nullable()->index('callback_used_app_fskey');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

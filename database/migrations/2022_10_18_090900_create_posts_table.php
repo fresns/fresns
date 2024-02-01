@@ -25,11 +25,21 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('group_id')->default(0)->index('post_group_id');
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
-            $table->string('lang_tag', 16)->nullable();
+            $table->string('lang_tag', 16)->nullable()->index('post_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
-            $table->unsignedTinyInteger('is_anonymous')->default(0);
-            $table->decimal('map_longitude', 12, 8)->nullable();
-            $table->decimal('map_latitude', 12, 8)->nullable();
+            $table->unsignedTinyInteger('is_anonymous')->default(0)->index('post_is_anonymous');
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->point('map_location')->nullable()->index('post_map_location');
+                    break;
+
+                case 'sqlsrv':
+                    $table->geography('map_location')->nullable()->index('post_map_location');
+                    break;
+
+                default:
+                    $table->point('map_location')->nullable()->index('post_map_location');
+            }
             $table->unsignedTinyInteger('sticky_state')->default(1)->index('post_sticky_state');
             $table->unsignedTinyInteger('digest_state')->default(1)->index('post_digest_state');
             $table->timestamp('digested_at')->nullable();
@@ -64,7 +74,7 @@ class CreatePostsTable extends Migration
                     $table->json('permissions')->nullable();
             }
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('post_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -116,7 +126,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('geotag_id')->nullable();
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
-            $table->string('lang_tag', 16)->nullable();
+            $table->string('lang_tag', 16)->nullable()->index('post_log_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             switch (config('database.default')) {
@@ -138,7 +148,7 @@ class CreatePostsTable extends Migration
                     $table->json('permissions')->nullable();
             }
             $table->unsignedTinyInteger('is_enabled')->default(1);
-            $table->unsignedTinyInteger('state')->default(1);
+            $table->unsignedTinyInteger('state')->default(1)->index('post_log_state');
             $table->string('reason')->nullable();
             $table->timestamp('submit_at')->nullable();
             $table->timestamp('created_at')->useCurrent();

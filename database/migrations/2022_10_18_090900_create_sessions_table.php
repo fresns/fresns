@@ -24,7 +24,7 @@ class CreateSessionsTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->string('app_fskey', 32)->nullable();
             $table->string('app_id', 8)->unique('app_id');
-            $table->string('app_secret', 32);
+            $table->string('app_key', 32);
             $table->unsignedTinyInteger('is_read_only')->default(0);
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->text('remark')->nullable();
@@ -38,9 +38,9 @@ class CreateSessionsTable extends Migration
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
             $table->string('app_id', 8)->nullable()->index('token_app_id');
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('account_id')->index('token_account_id');
             $table->string('account_token', 32);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->index('token_user_id');
             $table->string('user_token', 32)->nullable();
             $table->string('scope', 128)->nullable();
             $table->text('payload')->nullable();

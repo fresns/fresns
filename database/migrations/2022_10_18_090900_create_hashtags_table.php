@@ -20,9 +20,9 @@ class CreateHashtagsTable extends Migration
         Schema::create('hashtags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 64)->unique('hashtag_name');
-            $table->string('slug')->unique('hashtag_slug');
+            $table->string('slug')->unique('hashtag_slug'); // htid
             $table->text('description')->nullable();
-            $table->unsignedSmallInteger('type')->default(1);
+            $table->unsignedSmallInteger('type')->default(1)->index('hashtag_type');
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
             switch (config('database.default')) {
@@ -48,7 +48,7 @@ class CreateHashtagsTable extends Migration
             $table->unsignedInteger('comment_digest_count')->default(0);
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('hashtag_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -58,12 +58,12 @@ class CreateHashtagsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('hashtag_id')->index('usage_hashtag_id');
+            $table->unsignedBigInteger('hashtag_id')->index('hashtag_usage_hashtag_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'hashtag_usages');
+            $table->index(['usage_type', 'usage_id'], 'hashtag_usage_type_id');
         });
     }
 

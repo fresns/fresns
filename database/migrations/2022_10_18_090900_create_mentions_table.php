@@ -19,13 +19,15 @@ class CreateMentionsTable extends Migration
     {
         Schema::create('mentions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index('mention_user_id');
             $table->unsignedTinyInteger('mention_type');
             $table->unsignedBigInteger('mention_id');
-            $table->unsignedBigInteger('mention_user_id');
+            $table->unsignedBigInteger('mention_user_id')->index('mention_mentioned_user_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
+
+            $table->index(['mention_type', 'mention_id'], 'mention_type_id');
         });
     }
 

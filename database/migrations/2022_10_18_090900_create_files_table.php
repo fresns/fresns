@@ -61,9 +61,9 @@ class CreateFilesTable extends Migration
 
         Schema::create('file_usages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('file_id')->index('usage_file_id');
-            $table->unsignedTinyInteger('file_type');
-            $table->unsignedTinyInteger('usage_type');
+            $table->unsignedBigInteger('file_id')->index('file_usage_file_id');
+            $table->unsignedTinyInteger('file_type')->index('file_usage_file_type');
+            $table->unsignedTinyInteger('usage_type')->index('file_usage_type');
             $table->unsignedTinyInteger('platform_id');
             $table->string('table_name', 64);
             $table->string('table_column', 64);
@@ -77,17 +77,17 @@ class CreateFilesTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['table_name', 'table_column'], 'file_usages');
+            $table->index(['table_name', 'table_column'], 'file_usage_table_column');
         });
 
         Schema::create('file_downloads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('file_id')->index('download_file_id');
-            $table->unsignedTinyInteger('file_type');
+            $table->unsignedBigInteger('file_id')->index('file_download_file_id');
+            $table->unsignedTinyInteger('file_type')->index('file_download_file_type');
             $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->index('file_download_user_id');
             $table->string('app_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('object_type');
+            $table->unsignedTinyInteger('object_type')->index('file_download_object_type');
             $table->unsignedBigInteger('object_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

@@ -76,7 +76,7 @@ class CreateAccountsTable extends Migration
             $table->softDeletes();
 
             $table->unique(['account_id', 'connect_platform_id'], 'account_connect_platform');
-            $table->unique(['connect_platform_id', 'connect_account_id'], 'connect_id');
+            $table->unique(['connect_platform_id', 'connect_account_id'], 'account_connect_id');
         });
 
         Schema::create('account_wallets', function (Blueprint $table) {

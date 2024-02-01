@@ -20,8 +20,8 @@ class CreateGeotagsTable extends Migration
         Schema::create('geotags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('gtid')->unique('gtid');
-            $table->string('place_id')->nullable()->unique('place_id');
-            $table->string('place_type')->default('unknown')->index('place_type');
+            $table->string('place_id')->nullable()->unique('geotag_place_id');
+            $table->string('place_type')->default('unknown')->index('geotag_place_type');
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('name')->nullable();
@@ -38,30 +38,30 @@ class CreateGeotagsTable extends Migration
                     $table->json('description')->nullable();
             }
             $table->unsignedTinyInteger('map_id')->default(1);
-            $table->decimal('map_longitude', 12, 8);
-            $table->decimal('map_latitude', 12, 8);
+            $table->decimal('map_longitude', 12, 8)->index('geotag_map_longitude');
+            $table->decimal('map_latitude', 12, 8)->index('geotag_map_latitude');
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->point('map_location');
+                    $table->point('map_location')->index('geotag_map_location');
                     $table->jsonb('location_info')->nullable();
                     break;
 
                 case 'sqlsrv':
-                    $table->geography('map_location');
+                    $table->geography('map_location')->index('geotag_map_location');
                     $table->nvarchar('location_info', 'max')->nullable();
                     break;
 
                 default:
-                    $table->point('map_location');
+                    $table->point('map_location')->index('geotag_map_location');
                     $table->json('location_info')->nullable();
             }
-            $table->unsignedSmallInteger('type')->default(1);
+            $table->unsignedSmallInteger('type')->default(1)->index('geotag_type');
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
             $table->string('continent_code', 8)->nullable();
             $table->string('country_code', 8)->nullable();
-            $table->string('region_code', 8)->nullable()->index('region_code');
-            $table->string('city_code', 8)->nullable()->index('city_code');
+            $table->string('region_code', 8)->nullable()->index('geotag_region_code');
+            $table->string('city_code', 8)->nullable()->index('geotag_city_code');
             $table->string('zip', 32)->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
@@ -86,24 +86,24 @@ class CreateGeotagsTable extends Migration
             $table->unsignedInteger('comment_digest_count')->default(0);
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('geotag_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['continent_code', 'country_code'], 'continent_country');
+            $table->index(['continent_code', 'country_code'], 'geotag_continent_country');
         });
 
         Schema::create('geotag_usages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('geotag_id')->index('usage_geotag_id');
+            $table->unsignedBigInteger('geotag_id')->index('geotag_usage_geotag_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'geotag_usages');
+            $table->index(['usage_type', 'usage_id'], 'geotag_usage_type_id');
         });
     }
 

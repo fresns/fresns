@@ -50,7 +50,7 @@ class CreateConfigsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['app_fskey', 'code'], 'app_code');
+            $table->unique(['app_fskey', 'code'], 'code_app_fskey');
         });
 
         Schema::create('language_packs', function (Blueprint $table) {

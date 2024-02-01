@@ -36,8 +36,8 @@ class CreateArchivesTable extends Migration
                     $table->json('description')->nullable();
             }
             $table->string('code', 32)->unique('archive_code');
-            $table->unsignedTinyInteger('usage_type');
-            $table->unsignedInteger('usage_group_id')->default(0);
+            $table->unsignedTinyInteger('usage_type')->index('archive_usage_type');
+            $table->unsignedInteger('usage_group_id')->default(0)->index('archive_usage_group_id');
             $table->unsignedTinyInteger('usage_group_content_type')->nullable();
             $table->string('form_element', 16);
             $table->string('element_type', 16)->nullable();
@@ -75,7 +75,7 @@ class CreateArchivesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedInteger('archive_id')->index('usage_archive_id');
+            $table->unsignedInteger('archive_id')->index('archive_usage_archive_id');
             $table->text('archive_value')->nullable();
             $table->tinyInteger('is_private')->default(0);
             $table->string('app_fskey', 64)->nullable();
@@ -83,7 +83,7 @@ class CreateArchivesTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'archive_usages');
+            $table->index(['usage_type', 'usage_id'], 'archive_usage_type_id');
         });
     }
 

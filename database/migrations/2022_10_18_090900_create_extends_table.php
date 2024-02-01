@@ -54,7 +54,7 @@ class CreateExtendsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('extend_id')->index('usage_extend_id');
+            $table->unsignedBigInteger('extend_id')->index('extend_usage_extend_id');
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedSmallInteger('sort_order')->default(9);
             $table->string('app_fskey', 64);
@@ -62,7 +62,7 @@ class CreateExtendsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'extend_usages');
+            $table->index(['usage_type', 'usage_id'], 'extend_usage_type_id');
         });
 
         Schema::create('extend_users', function (Blueprint $table) {

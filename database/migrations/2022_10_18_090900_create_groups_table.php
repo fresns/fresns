@@ -37,10 +37,10 @@ class CreateGroupsTable extends Migration
                     $table->json('name');
                     $table->json('description')->nullable();
             }
-            $table->unsignedSmallInteger('type')->default(1);
-            $table->unsignedTinyInteger('privacy')->default(1);
+            $table->unsignedSmallInteger('type')->default(1)->index('group_type');
+            $table->unsignedTinyInteger('privacy')->default(1)->index('group_privacy');
             $table->unsignedTinyInteger('private_end_after')->default(1);
-            $table->unsignedTinyInteger('visibility')->default(1);
+            $table->unsignedTinyInteger('visibility')->default(1)->index('group_visibility');
             $table->unsignedTinyInteger('follow_type')->default(1);
             $table->string('follow_app_fskey', 64)->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
@@ -48,7 +48,7 @@ class CreateGroupsTable extends Migration
             $table->unsignedBigInteger('banner_file_id')->nullable();
             $table->string('banner_file_url')->nullable();
             $table->unsignedSmallInteger('sort_order')->default(9);
-            $table->unsignedTinyInteger('is_recommend')->default(0);
+            $table->unsignedTinyInteger('is_recommend')->default(0)->index('group_is_recommend');
             $table->unsignedSmallInteger('recommend_sort_order')->default(9);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -77,7 +77,7 @@ class CreateGroupsTable extends Migration
             $table->unsignedInteger('comment_digest_count')->default(0);
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('group_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -85,8 +85,8 @@ class CreateGroupsTable extends Migration
 
         Schema::create('group_admins', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('group_id')->index('admin_group_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('group_id')->index('group_admin_group_id');
+            $table->unsignedBigInteger('user_id')->index('group_admin_user_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

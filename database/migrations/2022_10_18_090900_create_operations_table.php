@@ -20,7 +20,7 @@ class CreateOperationsTable extends Migration
         Schema::create('operations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('type')->default(1);
-            $table->string('code', 32);
+            $table->string('code', 32)->index('operation_code');
             $table->string('style', 64);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -53,13 +53,13 @@ class CreateOperationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedInteger('operation_id')->index('usage_operation_id');
+            $table->unsignedInteger('operation_id')->index('operation_usage_operation_id');
             $table->string('app_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'operation_usages');
+            $table->index(['usage_type', 'usage_id'], 'operation_usage_type_id');
         });
     }
 

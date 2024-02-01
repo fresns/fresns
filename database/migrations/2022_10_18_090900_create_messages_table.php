@@ -20,8 +20,8 @@ class CreateMessagesTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nmid', 32)->unique('nmid');
-            $table->unsignedTinyInteger('type');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('type')->index('notification_type');
+            $table->unsignedBigInteger('user_id')->index('notification_user_id');
             $table->text('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_multilingual')->default(0);
@@ -42,8 +42,8 @@ class CreateMessagesTable extends Migration
 
         Schema::create('conversations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('a_user_id');
-            $table->unsignedBigInteger('b_user_id');
+            $table->unsignedBigInteger('a_user_id')->index('conversation_a_user_id');
+            $table->unsignedBigInteger('b_user_id')->index('conversation_b_user_id');
             $table->unsignedTinyInteger('a_is_display')->default(1);
             $table->unsignedTinyInteger('b_is_display')->default(1);
             $table->unsignedTinyInteger('a_is_pin')->default(0);
@@ -57,7 +57,7 @@ class CreateMessagesTable extends Migration
         Schema::create('conversation_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('cmid', 32)->unique('cmid');
-            $table->unsignedBigInteger('conversation_id');
+            $table->unsignedBigInteger('conversation_id')->index('conversation_message_conversation_id');
             $table->unsignedBigInteger('send_user_id');
             $table->timestamp('send_deleted_at')->nullable();
             $table->unsignedTinyInteger('message_type')->default(1);

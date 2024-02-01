@@ -28,14 +28,14 @@ class CreateUsersTable extends Migration
             $table->string('avatar_file_url')->nullable();
             $table->unsignedBigInteger('banner_file_id')->nullable();
             $table->string('banner_file_url')->nullable();
-            $table->unsignedTinyInteger('gender')->default(1);
+            $table->unsignedTinyInteger('gender')->default(1)->index('user_gender');
             $table->unsignedTinyInteger('gender_pronoun')->nullable();
             $table->string('gender_custom')->nullable();
             $table->timestamp('birthday')->nullable();
             $table->unsignedTinyInteger('birthday_display_type')->default(1);
             $table->text('bio')->nullable();
             $table->string('location', 128)->nullable();
-            $table->unsignedTinyInteger('verified_status')->default(0);
+            $table->unsignedTinyInteger('verified_status')->default(0)->index('user_verified_status');
             $table->string('verified_desc')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->unsignedTinyInteger('conversation_limit')->default(1);
@@ -55,10 +55,12 @@ class CreateUsersTable extends Migration
             }
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('last_activity_at')->nullable();
+            $table->timestamp('last_post_at')->nullable();
+            $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('last_username_at')->nullable();
             $table->timestamp('last_nickname_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1)->index('user_is_enabled');
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
@@ -115,8 +117,6 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('extcredits3')->default(0);
             $table->unsignedInteger('extcredits4')->default(0);
             $table->unsignedInteger('extcredits5')->default(0);
-            $table->timestamp('last_post_at')->nullable();
-            $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -126,7 +126,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->index('extcredits_log_user_id');
             $table->unsignedTinyInteger('extcredits_id')->index('extcredits_id');
-            $table->unsignedTinyInteger('type');
+            $table->unsignedTinyInteger('type')->index('extcredits_type');
             $table->unsignedInteger('amount');
             $table->unsignedInteger('opening_amount');
             $table->unsignedInteger('closing_amount');
@@ -151,7 +151,7 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_likes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index('user_like_user_id');
             $table->unsignedTinyInteger('mark_type')->default(1);
             $table->unsignedTinyInteger('like_type');
             $table->unsignedBigInteger('like_id');
@@ -159,12 +159,14 @@ class CreateUsersTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['user_id', 'like_type', 'like_id'], 'user_like');
+            $table->index(['mark_type', 'like_type', 'like_id'], 'user_like_users'); // get mark users
+            $table->index(['user_id', 'mark_type', 'like_type'], 'user_like_contents'); // get mark contents
+            $table->unique(['user_id', 'like_type', 'like_id'], 'user_like_id'); // unique
         });
 
         Schema::create('user_follows', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index('user_follow_user_id');
             $table->unsignedTinyInteger('mark_type')->default(1);
             $table->unsignedTinyInteger('follow_type');
             $table->unsignedBigInteger('follow_id');
@@ -176,7 +178,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['user_id', 'follow_type', 'follow_id'], 'user_follow');
+            $table->index(['mark_type', 'follow_type', 'follow_id'], 'user_follow_users'); // get mark users
+            $table->index(['user_id', 'mark_type', 'follow_type'], 'user_follow_contents'); // get mark contents
+            $table->unique(['user_id', 'follow_type', 'follow_id'], 'user_follow_id'); // unique
         });
     }
 
