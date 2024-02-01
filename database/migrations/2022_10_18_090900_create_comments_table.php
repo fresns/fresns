@@ -24,6 +24,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('top_parent_id')->default(0)->index('comment_top_parent_id');
             $table->unsignedBigInteger('parent_id')->default(0)->index('comment_parent_id');
             $table->unsignedBigInteger('user_id')->index('comment_user_id');
+            $table->unsignedInteger('geotag_id')->default(0)->index('comment_geotag_id');
             $table->longText('content')->nullable();
             $table->string('lang_tag', 16)->nullable()->index('comment_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);

@@ -23,6 +23,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('user_id')->index('post_user_id');
             $table->unsignedBigInteger('quoted_post_id')->default(0)->index('post_quoted_id');
             $table->unsignedInteger('group_id')->default(0)->index('post_group_id');
+            $table->unsignedInteger('geotag_id')->default(0)->index('post_geotag_id');
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->string('lang_tag', 16)->nullable()->index('post_lang_tag');

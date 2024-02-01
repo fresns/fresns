@@ -18,7 +18,7 @@ class CreateGeotagsTable extends Migration
     public function up(): void
     {
         Schema::create('geotags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('gtid')->unique('gtid');
             $table->string('place_id')->nullable()->unique('geotag_place_id');
             $table->string('place_type')->default('unknown')->index('geotag_place_type');
@@ -98,7 +98,7 @@ class CreateGeotagsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('geotag_id')->index('geotag_usage_geotag_id');
+            $table->unsignedInteger('geotag_id')->index('geotag_usage_geotag_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
