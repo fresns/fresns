@@ -24,7 +24,7 @@ class InteractionService
     const TYPE_COMMENT = 6;
 
     // check interaction setting
-    public static function checkInteractionSetting(string $contentType, string $markType, ?bool $isMe = false)
+    public static function checkInteractionSetting(string $contentType, string $markType, ?bool $isMe = false): void
     {
         $markType = match ($markType) {
             'like' => 'like',
@@ -59,7 +59,7 @@ class InteractionService
     }
 
     // get the users who marked it
-    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, ?string $timezone = null, ?int $authUserId = null)
+    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, ?string $timezone = null, ?int $authUserId = null): array
     {
         switch ($getType) {
             case 'likers':

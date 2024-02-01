@@ -816,19 +816,19 @@ class CacheHelper
      * fresns interaction.
      */
     // fresns_user_follow_{$type}_ids_by_{$userId}
-    // fresns_user_follow_1_ids_by_{$userId}                    // tag: fresnsUsers
-    // fresns_user_follow_2_ids_by_{$userId}                    // tag: fresnsGroups
-    // fresns_user_follow_3_ids_by_{$userId}                    // tag: fresnsHashtags
-    // fresns_user_follow_4_ids_by_{$userId}                    // tag: fresnsGeotags
-    // fresns_user_follow_5_ids_by_{$userId}                    // tag: fresnsPosts
-    // fresns_user_follow_6_ids_by_{$userId}                    // tag: fresnsComments
+    // fresns_user_follow_1_ids_by_{$userId}                        // tag: fresnsUsers
+    // fresns_user_follow_2_ids_by_{$userId}                        // tag: fresnsGroups
+    // fresns_user_follow_3_ids_by_{$userId}                        // tag: fresnsHashtags
+    // fresns_user_follow_4_ids_by_{$userId}                        // tag: fresnsGeotags
+    // fresns_user_follow_5_ids_by_{$userId}                        // tag: fresnsPosts
+    // fresns_user_follow_6_ids_by_{$userId}                        // tag: fresnsComments
     // fresns_user_block_{$type}_ids_by_{$userId}
-    // fresns_user_block_1_ids_by_{$userId}                     // tag: fresnsUsers
-    // fresns_user_block_2_ids_by_{$userId}                     // tag: fresnsGroups
-    // fresns_user_block_3_ids_by_{$userId}                     // tag: fresnsHashtags
-    // fresns_user_block_4_ids_by_{$userId}                     // tag: fresnsGeotags
-    // fresns_user_block_5_ids_by_{$userId}                     // tag: fresnsPosts
-    // fresns_user_block_6_ids_by_{$userId}                     // tag: fresnsComments
+    // fresns_user_block_1_ids_by_{$userId}                         // tag: fresnsUsers
+    // fresns_user_block_2_ids_by_{$userId}                         // tag: fresnsGroups
+    // fresns_user_block_3_ids_by_{$userId}                         // tag: fresnsHashtags
+    // fresns_user_block_4_ids_by_{$userId}                         // tag: fresnsGeotags
+    // fresns_user_block_5_ids_by_{$userId}                         // tag: fresnsPosts
+    // fresns_user_block_6_ids_by_{$userId}                         // tag: fresnsComments
 
     /**
      * fresns api.

@@ -286,7 +286,7 @@ class PermissionUtility
     // Check user permissions
     public static function checkUserPerm(int $userId, array $permUserIds): bool
     {
-        return in_array($userId, $permUserIds) ? true : false;
+        return in_array($userId, $permUserIds);
     }
 
     // Check user role permissions
@@ -314,7 +314,7 @@ class PermissionUtility
 
         $userRole = PermissionUtility::getUserMainRole($userId);
 
-        return in_array($userRole['id'], $whitelist) ? true : false;
+        return in_array($userRole['id'], $whitelist);
     }
 
     // Check user conversation permission
@@ -391,7 +391,7 @@ class PermissionUtility
         $group = PrimaryHelper::fresnsModelById('group', $groupId);
         $groupAdminArr = $group->admins->pluck('id')->toArray();
 
-        return in_array($userId, $groupAdminArr) ? true : false;
+        return in_array($userId, $groupAdminArr);
     }
 
     // Check if the user has group publishing permissions
