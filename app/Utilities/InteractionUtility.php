@@ -1221,10 +1221,10 @@ class InteractionUtility
     }
 
     // get follow type
-    public static function getFollowType(int $creatorId, int $digestState, ?int $authUserId = null, ?int $groupId = null, ?int $geotagId = null): ?string
+    public static function getFollowType(string $type, int $creatorId, int $digestState, int $authUserId, ?int $groupId = null, ?int $geotagId = null): ?string
     {
-        if (empty($authUserId)) {
-            return null;
+        if ($type != 'all') {
+            return $type;
         }
 
         // user
