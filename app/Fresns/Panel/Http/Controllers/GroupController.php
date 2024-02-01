@@ -129,7 +129,7 @@ class GroupController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $group->cover_file_id = $fileId;
             $group->cover_file_url = null;
@@ -151,7 +151,7 @@ class GroupController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $group->banner_file_id = $fileId;
             $group->banner_file_url = null;
@@ -208,7 +208,7 @@ class GroupController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $group->cover_file_id = $fileId;
             $group->cover_file_url = null;
@@ -230,7 +230,7 @@ class GroupController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $group->banner_file_id = $fileId;
             $group->banner_file_url = null;

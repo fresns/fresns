@@ -563,7 +563,7 @@ class ConversationController extends Controller
                 break;
 
             case 'file':
-                $fileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->fid);
+                $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->fid);
 
                 $fileMessage = ConversationMessage::where('conversation_id', $conversation->id)
                     ->where('send_user_id', $authUser->id)
@@ -578,7 +578,7 @@ class ConversationController extends Controller
                         'conversation_id' => $conversation->id,
                         'send_user_id' => $authUser->id,
                         'message_type' => ConversationMessage::TYPE_FILE,
-                        'message_file_id' => PrimaryHelper::fresnsFileIdByFid($dtoRequest->fid),
+                        'message_file_id' => PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->fid),
                         'receive_user_id' => $receiveUser->id,
                     ];
 

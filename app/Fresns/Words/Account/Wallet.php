@@ -37,7 +37,7 @@ class Wallet
         $dtoWordBody = new WalletCheckPasswordDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
@@ -72,8 +72,8 @@ class Wallet
         $dtoWordBody = new WalletRechargeDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -143,8 +143,8 @@ class Wallet
         $dtoWordBody = new WalletWithdrawDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -241,7 +241,7 @@ class Wallet
             );
         }
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -256,7 +256,7 @@ class Wallet
             AccountWalletLog::STATE_PROCESSING,
         ]);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $walletLogQuery->when($userId, function ($query, $value) {
             $query->where('user_id', $value);
         });
@@ -353,8 +353,8 @@ class Wallet
         $dtoWordBody = new WalletFreezeDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -427,8 +427,8 @@ class Wallet
         $dtoWordBody = new WalletUnfreezeDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -500,10 +500,10 @@ class Wallet
         $dtoWordBody = new WalletIncreaseDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->originAid);
-        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->originUid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+        $originAccountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->originAid);
+        $originUserId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->originUid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -635,10 +635,10 @@ class Wallet
         $dtoWordBody = new WalletDecreaseDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->originAid);
-        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->originUid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+        $originAccountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->originAid);
+        $originUserId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->originUid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -788,7 +788,7 @@ class Wallet
             );
         }
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -800,7 +800,7 @@ class Wallet
 
         $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->where('state', AccountWalletLog::STATE_SUCCESS);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $walletLogQuery->when($userId, function ($query, $value) {
             $query->where('user_id', $value);
         });

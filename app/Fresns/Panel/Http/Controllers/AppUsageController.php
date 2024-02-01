@@ -127,7 +127,7 @@ class AppUsageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $appUsage->icon_file_id = $fileId;
             $appUsage->icon_file_url = null;
@@ -169,7 +169,7 @@ class AppUsageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $appUsage->icon_file_id = $fileId;
             $appUsage->icon_file_url = null;

@@ -114,7 +114,7 @@ class User
 
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
         if (empty($user) || $user?->account_id != $accountId) {
@@ -167,8 +167,8 @@ class User
             return $verifyAccountToken->errorResponse();
         }
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         $userTokenModel = SessionToken::where('app_id', $dtoWordBody->appId)
             ->where('account_id', $accountId)
@@ -255,8 +255,8 @@ class User
 
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $uidToken = $dtoWordBody->uidToken;
 
         $cacheKey = "fresns_token_user_{$userId}_{$uidToken}";
@@ -311,7 +311,7 @@ class User
     {
         $dtoWordBody = new GetUserDeviceTokenDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
 
         $tokenQuery = SessionToken::where('user_id', $userId)->whereNotNull('device_token');
 
@@ -365,7 +365,7 @@ class User
         $dtoWordBody = new SetUserExtcreditsDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $userStat = UserStat::where('user_id', $userId)->first();
         $extcreditsId = 'extcredits'.$dtoWordBody->extcreditsId;
 
@@ -459,8 +459,8 @@ class User
     {
         $dtoWordBody = new SetUserGroupExpiryDatetimeDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->gid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+        $groupId = PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid);
 
         $userFollow = UserFollow::where('user_id', $userId)->type(UserFollow::TYPE_GROUP)->where('follow_id', $groupId)->first();
 
@@ -486,7 +486,7 @@ class User
     {
         $dtoWordBody = new SetUserBadgeDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $fskey = $dtoWordBody->fskey;
 
         $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
@@ -531,7 +531,7 @@ class User
     {
         $dtoWordBody = new ClearUserBadgeDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $fskey = $dtoWordBody->fskey;
 
         AppBadge::where('user_id', $userId)->where('app_fskey', $fskey)->forceDelete();
@@ -549,7 +549,7 @@ class User
     {
         $dtoWordBody = new ClearUserAllBadgesDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $cacheTag = 'fresnsUsers';
 
         $userBadges = AppBadge::where('user_id', $userId)->get();

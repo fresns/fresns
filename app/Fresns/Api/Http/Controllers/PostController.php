@@ -161,9 +161,7 @@ class PostController extends Controller
             $groupDateLimit = $checkLimit['datetime'];
 
             if ($dtoRequest->includeSubgroups) {
-                $allGroups = PrimaryHelper::fresnsModelSubgroups($viewGroup->id);
-
-                $groupIdArr = $allGroups->pluck('id')->toArray();
+                $groupIdArr = PrimaryHelper::fresnsSubgroupsIdArr($viewGroup->id);
 
                 $postQuery->whereIn('group_id', $groupIdArr);
             } else {
@@ -321,14 +319,14 @@ class PostController extends Controller
 
         // since post
         $postQuery->when($dtoRequest->sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $postQuery->when($dtoRequest->beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });

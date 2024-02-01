@@ -246,35 +246,6 @@ class PrimaryHelper
         return $seoData;
     }
 
-    // get all subgroups model
-    public static function fresnsModelSubgroups(int|string $idOrGid): mixed
-    {
-        $cacheKey = "fresns_model_subgroups_{$idOrGid}";
-        $cacheTag = 'fresnsGroups';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return null;
-        }
-
-        $flattenGroups = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($flattenGroups)) {
-            if (StrHelper::isPureInt($idOrGid)) {
-                $groupModel = Group::where('id', $idOrGid)->first();
-            } else {
-                $groupModel = Group::where('gid', $idOrGid)->first();
-            }
-
-            $flattenGroups = $groupModel->flattenGroups();
-
-            CacheHelper::put($flattenGroups, $cacheKey, $cacheTag);
-        }
-
-        return $flattenGroups;
-    }
-
     // get conversation model
     public static function fresnsModelConversation(int $authUserId, int $conversationUserId): Conversation
     {
@@ -304,60 +275,45 @@ class PrimaryHelper
         return $conversationModel;
     }
 
-    // get table id
-    public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null): ?int
+    // get primary id
+    public static function fresnsPrimaryId(string $type, ?string $fsid = null): ?int
     {
-        if (empty($tableKey)) {
+        if (empty($fsid)) {
             return null;
         }
 
-        $tableId = match ($tableName) {
-            'config' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
-            'account' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
-            'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
-            'group' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtag' => PrimaryHelper::fresnsHashtagIdByHtid($tableKey),
-            'geotag' => PrimaryHelper::fresnsGeotagIdByGtid($tableKey),
-            'post' => PrimaryHelper::fresnsPostIdByPid($tableKey),
-            'comment' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
-            'file' => PrimaryHelper::fresnsFileIdByFid($tableKey),
-            'extend' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
-
-            'configs' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
-            'accounts' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
-            'users' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
-            'groups' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtags' => PrimaryHelper::fresnsHashtagIdByHtid($tableKey),
-            'geotags' => PrimaryHelper::fresnsGeotagIdByGtid($tableKey),
-            'posts' => PrimaryHelper::fresnsPostIdByPid($tableKey),
-            'comments' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
-            'files' => PrimaryHelper::fresnsFileIdByFid($tableKey),
-            'extends' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
-
-            default => null,
-        };
-
-        return $tableId;
+        return PrimaryHelper::fresnsModelByFsid($type, $fsid)?->id;
     }
 
-    public static function fresnsConfigIdByItemKey(?string $itemKey = null): ?int
+    // get subgroups id array
+    public static function fresnsSubgroupsIdArr(int|string $idOrGid): ?array
     {
-        if (empty($itemKey)) {
-            return null;
+        $cacheKey = "fresns_group_subgroups_ids_{$idOrGid}";
+        $cacheTag = 'fresnsGroups';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
         }
 
-        $id = Config::withTrashed()->where('item_key', $itemKey)->value('id');
+        $subgroups = CacheHelper::get($cacheKey, $cacheTag);
 
-        return $id ?? null;
-    }
+        if (empty($subgroups)) {
+            if (StrHelper::isPureInt($idOrGid)) {
+                $groupModel = Group::where('id', $idOrGid)->first();
+            } else {
+                $groupModel = Group::where('gid', $idOrGid)->first();
+            }
 
-    public static function fresnsAccountIdByAid(?string $aid = null): ?int
-    {
-        if (empty($aid)) {
-            return null;
+            $flattenGroups = $groupModel->flattenGroups();
+
+            $subgroups = $flattenGroups->pluck('id')->toArray();
+
+            CacheHelper::put($subgroups, $cacheKey, $cacheTag);
         }
 
-        return PrimaryHelper::fresnsModelByFsid('account', $aid)?->id;
+        return $subgroups;
     }
 
     public static function fresnsAccountIdByUserId(?string $userId = null): ?int
@@ -367,114 +323,5 @@ class PrimaryHelper
         }
 
         return PrimaryHelper::fresnsModelByFsid('user', $userId)?->account_id;
-    }
-
-    public static function fresnsAccountIdByUidOrUsername(?string $uidOrUsername = null): ?int
-    {
-        if (empty($uidOrUsername)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername)?->account_id;
-    }
-
-    public static function fresnsUserIdByUidOrUsername(?string $uidOrUsername = null): ?int
-    {
-        if (empty($uidOrUsername)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername)?->id;
-    }
-
-    public static function fresnsGroupIdByGid(?string $gid = null): ?int
-    {
-        if (empty($gid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('group', $gid)?->id;
-    }
-
-    public static function fresnsGroupIdByContentFsid(string $type, ?string $fsid = null): ?int
-    {
-        if (empty($fsid)) {
-            return null;
-        }
-
-        if ($type != 'post' && $type != 'comment') {
-            return null;
-        }
-
-        if ($type == 'post') {
-            return PrimaryHelper::fresnsModelByFsid('post', $fsid)?->group_id;
-        }
-
-        $comment = PrimaryHelper::fresnsModelByFsid('comment', $fsid);
-
-        return $comment?->post?->group_id;
-    }
-
-    public static function fresnsHashtagIdByHtid(?string $htid = null): ?int
-    {
-        if (empty($htid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('hashtag', $htid)?->id;
-    }
-
-    public static function fresnsGeotagIdByGtid(?string $gtid = null): ?int
-    {
-        if (empty($gtid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('geotag', $gtid)?->id;
-    }
-
-    public static function fresnsPostIdByPid(?string $pid = null): ?int
-    {
-        if (empty($pid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('post', $pid)?->id;
-    }
-
-    public static function fresnsCommentIdByCid(?string $cid = null): ?int
-    {
-        if (empty($cid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('comment', $cid)?->id;
-    }
-
-    public static function fresnsFileIdByFid(?string $fid = null): ?int
-    {
-        if (empty($fid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('file', $fid)?->id;
-    }
-
-    public static function fresnsExtendIdByEid(?string $eid = null): ?int
-    {
-        if (empty($eid)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('extend', $eid)?->id;
-    }
-
-    public static function fresnsArchiveIdByCode(?string $code = null): ?int
-    {
-        if (empty($code)) {
-            return null;
-        }
-
-        return PrimaryHelper::fresnsModelByFsid('archive', $code)?->id;
     }
 }

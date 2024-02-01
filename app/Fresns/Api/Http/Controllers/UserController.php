@@ -422,7 +422,7 @@ class UserController extends Controller
 
         // edit avatarFid
         if ($dtoRequest->avatarFid) {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->avatarFid);
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->avatarFid);
 
             $authUser->fill([
                 'avatar_file_id' => $fileId,
@@ -440,7 +440,7 @@ class UserController extends Controller
 
         // edit bannerFid
         if ($dtoRequest->bannerFid) {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->bannerFid);
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->bannerFid);
 
             $authUser->fill([
                 'banner_file_id' => $fileId,

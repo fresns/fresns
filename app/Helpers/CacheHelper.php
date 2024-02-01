@@ -606,7 +606,7 @@ class CacheHelper
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $fileId = (int) $fileIdOrFid;
         } else {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fileIdOrFid);
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fileIdOrFid);
         }
 
         if (empty($fileId)) {
@@ -785,7 +785,6 @@ class CacheHelper
     // fresns_model_comment_log_{$hcid}                             // tag: fresnsComments
     // fresns_model_comment_log_{$commentLogId}                     // tag: fresnsComments
     // fresns_model_seo_{$usageType}_{$usageId}                     // tag: fresnsSeo
-    // fresns_model_subgroups_{$idOrGid}                            // tag: fresnsGroups
     // fresns_model_conversation_{$userId}_{$conversationUserId}    // tag: fresnsUsers
 
     /**
@@ -857,6 +856,7 @@ class CacheHelper
      * tag: fresnsGroups.
      */
     // fresns_group_private_ids
+    // fresns_group_subgroups_ids_{$idOrGid}
     // fresns_group_tree_by_guest
     // fresns_group_tree_by_user_{$userId}                          // +tag: fresnsUsers
     // fresns_group_list_filter_ids_by_user_{$userId}               // +tag: fresnsUsers

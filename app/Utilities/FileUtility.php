@@ -158,8 +158,8 @@ class FileUtility
             ];
             $fileId = File::create($fileInput)->id;
 
-            $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid'] ?? null);
-            $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid'] ?? null);
+            $accountId = PrimaryHelper::fresnsPrimaryId('account', $bodyInfo['aid'] ?? null);
+            $userId = PrimaryHelper::fresnsPrimaryId('user', $bodyInfo['uid'] ?? null);
 
             if (empty($accountId)) {
                 $accountId = PrimaryHelper::fresnsAccountIdByUserId($userId);
@@ -245,8 +245,8 @@ class FileUtility
 
         $fileId = File::create($fileInput)->id;
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid'] ?? null);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid'] ?? null);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $bodyInfo['aid'] ?? null);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $bodyInfo['uid'] ?? null);
 
         $tableId = $bodyInfo['tableId'];
         if (empty($bodyInfo['tableId'])) {

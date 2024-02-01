@@ -509,7 +509,7 @@ class CommonController extends Controller
 
         // user avatar or banner
         if ($fresnsResp->isSuccessResponse() && $tableName == 'users') {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             if ($tableColumn == 'avatar_file_id') {
                 $authUser->update([
@@ -528,7 +528,7 @@ class CommonController extends Controller
 
         // conversation
         if ($fresnsResp->isSuccessResponse() && $tableName == 'conversations') {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $receiveUserId = ($authUser->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
 
             // conversation message

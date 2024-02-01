@@ -149,7 +149,7 @@ class UserController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('default_avatar', $fileId);
         } elseif ($request->get('default_avatar_url')) {
             $request->request->set('default_avatar', $request->get('default_avatar_url'));
@@ -169,7 +169,7 @@ class UserController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('anonymous_avatar', $fileId);
         } elseif ($request->get('anonymous_avatar_url')) {
             $request->request->set('anonymous_avatar', $request->get('anonymous_avatar_url'));
@@ -189,7 +189,7 @@ class UserController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('deactivate_avatar', $fileId);
         } elseif ($request->get('deactivate_avatar_url')) {
             $request->request->set('deactivate_avatar', $request->get('deactivate_avatar_url'));

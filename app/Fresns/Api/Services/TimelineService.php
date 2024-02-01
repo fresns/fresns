@@ -104,34 +104,34 @@ class TimelineService
 
         // since post
         $userPostQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
         $groupPostQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
         $digestPostQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $userPostQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
         $groupPostQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
         $digestPostQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
@@ -223,14 +223,14 @@ class TimelineService
 
         // since post
         $postQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $postQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
@@ -307,14 +307,14 @@ class TimelineService
 
         // since post
         $postQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $postQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
@@ -388,14 +388,14 @@ class TimelineService
 
         // since post
         $postQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $postQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
@@ -471,14 +471,14 @@ class TimelineService
 
         // since post
         $postQuery->when($sincePid, function ($query, $value) {
-            $sincePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $sincePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '>', $sincePostId);
         });
 
         // before post
         $postQuery->when($beforePid, function ($query, $value) {
-            $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
+            $beforePostId = PrimaryHelper::fresnsPrimaryId('post', $value);
 
             $query->where('id', '<', $beforePostId);
         });
@@ -619,34 +619,34 @@ class TimelineService
 
         // since comment
         $userCommentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
         $groupCommentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
         $digestCommentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
 
         // before comment
         $userCommentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
         $groupCommentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
         $digestCommentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
@@ -747,14 +747,14 @@ class TimelineService
 
         // since comment
         $commentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
 
         // before comment
         $commentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
@@ -840,14 +840,14 @@ class TimelineService
 
         // since comment
         $commentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
 
         // before comment
         $commentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
@@ -931,14 +931,14 @@ class TimelineService
 
         // since comment
         $commentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
 
         // before comment
         $commentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });
@@ -1026,14 +1026,14 @@ class TimelineService
 
         // since comment
         $commentQuery->when($sinceCid, function ($query, $value) {
-            $sinceCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $sinceCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '>', $sinceCommentId);
         });
 
         // before comment
         $commentQuery->when($beforeCid, function ($query, $value) {
-            $beforeCommentId = PrimaryHelper::fresnsCommentIdByCid($value);
+            $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
         });

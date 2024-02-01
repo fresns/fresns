@@ -55,7 +55,7 @@ class RoleController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $role->icon_file_id = $fileId;
             $role->icon_file_url = null;
@@ -92,7 +92,7 @@ class RoleController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             $role->icon_file_id = $fileId;
             $role->icon_file_url = null;

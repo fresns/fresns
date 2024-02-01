@@ -91,7 +91,7 @@ class Content
         switch ($dtoWordBody->type) {
             case 1:
                 // post
-                $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid);
+                $groupId = PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->postGid);
 
                 $title = null;
                 if ($dtoWordBody->postTitle) {
@@ -102,7 +102,7 @@ class Content
 
                 $logData = [
                     'user_id' => $author->id,
-                    'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
+                    'parent_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isAppEditor,
                     'editor_fskey' => $editorFskey,
@@ -141,7 +141,7 @@ class Content
                 $logData = [
                     'user_id' => $author->id,
                     'post_id' => $checkPost->id,
-                    'parent_comment_id' => PrimaryHelper::fresnsCommentIdByCid($checkPost->commentCid),
+                    'parent_comment_id' => PrimaryHelper::fresnsPrimaryId('comment', $checkPost->commentCid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isAppEditor,
                     'editor_fskey' => $editorFskey,
@@ -478,8 +478,8 @@ class Content
             case 'post':
                 $post = Post::create([
                     'user_id' => $author->id,
-                    'quoted_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid) ?? 0,
-                    'group_id' => PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid) ?? 0,
+                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->postQuotePid) ?? 0,
+                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->postGid) ?? 0,
                     'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
@@ -839,8 +839,8 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
@@ -892,8 +892,8 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
@@ -927,8 +927,8 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
@@ -962,8 +962,8 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
@@ -1009,7 +1009,7 @@ class Content
         $dtoWordBody = new SetPostAuthDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
+        $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
                 37400,
@@ -1017,7 +1017,7 @@ class Content
             );
         }
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $roleId = $dtoWordBody->rid;
         if (empty($userId) && empty($roleId)) {
             return $this->failure(
@@ -1072,7 +1072,7 @@ class Content
         $dtoWordBody = new SetPostAffiliateUserDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
+        $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
                 37400,
@@ -1080,7 +1080,7 @@ class Content
             );
         }
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         if (empty($userId)) {
             return $this->failure(
                 35201,
@@ -1116,7 +1116,7 @@ class Content
         $dtoWordBody = new SetCommentExtendButtonDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $commentId = PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->cid);
+        $commentId = PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->cid);
         if (empty($commentId)) {
             return $this->failure(
                 37500,

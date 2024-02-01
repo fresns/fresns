@@ -1177,15 +1177,7 @@ class InteractionUtility
 
         $idArr = [];
         foreach ($fsidArr as $fsid) {
-            $id = match ($type) {
-                'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($fsid),
-                'group' => PrimaryHelper::fresnsGroupIdByGid($fsid),
-                'hashtag' => PrimaryHelper::fresnsHashtagIdByHtid($fsid),
-                'geotag' => PrimaryHelper::fresnsGeotagIdByGtid($fsid),
-                'post' => PrimaryHelper::fresnsPostIdByPid($fsid),
-                'comment' => PrimaryHelper::fresnsCommentIdByCid($fsid),
-                default => null,
-            };
+            $id = PrimaryHelper::fresnsPrimaryId($type, $fsid);
 
             if (empty($id)) {
                 continue;

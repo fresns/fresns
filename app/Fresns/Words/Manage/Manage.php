@@ -86,8 +86,8 @@ class Manage
     {
         $dtoWordBody = new CheckExtendPermDTO($wordBody);
 
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->gid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+        $groupId = PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid);
 
         $checkPerm = PermissionUtility::checkExtendPerm($dtoWordBody->fskey, $dtoWordBody->type, $groupId, $userId);
 

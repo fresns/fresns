@@ -93,7 +93,7 @@ class GeneralController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('site_icon', $fileId);
         } elseif ($request->get('site_icon_url')) {
             $request->request->set('site_icon', $request->get('site_icon_url'));
@@ -113,7 +113,7 @@ class GeneralController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('site_logo', $fileId);
         } elseif ($request->get('site_logo_url')) {
             $request->request->set('site_logo', $request->get('site_logo_url'));

@@ -406,7 +406,7 @@ class Account
         $dtoWordBody = new CreateAccountTokenDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
 
         if (empty($accountId)) {
@@ -466,7 +466,7 @@ class Account
         $dtoWordBody = new VerifyAccountTokenDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         if (empty($accountId)) {
             return $this->failure(
@@ -528,7 +528,7 @@ class Account
     {
         $dtoWordBody = new GetAccountDeviceTokenDTO($wordBody);
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         $tokenQuery = SessionToken::where('account_id', $accountId)->whereNotNull('device_token');
 

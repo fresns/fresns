@@ -176,8 +176,8 @@ class Send
         $isMultilingual = $dtoWordBody['isMultilingual'] ?? 0;
 
         $contentId = match ($dtoWordBody['type']) {
-            Notification::TYPE_COMMENT => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody['contentFsid']),
-            Notification::TYPE_QUOTE => PrimaryHelper::fresnsPostIdByPid($dtoWordBody['contentFsid']),
+            Notification::TYPE_COMMENT => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody['contentFsid']),
+            Notification::TYPE_QUOTE => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody['contentFsid']),
             default => null,
         };
 

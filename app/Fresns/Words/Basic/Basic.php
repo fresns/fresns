@@ -275,12 +275,12 @@ class Basic
 
         $accountId = null;
         if (isset($dtoWordBody->aid)) {
-            $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+            $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         }
 
         $userId = null;
         if (isset($dtoWordBody->uid)) {
-            $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+            $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         }
 
         $input = [

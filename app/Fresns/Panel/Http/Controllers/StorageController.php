@@ -363,7 +363,7 @@ class StorageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('image_substitution', $fileId);
         } elseif ($request->get('image_substitution_url')) {
             $request->request->set('image_substitution', $request->get('image_substitution_url'));
@@ -383,7 +383,7 @@ class StorageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('video_substitution', $fileId);
         } elseif ($request->get('video_substitution_url')) {
             $request->request->set('video_substitution', $request->get('video_substitution_url'));
@@ -403,7 +403,7 @@ class StorageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('audio_substitution', $fileId);
         } elseif ($request->get('audio_substitution_url')) {
             $request->request->set('audio_substitution', $request->get('audio_substitution_url'));
@@ -423,7 +423,7 @@ class StorageController extends Controller
             if ($fresnsResp->isErrorResponse()) {
                 return back()->with('failure', $fresnsResp->getMessage());
             }
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
             $request->request->set('document_substitution', $fileId);
         } elseif ($request->get('document_substitution_url')) {
             $request->request->set('document_substitution', $request->get('document_substitution_url'));
