@@ -20,6 +20,7 @@ class PostListDTO extends DTO
             'gtid' => ['string', 'nullable'], // geotag_usages->geotag_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
+            'langTag' => ['string', 'nullable'], // posts->lang_tag
             'contentType' => ['string', 'nullable'],
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state

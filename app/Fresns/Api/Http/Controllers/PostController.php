@@ -64,18 +64,7 @@ class PostController extends Controller
 
         $postQuery = Post::query();
 
-        $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enabled', true);
-
-            if ($authUserId) {
-                $query->orWhere(function ($subQuery) use ($authUserId) {
-                    $subQuery->where('is_enabled', false)->where('user_id', $authUserId);
-                });
-            }
-        });
-
         // has author
-        $postQuery->has('author');
         $postQuery->whereRelation('author', 'is_enabled', 1);
 
         // block
@@ -88,7 +77,13 @@ class PostController extends Controller
         $filterGeotagIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGeotags);
         $filterPostIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockPosts);
 
+        $postQuery->where('is_enabled', true);
+
         if ($authUserId) {
+            $postQuery->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
+
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
             $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -119,9 +114,7 @@ class PostController extends Controller
         });
 
         $postQuery->when($filterGeotagIds, function ($query, $value) {
-            $query->whereDoesntHave('geotagUsage', function ($query) use ($value) {
-                $query->whereNotIn('geotag_id', $value);
-            });
+            $query->whereNotIn('geotag_id', $value);
         });
 
         $postQuery->when($filterPostIds, function ($query, $value) {
@@ -208,7 +201,7 @@ class PostController extends Controller
                 throw new ApiException(37301);
             }
 
-            $postQuery->whereRelation('geotagUsage', 'geotag_id', $viewGeotag->id);
+            $postQuery->where('geotag_id', $viewGeotag->id);
         }
 
         // other conditions
@@ -338,6 +331,11 @@ class PostController extends Controller
             $beforePostId = PrimaryHelper::fresnsPostIdByPid($value);
 
             $query->where('id', '<', $beforePostId);
+        });
+
+        // lang tag
+        $postQuery->when($dtoRequest->langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
@@ -578,9 +576,11 @@ class PostController extends Controller
             throw new ApiException(37401);
         }
 
+        InteractionService::checkInteractionSetting('post', $dtoRequest->type);
+
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
 
-        InteractionService::checkInteractionSetting('post', $dtoRequest->type);
+        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
@@ -616,6 +616,8 @@ class PostController extends Controller
         }
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
+
+        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
 
         $userListData = PostUser::with('user')->where('post_id', $post->id)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
@@ -664,27 +666,24 @@ class PostController extends Controller
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
 
+        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
+
         // query
         $postQuery = Post::query();
 
-        $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enabled', true);
-
-            if ($authUserId) {
-                $query->orWhere(function ($subQuery) use ($authUserId) {
-                    $subQuery->where('is_enabled', false)->where('user_id', $authUserId);
-                });
-            }
-        });
-
         // has author
-        $postQuery->has('author');
         $postQuery->whereRelation('author', 'is_enabled', 1);
 
         // filter
         $filterGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
+        $postQuery->where('is_enabled', true);
+
         if ($authUserId) {
+            $postQuery->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
+
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
 
             $filterUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -706,9 +705,7 @@ class PostController extends Controller
             });
 
             $postQuery->when($filterGeotagIds, function ($query, $value) {
-                $query->whereDoesntHave('geotagUsage', function ($query) use ($value) {
-                    $query->whereNotIn('geotag_id', $value);
-                });
+                $query->whereNotIn('geotag_id', $value);
             });
 
             $postQuery->when($filterPostIds, function ($query, $value) {
@@ -721,7 +718,7 @@ class PostController extends Controller
         });
 
         // datetime limit
-        $dateLimit = $groupDateLimit ?? ContentService::getContentDateLimit($authUserId, $authUser?->expired_at);
+        $dateLimit = ContentService::getContentDateLimit($authUserId, $authUser?->expired_at);
         $postQuery->when($dateLimit, function ($query, $value) {
             $query->where('created_at', '<=', $value);
         });
@@ -841,10 +838,11 @@ class PostController extends Controller
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
 
+        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
+
         $historyQuery = PostLog::where('post_id', $post->id)->where('state', PostLog::STATE_SUCCESS)->latest();
 
         // has author
-        $historyQuery->has('author');
         $historyQuery->whereRelation('author', 'is_enabled', 1);
 
         $histories = $historyQuery->paginate($dtoRequest->pageSize ?? 15);
@@ -909,6 +907,8 @@ class PostController extends Controller
 
         ContentService::checkUserContentViewPerm($postLog->post->created_at, $authUser?->id, $authUser?->expired_at);
 
+        ContentService::checkGroupContentViewPerm($postLog?->post->created_at, $postLog?->post->group_id, $authUser?->id);
+
         $historyOptions = [
             'viewType' => 'list',
             'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
@@ -956,17 +956,31 @@ class PostController extends Controller
 
         $timelineService = new TimelineService();
 
+        $followType = null;
         switch ($dtoRequest->type) {
             case 'user':
-                $posts = $timelineService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
+                $followType = 'user';
+                $posts = $timelineService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
                 break;
 
             case 'group':
-                $posts = $timelineService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
+                $followType = 'group';
+                $posts = $timelineService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                break;
+
+            case 'hashtag':
+                $followType = 'hashtag';
+                $posts = $timelineService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                break;
+
+            case 'geotag':
+                $followType = 'geotag';
+                $posts = $timelineService->getPostListByFollowGeotags($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
                 break;
 
             default:
-                $posts = $timelineService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
+                $followType = 'all';
+                $posts = $timelineService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
         }
 
         $postOptions = [
@@ -1018,7 +1032,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $item = DetailUtility::postDetail($post, $langTag, $timezone, $authUser->id, $postOptions);
 
-            $item['followType'] = InteractionUtility::getFollowType($post->user_id, $post->digest_state, $authUser?->id, $post->group_id, $post->geotag_id);
+            $item['followType'] = InteractionUtility::getFollowType($followType, $post->user_id, $post->digest_state, $authUser->id, $post->group_id, $post->geotag_id);
 
             $postList[] = $item;
         }
@@ -1053,24 +1067,19 @@ class PostController extends Controller
 
         $postQuery = Post::query();
 
-        $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enabled', true);
-
-            if ($authUserId) {
-                $query->orWhere(function ($subQuery) use ($authUserId) {
-                    $subQuery->where('is_enabled', false)->where('user_id', $authUserId);
-                });
-            }
-        });
-
         // has author
-        $postQuery->has('author');
         $postQuery->whereRelation('author', 'is_enabled', 1);
 
         // block
         $filterGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
+        $postQuery->where('is_enabled', true);
+
         if ($authUserId) {
+            $postQuery->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
+
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
             $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -1090,9 +1099,7 @@ class PostController extends Controller
             });
 
             $postQuery->when($blockGeotagIds, function ($query, $value) {
-                $query->whereDoesntHave('geotagUsage', function ($query) use ($value) {
-                    $query->whereNotIn('geotag_id', $value);
-                });
+                $query->whereNotIn('geotag_id', $value);
             });
 
             $postQuery->when($blockPostIds, function ($query, $value) {
@@ -1121,24 +1128,42 @@ class PostController extends Controller
             default => $length,
         };
 
+        $mapLng = $dtoRequest->mapLng;
+        $mapLat = $dtoRequest->mapLat;
+
         switch (config('database.default')) {
-            case 'pgsql':
-                $postQuery->select(DB::raw("*, ST_Distance(map_location, ST_MakePoint($dtoRequest->mapLng, $dtoRequest->mapLat)::geography) AS distance"))
-                    ->having('distance', '<=', $nearbyLength * 1000)
+            case 'mysql':
+                $postQuery->select(DB::raw("*, ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)')) AS distance"))
+                    ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)')) <= {$nearbyLength} * 1000")
                     ->orderBy('distance');
                 break;
 
+            case 'sqlite':
+                $postQuery->select(DB::raw("*, ST_Distance(GeomFromText('POINT($mapLng $mapLat)'), map_location) AS distance"))
+                    ->havingRaw("ST_Distance(GeomFromText('POINT($mapLng $mapLat)'), map_location) <= {$nearbyLength} * 1000")
+                    ->orderBy('distance');
+                break;
+
+            case 'pgsql':
+                $postQuery->select(DB::raw("*, ST_Distance(map_location::geography, ST_MakePoint($mapLng, $mapLat)::geography) AS distance"))
+                ->whereRaw("ST_DWithin(map_location::geography, ST_MakePoint($mapLng, $mapLat)::geography, {$nearbyLength} * 1000)")
+                ->orderBy('distance');
+                break;
+
             case 'sqlsrv':
-                $postQuery->select(DB::raw("*, map_location.STDistance(geography::Point($dtoRequest->mapLat, $dtoRequest->mapLng, 4326)) AS distance"))
-                    ->having('distance', '<=', $nearbyLength * 1000)
+                $postQuery->select(DB::raw("*, map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
+                    ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
                     ->orderBy('distance');
                 break;
 
             default:
-                $postQuery->select(DB::raw("*, ( 6371 * acos( cos( radians($dtoRequest->mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($dtoRequest->mapLng) ) + sin( radians($dtoRequest->mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
-                    ->having('distance', '<=', $nearbyLength)
-                    ->orderBy('distance');
+                throw new ApiException(32303);
         }
+
+        // lang tag
+        $postQuery->when($dtoRequest->langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
 
         // content type
         if ($dtoRequest->contentType && $dtoRequest->contentType != 'All') {

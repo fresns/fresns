@@ -20,6 +20,7 @@ class PostNearbyDTO extends DTO
             'mapLat' => ['numeric', 'required', 'min:-90', 'max:90'],
             'unit' => ['string', 'nullable', 'in:km,mi'],
             'length' => ['integer', 'nullable'],
+            'langTag' => ['string', 'nullable'], // posts->lang_tag
             'contentType' => ['string', 'nullable'],
             'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
