@@ -67,12 +67,7 @@ class Comment extends Model
 
     public function geotag()
     {
-        return $this->belongsTo(Geotag::class, 'geotag_usages', 'usage_id', 'geotag_id')->wherePivot('usage_type', GeotagUsage::TYPE_COMMENT)->wherePivotNull('deleted_at');
-    }
-
-    public function geotagUsage()
-    {
-        return $this->hasOne(GeotagUsage::class, 'usage_id', 'id')->where('usage_type', GeotagUsage::TYPE_COMMENT);
+        return $this->belongsTo(Geotag::class, 'geotag_id', 'id');
     }
 
     public function post()
