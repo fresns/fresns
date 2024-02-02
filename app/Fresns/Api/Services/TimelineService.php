@@ -19,9 +19,23 @@ class TimelineService
     /**
      * Post Timelines.
      */
+    // $options = [
+    //     'langTag' => '',
+    //     'contentType' => '',
+    //     'sincePid' => '',
+    //     'beforePid' => '',
+    //     'dateLimit' => '',
+    // ];
+
     // get post list by follow all
-    public function getPostListByFollowAll(int $authUserId, ?string $contentType = null, ?string $sincePid = null, ?string $beforePid = null, ?string $dateLimit = null)
+    public function getPostListByFollowAll(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sincePid = $options['sincePid'] ?? null;
+        $beforePid = $options['beforePid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $followGroupIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
 
@@ -136,6 +150,17 @@ class TimelineService
             $query->where('id', '<', $beforePostId);
         });
 
+        // lang tag
+        $userPostQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+        $groupPostQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+        $digestPostQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+
         // content type
         if ($contentType && $contentType != 'All') {
             // file
@@ -180,8 +205,14 @@ class TimelineService
     }
 
     // get post list by follow users
-    public function getPostListByFollowUsers(int $authUserId, ?string $contentType = null, ?string $sincePid = null, ?string $beforePid = null, ?string $dateLimit = null)
+    public function getPostListByFollowUsers(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sincePid = $options['sincePid'] ?? null;
+        $beforePid = $options['beforePid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $postQuery = Post::query();
 
         $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -235,6 +266,11 @@ class TimelineService
             $query->where('id', '<', $beforePostId);
         });
 
+        // lang tag
+        $postQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+
         // content type
         if ($contentType && $contentType != 'All') {
             // file
@@ -264,8 +300,14 @@ class TimelineService
     }
 
     // get post list by follow groups
-    public function getPostListByFollowGroups(int $authUserId, ?string $contentType = null, ?string $sincePid = null, ?string $beforePid = null, ?string $dateLimit = null)
+    public function getPostListByFollowGroups(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sincePid = $options['sincePid'] ?? null;
+        $beforePid = $options['beforePid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $postQuery = Post::query();
 
         $followGroupIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -319,6 +361,11 @@ class TimelineService
             $query->where('id', '<', $beforePostId);
         });
 
+        // lang tag
+        $postQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+
         // content type
         if ($contentType && $contentType != 'All') {
             // file
@@ -347,8 +394,14 @@ class TimelineService
     }
 
     // get post list by follow hashtags
-    public function getPostListByFollowHashtags(int $authUserId, ?string $contentType = null, ?string $sincePid = null, ?string $beforePid = null, ?string $dateLimit = null)
+    public function getPostListByFollowHashtags(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sincePid = $options['sincePid'] ?? null;
+        $beforePid = $options['beforePid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $postQuery = Post::query();
 
         $followHashtagIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -400,6 +453,11 @@ class TimelineService
             $query->where('id', '<', $beforePostId);
         });
 
+        // lang tag
+        $postQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+
         // content type
         if ($contentType && $contentType != 'All') {
             // file
@@ -428,8 +486,14 @@ class TimelineService
     }
 
     // get post list by follow geotags
-    public function getPostListByFollowGeotags(int $authUserId, ?string $contentType = null, ?string $sincePid = null, ?string $beforePid = null, ?string $dateLimit = null)
+    public function getPostListByFollowGeotags(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sincePid = $options['sincePid'] ?? null;
+        $beforePid = $options['beforePid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $postQuery = Post::query();
 
         $followGeotagIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GEOTAG, $authUserId);
@@ -483,6 +547,11 @@ class TimelineService
             $query->where('id', '<', $beforePostId);
         });
 
+        // lang tag
+        $postQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+
         // content type
         if ($contentType && $contentType != 'All') {
             // file
@@ -513,9 +582,23 @@ class TimelineService
     /**
      * Comment Timelines.
      */
+    // $options = [
+    //     'langTag' => '',
+    //     'contentType' => '',
+    //     'sinceCid' => '',
+    //     'beforeCid' => '',
+    //     'dateLimit' => '',
+    // ];
+
     // get comment list by follow all
-    public function getCommentListByFollowAll(int $authUserId, ?string $contentType = null, ?string $sinceCid = null, ?string $beforeCid = null, ?string $dateLimit = null)
+    public function getCommentListByFollowAll(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sinceCid = $options['sinceCid'] ?? null;
+        $beforeCid = $options['beforeCid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $followGroupIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
 
@@ -544,6 +627,16 @@ class TimelineService
         $groupCommentQuery->whereRelation('author', 'is_enabled', 1);
         $digestCommentQuery->whereRelation('author', 'is_enabled', 1);
 
+        // has post
+        $userCommentQuery->whereRelation('post', 'is_enabled', 1);
+        $groupCommentQuery->whereRelation('post', 'is_enabled', 1);
+        $digestCommentQuery->whereRelation('post', 'is_enabled', 1);
+
+        // privacy
+        $userCommentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
+        $groupCommentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
+        $digestCommentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
+
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -559,28 +652,32 @@ class TimelineService
         }
         // block group
         if ($blockGroupIds) {
-            $userCommentQuery->whereNotIn('group_id', $blockGroupIds);
-            $digestCommentQuery->whereNotIn('group_id', $blockGroupIds);
+            $userCommentQuery->whereDoesntHave('post', function ($query) use ($blockGroupIds) {
+                $query->whereNotIn('group_id', $blockGroupIds);
+            });
+            $digestCommentQuery->whereDoesntHave('post', function ($query) use ($blockGroupIds) {
+                $query->whereNotIn('group_id', $blockGroupIds);
+            });
         }
         // block hashtag
         if ($blockHashtagIds) {
             $userCommentQuery->when($blockHashtagIds, function ($query, $value) {
-                $query->where(function ($postQuery) use ($value) {
-                    $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+                $query->where(function ($commentQuery) use ($value) {
+                    $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                         $query->whereNotIn('hashtag_id', $value);
                     });
                 });
             });
             $groupCommentQuery->when($blockHashtagIds, function ($query, $value) {
-                $query->where(function ($postQuery) use ($value) {
-                    $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+                $query->where(function ($commentQuery) use ($value) {
+                    $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                         $query->whereNotIn('hashtag_id', $value);
                     });
                 });
             });
             $digestCommentQuery->when($blockHashtagIds, function ($query, $value) {
-                $query->where(function ($postQuery) use ($value) {
-                    $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+                $query->where(function ($commentQuery) use ($value) {
+                    $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                         $query->whereNotIn('hashtag_id', $value);
                     });
                 });
@@ -594,21 +691,9 @@ class TimelineService
         }
         // block post
         if ($blockPostIds) {
-            $userCommentQuery->when($blockPostIds, function ($query, $value) {
-                $query->whereDoesntHave('post', function ($query) use ($value) {
-                    $query->whereNotIn('id', $value);
-                });
-            });
-            $groupCommentQuery->when($blockPostIds, function ($query, $value) {
-                $query->whereDoesntHave('post', function ($query) use ($value) {
-                    $query->whereNotIn('id', $value);
-                });
-            });
-            $digestCommentQuery->when($blockPostIds, function ($query, $value) {
-                $query->whereDoesntHave('post', function ($query) use ($value) {
-                    $query->whereNotIn('id', $value);
-                });
-            });
+            $userCommentQuery->whereNotIn('post_id', $blockPostIds);
+            $groupCommentQuery->whereNotIn('post_id', $blockPostIds);
+            $digestCommentQuery->whereNotIn('post_id', $blockPostIds);
         }
         // block comment
         if ($blockCommentIds) {
@@ -649,6 +734,17 @@ class TimelineService
             $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
+        });
+
+        // lang tag
+        $userCommentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+        $groupCommentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
+        });
+        $digestCommentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
@@ -695,8 +791,14 @@ class TimelineService
     }
 
     // get comment list by follow users
-    public function getCommentListByFollowUsers(int $authUserId, ?string $contentType = null, ?string $sinceCid = null, ?string $beforeCid = null, ?string $dateLimit = null)
+    public function getCommentListByFollowUsers(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sinceCid = $options['sinceCid'] ?? null;
+        $beforeCid = $options['beforeCid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $commentQuery = Comment::query();
 
         $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -709,6 +811,12 @@ class TimelineService
 
         // has author
         $commentQuery->whereRelation('author', 'is_enabled', 1);
+
+        // has post
+        $commentQuery->whereRelation('post', 'is_enabled', 1);
+
+        // privacy
+        $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
 
         // block
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -724,8 +832,8 @@ class TimelineService
         });
 
         $commentQuery->when($blockHashtagIds, function ($query, $value) {
-            $query->where(function ($postQuery) use ($value) {
-                $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+            $query->where(function ($commentQuery) use ($value) {
+                $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                     $query->whereNotIn('hashtag_id', $value);
                 });
             });
@@ -736,9 +844,7 @@ class TimelineService
         });
 
         $commentQuery->when($blockPostIds, function ($query, $value) {
-            $query->whereDoesntHave('post', function ($query) use ($value) {
-                $query->whereNotIn('id', $value);
-            });
+            $query->whereNotIn('post_id', $value);
         });
 
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -757,6 +863,11 @@ class TimelineService
             $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
+        });
+
+        // lang tag
+        $commentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
@@ -788,8 +899,14 @@ class TimelineService
     }
 
     // get comment list by follow groups
-    public function getCommentListByFollowGroups(int $authUserId, ?string $contentType = null, ?string $sinceCid = null, ?string $beforeCid = null, ?string $dateLimit = null)
+    public function getCommentListByFollowGroups(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sinceCid = $options['sinceCid'] ?? null;
+        $beforeCid = $options['beforeCid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $commentQuery = Comment::query();
 
         $followGroupIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -805,6 +922,12 @@ class TimelineService
         // has author
         $commentQuery->whereRelation('author', 'is_enabled', 1);
 
+        // has post
+        $commentQuery->whereRelation('post', 'is_enabled', 1);
+
+        // privacy
+        $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
+
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -817,8 +940,8 @@ class TimelineService
         });
 
         $commentQuery->when($blockHashtagIds, function ($query, $value) {
-            $query->where(function ($postQuery) use ($value) {
-                $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+            $query->where(function ($commentQuery) use ($value) {
+                $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                     $query->whereNotIn('hashtag_id', $value);
                 });
             });
@@ -829,9 +952,7 @@ class TimelineService
         });
 
         $commentQuery->when($blockPostIds, function ($query, $value) {
-            $query->whereDoesntHave('post', function ($query) use ($value) {
-                $query->whereNotIn('id', $value);
-            });
+            $query->whereNotIn('post_id', $value);
         });
 
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -850,6 +971,11 @@ class TimelineService
             $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
+        });
+
+        // lang tag
+        $commentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
@@ -881,8 +1007,14 @@ class TimelineService
     }
 
     // get comment list by follow hashtags
-    public function getCommentListByFollowHashtags(int $authUserId, ?string $contentType = null, ?string $sinceCid = null, ?string $beforeCid = null, ?string $dateLimit = null)
+    public function getCommentListByFollowHashtags(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sinceCid = $options['sinceCid'] ?? null;
+        $beforeCid = $options['beforeCid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $commentQuery = Comment::query();
 
         $followHashtagIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -897,6 +1029,12 @@ class TimelineService
 
         // has author
         $commentQuery->whereRelation('author', 'is_enabled', 1);
+
+        // has post
+        $commentQuery->whereRelation('post', 'is_enabled', 1);
+
+        // privacy
+        $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -920,9 +1058,7 @@ class TimelineService
         });
 
         $commentQuery->when($blockPostIds, function ($query, $value) {
-            $query->whereDoesntHave('post', function ($query) use ($value) {
-                $query->whereNotIn('id', $value);
-            });
+            $query->whereNotIn('post_id', $value);
         });
 
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -941,6 +1077,11 @@ class TimelineService
             $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
+        });
+
+        // lang tag
+        $commentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
@@ -972,8 +1113,14 @@ class TimelineService
     }
 
     // get comment list by follow geotags
-    public function getCommentListByFollowGeotags(int $authUserId, ?string $contentType = null, ?string $sinceCid = null, ?string $beforeCid = null, ?string $dateLimit = null)
+    public function getCommentListByFollowGeotags(int $authUserId, ?array $options = [])
     {
+        $langTag = $options['langTag'] ?? null;
+        $contentType = $options['contentType'] ?? null;
+        $sinceCid = $options['sinceCid'] ?? null;
+        $beforeCid = $options['beforeCid'] ?? null;
+        $dateLimit = $options['dateLimit'] ?? null;
+
         $commentQuery = Comment::query();
 
         $followGeotagIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_GEOTAG, $authUserId);
@@ -988,6 +1135,12 @@ class TimelineService
 
         // has author
         $commentQuery->whereRelation('author', 'is_enabled', 1);
+
+        // has post
+        $commentQuery->whereRelation('post', 'is_enabled', 1);
+
+        // privacy
+        $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -1007,17 +1160,15 @@ class TimelineService
         });
 
         $commentQuery->when($blockHashtagIds, function ($query, $value) {
-            $query->where(function ($postQuery) use ($value) {
-                $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+            $query->where(function ($commentQuery) use ($value) {
+                $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                     $query->whereNotIn('hashtag_id', $value);
                 });
             });
         });
 
         $commentQuery->when($blockPostIds, function ($query, $value) {
-            $query->whereDoesntHave('post', function ($query) use ($value) {
-                $query->whereNotIn('id', $value);
-            });
+            $query->whereNotIn('post_id', $value);
         });
 
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -1036,6 +1187,11 @@ class TimelineService
             $beforeCommentId = PrimaryHelper::fresnsPrimaryId('comment', $value);
 
             $query->where('id', '<', $beforeCommentId);
+        });
+
+        // lang tag
+        $commentQuery->when($langTag, function ($query, $value) {
+            $query->where('lang_tag', $value);
         });
 
         // content type
