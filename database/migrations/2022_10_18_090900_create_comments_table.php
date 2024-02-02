@@ -29,6 +29,7 @@ class CreateCommentsTable extends Migration
             $table->string('lang_tag', 16)->nullable()->index('comment_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0)->index('comment_is_anonymous');
+            $table->unsignedTinyInteger('privacy_state')->default(1)->index('comment_privacy_state');
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->point('map_location')->nullable()->index('comment_map_location');
@@ -93,6 +94,7 @@ class CreateCommentsTable extends Migration
             $table->string('lang_tag', 16)->nullable()->index('comment_log_lang_tag');
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
+            $table->unsignedTinyInteger('is_private')->default(0);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('location_info')->nullable();
