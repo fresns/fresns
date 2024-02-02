@@ -15,18 +15,17 @@ class CommentListDTO extends DTO
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'between:1,11'],
-            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
-            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'uidOrUsername' => ['nullable'], // comments->user_id
             'pid' => ['string', 'nullable'], // comments->post_id
             'cid' => ['string', 'nullable'], // comments->top_parent_id
-            'hid' => ['string', 'nullable'],
+            'htid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'gtid' => ['string', 'nullable'], // comments->geotag_id
             'gid' => ['string', 'nullable'], // comments->post_id->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
-            'sticky' => ['boolean', 'nullable'], // comments->is_sticky
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
+            'sticky' => ['boolean', 'nullable'], // comments->is_sticky
+            'langTag' => ['string', 'nullable'], // comments->lang_tag
             'contentType' => ['string', 'nullable'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
@@ -44,11 +43,35 @@ class CommentListDTO extends DTO
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
             'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // comments->comment_count
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
+            'blockUsers' => ['string', 'nullable'],
+            'blockGroups' => ['string', 'nullable'],
+            'blockHashtags' => ['string', 'nullable'],
+            'blockGeotags' => ['string', 'nullable'],
+            'blockPosts' => ['string', 'nullable'],
+            'blockComments' => ['string', 'nullable'],
+            'sinceCid' => ['string', 'nullable'],
+            'beforeCid' => ['string', 'nullable'],
             'orderType' => ['string', 'nullable', 'in:createdTime,commentTime,random,view,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
-            'pluginRatingId' => ['integer', 'nullable'],
+            'mapId' => ['integer', 'nullable', 'between:1,11'],
+            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
+            'filterHashtagType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterHashtagKeys' => ['string', 'nullable', 'required_with:filterHashtagType'],
+            'filterGeotagType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterGeotagKeys' => ['string', 'nullable', 'required_with:filterGeotagType'],
+            'filterAuthorType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterAuthorKeys' => ['string', 'nullable', 'required_with:filterAuthorType'],
+            'filterPreviewLikeUserType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterPreviewLikeUserKeys' => ['string', 'nullable', 'required_with:filterPreviewLikeUserType'],
+            'filterPreviewCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterPreviewCommentKeys' => ['string', 'nullable', 'required_with:filterPreviewCommentType'],
+            'filterReplyToPostType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterReplyToPostKeys' => ['string', 'nullable', 'required_with:filterReplyToPostType'],
+            'filterReplyToCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterReplyToCommentKeys' => ['string', 'nullable', 'required_with:filterReplyToCommentType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

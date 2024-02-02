@@ -10,14 +10,18 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommentDetailDTO extends DTO
+class CommentNearbyDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'between:1,11'],
-            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
-            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
+            'mapId' => ['integer', 'required', 'between:1,11'],
+            'mapLng' => ['numeric', 'required', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'required', 'min:-90', 'max:90'],
+            'unit' => ['string', 'nullable', 'in:km,mi'],
+            'length' => ['integer', 'nullable'],
+            'langTag' => ['string', 'nullable'], // comments->lang_tag
+            'contentType' => ['string', 'nullable'],
             'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'filterHashtagType' => ['string', 'nullable', 'in:whitelist,blacklist'],
@@ -34,6 +38,8 @@ class CommentDetailDTO extends DTO
             'filterReplyToPostKeys' => ['string', 'nullable', 'required_with:filterReplyToPostType'],
             'filterReplyToCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterReplyToCommentKeys' => ['string', 'nullable', 'required_with:filterReplyToCommentType'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
+            'page' => ['integer', 'nullable'],
         ];
     }
 }

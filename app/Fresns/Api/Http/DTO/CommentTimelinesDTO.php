@@ -10,11 +10,16 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommentDetailDTO extends DTO
+class CommentTimelinesDTO extends DTO
 {
     public function rules(): array
     {
         return [
+            'type' => ['string', 'nullable', 'in:all,user,group,hashtag,geotag'],
+            'langTag' => ['string', 'nullable'], // comments->lang_tag
+            'contentType' => ['string', 'nullable'],
+            'sincePid' => ['string', 'nullable'],
+            'beforePid' => ['string', 'nullable'],
             'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
             'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
@@ -34,6 +39,8 @@ class CommentDetailDTO extends DTO
             'filterReplyToPostKeys' => ['string', 'nullable', 'required_with:filterReplyToPostType'],
             'filterReplyToCommentType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterReplyToCommentKeys' => ['string', 'nullable', 'required_with:filterReplyToCommentType'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
+            'page' => ['integer', 'nullable'],
         ];
     }
 }

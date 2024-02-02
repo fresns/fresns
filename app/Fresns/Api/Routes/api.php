@@ -158,7 +158,7 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('{cid}/interaction/{type}', [CommentController::class, 'interaction'])->name('interaction');
         Route::delete('{cid}', [CommentController::class, 'delete'])->name('delete');
         Route::get('{cid}/histories', [CommentController::class, 'histories'])->name('histories');
-        Route::get('history/{hpid}/detail', [CommentController::class, 'logDetail'])->name('history.detail');
+        Route::get('history/{hcid}/detail', [CommentController::class, 'historyDetail'])->name('history.detail');
     });
 
     // editor
