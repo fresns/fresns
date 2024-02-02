@@ -17,7 +17,7 @@ class PostListDTO extends DTO
         return [
             'uidOrUsername' => ['nullable'], // posts->user_id
             'htid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
-            'gtid' => ['string', 'nullable'], // geotag_usages->geotag_id
+            'gtid' => ['string', 'nullable'], // posts->geotag_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
             'langTag' => ['string', 'nullable'], // posts->lang_tag
@@ -45,6 +45,7 @@ class PostListDTO extends DTO
             'blockGroups' => ['string', 'nullable'],
             'blockHashtags' => ['string', 'nullable'],
             'blockGeotags' => ['string', 'nullable'],
+            'blockPosts' => ['string', 'nullable'],
             'sincePid' => ['string', 'nullable'],
             'beforePid' => ['string', 'nullable'],
             'orderType' => ['string', 'nullable', 'in:createdTime,commentTime,random,view,like,dislike,follow,block,comment'],

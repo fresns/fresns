@@ -69,7 +69,7 @@ class PostController extends Controller
 
         // block
         $blockGroupIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGroups);
-        $privateGroupIds = InteractionUtility::getPrivateGroupIdArr();
+        $privateGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
         $filterUserIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockUsers);
         $filterGroupIds = array_unique(array_merge($blockGroupIds, $privateGroupIds));
@@ -448,30 +448,6 @@ class PostController extends Controller
     {
         $dtoRequest = new PostDetailDTO($request->all());
 
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUser = $this->user();
-
-        $post = Post::with(['author'])->where('pid', $pid)->first();
-
-        if (empty($post)) {
-            throw new ApiException(37400);
-        }
-
-        // check author
-        if (empty($post?->author)) {
-            throw new ApiException(35203);
-        }
-
-        // check is enabled
-        if (! $post->is_enabled && $post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
-        }
-
-        ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
-
-        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
-
         // Plugin provides data
         $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('post_detail_service');
 
@@ -488,6 +464,30 @@ class PostController extends Controller
         }
 
         // Fresns provides data
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUser = $this->user();
+
+        $post = Post::with(['author'])->where('pid', $pid)->first();
+
+        if (empty($post)) {
+            throw new ApiException(37400);
+        }
+
+        // check author
+        if (empty($post->author)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUser?->id) {
+            throw new ApiException(37401);
+        }
+
+        ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
+
+        ContentService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUser?->id);
+
         $seoData = PrimaryHelper::fresnsModelSeo(Seo::TYPE_POST, $post->id);
 
         $item['title'] = StrHelper::languageContent($seoData?->title, $langTag);
@@ -565,7 +565,7 @@ class PostController extends Controller
         }
 
         // check author
-        if (empty($post?->author)) {
+        if (empty($post->author)) {
             throw new ApiException(35203);
         }
 
@@ -604,7 +604,7 @@ class PostController extends Controller
         }
 
         // check author
-        if (empty($post?->author)) {
+        if (empty($post->author)) {
             throw new ApiException(35203);
         }
 
@@ -630,7 +630,7 @@ class PostController extends Controller
 
         $userList = [];
         foreach ($userListData as $postUser) {
-            $userList[] = DetailUtility::userDetail($postUser?->user, $langTag, $timezone, $authUser?->id, $userOptions);
+            $userList[] = DetailUtility::userDetail($postUser->user, $langTag, $timezone, $authUser?->id, $userOptions);
         }
 
         return $this->fresnsPaginate($userList, $userListData->total(), $userListData->perPage());
@@ -653,7 +653,7 @@ class PostController extends Controller
         }
 
         // check author
-        if (empty($post?->author)) {
+        if (empty($post->author)) {
             throw new ApiException(35203);
         }
 
@@ -673,7 +673,7 @@ class PostController extends Controller
         $postQuery->whereRelation('author', 'is_enabled', 1);
 
         // filter
-        $filterGroupIds = InteractionUtility::getPrivateGroupIdArr();
+        $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
         $postQuery->where('is_enabled', true);
 
@@ -825,7 +825,7 @@ class PostController extends Controller
         }
 
         // check author
-        if (empty($post?->author)) {
+        if (empty($post->author)) {
             throw new ApiException(35203);
         }
 
@@ -889,26 +889,26 @@ class PostController extends Controller
         }
 
         // check post
-        if (empty($postLog?->post)) {
+        if (empty($postLog->post)) {
             throw new ApiException(37400);
         }
 
         // check author
-        if (empty($postLog?->author)) {
+        if (empty($postLog->author)) {
             throw new ApiException(35203);
         }
 
         // check is enabled
-        if (! $postLog?->post->is_enabled && $postLog?->post?->user_id != $authUser?->id) {
+        if (! $postLog->post->is_enabled && $postLog->post->user_id != $authUser?->id) {
             throw new ApiException(37401);
         }
 
         ContentService::checkUserContentViewPerm($postLog->post->created_at, $authUser?->id, $authUser?->expired_at);
 
-        ContentService::checkGroupContentViewPerm($postLog?->post->created_at, $postLog?->post->group_id, $authUser?->id);
+        ContentService::checkGroupContentViewPerm($postLog->post->created_at, $postLog->post->group_id, $authUser?->id);
 
         $historyOptions = [
-            'viewType' => 'list',
+            'viewType' => 'detail',
             'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
             'checkPermissions' => true,
             'filter' => [
@@ -950,35 +950,40 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $dateLimit = ContentService::getContentDateLimit($authUser->id, $authUser?->expired_at);
-
         $timelineService = new TimelineService();
+        $timelineOptions = [
+            'langTag' => $dtoRequest->langTag,
+            'contentType' => $dtoRequest->contentType,
+            'sincePid' => $dtoRequest->sincePid,
+            'beforePid' => $dtoRequest->beforePid,
+            'dateLimit' => ContentService::getContentDateLimit($authUser->id, $authUser->expired_at),
+        ];
 
         $followType = null;
         switch ($dtoRequest->type) {
             case 'user':
                 $followType = 'user';
-                $posts = $timelineService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                $posts = $timelineService->getPostListByFollowUsers($authUser->id, $timelineOptions);
                 break;
 
             case 'group':
                 $followType = 'group';
-                $posts = $timelineService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                $posts = $timelineService->getPostListByFollowGroups($authUser->id, $timelineOptions);
                 break;
 
             case 'hashtag':
                 $followType = 'hashtag';
-                $posts = $timelineService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                $posts = $timelineService->getPostListByFollowHashtags($authUser->id, $timelineOptions);
                 break;
 
             case 'geotag':
                 $followType = 'geotag';
-                $posts = $timelineService->getPostListByFollowGeotags($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                $posts = $timelineService->getPostListByFollowGeotags($authUser->id, $timelineOptions);
                 break;
 
             default:
                 $followType = 'all';
-                $posts = $timelineService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dtoRequest->sincePid, $dtoRequest->beforePid, $dateLimit);
+                $posts = $timelineService->getPostListByFollowAll($authUser->id, $timelineOptions);
         }
 
         $postOptions = [
@@ -1069,7 +1074,7 @@ class PostController extends Controller
         $postQuery->whereRelation('author', 'is_enabled', 1);
 
         // block
-        $filterGroupIds = InteractionUtility::getPrivateGroupIdArr();
+        $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
         $postQuery->where('is_enabled', true);
 

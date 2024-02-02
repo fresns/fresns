@@ -16,6 +16,7 @@ class PostTimelinesDTO extends DTO
     {
         return [
             'type' => ['string', 'nullable', 'in:all,user,group,hashtag,geotag'],
+            'langTag' => ['string', 'nullable'], // posts->lang_tag
             'contentType' => ['string', 'nullable'],
             'sincePid' => ['string', 'nullable'],
             'beforePid' => ['string', 'nullable'],

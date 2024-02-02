@@ -930,9 +930,6 @@ class DetailUtility
             $permissions = $comment->permissions;
 
             $post = $comment?->post;
-            $postPermissions = $post?->permissions;
-
-            $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
