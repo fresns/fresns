@@ -1151,11 +1151,11 @@ class UserController extends Controller
 
             $userList = [];
             foreach ($userFollows as $userFollow) {
-                if (empty($userFollow?->user)) {
+                if (empty($userFollow->user)) {
                     continue;
                 }
 
-                $userList[] = DetailUtility::userDetail($userFollow?->user, $langTag, $timezone, $authUser->id, $userOptions);
+                $userList[] = DetailUtility::userDetail($userFollow->user, $langTag, $timezone, $authUser->id, $userOptions);
             }
 
             return $this->fresnsPaginate($userList, $userFollows->total(), $userFollows->perPage());
@@ -1307,17 +1307,17 @@ class UserController extends Controller
         switch ($dtoRequest->listType) {
             case 'users':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->user)) {
+                    if (empty($mark->user)) {
                         continue;
                     }
 
-                    $paginateData[] = DetailUtility::userDetail($mark?->user, $langTag, $timezone, $authUserId, $options);
+                    $paginateData[] = DetailUtility::userDetail($mark->user, $langTag, $timezone, $authUserId, $options);
                 }
                 break;
 
             case 'groups':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->group)) {
+                    if (empty($mark->group)) {
                         continue;
                     }
 
@@ -1327,7 +1327,7 @@ class UserController extends Controller
 
             case 'hashtags':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->hashtag)) {
+                    if (empty($mark->hashtag)) {
                         continue;
                     }
 
@@ -1337,7 +1337,7 @@ class UserController extends Controller
 
             case 'geotags':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->geotag)) {
+                    if (empty($mark->geotag)) {
                         continue;
                     }
 
@@ -1347,7 +1347,7 @@ class UserController extends Controller
 
             case 'posts':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->post)) {
+                    if (empty($mark->post)) {
                         continue;
                     }
 
@@ -1357,7 +1357,7 @@ class UserController extends Controller
 
             case 'comments':
                 foreach ($markData as $mark) {
-                    if (empty($mark?->comment)) {
+                    if (empty($mark->comment)) {
                         continue;
                     }
 

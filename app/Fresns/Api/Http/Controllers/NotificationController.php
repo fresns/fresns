@@ -66,12 +66,12 @@ class NotificationController extends Controller
         foreach ($notifications as $notify) {
             $actionUser = null;
             if ($notify->action_user_id) {
-                $actionUser = $notify->action_is_anonymous ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $dtoRequest->filterUserType, $dtoRequest->filterUserKeys) : DetailUtility::userDetail($notify?->actionUser, $langTag, $timezone, $authUserId, $userOptions);
+                $actionUser = $notify->action_is_anonymous ? InteractionHelper::fresnsUserSubstitutionProfile('anonymous', $dtoRequest->filterUserType, $dtoRequest->filterUserKeys) : DetailUtility::userDetail($notify->actionUser, $langTag, $timezone, $authUserId, $userOptions);
             }
 
             $contentFsid = match ($notify->type) {
-                Notification::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $notify?->action_content_id)?->cid,
-                Notification::TYPE_QUOTE => PrimaryHelper::fresnsModelById('post', $notify?->action_content_id)?->pid,
+                Notification::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $notify->action_content_id)?->cid,
+                Notification::TYPE_QUOTE => PrimaryHelper::fresnsModelById('post', $notify->action_content_id)?->pid,
                 default => null,
             };
 
@@ -95,13 +95,13 @@ class NotificationController extends Controller
 
             if ($notify->action_object && $notify->action_id) {
                 $actionInfo = match ($notify->action_object) {
-                    Notification::ACTION_OBJECT_USER => DetailUtility::userDetail($notify?->user, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_GROUP => DetailUtility::groupDetail($notify?->group, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_HASHTAG => DetailUtility::hashtagDetail($notify?->hashtag, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_GEOTAG => DetailUtility::geotagDetail($notify?->geotag, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_POST => DetailUtility::postDetail($notify?->post, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_COMMENT => DetailUtility::commentDetail($notify?->comment, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_EXTEND => $notify?->extend?->getExtendInfo($langTag),
+                    Notification::ACTION_OBJECT_USER => DetailUtility::userDetail($notify->user, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_GROUP => DetailUtility::groupDetail($notify->group, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_HASHTAG => DetailUtility::hashtagDetail($notify->hashtag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_GEOTAG => DetailUtility::geotagDetail($notify->geotag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_POST => DetailUtility::postDetail($notify->post, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_COMMENT => DetailUtility::commentDetail($notify->comment, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_OBJECT_EXTEND => $notify->extend?->getExtendInfo($langTag),
                     default => null,
                 };
 

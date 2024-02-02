@@ -231,7 +231,7 @@ class AccountController extends Controller
             $item['systemFee'] = $log->system_fee;
             $item['openingBalance'] = $log->opening_balance;
             $item['closingBalance'] = $log->closing_balance;
-            $item['user'] = $log?->user ? DetailUtility::userDetail($log?->user, $langTag, $timezone, $authUser?->id, $userOptions) : null;
+            $item['user'] = $log->user ? DetailUtility::userDetail($log->user, $langTag, $timezone, $authUser?->id, $userOptions) : null;
             $item['remark'] = $log->remark;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($datetime, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($datetime, $timezone, $langTag);

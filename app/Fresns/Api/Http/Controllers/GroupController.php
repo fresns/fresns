@@ -333,7 +333,7 @@ class GroupController extends Controller
             throw new ApiException(37100);
         }
 
-        if (! $group?->creator) {
+        if (! $group->creator) {
             return $this->success();
         }
 
@@ -366,7 +366,7 @@ class GroupController extends Controller
             throw new ApiException(37100);
         }
 
-        if (! $group?->admins) {
+        if (! $group->admins) {
             return $this->success([]);
         }
 
