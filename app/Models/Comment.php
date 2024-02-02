@@ -14,9 +14,14 @@ class Comment extends Model
     use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
+    const PRIVACY_PUBLIC = 1;
+    const PRIVACY_PRIVATE = 2;
+    const PRIVACY_PRIVATE_BY_POST = 3;
+
     const DIGEST_NO = 1;
     const DIGEST_GENERAL = 2;
     const DIGEST_PREMIUM = 3;
+
     const STICKY_NO = 0;
     const STICKY_YES = 1;
 

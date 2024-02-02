@@ -10,6 +10,7 @@ namespace App\Models\Traits;
 
 use App\Helpers\DateHelper;
 use App\Models\ArchiveUsage;
+use App\Models\Comment;
 use App\Models\ExtendUsage;
 use App\Utilities\DetailUtility;
 use App\Utilities\ExtendUtility;
@@ -27,7 +28,7 @@ trait CommentLogServiceTrait
         $info['hcid'] = $commentLogData->hcid;
         $info['cid'] = $comment->cid;
 
-        $info['privacy'] = 'public';
+        $info['privacy'] = ($commentLogData->privacy_state == Comment::PRIVACY_PUBLIC) ? 'public' : 'private';
         $info['content'] = $commentLogData->content;
         $info['contentLength'] = Str::length($commentLogData->content);
         $info['langTag'] = $commentLogData->lang_tag;
@@ -69,6 +70,7 @@ trait CommentLogServiceTrait
         $info['writingDirection'] = $permissions['contentWritingDirection'] ?? 'ltr'; // ltr or rtl
         $info['isMarkdown'] = (bool) $commentLogData->is_markdown;
         $info['isAnonymous'] = (bool) $commentLogData->is_anonymous;
+        $info['isPrivate'] = (bool) $commentLogData->is_private;
 
         $info['locationInfo'] = $commentLogData->location_info;
         $info['moreInfo'] = $commentLogData->more_info;

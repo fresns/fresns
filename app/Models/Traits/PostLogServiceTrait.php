@@ -67,6 +67,7 @@ trait PostLogServiceTrait
         $info['writingDirection'] = $permissions['contentWritingDirection'] ?? 'ltr'; // ltr or rtl
         $info['isMarkdown'] = (bool) $postLogData->is_markdown;
         $info['isAnonymous'] = (bool) $postLogData->is_anonymous;
+        $info['isPrivate'] = false;
 
         $info['locationInfo'] = $postLogData->location_info;
         $info['moreInfo'] = $postLogData->more_info;

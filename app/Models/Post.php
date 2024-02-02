@@ -17,6 +17,7 @@ class Post extends Model
     const DIGEST_NO = 1;
     const DIGEST_GENERAL = 2;
     const DIGEST_PREMIUM = 3;
+
     const STICKY_NO = 1;
     const STICKY_GROUP = 2;
     const STICKY_GLOBAL = 3;
