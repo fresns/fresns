@@ -9,6 +9,7 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Fresns\Api\Http\DTO\SearchCommentDTO;
+use App\Fresns\Api\Http\DTO\SearchGeotagDTO;
 use App\Fresns\Api\Http\DTO\SearchGroupDTO;
 use App\Fresns\Api\Http\DTO\SearchHashtagDTO;
 use App\Fresns\Api\Http\DTO\SearchPostDTO;
@@ -23,125 +24,156 @@ class SearchController extends Controller
     // users
     public function users(Request $request)
     {
-        $langTag = $this->langTag();
-        $dtoRequest = new SearchUserDTO($request->all());
+        new SearchUserDTO($request->all());
 
         $searchService = ConfigHelper::fresnsConfigByItemKey('search_users_service');
 
-        if ($searchService) {
-            $wordBody = [
-                'headers' => AppHelper::getHeaders(),
-                'body' => $request->all(),
-            ];
+        if (! $searchService) {
+            $langTag = $this->langTag();
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchUsers($wordBody);
-
-            return $fresnsResp->getOrigin();
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
         }
 
-        return $this->failure(
-            32100,
-            ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-        );
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchUsers($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     // groups
     public function groups(Request $request)
     {
-        $langTag = $this->langTag();
-        $dtoRequest = new SearchGroupDTO($request->all());
+        new SearchGroupDTO($request->all());
 
         $searchService = ConfigHelper::fresnsConfigByItemKey('search_groups_service');
 
-        if ($searchService) {
-            $wordBody = [
-                'headers' => AppHelper::getHeaders(),
-                'body' => $request->all(),
-            ];
+        if (! $searchService) {
+            $langTag = $this->langTag();
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchGroups($wordBody);
-
-            return $fresnsResp->getOrigin();
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
         }
 
-        return $this->failure(
-            32100,
-            ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-        );
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchGroups($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     // hashtags
     public function hashtags(Request $request)
     {
-        $langTag = $this->langTag();
-        $dtoRequest = new SearchHashtagDTO($request->all());
+        new SearchHashtagDTO($request->all());
 
         $searchService = ConfigHelper::fresnsConfigByItemKey('search_hashtags_service');
 
-        if ($searchService) {
-            $wordBody = [
-                'headers' => AppHelper::getHeaders(),
-                'body' => $request->all(),
-            ];
+        if (! $searchService) {
+            $langTag = $this->langTag();
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchHashtags($wordBody);
-
-            return $fresnsResp->getOrigin();
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
         }
 
-        return $this->failure(
-            32100,
-            ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-        );
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchHashtags($wordBody);
+
+        return $fresnsResp->getOrigin();
+    }
+
+    // geotags
+    public function geotags(Request $request)
+    {
+        new SearchGeotagDTO($request->all());
+
+        $searchService = ConfigHelper::fresnsConfigByItemKey('search_geotags_service');
+
+        if (! $searchService) {
+            $langTag = $this->langTag();
+
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
+        }
+
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchGeotags($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     // posts
     public function posts(Request $request)
     {
-        $langTag = $this->langTag();
-        $dtoRequest = new SearchPostDTO($request->all());
+        new SearchPostDTO($request->all());
 
         $searchService = ConfigHelper::fresnsConfigByItemKey('search_posts_service');
 
-        if ($searchService) {
-            $wordBody = [
-                'headers' => AppHelper::getHeaders(),
-                'body' => $request->all(),
-            ];
+        if (! $searchService) {
+            $langTag = $this->langTag();
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchPosts($wordBody);
-
-            return $fresnsResp->getOrigin();
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
         }
 
-        return $this->failure(
-            32100,
-            ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-        );
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchPosts($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     // comments
     public function comments(Request $request)
     {
-        $langTag = $this->langTag();
-        $dtoRequest = new SearchCommentDTO($request->all());
+        new SearchCommentDTO($request->all());
 
         $searchService = ConfigHelper::fresnsConfigByItemKey('search_comments_service');
 
-        if ($searchService) {
-            $wordBody = [
-                'headers' => AppHelper::getHeaders(),
-                'body' => $request->all(),
-            ];
+        if (! $searchService) {
+            $langTag = $this->langTag();
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchComments($wordBody);
-
-            return $fresnsResp->getOrigin();
+            return $this->failure(
+                32100,
+                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+            );
         }
 
-        return $this->failure(
-            32100,
-            ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-        );
+        $wordBody = [
+            'headers' => AppHelper::getHeaders(),
+            'body' => $request->all(),
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchComments($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 }

@@ -10,13 +10,16 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class SearchHashtagDTO extends DTO
+class SearchGeotagDTO extends DTO
 {
     public function rules(): array
     {
         return [
             'searchKey' => ['string', 'required'],
             'type' => ['integer', 'nullable'],
+            'mapId' => ['integer', 'nullable', 'between:1,10'],
+            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // hashtags->created_at

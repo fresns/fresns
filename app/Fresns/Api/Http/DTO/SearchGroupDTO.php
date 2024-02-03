@@ -16,6 +16,8 @@ class SearchGroupDTO extends DTO
     {
         return [
             'searchKey' => ['string', 'required'],
+            'type' => ['integer', 'nullable'],
+            'gid' => ['string', 'nullable'],
             'recommend' => ['boolean', 'nullable'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
@@ -35,10 +37,10 @@ class SearchGroupDTO extends DTO
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
             'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'], // groups->post_digest_count
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createdTime,random,view,like,follow,block,post,postDigest,rating'],
+            'orderType' => ['string', 'nullable', 'in:createdTime,lastPostTime,lastCommentTime,random,view,like,follow,block,post,postDigest,sortOrder'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'whitelistKeys' => ['string', 'nullable'],
-            'blacklistKeys' => ['string', 'nullable'],
+            'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
+            'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
