@@ -1136,25 +1136,27 @@ class PostController extends Controller
 
         switch (config('database.default')) {
             case 'mysql':
-                $postQuery->select(DB::raw("*, ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)')) AS distance"))
-                    ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)')) <= {$nearbyLength} * 1000")
+                $postQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
+                    ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$nearbyLength} * 1000")
                     ->orderBy('distance');
                 break;
 
             case 'sqlite':
-                $postQuery->select(DB::raw("*, ST_Distance(GeomFromText('POINT($mapLng $mapLat)'), map_location) AS distance"))
-                    ->havingRaw("ST_Distance(GeomFromText('POINT($mapLng $mapLat)'), map_location) <= {$nearbyLength} * 1000")
+                // use SpatiaLite
+                $postQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
+                    ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$nearbyLength} * 1000")
                     ->orderBy('distance');
                 break;
 
             case 'pgsql':
-                $postQuery->select(DB::raw("*, ST_Distance(map_location::geography, ST_MakePoint($mapLng, $mapLat)::geography) AS distance"))
-                ->whereRaw("ST_DWithin(map_location::geography, ST_MakePoint($mapLng, $mapLat)::geography, {$nearbyLength} * 1000)")
-                ->orderBy('distance');
+                // use PostGIS
+                $postQuery->select('*', DB::raw("ST_Distance(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography) AS distance"))
+                    ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$nearbyLength} * 1000)")
+                    ->orderBy('distance');
                 break;
 
             case 'sqlsrv':
-                $postQuery->select(DB::raw("*, map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
+                $postQuery->select('*', DB::raw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
                     ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
                     ->orderBy('distance');
                 break;

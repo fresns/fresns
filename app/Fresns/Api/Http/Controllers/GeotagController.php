@@ -56,23 +56,38 @@ class GeotagController extends Controller
                 default => $length,
             };
 
+            $mapLng = $dtoRequest->mapLng;
+            $mapLat = $dtoRequest->mapLat;
+
             switch (config('database.default')) {
+                case 'mysql':
+                    $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
+                        ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$nearbyLength} * 1000")
+                        ->orderBy('distance');
+                    break;
+
+                case 'sqlite':
+                    // use SpatiaLite
+                    $geotagQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
+                        ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$nearbyLength} * 1000")
+                        ->orderBy('distance');
+                    break;
+
                 case 'pgsql':
-                    $geotagQuery->select(DB::raw("*, ST_Distance(map_location, ST_MakePoint($dtoRequest->mapLng, $dtoRequest->mapLat)::geography) AS distance"))
-                        ->having('distance', '<=', $nearbyLength * 1000)
+                    // use PostGIS
+                    $geotagQuery->select('*', DB::raw("ST_Distance(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography) AS distance"))
+                        ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$nearbyLength} * 1000)")
                         ->orderBy('distance');
                     break;
 
                 case 'sqlsrv':
-                    $geotagQuery->select(DB::raw("*, map_location.STDistance(geography::Point($dtoRequest->mapLat, $dtoRequest->mapLng, 4326)) AS distance"))
-                        ->having('distance', '<=', $nearbyLength * 1000)
+                    $geotagQuery->select('*', DB::raw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
+                        ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
                         ->orderBy('distance');
                     break;
 
                 default:
-                    $geotagQuery->select(DB::raw("*, ( 6371 * acos( cos( radians($dtoRequest->mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($dtoRequest->mapLng) ) + sin( radians($dtoRequest->mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
-                        ->having('distance', '<=', $nearbyLength)
-                        ->orderBy('distance');
+                    throw new ApiException(32303);
             }
         }
 
