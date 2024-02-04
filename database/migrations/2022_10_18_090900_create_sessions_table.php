@@ -64,7 +64,7 @@ class CreateSessionsTable extends Migration
             $table->string('lang_tag', 16)->nullable();
             $table->string('action_name', 128);
             $table->string('action_desc', 128)->nullable();
-            $table->unsignedTinyInteger('action_result');
+            $table->unsignedTinyInteger('action_state')->index('log_action_state');
             $table->unsignedBigInteger('action_id')->nullable();
             $table->unsignedBigInteger('account_id')->nullable()->index('log_account_id');
             $table->unsignedBigInteger('user_id')->nullable()->index('log_user_id');

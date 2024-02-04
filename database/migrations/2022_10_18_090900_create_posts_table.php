@@ -85,13 +85,13 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedTinyInteger('type')->default(1);
-            $table->unsignedBigInteger('object_id');
+            $table->unsignedBigInteger('target_id');
             $table->unsignedTinyInteger('is_initial')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['post_id', 'type', 'object_id'], 'post_auth_type_id');
+            $table->index(['post_id', 'type', 'target_id'], 'post_auth_target_id');
         });
 
         Schema::create('post_users', function (Blueprint $table) {

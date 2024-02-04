@@ -87,8 +87,8 @@ class CreateFilesTable extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('user_id')->nullable()->index('file_download_user_id');
             $table->string('app_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('object_type')->index('file_download_object_type');
-            $table->unsignedBigInteger('object_id');
+            $table->unsignedTinyInteger('target_type')->index('file_download_target_type');
+            $table->unsignedBigInteger('target_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

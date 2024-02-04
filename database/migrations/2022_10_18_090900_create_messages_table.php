@@ -31,7 +31,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('action_user_id')->nullable();
             $table->unsignedTinyInteger('action_is_anonymous')->default(0);
             $table->unsignedSmallInteger('action_type')->nullable();
-            $table->unsignedTinyInteger('action_object')->nullable();
+            $table->unsignedTinyInteger('action_target')->nullable();
             $table->unsignedBigInteger('action_id')->nullable();
             $table->unsignedBigInteger('action_content_id')->nullable();
             $table->unsignedTinyInteger('is_read')->default(0);
