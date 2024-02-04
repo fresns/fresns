@@ -526,24 +526,17 @@ class UserController extends Controller
             ]);
         }
 
-        // edit conversationLimit
-        if ($dtoRequest->conversationLimit) {
+        // edit conversationPolicy
+        if ($dtoRequest->conversationPolicy) {
             $authUser->fill([
-                'conversation_limit' => $dtoRequest->conversationLimit,
+                'conversation_policy' => $dtoRequest->conversationPolicy,
             ]);
         }
 
-        // edit commentLimit
-        if ($dtoRequest->commentLimit) {
+        // edit commentPolicy
+        if ($dtoRequest->commentPolicy) {
             $authUser->fill([
-                'comment_limit' => $dtoRequest->commentLimit,
-            ]);
-        }
-
-        // edit contentLimit
-        if ($dtoRequest->contentLimit) {
-            $authUser->fill([
-                'content_limit' => $dtoRequest->contentLimit,
+                'comment_policy' => $dtoRequest->commentPolicy,
             ]);
         }
 

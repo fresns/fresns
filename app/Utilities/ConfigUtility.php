@@ -290,7 +290,7 @@ class ConfigUtility
 
         // location
         $location['status'] = $editorConfig["{$type}_editor_location"];
-        $location['map'] = PluginHelper::fresnsPluginUrlByFskey($editorConfig['map_service']);
+        $location['mapUrl'] = PluginHelper::fresnsPluginUrlByFskey($editorConfig['map_service']);
 
         // feature
         $feature['group'] = $group;
