@@ -127,7 +127,7 @@ class ConfigUtility
         ];
 
         $sessionLog = SessionLog::whereIn('type', $typeArr)
-            ->whereIn('action_result', $resultState)
+            ->whereIn('action_state', $resultState)
             ->where('account_id', $accountId)
             ->where('created_at', '>=', now()->subHour());
 

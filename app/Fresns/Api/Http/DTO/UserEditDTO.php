@@ -28,9 +28,8 @@ class UserEditDTO extends DTO
             'birthdayDisplayType' => ['integer', 'nullable', 'in:1,2,3,4'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],
-            'conversationLimit' => ['integer', 'nullable', 'in:1,2,3,4'],
-            'commentLimit' => ['integer', 'nullable', 'in:1,2,3,4'],
-            'contentLimit' => ['integer', 'nullable'],
+            'conversationPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
+            'commentPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
             'moreInfo' => ['array', 'nullable'],
             'archives' => ['array', 'nullable'],
         ];

@@ -33,15 +33,15 @@ class Notification extends Model
     const ACTION_TYPE_DIGEST = 9;
     const ACTION_TYPE_MANAGE = 10;
 
-    const ACTION_OBJECT_USER = 1;
-    const ACTION_OBJECT_GROUP = 2;
-    const ACTION_OBJECT_HASHTAG = 3;
-    const ACTION_OBJECT_GEOTAG = 4;
-    const ACTION_OBJECT_POST = 5;
-    const ACTION_OBJECT_COMMENT = 6;
-    const ACTION_OBJECT_POST_LOG = 7;
-    const ACTION_OBJECT_COMMENT_LOG = 8;
-    const ACTION_OBJECT_EXTEND = 9;
+    const ACTION_TARGET_USER = 1;
+    const ACTION_TARGET_GROUP = 2;
+    const ACTION_TARGET_HASHTAG = 3;
+    const ACTION_TARGET_GEOTAG = 4;
+    const ACTION_TARGET_POST = 5;
+    const ACTION_TARGET_COMMENT = 6;
+    const ACTION_TARGET_POST_LOG = 7;
+    const ACTION_TARGET_COMMENT_LOG = 8;
+    const ACTION_TARGET_EXTEND = 9;
 
     protected $casts = [
         'content' => 'json',

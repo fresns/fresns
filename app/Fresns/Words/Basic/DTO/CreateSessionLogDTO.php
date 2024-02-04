@@ -25,7 +25,7 @@ class CreateSessionLogDTO extends DTO
             'uid' => ['integer', 'nullable'],
             'actionName' => ['string', 'required'],
             'actionDesc' => ['string', 'nullable'],
-            'actionResult' => ['integer', 'required', 'in:1,2,3'],
+            'actionState' => ['integer', 'required', 'in:1,2,3'],
             'actionId' => ['integer', 'nullable'],
             'deviceInfo' => ['array', 'nullable'],
             'deviceToken' => ['string', 'nullable'],

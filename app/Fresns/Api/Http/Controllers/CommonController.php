@@ -664,7 +664,7 @@ class CommonController extends Controller
 
         $data['link'] = FileHelper::fresnsFileOriginalUrlById($file->id);
 
-        $objectType = match ($dtoRequest->type) {
+        $targetType = match ($dtoRequest->type) {
             'post' => FileDownload::TYPE_POST,
             'comment' => FileDownload::TYPE_COMMENT,
             'conversation' => FileDownload::TYPE_CONVERSATION,
@@ -674,8 +674,8 @@ class CommonController extends Controller
             'file_type' => $file->type,
             'account_id' => $authAccountId,
             'user_id' => $authUserId,
-            'object_type' => $objectType,
-            'object_id' => $model->id,
+            'target_type' => $targetType,
+            'target_id' => $model->id,
         ];
         FileDownload::create($downloader);
 
@@ -712,8 +712,8 @@ class CommonController extends Controller
                         DB::raw('any_value(account_id) as account_id'),
                         DB::raw('any_value(user_id) as user_id'),
                         DB::raw('any_value(app_fskey) as app_fskey'),
-                        DB::raw('any_value(object_type) as object_type'),
-                        DB::raw('any_value(object_id) as object_id'),
+                        DB::raw('any_value(target_type) as target_type'),
+                        DB::raw('any_value(target_id) as target_id'),
                         DB::raw('any_value(created_at) as created_at'),
                     ])
                     ->where('file_id', $file->id)
@@ -731,8 +731,8 @@ class CommonController extends Controller
                         'account_id',
                         'user_id',
                         'app_fskey',
-                        'object_type',
-                        'object_id',
+                        'target_type',
+                        'target_id',
                         'created_at',
                     ])
                     ->where('file_id', $file->id)
@@ -750,8 +750,8 @@ class CommonController extends Controller
                         'file_type',
                         'account_id',
                         'app_fskey',
-                        'object_type',
-                        'object_id',
+                        'target_type',
+                        'target_id',
                         'created_at',
                     ])
                     ->where('file_id', $file->id)
@@ -769,8 +769,8 @@ class CommonController extends Controller
                         'account_id',
                         'user_id',
                         'app_fskey',
-                        'object_type',
-                        'object_id',
+                        'target_type',
+                        'target_id',
                         'created_at',
                     ])
                     ->whereIn('id', function ($query) use ($file) {

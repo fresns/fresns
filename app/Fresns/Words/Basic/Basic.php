@@ -294,7 +294,7 @@ class Basic
             'user_id' => $userId,
             'action_name' => $dtoWordBody->actionName,
             'action_desc' => $dtoWordBody->actionDesc,
-            'action_result' => $dtoWordBody->actionResult,
+            'action_state' => $dtoWordBody->actionState,
             'action_id' => $dtoWordBody->actionId ?? null,
             'device_info' => $dtoWordBody->deviceInfo ?? null,
             'device_token' => $dtoWordBody->deviceToken ?? null,

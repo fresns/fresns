@@ -24,9 +24,9 @@ class SendNotificationDTO extends DTO
             'appFskey' => ['string', 'nullable', 'exists:App\Models\App,fskey'],
             'actionUid' => ['integer', 'nullable'],
             'actionIsAnonymous' => ['Boolean', 'nullable'],
-            'actionType' => ['integer', 'nullable', 'between:1,10', 'required_with:actionObject', 'required_with:actionFsid'],
-            'actionObject' => ['integer', 'nullable', 'between:1,8', 'required_with:actionFsid'],
-            'actionFsid' => ['nullable', 'required_with:actionObject'],
+            'actionType' => ['integer', 'nullable', 'between:1,10', 'required_with:actionTarget', 'required_with:actionFsid'],
+            'actionTarget' => ['integer', 'nullable', 'between:1,8', 'required_with:actionFsid'],
+            'actionFsid' => ['nullable', 'required_with:actionTarget'],
             'contentFsid' => ['string', 'nullable'],
         ];
     }

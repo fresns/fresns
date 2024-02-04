@@ -92,7 +92,7 @@ class UserController extends Controller
             'uid' => $authUser->uid,
             'actionName' => \request()->path(),
             'actionDesc' => 'User Login',
-            'actionResult' => SessionLog::STATE_SUCCESS,
+            'actionState' => SessionLog::STATE_SUCCESS,
             'actionId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => $dtoRequest->deviceToken,
@@ -115,7 +115,7 @@ class UserController extends Controller
         if ($fresnsResponse->isErrorResponse()) {
             // upload session log
             $sessionLog['actionDesc'] = 'verifyUser';
-            $sessionLog['actionResult'] = SessionLog::STATE_FAILURE;
+            $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
             return $fresnsResponse->errorResponse();
@@ -137,7 +137,7 @@ class UserController extends Controller
         if ($fresnsTokenResponse->isErrorResponse()) {
             // upload session log
             $sessionLog['actionDesc'] = 'createUserToken';
-            $sessionLog['actionResult'] = SessionLog::STATE_FAILURE;
+            $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
             return $fresnsTokenResponse->errorResponse();
@@ -571,7 +571,7 @@ class UserController extends Controller
             'uid' => $authUser->uid,
             'actionName' => \request()->path(),
             'actionDesc' => 'User Edit Data',
-            'actionResult' => SessionLog::STATE_SUCCESS,
+            'actionState' => SessionLog::STATE_SUCCESS,
             'actionId' => null,
             'deviceInfo' => $this->deviceInfo(),
             'deviceToken' => null,

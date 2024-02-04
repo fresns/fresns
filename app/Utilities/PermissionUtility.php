@@ -483,13 +483,13 @@ class PermissionUtility
         $checkPostAuth = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($checkPostAuth)) {
-            $allowUsers = PostAuth::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
+            $allowUsers = PostAuth::where('post_id', $postId)->where('type', 1)->pluck('target_id')->toArray();
             $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
 
             if ($checkUser) {
                 $checkPostAuth = true;
             } else {
-                $allowRoles = PostAuth::where('post_id', $postId)->where('type', 2)->pluck('object_id')->toArray();
+                $allowRoles = PostAuth::where('post_id', $postId)->where('type', 2)->pluck('target_id')->toArray();
 
                 $checkPostAuth = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
             }

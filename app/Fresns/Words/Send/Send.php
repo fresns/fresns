@@ -127,22 +127,22 @@ class Send
     {
         $actionUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody['actionUid']);
 
-        $actionObject = $dtoWordBody['actionObject'];
+        $actionTarget = $dtoWordBody['actionTarget'];
         $fsid = $dtoWordBody['actionFsid'];
 
-        $actionModel = match ($dtoWordBody['actionObject']) {
-            Notification::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelByFsid('user', $fsid),
-            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelByFsid('group', $fsid),
-            Notification::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelByFsid('hashtag', $fsid),
-            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelByFsid('post', $fsid),
-            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelByFsid('comment', $fsid),
-            Notification::ACTION_OBJECT_POST_LOG => PostLog::withTrashed()->where('id', $fsid)->first(),
-            Notification::ACTION_OBJECT_COMMENT_LOG => CommentLog::withTrashed()->where('id', $fsid)->first(),
-            Notification::ACTION_OBJECT_EXTEND => PrimaryHelper::fresnsModelByFsid('extend', $fsid),
+        $actionModel = match ($dtoWordBody['actionTarget']) {
+            Notification::ACTION_TARGET_USER => PrimaryHelper::fresnsModelByFsid('user', $fsid),
+            Notification::ACTION_TARGET_GROUP => PrimaryHelper::fresnsModelByFsid('group', $fsid),
+            Notification::ACTION_TARGET_HASHTAG => PrimaryHelper::fresnsModelByFsid('hashtag', $fsid),
+            Notification::ACTION_TARGET_POST => PrimaryHelper::fresnsModelByFsid('post', $fsid),
+            Notification::ACTION_TARGET_COMMENT => PrimaryHelper::fresnsModelByFsid('comment', $fsid),
+            Notification::ACTION_TARGET_POST_LOG => PostLog::withTrashed()->where('id', $fsid)->first(),
+            Notification::ACTION_TARGET_COMMENT_LOG => CommentLog::withTrashed()->where('id', $fsid)->first(),
+            Notification::ACTION_TARGET_EXTEND => PrimaryHelper::fresnsModelByFsid('extend', $fsid),
             default => null,
         };
 
-        if ($dtoWordBody['actionObject'] && empty($actionModel)) {
+        if ($dtoWordBody['actionTarget'] && empty($actionModel)) {
             return 22202; // Action model does not exist
         }
 
@@ -160,8 +160,8 @@ class Send
                 $query->where('action_type', $value);
             });
 
-            $notificationQuery->when($actionModel, function ($query, $value) use ($actionObject) {
-                $query->where('action_object', $actionObject)->where('action_id', $value->id);
+            $notificationQuery->when($actionModel, function ($query, $value) use ($actionTarget) {
+                $query->where('action_target', $actionTarget)->where('action_id', $value->id);
             });
 
             $notificationQuery->where('is_read', 0);
@@ -193,7 +193,7 @@ class Send
             'action_user_id' => $actionUser?->id ?? null,
             'action_is_anonymous' => $dtoWordBody['actionIsAnonymous'] ?? false,
             'action_type' => $dtoWordBody['actionType'] ?? null,
-            'action_object' => $dtoWordBody['actionObject'] ?? null,
+            'action_target' => $dtoWordBody['actionTarget'] ?? null,
             'action_id' => $actionModel?->id ?? null,
             'action_content_id' => $contentId,
         ];

@@ -840,17 +840,16 @@ class CacheHelper
     /**
      * tag: fresnsUsers.
      */
+    // fresns_user_activity_{$uid}
     // fresns_user_{$userId}_main_role
     // fresns_user_{$userId}_roles
     // fresns_user_overview_conversations_{$uid}
     // fresns_user_overview_notifications_{$uid}
     // fresns_user_overview_drafts_{$uid}
+    // fresns_user_post_auth_{$postId}_{$userId}
     // fresns_app_badge_{$fskey}_{$userId}
     // fresns_interaction_status_{$markType}_{$markId}_{$userId}
-
     // fresns_publish_{$type}_config_{$userId}_{$langTag}
-    // fresns_user_activity_{$uid}
-    // fresns_user_post_auth_{$postId}_{$userId}
 
     /**
      * tag: fresnsGroups.

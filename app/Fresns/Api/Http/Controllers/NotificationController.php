@@ -85,7 +85,7 @@ class NotificationController extends Controller
             $item['actionUser'] = $actionUser;
             $item['actionUserIsAnonymous'] = (bool) $notify->action_is_anonymous;
             $item['actionType'] = $notify->action_type;
-            $item['actionObject'] = $notify->action_object;
+            $item['actionTarget'] = $notify->action_target;
             $item['actionInfo'] = null;
             $item['contentFsid'] = $contentFsid;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($notify->created_at, $timezone, $langTag);
@@ -93,15 +93,15 @@ class NotificationController extends Controller
             $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($notify->created_at, $langTag);
             $item['readStatus'] = (bool) $notify->is_read;
 
-            if ($notify->action_object && $notify->action_id) {
-                $actionInfo = match ($notify->action_object) {
-                    Notification::ACTION_OBJECT_USER => DetailUtility::userDetail($notify->user, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_GROUP => DetailUtility::groupDetail($notify->group, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_HASHTAG => DetailUtility::hashtagDetail($notify->hashtag, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_GEOTAG => DetailUtility::geotagDetail($notify->geotag, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_POST => DetailUtility::postDetail($notify->post, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_COMMENT => DetailUtility::commentDetail($notify->comment, $langTag, $timezone, $authUserId, $infoOptions),
-                    Notification::ACTION_OBJECT_EXTEND => $notify->extend?->getExtendInfo($langTag),
+            if ($notify->action_target && $notify->action_id) {
+                $actionInfo = match ($notify->action_target) {
+                    Notification::ACTION_TARGET_USER => DetailUtility::userDetail($notify->user, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_GROUP => DetailUtility::groupDetail($notify->group, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_HASHTAG => DetailUtility::hashtagDetail($notify->hashtag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_GEOTAG => DetailUtility::geotagDetail($notify->geotag, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_POST => DetailUtility::postDetail($notify->post, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_COMMENT => DetailUtility::commentDetail($notify->comment, $langTag, $timezone, $authUserId, $infoOptions),
+                    Notification::ACTION_TARGET_EXTEND => $notify->extend?->getExtendInfo($langTag),
                     default => null,
                 };
 

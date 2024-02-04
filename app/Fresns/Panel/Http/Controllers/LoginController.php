@@ -90,7 +90,7 @@ class LoginController extends Controller
                 'uid' => null,
                 'actionName' => self::class,
                 'actionDesc' => 'Panel Login',
-                'actionResult' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
+                'actionState' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
                 'actionId' => null,
                 'deviceInfo' => AppHelper::getDeviceInfo(),
                 'deviceToken' => null,

@@ -108,7 +108,7 @@ class ContentService
 
     // check publish perm
     // $type = post / comment
-    public function checkPublishPerm(string $type, int $authUserId, ?int $contentMainId = null, ?string $langTag = null, ?string $timezone = null): void
+    public static function checkPublishPerm(string $type, int $authUserId, ?int $contentMainId = null, ?string $langTag = null, ?string $timezone = null): void
     {
         // $contentMainId has a value indicating that it is a modify content, not restricted by the publish check.
 

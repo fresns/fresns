@@ -39,7 +39,7 @@ class AccountController extends Controller
             ->where('platform_id', $platformId)
             ->where('version', $version)
             ->where('app_id', $appId)
-            ->where('action_result', SessionLog::STATE_SUCCESS)
+            ->where('action_state', SessionLog::STATE_SUCCESS)
             ->where('login_token', $dtoRequest->loginToken)
             ->first();
 
