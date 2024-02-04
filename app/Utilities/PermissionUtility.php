@@ -17,6 +17,7 @@ use App\Helpers\StrHelper;
 use App\Models\AppUsage;
 use App\Models\Comment;
 use App\Models\Group;
+use App\Models\Mention;
 use App\Models\Post;
 use App\Models\PostAuth;
 use App\Models\User;
@@ -362,19 +363,19 @@ class PermissionUtility
         $checkBlock = $interactionStatus['blockStatus'];
 
         // The other party has set the conversation off function
-        if ($receiveUser->conversation_limit == 4 || $checkBlock) {
+        if ($receiveUser->conversation_policy == User::POLICY_NO_ONE_IS_ALLOWED || $checkBlock) {
             return 36608;
         }
 
         $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
 
         // The user has set that only the users he follows and the verified users can send messages
-        if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUser?->verified_status) {
+        if ($receiveUser->conversation_policy == User::POLICY_PEOPLE_YOU_FOLLOW_OR_VERIFIED && ! $checkFollow && ! $authUser?->verified_status) {
             return 36607;
         }
 
         // The user has set that only the users he follows can send messages
-        if ($receiveUser->conversation_limit == 2 && ! $checkFollow) {
+        if ($receiveUser->conversation_policy == User::POLICY_PEOPLE_YOU_FOLLOW && ! $checkFollow) {
             return 36606;
         }
 
@@ -525,32 +526,59 @@ class PermissionUtility
             return $commentPerm;
         }
 
-        $postPermissions = $post->permissions;
+        if ($post->user_id == $userId) {
+            return [
+                'status' => true,
+                'code' => 0,
+            ];
+        }
 
-        if ($postPermissions['commentConfig']['disabled'] ?? false) {
+        $postPermissions = $post->permissions;
+        $postCommentPolicy = $postPermissions['commentConfig']['policy'] ?? User::POLICY_EVERYONE;
+
+        if ($postCommentPolicy == User::POLICY_NO_ONE_IS_ALLOWED) {
             $commentPerm['code'] = 38108;
+
+            return $commentPerm;
+        }
+
+        if ($postCommentPolicy == User::POLICY_ONLY_USERS_YOU_MENTION) {
+            $postMention = Mention::where('user_id', $post->user_id)->where('mention_type', Mention::TYPE_POST)->where('mention_id', $post->id)->where('mention_user_id', $userId)->first();
+
+            if ($postMention) {
+                return [
+                    'status' => true,
+                    'code' => 0,
+                ];
+            }
+
+            $commentPerm['code'] = 38212;
 
             return $commentPerm;
         }
 
         $user = PrimaryHelper::fresnsModelById('user', $post->user_id);
 
-        if ($userId != $post->user_id && $user->comment_limit != 1) {
-            if ($user->comment_limit == 4) {
+        $userCommentPolicy = $user?->comment_policy ?? User::POLICY_EVERYONE;
+
+        $commentPolicy = ($userCommentPolicy == User::POLICY_EVERYONE) ? $postCommentPolicy : $userCommentPolicy;
+
+        if ($commentPolicy != User::POLICY_EVERYONE) {
+            if ($commentPolicy == User::POLICY_NO_ONE_IS_ALLOWED) {
                 $commentPerm['code'] = 38211;
 
                 return $commentPerm;
             }
 
-            $checkUserFollow = UserFollow::where('user_id', $userId)->markType(UserFollow::MARK_TYPE_FOLLOW)->type(UserFollow::TYPE_USER)->where('follow_id', $post->user_id)->first();
-            if (! $checkUserFollow) {
+            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $post->user_id, $userId);
+            if (! $interactionStatus['followStatus']) {
                 $commentPerm['code'] = 38209;
 
                 return $commentPerm;
             }
 
-            $checkUserVerified = PrimaryHelper::fresnsModelById('user', $userId)->verified_status;
-            if ($user->comment_limit == 3 && ! $checkUserVerified) {
+            $checkUserVerified = PrimaryHelper::fresnsModelById('user', $userId)?->verified_status;
+            if ($commentPolicy == User::POLICY_PEOPLE_YOU_FOLLOW_OR_VERIFIED && ! $checkUserVerified) {
                 $commentPerm['code'] = 38210;
 
                 return $commentPerm;
