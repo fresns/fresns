@@ -204,7 +204,7 @@ class PostController extends Controller
 
         // other conditions
         if ($dtoRequest->allDigest) {
-            $postQuery->where('digest_state', '!=', Post::DIGEST_NO);
+            $postQuery->whereNot('digest_state', Post::DIGEST_NO);
         } else {
             $postQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);

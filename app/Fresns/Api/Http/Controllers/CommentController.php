@@ -275,7 +275,7 @@ class CommentController extends Controller
 
         // other conditions
         if ($dtoRequest->allDigest) {
-            $commentQuery->where('digest_state', '!=', Comment::DIGEST_NO);
+            $commentQuery->whereNot('digest_state', Comment::DIGEST_NO);
         } else {
             $commentQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);

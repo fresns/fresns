@@ -97,7 +97,7 @@ class Crontab
 
         foreach ($roleArr as $role) {
             if ($role->restore_role_id) {
-                $nextRole = UserRole::where('id', '!=', $role->id)
+                $nextRole = UserRole::whereNot('id', $role->id)
                     ->where('user_id', $role->user_id)
                     ->where('role_id', $role->restore_role_id)
                     ->first();
