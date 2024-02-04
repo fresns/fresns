@@ -12,6 +12,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\PostUser;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 trait PostServiceTrait
@@ -89,7 +90,7 @@ trait PostServiceTrait
 
         $info['commentConfig'] = [
             'visible' => $commentConfig['visible'] ?? true,
-            'enabled' => $commentConfig['enabled'] ?? true,
+            'policy' => $commentConfig['policy'] ?? User::POLICY_EVERYONE,
             'privacy' => $commentConfig['privacy'] ?? 'public',
             'action' => [
                 'hasActionButton' => $commentConfig['action']['hasActionButton'] ?? false,

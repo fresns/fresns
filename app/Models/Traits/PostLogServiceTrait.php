@@ -46,10 +46,11 @@ trait PostLogServiceTrait
         return $info;
     }
 
-    public function getPostDraftInfo(?string $langTag = null, ?string $timezone = null): array
+    public function getDraftInfo(?string $langTag = null, ?string $timezone = null, ?array $groupOptions = [], ?array $geotagOptions = []): array
     {
         $postLogData = $this;
         $permissions = $postLogData->permissions;
+        $privacy = $permissions['commentConfig']['privacy'] ?? 'public';
 
         $quotedPost = $postLogData->quotedPost;
         $group = $postLogData->group;
@@ -67,7 +68,7 @@ trait PostLogServiceTrait
         $info['writingDirection'] = $permissions['contentWritingDirection'] ?? 'ltr'; // ltr or rtl
         $info['isMarkdown'] = (bool) $postLogData->is_markdown;
         $info['isAnonymous'] = (bool) $postLogData->is_anonymous;
-        $info['isPrivate'] = false;
+        $info['isPrivate'] = ($privacy == 'private');
 
         $info['locationInfo'] = $postLogData->location_info;
         $info['moreInfo'] = $postLogData->more_info;
@@ -76,10 +77,10 @@ trait PostLogServiceTrait
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $postLogData->id, $langTag);
         $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $postLogData->id, $langTag);
 
-        $info['group'] = $group ? DetailUtility::groupDetail($group, $langTag, $timezone) : null;
-        $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone) : null;
+        $info['group'] = $group ? DetailUtility::groupDetail($group, $langTag, $timezone, null, $groupOptions) : null;
+        $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone, null, $geotagOptions) : null;
 
-        $info['createdDatetime'] = $postLogData->created_at;
+        $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($postLogData->created_at, $timezone, $langTag);
         $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($postLogData->created_at, $langTag);
         $info['state'] = $postLogData->state;
         $info['reason'] = $postLogData->reason;

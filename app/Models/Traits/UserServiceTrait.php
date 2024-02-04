@@ -63,9 +63,8 @@ trait UserServiceTrait
         $profile['birthdayDisplayType'] = $userData->birthday_display_type;
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;
-        $profile['conversationLimit'] = $userData->conversation_limit;
-        $profile['commentLimit'] = $userData->comment_limit;
-        $profile['contentLimit'] = $userData->content_limit;
+        $profile['conversationPolicy'] = $userData->conversation_policy;
+        $profile['commentPolicy'] = $userData->comment_policy;
         $profile['verified'] = (bool) $userData->verified_status;
         $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;

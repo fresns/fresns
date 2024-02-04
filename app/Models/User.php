@@ -20,6 +20,17 @@ class User extends Model
     const GENDER_UNKNOWN = 1;
     const GENDER_MALE = 2;
     const GENDER_FEMALE = 3;
+    const GENDER_CUSTOM = 4;
+
+    const GENDER_PRONOUN_SHE = 1;
+    const GENDER_PRONOUN_HE = 2;
+    const GENDER_PRONOUN_THEY = 3;
+
+    const POLICY_EVERYONE = 1;
+    const POLICY_PEOPLE_YOU_FOLLOW = 2;
+    const POLICY_PEOPLE_YOU_FOLLOW_OR_VERIFIED = 3;
+    const POLICY_NO_ONE_IS_ALLOWED = 4;
+    const POLICY_ONLY_USERS_YOU_MENTION = 5;
 
     protected $casts = [
         'more_info' => 'json',

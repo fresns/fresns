@@ -47,16 +47,17 @@ trait CommentLogServiceTrait
         return $info;
     }
 
-    public function getCommentDraftInfo(?string $langTag = null, ?string $timezone = null): array
+    public function getDraftInfo(?string $langTag = null, ?string $timezone = null, ?array $groupOptions = [], ?array $geotagOptions = []): array
     {
         $commentLogData = $this;
         $permissions = $commentLogData->permissions;
 
-        $post = $commentLogData->post;
         $parentComment = $commentLogData->parentComment;
+        $post = $commentLogData->post;
+        $postPermissions = $post?->permissions;
+        $privacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
-        $group = $commentLogData?->group;
-        $geotag = $commentLogData?->geotag;
+        $geotag = $commentLogData->geotag;
 
         $info['did'] = $commentLogData->hpid;
         $info['quotedPid'] = null;
@@ -70,7 +71,7 @@ trait CommentLogServiceTrait
         $info['writingDirection'] = $permissions['contentWritingDirection'] ?? 'ltr'; // ltr or rtl
         $info['isMarkdown'] = (bool) $commentLogData->is_markdown;
         $info['isAnonymous'] = (bool) $commentLogData->is_anonymous;
-        $info['isPrivate'] = (bool) $commentLogData->is_private;
+        $info['isPrivate'] = ($privacy == 'private') ? true : $commentLogData->is_private;
 
         $info['locationInfo'] = $commentLogData->location_info;
         $info['moreInfo'] = $commentLogData->more_info;
@@ -79,10 +80,10 @@ trait CommentLogServiceTrait
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
         $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
 
-        $info['group'] = $group ? DetailUtility::groupDetail($group, $langTag, $timezone) : null;
-        $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone) : null;
+        $info['group'] = null;
+        $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone, null, $geotagOptions) : null;
 
-        $info['createdDatetime'] = $commentLogData->created_at;
+        $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($commentLogData->created_at, $timezone, $langTag);
         $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($commentLogData->created_at, $langTag);
         $info['state'] = $commentLogData->state;
         $info['reason'] = $commentLogData->reason;

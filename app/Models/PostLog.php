@@ -25,9 +25,18 @@ class PostLog extends Model
         'permissions' => 'json',
     ];
 
+    protected $dates = [
+        'submit_at',
+    ];
+
     public function getFsidKey()
     {
         return 'hpid';
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function post()
@@ -38,11 +47,6 @@ class PostLog extends Model
     public function quotedPost()
     {
         return $this->belongsTo(Post::class, 'quoted_post_id', 'id');
-    }
-
-    public function author()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function group()
