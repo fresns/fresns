@@ -1238,6 +1238,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'optionOnlyUsersYouMention',
+                'lang_values' => '{"en":"Only users you mention","zh-Hans":"仅限你提及到的用户","zh-Hant":"僅限你提及的使用者"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'optionEveryone',
                 'lang_values' => '{"en":"Everyone","zh-Hans":"所有人","zh-Hant":"所有人"}',
                 'is_custom' => 0,
@@ -2150,7 +2158,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'settingConversationLimit',
+                'lang_key' => 'settingConversationPolicy',
                 'lang_values' => '{"en":"Conversation","zh-Hans":"对话设置","zh-Hant":"對話設定"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
@@ -2158,7 +2166,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'settingCommentLimit',
+                'lang_key' => 'settingCommentPolicy',
                 'lang_values' => '{"en":"Comment","zh-Hans":"评论设置","zh-Hant":"留言設定"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
@@ -2166,7 +2174,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'settingContentLimit',
+                'lang_key' => 'settingContentPolicy',
                 'lang_values' => '{"en":"Content","zh-Hans":"内容设置","zh-Hant":"內容設定"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
@@ -2503,7 +2511,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'userSuspended',
-                'lang_values' => '{"en":"User Suspended","zh-Hans":"用户被停用","zh-Hant":"使用者被暫停"}',
+                'lang_values' => '{"en":"User Suspended","zh-Hans":"用户已被冻结","zh-Hant":"使用者已被凍結"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,

@@ -38,9 +38,8 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('verified_status')->default(0)->index('user_verified_status');
             $table->string('verified_desc')->nullable();
             $table->timestamp('verified_at')->nullable();
-            $table->unsignedTinyInteger('conversation_limit')->default(1);
-            $table->unsignedTinyInteger('comment_limit')->default(1);
-            $table->unsignedTinyInteger('content_limit')->default(1);
+            $table->unsignedTinyInteger('conversation_policy')->default(1);
+            $table->unsignedTinyInteger('comment_policy')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_info')->nullable();
