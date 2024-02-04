@@ -112,11 +112,7 @@ class InteractionUtility
     // mark interaction
     public static function markUserLike(int $userId, int $likeType, int $likeId): void
     {
-        $userLike = UserLike::withTrashed()
-            ->where('user_id', $userId)
-            ->type($likeType)
-            ->where('like_id', $likeId)
-            ->first();
+        $userLike = UserLike::withTrashed()->where('user_id', $userId)->type($likeType)->where('like_id', $likeId)->first();
 
         if ($userLike?->trashed() || empty($userLike)) {
             if ($userLike?->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
@@ -169,11 +165,7 @@ class InteractionUtility
 
     public static function markUserDislike(int $userId, int $dislikeType, int $dislikeId): void
     {
-        $userDislike = UserLike::withTrashed()
-            ->where('user_id', $userId)
-            ->type($dislikeType)
-            ->where('like_id', $dislikeId)
-            ->first();
+        $userDislike = UserLike::withTrashed()->where('user_id', $userId)->type($dislikeType)->where('like_id', $dislikeId)->first();
 
         if ($userDislike?->trashed() || empty($userDislike)) {
             if ($userDislike?->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
@@ -226,16 +218,17 @@ class InteractionUtility
 
     public static function markUserFollow(int $userId, int $followType, int $followId): void
     {
-        $userFollow = UserFollow::withTrashed()
-            ->where('user_id', $userId)
-            ->type($followType)
-            ->where('follow_id', $followId)
-            ->first();
+        $userFollow = UserFollow::withTrashed()->where('user_id', $userId)->type($followType)->where('follow_id', $followId)->first();
+
+        $markType = 'follow'; // follow, unfollow
 
         if ($userFollow?->trashed() || empty($userFollow)) {
+            // create
             if ($userFollow?->trashed() && $userFollow->mark_type == UserFollow::MARK_TYPE_FOLLOW) {
                 // trashed data, mark type=follow
                 $userFollow->restore();
+
+                $markType = 'follow';
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             } elseif ($userFollow?->trashed() && $userFollow->mark_type == UserFollow::MARK_TYPE_BLOCK) {
@@ -246,17 +239,21 @@ class InteractionUtility
                     'mark_type' => UserFollow::MARK_TYPE_FOLLOW,
                 ]);
 
+                $markType = 'follow';
+
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
                 InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
             } else {
                 // follow null
-                UserFollow::updateOrCreate([
+                $userFollow = UserFollow::updateOrCreate([
                     'user_id' => $userId,
                     'follow_type' => $followType,
                     'follow_id' => $followId,
                 ], [
                     'mark_type' => UserFollow::MARK_TYPE_FOLLOW,
                 ]);
+
+                $markType = 'follow';
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             }
@@ -268,31 +265,57 @@ class InteractionUtility
                 // documented, mark type=follow
                 $userFollow->delete();
 
+                $markType = 'unfollow';
+
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'decrement');
             } else {
                 // documented, mark type=block
                 $userFollow->update([
-                    'mark_type' => UserFollow::MARK_TYPE_BLOCK,
+                    'mark_type' => UserFollow::MARK_TYPE_FOLLOW,
                 ]);
+
+                $markType = 'follow';
 
                 InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
                 InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
             }
         }
+
+        $itFollow = UserFollow::where('user_id', $followId)->markType(UserFollow::MARK_TYPE_FOLLOW)->type($followType)->where('follow_id', $userId)->first();
+
+        if (empty($itFollow) || $markType == 'unfollow') {
+            $userFollow->update([
+                'is_mutual' => false,
+            ]);
+
+            $itFollow?->update([
+                'is_mutual' => false,
+            ]);
+
+            return;
+        }
+
+        $userFollow->update([
+            'is_mutual' => true,
+        ]);
+
+        $itFollow->update([
+            'is_mutual' => true,
+        ]);
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId): void
     {
-        $userBlock = UserFollow::withTrashed()
-            ->where('user_id', $userId)
-            ->type($blockType)
-            ->where('follow_id', $blockId)
-            ->first();
+        $userBlock = UserFollow::withTrashed()->where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
+
+        $markType = 'block'; // block, unblock
 
         if ($userBlock?->trashed() || empty($userBlock)) {
             if ($userBlock?->trashed() && $userBlock->mark_type == UserFollow::MARK_TYPE_BLOCK) {
                 // trashed data, mark type=block
                 $userBlock->restore();
+
+                $markType = 'block';
 
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             } elseif ($userBlock?->trashed() && $userBlock->mark_type == UserFollow::MARK_TYPE_FOLLOW) {
@@ -303,17 +326,21 @@ class InteractionUtility
                     'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
 
+                $markType = 'block';
+
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
                 InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
             } else {
                 // dislike null
-                UserFollow::updateOrCreate([
+                $userBlock = UserFollow::updateOrCreate([
                     'user_id' => $userId,
                     'like_type' => $blockType,
                     'like_id' => $blockId,
                 ], [
                     'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
+
+                $markType = 'block';
 
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             }
@@ -325,6 +352,8 @@ class InteractionUtility
                 // documented, mark type=block
                 $userBlock->delete();
 
+                $markType = 'unblock';
+
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
             } else {
                 // documented, mark type=follow
@@ -332,10 +361,34 @@ class InteractionUtility
                     'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
 
+                $markType = 'block';
+
                 InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
                 InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
             }
         }
+
+        $itBlock = UserFollow::where('user_id', $blockId)->markType(UserFollow::MARK_TYPE_BLOCK)->type($blockType)->where('follow_id', $userId)->first();
+
+        if (empty($itBlock) || $markType == 'unblock') {
+            $userBlock->update([
+                'is_mutual' => false,
+            ]);
+
+            $itBlock?->update([
+                'is_mutual' => false,
+            ]);
+
+            return;
+        }
+
+        $userBlock->update([
+            'is_mutual' => true,
+        ]);
+
+        $itBlock->update([
+            'is_mutual' => true,
+        ]);
     }
 
     // mark content sticky
@@ -632,92 +685,132 @@ class InteractionUtility
             return;
         }
 
-        switch ($type) {
-            case 'post':
-                $post = Post::with('hashtags')->where('id', $id)->first();
-                $userState = UserStat::where('user_id', $post?->user_id)->first();
-                $group = Group::where('id', $post?->group_id)->first();
+        $model = match ($type) {
+            'post' => Post::with(['author', 'quotedPost', 'group', 'hashtags', 'geotag'])->where('id', $id)->first(),
+            'comment' => Comment::with(['author', 'post', 'hashtags', 'geotag'])->where('id', $id)->first(),
+        };
 
-                $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_POST)->where('usage_id', $post?->id)->pluck('link_id')->toArray();
-                $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
-                $hashtagIds = $post?->hashtags?->pluck('id');
+        if (empty($model)) {
+            return;
+        }
 
-                if ($actionType == 'increment') {
-                    if ($post?->quoted_post_id) {
-                        Post::where('id', $post->quoted_post_id)->increment('quote_count');
-                    }
+        // user
+        $userState = UserStat::where('user_id', $model->user_id)->first();
+        $author = $model->author;
 
-                    $userState?->increment('post_publish_count');
+        // group
+        $group = match ($type) {
+            'post' => $model->group,
+            'comment' => Group::where('id', $model->post?->group_id)->first(),
+        };
 
-                    $group?->increment('post_count');
+        // hashtag
+        $hashtagIds = $model->hashtags?->pluck('id') ?? [];
 
-                    DomainLink::whereIn('id', $linkIds)->increment('post_count');
-                    Domain::whereIn('id', $domainIds)->increment('post_count');
-                    Hashtag::whereIn('id', $hashtagIds)->increment('post_count');
-                } else {
-                    if ($post?->quoted_post_id) {
-                        Post::where('id', $post->quoted_post_id)->decrement('quote_count');
-                    }
+        // geotag
+        $geotag = $model->geotag;
 
-                    $userStateCount = $userState?->{'post_publish_count'} ?? 0;
-                    if ($userStateCount > 0) {
-                        $userState?->decrement('post_publish_count');
-                    }
+        // link
+        $linkType = match ($type) {
+            'post' => DomainLinkUsage::TYPE_POST,
+            'comment' => DomainLinkUsage::TYPE_COMMENT,
+        };
+        $linkIds = DomainLinkUsage::type($linkType)->where('usage_id', $model->id)->pluck('link_id')->toArray();
+        $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
 
-                    $groupPostCount = $group?->post_count ?? 0;
-                    if ($groupPostCount > 0) {
-                        $group?->decrement('post_count');
-                    }
+        // column name
+        $publishCountColumn = "{$type}_publish_count"; // post_publish_count or comment_publish_count
+        $countColumn = "{$type}_count"; // post_count or comment_count
+        $timeColumn = "last_{$type}_at"; // last_post_at or last_comment_at
 
-                    DomainLink::whereIn('id', $linkIds)->where('post_count', '>', 0)->decrement('post_count');
-                    Domain::whereIn('id', $domainIds)->where('post_count', '>', 0)->decrement('post_count');
-                    Hashtag::whereIn('id', $hashtagIds)->where('post_count', '>', 0)->decrement('post_count');
+        switch ($actionType) {
+            case 'increment':
+                // user
+                $userState?->increment($publishCountColumn);
+                $author?->update([
+                    $timeColumn => now(),
+                ]);
+
+                // group
+                $group?->increment($countColumn);
+                $group?->update([
+                    $timeColumn => now(),
+                ]);
+
+                // hashtag
+                Hashtag::whereIn('id', $hashtagIds)->increment($countColumn);
+                Hashtag::whereIn('id', $hashtagIds)->update([
+                    $timeColumn => now(),
+                ]);
+
+                // geotag
+                $geotag?->increment($countColumn);
+                $geotag?->update([
+                    $timeColumn => now(),
+                ]);
+
+                // post
+                switch ($type) {
+                    case 'post':
+                        $model->quotedPost?->increment('quote_count');
+                        break;
+
+                    case 'comment':
+                        $model->post?->increment('comment_count');
+                        break;
                 }
+
+                // link
+                DomainLink::whereIn('id', $linkIds)->increment($countColumn);
+                Domain::whereIn('id', $domainIds)->increment($countColumn);
                 break;
 
-            case 'comment':
-                $comment = Comment::with('hashtags')->where('id', $id)->first();
-                $userState = UserStat::where('user_id', $comment?->user_id)->first();
-                $post = Post::where('id', $comment?->post_id)->first();
-                $group = Group::where('id', $post?->group_id)->first();
-
-                $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_COMMENT)->where('usage_id', $comment?->id)->pluck('link_id')->toArray();
-                $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
-                $hashtagIds = $comment?->hashtags?->pluck('id');
-
-                if ($actionType == 'increment') {
-                    $userState?->increment('comment_publish_count');
-
-                    $post?->increment('comment_count');
-                    $group?->increment('comment_count');
-
-                    DomainLink::whereIn('id', $linkIds)->increment('comment_count');
-                    Domain::whereIn('id', $domainIds)->increment('comment_count');
-                    Hashtag::whereIn('id', $hashtagIds)->increment('comment_count');
-                } else {
-                    $userStateCount = $userState?->{'comment_publish_count'} ?? 0;
-                    if ($userStateCount > 0) {
-                        $userState?->decrement('comment_publish_count');
-                    }
-
-                    $postCommentCount = $post?->comment_count ?? 0;
-                    if ($postCommentCount > 0) {
-                        $post?->decrement('comment_count');
-                    }
-
-                    $groupCommentCount = $group?->comment_count ?? 0;
-                    if ($groupCommentCount > 0) {
-                        $group?->decrement('comment_count');
-                    }
-
-                    DomainLink::whereIn('id', $linkIds)->where('comment_count', '>', 0)->decrement('comment_count');
-                    Domain::whereIn('id', $domainIds)->where('comment_count', '>', 0)->decrement('comment_count');
-                    Hashtag::whereIn('id', $hashtagIds)->where('comment_count', '>', 0)->decrement('comment_count');
+            case 'decrement':
+                // user
+                $userStateCount = $userState?->$publishCountColumn ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement($publishCountColumn);
                 }
 
-                if ($comment?->parent_id) {
-                    InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
+                // group
+                $groupCount = $group?->$countColumn ?? 0;
+                if ($groupCount > 0) {
+                    $group->decrement($countColumn);
                 }
+
+                // hashtag
+                Hashtag::whereIn('id', $hashtagIds)->where($countColumn, '>', 0)->decrement($countColumn);
+
+                // geotag
+                $geotagCount = $geotag?->$countColumn ?? 0;
+                if ($geotagCount > 0) {
+                    $geotag->decrement($countColumn);
+                }
+
+                // post
+                switch ($type) {
+                    case 'post':
+                        $quotedPostCount = $model->quotedPost?->quote_count ?? 0;
+                        if ($quotedPostCount > 0) {
+                            $model->quotedPost->decrement('quote_count');
+                        }
+                        break;
+
+                    case 'comment':
+                        $postCommentCount = $model->post?->comment_count ?? 0;
+                        if ($postCommentCount > 0) {
+                            $model->post->decrement('comment_count');
+                        }
+
+                        if ($model->parent_id) {
+                            InteractionUtility::parentCommentStats($model->parent_id, $actionType, 'comment_count');
+                        }
+                        break;
+                }
+
+                // link
+                DomainLink::whereIn('id', $linkIds)->where($countColumn, '>', 0)->decrement($countColumn);
+                Domain::whereIn('id', $domainIds)->where($countColumn, '>', 0)->decrement($countColumn);
                 break;
         }
     }
@@ -732,38 +825,87 @@ class InteractionUtility
             return;
         }
 
-        switch ($type) {
-            case 'post':
-                $content = Post::with('hashtags')->where('id', $id)->first();
-                $typeNumber = DomainLinkUsage::TYPE_POST;
-                break;
+        $model = match ($type) {
+            'post' => Post::with(['quotedPost', 'group', 'hashtags', 'geotag'])->where('id', $id)->first(),
+            'comment' => Comment::with(['post', 'hashtags', 'geotag'])->where('id', $id)->first(),
+        };
 
-            case 'comment':
-                $content = Comment::with('hashtags')->where('id', $id)->first();
-                $typeNumber = DomainLinkUsage::TYPE_COMMENT;
-                break;
+        if (empty($model)) {
+            return;
         }
 
-        $group = Group::where('id', $content?->group_id)->first();
-        $linkIds = DomainLinkUsage::type($typeNumber)->where('usage_id', $content?->id)->pluck('link_id')->toArray();
+        // group
+        $group = match ($type) {
+            'post' => $model->group,
+            'comment' => Group::where('id', $model->post?->group_id)->first(),
+        };
+
+        // hashtag
+        $hashtagIds = $model->hashtags?->pluck('id') ?? [];
+
+        // geotag
+        $geotag = $model->geotag;
+
+        // link
+        $linkType = match ($type) {
+            'post' => DomainLinkUsage::TYPE_POST,
+            'comment' => DomainLinkUsage::TYPE_COMMENT,
+        };
+        $linkIds = DomainLinkUsage::type($linkType)->where('usage_id', $model->id)->pluck('link_id')->toArray();
         $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
-        $hashtagIds = $content->hashtags->pluck('id');
 
-        if ($actionType == 'increment') {
-            $group?->increment("{$type}_count");
+        // column name
+        $countColumn = "{$type}_count"; // post_count or comment_count
 
-            DomainLink::whereIn('id', $linkIds)->increment("{$type}_count");
-            Domain::whereIn('id', $domainIds)->increment("{$type}_count");
-            Hashtag::whereIn('id', $hashtagIds)->increment("{$type}_count");
-        } else {
-            $groupTypeCount = $group?->{"{$type}_count"} ?? 0;
-            if ($groupTypeCount > 0) {
-                $group?->decrement("{$type}_count");
-            }
+        switch ($actionType) {
+            case 'increment':
+                // group
+                $group?->increment($countColumn);
 
-            DomainLink::whereIn('id', $linkIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
-            Domain::whereIn('id', $domainIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
-            Hashtag::whereIn('id', $hashtagIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
+                // hashtag
+                Hashtag::whereIn('id', $hashtagIds)->increment($countColumn);
+
+                // geotag
+                $geotag?->increment($countColumn);
+
+                // post
+                if ($type == 'post') {
+                    $model->quotedPost?->increment('quote_count');
+                }
+
+                // link
+                DomainLink::whereIn('id', $linkIds)->increment($countColumn);
+                Domain::whereIn('id', $domainIds)->increment($countColumn);
+                break;
+
+            case 'decrement':
+                // group
+                $groupCount = $group?->$countColumn ?? 0;
+                if ($groupCount > 0) {
+                    $group->decrement($countColumn);
+                }
+
+                // hashtag
+                Hashtag::whereIn('id', $hashtagIds)->where($countColumn, '>', 0)->decrement($countColumn);
+
+                // geotag
+                $geotagCount = $geotag?->$countColumn ?? 0;
+                if ($geotagCount > 0) {
+                    $geotag->decrement($countColumn);
+                }
+
+                // post
+                if ($type == 'post') {
+                    $quotedPostCount = $model->quotedPost?->quote_count ?? 0;
+                    if ($quotedPostCount > 0) {
+                        $model->quotedPost->decrement('quote_count');
+                    }
+                }
+
+                // link
+                DomainLink::whereIn('id', $linkIds)->where($countColumn, '>', 0)->decrement($countColumn);
+                Domain::whereIn('id', $domainIds)->where($countColumn, '>', 0)->decrement($countColumn);
+                break;
         }
     }
 
@@ -784,77 +926,76 @@ class InteractionUtility
             return;
         }
 
-        switch ($type) {
-            case 'post':
-                $post = Post::with('hashtags')->where('id', $id)->first();
-                $userState = UserStat::where('user_id', $post?->user_id)->first();
-                $group = Group::where('id', $post?->group_id)->first();
-                $hashtagIds = $post?->hashtags->pluck('id')->toArray() ?? [];
+        $model = match ($type) {
+            'post' => Post::with(['group', 'hashtags', 'geotag'])->where('id', $id)->first(),
+            'comment' => Comment::with(['post', 'hashtags', 'geotag'])->where('id', $id)->first(),
+        };
 
-                if ($actionType == 'increment') {
-                    $userState?->increment('post_digest_count');
-                    $group?->increment('post_digest_count');
+        if (empty($model)) {
+            return;
+        }
 
-                    Hashtag::whereIn('id', $hashtagIds)->increment('post_digest_count');
-                } else {
-                    $userStateCount = $userState?->{'post_digest_count'} ?? 0;
-                    if ($userStateCount > 0) {
-                        $userState?->decrement('post_digest_count');
-                    }
+        // user
+        $userState = UserStat::where('user_id', $model->user_id)->first();
 
-                    $groupPostDigestCount = $group?->{'post_digest_count'} ?? 0;
-                    if ($groupPostDigestCount > 0) {
-                        $group?->decrement('post_digest_count');
-                    }
+        // group
+        $group = match ($type) {
+            'post' => $model->group,
+            'comment' => Group::where('id', $model->post?->group_id)->first(),
+        };
 
-                    Hashtag::whereIn('id', $hashtagIds)->where('post_digest_count', '>', 0)->decrement('post_digest_count');
+        // hashtag
+        $hashtagIds = $model->hashtags?->pluck('id') ?? [];
+
+        // geotag
+        $geotag = $model->geotag;
+
+        // column name
+        $countColumn = "{$type}_digest_count"; // post_digest_count or comment_digest_count
+
+        switch ($actionType) {
+            case 'increment':
+                $userState?->increment($countColumn);
+                $group?->increment($countColumn);
+                Hashtag::whereIn('id', $hashtagIds)->increment($countColumn);
+                $geotag?->increment($countColumn);
+                if ($type == 'comment') {
+                    $model->post?->increment('comment_digest_count');
                 }
                 break;
 
-            case 'comment':
-                $comment = Comment::with('hashtags')->where('id', $id)->first();
-                $userState = UserStat::where('user_id', $comment?->user_id)->first();
-                $post = Post::where('id', $comment?->post_id)->first();
-                $group = Group::where('id', $comment?->group_id)->first();
-                $hashtagIds = $comment?->hashtags->pluck('id')->toArray() ?? [];
-
-                if ($actionType == 'increment') {
-                    $userState?->increment('comment_digest_count');
-                    $post?->increment('comment_digest_count');
-                    $group?->increment('comment_digest_count');
-
-                    Hashtag::whereIn('id', $hashtagIds)->increment('comment_digest_count');
-                } else {
-                    $userStateCount = $userState?->{'comment_digest_count'} ?? 0;
-                    if ($userStateCount > 0) {
-                        $userState?->decrement('comment_digest_count');
-                    }
-
-                    $groupCommentDigestCount = $group?->{'comment_digest_count'} ?? 0;
-                    if ($groupCommentDigestCount > 0) {
-                        $group?->decrement('comment_digest_count');
-                    }
-
-                    Hashtag::whereIn('id', $hashtagIds)->where('comment_digest_count', '>', 0)->decrement('comment_digest_count');
+            case 'decrement':
+                $userStateCount = $userState?->$countColumn ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement($countColumn);
                 }
 
-                if ($comment?->parent_id) {
-                    InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
+                $groupDigestCount = $group?->$countColumn ?? 0;
+                if ($groupDigestCount > 0) {
+                    $group->decrement($countColumn);
+                }
+
+                Hashtag::whereIn('id', $hashtagIds)->where($countColumn, '>', 0)->decrement($countColumn);
+
+                if ($type == 'comment') {
+                    $model->post?->decrement('comment_digest_count');
                 }
                 break;
         }
 
-        $uid = match ($type) {
-            'post' => PrimaryHelper::fresnsModelById('user', $post->user_id)->uid,
-            'comment' => PrimaryHelper::fresnsModelById('user', $comment->user_id)->uid,
-        };
-        $actionObject = match ($type) {
-            'post' => Notification::ACTION_OBJECT_POST,
-            'comment' => Notification::ACTION_OBJECT_COMMENT,
+        if ($type == 'comment' && $model?->parent_id) {
+            InteractionUtility::parentCommentStats($model->parent_id, $actionType, 'comment_digest_count');
+        }
+
+        $uid = PrimaryHelper::fresnsModelById('user', $model->user_id)?->uid;
+
+        $actionTarget = match ($type) {
+            'post' => Notification::ACTION_TARGET_POST,
+            'comment' => Notification::ACTION_TARGET_COMMENT,
         };
         $actionFsid = match ($type) {
-            'post' => $post->pid,
-            'comment' => $comment->cid,
+            'post' => $model->pid,
+            'comment' => $model->cid,
         };
 
         $wordBody = [
@@ -868,7 +1009,7 @@ class InteractionUtility
             'actionUid' => null,
             'actionIsAnonymous' => false,
             'actionType' => Notification::ACTION_TYPE_DIGEST,
-            'actionObject' => $actionObject,
+            'actionTarget' => $actionTarget,
             'actionFsid' => $actionFsid,
             'contentFsid' => null,
         ];
@@ -884,17 +1025,25 @@ class InteractionUtility
 
         $comment = Comment::where('id', $parentId)->first();
 
-        if ($actionType == 'increment') {
-            $comment?->increment($tableColumn);
-        } else {
-            $commentColumnCount = $comment?->$tableColumn ?? 0;
-            if ($commentColumnCount > 0) {
-                $comment?->decrement($tableColumn);
-            }
+        if (empty($comment)) {
+            return;
+        }
+
+        switch ($actionType) {
+            case 'increment':
+                $comment->increment($tableColumn);
+                break;
+
+            case 'decrement':
+                $commentColumnCount = $comment->$tableColumn ?? 0;
+                if ($commentColumnCount > 0) {
+                    $comment->decrement($tableColumn);
+                }
+                break;
         }
 
         // parent comment
-        if ($comment?->parent_id) {
+        if ($comment->parent_id) {
             InteractionUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
     }
@@ -905,18 +1054,18 @@ class InteractionUtility
         $user = PrimaryHelper::fresnsModelById('user', $userId);
 
         $actionModel = match ($markType) {
-            Notification::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelById('user', $markId),
-            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('group', $markId),
-            Notification::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
-            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('post', $markId),
-            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
+            Notification::ACTION_TARGET_USER => PrimaryHelper::fresnsModelById('user', $markId),
+            Notification::ACTION_TARGET_GROUP => PrimaryHelper::fresnsModelById('group', $markId),
+            Notification::ACTION_TARGET_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
+            Notification::ACTION_TARGET_POST => PrimaryHelper::fresnsModelById('post', $markId),
+            Notification::ACTION_TARGET_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
         };
         $uid = match ($markType) {
-            Notification::ACTION_OBJECT_USER => $actionModel->uid,
-            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
-            Notification::ACTION_OBJECT_HASHTAG => null,
-            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
-            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_TARGET_USER => $actionModel->uid,
+            Notification::ACTION_TARGET_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_TARGET_HASHTAG => null,
+            Notification::ACTION_TARGET_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_TARGET_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
         };
 
         if (empty($uid)) {
@@ -924,11 +1073,11 @@ class InteractionUtility
         }
 
         $actionFsid = match ($markType) {
-            Notification::ACTION_OBJECT_USER => $actionModel->uid,
-            Notification::ACTION_OBJECT_GROUP => $actionModel->gid,
-            Notification::ACTION_OBJECT_HASHTAG => $actionModel->hid,
-            Notification::ACTION_OBJECT_POST => $actionModel->pid,
-            Notification::ACTION_OBJECT_COMMENT => $actionModel->cid,
+            Notification::ACTION_TARGET_USER => $actionModel->uid,
+            Notification::ACTION_TARGET_GROUP => $actionModel->gid,
+            Notification::ACTION_TARGET_HASHTAG => $actionModel->hid,
+            Notification::ACTION_TARGET_POST => $actionModel->pid,
+            Notification::ACTION_TARGET_COMMENT => $actionModel->cid,
         };
         $actionType = match ($notificationType) {
             Notification::TYPE_LIKE => Notification::ACTION_TYPE_LIKE,
@@ -948,7 +1097,7 @@ class InteractionUtility
             'actionUid' => $user->uid,
             'actionIsAnonymous' => $actionModel?->is_anonymous,
             'actionType' => $actionType,
-            'actionObject' => $markType,
+            'actionTarget' => $markType,
             'actionFsid' => $actionFsid,
             'contentFsid' => null,
         ];
@@ -970,9 +1119,9 @@ class InteractionUtility
             }
 
             $actionUser = PrimaryHelper::fresnsModelById('user', $actionModel->user_id);
-            $actionObject = match ($type) {
-                'post' => Notification::ACTION_OBJECT_POST,
-                'comment' => Notification::ACTION_OBJECT_COMMENT,
+            $actionTarget = match ($type) {
+                'post' => Notification::ACTION_TARGET_POST,
+                'comment' => Notification::ACTION_TARGET_COMMENT,
             };
             $actionFsid = match ($type) {
                 'post' => $actionModel->pid,
@@ -1003,7 +1152,7 @@ class InteractionUtility
                     'actionUid' => $actionUser->uid,
                     'actionIsAnonymous' => $actionModel?->is_anonymous,
                     'actionType' => Notification::ACTION_TYPE_PUBLISH,
-                    'actionObject' => $actionObject,
+                    'actionTarget' => $actionTarget,
                     'actionFsid' => $actionFsid,
                     'contentFsid' => null,
                 ];
@@ -1035,7 +1184,7 @@ class InteractionUtility
                     'actionUid' => $actionUser->uid,
                     'actionIsAnonymous' => $actionModel?->is_anonymous,
                     'actionType' => Notification::ACTION_TYPE_PUBLISH,
-                    'actionObject' => Notification::ACTION_OBJECT_POST,
+                    'actionTarget' => Notification::ACTION_TARGET_POST,
                     'actionFsid' => $actionFsid,
                     'contentFsid' => $notifyPost->pid,
                 ];
@@ -1044,7 +1193,7 @@ class InteractionUtility
 
             if ($type == 'comment') {
                 $notifyUserId = null;
-                $commentActionObject = null;
+                $commentActionTarget = null;
                 $commentActionFsid = null;
                 $contentFsid = $actionFsid;
 
@@ -1055,7 +1204,7 @@ class InteractionUtility
                     }
 
                     $notifyUserId = $parentComment->user_id;
-                    $commentActionObject = Notification::ACTION_OBJECT_COMMENT;
+                    $commentActionTarget = Notification::ACTION_TARGET_COMMENT;
                     $commentActionFsid = $parentComment->cid;
                 }
 
@@ -1066,7 +1215,7 @@ class InteractionUtility
                     }
 
                     $notifyUserId = $notifyPost->user_id;
-                    $commentActionObject = Notification::ACTION_OBJECT_POST;
+                    $commentActionTarget = Notification::ACTION_TARGET_POST;
                     $commentActionFsid = $notifyPost->pid;
                 }
 
@@ -1083,7 +1232,7 @@ class InteractionUtility
                     'actionUid' => $actionUser->uid,
                     'actionIsAnonymous' => $actionModel?->is_anonymous,
                     'actionType' => Notification::ACTION_TYPE_PUBLISH,
-                    'actionObject' => $commentActionObject,
+                    'actionTarget' => $commentActionTarget,
                     'actionFsid' => $commentActionFsid,
                     'contentFsid' => $contentFsid,
                 ];
