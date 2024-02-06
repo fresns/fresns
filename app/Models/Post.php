@@ -77,11 +77,6 @@ class Post extends Model
         return $this->hasMany(PostUser::class);
     }
 
-    public function auths()
-    {
-        return $this->hasMany(PostAuth::class);
-    }
-
     public function quotedPost()
     {
         return $this->belongsTo(self::class, 'quoted_post_id', 'id');
