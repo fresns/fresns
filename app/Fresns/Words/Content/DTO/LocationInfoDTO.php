@@ -10,15 +10,18 @@ namespace App\Fresns\Words\Content\DTO;
 
 use Fresns\DTO\DTO;
 
-class MapDTO extends DTO
+class LocationInfoDTO extends DTO
 {
     public function rules(): array
     {
         return [
+            'name' => ['string', 'required'],
+            'description' => ['string', 'nullable'],
+            'placeId' => ['string', 'nullable'],
+            'placeType' => ['string', 'nullable'],
             'mapId' => ['integer', 'required', 'between:1,10'],
             'latitude' => ['numeric', 'required', 'min:-90', 'max:90'],
             'longitude' => ['numeric', 'required', 'min:-180', 'max:180'],
-            'scale' => ['string', 'nullable'],
             'continent' => ['string', 'nullable'],
             'continentCode' => ['string', 'nullable'],
             'country' => ['string', 'nullable'],
@@ -30,8 +33,6 @@ class MapDTO extends DTO
             'district' => ['string', 'nullable'],
             'address' => ['string', 'nullable'],
             'zip' => ['string', 'nullable'],
-            'poi' => ['string', 'required'],
-            'poiId' => ['string', 'nullable'],
         ];
     }
 }

@@ -13,10 +13,9 @@ use App\Fresns\Words\Content\DTO\ContentPublishByDraftDTO;
 use App\Fresns\Words\Content\DTO\ContentQuickPublishDTO;
 use App\Fresns\Words\Content\DTO\CreateDraftDTO;
 use App\Fresns\Words\Content\DTO\GenerateDraftDTO;
+use App\Fresns\Words\Content\DTO\LocationInfoDTO;
 use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
-use App\Fresns\Words\Content\DTO\MapDTO;
 use App\Fresns\Words\Content\DTO\PhysicalDeletionContentDTO;
-use App\Fresns\Words\Content\DTO\SetCommentExtendButtonDTO;
 use App\Fresns\Words\Content\DTO\SetContentCloseDeleteDTO;
 use App\Fresns\Words\Content\DTO\SetContentStickyAndDigestDTO;
 use App\Fresns\Words\Content\DTO\SetPostAffiliateUserDTO;
@@ -25,20 +24,19 @@ use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\App;
 use App\Models\ArchiveUsage;
 use App\Models\Comment;
-use App\Models\CommentAppend;
 use App\Models\CommentLog;
 use App\Models\DomainLinkUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\FileUsage;
+use App\Models\GeotagUsage;
 use App\Models\HashtagUsage;
-use App\Models\Language;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
-use App\Models\PostAppend;
 use App\Models\PostAuth;
 use App\Models\PostLog;
 use App\Models\PostUser;
@@ -48,10 +46,17 @@ use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Content
 {
+    const TABLE_MAIN = 1;
+    const TABLE_LOG = 2;
+
+    const TYPE_POST = 1;
+    const TYPE_COMMENT = 2;
+
     use CmdWordResponseTrait;
 
     // createDraft
@@ -74,50 +79,52 @@ class Content
             );
         }
 
-        $isAppEditor = 0;
-        $editorFskey = null;
+        $permissions = [];
+
         if ($dtoWordBody->editorFskey) {
-            $isAppEditor = 1;
-            $editorFskey = $dtoWordBody->editorFskey;
+            $editorPlugin = App::where('fskey', $dtoWordBody->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
+
+            $permissions['editor'] = [
+                'isAppEditor' => $editorPlugin ? true : false,
+                'editorFskey' => $editorPlugin->fskey,
+            ];
         }
 
         $content = null;
         if ($dtoWordBody->content) {
             $content = Str::of($dtoWordBody->content)->trim();
         }
-        $isMarkdown = $dtoWordBody->isMarkdown ?? 0;
-        $isAnonymous = $dtoWordBody->isAnonymous ?? 0;
 
         switch ($dtoWordBody->type) {
-            case 1:
-                // post
-                $groupId = PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->postGid);
-
+            case Content::TYPE_POST:
                 $title = null;
-                if ($dtoWordBody->postTitle) {
-                    $title = Str::of($dtoWordBody->postTitle)->trim();
+                if ($dtoWordBody->title) {
+                    $title = Str::of($dtoWordBody->title)->trim();
                 }
 
                 $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', PostLog::STATE_DRAFT)->first();
 
+                $permissions['commentConfig']['policy'] = $dtoWordBody->commentPolicy;
+                $permissions['commentConfig']['privacy'] = $dtoWordBody->commentPrivate ? 'private' : 'public';
+
                 $logData = [
                     'user_id' => $author->id,
-                    'parent_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
-                    'is_plugin_editor' => $isAppEditor,
-                    'editor_fskey' => $editorFskey,
-                    'group_id' => $groupId ?? 0,
+                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->quotePid),
+                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid),
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'title' => $title,
                     'content' => $content,
-                    'is_markdown' => $isMarkdown,
-                    'is_anonymous' => $isAnonymous,
-                    'map_json' => $dtoWordBody->map ?? null,
+                    'is_markdown' => $dtoWordBody->isMarkdown,
+                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'location_info' => $dtoWordBody->locationInfo,
+                    'permissions' => $permissions,
                 ];
 
                 if (empty($checkLog)) {
                     $logModel = PostLog::create($logData);
                 } else {
-                    if (empty($checkLog->content) && $checkLog?->fileUsages?->isEmpty() && $checkLog?->extendUsages?->isEmpty()) {
+                    if (empty($checkLog->content) && $checkLog->fileUsages->isEmpty() && $checkLog->extendUsages->isEmpty()) {
                         $checkLog->update($logData);
                         $logModel = $checkLog;
                     } else {
@@ -126,7 +133,7 @@ class Content
                 }
                 break;
 
-            case 2:
+            case Content::TYPE_COMMENT:
                 // comment
                 $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
                 if (empty($checkPost)) {
@@ -140,15 +147,16 @@ class Content
 
                 $logData = [
                     'user_id' => $author->id,
+                    'create_type' => $dtoWordBody->createType,
                     'post_id' => $checkPost->id,
                     'parent_comment_id' => PrimaryHelper::fresnsPrimaryId('comment', $checkPost->commentCid),
-                    'create_type' => $dtoWordBody->createType,
-                    'is_plugin_editor' => $isAppEditor,
-                    'editor_fskey' => $editorFskey,
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'content' => $content,
-                    'is_markdown' => $isMarkdown,
-                    'is_anonymous' => $isAnonymous,
-                    'map_json' => $dtoWordBody->map ?? null,
+                    'is_markdown' => $dtoWordBody->isMarkdown,
+                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'is_private' => $dtoWordBody->commentPrivate,
+                    'location_info' => $dtoWordBody->locationInfo,
+                    'permissions' => $permissions,
                 ];
 
                 if (empty($checkLog)) {
@@ -158,7 +166,7 @@ class Content
                         $checkLog->update($logData);
                         $logModel = $checkLog;
                     } else {
-                        if (empty($checkLog->content) && $checkLog?->fileUsages?->isEmpty() && $checkLog?->extendUsages?->isEmpty()) {
+                        if (empty($checkLog->content) && $checkLog->fileUsages->isEmpty() && $checkLog->extendUsages->isEmpty()) {
                             $checkLog->update($logData);
                             $logModel = $checkLog;
                         } else {
@@ -169,24 +177,24 @@ class Content
                 break;
         }
 
-        // extends
-        if ($dtoWordBody->extends) {
-            $usageType = match ($dtoWordBody->type) {
-                1 => ExtendUsage::TYPE_POST_LOG,
-                2 => ExtendUsage::TYPE_COMMENT_LOG,
-            };
-
-            ContentUtility::saveExtendUsages($usageType, $logModel->id, $dtoWordBody->extends);
-        }
-
         // archives
         if ($dtoWordBody->archives) {
             $usageType = match ($dtoWordBody->type) {
-                1 => ArchiveUsage::TYPE_POST_LOG,
-                2 => ArchiveUsage::TYPE_COMMENT_LOG,
+                Content::TYPE_POST => ArchiveUsage::TYPE_POST_LOG,
+                Content::TYPE_COMMENT => ArchiveUsage::TYPE_COMMENT_LOG,
             };
 
             ContentUtility::saveArchiveUsages($usageType, $logModel->id, $dtoWordBody->archives);
+        }
+
+        // extends
+        if ($dtoWordBody->extends) {
+            $usageType = match ($dtoWordBody->type) {
+                Content::TYPE_POST => ExtendUsage::TYPE_POST_LOG,
+                Content::TYPE_COMMENT => ExtendUsage::TYPE_COMMENT_LOG,
+            };
+
+            ContentUtility::saveExtendUsages($usageType, $logModel->id, $dtoWordBody->extends);
         }
 
         return $this->success([
@@ -204,14 +212,21 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $editTimeLimit = match ($dtoWordBody->type) {
-            1 => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),
-            2 => ConfigHelper::fresnsConfigByItemKey('comment_edit_time_limit'),
+            Content::TYPE_POST => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),
+            Content::TYPE_COMMENT => ConfigHelper::fresnsConfigByItemKey('comment_edit_time_limit'),
         };
 
         switch ($dtoWordBody->type) {
-            case 1:
+            case Content::TYPE_POST:
                 // post
-                $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->fsid);
+                $post = Post::where('pid', $dtoWordBody->fsid)->first();
+
+                if (empty($post)) {
+                    return $this->failure(
+                        37400,
+                        ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                    );
+                }
 
                 $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
                 if (! $author) {
@@ -244,9 +259,23 @@ class Content
                 $logModel = ContentUtility::generatePostDraft($post);
                 break;
 
-            case 2:
+            case Content::TYPE_COMMENT:
                 // comment
-                $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->fsid);
+                $comment = Comment::where('cid', $dtoWordBody->fsid)->first();
+
+                if (empty($comment)) {
+                    return $this->failure(
+                        37500,
+                        ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
+                    );
+                }
+
+                if ($comment->top_parent_id != 0) {
+                    return $this->failure(
+                        36313,
+                        ConfigUtility::getCodeMessage(36313, 'Fresns', $langTag)
+                    );
+                }
 
                 $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
                 if (! $author) {
@@ -259,13 +288,6 @@ class Content
                     return $this->failure(
                         35202,
                         ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
-                    );
-                }
-
-                if ($comment->top_parent_id != 0) {
-                    return $this->failure(
-                        36313,
-                        ConfigUtility::getCodeMessage(36313, 'Fresns', $langTag)
                     );
                 }
 
@@ -302,8 +324,8 @@ class Content
         $dtoWordBody = new ContentPublishByDraftDTO($wordBody);
 
         $logModel = match ($dtoWordBody->type) {
-            1 => PostLog::where('id', $dtoWordBody->logId)->first(),
-            2 => CommentLog::where('id', $dtoWordBody->logId)->first(),
+            Content::TYPE_POST => PostLog::with(['author'])->where('id', $dtoWordBody->logId)->first(),
+            Content::TYPE_COMMENT => CommentLog::with(['author'])->where('id', $dtoWordBody->logId)->first(),
         };
 
         $langTag = AppHelper::getLangTag();
@@ -315,15 +337,16 @@ class Content
             );
         }
 
-        if ($logModel->state == 3) {
+        if ($logModel->state == PostLog::STATE_SUCCESS) {
             return $this->failure(
                 38104,
                 ConfigUtility::getCodeMessage(38104, 'Fresns', $langTag),
             );
         }
 
-        $author = PrimaryHelper::fresnsModelById('user', $logModel->user_id);
-        if (! $author) {
+        $author = $logModel->author;
+
+        if (empty($author)) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
@@ -337,11 +360,12 @@ class Content
         }
 
         switch ($dtoWordBody->type) {
-            case 1:
+            case Content::TYPE_POST:
                 // post
                 $postModel = PrimaryHelper::fresnsModelById('post', $logModel->post_id);
                 if ($postModel) {
                     $checkEditCode = PermissionUtility::checkContentEdit('post', $postModel->created_at, $postModel->sticky_state, $postModel->digest_state);
+
                     if ($checkEditCode) {
                         return $this->failure(
                             $checkEditCode,
@@ -356,11 +380,12 @@ class Content
                 $fsid = $post->pid;
                 break;
 
-            case 2:
+            case Content::TYPE_COMMENT:
                 // comment
                 $commentModel = PrimaryHelper::fresnsModelById('comment', $logModel->comment_id);
                 if ($commentModel) {
                     $checkEditCode = PermissionUtility::checkContentEdit('comment', $commentModel->created_at, $commentModel->is_sticky, $commentModel->digest_state);
+
                     if ($checkEditCode) {
                         return $this->failure(
                             $checkEditCode,
@@ -404,19 +429,13 @@ class Content
         }
 
         $type = match ($dtoWordBody->type) {
-            1 => 'post',
-            2 => 'comment',
+            Content::TYPE_POST => 'post',
+            Content::TYPE_COMMENT => 'comment',
         };
-
-        // map
-        if ($dtoWordBody->map) {
-            new MapDTO($dtoWordBody->map);
-        }
 
         // review
         if ($dtoWordBody->requireReview) {
             $wordBody['createType'] = 1;
-            $wordBody['editorFskey'] = null;
 
             $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
@@ -446,14 +465,14 @@ class Content
 
             $logId = $reviewResp->getData('logId');
 
-            // extends
-            if ($dtoWordBody->extends) {
-                ContentUtility::saveExtendUsages($usageType, $logId, $dtoWordBody->extends);
-            }
-
             // archives
             if ($dtoWordBody->archives) {
                 ContentUtility::saveArchiveUsages($usageType, $logId, $dtoWordBody->archives);
+            }
+
+            // extends
+            if ($dtoWordBody->extends) {
+                ContentUtility::saveExtendUsages($usageType, $logId, $dtoWordBody->extends);
             }
 
             $reviewWordBody = [
@@ -473,41 +492,56 @@ class Content
             ]);
         }
 
+        // location info
+        $mapLocation = null;
+        if ($dtoWordBody->locationInfo) {
+            $dtoLocationInfo = new LocationInfoDTO($dtoWordBody->locationInfo);
+
+            $mapLng = $dtoLocationInfo->longitude;
+            $mapLat = $dtoLocationInfo->latitude;
+
+            if ($mapLng && $mapLat) {
+                switch (config('database.default')) {
+                    case 'mysql':
+                        $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
+                        break;
+
+                    case 'sqlite':
+                        $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
+                        break;
+
+                    case 'pgsql':
+                        $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
+                        break;
+
+                    case 'sqlsrv':
+                        $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
+                        break;
+                }
+            }
+        }
+
         switch ($type) {
             // post
             case 'post':
+                $permissions['commentConfig']['policy'] = $dtoWordBody->commentPolicy;
+                $permissions['commentConfig']['privacy'] = $dtoWordBody->commentPrivate ? 'private' : 'public';
+
                 $post = Post::create([
                     'user_id' => $author->id,
-                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->postQuotePid) ?? 0,
-                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->postGid) ?? 0,
-                    'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
+                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->quotePid),
+                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid),
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
+                    'title' => $dtoWordBody->title ? Str::of($dtoWordBody->title)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_longitude' => $dtoWordBody->map['longitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->map['latitude'] ?? null,
-                ]);
-
-                PostAppend::create([
-                    'post_id' => $post->id,
-                    'is_comment_disabled' => $dtoWordBody->postIsCommentDisabled ?? 0,
-                    'is_comment_private' => $dtoWordBody->postIsCommentPrivate ?? 0,
-                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
-                    'map_json' => $dtoWordBody->map ?? null,
-                    'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
-                    'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
-                    'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
-                    'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
-                    'map_zip' => $dtoWordBody->map['zip'] ?? null,
-                    'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
+                    'is_markdown' => $dtoWordBody->isMarkdown,
+                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'map_location' => $mapLocation,
+                    'permissions' => $permissions,
                 ]);
 
                 ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
                 InteractionUtility::publishStats('post', $post->id, 'increment');
-
-                $author->update([
-                    'last_post_at' => now(),
-                ]);
 
                 $usageType = ExtendUsage::TYPE_POST;
 
@@ -524,45 +558,26 @@ class Content
                 }
 
                 $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
+                $postPermissions = $post->permissions;
+                $privacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
+
+                $privacyState = ($privacy == 'private') ? Comment::PRIVACY_PRIVATE_BY_POST : Comment::PRIVACY_PUBLIC;
 
                 $comment = Comment::create([
                     'user_id' => $author->id,
                     'post_id' => $post->id,
                     'top_parent_id' => $commentTopParentId,
-                    'parent_id' => $parentComment?->id ?? 0,
+                    'parent_id' => $parentComment?->id,
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_longitude' => $dtoWordBody->map['longitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->map['latitude'] ?? null,
-                ]);
-
-                CommentAppend::create([
-                    'comment_id' => $comment->id,
-                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
-                    'map_json' => $dtoWordBody->map ?? null,
-                    'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
-                    'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
-                    'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
-                    'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
-                    'map_zip' => $dtoWordBody->map['zip'] ?? null,
-                    'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
+                    'is_markdown' => $dtoWordBody->isMarkdown,
+                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'privacy_state' => $privacyState,
+                    'map_location' => $mapLocation,
                 ]);
 
                 ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
                 InteractionUtility::publishStats('comment', $comment->id, 'increment');
-
-                $author->update([
-                    'last_comment_at' => now(),
-                ]);
-
-                $post->update([
-                    'last_comment_at' => now(),
-                ]);
-
-                if ($comment->parent_id) {
-                    ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
-                }
 
                 $usageType = ExtendUsage::TYPE_COMMENT;
 
@@ -571,14 +586,14 @@ class Content
                 break;
         }
 
-        // extends
-        if ($dtoWordBody->extends) {
-            ContentUtility::saveExtendUsages($usageType, $primaryId, $dtoWordBody->extends);
-        }
-
         // archives
         if ($dtoWordBody->archives) {
             ContentUtility::saveArchiveUsages($usageType, $primaryId, $dtoWordBody->archives);
+        }
+
+        // extends
+        if ($dtoWordBody->extends) {
+            ContentUtility::saveExtendUsages($usageType, $primaryId, $dtoWordBody->extends);
         }
 
         // send notification
@@ -599,11 +614,11 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
-            case 1:
+            case Content::TABLE_MAIN:
                 // main
                 $model = match ($dtoWordBody->type) {
-                    1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
-                    2 => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
+                    Content::TYPE_POST => Post::where('pid', $dtoWordBody->contentFsid)->first(),
+                    Content::TYPE_COMMENT => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
                 };
 
                 if (empty($model)) {
@@ -615,54 +630,46 @@ class Content
 
                 // logs
                 $logModels = match ($dtoWordBody->type) {
-                    1 => PostLog::withTrashed()->where('post_id', $model->id)->get(),
-                    2 => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
+                    Content::TYPE_POST => PostLog::withTrashed()->where('post_id', $model->id)->get(),
+                    Content::TYPE_COMMENT => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
                 };
 
                 foreach ($logModels as $log) {
                     \FresnsCmdWord::plugin('Fresns')->logicalDeletionContent([
                         'type' => $dtoWordBody->type,
-                        'contentType' => 2,
+                        'contentType' => Content::TABLE_LOG,
                         'contentLogId' => $log->id,
                     ]);
                 }
 
-                $modelAppend = match ($dtoWordBody->type) {
-                    1 => PostAppend::where('post_id', $model->id)->first(),
-                    2 => CommentAppend::where('comment_id', $model->id)->first(),
-                };
-
                 $type = match ($dtoWordBody->type) {
-                    1 => 'post',
-                    2 => 'comment',
+                    Content::TYPE_POST => 'post',
+                    Content::TYPE_COMMENT => 'comment',
                 };
 
                 InteractionUtility::publishStats($type, $model->id, 'decrement');
 
-                if ($dtoWordBody->type == 1) {
+                if ($dtoWordBody->type == Content::TYPE_POST) {
                     PostAuth::where('post_id', $model->id)->delete();
                     PostUser::where('post_id', $model->id)->delete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->delete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->delete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->delete();
                 }
 
                 $tableName = match ($dtoWordBody->type) {
-                    1 => 'posts',
-                    2 => 'comments',
+                    Content::TYPE_POST => 'posts',
+                    Content::TYPE_COMMENT => 'comments',
                 };
 
                 $usageType = match ($dtoWordBody->type) {
-                    1 => OperationUsage::TYPE_POST,
-                    2 => OperationUsage::TYPE_COMMENT,
+                    Content::TYPE_POST => OperationUsage::TYPE_POST,
+                    Content::TYPE_COMMENT => OperationUsage::TYPE_COMMENT,
                 };
                 break;
 
-            case 2:
+            case Content::TABLE_LOG:
                 // log
                 $model = match ($dtoWordBody->type) {
-                    1 => PostLog::where('id', $dtoWordBody->contentLogId)->first(),
-                    2 => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),
+                    Content::TYPE_POST => PostLog::where('id', $dtoWordBody->contentLogId)->first(),
+                    Content::TYPE_COMMENT => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),
                 };
 
                 if (empty($model)) {
@@ -673,13 +680,13 @@ class Content
                 }
 
                 $tableName = match ($dtoWordBody->type) {
-                    1 => 'post_logs',
-                    2 => 'comment_logs',
+                    Content::TYPE_POST => 'post_logs',
+                    Content::TYPE_COMMENT => 'comment_logs',
                 };
 
                 $usageType = match ($dtoWordBody->type) {
-                    1 => OperationUsage::TYPE_POST_LOG,
-                    2 => OperationUsage::TYPE_COMMENT_LOG,
+                    Content::TYPE_POST => OperationUsage::TYPE_POST_LOG,
+                    Content::TYPE_COMMENT => OperationUsage::TYPE_COMMENT_LOG,
                 };
                 break;
         }
@@ -690,10 +697,10 @@ class Content
         ExtendUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->delete();
 
         HashtagUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->delete();
+        GeotagUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->delete();
         DomainLinkUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->delete();
         Mention::where('user_id', $model->user_id)->where('mention_type', $usageType)->where('mention_id', $model->id)->delete();
 
-        $modelAppend?->delete();
         $model->delete();
 
         return $this->success();
@@ -706,11 +713,11 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
-            case 1:
+            case Content::TABLE_MAIN:
                 // main
                 $model = match ($dtoWordBody->type) {
-                    1 => Post::withTrashed()->where('pid', $dtoWordBody->contentFsid)->first(),
-                    2 => Comment::withTrashed()->where('cid', $dtoWordBody->contentFsid)->first(),
+                    Content::TYPE_POST => Post::withTrashed()->where('pid', $dtoWordBody->contentFsid)->first(),
+                    Content::TYPE_COMMENT => Comment::withTrashed()->where('cid', $dtoWordBody->contentFsid)->first(),
                 };
 
                 if (empty($model)) {
@@ -722,56 +729,48 @@ class Content
 
                 // logs
                 $logModels = match ($dtoWordBody->type) {
-                    1 => PostLog::withTrashed()->where('post_id', $model->id)->get(),
-                    2 => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
+                    Content::TYPE_POST => PostLog::withTrashed()->where('post_id', $model->id)->get(),
+                    Content::TYPE_COMMENT => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
                 };
 
                 foreach ($logModels as $log) {
                     \FresnsCmdWord::plugin('Fresns')->physicalDeletionContent([
                         'type' => $dtoWordBody->type,
-                        'contentType' => 2,
+                        'contentType' => Content::TABLE_LOG,
                         'contentLogId' => $log->id,
                     ]);
                 }
 
-                $modelAppend = match ($dtoWordBody->type) {
-                    1 => PostAppend::withTrashed()->where('post_id', $model->id)->first(),
-                    2 => CommentAppend::withTrashed()->where('comment_id', $model->id)->first(),
-                };
-
                 $type = match ($dtoWordBody->type) {
-                    1 => 'post',
-                    2 => 'comment',
+                    Content::TYPE_POST => 'post',
+                    Content::TYPE_COMMENT => 'comment',
                 };
 
                 if (! $model->trashed()) {
                     InteractionUtility::publishStats($type, $model->id, 'decrement');
                 }
 
-                if ($dtoWordBody->type == 1) {
+                if ($dtoWordBody->type == Content::TYPE_POST) {
                     PostAuth::withTrashed()->where('post_id', $model->id)->forceDelete();
                     PostUser::withTrashed()->where('post_id', $model->id)->forceDelete();
-                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->forceDelete();
-                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->forceDelete();
-                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->forceDelete();
                 }
 
                 $tableName = match ($dtoWordBody->type) {
-                    1 => 'posts',
-                    2 => 'comments',
+                    Content::TYPE_POST => 'posts',
+                    Content::TYPE_COMMENT => 'comments',
                 };
 
                 $usageType = match ($dtoWordBody->type) {
-                    1 => OperationUsage::TYPE_POST,
-                    2 => OperationUsage::TYPE_COMMENT,
+                    Content::TYPE_POST => OperationUsage::TYPE_POST,
+                    Content::TYPE_COMMENT => OperationUsage::TYPE_COMMENT,
                 };
                 break;
 
-            case 2:
+            case Content::TABLE_LOG:
                 // log
                 $model = match ($dtoWordBody->type) {
-                    1 => PostLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
-                    2 => CommentLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
+                    Content::TYPE_POST => PostLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
+                    Content::TYPE_COMMENT => CommentLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
                 };
 
                 if (empty($model)) {
@@ -781,16 +780,14 @@ class Content
                     );
                 }
 
-                $modelAppend = null;
-
                 $tableName = match ($dtoWordBody->type) {
-                    1 => 'post_logs',
-                    2 => 'comment_logs',
+                    Content::TYPE_POST => 'post_logs',
+                    Content::TYPE_COMMENT => 'comment_logs',
                 };
 
                 $usageType = match ($dtoWordBody->type) {
-                    1 => OperationUsage::TYPE_POST_LOG,
-                    2 => OperationUsage::TYPE_COMMENT_LOG,
+                    Content::TYPE_POST => OperationUsage::TYPE_POST_LOG,
+                    Content::TYPE_COMMENT => OperationUsage::TYPE_COMMENT_LOG,
                 };
                 break;
         }
@@ -803,10 +800,10 @@ class Content
         ExtendUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
 
         HashtagUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        GeotagUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
         DomainLinkUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
         Mention::withTrashed()->where('user_id', $model->user_id)->where('mention_type', $usageType)->where('mention_id', $model->id)->forceDelete();
 
-        $modelAppend?->forceDelete();
         $model->forceDelete();
 
         $fileList = File::doesntHave('fileUsages')->whereIn('id', $fileIds)->get()->groupBy('type');
@@ -838,26 +835,14 @@ class Content
         $dtoWordBody = new AddContentMoreInfoDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
+        $model = match ($dtoWordBody->type) {
+            Content::TYPE_POST => Post::where('pid', $dtoWordBody->fsid)->first(),
+            Content::TYPE_COMMENT => Comment::where('cid', $dtoWordBody->fsid)->first(),
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37400,
-            2 => 37500,
-        };
-
-        if (empty($primaryId)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
-            );
-        }
-
-        $model = match ($dtoWordBody->type) {
-            1 => PostAppend::where('post_id', $primaryId)->first(),
-            2 => CommentAppend::where('comment_id', $primaryId)->first(),
+            Content::TYPE_POST => 37400,
+            Content::TYPE_COMMENT => 37500,
         };
 
         if (empty($model)) {
@@ -869,15 +854,15 @@ class Content
 
         $moreInfo = $model->more_info ?? [];
 
-        $newmoreInfo = Arr::add($moreInfo, $dtoWordBody->key, $dtoWordBody->value);
+        $newMoreInfo = Arr::add($moreInfo, $dtoWordBody->key, $dtoWordBody->value);
 
         $model->update([
-            'more_info' => $newmoreInfo,
+            'more_info' => $newMoreInfo,
         ]);
 
         $typeName = match ($dtoWordBody->type) {
-            1 => 'post',
-            2 => 'comment',
+            Content::TYPE_POST => 'post',
+            Content::TYPE_COMMENT => 'comment',
         };
 
         CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
@@ -892,13 +877,13 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
+            Content::TYPE_POST => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            Content::TYPE_COMMENT => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37400,
-            2 => 37500,
+            Content::TYPE_POST => 37400,
+            Content::TYPE_COMMENT => 37500,
         };
 
         if (empty($primaryId)) {
@@ -909,8 +894,8 @@ class Content
         }
 
         $typeName = match ($dtoWordBody->type) {
-            1 => 'post',
-            2 => 'comment',
+            Content::TYPE_POST => 'post',
+            Content::TYPE_COMMENT => 'comment',
         };
 
         InteractionUtility::markContentSticky($typeName, $primaryId, $dtoWordBody->state);
@@ -927,13 +912,13 @@ class Content
         $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
+            Content::TYPE_POST => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
+            Content::TYPE_COMMENT => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37400,
-            2 => 37500,
+            Content::TYPE_POST => 37400,
+            Content::TYPE_COMMENT => 37500,
         };
 
         if (empty($primaryId)) {
@@ -944,8 +929,8 @@ class Content
         }
 
         $typeName = match ($dtoWordBody->type) {
-            1 => 'post',
-            2 => 'comment',
+            Content::TYPE_POST => 'post',
+            Content::TYPE_COMMENT => 'comment',
         };
 
         InteractionUtility::markContentDigest($typeName, $primaryId, $dtoWordBody->state);
@@ -961,26 +946,14 @@ class Content
         $dtoWordBody = new SetContentCloseDeleteDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
-        $primaryId = match ($dtoWordBody->type) {
-            1 => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
-            2 => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->fsid),
+        $model = match ($dtoWordBody->type) {
+            Content::TYPE_POST => Post::where('pid', $dtoWordBody->fsid)->first(),
+            Content::TYPE_COMMENT => Comment::where('cid', $dtoWordBody->fsid)->first(),
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37400,
-            2 => 37500,
-        };
-
-        if (empty($primaryId)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
-            );
-        }
-
-        $model = match ($dtoWordBody->type) {
-            1 => PostAppend::where('post_id', $primaryId)->first(),
-            2 => CommentAppend::where('comment_id', $primaryId)->first(),
+            Content::TYPE_POST => 37400,
+            Content::TYPE_COMMENT => 37500,
         };
 
         if (empty($model)) {
@@ -990,13 +963,17 @@ class Content
             );
         }
 
+        $permissions = $model->permissions;
+
+        $permissions['canDelete'] = $dtoWordBody->canDelete;
+
         $model->update([
-            'can_delete' => $dtoWordBody->canDelete,
+            'permissions' => $permissions,
         ]);
 
         $typeName = match ($dtoWordBody->type) {
-            1 => 'post',
-            2 => 'comment',
+            Content::TYPE_POST => 'post',
+            Content::TYPE_COMMENT => 'comment',
         };
         CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
 
@@ -1032,15 +1009,15 @@ class Content
                 if ($userId) {
                     PostAuth::updateOrCreate([
                         'post_id' => $postId,
-                        'type' => PostAuth::TYPE_USER,
-                        'object_id' => $userId,
+                        'auth_type' => PostAuth::TYPE_USER,
+                        'auth_id' => $userId,
                     ]);
                 }
                 if ($roleId) {
                     PostAuth::updateOrCreate([
                         'post_id' => $postId,
-                        'type' => PostAuth::TYPE_ROLE,
-                        'object_id' => $roleId,
+                        'auth_type' => PostAuth::TYPE_ROLE,
+                        'auth_id' => $roleId,
                     ]);
                 }
                 break;
@@ -1048,17 +1025,17 @@ class Content
             case 'remove':
                 // remove
                 if ($userId) {
-                    $userAuth = PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_USER)->where('object_id', $userId)->first();
+                    $userAuth = PostAuth::where('post_id', $postId)->where('auth_type', PostAuth::TYPE_USER)->where('auth_id', $userId)->first();
                     $userAuth->delete();
                 }
                 if ($roleId) {
-                    $roleAuth = PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_ROLE)->where('object_id', $userId)->first();
+                    $roleAuth = PostAuth::where('post_id', $postId)->where('auth_type', PostAuth::TYPE_ROLE)->where('auth_id', $userId)->first();
                     $roleAuth->delete();
                 }
                 break;
         }
 
-        $cacheKey = "fresns_user_post_read_{$dtoWordBody->pid}_{$dtoWordBody->uid}";
+        $cacheKey = "fresns_user_post_auth_{$postId}_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
@@ -1106,66 +1083,6 @@ class Content
                 $postUser->delete();
                 break;
         }
-
-        return $this->success();
-    }
-
-    // setCommentExtendButton
-    public function setCommentExtendButton($wordBody)
-    {
-        $dtoWordBody = new SetCommentExtendButtonDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
-
-        $commentId = PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody->cid);
-        if (empty($commentId)) {
-            return $this->failure(
-                37500,
-                ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
-            );
-        }
-
-        $commentAppend = CommentAppend::where('comment_id', $commentId)->first();
-        if (empty($commentAppend)) {
-            return $this->failure(
-                37500,
-                ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
-            );
-        }
-
-        // close button
-        if (isset($dtoWordBody->close)) {
-            $commentAppend->fill([
-                'is_close_btn' => $dtoWordBody->close,
-            ]);
-        }
-
-        // button config
-        if ($dtoWordBody->change) {
-            $commentAppend->fill([
-                'is_change_btn' => ($dtoWordBody->change == 'default') ? false : true,
-            ]);
-        }
-        if ($dtoWordBody->activeNameKey) {
-            $activeName = ConfigHelper::fresnsConfigByItemKey($dtoWordBody->activeNameKey);
-            if (empty($activeName)) {
-                return $this->failure(
-                    32202,
-                    ConfigUtility::getCodeMessage(32202, 'Fresns', $langTag)
-                );
-            }
-
-            $commentAppend->fill([
-                'btn_name_key' => $dtoWordBody->activeNameKey,
-            ]);
-        }
-        if ($dtoWordBody->activeStyle) {
-            $commentAppend->fill([
-                'btn_style' => $dtoWordBody->activeStyle,
-            ]);
-        }
-
-        // save
-        $commentAppend->save();
 
         return $this->success();
     }

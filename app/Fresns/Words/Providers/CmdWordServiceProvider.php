@@ -105,7 +105,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'setContentCloseDelete', 'provider' => [Content::class, 'setContentCloseDelete']],
         ['word' => 'setPostAuth', 'provider' => [Content::class, 'setPostAuth']],
         ['word' => 'setPostAffiliateUser', 'provider' => [Content::class, 'setPostAffiliateUser']],
-        ['word' => 'setCommentExtendButton', 'provider' => [Content::class, 'setCommentExtendButton']],
 
         // Manage
         ['word' => 'getPortalContent', 'provider' => [Manage::class, 'getPortalContent']],
