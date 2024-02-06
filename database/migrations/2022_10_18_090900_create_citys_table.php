@@ -23,10 +23,10 @@ class CreateCitysTable extends Migration
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
             $table->unsignedInteger('parent_id')->default(0)->index('city_parent_id');
-            $table->string('continent_code', 8)->nullable();
+            $table->string('continent_code', 8)->nullable()->index('city_continent_code');
             $table->string('country_code', 8)->nullable();
-            $table->string('region_code', 8)->nullable()->index('city_region_code');
-            $table->string('city_code', 8)->nullable()->index('city_code');
+            $table->string('region_code', 8)->nullable();
+            $table->string('city_code', 8)->nullable();
             $table->string('zip', 32)->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
@@ -54,6 +54,7 @@ class CreateCitysTable extends Migration
             $table->softDeletes();
 
             $table->index(['continent_code', 'country_code'], 'city_continent_country');
+            $table->index(['continent_code', 'country_code', 'region_code'], 'city_continent_country_region');
             $table->unique(['continent_code', 'country_code', 'region_code', 'city_code'], 'city_index');
         });
     }
