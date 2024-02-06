@@ -1960,7 +1960,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38212,
-                'messages' => '{"en":"Only users mentioned by the author can comment","zh-Hans":"仅限作者提及到的用户才可以评论","zh-Hant":"僅限作者提及到的用戶才可以留言"}',
+                'messages' => '{"en":"Only users mentioned by the author can comment","zh-Hans":"仅限作者提及到的用户才可以评论","zh-Hant":"僅限作者提及到的使用者才可以留言"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,

@@ -20,7 +20,10 @@ class CreateGeotagsTable extends Migration
         Schema::create('geotags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('gtid')->unique('gtid');
-            $table->string('place_id')->nullable()->unique('geotag_place_id');
+            $table->unsignedSmallInteger('type')->default(1)->index('geotag_type');
+            $table->unsignedBigInteger('cover_file_id')->nullable();
+            $table->string('cover_file_url')->nullable();
+            $table->string('place_id')->nullable()->index('geotag_place_id');
             $table->string('place_type')->default('unknown')->index('geotag_place_type');
             switch (config('database.default')) {
                 case 'pgsql':
@@ -37,42 +40,29 @@ class CreateGeotagsTable extends Migration
                     $table->json('name')->nullable();
                     $table->json('description')->nullable();
             }
-            $table->unsignedTinyInteger('map_id')->default(1);
+            $table->unsignedInteger('city_id')->default(0)->index('geotag_city_id');
+            $table->unsignedTinyInteger('map_id')->default(1)->index('geotag_map_id');
             $table->decimal('map_longitude', 12, 8)->index('geotag_map_longitude');
             $table->decimal('map_latitude', 12, 8)->index('geotag_map_latitude');
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->point('map_location')->index('geotag_map_location');
-                    $table->jsonb('location_info')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->geography('map_location')->index('geotag_map_location');
-                    $table->nvarchar('location_info', 'max')->nullable();
-                    break;
-
-                default:
-                    $table->point('map_location')->index('geotag_map_location');
-                    $table->json('location_info')->nullable();
-            }
-            $table->unsignedSmallInteger('type')->default(1)->index('geotag_type');
-            $table->unsignedBigInteger('cover_file_id')->nullable();
-            $table->string('cover_file_url')->nullable();
-            $table->string('continent_code', 8)->nullable();
-            $table->string('country_code', 8)->nullable();
-            $table->string('region_code', 8)->nullable()->index('geotag_region_code');
-            $table->string('city_code', 8)->nullable()->index('geotag_city_code');
-            $table->string('zip', 32)->nullable();
-            switch (config('database.default')) {
-                case 'pgsql':
+                    $table->jsonb('district')->nullable();
+                    $table->jsonb('address')->nullable();
                     $table->jsonb('more_info')->nullable();
                     break;
 
                 case 'sqlsrv':
+                    $table->geography('map_location')->index('geotag_map_location');
+                    $table->nvarchar('district', 'max')->nullable();
+                    $table->nvarchar('address', 'max')->nullable();
                     $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
+                    $table->point('map_location')->index('geotag_map_location');
+                    $table->json('district')->nullable();
+                    $table->json('address')->nullable();
                     $table->json('more_info')->nullable();
             }
             $table->unsignedInteger('view_count')->default(0);
