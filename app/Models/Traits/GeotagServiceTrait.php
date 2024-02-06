@@ -39,7 +39,6 @@ trait GeotagServiceTrait
         $info['mapId'] = $geotagData->map_id;
         $info['latitude'] = $geotagData->map_latitude;
         $info['longitude'] = $geotagData->map_longitude;
-        $info['scale'] = $locationInfo['scale'] ?? null;
         $info['continent'] = $locationInfo['continent'] ?? null;
         $info['continentCode'] = $geotagData->continent_code;
         $info['country'] = $locationInfo['country'] ?? null;

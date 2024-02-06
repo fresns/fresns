@@ -46,7 +46,6 @@ class DeviceInfoDTO extends DTO
             'mapId' => ['integer', 'nullable'],
             'latitude' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'longitude' => ['numeric', 'nullable', 'min:-180', 'max:180'],
-            'scale' => ['string', 'nullable'],
             'continent' => ['string', 'nullable'],
             'continentCode' => ['string', 'nullable'],
             'country' => ['string', 'nullable'],

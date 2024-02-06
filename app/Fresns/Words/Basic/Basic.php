@@ -393,7 +393,6 @@ class Basic
             'mapId' => 1,
             'latitude' => null,
             'longitude' => null,
-            'scale' => null,
             'continent' => null,
             'continentCode' => null,
             'country' => null,

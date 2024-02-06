@@ -229,7 +229,6 @@ class AppHelper
             'mapId' => 1,
             'latitude' => null,
             'longitude' => null,
-            'scale' => null,
             'continent' => null,
             'continentCode' => null,
             'country' => null,
@@ -265,16 +264,15 @@ class AppHelper
     public static function getLangTag(): string
     {
         $clientLangTag = \request()->header('X-Fresns-Client-Lang-Tag');
-        $defaultLanguage = ConfigHelper::fresnsConfigDefaultLangTag();
 
         if (empty($clientLangTag)) {
-            return $defaultLanguage;
+            return ConfigHelper::fresnsConfigDefaultLangTag();
         }
 
         $languageStatus = ConfigHelper::fresnsConfigByItemKey('language_status');
 
         if (! $languageStatus) {
-            return $defaultLanguage;
+            return ConfigHelper::fresnsConfigDefaultLangTag();
         }
 
         return $clientLangTag;
