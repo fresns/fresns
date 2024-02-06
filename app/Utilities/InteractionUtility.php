@@ -827,7 +827,7 @@ class InteractionUtility
 
         $model = match ($type) {
             'post' => Post::with(['quotedPost', 'group', 'hashtags', 'geotag'])->where('id', $id)->first(),
-            'comment' => Comment::with(['post', 'hashtags', 'geotag'])->where('id', $id)->first(),
+            'comment' => Comment::with(['hashtags', 'geotag'])->where('id', $id)->first(),
         };
 
         if (empty($model)) {
@@ -837,7 +837,7 @@ class InteractionUtility
         // group
         $group = match ($type) {
             'post' => $model->group,
-            'comment' => Group::where('id', $model->post?->group_id)->first(),
+            'comment' => null,
         };
 
         // hashtag
@@ -1032,6 +1032,9 @@ class InteractionUtility
         switch ($actionType) {
             case 'increment':
                 $comment->increment($tableColumn);
+                $comment->update([
+                    'last_comment_at' => now(),
+                ]);
                 break;
 
             case 'decrement':

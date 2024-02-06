@@ -284,12 +284,6 @@ class PermissionUtility
         return $userAccountId == $accountId ? true : false;
     }
 
-    // Check user permissions
-    public static function checkUserPerm(int $userId, array $permUserIds): bool
-    {
-        return in_array($userId, $permUserIds);
-    }
-
     // Check user role permissions
     public static function checkUserRolePerm(int $userId, ?array $permRoleIds = []): bool
     {
@@ -465,10 +459,19 @@ class PermissionUtility
     }
 
     // Check post auth
-    public static function checkPostAuth(int $postId, ?int $userId = null): bool
+    public static function checkPostAuth(int $postId, ?array $whitelistUsers = [], ?array $whitelistRoles = [], ?int $userId = null): bool
     {
         if (empty($userId)) {
             return false;
+        }
+
+        if ($whitelistUsers && in_array($userId, $whitelistUsers)) {
+            return true;
+        }
+
+        $userMainRole = PermissionUtility::getUserMainRole($userId);
+        if ($whitelistRoles && in_array($userMainRole['id'], $whitelistRoles)) {
+            return true;
         }
 
         $cacheKey = "fresns_user_post_auth_{$postId}_{$userId}";
@@ -483,15 +486,16 @@ class PermissionUtility
         $checkPostAuth = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($checkPostAuth)) {
-            $allowUsers = PostAuth::where('post_id', $postId)->where('type', 1)->pluck('target_id')->toArray();
-            $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
+            $allowUser = PostAuth::where('post_id', $postId)->where('auth_type', PostAuth::TYPE_USER)->where('auth_id', $userId)->first();
 
-            if ($checkUser) {
+            if ($allowUser) {
                 $checkPostAuth = true;
             } else {
-                $allowRoles = PostAuth::where('post_id', $postId)->where('type', 2)->pluck('target_id')->toArray();
+                $allowRoles = PostAuth::where('post_id', $postId)->where('auth_type', PostAuth::TYPE_ROLE)->pluck('auth_id')->toArray();
 
-                $checkPostAuth = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
+                $allRoles = array_merge($allowRoles, $whitelistRoles);
+
+                $checkPostAuth = PermissionUtility::checkUserRolePerm($userId, $allRoles);
             }
 
             CacheHelper::put($checkPostAuth, $cacheKey, $cacheTag);

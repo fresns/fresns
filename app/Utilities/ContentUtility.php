@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -16,8 +17,8 @@ use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
+use App\Models\City;
 use App\Models\Comment;
-use App\Models\CommentAppend;
 use App\Models\CommentLog;
 use App\Models\Domain;
 use App\Models\DomainLink;
@@ -25,20 +26,19 @@ use App\Models\DomainLinkUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\FileUsage;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\HashtagUsage;
-use App\Models\Language;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
-use App\Models\PostAppend;
-use App\Models\PostAuth;
 use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ContentUtility
@@ -586,8 +586,8 @@ class ContentUtility
         }
     }
 
-    // handle read json
-    public static function handleReadJson(?array $readConfig, string $langTag): ?array
+    // handle post read config
+    public static function handlePostReadConfig(?array $readConfig, string $langTag): ?array
     {
         if (! $readConfig) {
             return null;
@@ -628,39 +628,6 @@ class ContentUtility
         $item['defaultLangBtnName'] = collect($readConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['btnName'] = $readConfig['btnName'];
         $item['permissions'] = $permissions;
-
-        return $item;
-    }
-
-    // handle user list json
-    public static function handleUserListJson(?array $userListConfig, string $langTag): ?array
-    {
-        if (! $userListConfig) {
-            return null;
-        }
-
-        $item['isUserList'] = (bool) $userListConfig['isUserList'];
-        $item['defaultLangUserListName'] = collect($userListConfig['userListName'])->where('langTag', $langTag)->first()['name'] ?? null;
-        $item['userListName'] = $userListConfig['userListName'];
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($userListConfig['pluginFskey']);
-        $item['pluginFskey'] = $userListConfig['pluginFskey'];
-
-        return $item;
-    }
-
-    // handle comment btn json
-    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag): ?array
-    {
-        if (! $commentBtnConfig) {
-            return null;
-        }
-
-        $item['isCommentBtn'] = (bool) $commentBtnConfig['isCommentBtn'];
-        $item['defaultLangBtnName'] = collect($commentBtnConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
-        $item['btnName'] = $commentBtnConfig['btnName'];
-        $item['btnStyle'] = $commentBtnConfig['btnStyle'] ?? null;
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($commentBtnConfig['pluginFskey']);
-        $item['pluginFskey'] = $commentBtnConfig['pluginFskey'];
 
         return $item;
     }
@@ -718,7 +685,7 @@ class ContentUtility
     }
 
     // save extend usages
-    // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "fskey": null}]
+    // $extends = [{"eid": "eid", "canDelete": true, "sortOrder": 9, "fskey": null}]
     public static function saveExtendUsages(int $usageType, int $usageId, array $extends): void
     {
         foreach ($extends as $extend) {
@@ -744,27 +711,202 @@ class ContentUtility
         }
     }
 
-    // release lang name
-    public static function releaseLangName(string $tableName, string $tableColumn, int $tableId, array $langContentArr): ?string
+    // release location info
+    public static function releaseLocationInfo(array $locationInfo): ?Geotag
     {
-        $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
+        // $locationInfo = [
+        //     'langTag' => '',
+        //     'name' => 'geotags->name',
+        //     'description' => 'geotags->description',
+        //     'placeId' => 'geotags->place_id', // Reference: Google Map
+        //     'placeType' => 'geotags->place_type', // Reference: Google Map
+        //     'mapId' => 'geotags->map_id',
+        //     'latitude' => 'geotags->map_latitude',
+        //     'longitude' => 'geotags->map_longitude',
+        //     'continent' => '',
+        //     'continentCode' => '',
+        //     'country' => '',
+        //     'countryCode' => '',
+        //     'region' => '',
+        //     'regionCode' => '',
+        //     'city' => '',
+        //     'cityCode' => '',
+        //     'district' => 'geotags->district',
+        //     'address' => 'geotags->address',
+        //     'zip' => 'geotags->zip',
+        //     'moreInfo' => 'geotags->more_info',
+        // ];
 
-        foreach ($langContentArr as $lang) {
-            Language::updateOrCreate([
-                'table_name' => $tableName,
-                'table_column' => $tableColumn,
-                'table_id' => $tableId,
-                'lang_tag' => $lang['langTag'],
-            ], [
-                'lang_content' => $lang['name'],
-            ]);
+        $name = $locationInfo['name'] ?? null;
+        $mapId = $locationInfo['mapId'] ?? null;
+        $latitude = $locationInfo['latitude'] ?? null;
+        $longitude = $locationInfo['longitude'] ?? null;
 
-            if ($lang['langTag'] == $defaultLangTag) {
-                $defaultLangName = $lang['name'];
-            }
+        if (empty($name) || empty($mapId) || empty($latitude) || empty($longitude)) {
+            return null;
         }
 
-        return $defaultLangName ?? null;
+        $langTag = $locationInfo['langTag'] ?? AppHelper::getLangTag();
+
+        // city
+        $cityInfo = [
+            'continent' => $locationInfo['continent'] ?? null,
+            'continentCode' => $locationInfo['continentCode'] ?? null,
+            'country' => $locationInfo['country'] ?? null,
+            'countryCode' => $locationInfo['countryCode'] ?? null,
+            'region' => $locationInfo['region'] ?? null,
+            'regionCode' => $locationInfo['regionCode'] ?? null,
+            'city' => $locationInfo['city'] ?? null,
+            'cityCode' => $locationInfo['cityCode'] ?? null,
+        ];
+
+        $allNotEmpty = count(array_filter($cityInfo, function ($value) {
+            return ! is_null($value);
+        })) === count($cityInfo);
+
+        $cityId = null;
+        if ($allNotEmpty) {
+            $cityModel = City::where('continent_code', $cityInfo['continentCode'])
+                ->where('country_code', $cityInfo['countryCode'])
+                ->where('region_code', $cityInfo['regionCode'])
+                ->where('city_code', $cityInfo['cityCode'])
+                ->first();
+
+            if ($cityModel) {
+                $dbContinent = $cityModel->continent;
+                $dbContinent[$langTag] = $cityInfo['continent'];
+
+                $dbCountry = $cityModel->country;
+                $dbCountry[$langTag] = $cityInfo['country'];
+
+                $dbRegion = $cityModel->region;
+                $dbRegion[$langTag] = $cityInfo['region'];
+
+                $dbCity = $cityModel->city;
+                $dbCity[$langTag] = $cityInfo['city'];
+
+                $dbZip = $cityModel->zip ?? $locationInfo['zip'] ?? null;
+
+                $cityModel->update([
+                    'continent' => $dbContinent,
+                    'country' => $dbCountry,
+                    'region' => $dbRegion,
+                    'city' => $dbCity,
+                    'zip' => $dbZip,
+                ]);
+            } else {
+                $continent[$langTag] = $cityInfo['continent'];
+                $country[$langTag] = $cityInfo['country'];
+                $region[$langTag] = $cityInfo['region'];
+                $city[$langTag] = $cityInfo['city'];
+
+                $cityItems = [
+                    'continent_code' => $cityInfo['continentCode'],
+                    'country_code' => $cityInfo['countryCode'],
+                    'region_code' => $cityInfo['regionCode'],
+                    'city_code' => $cityInfo['cityCode'],
+                    'continent' => $continent,
+                    'country' => $country,
+                    'region' => $region,
+                    'city' => $city,
+                    'zip' => $locationInfo['zip'] ?? null,
+                ];
+
+                $cityModel = Geotag::create($cityItems);
+            }
+
+            $cityId = $cityModel->id;
+        }
+
+        // geotag
+        $placeId = $locationInfo['placeId'] ?? null;
+
+        $geotag = $placeId ? Geotag::where('map_id', $mapId)->where('place_id', $placeId)->first() : null;
+
+        if ($geotag) {
+            $dbName = $geotag->name;
+            $dbName[$langTag] = $name;
+
+            $dbDescription = $geotag->description;
+            if ($locationInfo['description'] ?? null) {
+                $dbDescription[$langTag] = $locationInfo['description'];
+            }
+
+            $dbDistrict = $geotag->district;
+            if ($locationInfo['district'] ?? null) {
+                $dbDistrict[$langTag] = $locationInfo['district'];
+            }
+
+            $dbAddress = $geotag->address;
+            if ($locationInfo['address'] ?? null) {
+                $dbAddress[$langTag] = $locationInfo['address'];
+            }
+
+            $geotag->update([
+                'name' => $dbName,
+                'description' => $dbDescription,
+                'district' => $dbDistrict,
+                'address' => $dbAddress,
+            ]);
+
+            return $geotag;
+        }
+
+        // geotag
+        $mapLocation = null;
+        switch (config('database.default')) {
+            case 'mysql':
+                $mapLocation = DB::raw("ST_GeomFromText('POINT($longitude $latitude)', 4326)");
+                break;
+
+            case 'sqlite':
+                $mapLocation = DB::raw("MakePoint($longitude, $latitude, 4326)");
+                break;
+
+            case 'pgsql':
+                $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($longitude, $latitude), 4326)");
+                break;
+
+            case 'sqlsrv':
+                $mapLocation = DB::raw("geography::Point($latitude, $longitude, 4326)");
+                break;
+        }
+
+        $dbName[$langTag] = $name;
+
+        $dbDescription = null;
+        if ($locationInfo['description'] ?? null) {
+            $dbDescription[$langTag] = $locationInfo['description'];
+        }
+
+        $dbDistrict = null;
+        if ($locationInfo['district'] ?? null) {
+            $dbDistrict[$langTag] = $locationInfo['district'];
+        }
+
+        $dbAddress = null;
+        if ($locationInfo['address'] ?? null) {
+            $dbAddress[$langTag] = $locationInfo['address'];
+        }
+
+        $geotagItems = [
+            'place_id' => $placeId,
+            'place_type' => $locationInfo['placeType'] ?? null,
+            'name' => $dbName,
+            'description' => $dbDescription,
+            'city_id' => $cityId,
+            'map_id' => $mapId,
+            'map_longitude' => $longitude,
+            'map_latitude' => $latitude,
+            'map_location' => $mapLocation,
+            'district' => $dbDistrict,
+            'address' => $dbAddress,
+            'more_info' => $locationInfo['moreInfo'] ?? [],
+        ];
+
+        $geotag = Geotag::create($geotagItems);
+
+        return $geotag;
     }
 
     // release file usages
@@ -834,44 +976,6 @@ class ContentUtility
         }
     }
 
-    // release auth users and roles
-    public static function releaseReadAuthUsersAndRoles(int $postId, array $permArr): void
-    {
-        if (empty($permArr)) {
-            return;
-        }
-
-        if ($permArr['users']) {
-            PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_USER)->where('is_initial', 1)->delete();
-
-            foreach ($permArr['users'] as $userId) {
-                PostAuth::withTrashed()->updateOrCreate([
-                    'post_id' => $postId,
-                    'type' => PostAuth::TYPE_USER,
-                    'object_id' => $userId,
-                ], [
-                    'is_initial' => 1,
-                    'deleted_at' => null,
-                ]);
-            }
-        }
-
-        if ($permArr['roles']) {
-            PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_ROLE)->where('is_initial', 1)->delete();
-
-            foreach ($permArr['roles'] as $roleId) {
-                PostAuth::withTrashed()->updateOrCreate([
-                    'post_id' => $postId,
-                    'type' => PostAuth::TYPE_ROLE,
-                    'object_id' => $roleId,
-                ], [
-                    'is_initial' => 1,
-                    'deleted_at' => null,
-                ]);
-            }
-        }
-    }
-
     // release operation usages
     public static function releaseOperationUsages(string $type, int $logId, int $primaryId): void
     {
@@ -935,123 +1039,96 @@ class ContentUtility
     // release post
     public static function releasePost(PostLog $postLog): Post
     {
-        if ($postLog->post_id) {
-            $oldPost = PrimaryHelper::fresnsModelById('post', $postLog->post_id);
+        $geotag = PrimaryHelper::fresnsModelById('geotag', $postLog->geotag_id);
+        if (! $geotag && $postLog->location_info) {
+            $geotag = ContentUtility::releaseLocationInfo($postLog->location_info);
         }
 
+        $mapLng = $geotag?->map_longitude;
+        $mapLat = $geotag?->map_latitude;
+
+        $mapLocation = null;
+        if ($mapLng && $mapLat) {
+            switch (config('database.default')) {
+                case 'mysql':
+                    $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
+                    break;
+
+                case 'sqlite':
+                    $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
+                    break;
+
+                case 'pgsql':
+                    $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
+                    break;
+
+                case 'sqlsrv':
+                    $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
+                    break;
+            }
+        }
+
+        // old post
+        if ($postLog->post_id) {
+            $oldPost = PrimaryHelper::fresnsModelById('post', $postLog->post_id);
+
+            InteractionUtility::editStats('post', $oldPost->id, 'decrement');
+        }
+
+        // new post
         $post = Post::updateOrCreate([
             'id' => $postLog->post_id,
         ], [
             'user_id' => $postLog->user_id,
-            'quoted_post_id' => $postLog->quoted_post_id ?? 0,
-            'group_id' => $postLog->group_id ?? 0,
+            'quoted_post_id' => $postLog->quoted_post_id,
+            'group_id' => $postLog->group_id,
+            'geotag_id' => $geotag?->id,
             'title' => $postLog->title,
             'content' => $postLog->content,
+            'lang_tag' => $postLog->lang_tag,
             'is_markdown' => $postLog->is_markdown,
             'is_anonymous' => $postLog->is_anonymous,
-            'map_longitude' => $postLog->map_json['longitude'] ?? null,
-            'map_latitude' => $postLog->map_json['latitude'] ?? null,
+            'map_location' => $mapLocation,
+            'more_info' => $postLog->more_info,
+            'permissions' => $postLog->permissions,
         ]);
 
-        $readBtnName = null;
-        if (empty($postLog->read_json)) {
-            Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $post->id)->delete();
-        } else {
-            $readBtnName = ContentUtility::releaseLangName('post_appends', 'read_btn_name', $post->id, $postLog->read_json['btnName']);
-        }
-
-        $userListName = null;
-        if (empty($postLog->user_list_json)) {
-            Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $post->id)->delete();
-        } else {
-            $userListName = ContentUtility::releaseLangName('post_appends', 'user_list_name', $post->id, $postLog->user_list_json['userListName']);
-        }
-
-        $commentBtnName = null;
-        if (empty($postLog->comment_btn_json)) {
-            Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $post->id)->delete();
-        } else {
-            $commentBtnName = ContentUtility::releaseLangName('post_appends', 'comment_btn_name', $post->id, $postLog->comment_btn_json['btnName']);
-        }
-
-        $postAppend = PostAppend::updateOrCreate([
-            'post_id' => $post->id,
-        ], [
-            'is_plugin_editor' => $postLog->is_plugin_editor,
-            'editor_fskey' => $postLog->editor_fskey,
-            'is_read_locked' => $postLog->read_json['isReadLocked'] ?? false,
-            'read_pre_percentage' => $postLog->read_json['previewPercentage'] ?? null,
-            'read_btn_name' => $readBtnName,
-            'read_plugin_fskey' => $postLog->read_json['pluginFskey'] ?? null,
-            'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
-            'user_list_name' => $userListName,
-            'user_list_plugin_fskey' => $postLog->user_list_json['pluginFskey'] ?? null,
-            'is_comment_disabled' => $postLog->is_comment_disabled ?? true,
-            'is_comment_private' => $postLog->is_comment_private ?? true,
-            'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
-            'comment_btn_name' => $commentBtnName,
-            'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
-            'comment_btn_plugin_fskey' => $postLog->comment_btn_json['pluginFskey'] ?? null,
-            'map_id' => $postLog->map_json['mapId'] ?? null,
-            'map_json' => $postLog->map_json ?? null,
-            'map_continent_code' => $postLog->map_json['continentCode'] ?? null,
-            'map_country_code' => $postLog->map_json['countryCode'] ?? null,
-            'map_region_code' => $postLog->map_json['regionCode'] ?? null,
-            'map_city_code' => $postLog->map_json['cityCode'] ?? null,
-            'map_zip' => $postLog->map_json['zip'] ?? null,
-            'map_poi_id' => $postLog->map_json['poiId'] ?? null,
-        ]);
-
-        ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
-        ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
-        ContentUtility::releaseReadAuthUsersAndRoles($post->id, $postLog->read_json['permissions'] ?? []);
         ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
+        ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
+        ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
 
-        if (empty($postLog->post_id)) {
-            ContentUtility::handleAndSaveAllInteraction($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
-            InteractionUtility::publishStats('post', $post->id, 'increment');
-        } else {
+        if ($postLog->post_id) {
             if ($postLog->group_id != $oldPost->group_id) {
-                Group::where('id', $oldPost->group_id)->decrement('post_count');
-                Group::where('id', $postLog->group_id)->increment('post_count');
-
                 $groupCommentCount = Comment::where('post_id', $post->id)->count();
 
                 Group::where('id', $postLog->group_id)->increment('comment_count', $groupCommentCount);
                 Group::where('id', $oldPost->group_id)->decrement('comment_count', $groupCommentCount);
             }
 
-            InteractionUtility::editStats('post', $post->id, 'decrement');
-
             HashtagUsage::where('usage_type', HashtagUsage::TYPE_POST)->where('usage_id', $post->id)->delete();
             DomainLinkUsage::where('usage_type', DomainLinkUsage::TYPE_POST)->where('usage_id', $post->id)->delete();
             Mention::where('user_id', $postLog->user_id)->where('mention_type', Mention::TYPE_POST)->where('mention_id', $post->id)->delete();
 
             ContentUtility::handleAndSaveAllInteraction($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
+
             InteractionUtility::editStats('post', $post->id, 'increment');
 
             $post->update([
                 'last_edit_at' => now(),
             ]);
-            $postAppend->increment('edit_count');
+            $post->increment('edit_count');
 
             CacheHelper::forgetFresnsModel('post', $post->id);
-            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->pid}", 'fresnsPosts');
-            CacheHelper::forgetFresnsKeys([
-                "fresns_api_post_{$post->pid}_list_content",
-                "fresns_api_post_{$post->pid}_detail_content",
-            ], 'fresnsPosts');
+            CacheHelper::forgetFresnsMultilingual("fresns_detail_post_{$post->id}", 'fresnsPosts');
+        } else {
+            ContentUtility::handleAndSaveAllInteraction($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
+            InteractionUtility::publishStats('post', $post->id, 'increment');
         }
 
         $postLog->update([
             'post_id' => $post->id,
             'state' => PostLog::STATE_SUCCESS,
-        ]);
-
-        $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
-        $author->update([
-            'last_post_at' => now(),
         ]);
 
         // send notification
@@ -1066,37 +1143,69 @@ class ContentUtility
         $parentComment = PrimaryHelper::fresnsModelById('comment', $commentLog->parent_id);
 
         $topParentId = 0;
-        if (! $parentComment) {
-            $topParentId = $parentComment?->top_parent_id ?? 0;
+        if ($parentComment) {
+            $topParentId = $parentComment->top_parent_id;
         }
 
+        $geotag = PrimaryHelper::fresnsModelById('geotag', $commentLog->geotag_id);
+        if (! $geotag && $commentLog->location_info) {
+            $geotag = ContentUtility::releaseLocationInfo($commentLog->location_info);
+        }
+
+        $mapLng = $geotag?->map_longitude;
+        $mapLat = $geotag?->map_latitude;
+
+        $mapLocation = null;
+        if ($mapLng && $mapLat) {
+            switch (config('database.default')) {
+                case 'mysql':
+                    $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
+                    break;
+
+                case 'sqlite':
+                    $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
+                    break;
+
+                case 'pgsql':
+                    $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
+                    break;
+
+                case 'sqlsrv':
+                    $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
+                    break;
+            }
+        }
+
+        // old comment
+        if ($commentLog->comment_id) {
+            $oldComment = PrimaryHelper::fresnsModelById('comment', $commentLog->comment_id);
+
+            InteractionUtility::editStats('comment', $oldComment->id, 'decrement');
+        }
+
+        $post = PrimaryHelper::fresnsModelById('post', $commentLog->post_id);
+        $postPermissions = $post?->permissions;
+        $postPrivacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
+
+        $isPrivate = $commentLog->is_private ? Comment::PRIVACY_PRIVATE : Comment::PRIVACY_PUBLIC;
+        $privacyState = ($postPrivacy == 'private') ? Comment::PRIVACY_PRIVATE_BY_POST : $isPrivate;
+
+        // new comment
         $comment = Comment::updateOrCreate([
             'id' => $commentLog->comment_id,
         ], [
             'user_id' => $commentLog->user_id,
             'post_id' => $commentLog->post_id,
             'top_parent_id' => $topParentId,
-            'parent_id' => $commentLog->parent_comment_id ?? 0,
+            'parent_id' => $commentLog->parent_comment_id,
             'content' => $commentLog->content,
+            'lang_tag' => $commentLog->lang_tag,
             'is_markdown' => $commentLog->is_markdown,
             'is_anonymous' => $commentLog->is_anonymous,
-            'map_longitude' => $commentLog->map_json['longitude'] ?? null,
-            'map_latitude' => $commentLog->map_json['latitude'] ?? null,
-        ]);
-
-        $commentAppend = CommentAppend::updateOrCreate([
-            'comment_id' => $comment->id,
-        ], [
-            'is_plugin_editor' => $commentLog->is_plugin_editor,
-            'editor_fskey' => $commentLog->editor_fskey,
-            'map_id' => $commentLog->map_json['mapId'] ?? null,
-            'map_json' => $commentLog->map_json ?? null,
-            'map_continent_code' => $commentLog->map_json['continentCode'] ?? null,
-            'map_country_code' => $commentLog->map_json['countryCode'] ?? null,
-            'map_region_code' => $commentLog->map_json['regionCode'] ?? null,
-            'map_city_code' => $commentLog->map_json['cityCode'] ?? null,
-            'map_zip' => $commentLog->map_json['zip'] ?? null,
-            'map_poi_id' => $commentLog->map_json['poiId'] ?? null,
+            'privacy_state' => $privacyState,
+            'map_location' => $mapLocation,
+            'more_info' => $commentLog->more_info,
+            'permissions' => $commentLog->permissions,
         ]);
 
         ContentUtility::releaseFileUsages('comment', $commentLog->id, $comment->id);
@@ -1104,30 +1213,25 @@ class ContentUtility
         ContentUtility::releaseArchiveUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseOperationUsages('comment', $commentLog->id, $comment->id);
 
-        if (empty($commentLog->comment_id)) {
-            ContentUtility::handleAndSaveAllInteraction($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
-            InteractionUtility::publishStats('comment', $comment->id, 'increment');
-        } else {
-            InteractionUtility::editStats('comment', $comment->id, 'decrement');
-
+        if ($commentLog->comment_id) {
             HashtagUsage::where('usage_type', HashtagUsage::TYPE_COMMENT)->where('usage_id', $comment->id)->delete();
             DomainLinkUsage::where('usage_type', DomainLinkUsage::TYPE_COMMENT)->where('usage_id', $comment->id)->delete();
             Mention::where('user_id', $commentLog->user_id)->where('mention_type', Mention::TYPE_COMMENT)->where('mention_id', $comment->id)->delete();
 
             ContentUtility::handleAndSaveAllInteraction($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
+
             InteractionUtility::editStats('comment', $comment->id, 'increment');
 
             $comment->update([
                 'last_edit_at' => now(),
             ]);
-            $commentAppend->increment('edit_count');
+            $comment->increment('edit_count');
 
             CacheHelper::forgetFresnsModel('comment', $comment->id);
-            CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$comment->cid}", 'fresnsComments');
-            CacheHelper::forgetFresnsKeys([
-                "fresns_api_comment_{$comment->cid}_list_content",
-                "fresns_api_comment_{$comment->cid}_detail_content",
-            ], 'fresnsComments');
+            CacheHelper::forgetFresnsMultilingual("fresns_detail_comment_{$comment->id}", 'fresnsComments');
+        } else {
+            ContentUtility::handleAndSaveAllInteraction($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
+            InteractionUtility::publishStats('comment', $comment->id, 'increment');
         }
 
         $commentLog->update([
@@ -1135,39 +1239,10 @@ class ContentUtility
             'state' => CommentLog::STATE_SUCCESS,
         ]);
 
-        $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
-        $author->update([
-            'last_comment_at' => now(),
-        ]);
-
-        $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
-        $post->update([
-            'last_comment_at' => now(),
-        ]);
-
-        if ($comment->parent_id) {
-            ContentUtility::parentCommentLastCommentTime($comment->parent_id);
-        }
-
         // send notification
         InteractionUtility::sendPublishNotification('comment', $comment->id);
 
         return $comment;
-    }
-
-    // parent comment last release time
-    public static function parentCommentLastCommentTime(int $parentId): void
-    {
-        $comment = PrimaryHelper::fresnsModelById('comment', $parentId);
-
-        $comment->update([
-            'last_comment_at' => now(),
-        ]);
-
-        // parent comment
-        if ($comment?->parent_id) {
-            ContentUtility::parentCommentLastCommentTime($comment->parent_id);
-        }
     }
 
     // batch copy content extends
@@ -1213,20 +1288,6 @@ class ContentUtility
             FileUsage::create($fileDataItem);
         }
 
-        // operations
-        $operationUsages = OperationUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
-
-        foreach ($operationUsages as $operation) {
-            $operationDataItem = [
-                'usage_type' => $logUsageType,
-                'usage_id' => $logId,
-                'operation_id' => $operation->operation_id,
-                'app_fskey' => $operation->app_fskey,
-            ];
-
-            OperationUsage::create($operationDataItem);
-        }
-
         // archives
         $archiveUsages = ArchiveUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
 
@@ -1263,76 +1324,26 @@ class ContentUtility
     // generate post draft
     public static function generatePostDraft(Post $post): PostLog
     {
-        $postLog = PostLog::where('post_id', $post->id)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE])->first();
+        $postLog = PostLog::where('post_id', $post->id)->whereNot('state', PostLog::STATE_SUCCESS)->first();
+
         if ($postLog) {
             return $postLog;
         }
 
-        // read json
-        $readBtnNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $post->id)->get();
-        $readBtnName = [];
-        foreach ($readBtnNameArr as $btnName) {
-            $item['langTag'] = $btnName->lang_tag;
-            $item['name'] = $btnName->lang_content;
-            $readBtnName[] = $item;
-        }
-
-        $readUserArr = PostAuth::where('post_id', $post->id)->where('is_initial', 1)->get()->groupBy('type');
-
-        $readPermissions['users'] = $readUserArr->get(PostAuth::TYPE_USER)?->pluck('object_id')->all();
-        $readPermissions['roles'] = $readUserArr->get(PostAuth::TYPE_ROLE)?->pluck('object_id')->all();
-
-        $readJson['isReadLocked'] = $post->postAppend->is_read_locked;
-        $readJson['btnName'] = $readBtnName;
-        $readJson['previewPercentage'] = $post->postAppend->read_pre_percentage;
-        $readJson['permissions'] = $readPermissions;
-        $readJson['pluginFskey'] = $post->postAppend->read_plugin_fskey;
-
-        // user list json
-        $userListNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $post->id)->get();
-        $userListName = [];
-        foreach ($userListNameArr as $name) {
-            $item['langTag'] = $name->lang_tag;
-            $item['name'] = $name->lang_content;
-            $userListName[] = $item;
-        }
-
-        $userListJson['isUserList'] = $post->postAppend->is_user_list;
-        $userListJson['userListName'] = $userListName;
-        $userListJson['pluginFskey'] = $post->postAppend->user_list_plugin_fskey;
-
-        // comment btn json
-        $commentBtnNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $post->id)->get();
-        $commentBtnName = [];
-        foreach ($commentBtnNameArr as $btnName) {
-            $item['langTag'] = $btnName->lang_tag;
-            $item['name'] = $btnName->lang_content;
-            $commentBtnName[] = $item;
-        }
-
-        $commentBtnJson['isCommentBtn'] = $post->postAppend->is_comment_btn;
-        $commentBtnJson['btnName'] = $commentBtnName;
-        $commentBtnJson['pluginFskey'] = $post->postAppend->comment_btn_plugin_fskey;
-
         // post log
         $logData = [
+            'create_type' => 3,
             'user_id' => $post->user_id,
             'post_id' => $post->id,
-            'quoted_post_id' => $post->quoted_post_id ?: null,
-            'create_type' => 3,
-            'is_plugin_editor' => $post->postAppend->is_plugin_editor,
-            'editor_fskey' => $post->postAppend->editor_fskey,
+            'quoted_post_id' => $post->quoted_post_id,
             'group_id' => $post->group_id,
+            'geotag_id' => $post->geotag_id,
             'title' => $post->title,
             'content' => $post->content,
             'is_markdown' => $post->is_markdown,
             'is_anonymous' => $post->is_anonymous,
-            'is_comment_disabled' => $post->postAppend->is_comment_disabled,
-            'is_comment_private' => $post->postAppend->is_comment_private,
-            'map_json' => $post->postAppend->map_json,
-            'read_json' => $readJson,
-            'user_list_json' => $userListJson,
-            'comment_btn_json' => $commentBtnJson,
+            'more_info' => $post->more_info,
+            'permissions' => $$post->permissions,
         ];
 
         $postLog = PostLog::create($logData);
@@ -1345,24 +1356,26 @@ class ContentUtility
     // generate comment draft
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
-        $commentLog = CommentLog::where('comment_id', $comment->id)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_UNDER_REVIEW, CommentLog::STATE_FAILURE])->first();
+        $commentLog = CommentLog::where('comment_id', $comment->id)->whereNot('state', CommentLog::STATE_SUCCESS)->first();
+
         if ($commentLog) {
             return $commentLog;
         }
 
         // comment log
         $logData = [
-            'user_id' => $comment->user_id,
-            'comment_id' => $comment->id,
-            'post_id' => $comment->post_id,
-            'parent_comment_id' => $comment->parent_id ?: null,
             'create_type' => 3,
-            'is_plugin_editor' => $comment->commentAppend->is_plugin_editor,
-            'editor_fskey' => $comment->commentAppend->editor_fskey,
+            'user_id' => $comment->user_id,
+            'post_id' => $comment->post_id,
+            'comment_id' => $comment->id,
+            'parent_comment_id' => $comment->parent_id,
+            'geotag_id' => $comment->geotag_id,
             'content' => $comment->content,
             'is_markdown' => $comment->is_markdown,
             'is_anonymous' => $comment->is_anonymous,
-            'map_json' => $comment->commentAppend->map_json,
+            'is_private' => ($comment->privacy_state != Comment::PRIVACY_PUBLIC) ? true : false,
+            'more_info' => $comment->more_info,
+            'permissions' => $$comment->permissions,
         ];
 
         $commentLog = CommentLog::create($logData);

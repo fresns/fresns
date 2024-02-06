@@ -1743,7 +1743,11 @@ class DetailUtility
             return $postDetail;
         }
 
-        $checkPostAuth = PermissionUtility::checkPostAuth($post->id, $authUserId);
+        $postPermissions = $post->permissions;
+        $whitelistUsers = $postPermissions['readConfig']['whitelist']['users'] ?? [];
+        $whitelistRoles = $postPermissions['readConfig']['whitelist']['roles'] ?? [];
+
+        $checkPostAuth = PermissionUtility::checkPostAuth($post->id, $whitelistUsers, $whitelistRoles, $authUserId);
 
         if ($checkPostAuth) {
             $postDetail['readConfig']['isReadLocked'] = false;
