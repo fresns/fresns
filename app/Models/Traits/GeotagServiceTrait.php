@@ -17,7 +17,7 @@ trait GeotagServiceTrait
     public function getGeotagInfo(?string $langTag = null): array
     {
         $geotagData = $this;
-        $locationInfo = $geotagData->location_info;
+        $city = $geotagData->city;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_geotag_detail_path',
@@ -39,17 +39,18 @@ trait GeotagServiceTrait
         $info['mapId'] = $geotagData->map_id;
         $info['latitude'] = $geotagData->map_latitude;
         $info['longitude'] = $geotagData->map_longitude;
-        $info['continent'] = $locationInfo['continent'] ?? null;
-        $info['continentCode'] = $geotagData->continent_code;
-        $info['country'] = $locationInfo['country'] ?? null;
-        $info['countryCode'] = $geotagData->country_code;
-        $info['region'] = $locationInfo['region'] ?? null;
-        $info['regionCode'] = $geotagData->region_code;
-        $info['city'] = $locationInfo['city'] ?? null;
-        $info['cityCode'] = $geotagData->city_code;
-        $info['district'] = $locationInfo['district'] ?? null;
-        $info['address'] = $locationInfo['address'] ?? null;
-        $info['zip'] = $geotagData->zip;
+        $info['cityId'] = $city?->id;
+        $info['continent'] = StrHelper::languageContent($city?->continent, $langTag);
+        $info['continentCode'] = $city?->continent_code;
+        $info['country'] = StrHelper::languageContent($city?->country, $langTag);
+        $info['countryCode'] = $city?->country_code;
+        $info['region'] = StrHelper::languageContent($city?->region, $langTag);
+        $info['regionCode'] = $city?->region_code;
+        $info['city'] = StrHelper::languageContent($city?->city, $langTag);
+        $info['cityCode'] = $city?->city_code;
+        $info['district'] = StrHelper::languageContent($geotagData->district, $langTag);
+        $info['address'] = StrHelper::languageContent($geotagData->address, $langTag);
+        $info['zip'] = $city?->zip;
         $info['viewCount'] = $geotagData->view_count;
         $info['likeCount'] = $configKeys['geotag_like_public_count'] ? $geotagData->like_count : null;
         $info['dislikeCount'] = $configKeys['geotag_dislike_public_count'] ? $geotagData->dislike_count : null;
