@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('account_id')->index('user_account_id');
             $table->unsignedBigInteger('uid')->unique('uid');
             $table->string('username', 64)->unique('username');
             $table->string('nickname', 64)->index('nickname');
@@ -69,7 +69,7 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_stats', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->unique('user_id');
+            $table->unsignedBigInteger('user_id')->unique('stat_user_id');
             $table->unsignedInteger('like_user_count')->default(0);
             $table->unsignedInteger('like_group_count')->default(0);
             $table->unsignedInteger('like_hashtag_count')->default(0);

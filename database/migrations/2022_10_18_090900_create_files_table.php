@@ -20,7 +20,7 @@ class CreateFilesTable extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('fid', 32)->unique('fid');
-            $table->unsignedTinyInteger('type');
+            $table->unsignedTinyInteger('type')->index('file_type');
             $table->string('name', 128);
             $table->string('mime', 128)->nullable();
             $table->string('extension', 32);

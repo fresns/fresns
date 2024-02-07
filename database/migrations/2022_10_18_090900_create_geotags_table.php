@@ -80,8 +80,6 @@ class CreateGeotagsTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
-
-            $table->index(['continent_code', 'country_code'], 'geotag_continent_country');
         });
 
         Schema::create('geotag_usages', function (Blueprint $table) {

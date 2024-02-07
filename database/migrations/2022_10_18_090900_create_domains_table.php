@@ -19,8 +19,8 @@ class CreateDomainsTable extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('domain', 64)->index('domain');
-            $table->string('host', 128)->unique('host');
+            $table->string('domain', 64)->index('domain_name');
+            $table->string('host', 128)->unique('domain_host');
             $table->unsignedInteger('post_count')->default(0);
             $table->unsignedInteger('comment_count')->default(0);
             $table->unsignedTinyInteger('is_enabled')->default(1);
@@ -31,7 +31,7 @@ class CreateDomainsTable extends Migration
 
         Schema::create('domain_links', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('domain_id');
+            $table->unsignedInteger('domain_id')->index('link_domain_id');
             $table->string('link_url')->unique('link_url');
             $table->string('link_title')->nullable();
             $table->unsignedInteger('post_count')->default(0);

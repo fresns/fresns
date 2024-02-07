@@ -58,7 +58,6 @@ class CreateAccountsTable extends Migration
             $table->string('connect_nickname', 128)->nullable();
             $table->string('connect_avatar')->nullable();
             $table->string('app_fskey', 64);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_info')->nullable();
@@ -71,6 +70,7 @@ class CreateAccountsTable extends Migration
                 default:
                     $table->json('more_info')->nullable();
             }
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

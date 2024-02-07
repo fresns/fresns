@@ -20,7 +20,7 @@ class CreateExtendsTable extends Migration
         Schema::create('extends', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('eid', 32)->unique('eid');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index('extend_user_id');
             $table->unsignedTinyInteger('type')->default(1);
             $table->unsignedTinyInteger('view_type')->default(1);
             $table->string('app_fskey', 64);
