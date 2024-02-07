@@ -228,9 +228,9 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configLangModal"
                             data-title="{{ __('FsLang::panel.profile_likers').': '.__('FsLang::panel.interaction_column_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'profile_likes_name']) }}"
-                            data-languages="{{ json_encode($params['profile_likes_name']) }}">
-                            {{ $defaultLangParams['profile_likes_name'] ?? '' }}
+                            data-action="{{ route('panel.update.languages', ['itemKey' => 'profile_likers_name']) }}"
+                            data-languages="{{ json_encode($params['profile_likers_name']) }}">
+                            {{ $defaultLangParams['profile_likers_name'] ?? '' }}
                         </button>
                     </td>
                 </tr>
@@ -250,9 +250,9 @@
                             data-bs-toggle="modal"
                             data-bs-target="#configLangModal"
                             data-title="{{ __('FsLang::panel.profile_dislikers').': '.__('FsLang::panel.interaction_column_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'profile_dislikes_name']) }}"
-                            data-languages="{{ json_encode($params['profile_dislikes_name']) }}">
-                            {{ $defaultLangParams['profile_dislikes_name'] ?? '' }}
+                            data-action="{{ route('panel.update.languages', ['itemKey' => 'profile_dislikers_name']) }}"
+                            data-languages="{{ json_encode($params['profile_dislikers_name']) }}">
+                            {{ $defaultLangParams['profile_dislikers_name'] ?? '' }}
                         </button>
                     </td>
                 </tr>
