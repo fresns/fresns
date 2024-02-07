@@ -4048,8 +4048,8 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'profile_likes_name',
-                'item_value' => '{"en":"Likes","zh-Hans":"被喜欢","zh-Hant":"被喜歡"}',
+                'item_key' => 'profile_likers_name',
+                'item_value' => '{"en":"Likers","zh-Hans":"被喜欢","zh-Hant":"被喜歡"}',
                 'item_type' => 'object',
                 'is_multilingual' => 1,
                 'is_custom' => 0,
@@ -4059,8 +4059,8 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'profile_dislikes_name',
-                'item_value' => '{"en":"Dislikes","zh-Hans":"点踩他的用户","zh-Hant":"不喜歡他的使用者"}',
+                'item_key' => 'profile_dislikers_name',
+                'item_value' => '{"en":"Dislikers","zh-Hans":"点踩他的用户","zh-Hant":"不喜歡他的使用者"}',
                 'item_type' => 'object',
                 'is_multilingual' => 1,
                 'is_custom' => 0,
