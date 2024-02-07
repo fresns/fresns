@@ -14,8 +14,8 @@ use App\Fresns\Words\Manage\DTO\UpdatePortalContentDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Config;
-use App\Models\Language;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
@@ -33,11 +33,9 @@ class Manage
         $portalKey = "portal_{$platformId}";
         $langTag = $dtoWordBody->langTag ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $portal = Language::where('table_name', 'configs')
-            ->where('table_column', 'item_value')
-            ->where('table_key', $portalKey)
-            ->where('lang_tag', $langTag)
-            ->first()?->lang_content ?? null;
+        $portalConfig = Config::where('item_key', $portalKey)->first();
+
+        $portal = StrHelper::languageContent($portalConfig?->item_value, $langTag);
 
         return $this->success([
             'content' => $portal,
@@ -52,28 +50,30 @@ class Manage
         $platformId = $dtoWordBody->platformId;
 
         $portalKey = "portal_{$platformId}";
+
+        $portalConfig = Config::where('item_key', $portalKey)->first();
+
+        if (! $portalConfig) {
+            $items = [
+                'item_key' => $portalKey,
+                'item_value' => null,
+                'item_type' => 'object',
+                'is_multilingual' => 1,
+                'is_custom' => 1,
+                'is_api' => 1,
+            ];
+
+            $portalConfig = Config::create($items);
+        }
+
         $langTag = $dtoWordBody->langTag ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
-        Config::withTrashed()->updateOrCreate([
-            'item_key' => $portalKey,
-        ], [
-            'item_value' => null,
-            'item_type' => 'string',
-            'is_multilingual' => 1,
-            'is_custom' => 1,
-            'is_api' => 1,
-            'deleted_at' => null,
-        ]);
+        $itemValue = $portalConfig->item_value;
 
-        Language::withTrashed()->updateOrCreate([
-            'table_name' => 'configs',
-            'table_column' => 'item_value',
-            'table_key' => $portalKey,
-            'lang_tag' => $langTag,
-        ], [
-            'table_id' => null,
-            'lang_content' => $dtoWordBody->content,
-            'deleted_at' => null,
+        $itemValue[$langTag] = $dtoWordBody->content;
+
+        $portalConfig->update([
+            'item_value' => $itemValue,
         ]);
 
         CacheHelper::forgetFresnsConfigs($portalKey);
