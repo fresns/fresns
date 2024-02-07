@@ -41,9 +41,14 @@ class AppKeyController extends Controller
     public function store(UpdateSessionKeyRequest $request)
     {
         $key = new SessionKey;
-        $key->fill($request->all());
+        $key->platform_id = $request->platform_id;
+        $key->name = $request->name;
+        $key->type = $request->type;
+        $key->app_fskey = $request->app_fskey;
         $key->app_id = Str::random(8);
         $key->app_key = Str::random(32);
+        $key->is_read_only = $request->is_read_only;
+        $key->is_enabled = $request->is_enabled;
         $key->save();
 
         return $this->createSuccess();
