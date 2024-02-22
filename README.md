@@ -1,4 +1,4 @@
-<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://files.fresns.org/images/logo.png" width="300"></a></p>
+<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://assets.fresns.com/images/logos/fresns.png" width="300"></a></p>
 
 <p align="center">
 <img src="https://img.shields.io/packagist/dependency-v/fresns/fresns/php" alt="PHP">
@@ -11,19 +11,19 @@
 Fresns is a free and open source social network service software, a general-purpose community product designed for cross-platform, and supports flexible and diverse content forms. It conforms to the trend of the times, satisfies a variety of operating scenarios, is more open and easier to re-development.
 
 - Database support `MySQL`, `MariaDB`, `PostgreSQL`, `SQL Server`, `SQLite`
-- [Click to discover the 16 features of Fresns](https://fresns.org/guide/features.html)
-- Users should read the [installation](https://fresns.org/guide/install.html) and [operating](https://fresns.org/guide/operating.html) documentation.
-- Extensions developers should read the [extension documentation](https://fresns.org/extensions/) and [database structure](https://fresns.org/database/).
-- For client developers (web or app), please read the [API reference](https://fresns.org/api/) documentation.
+- [Click to discover the 16 features of Fresns](https://fresns.org/intro/features.html)
+- Users should read the [installation](https://fresns.org/guide/install.html) and [operating](https://fresns.org/intro/operating.html) documentation.
+- Extensions developers should read the [extension documentation](https://docs.fresns.com/open-source/) and [database structure](https://docs.fresns.com/open-source/database/).
+- For client developers (web or app), please read the [API reference](https://docs.fresns.com/clients/api/) documentation.
 
 ## Preview
 
 | Social Network | Forum |
 | :---: | :---: |
-| ![Moments](https://files.fresns.org/wiki/previews/Moments.png) | ![ForumX](https://files.fresns.org/wiki/previews/ForumX.png) |
-| ![ForumQ](https://files.fresns.org/wiki/previews/ForumQ.png) | ![WebFrame](https://files.fresns.org/wiki/previews/WebFrame.png) |
+| ![Moments](https://assets.fresns.com/images/wikis/previews/Moments.png) | ![ForumX](https://assets.fresns.com/images/wikis/previews/ForumX.png) |
+| ![ForumQ](https://assets.fresns.com/images/wikis/previews/ForumQ.png) | ![ThemeFrame](https://assets.fresns.com/images/wikis/previews/ThemeFrame.png) |
 
-- Get more: [https://marketplace.fresns.com/open-source/clients](https://marketplace.fresns.com/open-source/clients)
+- Get more: [https://marketplace.fresns.com/clients](https://marketplace.fresns.com/clients)
 
 ## Installation
 
