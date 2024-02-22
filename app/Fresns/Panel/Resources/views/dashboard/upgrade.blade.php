@@ -89,7 +89,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <img src="/assets/{{ $plugin->fskey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
+                                        <a href="{{ $marketplaceUrl.'/open-source/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
                                     <div>
@@ -115,6 +115,43 @@
             </div>
         </div>
 
+        <!--Themes-->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('FsLang::panel.sidebar_themes') }}</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @if($themesData->isNotEmpty())
+                            @foreach ($themesData as $theme)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="/assets/{{ $theme->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <a href="{{ $marketplaceUrl.'/clients/detail/'.$theme->fskey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
+                                        <span class="badge bg-secondary">{{ $theme->version }}</span> to <span class="badge bg-primary">{{ $theme->upgrade_version }}</span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-warning btn-sm upgrade-plugin"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#upgradePlugin"
+                                            data-fskey="{{ $theme->fskey }}"
+                                            data-name="{{ $theme->name }}"
+                                            data-version="{{ $theme->version }}"
+                                            data-new-version="{{ $theme->upgrade_version }}">
+                                            {{ __('FsLang::panel.button_upgrade') }}
+                                        </button>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @else
+                            <div class="p-5 text-center">
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
+                            </div>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!--Apps-->
         <div class="col-md-6 mb-4">
             <div class="card">
@@ -125,7 +162,7 @@
                             @foreach ($appsData as $app)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
+                                        <a href="{{ $marketplaceUrl.'/clients/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
                                         <span class="badge bg-secondary">{{ $app->version }}</span> to <span class="badge bg-primary">{{ $app->upgrade_version }}</span>
                                     </div>
                                     <div>

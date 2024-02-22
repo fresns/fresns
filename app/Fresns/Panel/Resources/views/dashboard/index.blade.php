@@ -94,9 +94,9 @@
                 <li class="list-group-item">
                     <a class="fresns-link" href="{{ $docsUrl.'/community/teams.html' }}" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
-                <li class="list-group-item">
+                {{-- <li class="list-group-item">
                     <a class="fresns-link" href="{{ $docsUrl.'/community/sponsor.html' }}" target="_blank">{{ __('FsLang::panel.support_sponsor') }}</a>
-                </li>
+                </li> --}}
                 <li class="list-group-item">
                     <a class="fresns-link" href="{{ $docsUrl.'/community/join.html' }}" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
@@ -104,7 +104,7 @@
                     <a class="fresns-link" href="{{ $communityUrl }}" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $marketplaceUrl }}" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
+                    <a class="fresns-link" href="{{ $marketplaceUrl.'/open-source' }}" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
                 </li>
             </ul>
         </div>

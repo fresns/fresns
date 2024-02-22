@@ -50,7 +50,7 @@
                     <tr>
                         <td class="py-3">
                             <img src="/assets/{{ $plugin->fskey }}/fresns.png" class="me-2" width="44" height="44">
-                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a></span>
+                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/open-source/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a></span>
                             <span class="badge bg-secondary fs-9">{{ $plugin->version }}</span>
                             @if ($plugin->is_upgrade)
                                 <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger link-light fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>

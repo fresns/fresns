@@ -11,7 +11,7 @@
                     <li class="nav-item"><a class="nav-link {{ Route::is(['panel.app-center.themes', 'panel.app-center.theme.functions']) ? 'active' : '' }}" href="{{ route('panel.app-center.themes') }}"><i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ Route::is('panel.app-center.apps') ? 'active' : '' }}" href="{{ route('panel.app-center.apps') }}"><i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
-                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.app-center.marketplace') ? 'active' : '' }}" href="{{ route('panel.app-center.marketplace', ['url' => $marketplaceUrl]) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_marketplace') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ Route::is('panel.app-center.marketplace') ? 'active' : '' }}" href="{{ route('panel.app-center.marketplace', ['url' => $marketplaceUrl.'/open-source']) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_marketplace') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link" href="#installModal" data-bs-toggle="modal" role="button"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#downloadModal" data-bs-toggle="modal" role="button"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</a></li>

@@ -73,6 +73,7 @@ class UpgradeController extends Controller
             'appVersion',
             'versionCheckTime',
             'pluginsData',
+            'themesData',
             'appsData',
             'upgradeCount',
             'autoUpgradeSteps',

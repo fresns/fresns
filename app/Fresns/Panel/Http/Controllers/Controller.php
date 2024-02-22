@@ -87,9 +87,9 @@ class Controller extends BaseController
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
         $docsUrl = AppUtility::WEBSITE_URL;
         $communityUrl = AppUtility::COMMUNITY_URL;
-        $marketplaceUrl = AppUtility::MARKETPLACE_URL.'/open-source';
+        $marketplaceUrl = AppUtility::MARKETPLACE_URL;
         if ($langTag != 'en') {
-            $marketplaceUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag.'/open-source';
+            $marketplaceUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag;
         }
         if ($langTag == 'zh-Hans') {
             $docsUrl = AppUtility::WEBSITE_ZH_HANS_URL;

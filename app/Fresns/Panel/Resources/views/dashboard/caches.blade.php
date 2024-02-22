@@ -84,6 +84,7 @@
                             <option value="user">{{ __('FsLang::panel.user') }}</option>
                             <option value="group">{{ __('FsLang::panel.group') }}</option>
                             <option value="hashtag">{{ __('FsLang::panel.hashtag') }}</option>
+                            <option value="geotag">{{ __('FsLang::panel.geotag') }}</option>
                             <option value="post">{{ __('FsLang::panel.post') }}</option>
                             <option value="comment">{{ __('FsLang::panel.comment') }}</option>
                             <option value="file">{{ __('FsLang::panel.file') }}</option>
