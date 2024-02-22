@@ -252,35 +252,6 @@
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.config_list') }}:</label>
             <div class="col-lg-6">
-                <div class="input-group mb-2">
-                    <div class="form-control bg-white">
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="view_posts_by_timelines" name="view_posts_by_timelines" value="true" class="form-check-input" {{ $params['view_posts_by_timelines'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="view_posts_by_timelines">{{ __('FsLang::panel.content_view_posts_by_timelines') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="view_comments_by_timelines" name="view_comments_by_timelines" value="true" class="form-check-input" {{ $params['view_comments_by_timelines'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="view_comments_by_timelines">{{ __('FsLang::panel.content_view_comments_by_timelines') }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <div class="form-control bg-white">
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="view_posts_by_nearby" name="view_posts_by_nearby" value="true" class="form-check-input" {{ $params['view_posts_by_nearby'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="view_posts_by_nearby">{{ __('FsLang::panel.content_view_posts_by_nearby') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="view_comments_by_nearby" name="view_comments_by_nearby" value="true" class="form-check-input" {{ $params['view_comments_by_nearby'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="view_comments_by_nearby">{{ __('FsLang::panel.content_view_comments_by_nearby') }}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-lg-2"></label>
-            <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.content_post_brief_length') }}</label>
                     <input type="number" class="form-control input-number" id="post_brief_length" name="post_brief_length" value="{{ $params['post_brief_length'] }}">
