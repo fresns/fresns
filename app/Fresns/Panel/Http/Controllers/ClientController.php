@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Utilities\ConfigUtility;
@@ -126,6 +127,8 @@ class ClientController extends Controller
             $config->save();
         }
 
+        CacheHelper::forgetFresnsConfigs($configKeys);
+
         return $this->updateSuccess();
     }
 
@@ -208,6 +211,8 @@ class ClientController extends Controller
             $associationContent = json_encode($associationJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
             file_put_contents($associationFile, $associationContent);
         }
+
+        CacheHelper::forgetFresnsConfigs($configKeys);
 
         return $this->updateSuccess();
     }

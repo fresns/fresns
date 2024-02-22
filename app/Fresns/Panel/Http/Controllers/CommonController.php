@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\StrHelper;
 use App\Models\Config;
 use App\Models\Group;
@@ -39,6 +40,8 @@ class CommonController extends Controller
         $config->item_value = $itemValue;
         $config->save();
 
+        CacheHelper::forgetFresnsConfigs($itemKey);
+
         return $this->updateSuccess();
     }
 
@@ -62,6 +65,8 @@ class CommonController extends Controller
         $config->item_value = $itemValue;
         $config->save();
 
+        CacheHelper::forgetFresnsConfigs($itemKey);
+
         return $this->updateSuccess();
     }
 
@@ -82,6 +87,8 @@ class CommonController extends Controller
         $config->item_value = $request->itemValue;
         $config->item_type = $request->itemType ?? 'string';
         $config->save();
+
+        CacheHelper::forgetFresnsConfigs($itemKey);
 
         return $this->updateSuccess();
     }
