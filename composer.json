@@ -32,7 +32,7 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^10.44",
+        "laravel/framework": "^10.45",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.9",
         "laravel/scout": "^9.8",
@@ -49,8 +49,8 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.13",
-        "laravel/sail": "^1.27",
+        "laravel/pint": "^1.14",
+        "laravel/sail": "^1.28",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^7.10",
         "phpunit/phpunit": "^10.5",
