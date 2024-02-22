@@ -146,6 +146,7 @@ class PrimaryHelper
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTag = match ($modelName) {
+            'key' => 'fresnsSystems',
             'account' => 'fresnsAccounts',
             'user' => 'fresnsUsers',
             'group' => 'fresnsGroups',
@@ -172,6 +173,10 @@ class PrimaryHelper
             $fresnsModel = null;
 
             switch ($modelName) {
+                case 'key':
+                    $fresnsModel = SessionKey::where('id', $id)->first();
+                    break;
+
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
                     break;
