@@ -42,6 +42,7 @@
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.channel_table_seo') }}</th>
                     <th scope="col">{{ __('FsLang::panel.config_list') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,9 +72,20 @@
                         </button>
                     </td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm {{ $params['channel_portal_status'] ? 'btn-success' : 'btn-outline-dark' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configStatusModal"
+                            data-title="{{ __('FsLang::panel.portal') }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'channel_portal_status']) }}"
+                            data-status="{{ $params['channel_portal_status'] }}">
+                            {{ $params['channel_portal_status'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                        </button>
+                    </td>
                 </tr>
                 {{-- user, group, hashtag, geotag, post, comment --}}
                 @foreach (['user', 'group', 'hashtag', 'geotag', 'post', 'comment'] as $item)
+                    {{-- home --}}
                     <tr>
                         @if (in_array($item, ['group', 'hashtag', 'geotag']))
                             <th scope="row" rowspan="7" class="text-center">{{ __("FsLang::panel.{$item}") }}</th>
@@ -114,7 +126,18 @@
                                 {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-sm {{ $params["channel_{$item}_status"] ? 'btn-success' : 'btn-outline-dark' }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#configStatusModal"
+                                data-title="{{ __("FsLang::panel.{$item}").': '.__('FsLang::panel.channel_table_page_home') }}"
+                                data-action="{{ route('panel.update.item', ['itemKey' => "channel_{$item}_status"]) }}"
+                                data-status="{{ $params["channel_{$item}_status"] }}">
+                                {{ $params["channel_{$item}_status"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                            </button>
+                        </td>
                     </tr>
+                    {{-- list --}}
                     <tr>
                         <td colspan="2">{{ __('FsLang::panel.channel_table_page_list') }}</td>
                         <td>{{ '/'.$params["website_{$item}_path"].'/list' }}</td>
@@ -149,7 +172,18 @@
                                 {{ __('FsLang::panel.button_config') }}
                             </button>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-sm {{ $params["channel_{$item}_status"] ? 'btn-success' : 'btn-outline-dark' }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#configStatusModal"
+                                data-title="{{ __("FsLang::panel.{$item}").': '.__('FsLang::panel.channel_table_page_list') }}"
+                                data-action="{{ route('panel.update.item', ['itemKey' => "channel_{$item}_status"]) }}"
+                                data-status="{{ $params["channel_{$item}_status"] }}">
+                                {{ $params["channel_{$item}_status"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                            </button>
+                        </td>
                     </tr>
+                    {{-- detail --}}
                     @if (in_array($item, ['group', 'hashtag', 'geotag']))
                         <tr>
                             <td colspan="2">{{ __('FsLang::panel.channel_table_page_detail') }}</td>
@@ -174,73 +208,44 @@
                                     {{ __('FsLang::panel.button_config') }}
                                 </button>
                             </td>
+                            <td></td>
                         </tr>
                     @endif
-                    <tr>
-                        <td rowspan="4">{{ __('FsLang::panel.channel_table_page_interaction') }}</td>
-                        <td>{{ __('FsLang::panel.like') }}</td>
-                        <td>{{ '/'.$params["website_{$item}_path"].'/likes' }}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#configLangModal"
-                                data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_likes_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_likes_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_likes_{$item}s_name"] ?? '' }}
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{ __('FsLang::panel.dislike') }}</td>
-                        <td>{{ '/'.$params["website_{$item}_path"].'/dislikes' }}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#configLangModal"
-                                data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_dislikes_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_dislikes_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_dislikes_{$item}s_name"] ?? '' }}
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{ __('FsLang::panel.follow') }}</td>
-                        <td>{{ '/'.$params["website_{$item}_path"].'/following' }}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#configLangModal"
-                                data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_following_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_following_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_following_{$item}s_name"] ?? '' }}
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>{{ __('FsLang::panel.block') }}</td>
-                        <td>{{ '/'.$params["website_{$item}_path"].'/blocking' }}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-dark btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#configLangModal"
-                                data-title="{{ __('FsLang::panel.table_name') }}"
-                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_blocking_{$item}s_name"]) }}"
-                                data-languages="{{ json_encode($params["channel_blocking_{$item}s_name"]) }}">
-                                {{ $defaultLangParams["channel_blocking_{$item}s_name"] ?? '' }}
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {{-- interaction --}}
+                    @foreach (['likes', 'dislikes', 'following', 'blocking'] as $type)
+                        @php
+                            $interactionType = match ($type) {
+                                'likes' => 'like',
+                                'dislikes' => 'dislike',
+                                'following' => 'follow',
+                                'blocking' => 'block',
+                            };
+                        @endphp
+                        <tr>
+                            @if ($type == 'likes')
+                                <td rowspan="4">{{ __('FsLang::panel.channel_table_page_interaction') }}</td>
+                            @endif
+                            <td>{{ __("FsLang::panel.{$interactionType}") }}</td>
+                            <td>{{ '/'.$params["website_{$item}_path"].'/'.$type }}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-dark btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#configLangModal"
+                                    data-title="{{ __('FsLang::panel.table_name') }}"
+                                    data-action="{{ route('panel.update.languages', ['itemKey' => "channel_{$type}_{$item}s_name"]) }}"
+                                    data-languages="{{ json_encode($params["channel_{$type}_{$item}s_name"]) }}">
+                                    {{ $defaultLangParams["channel_{$type}_{$item}s_name"] ?? '' }}
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="badge text-bg-light {{ $params["{$item}_{$interactionType}_enabled"] ? 'text-success' : '' }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ __('FsLang::panel.menu_operations').' -> '.__('FsLang::panel.sidebar_interaction') }}">
+                                    {{ $params["{$item}_{$interactionType}_enabled"] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
                 {{-- timeline --}}
                 <tr>
@@ -267,6 +272,7 @@
                             {{ __('FsLang::panel.button_config') }}
                         </button>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td rowspan="6">{{ __('FsLang::panel.channel_table_page_list') }}</td>
@@ -284,6 +290,16 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm {{ $params['channel_timeline_posts_status'] ? 'btn-success' : 'btn-outline-dark' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configStatusModal"
+                            data-title="{{ __('FsLang::panel.channel_timeline') }}: {{ __('FsLang::panel.post') }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'channel_timeline_posts_status']) }}"
+                            data-status="{{ $params['channel_timeline_posts_status'] }}">
+                            {{ $params['channel_timeline_posts_status'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_timeline_users_posts') }}</td>
@@ -298,6 +314,7 @@
                             {{ $defaultLangParams['channel_timeline_user_posts_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -316,6 +333,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_timeline_all_comments') }}</td>
@@ -332,6 +350,16 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm {{ $params['channel_timeline_comments_status'] ? 'btn-success' : 'btn-outline-dark' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configStatusModal"
+                            data-title="{{ __('FsLang::panel.channel_timeline') }}: {{ __('FsLang::panel.comment') }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'channel_timeline_comments_status']) }}"
+                            data-status="{{ $params['channel_timeline_comments_status'] }}">
+                            {{ $params['channel_timeline_comments_status'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_timeline_users_comments') }}</td>
@@ -348,6 +376,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_timeline_groups_comments') }}</td>
@@ -362,6 +391,7 @@
                             {{ $defaultLangParams['channel_timeline_group_comments_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -390,6 +420,7 @@
                             {{ __('FsLang::panel.button_config') }}
                         </button>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td rowspan="2">{{ __('FsLang::panel.channel_table_page_list') }}</td>
@@ -407,6 +438,16 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm {{ $params['channel_nearby_posts_status'] ? 'btn-success' : 'btn-outline-dark' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configStatusModal"
+                            data-title="{{ __('FsLang::panel.channel_nearby') }}: {{ __('FsLang::panel.post') }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'channel_nearby_posts_status']) }}"
+                            data-status="{{ $params['channel_nearby_posts_status'] }}">
+                            {{ $params['channel_nearby_posts_status'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_nearby_comments') }}</td>
@@ -423,6 +464,16 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm {{ $params['channel_nearby_comments_status'] ? 'btn-success' : 'btn-outline-dark' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configStatusModal"
+                            data-title="{{ __('FsLang::panel.channel_nearby') }}: {{ __('FsLang::panel.comment') }}"
+                            data-action="{{ route('panel.update.item', ['itemKey' => 'channel_nearby_comments_status']) }}"
+                            data-status="{{ $params['channel_nearby_comments_status'] }}">
+                            {{ $params['channel_nearby_comments_status'] ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                        </button>
+                    </td>
                 </tr>
                 {{-- me --}}
                 <tr>
@@ -439,6 +490,7 @@
                             {{ $defaultLangParams['channel_me_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -458,6 +510,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_me_extcredits') }}</td>
@@ -472,6 +525,7 @@
                             {{ $defaultLangParams['channel_me_extcredits_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -490,6 +544,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_me_users') }}</td>
@@ -506,6 +561,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_me_settings') }}</td>
@@ -520,6 +576,7 @@
                             {{ $defaultLangParams['channel_me_settings_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -541,6 +598,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>{{ __('FsLang::panel.channel_notifications') }}</td>
@@ -555,6 +613,7 @@
                             {{ $defaultLangParams['channel_notifications_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -577,6 +636,7 @@
                         </td>
                         <td></td>
                         <td></td>
+                        <td></td>
                     </tr>
                 @endforeach
                 {{-- search --}}
@@ -594,6 +654,7 @@
                             {{ $defaultLangParams['channel_search_name'] ?? '' }}
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -808,6 +869,45 @@
                         <!--button_save-->
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Modal -->
+    <div class="modal fade" id="configStatusModal" tabindex="-1" aria-labelledby="configStatusModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title lang-modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        @csrf
+                        @method('patch')
+                        <input type="hidden" name="itemType" value="boolean">
+                        <!--state-->
+                        <div class="row mb-4">
+                            <label class="col-sm-2"></label>
+                            <div class="col-sm-10 pt-2">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="itemValue" id="status_true" value="1" checked>
+                                    <label class="form-check-label" for="status_true">{{ __('FsLang::panel.option_activate') }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="itemValue" id="status_false" value="0">
+                                    <label class="form-check-label" for="status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--button_save-->
+                        <div class="mb-3 row">
+                            <label class="col-sm-2"></label>
                             <div class="col-sm-9"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
                         </div>
                     </form>
