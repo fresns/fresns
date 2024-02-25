@@ -30,7 +30,7 @@
                 <h5 class="modal-title"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('panel.plugin.install') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('panel.app-center.install') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('put')
                 <div class="modal-body">
@@ -97,7 +97,7 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-text">{{ __('FsLang::panel.install_mode_fskey') }}</span>
-                        <input type="text" class="form-control" name="app_fskey" maxlength="64">
+                        <input type="text" class="form-control" name="fskey" maxlength="64">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -1842,7 +1842,7 @@ $(document).ready(function () {
 
         $('.app-name').text(name)
         $('.app-new-version').text(upgradeVersion)
-        $('input[name=app_fskey]').val(fskey)
+        $('input[name=fskey]').val(fskey)
     });
 
     $('#deleteApp,#deleteTheme').on('show.bs.modal', function (e) {
@@ -1860,7 +1860,7 @@ $(document).ready(function () {
 
         $('.app-name').text(name);
 
-        form.find('input[name=app_fskey]').val(fskey);
+        form.find('input[name=fskey]').val(fskey);
     });
 
     // plugin upgrade form

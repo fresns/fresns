@@ -66,13 +66,13 @@
                         </td>
                         <td {!! App::getLocale() == 'en' ? 'style="width:210px"' : '' !!}>
                             @if ($plugin->is_enabled)
-                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['fskey' => $plugin->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($plugin->settings_path)
                                     <a href="{{ route('panel.app-center.plugin.settings', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
-                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->fskey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['fskey' => $plugin->fskey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['fskey' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

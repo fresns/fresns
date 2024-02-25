@@ -12,88 +12,33 @@ use App\Models\App;
 use App\Utilities\AppUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Str;
 
 class AppManageController extends Controller
 {
-    public function install(Request $request)
+    public function updateCode(Request $request)
     {
-        $installMethod = $request->install_method;
+        $app = App::where('fskey', $request->fskey)->first();
 
-        switch ($installMethod) {
-            // fskey
-            case 'inputFskey':
-                $appFskey = $request->app_fskey;
+        if ($app) {
+            $app->upgrade_code = $request->upgradeCode;
+            $app->save();
 
-                if (empty($appFskey)) {
-                    return back()->with('failure', __('FsLang::tips.install_not_entered_key'));
-                }
-
-                // market-manager
-                $exitCode = Artisan::call('market:require', [
-                    'fskey' => $appFskey,
-                    '--install_type' => 'market',
-                ]);
-                $output = Artisan::output();
-                break;
-
-                // directory
-            case 'inputDirectory':
-                $appDirectory = $request->app_directory;
-
-                if (empty($appDirectory)) {
-                    return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
-                }
-
-                $isTheme = Str::contains($appDirectory, 'themes/');
-
-                // plugin-manager
-                $exitCode = Artisan::call('market:require', [
-                    'fskey' => $appDirectory,
-                    '--install_type' => 'local',
-                ]);
-                $output = Artisan::output();
-                break;
-
-                // zipball
-            case 'inputZipball':
-                $pluginZipball = null;
-                $file = $request->file('app_zipball');
-                if ($file && $file->isValid()) {
-                    $dir = config('markets.paths.uploads');
-                    $filename = $file->hashName();
-                    $file->move($dir, $filename);
-
-                    $pluginZipball = "$dir/$filename";
-                }
-
-                if (empty($pluginZipball)) {
-                    return back()->with('failure', __('FsLang::tips.install_not_upload_zip'));
-                }
-
-                // plugin-manager
-                $exitCode = Artisan::call('market:require', [
-                    'fskey' => $pluginZipball,
-                    '--install_type' => 'local',
-                ]);
-                $output = Artisan::output();
-                break;
+            return $this->updateSuccess();
         }
 
-        if ($exitCode == 0) {
-            return \response($output."\n ".__('FsLang::tips.installSuccess'));
-        }
-
-        if ($output == '') {
-            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
-        }
-
-        return \response($output."\n ".__('FsLang::tips.installFailure'));
+        return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
     }
 
-    public function upgrade(Request $request)
+    public function pluginCheckStatus()
     {
-        $fskey = $request->get('fskey');
+        AppUtility::checkPluginsStatus();
+
+        return $this->requestSuccess();
+    }
+
+    public function pluginUpgrade(Request $request)
+    {
+        $fskey = $request->fskey;
 
         // market-manager
         $code = Artisan::call('market:upgrade', [
@@ -116,27 +61,29 @@ class AppManageController extends Controller
         return back()->with('failure', __('FsLang::tips.installFailure'));
     }
 
-    public function update(Request $request)
+    public function pluginUpdate(Request $request)
     {
+        $fskey = $request->fskey;
+
         if ($request->get('is_enabled') != 0) {
-            $exitCode = Artisan::call('market:activate', ['fskey' => $request->plugin]);
+            $exitCode = Artisan::call('market:activate', ['fskey' => $fskey]);
         } else {
-            $exitCode = Artisan::call('market:deactivate', ['fskey' => $request->plugin]);
+            $exitCode = Artisan::call('market:deactivate', ['fskey' => $fskey]);
         }
 
         return $this->updateSuccess();
     }
 
-    public function uninstall(Request $request)
+    public function pluginUninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
             $exitCode = Artisan::call('market:remove-plugin', [
-                'fskey' => $request->plugin,
+                'fskey' => $request->fskey,
                 '--cleardata' => true,
             ]);
         } else {
             $exitCode = Artisan::call('market:remove-plugin', [
-                'fskey' => $request->plugin,
+                'fskey' => $request->fskey,
                 '--cleardata' => false,
             ]);
         }
@@ -152,30 +99,14 @@ class AppManageController extends Controller
         return response(Artisan::output()."\n".$message);
     }
 
-    public function checkStatus()
+    public function themeUpgrade(Request $request)
     {
-        AppUtility::checkPluginsStatus();
-
-        return $this->requestSuccess();
-    }
-
-    public function updateCode(Request $request)
-    {
-        $app = App::where('fskey', $request->input('fskey'))->first();
-
-        if ($app) {
-            $app->upgrade_code = $request->upgradeCode;
-            $app->save();
-
-            return $this->updateSuccess();
-        }
-
-        return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
+        $fskey = $request->fskey;
     }
 
     public function themeUninstall(Request $request)
     {
-        $fskey = $request->app_fskey;
+        $fskey = $request->fskey;
         $deleteData = $request->delete_data;
 
         if (empty($fskey)) {
@@ -189,7 +120,7 @@ class AppManageController extends Controller
 
     public function appDownload(Request $request)
     {
-        $appFskey = $request->app_fskey;
+        $appFskey = $request->fskey;
 
         if (empty($appFskey)) {
             return \response()->json([
@@ -206,7 +137,7 @@ class AppManageController extends Controller
 
     public function appDelete(Request $request)
     {
-        $fskey = $request->app_fskey;
+        $fskey = $request->fskey;
 
         if (empty($fskey)) {
             return back()->with('failure', 'fskey cannot be empty');

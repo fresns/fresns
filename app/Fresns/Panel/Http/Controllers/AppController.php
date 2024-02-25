@@ -12,6 +12,8 @@ use App\Models\App;
 use App\Models\Config;
 use App\Models\SessionKey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class AppController extends Controller
 {
@@ -82,6 +84,81 @@ class AppController extends Controller
         $apps = App::whereIn('type', [App::TYPE_APP_REMOTE, App::TYPE_APP_DOWNLOAD])->latest()->paginate(30);
 
         return view('FsView::app-center.apps', compact('apps'));
+    }
+
+    public function install(Request $request)
+    {
+        $installMethod = $request->install_method;
+
+        switch ($installMethod) {
+            // fskey
+            case 'inputFskey':
+                $appFskey = $request->app_fskey;
+
+                if (empty($appFskey)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_entered_key'));
+                }
+
+                // market-manager
+                $exitCode = Artisan::call('market:require', [
+                    'fskey' => $appFskey,
+                    '--install_type' => 'market',
+                ]);
+                $output = Artisan::output();
+                break;
+
+                // directory
+            case 'inputDirectory':
+                $appDirectory = $request->app_directory;
+
+                if (empty($appDirectory)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
+                }
+
+                $isTheme = Str::contains($appDirectory, 'themes/');
+
+                // plugin-manager
+                $exitCode = Artisan::call('market:require', [
+                    'fskey' => $appDirectory,
+                    '--install_type' => 'local',
+                ]);
+                $output = Artisan::output();
+                break;
+
+                // zipball
+            case 'inputZipball':
+                $pluginZipball = null;
+                $file = $request->file('app_zipball');
+                if ($file && $file->isValid()) {
+                    $dir = config('markets.paths.uploads');
+                    $filename = $file->hashName();
+                    $file->move($dir, $filename);
+
+                    $pluginZipball = "$dir/$filename";
+                }
+
+                if (empty($pluginZipball)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_upload_zip'));
+                }
+
+                // plugin-manager
+                $exitCode = Artisan::call('market:require', [
+                    'fskey' => $pluginZipball,
+                    '--install_type' => 'local',
+                ]);
+                $output = Artisan::output();
+                break;
+        }
+
+        if ($exitCode == 0) {
+            return \response($output."\n ".__('FsLang::tips.installSuccess'));
+        }
+
+        if ($output == '') {
+            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+        }
+
+        return \response($output."\n ".__('FsLang::tips.installFailure'));
     }
 
     // iframe

@@ -414,7 +414,7 @@
                     <form action="{{ route('panel.app.download') }}" method="post">
                         @csrf
                         @method('post')
-                        <input type="hidden" name="app_fskey">
+                        <input type="hidden" name="fskey">
                         <button type="submit" class="btn btn-primary" id="downloadSubmit">{{ __('FsLang::panel.button_confirm_download') }}</button>
                     </form>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>

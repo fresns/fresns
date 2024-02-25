@@ -236,6 +236,8 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('apps', [AppController::class, 'apps'])->name('apps');
         // marketplace
         Route::get('marketplace', [AppController::class, 'iframe'])->name('marketplace');
+        // install
+        Route::put('install', [AppController::class, 'install'])->name('install');
         // settings
         Route::get('settings', [AppController::class, 'iframe'])->name('plugin.settings');
         Route::get('functions', [AppController::class, 'iframe'])->name('theme.functions');
@@ -245,21 +247,19 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('plugin')->name('plugin.')->group(function () {
         // dashboard upgrade page
         Route::patch('update-code', [AppManageController::class, 'updateCode'])->name('update.code');
-        // plugin install and upgrade
-        Route::put('install', [AppManageController::class, 'install'])->name('install');
-        Route::put('upgrade', [AppManageController::class, 'upgrade'])->name('upgrade');
-        // activate or deactivate
-        Route::patch('update', [AppManageController::class, 'update'])->name('update');
-        // uninstall
-        Route::delete('uninstall', [AppManageController::class, 'uninstall'])->name('uninstall');
         // check status
-        Route::post('check-status', [AppManageController::class, 'checkStatus'])->name('check.status');
+        Route::post('check-status', [AppManageController::class, 'pluginCheckStatus'])->name('check.status');
+        // plugin upgrade
+        Route::put('upgrade', [AppManageController::class, 'pluginUpgrade'])->name('upgrade');
+        // activate or deactivate
+        Route::patch('update', [AppManageController::class, 'pluginUpdate'])->name('update');
+        // uninstall
+        Route::delete('uninstall', [AppManageController::class, 'pluginUninstall'])->name('uninstall');
     });
 
     // theme manage
     Route::prefix('theme')->name('theme.')->group(function () {
-        Route::get('{fskey}/functions', [AppManageController::class, 'themeFunctions'])->name('functions');
-        Route::put('{fskey}/update', [AppManageController::class, 'themeUpdate'])->name('update');
+        Route::put('upgrade', [AppManageController::class, 'themeUpgrade'])->name('upgrade');
         Route::delete('uninstall', [AppManageController::class, 'themeUninstall'])->name('uninstall');
     });
 

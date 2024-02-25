@@ -94,7 +94,13 @@
                         <p class="card-text text-height">{{ $theme->description }}</p>
                         <div>
                             @if ($theme->settings_path)
-                                <a href="{{ route('panel.app-center.theme.functions', ['url' => route('panel.theme.functions', ['fskey' => $theme->fskey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                                @if (Route::has('fresns.theme-admin.index'))
+                                    <a href="{{ route('panel.app-center.theme.functions', ['url' => route('fresns.theme-admin.index', ['fskey' => $theme->fskey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                                @else
+                                    <div class="d-inline text-bg-primary rounded opacity-50 fs-7 px-3 py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ __('FsLang::panel.webengine_status') }}: {{ ($params['webengine_status'] ?? false) ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}">
+                                        {{ __('FsLang::panel.button_setting') }}
+                                    </div>
+                                @endif
                             @endif
                             <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link"
                                 data-bs-toggle="modal"
@@ -123,7 +129,7 @@
                     @csrf
                     @method('delete')
                     <div class="modal-body">
-                        <input type="hidden" name="app_fskey" value="">
+                        <input type="hidden" name="fskey" value="">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="delete_data" id="uninstallData">
                             <label class="form-check-label" for="uninstallData">{{ __('FsLang::panel.option_uninstall_theme_data') }}</label>
