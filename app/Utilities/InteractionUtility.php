@@ -55,18 +55,22 @@ class InteractionUtility
         }
 
         if (empty($userId)) {
-            if ($type == InteractionUtility::TYPE_USER) {
-                $status['followMeStatus'] = false;
-                $status['blockMeStatus'] = false;
-            }
+            switch ($type) {
+                case InteractionUtility::TYPE_USER:
+                    $status['followMeStatus'] = false;
+                    $status['blockMeStatus'] = false;
+                    $status['followExpired'] = false;
+                    $status['followExpiryDateTime'] = null;
+                    break;
 
-            if ($type == InteractionUtility::TYPE_USER || $type == InteractionUtility::TYPE_GROUP) {
-                $status['followExpired'] = false;
-                $status['followExpiryDateTime'] = null;
-            }
+                case InteractionUtility::TYPE_GROUP:
+                    $status['followExpired'] = false;
+                    $status['followExpiryDateTime'] = null;
+                    break;
 
-            if ($type == InteractionUtility::TYPE_COMMENT) {
-                $status['postAuthorLikeStatus'] = $postAuthorLikeStatus;
+                case InteractionUtility::TYPE_COMMENT:
+                    $status['postAuthorLikeStatus'] = $postAuthorLikeStatus;
+                    break;
             }
 
             return $status;
@@ -87,16 +91,24 @@ class InteractionUtility
             $status['blockStatus'] = $userFollow?->mark_type === UserFollow::MARK_TYPE_BLOCK;
             $status['note'] = $userFollow?->user_note;
 
-            if ($type == InteractionUtility::TYPE_USER) {
-                $userFollowMe = UserFollow::where('user_id', $markId)->type($type)->where('follow_id', $userId)->first();
+            switch ($type) {
+                case InteractionUtility::TYPE_USER:
+                    $userFollowMe = UserFollow::where('user_id', $markId)->type($type)->where('follow_id', $userId)->first();
 
-                $status['followMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_FOLLOW;
-                $status['blockMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_BLOCK;
-            }
+                    $status['followMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_FOLLOW;
+                    $status['blockMeStatus'] = $userFollowMe?->mark_type === UserFollow::MARK_TYPE_BLOCK;
+                    $status['followExpired'] = $userFollow?->expired_at?->isPast();
+                    $status['followExpiryDateTime'] = $userFollow?->expired_at;
+                    break;
 
-            if ($type == InteractionUtility::TYPE_USER || $type == InteractionUtility::TYPE_GROUP) {
-                $status['followExpired'] = $userFollow?->expired_at?->isPast();
-                $status['followExpiryDateTime'] = $userFollow?->expired_at;
+                case InteractionUtility::TYPE_GROUP:
+                    $status['followExpired'] = $userFollow?->expired_at?->isPast();
+                    $status['followExpiryDateTime'] = $userFollow?->expired_at;
+                    break;
+
+                case InteractionUtility::TYPE_COMMENT:
+                    $status['postAuthorLikeStatus'] = $postAuthorLikeStatus;
+                    break;
             }
 
             CacheHelper::put($status, $cacheKey, $cacheTag);

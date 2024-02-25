@@ -827,7 +827,8 @@ class DetailUtility
         unset($postDetail['detailContent']);
 
         // checkPermissions
-        if ($options['checkPermissions'] ?? false) {
+        $checkPermissions = $options['checkPermissions'] ?? false;
+        if ($checkPermissions) {
             $postDetail = self::handlePostPermissions($postDetail, $post, $viewType, $authUserId);
         }
 
@@ -1139,14 +1140,15 @@ class DetailUtility
             if ($commentModel?->post?->user_id == $authUserId) {
                 $commentPrivacy = 'public';
             }
-
-            // interaction
-            $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId, true);
-            $commentDetail['interaction'] = array_replace($commentDetail['interaction'], $interactionStatus);
         }
 
+        // interaction
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId, true);
+        $commentDetail['interaction'] = array_replace($commentDetail['interaction'], $interactionStatus);
+
         // checkPermissions
-        if ($options['checkPermissions'] ?? false && $commentPrivacy == 'private') {
+        $checkPermissions = $options['checkPermissions'] ?? false;
+        if ($checkPermissions && $commentPrivacy == 'private') {
             $newContent = [
                 'content' => null,
                 'isBrief' => false,
