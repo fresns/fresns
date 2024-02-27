@@ -94,11 +94,11 @@ class EditorController extends Controller
             $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
 
             if (! $fileConfig['storageConfigStatus']) {
-                throw new ApiException(32104);
+                throw new ApiException(32105);
             }
 
             if (! $fileConfig['service']) {
-                throw new ApiException(32104);
+                throw new ApiException(32105);
             }
 
             $servicePlugin = Plugin::where('fskey', $fileConfig['service'])->isEnabled()->first();
