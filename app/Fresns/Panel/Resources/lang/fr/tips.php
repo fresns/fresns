@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => 'a échoué à enregistrer, les paramètres de chemin d\'accès ne sont supportés qu\'en lettres anglaises simples.',
     'website_path_reserved_error' => 'L\'enregistrement a échoué, le paramètre path contient un nom de paramètre réservé au système.',
     'website_path_unique_error' => 'Échec de l\'enregistrement, paramètres de chemin en double, les noms des paramètres de chemin ne sont pas autorisés à se répéter les uns les autres.',
+    // theme
+    'theme_error' => 'Le thème est incorrect ou n\'existe pas',
+    'theme_functions_file_error' => 'Le fichier de vue de la configuration du thème est incorrect ou n\'existe pas.',
+    'theme_json_file_error' => 'Le fichier de configuration du thème est incorrect ou n\'existe pas',
+    'theme_json_format_error' => 'Le fichier de configuration du thème n\'a pas le bon format',
     // others
     'markdown_editor' => 'Le contenu prend en charge la syntaxe Markdown, mais la boîte de saisie ne prend pas en charge la prévisualisation, veuillez l\'enregistrer sur le client pour voir l\'effet.',
     'account_not_found' => 'Compte n\'existe pas ou n\'entre pas d\'erreur',

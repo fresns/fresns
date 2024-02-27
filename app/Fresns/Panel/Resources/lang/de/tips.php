@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => 'konnte nicht gespeichert werden, Pfadparameter werden nur in Klartext unterstützt',
     'website_path_reserved_error' => 'Speichern fehlgeschlagen, Pfadparameter enthält vom System reservierten Parameternamen',
     'website_path_unique_error' => 'Speichern fehlgeschlagen, doppelte Pfadparameter, die Namen der Pfadparameter dürfen sich nicht wiederholen',
+    // theme
+    'theme_error' => 'Das Thema ist falsch oder existiert nicht',
+    'theme_functions_file_error' => 'Die Ansichtsdatei der Themenkonfiguration ist falsch oder existiert nicht',
+    'theme_json_file_error' => 'Die Konfigurationsdatei des Themas ist falsch oder nicht vorhanden',
+    'theme_json_format_error' => 'Die Theme-Konfigurationsdatei hat das falsche Format',
     // others
     'markdown_editor' => 'Der Inhalt unterstützt die Markdown-Syntax, aber das Eingabefeld unterstützt keine Vorschau. Bitte speichern Sie es auf dem Client, um den Effekt zu sehen.',
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',

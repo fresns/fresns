@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => '保存失败，路径参数仅支持纯英文字母',
     'website_path_reserved_error' => '保存失败，路径参数含有系统保留参数名',
     'website_path_unique_error' => '保存失败，路径参数重复，路径参数名不允许彼此重复',
+    // theme
+    'theme_error' => '主题错误或者不存在',
+    'theme_functions_file_error' => '主题配置的视图文件错误或者不存在',
+    'theme_json_file_error' => '主题配置文件错误或者不存在',
+    'theme_json_format_error' => '主题配置文件格式错误',
     // others
     'markdown_editor' => '内容支持 Markdown 语法，但是输入框不支持预览，请保存后到客户端查看效果。',
     'account_not_found' => '账号不存在或者输入错误',

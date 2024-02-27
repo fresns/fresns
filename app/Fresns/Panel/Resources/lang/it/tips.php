@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => 'non è riuscito a salvare, i parametri di percorso sono supportati solo in lettere semplici.',
     'website_path_reserved_error' => 'Salvataggio fallito, il parametro percorso contiene un nome di parametro riservato al sistema',
     'website_path_unique_error' => 'Salvataggio fallito, parametri di percorso duplicati, i nomi dei parametri di percorso non possono ripetersi.',
+    // theme
+    'theme_error' => 'Il tema non è corretto o non esiste',
+    'theme_functions_file_error' => 'Il file di configurazione della vista del tema non è corretto o non esiste.',
+    'theme_json_file_error' => 'Il file di configurazione del tema non è corretto o non esiste',
+    'theme_json_format_error' => 'Il file di configurazione del tema è nel formato sbagliato',
     // others
     'markdown_editor' => 'Il contenuto supporta la sintassi Markdown, ma la casella di input non supporta l\'anteprima; si prega di salvarla sul client per vedere l\'effetto.',
     'account_not_found' => 'L\'account non esiste o inserisci errori',

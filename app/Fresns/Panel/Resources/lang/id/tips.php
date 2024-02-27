@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => 'Gagal disimpan, parameter jalur hanya didukung dalam huruf Inggris biasa',
     'website_path_reserved_error' => 'Simpan gagal, parameter jalur berisi nama parameter yang dicadangkan sistem',
     'website_path_unique_error' => 'Gagal menyimpan, parameter jalur duplikat, nama parameter jalur tidak diperbolehkan untuk saling mengulang',
+    // theme
+    'theme_error' => 'Temanya salah atau tidak ada',
+    'theme_functions_file_error' => 'File tampilan untuk konfigurasi tema salah atau tidak ada',
+    'theme_json_file_error' => 'File konfigurasi tema salah atau tidak ada',
+    'theme_json_format_error' => 'Kesalahan format file konfigurasi tema',
     // others
     'markdown_editor' => 'Konten mendukung sintaks Markdown, tetapi kotak input tidak mendukung pratinjau, silakan simpan ke klien untuk melihat efeknya.',
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',

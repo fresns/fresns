@@ -94,6 +94,11 @@ return [
     'website_path_format_error' => '保存失敗，路徑參數僅支持純英文字母',
     'website_path_reserved_error' => '保存失敗，路徑參數含有系統保留參數名',
     'website_path_unique_error' => '保存失敗，路徑參數重複，路徑參數名不允許彼此重複',
+    // theme
+    'theme_error' => '主題錯誤或者不存在',
+    'theme_functions_file_error' => '主題配置的視圖文件錯誤或者不存在',
+    'theme_json_file_error' => '主題配置文件錯誤或者不存在',
+    'theme_json_format_error' => '主題配置文件格式錯誤',
     // others
     'markdown_editor' => '內容支援 Markdown 語法，但輸入框不支援預覽，請儲存後到用戶端查看效果。',
     'account_not_found' => '賬號不存在或者輸入錯誤',
