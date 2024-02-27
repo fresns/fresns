@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => '選擇互聯平台並關聯外掛，可實現快捷註冊或登入。',
     'account_kyc_service' => '實名認證支援',
     'account_kyc_service_desc' => '安裝認證服務外掛後，使用者可以實名制認證。',
+    'account_users_service' => '多個身分管理',
     // System-Wallet
     'wallet_functions' => '錢包功能',
     'wallet_functions_desc' => '是否啟用法幣錢包功能',

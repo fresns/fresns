@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Seleccione la plataforma de interconexión y los complementos asociados para realizar un registro rápido o inicio de sesión',
     'account_kyc_service' => 'Soporte de certificación de nombre real',
     'account_kyc_service_desc' => 'Después de instalar el complemento del servicio de autenticación, el usuario puede autenticar el nombre real',
+    'account_users_service' => 'Gestión multiusuario',
     // System-Wallet
     'wallet_functions' => 'Función de la billetera',
     'wallet_functions_desc' => 'Si habilitar el paquete de dinero francés',

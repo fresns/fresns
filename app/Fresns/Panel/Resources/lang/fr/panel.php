@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Sélectionnez la plate-forme d\'interconnexion et associez des plugins pour créer une inscription rapide ou une connexion',
     'account_kyc_service' => 'Support de certification de nom réel',
     'account_kyc_service_desc' => 'Après avoir installé le plugin de service d\'authentification, l\'utilisateur peut authentifier le nom réel',
+    'account_users_service' => 'Gestion multi-utilisateurs',
     // System-Wallet
     'wallet_functions' => 'Fonction de portefeuille',
     'wallet_functions_desc' => 'Que ce soit pour activer le forfait d\'argent français',

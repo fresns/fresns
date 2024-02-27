@@ -21,7 +21,6 @@ class AccountController extends Controller
             'connects',
             'account_center_service',
             'account_center_captcha',
-            'account_center_captcha_configs',
             'account_register_service',
             'account_register_status',
             'account_email_register',
@@ -35,6 +34,7 @@ class AccountController extends Controller
             'password_strength',
             'account_connect_services',
             'account_kyc_service',
+            'account_users_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -60,8 +60,11 @@ class AccountController extends Controller
         $accountKycPlugins = $plugins->filter(function ($plugin) {
             return in_array('accountKyc', $plugin->panel_usages);
         });
+        $accountUsersPlugins = $plugins->filter(function ($plugin) {
+            return in_array('accountUsers', $plugin->panel_usages);
+        });
 
-        return view('FsView::systems.account', compact('params', 'accountCenterPlugins', 'accountRegisterPlugins', 'accountLoginPlugins', 'accountConnectPlugins', 'accountKycPlugins'));
+        return view('FsView::systems.account', compact('params', 'accountCenterPlugins', 'accountRegisterPlugins', 'accountLoginPlugins', 'accountConnectPlugins', 'accountKycPlugins', 'accountUsersPlugins'));
     }
 
     public function update(UpdateAccountRequest $request)
@@ -69,7 +72,6 @@ class AccountController extends Controller
         $configKeys = [
             'account_center_service',
             'account_center_captcha',
-            'account_center_captcha_configs',
             'account_register_service',
             'account_register_status',
             'account_email_register',
@@ -83,6 +85,7 @@ class AccountController extends Controller
             'password_length',
             'password_strength',
             'account_kyc_service',
+            'account_users_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

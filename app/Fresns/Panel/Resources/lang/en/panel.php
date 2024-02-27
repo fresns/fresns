@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Select the connect platform and associate the plugin to enable quick registration or login',
     'account_kyc_service' => 'KYC Support',
     'account_kyc_service_desc' => 'After installing the auth service plugin, users can auth in their real identity',
+    'account_users_service' => 'Multi-User Management',
     // System-Wallet
     'wallet_functions' => 'Wallet Functions',
     'wallet_functions_desc' => 'Whether to enable the fiat wallet function',

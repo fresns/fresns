@@ -14,8 +14,7 @@ class UpdateAccountRequest extends FormRequest
     {
         return [
             'account_center_service' => 'string|nullable',
-            'account_center_captcha' => 'string|nullable',
-            'account_center_captcha_configs' => 'array|nullable',
+            'account_center_captcha' => 'array|nullable',
             'account_register_status' => 'string|nullable',
             'account_register_service' => 'string|nullable',
             'account_email_register' => 'string|nullable',

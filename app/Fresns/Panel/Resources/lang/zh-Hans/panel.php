@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => '选择互联平台并关联插件，可实现快捷注册或登录。',
     'account_kyc_service' => '实名认证支持',
     'account_kyc_service_desc' => '安装认证服务插件后，用户可以实名制认证。',
+    'account_users_service' => '多用户管理',
     // System-Wallet
     'wallet_functions' => '钱包功能',
     'wallet_functions_desc' => '是否启用法币钱包功能',

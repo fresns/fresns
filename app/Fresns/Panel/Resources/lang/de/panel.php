@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Wählen Sie die Verbindungsplattform und assoziierte Plugins, um eine schnelle Registrierung oder Anmeldung zu erstellen',
     'account_kyc_service' => 'Real Name-Zertifizierungsunterstützung',
     'account_kyc_service_desc' => 'Nach der Installation des Authentifizierungsdienst-Plug-Ins kann der Benutzer den echten Namen authentifizieren',
+    'account_users_service' => 'Multi-User-Management',
     // System-Wallet
     'wallet_functions' => 'Geldbörsenfunktion',
     'wallet_functions_desc' => 'Ob das französische Geldpaket aktivieren soll',

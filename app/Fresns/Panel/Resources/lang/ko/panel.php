@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => '상호 연결 플랫폼을 선택하고 플러그인을 연결하여 빠른 등록 또는 로그인하십시오',
     'account_kyc_service' => '실명 인증 지원',
     'account_kyc_service_desc' => '인증 서비스 플러그인을 설치 한 후 사용자는 실제 이름을 인증 할 수 있습니다',
+    'account_users_service' => '다중 사용자 관리',
     // System-Wallet
     'wallet_functions' => '지갑 기능',
     'wallet_functions_desc' => '프랑스 돈 패키지를 사용할 수 있는지 여부',

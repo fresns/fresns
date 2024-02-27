@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Selezionare la piattaforma di interconnessione e i plugin associati per effettuare la registrazione rapida o il login',
     'account_kyc_service' => 'Supporto di certificazione del nome reale',
     'account_kyc_service_desc' => 'Dopo aver installato il servizio di autenticazione plugin, l\'utente può autenticare reale nome',
+    'account_users_service' => 'Gestione di più utenti',
     // System-Wallet
     'wallet_functions' => 'Funzione del portafoglio',
     'wallet_functions_desc' => 'Se abilitare il pacchetto di denaro francese',

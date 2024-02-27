@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'Pilih platform interkoneksi dan asosiasi plugin untuk membuat registrasi atau login cepat',
     'account_kyc_service' => 'Dukungan Sertifikasi Nama Asli',
     'account_kyc_service_desc' => 'Setelah menginstal plugin layanan otentikasi, pengguna dapat mengotentikasi nama-nama asli',
+    'account_users_service' => 'Manajemen Multi-Pengguna',
     // System-Wallet
     'wallet_functions' => 'Fungsi dompet',
     'wallet_functions_desc' => 'Apakah akan mengaktifkan paket uang Prancis',

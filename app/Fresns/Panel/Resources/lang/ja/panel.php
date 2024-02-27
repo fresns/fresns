@@ -494,6 +494,7 @@ return [
     'account_connect_services_desc' => 'インターコネリングプラットフォームとアソシエイトプラグインを選択して、迅速な登録またはログインを行います。',
     'account_kyc_service' => '本名認証支援',
     'account_kyc_service_desc' => '認証サービスプラグインをインストールした後、ユーザーはReal-Nameを認証できます。',
+    'account_users_service' => 'マルチユーザー管理',
     // System-Wallet
     'wallet_functions' => '財布',
     'wallet_functions_desc' => 'フランスのお金のパッケージを有効にするかどうか',
