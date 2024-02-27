@@ -68,7 +68,7 @@ class Basic
         new DeviceInfoDTO($deviceInfo);
 
         // check sign
-        $isCheckSign = ConfigHelper::fresnsConfigDeveloperMode()['apiSignature'];
+        $isCheckSign = ConfigHelper::fresnsConfigDeveloper()['apiSignature'];
         if ($isCheckSign) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
 

@@ -60,11 +60,11 @@ class ConfigHelper
         return $langTagArr;
     }
 
-    // Get config developer mode
-    public static function fresnsConfigDeveloperMode(): array
+    // Get config developer
+    public static function fresnsConfigDeveloper(): array
     {
-        $developerMode = Cache::rememberForever('developer_mode', function () {
-            $itemData = Config::where('item_key', 'developer_mode')->first();
+        $developerMode = Cache::rememberForever('developer_configs', function () {
+            $itemData = Config::where('item_key', 'developer_configs')->first();
 
             return $itemData?->item_value;
         });

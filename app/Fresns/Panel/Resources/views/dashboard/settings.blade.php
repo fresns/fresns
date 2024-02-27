@@ -66,11 +66,11 @@
                     <span class="input-group-text w-25">API Signature</span>
                     <div class="form-control">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_mode[apiSignature]" id="signature_true" value="1" {{ ($params['developer_mode']['apiSignature'] ?? true) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="developer_configs[apiSignature]" id="signature_true" value="1" {{ ($params['developer_configs']['apiSignature'] ?? true) ? 'checked' : '' }}>
                             <label class="form-check-label" for="signature_true">{{ __('FsLang::panel.option_activate') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_mode[apiSignature]" id="signature_false" value="0" {{ ! ($params['developer_mode']['apiSignature'] ?? true) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="developer_configs[apiSignature]" id="signature_false" value="0" {{ ! ($params['developer_configs']['apiSignature'] ?? true) ? 'checked' : '' }}>
                             <label class="form-check-label" for="signature_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                         </div>
                     </div>
@@ -79,11 +79,11 @@
                     <span class="input-group-text w-25">{{ __('FsLang::panel.sidebar_caches') }}</span>
                     <div class="form-control">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_mode[cache]" id="cache_true" value="1" {{ ($params['developer_mode']['cache'] ?? true) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="developer_configs[cache]" id="cache_true" value="1" {{ ($params['developer_configs']['cache'] ?? true) ? 'checked' : '' }}>
                             <label class="form-check-label" for="cache_true">{{ __('FsLang::panel.option_activate') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_mode[cache]" id="cache_false" value="0" {{ ! ($params['developer_mode']['cache'] ?? true) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="developer_configs[cache]" id="cache_false" value="0" {{ ! ($params['developer_configs']['cache'] ?? true) ? 'checked' : '' }}>
                             <label class="form-check-label" for="cache_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                         </div>
                     </div>

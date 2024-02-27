@@ -21,7 +21,7 @@ class SettingController extends Controller
     {
         // config keys
         $configKeys = [
-            'developer_mode',
+            'developer_configs',
             'build_type',
             'panel_configs',
         ];
@@ -43,17 +43,17 @@ class SettingController extends Controller
             return back()->with('failure', __('FsLang::tips.secure_entry_route_conflicts'));
         }
 
-        if ($request->developer_mode) {
+        if ($request->developer_configs) {
             $developerMode = [
-                'apiSignature' => (bool) $request->developer_mode['apiSignature'],
-                'cache' => (bool) $request->developer_mode['cache'],
+                'apiSignature' => (bool) $request->developer_configs['apiSignature'],
+                'cache' => (bool) $request->developer_configs['cache'],
             ];
 
-            $buildConfig = Config::where('item_key', 'developer_mode')->firstOrNew();
+            $buildConfig = Config::where('item_key', 'developer_configs')->firstOrNew();
             $buildConfig->item_value = $developerMode;
             $buildConfig->save();
 
-            CacheHelper::forgetFresnsKey('developer_mode');
+            CacheHelper::forgetFresnsKey('developer_configs');
         }
 
         if ($request->build_type) {

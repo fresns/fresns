@@ -115,7 +115,7 @@ class CacheHelper
     // is known to be empty
     public static function isKnownEmpty(string $cacheKey): bool
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
         $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
         if (! $whetherToCache && ! $isWebCache) {
             return false;
@@ -136,7 +136,7 @@ class CacheHelper
     // cache get
     public static function get(string $cacheKey, mixed $cacheTags = null): mixed
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
         $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
         if (! $whetherToCache && ! $isWebCache) {
             return null;
@@ -154,7 +154,7 @@ class CacheHelper
     // cache put
     public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null): void
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
         $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
         if (! $whetherToCache && ! $isWebCache) {
             return;
@@ -384,7 +384,7 @@ class CacheHelper
     public static function forgetFresnsTag(string $tag): void
     {
         if ($tag == 'fresnsSystems') {
-            CacheHelper::forgetFresnsKey('developer_mode');
+            CacheHelper::forgetFresnsKey('developer_configs');
         }
 
         if (Cache::supportsTags()) {
@@ -694,7 +694,7 @@ class CacheHelper
      */
     // fresns_cache_tags
     // fresns_cache_config_keys
-    // developer_mode
+    // developer_configs
     // install_{$step}
     // autoUpgradeStep
     // autoUpgradeTip
@@ -858,4 +858,28 @@ class CacheHelper
     // fresns_manage_post_extends_by_group_admin_{$langTag}
     // fresns_manage_comment_extends_by_group_admin_{$langTag}
     // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroups
+
+    /**
+     * tag: fresnsWeb.
+     */
+    // fresns_web_status                                                // +tag: fresnsWebConfigs
+    // fresns_web_api_host                                              // +tag: fresnsWebConfigs
+    // fresns_web_api_key                                               // +tag: fresnsWebConfigs
+    // fresns_web_configs_{$langTag}                                    // +tag: fresnsWebConfigs
+    // fresns_web_languages_{$langTag}                                  // +tag: fresnsWebConfigs
+    // fresns_web_post_content_types_{$langTag}                         // +tag: fresnsWebConfigs
+    // fresns_web_comment_content_types_{$langTag}                      // +tag: fresnsWebConfigs
+    // fresns_web_stickers_{$langTag}                                   // +tag: fresnsWebConfigs
+    // fresns_web_channels_guest_{$langTag}
+    // fresns_web_channels_{$uid}_{$langTag}
+    // fresns_web_account_{$aid}_{$langTag}
+    // fresns_web_user_{$uid}_{$langTag}
+    // fresns_web_user_overview_{$uid}_{$langTag}
+    // fresns_web_group_tree_by_{$uid}_{$langTag}
+    // fresns_web_group_tree_by_guest_{$langTag}
+    // fresns_web_content_{$channel}_{$type}_by_{$uid}_{$langTag}
+    // fresns_web_content_{$channel}_{$type}_by_guest_{$langTag}
+    // fresns_web_sticky_posts_by_global_{$langTag}
+    // fresns_web_sticky_posts_by_group_{$gid}_{$langTag}
+    // fresns_web_sticky_comments_by_{$pid}_{$langTag}
 }
