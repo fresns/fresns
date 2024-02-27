@@ -107,15 +107,15 @@ class GlobalController extends Controller
             ]);
 
             if (empty($accountConfigs['account_center_service'])) {
-                $configs['account_center_service'] = config('app.url').'/account-center?authorization={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_center_service'] = config('app.url').'/account-center?accessToken={accessToken}&callbackKey={postMessageKey}';
             }
 
             if (empty($accountConfigs['account_register_service'])) {
-                $configs['account_register_service'] = config('app.url').'/account-center/sign-up?authorization={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_register_service'] = config('app.url').'/account-center/sign-up?accessToken={accessToken}&callbackKey={postMessageKey}';
             }
 
             if (empty($accountConfigs['account_login_service'])) {
-                $configs['account_login_service'] = config('app.url').'/account-center/login?authorization={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_login_service'] = config('app.url').'/account-center/login?accessToken={accessToken}&callbackKey={postMessageKey}';
             }
 
             // cache minutes
