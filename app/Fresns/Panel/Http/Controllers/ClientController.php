@@ -73,14 +73,16 @@ class ClientController extends Controller
         // system reserved
         $pathKeys = [
             'fresns',
-            'location',
-            'account',
+            'fresns-theme',
+            'api',
             'account-center',
-            'messages',
+            'timelines',
+            'nearby',
+            'me',
             'conversations',
             'notifications',
-            'me',
             'search',
+            'editor',
         ];
 
         $rules = [];
