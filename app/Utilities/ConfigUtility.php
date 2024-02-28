@@ -319,9 +319,9 @@ class ConfigUtility
             $account = PrimaryHelper::fresnsModelById('account', $user->account_id);
 
             $limitConfig = ConfigHelper::fresnsConfigByItemKeys([
-                "{$type}_email_verify",
-                "{$type}_phone_verify",
-                "{$type}_real_name_verify",
+                "{$type}_required_email",
+                "{$type}_required_phone",
+                "{$type}_required_kyc",
                 "{$type}_limit_status",
                 "{$type}_limit_type",
                 "{$type}_limit_period_start",
@@ -336,9 +336,9 @@ class ConfigUtility
             $perm['draft'] = true;
             $perm['publish'] = $rolePerm["{$type}_publish"];
             $perm['review'] = $rolePerm["{$type}_review"];
-            $perm['emailRequired'] = $limitConfig["{$type}_email_verify"] ? $limitConfig["{$type}_email_verify"] : $rolePerm["{$type}_email_verify"];
-            $perm['phoneRequired'] = $limitConfig["{$type}_phone_verify"] ? $limitConfig["{$type}_phone_verify"] : $rolePerm["{$type}_phone_verify"];
-            $perm['realNameRequired'] = $limitConfig["{$type}_real_name_verify"] ? $limitConfig["{$type}_real_name_verify"] : $rolePerm["{$type}_real_name_verify"];
+            $perm['requiredEmail'] = $limitConfig["{$type}_required_email"] ? $limitConfig["{$type}_required_email"] : $rolePerm["{$type}_required_email"];
+            $perm['requiredPhone'] = $limitConfig["{$type}_required_phone"] ? $limitConfig["{$type}_required_phone"] : $rolePerm["{$type}_required_phone"];
+            $perm['requiredKyc'] = $limitConfig["{$type}_required_kyc"] ? $limitConfig["{$type}_required_kyc"] : $rolePerm["{$type}_required_kyc"];
 
             $checkLogCount = match ($type) {
                 'post' => PostLog::where('user_id', $userId)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE])->count(),
@@ -354,19 +354,19 @@ class ConfigUtility
             $realNameTip = null;
 
             if ($perm['publish']) {
-                if ($perm['emailRequired'] && empty($account->email)) {
+                if ($perm['requiredEmail'] && empty($account->email)) {
                     $perm['publish'] = false;
                     $emailTip = ConfigUtility::getCodeMessage(36301, 'Fresns', $langTag);
                     $emailTip = "[{$emailTip}]";
                 }
 
-                if ($perm['phoneRequired'] && empty($account->phone)) {
+                if ($perm['requiredPhone'] && empty($account->phone)) {
                     $perm['publish'] = false;
                     $phoneTip = ConfigUtility::getCodeMessage(36302, 'Fresns', $langTag);
                     $phoneTip = "[{$phoneTip}]";
                 }
 
-                if ($perm['realNameRequired'] && ! $account->is_verify) {
+                if ($perm['requiredKyc'] && ! $account->is_verify) {
                     $perm['publish'] = false;
                     $realNameTip = ConfigUtility::getCodeMessage(36303, 'Fresns', $langTag);
                     $realNameTip = "[{$realNameTip}]";
