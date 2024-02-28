@@ -94,15 +94,15 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_verify') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['post_email_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_email_verify]" id="publish.post.verify.email" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['post_required_email']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_required_email]" id="publish.post.verify.email" value="1">
                             <label class="form-check-label" for="publish.post.verify.email">{{ __('FsLang::panel.permission_option_email') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['post_phone_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_phone_verify]" id="publish.post.verify.phone" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['post_required_phone']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_required_phone]" id="publish.post.verify.phone" value="1">
                             <label class="form-check-label" for="publish.post.verify.phone">{{ __('FsLang::panel.permission_option_phone') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['post_kyc_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_kyc_verify]" id="publish.post.verify.prove" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['post_required_kyc']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_required_kyc]" id="publish.post.verify.prove" value="1">
                             <label class="form-check-label" for="publish.post.verify.prove">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                         </div>
                     </div>
@@ -228,15 +228,15 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_verify') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_email_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_email_verify]" id="publish.comment.verify.email" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_required_email']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_required_email]" id="publish.comment.verify.email" value="1">
                             <label class="form-check-label" for="publish.comment.verify.email">{{ __('FsLang::panel.permission_option_email') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_phone_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_phone_verify]" id="publish.comment.verify.phone" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_required_phone']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_required_phone]" id="publish.comment.verify.phone" value="1">
                             <label class="form-check-label" for="publish.comment.verify.phone">{{ __('FsLang::panel.permission_option_phone') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_kyc_verify']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_kyc_verify]" id="publish.comment.verify.prove" value="1">
+                            <input class="form-check-input" type="checkbox" {{ $permissions['comment_required_kyc']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_required_kyc]" id="publish.comment.verify.prove" value="1">
                             <label class="form-check-label" for="publish.comment.verify.prove">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                         </div>
                     </div>

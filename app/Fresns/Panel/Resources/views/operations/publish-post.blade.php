@@ -30,16 +30,16 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_post_verify_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="post_email_verify" id="post_email_verify" value="true" {{ $params['post_email_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="post_email_verify">{{ __('FsLang::panel.permission_option_email') }}</label>
+                    <input class="form-check-input" type="checkbox" name="post_required_email" id="post_required_email" value="true" {{ $params['post_required_email'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="post_required_email">{{ __('FsLang::panel.permission_option_email') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="post_phone_verify" id="post_phone_verify" value="true" {{ $params['post_phone_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="post_phone_verify">{{ __('FsLang::panel.permission_option_phone') }}</label>
+                    <input class="form-check-input" type="checkbox" name="post_required_phone" id="post_required_phone" value="true" {{ $params['post_required_phone'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="post_required_phone">{{ __('FsLang::panel.permission_option_phone') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="post_kyc_verify" id="post_kyc_verify" value="true" {{ $params['post_kyc_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="post_kyc_verify">{{ __('FsLang::panel.permission_option_kyc') }}</label>
+                    <input class="form-check-input" type="checkbox" name="post_required_kyc" id="post_required_kyc" value="true" {{ $params['post_required_kyc'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="post_required_kyc">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_verify_desc') }}</div>

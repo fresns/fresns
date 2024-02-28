@@ -146,12 +146,12 @@ class RoleController extends Controller
     public function updatePermissions(Role $role, Request $request)
     {
         $formPermissions = $request->permissions;
-        $formPermissions['post_email_verify'] = $formPermissions['post_email_verify'] ?? 0;
-        $formPermissions['post_phone_verify'] = $formPermissions['post_phone_verify'] ?? 0;
-        $formPermissions['post_kyc_verify'] = $formPermissions['post_kyc_verify'] ?? 0;
-        $formPermissions['comment_email_verify'] = $formPermissions['comment_email_verify'] ?? 0;
-        $formPermissions['comment_phone_verify'] = $formPermissions['comment_phone_verify'] ?? 0;
-        $formPermissions['comment_kyc_verify'] = $formPermissions['comment_kyc_verify'] ?? 0;
+        $formPermissions['post_required_email'] = $formPermissions['post_required_email'] ?? 0;
+        $formPermissions['post_required_phone'] = $formPermissions['post_required_phone'] ?? 0;
+        $formPermissions['post_required_kyc'] = $formPermissions['post_required_kyc'] ?? 0;
+        $formPermissions['comment_required_email'] = $formPermissions['comment_required_email'] ?? 0;
+        $formPermissions['comment_required_phone'] = $formPermissions['comment_required_phone'] ?? 0;
+        $formPermissions['comment_required_kyc'] = $formPermissions['comment_required_kyc'] ?? 0;
         $formPermissions['post_editor_image'] = $formPermissions['post_editor_image'] ?? 0;
         $formPermissions['post_editor_video'] = $formPermissions['post_editor_video'] ?? 0;
         $formPermissions['post_editor_audio'] = $formPermissions['post_editor_audio'] ?? 0;
@@ -164,8 +164,8 @@ class RoleController extends Controller
         $permissions = collect($formPermissions)->map(function ($value, $key) {
             $boolPerms = [
                 'content_view', 'conversation',
-                'post_publish', 'post_email_verify', 'post_phone_verify', 'post_kyc_verify', 'post_review', 'post_limit_status',
-                'comment_publish', 'comment_email_verify', 'comment_phone_verify', 'comment_kyc_verify', 'comment_review', 'comment_limit_status',
+                'post_publish', 'post_required_email', 'post_required_phone', 'post_required_kyc', 'post_review', 'post_limit_status',
+                'comment_publish', 'comment_required_email', 'comment_required_phone', 'comment_required_kyc', 'comment_review', 'comment_limit_status',
                 'post_editor_image', 'post_editor_video', 'post_editor_audio', 'post_editor_document',
                 'comment_editor_image', 'comment_editor_video', 'comment_editor_audio', 'comment_editor_document',
             ];

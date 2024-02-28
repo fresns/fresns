@@ -67,7 +67,7 @@ class Controller extends BaseController
 
             // Check Plugins Versions
             if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
-                \FresnsCmdWord::plugin('Fresns')->checkPluginsVersions();
+                \FresnsCmdWord::plugin('Fresns')->checkAppsVersions();
 
                 // Time of the latest check version
                 Config::updateOrCreate([

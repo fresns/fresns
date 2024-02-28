@@ -30,16 +30,16 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_verify_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="comment_email_verify" id="comment_email_verify" value="true" {{ $params['comment_email_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_email_verify">{{ __('FsLang::panel.permission_option_email') }}</label>
+                    <input class="form-check-input" type="checkbox" name="comment_required_email" id="comment_required_email" value="true" {{ $params['comment_required_email'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_required_email">{{ __('FsLang::panel.permission_option_email') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="comment_phone_verify" id="comment_phone_verify" value="true" {{ $params['comment_phone_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_phone_verify">{{ __('FsLang::panel.permission_option_phone') }}</label>
+                    <input class="form-check-input" type="checkbox" name="comment_required_phone" id="comment_required_phone" value="true" {{ $params['comment_required_phone'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_required_phone">{{ __('FsLang::panel.permission_option_phone') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="comment_kyc_verify" id="comment_kyc_verify" value="true" {{ $params['comment_kyc_verify'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_kyc_verify">{{ __('FsLang::panel.permission_option_kyc') }}</label>
+                    <input class="form-check-input" type="checkbox" name="comment_required_kyc" id="comment_required_kyc" value="true" {{ $params['comment_required_kyc'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_required_kyc">{{ __('FsLang::panel.permission_option_kyc') }}</label>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_verify_desc') }}</div>

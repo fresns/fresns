@@ -25,9 +25,9 @@ class PublishController extends Controller
             'video_service',
             'audio_service',
             'document_service',
-            'post_email_verify',
-            'post_phone_verify',
-            'post_kyc_verify',
+            'post_required_email',
+            'post_required_phone',
+            'post_required_kyc',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -107,9 +107,9 @@ class PublishController extends Controller
     public function postUpdate(Request $request)
     {
         $configKeys = [
-            'post_email_verify',
-            'post_phone_verify',
-            'post_kyc_verify',
+            'post_required_email',
+            'post_required_phone',
+            'post_required_kyc',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -175,9 +175,9 @@ class PublishController extends Controller
             'video_service',
             'audio_service',
             'document_service',
-            'comment_email_verify',
-            'comment_phone_verify',
-            'comment_kyc_verify',
+            'comment_required_email',
+            'comment_required_phone',
+            'comment_required_kyc',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
@@ -252,9 +252,9 @@ class PublishController extends Controller
     public function commentUpdate(Request $request)
     {
         $configKeys = [
-            'comment_email_verify',
-            'comment_phone_verify',
-            'comment_kyc_verify',
+            'comment_required_email',
+            'comment_required_phone',
+            'comment_required_kyc',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
