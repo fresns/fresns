@@ -31,11 +31,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(): void
     {
-        // No more registered installation routes after they have been installed
-        if (file_exists(base_path('install.lock'))) {
-            return;
-        }
-
         $this->configureRateLimiting();
 
         Route::middlewareGroup('cookie', [

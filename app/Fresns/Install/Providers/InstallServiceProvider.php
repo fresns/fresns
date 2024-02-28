@@ -18,6 +18,11 @@ class InstallServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // No more registered installation routes after they have been installed
+        if (file_exists(base_path('install.lock'))) {
+            return;
+        }
+
         $this->registerInstallAppKey();
         $this->registerReverseProxySchema();
     }
@@ -27,6 +32,11 @@ class InstallServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // No more registered installation routes after they have been installed
+        if (file_exists(base_path('install.lock'))) {
+            return;
+        }
+
         $this->registerConfig();
         $this->registerViews();
         $this->registerTranslations();
