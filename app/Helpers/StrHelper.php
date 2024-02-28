@@ -215,9 +215,9 @@ class StrHelper
     }
 
     // language content
-    public static function languageContent(?array $contentArr = [], ?string $langTag = null): mixed
+    public static function languageContent(mixed $contentArr = [], ?string $langTag = null): mixed
     {
-        if (is_string($contentArr)) {
+        if (! is_array($contentArr)) {
             return $contentArr;
         }
 
