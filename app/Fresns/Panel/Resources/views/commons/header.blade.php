@@ -48,7 +48,10 @@
                             'user-feature',
                             'user-profile',
                             'channel',
-                        ]) ? 'active' : '' }} {{ Route::is('panel.content-handler.*') ? 'active' : '' }}" href="{{ route('panel.content-handler.index') }}">{{ __('FsLang::panel.menu_extends') }}</a>
+                        ]) ? 'active' : '' }} {{ Route::is([
+                            'panel.content-handler.*',
+                            'panel.command-words.*',
+                        ]) ? 'active' : '' }}" href="{{ route('panel.content-handler.index') }}">{{ __('FsLang::panel.menu_extends') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is([
