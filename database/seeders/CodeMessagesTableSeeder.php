@@ -416,6 +416,14 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 32104,
+                'messages' => '{"en":"S3 uploads are not supported by the storage provider","zh-Hans":"存储服务商不支持 S3 方式上传","zh-Hant":"儲存服務商不支援 S3 方式上傳"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 32105,
                 'messages' => '{"en":"Storage service provider configuration exception, temporarily unable to upload file","zh-Hans":"存储服务商配置异常，暂时无法上传文件","zh-Hant":"存儲服務商配置異常，暫時無法上傳文件"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
