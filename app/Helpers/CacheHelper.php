@@ -481,6 +481,8 @@ class CacheHelper
         foreach ($itemKeys as $key) {
             CacheHelper::forgetFresnsModel('config', $key);
         }
+
+        CacheHelper::forgetFresnsMultilingual('fresns_api_configs', 'fresnsConfigs');
     }
 
     /**
@@ -714,8 +716,6 @@ class CacheHelper
     /**
      * tag: fresnsConfigs.
      */
-    // fresns_default_langTag
-    // fresns_lang_tags
     // fresns_config_file_accept
     // fresns_config_file_url_expire
     // fresns_role_{$id}

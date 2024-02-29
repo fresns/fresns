@@ -447,9 +447,9 @@ class StorageController extends Controller
             $value = $request->$configKey;
             $config->item_value = $value;
             $config->save();
-
-            CacheHelper::forgetFresnsConfigs($configKey);
         }
+
+        CacheHelper::forgetFresnsConfigs($configKeys);
 
         return $this->updateSuccess();
     }

@@ -25,36 +25,19 @@ class ConfigHelper
     // default langTag
     public static function fresnsConfigDefaultLangTag(): string
     {
-        $cacheKey = 'fresns_default_langTag';
-        $cacheTag = 'fresnsConfigs';
-        $defaultLangTag = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($defaultLangTag)) {
-            $defaultConfig = Config::where('item_key', 'default_language')->first();
-
-            $defaultLangTag = $defaultConfig?->item_value;
-
-            CacheHelper::put($defaultLangTag, $cacheKey, $cacheTag);
-        }
+        $defaultLangTag = ConfigHelper::fresnsConfigByItemKey('default_language');
 
         return $defaultLangTag ?? config('app.locale');
     }
 
     // lang tags
-    public static function fresnsConfigLangTags(): array
+    public static function fresnsConfigLangTags(): ?array
     {
-        $cacheKey = 'fresns_lang_tags';
-        $cacheTag = 'fresnsConfigs';
-        $langTagArr = CacheHelper::get($cacheKey, $cacheTag);
+        $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
-        if (empty($langTagArr)) {
-            $langArr = Config::where('item_key', 'language_menus')->first()?->item_value;
-
-            if ($langArr) {
-                $langTagArr = collect($langArr)->pluck('langTag')->all();
-            }
-
-            CacheHelper::put($langTagArr, $cacheKey, $cacheTag);
+        $langTagArr = [];
+        if ($languageMenus) {
+            $langTagArr = collect($languageMenus)->pluck('langTag')->all();
         }
 
         return $langTagArr;

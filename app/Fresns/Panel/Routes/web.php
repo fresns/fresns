@@ -37,14 +37,14 @@ use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Helpers\CacheHelper;
-use App\Helpers\PrimaryHelper;
+use App\Helpers\ConfigHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
-    $itemData = PrimaryHelper::fresnsModelByFsid('config', 'panel_configs');
+    $itemData = ConfigHelper::fresnsConfigByItemKey('panel_configs');
 
-    $loginPath = $itemData?->item_value['path'] ?? 'admin';
+    $loginPath = $itemData['path'] ?? 'admin';
 } catch (\Exception $e) {
     $loginPath = 'admin';
 }
