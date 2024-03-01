@@ -83,7 +83,7 @@ trait PostServiceTrait
 
         $info['associatedUserListConfig'] = [
             'hasUserList' => $associatedUserListConfig['hasUserList'] ?? false,
-            'userListName' => StrHelper::languageContent($associatedUserListConfig['buttonName'] ?? null, $langTag),
+            'userListName' => StrHelper::languageContent($associatedUserListConfig['userListName'] ?? null, $langTag),
             'userListCount' => ($associatedUserListConfig['hasUserList'] ?? false) ? PostUser::where('post_id', $postData->id)->count() : 0,
             'userListUrl' => PluginHelper::fresnsPluginUrlByFskey($associatedUserListConfig['appFskey'] ?? null),
         ];

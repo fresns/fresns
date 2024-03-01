@@ -11,6 +11,7 @@ namespace App\Models\Traits;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
+use App\Models\Comment;
 use Illuminate\Support\Str;
 
 trait CommentServiceTrait
@@ -32,7 +33,7 @@ trait CommentServiceTrait
 
         $info['cid'] = $commentData->cid;
         $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid; // https://example.com/comment/{cid}
-        $info['privacy'] = 'public';
+        $info['privacy'] = ($commentData->privacy_state == Comment::PRIVACY_PUBLIC) ? 'public' : 'private';
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);
         $info['langTag'] = $commentData->lang_tag;
