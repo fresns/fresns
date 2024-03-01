@@ -18,6 +18,7 @@ class SearchGroupDTO extends DTO
             'searchKey' => ['string', 'required'],
             'type' => ['integer', 'nullable'],
             'gid' => ['string', 'nullable'],
+            'topGroups' => ['boolean', 'nullable'], // groups->parent_id == 0
             'recommend' => ['boolean', 'nullable'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
