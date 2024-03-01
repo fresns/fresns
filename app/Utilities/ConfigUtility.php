@@ -246,60 +246,73 @@ class ConfigUtility
         ];
 
         // title
-        if ($type == 'post') {
-            $title['status'] = $editorConfig['post_editor_title'];
-            $title['required'] = $editorConfig['post_editor_title_required'];
-            $title['show'] = $editorConfig['post_editor_title_show'];
-            $title['length'] = $editorConfig['post_editor_title_length'];
+        $title = match ($type) {
+            'post' => [
+                'status' => $editorConfig['post_editor_title'],
+                'required' => $editorConfig['post_editor_title_required'],
+                'show' => $editorConfig['post_editor_title_show'],
+                'length' => $editorConfig['post_editor_title_length'],
+            ],
+            'comment' => [
+                'status' => false,
+                'view' => false,
+                'required' => false,
+                'length' => 0,
+            ],
+        };
 
-            $group['status'] = $editorConfig['post_editor_group'];
-            $group['required'] = $editorConfig['post_editor_group_required'];
-        } else {
-            $title['status'] = false;
-            $title['view'] = 2;
-            $title['required'] = false;
-            $title['length'] = 0;
-
-            $group['status'] = false;
-            $group['required'] = false;
-        }
+        // group
+        $group = match ($type) {
+            'post' => [
+                'status' => $editorConfig['post_editor_group'],
+                'required' => $editorConfig['post_editor_group_required'],
+            ],
+            'comment' => [
+                'status' => false,
+                'required' => false,
+            ],
+        };
 
         // mention
-        $mention['status'] = $editorConfig['mention_status'];
-        $mention['display'] = $editorConfig["{$type}_editor_mention"];
+        $mention = [
+            'status' => $editorConfig['mention_status'],
+            'display' => $editorConfig["{$type}_editor_mention"],
+        ];
 
         // hashtag
-        $hashtag['status'] = $editorConfig['hashtag_status'];
-        $hashtag['display'] = $editorConfig["{$type}_editor_hashtag"];
-        $hashtag['format'] = $editorConfig['hashtag_format'];
+        $hashtag = [
+            'status' => $editorConfig['hashtag_status'],
+            'display' => $editorConfig["{$type}_editor_hashtag"],
+            'format' => $editorConfig['hashtag_format'],
+        ];
 
         // extend
-        $extend['status'] = $editorConfig["{$type}_editor_extend"];
-        $extend['list'] = ExtendUtility::getEditorExtensions($type, $userId, $langTag);
-
-        // toolbar
-        $toolbar['sticker'] = ConfigHelper::fresnsConfigByItemKey("{$type}_editor_sticker");
-        $toolbar['image'] = $image;
-        $toolbar['video'] = $video;
-        $toolbar['audio'] = $audio;
-        $toolbar['document'] = $document;
-        $toolbar['title'] = $title;
-        $toolbar['mention'] = $mention;
-        $toolbar['hashtag'] = $hashtag;
-        $toolbar['extend'] = $extend;
+        $extend = [
+            'status' => $editorConfig["{$type}_editor_extend"],
+            'list' => ExtendUtility::getEditorExtensions($type, $userId, $langTag),
+        ];
 
         // location
-        $location['status'] = $editorConfig["{$type}_editor_location"];
-        $location['mapUrl'] = PluginHelper::fresnsPluginUrlByFskey($editorConfig['map_service']);
+        $location = [
+            'status' => $editorConfig["{$type}_editor_location"],
+            'mapUrl' => PluginHelper::fresnsPluginUrlByFskey($editorConfig['map_service']),
+        ];
 
-        // feature
-        $feature['group'] = $group;
-        $feature['location'] = $location;
-        $feature['anonymous'] = $editorConfig["{$type}_editor_anonymous"];
-        $feature['contentLength'] = $editorConfig["{$type}_editor_content_length"];
-
-        $editor['toolbar'] = $toolbar;
-        $editor['features'] = $feature;
+        $editor = [
+            'sticker' => ConfigHelper::fresnsConfigByItemKey("{$type}_editor_sticker"),
+            'image' => $image,
+            'video' => $video,
+            'audio' => $audio,
+            'document' => $document,
+            'title' => $title,
+            'mention' => $mention,
+            'hashtag' => $hashtag,
+            'extend' => $extend,
+            'group' => $group,
+            'location' => $location,
+            'anonymous' => $editorConfig["{$type}_editor_anonymous"],
+            'contentLength' => $editorConfig["{$type}_editor_content_length"],
+        ];
 
         return $editor;
     }

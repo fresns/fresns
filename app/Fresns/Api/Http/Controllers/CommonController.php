@@ -387,7 +387,7 @@ class CommonController extends Controller
 
             switch ($dtoRequest->type) {
                 case 'image':
-                    $uploadStatus = $editorConfig['toolbar']['image']['status'];
+                    $uploadStatus = $editorConfig['image']['status'];
 
                     if (! $uploadStatus) {
                         throw new ApiException(36109);
@@ -395,7 +395,7 @@ class CommonController extends Controller
                     break;
 
                 case 'video':
-                    $uploadStatus = $editorConfig['toolbar']['video']['status'];
+                    $uploadStatus = $editorConfig['video']['status'];
 
                     if (! $uploadStatus) {
                         throw new ApiException(36110);
@@ -403,7 +403,7 @@ class CommonController extends Controller
                     break;
 
                 case 'audio':
-                    $uploadStatus = $editorConfig['toolbar']['audio']['status'];
+                    $uploadStatus = $editorConfig['audio']['status'];
 
                     if (! $uploadStatus) {
                         throw new ApiException(36111);
@@ -411,7 +411,7 @@ class CommonController extends Controller
                     break;
 
                 case 'document':
-                    $uploadStatus = $editorConfig['toolbar']['document']['status'];
+                    $uploadStatus = $editorConfig['document']['status'];
 
                     if (! $uploadStatus) {
                         throw new ApiException(36112);
@@ -420,10 +420,10 @@ class CommonController extends Controller
             }
 
             $uploadNumber = match ($dtoRequest->type) {
-                'image' => $editorConfig['toolbar']['image']['uploadNumber'],
-                'video' => $editorConfig['toolbar']['video']['uploadNumber'],
-                'audio' => $editorConfig['toolbar']['audio']['uploadNumber'],
-                'document' => $editorConfig['toolbar']['document']['uploadNumber'],
+                'image' => $editorConfig['image']['uploadNumber'],
+                'video' => $editorConfig['video']['uploadNumber'],
+                'audio' => $editorConfig['audio']['uploadNumber'],
+                'document' => $editorConfig['document']['uploadNumber'],
             };
 
             $fileCount = FileUsage::where('file_type', $fileType)
