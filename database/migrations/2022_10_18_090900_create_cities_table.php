@@ -10,14 +10,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitysTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run fresns migrations.
      */
     public function up(): void
     {
-        Schema::create('citys', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedSmallInteger('type')->default(1)->index('city_type');
             $table->unsignedBigInteger('cover_file_id')->nullable();
@@ -64,6 +64,6 @@ class CreateCitysTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citys');
+        Schema::dropIfExists('cities');
     }
 }
