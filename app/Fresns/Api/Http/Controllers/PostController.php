@@ -77,11 +77,13 @@ class PostController extends Controller
         $filterGeotagIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGeotags);
         $filterPostIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockPosts);
 
-        $postQuery->where('is_enabled', true);
-
-        if ($authUserId) {
-            $postQuery->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enabled', false)->where('user_id', $authUserId);
+        if (empty($authUserId)) {
+            $postQuery->where('is_enabled', true);
+        } else {
+            $postQuery->where(function ($query) use ($authUserId) {
+                $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
+                });
             });
 
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -675,11 +677,13 @@ class PostController extends Controller
         // filter
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
-        $postQuery->where('is_enabled', true);
-
-        if ($authUserId) {
-            $postQuery->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enabled', false)->where('user_id', $authUserId);
+        if (empty($authUserId)) {
+            $postQuery->where('is_enabled', true);
+        } else {
+            $postQuery->where(function ($query) use ($authUserId) {
+                $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
+                });
             });
 
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -1076,11 +1080,13 @@ class PostController extends Controller
         // block
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
-        $postQuery->where('is_enabled', true);
-
-        if ($authUserId) {
-            $postQuery->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enabled', false)->where('user_id', $authUserId);
+        if (empty($authUserId)) {
+            $postQuery->where('is_enabled', true);
+        } else {
+            $postQuery->where(function ($query) use ($authUserId) {
+                $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
+                });
             });
 
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);

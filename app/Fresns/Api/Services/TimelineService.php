@@ -47,14 +47,20 @@ class TimelineService
         $digestPostQuery = Post::where('digest_state', Post::DIGEST_PREMIUM);
 
         // is_enabled
-        $userPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $userPostQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
-        $groupPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $groupPostQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
-        $digestPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $digestPostQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -219,8 +225,10 @@ class TimelineService
         $postQuery->whereIn('user_id', $followUserIds)->where('is_anonymous', false);
 
         // is_enabled
-        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -314,8 +322,10 @@ class TimelineService
         $postQuery->whereIn('group_id', $followGroupIds);
 
         // is_enabled
-        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -410,8 +420,10 @@ class TimelineService
         });
 
         // is_enabled
-        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -500,8 +512,10 @@ class TimelineService
         $postQuery->whereIn('geotag_id', $followGeotagIds);
 
         // is_enabled
-        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -612,14 +626,20 @@ class TimelineService
         $digestCommentQuery = Comment::where('digest_state', Comment::DIGEST_PREMIUM);
 
         // is_enabled
-        $userCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $userCommentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
-        $groupCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $groupCommentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
-        $digestCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $digestCommentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -805,8 +825,10 @@ class TimelineService
         $commentQuery->whereIn('user_id', $followUserIds)->where('is_anonymous', false);
 
         // is_enabled
-        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $commentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -915,8 +937,10 @@ class TimelineService
         });
 
         // is_enabled
-        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $commentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -1023,8 +1047,10 @@ class TimelineService
         });
 
         // is_enabled
-        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $commentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author
@@ -1129,8 +1155,10 @@ class TimelineService
         });
 
         // is_enabled
-        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enabled', false)->where('user_id', $authUserId);
+        $commentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enabled', false)->where('user_id', $authUserId);
+            });
         });
 
         // has author

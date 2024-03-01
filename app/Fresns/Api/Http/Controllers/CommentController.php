@@ -75,11 +75,13 @@ class CommentController extends Controller
         $filterPostIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockPosts);
         $filterCommentIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockComments);
 
-        $commentQuery->where('is_enabled', true);
-
-        if ($authUserId) {
-            $commentQuery->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enabled', false)->where('user_id', $authUserId);
+        if (empty($authUserId)) {
+            $commentQuery->where('is_enabled', true);
+        } else {
+            $commentQuery->where(function ($query) use ($authUserId) {
+                $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
+                });
             });
 
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -1001,11 +1003,13 @@ class CommentController extends Controller
         // block
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
-        $commentQuery->where('is_enabled', true);
-
-        if ($authUserId) {
-            $commentQuery->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enabled', false)->where('user_id', $authUserId);
+        if (empty($authUserId)) {
+            $commentQuery->where('is_enabled', true);
+        } else {
+            $commentQuery->where(function ($query) use ($authUserId) {
+                $query->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
+                });
             });
 
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
