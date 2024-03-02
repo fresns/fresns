@@ -1385,8 +1385,8 @@ class DetailUtility
         }
 
         // datetime
-        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
         $historyDetail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($historyDetail['createdDatetime'], $langTag);
+        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
 
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
@@ -1564,8 +1564,8 @@ class DetailUtility
         $historyDetail['privacy'] = $commentPrivacy;
 
         // datetime
-        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
         $historyDetail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($historyDetail['createdDatetime'], $langTag);
+        $historyDetail['createdDatetime'] = DateHelper::fresnsFormatDateTime($historyDetail['createdDatetime'], $timezone, $langTag);
 
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
@@ -1596,10 +1596,10 @@ class DetailUtility
         $userDetail['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['expiryDateTime'], $timezone, $langTag);
         $userDetail['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['registerDateTime'], $timezone, $langTag);
 
-        $userDetail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishPostDateTime'], $timezone, $langTag);
         $userDetail['lastPublishPostTimeAgo'] = DateHelper::fresnsHumanReadableTime($userDetail['lastPublishPostDateTime'], $langTag);
-        $userDetail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishCommentDateTime'], $timezone, $langTag);
+        $userDetail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishPostDateTime'], $timezone, $langTag);
         $userDetail['lastPublishCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($userDetail['lastPublishCommentDateTime'], $langTag);
+        $userDetail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastPublishCommentDateTime'], $timezone, $langTag);
         $userDetail['lastEditUsernameDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditUsernameDateTime'], $timezone, $langTag);
         $userDetail['lastEditNicknameDateTime'] = DateHelper::fresnsDateTimeByTimezone($userDetail['lastEditNicknameDateTime'], $timezone, $langTag);
 
@@ -1615,14 +1615,14 @@ class DetailUtility
     // handle data date (group, hashtag, geotag)
     private static function handleDetailDate(string $type, array $detail, ?string $timezone = null, ?string $langTag = null): array
     {
-        $detail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($detail['createdDatetime'], $timezone, $langTag);
         $detail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['createdDatetime'], $langTag);
+        $detail['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($detail['createdDatetime'], $timezone, $langTag);
 
-        $detail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishPostDateTime'], $timezone, $langTag);
         $detail['lastPublishPostTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastPublishPostDateTime'], $langTag);
+        $detail['lastPublishPostDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishPostDateTime'], $timezone, $langTag);
 
-        $detail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishCommentDateTime'], $timezone, $langTag);
         $detail['lastPublishCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastPublishCommentDateTime'], $langTag);
+        $detail['lastPublishCommentDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['lastPublishCommentDateTime'], $timezone, $langTag);
 
         if ($type == 'group') {
             $detail['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($detail['interaction']['followExpiryDateTime'], $timezone, $langTag);
@@ -1660,14 +1660,14 @@ class DetailUtility
     // handle post and comment data date
     private static function handlePostAndCommentDate(array $detail, ?string $timezone = null, ?string $langTag = null): array
     {
-        $detail['createdDatetime'] = DateHelper::fresnsFormatDateTime($detail['createdDatetime'], $timezone, $langTag);
         $detail['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['createdDatetime'], $langTag);
+        $detail['createdDatetime'] = DateHelper::fresnsFormatDateTime($detail['createdDatetime'], $timezone, $langTag);
 
-        $detail['editedDatetime'] = DateHelper::fresnsFormatDateTime($detail['editedDatetime'], $timezone, $langTag);
         $detail['editedTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['editedDatetime'], $langTag);
+        $detail['editedDatetime'] = DateHelper::fresnsFormatDateTime($detail['editedDatetime'], $timezone, $langTag);
 
-        $detail['lastCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['lastCommentDatetime'], $timezone, $langTag);
         $detail['lastCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($detail['lastCommentDatetime'], $langTag);
+        $detail['lastCommentDatetime'] = DateHelper::fresnsFormatDateTime($detail['lastCommentDatetime'], $timezone, $langTag);
 
         return $detail;
     }

@@ -1074,13 +1074,15 @@ class InteractionUtility
             Notification::ACTION_TARGET_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
             Notification::ACTION_TARGET_POST => PrimaryHelper::fresnsModelById('post', $markId),
             Notification::ACTION_TARGET_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
+            default => null,
         };
         $uid = match ($markType) {
-            Notification::ACTION_TARGET_USER => $actionModel->uid,
+            Notification::ACTION_TARGET_USER => $actionModel?->uid,
             Notification::ACTION_TARGET_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
             Notification::ACTION_TARGET_HASHTAG => null,
             Notification::ACTION_TARGET_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
             Notification::ACTION_TARGET_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            default => null,
         };
 
         if (empty($uid)) {
