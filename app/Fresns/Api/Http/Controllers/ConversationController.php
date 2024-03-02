@@ -103,7 +103,7 @@ class ConversationController extends Controller
     }
 
     // detail
-    public function detail(string $uidOrUsername, Request $request)
+    public function detail(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new ConversationListDTO($request->all());
 
@@ -248,7 +248,7 @@ class ConversationController extends Controller
     }
 
     // messages
-    public function messages(string $uidOrUsername, Request $request)
+    public function messages(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new ConversationMessagesDTO($request->all());
 
@@ -327,7 +327,7 @@ class ConversationController extends Controller
     }
 
     // pin
-    public function pin(string $uidOrUsername)
+    public function pin(int|string $uidOrUsername)
     {
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
@@ -391,7 +391,7 @@ class ConversationController extends Controller
     }
 
     // readStatus
-    public function readStatus(string $uidOrUsername, Request $request)
+    public function readStatus(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new ConversationReadDTO($request->all());
 
@@ -437,7 +437,7 @@ class ConversationController extends Controller
     }
 
     // delete
-    public function delete(string $uidOrUsername, Request $request)
+    public function delete(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new ConversationDeleteDTO($request->all());
 

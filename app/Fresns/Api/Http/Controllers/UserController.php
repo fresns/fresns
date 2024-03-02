@@ -1060,7 +1060,7 @@ class UserController extends Controller
     }
 
     // detail
-    public function detail(string $uidOrUsername, Request $request)
+    public function detail(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new DetailDTO($request->all());
 
@@ -1103,7 +1103,7 @@ class UserController extends Controller
     }
 
     // followers you follow
-    public function followersYouFollow(string $uidOrUsername, Request $request)
+    public function followersYouFollow(int|string $uidOrUsername, Request $request)
     {
         $dtoRequest = new PaginationDTO($request->all());
 
@@ -1185,7 +1185,7 @@ class UserController extends Controller
     }
 
     // interaction
-    public function interaction(string $uidOrUsername, string $type, Request $request)
+    public function interaction(int|string $uidOrUsername, string $type, Request $request)
     {
         $requestData = $request->all();
         $requestData['type'] = $type;
@@ -1214,7 +1214,7 @@ class UserController extends Controller
     }
 
     // markList
-    public function markList(string $uidOrUsername, string $markType, string $listType, Request $request)
+    public function markList(int|string $uidOrUsername, string $markType, string $listType, Request $request)
     {
         $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
