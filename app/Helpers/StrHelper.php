@@ -14,6 +14,40 @@ use Illuminate\Support\Str;
 
 class StrHelper
 {
+    // number
+    public static function maskNumber(?int $number = null): ?string
+    {
+        if (empty($number)) {
+            return null;
+        }
+
+        $len = mb_strlen($number);
+        if ($len <= 4) {
+            return $number;
+        }
+
+        $head = substr($number, 0, 2);
+        $tail = substr($number, -2);
+        $starCount = strlen($number) - 4;
+        $star = str_repeat('*', $starCount);
+
+        return $head.$star.$tail;
+    }
+
+    // string
+    public static function maskString(?string $string = null): ?string
+    {
+        if (empty($string)) {
+            return null;
+        }
+
+        $length = strlen($string);
+
+        $maskedString = str_repeat('*', $length);
+
+        return $maskedString;
+    }
+
     // email
     public static function maskEmail(?string $email = null): ?string
     {
@@ -39,26 +73,6 @@ class StrHelper
         $maskUser = substr_replace($user, $mask, $offset);
 
         return "{$maskUser}{$domain}";
-    }
-
-    // number
-    public static function maskNumber(?int $number = null): ?string
-    {
-        if (empty($number)) {
-            return null;
-        }
-
-        $len = mb_strlen($number);
-        if ($len <= 4) {
-            return $number;
-        }
-
-        $head = substr($number, 0, 2);
-        $tail = substr($number, -2);
-        $starCount = strlen($number) - 4;
-        $star = str_repeat('*', $starCount);
-
-        return $head.$star.$tail;
     }
 
     // name
