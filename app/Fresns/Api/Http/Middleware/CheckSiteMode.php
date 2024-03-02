@@ -47,12 +47,11 @@ class CheckSiteMode
             throw new ApiException(35306);
         }
 
-        $now = time();
-        $expireTime = strtotime($authUser->expired_at);
-
         $currentRouteName = \request()->route()->getName();
 
-        if ($modeConfig['site_private_end_after'] == 1 && $expireTime < $now) {
+        $expired = $authUser->expired_at->isPast();
+
+        if ($modeConfig['site_private_end_after'] == 1 && $expired) {
             $disableList = config('FsApiBlacklist.disableByContentNotVisible');
 
             if (in_array($currentRouteName, $disableList)) {

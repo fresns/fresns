@@ -38,10 +38,7 @@ trait UserServiceTrait
             } elseif (empty($userData->expired_at)) {
                 $expired = true;
             } else {
-                $now = time();
-                $expireTime = strtotime($userData->expired_at);
-
-                $expired = ($expireTime < $now) ? true : false;
+                $expired = $userData->expired_at->isPast();
             }
         }
 
