@@ -2720,6 +2720,14 @@ class LanguagePacksTableSeeder extends Seeder
         ]);
         DB::table('language_packs')->insert([
             [
+                'lang_key' => 'editor',
+                'lang_values' => '{"en":"Editor","zh-Hans":"编辑器","zh-Hant":"編輯器"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'editorGoTo',
                 'lang_values' => '{"en":"Go to Editor","zh-Hans":"进入编辑器","zh-Hant":"進入編輯器"}',
                 'is_custom' => 0,
