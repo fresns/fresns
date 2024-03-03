@@ -819,7 +819,7 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::query();
+        $userQuery = UserStat::with('profile')->query();
 
         $userQuery->whereRelation('profile', 'is_enabled', true);
 
