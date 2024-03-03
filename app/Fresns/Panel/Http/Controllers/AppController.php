@@ -50,6 +50,7 @@ class AppController extends Controller
         // config keys
         $configKeys = [
             'platforms',
+            'webengine_installed',
             'webengine_status',
             'webengine_api_type',
             'webengine_api_host',

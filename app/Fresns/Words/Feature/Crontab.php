@@ -194,7 +194,7 @@ class Crontab
         $apps = App::all();
 
         // market-manager
-        $response = Http::market()->get('/api/open-source/v2/check', [
+        $response = Http::market()->get('/api/open-source/v3/check', [
             'fskeys' => json_encode($apps->pluck('fskey')->all()),
         ]);
 

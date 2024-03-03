@@ -99,6 +99,9 @@ class GlobalController extends Controller
                 $configs[$model->item_key] = $itemValue;
             }
 
+            // current language menu
+            $configs['current_language_menu'] = collect($configs['language_menus'])->firstWhere('langTag', $langTag);
+
             // account center
             $accountConfigs = ConfigHelper::fresnsConfigByItemKeys([
                 'account_center_service',
@@ -122,7 +125,7 @@ class GlobalController extends Controller
             $configs['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($configs, $cacheTag, $cacheTag, 10, $cacheTime);
+            CacheHelper::put($configs, $cacheKey, $cacheTag, 10, $cacheTime);
         }
 
         if (empty($dtoRequest->keys)) {
@@ -146,12 +149,6 @@ class GlobalController extends Controller
 
         $cacheKey = "fresns_language_pack_{$langTag}";
         $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return $this->success([]);
-        }
 
         $languagePack = CacheHelper::get($cacheKey, $cacheTag);
 
