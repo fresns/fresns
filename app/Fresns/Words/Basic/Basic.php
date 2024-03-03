@@ -51,6 +51,14 @@ class Basic
         // check header
         $dtoWordBody = new CheckHeadersDTO($headers);
 
+        // check sign
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
+
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->errorResponse();
+        }
+
+        // device info
         try {
             $stringify = base64_decode($dtoWordBody->deviceInfo, true);
             $deviceInfoStringify = preg_replace('/[\x00-\x1F\x80-\xFF]/', ' ', $stringify); // sanitize JSON String
@@ -66,16 +74,6 @@ class Basic
 
         // check deviceInfo
         new DeviceInfoDTO($deviceInfo);
-
-        // check sign
-        $isCheckSign = ConfigHelper::fresnsConfigDeveloper()['apiSignature'];
-        if ($isCheckSign) {
-            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
-
-            if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
-            }
-        }
 
         $headers['deviceInfo'] = $deviceInfo;
 

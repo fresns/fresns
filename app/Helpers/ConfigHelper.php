@@ -10,7 +10,6 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
-use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
 {
@@ -41,23 +40,6 @@ class ConfigHelper
         }
 
         return $langTagArr;
-    }
-
-    // Get config developer
-    public static function fresnsConfigDeveloper(): array
-    {
-        $developerMode = Cache::rememberForever('developer_configs', function () {
-            $itemData = Config::where('item_key', 'developer_configs')->first();
-
-            return $itemData?->item_value;
-        });
-
-        $developerModeArr = [
-            'cache' => $developerMode['cache'] ?? true,
-            'apiSignature' => $developerMode['apiSignature'] ?? true,
-        ];
-
-        return $developerModeArr;
     }
 
     // Get config value based on Key

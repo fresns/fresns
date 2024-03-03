@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class CacheHelper
 {
@@ -90,7 +89,7 @@ class CacheHelper
     }
 
     // put null cache count
-    public static function putNullCacheCount(string $cacheKey, ?int $cacheMinutes = null): void
+    public static function putNullCacheCount(string $cacheKey, ?int $cacheMinutes = 1): void
     {
         CacheHelper::forgetFresnsKey($cacheKey);
 
@@ -115,12 +114,6 @@ class CacheHelper
     // is known to be empty
     public static function isKnownEmpty(string $cacheKey): bool
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
-        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
-        if (! $whetherToCache && ! $isWebCache) {
-            return false;
-        }
-
         $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
         $nullCacheCount = CacheHelper::get($nullCacheKey, 'fresnsNullCount');
@@ -136,12 +129,6 @@ class CacheHelper
     // cache get
     public static function get(string $cacheKey, mixed $cacheTags = null): mixed
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
-        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
-        if (! $whetherToCache && ! $isWebCache) {
-            return null;
-        }
-
         $cacheTags = (array) $cacheTags;
 
         if (Cache::supportsTags() && $cacheTags) {
@@ -154,12 +141,6 @@ class CacheHelper
     // cache put
     public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null): void
     {
-        $whetherToCache = ConfigHelper::fresnsConfigDeveloper()['cache'];
-        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
-        if (! $whetherToCache && ! $isWebCache) {
-            return;
-        }
-
         $cacheTags = (array) $cacheTags;
 
         // null cache count
@@ -383,10 +364,6 @@ class CacheHelper
      */
     public static function forgetFresnsTag(string $tag): void
     {
-        if ($tag == 'fresnsSystems') {
-            CacheHelper::forgetFresnsKey('developer_configs');
-        }
-
         if (Cache::supportsTags()) {
             Cache::tags($tag)->flush();
 
@@ -696,7 +673,6 @@ class CacheHelper
      */
     // fresns_cache_tags
     // fresns_cache_config_keys
-    // developer_configs
     // install_{$step}
     // autoUpgradeStep
     // autoUpgradeTip
@@ -869,14 +845,14 @@ class CacheHelper
     // fresns_web_languages_{$langTag}                                  // +tag: fresnsWebConfigs
     // fresns_web_post_content_types_{$langTag}                         // +tag: fresnsWebConfigs
     // fresns_web_comment_content_types_{$langTag}                      // +tag: fresnsWebConfigs
+    // fresns_web_post_editor_configs_{$uid}_{$langTag}                 // +tag: fresnsWebConfigs
+    // fresns_web_comment_editor_configs_{$uid}_{$langTag}              // +tag: fresnsWebConfigs
     // fresns_web_stickers_{$langTag}                                   // +tag: fresnsWebConfigs
     // fresns_web_channels_guest_{$langTag}
     // fresns_web_channels_{$uid}_{$langTag}
     // fresns_web_account_{$aid}_{$langTag}
     // fresns_web_user_{$uid}_{$langTag}
     // fresns_web_user_overview_{$uid}_{$langTag}
-    // fresns_web_group_tree_by_{$uid}_{$langTag}
-    // fresns_web_group_tree_by_guest_{$langTag}
     // fresns_web_content_{$channel}_{$type}_by_{$uid}_{$langTag}
     // fresns_web_content_{$channel}_{$type}_by_guest_{$langTag}
     // fresns_web_sticky_posts_by_global_{$langTag}

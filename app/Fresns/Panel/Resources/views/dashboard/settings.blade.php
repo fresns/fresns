@@ -47,7 +47,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_url_desc') }}</div>
         </div>
 
-        <div class="row mb-3">
+        {{-- <div class="row">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_build_type') }}:</label>
             <div class="col-lg-6">
                 <select class="form-select" name="build_type" required>
@@ -57,43 +57,10 @@
                 </select>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
-        </div>
-
-        <div class="row mb-3">
-            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_options') }}:</label>
-            <div class="col-lg-6">
-                <div class="input-group mb-2">
-                    <span class="input-group-text w-25">API Signature</span>
-                    <div class="form-control">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_configs[apiSignature]" id="signature_true" value="1" {{ ($params['developer_configs']['apiSignature'] ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="signature_true">{{ __('FsLang::panel.option_activate') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_configs[apiSignature]" id="signature_false" value="0" {{ ! ($params['developer_configs']['apiSignature'] ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="signature_false">{{ __('FsLang::panel.option_deactivate') }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text w-25">{{ __('FsLang::panel.sidebar_caches') }}</span>
-                    <div class="form-control">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_configs[cache]" id="cache_true" value="1" {{ ($params['developer_configs']['cache'] ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="cache_true">{{ __('FsLang::panel.option_activate') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="developer_configs[cache]" id="cache_false" value="0" {{ ! ($params['developer_configs']['cache'] ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="cache_false">{{ __('FsLang::panel.option_deactivate') }}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_developer_options_desc') }}</div>
-        </div>
+        </div> --}}
 
         <!--Save-->
-        <div class="row my-3">
+        <div class="row my-4">
             <div class="col-lg-2"></div>
             <div class="col-lg-6">
                 <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button>
