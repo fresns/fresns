@@ -1294,6 +1294,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'accountCenter',
+                'lang_values' => '{"en":"Account Center","zh-Hans":"账户中心","zh-Hant":"帳戶中心"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'account',
                 'lang_values' => '{"en":"Account","zh-Hans":"账号","zh-Hant":"帳號"}',
                 'is_custom' => 0,
