@@ -59,7 +59,10 @@ trait CommentLogServiceTrait
 
         $geotag = $commentLogData->geotag;
 
+        $comment = $this->comment;
+
         $info['did'] = $commentLogData->hpid;
+        $info['fsid'] = $comment?->cid; // published content cid
         $info['quotedPid'] = null;
         $info['replyToPid'] = $post?->pid;
         $info['replyToCid'] = $parentComment?->cid;

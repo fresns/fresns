@@ -14,7 +14,6 @@ use App\Models\Config;
 use App\Models\LanguagePack;
 use App\Models\Seo;
 use App\Models\Sticker;
-use App\Models\Theme;
 use App\Models\UserStat;
 use App\Models\VerifyCode;
 use App\Utilities\SubscribeUtility;
@@ -28,7 +27,6 @@ trait DataChangeNotifyTrait
             CodeMessage::class,
             LanguagePack::class,
             App::class,
-            Theme::class,
             Sticker::class,
             UserStat::class,
             Seo::class,

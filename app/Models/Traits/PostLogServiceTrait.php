@@ -56,7 +56,10 @@ trait PostLogServiceTrait
         $group = $postLogData->group;
         $geotag = $postLogData->geotag;
 
+        $post = $this->post;
+
         $info['did'] = $postLogData->hpid;
+        $info['fsid'] = $post?->pid; // published content pid
         $info['quotedPid'] = $quotedPost?->pid;
         $info['replyToPid'] = null;
         $info['replyToCid'] = null;
