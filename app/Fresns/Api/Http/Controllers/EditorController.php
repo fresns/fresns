@@ -75,8 +75,8 @@ class EditorController extends Controller
         $validDraft = [
             'userId' => $authUser->id,
             'postId' => null,
-            'postGroupId' => PrimaryHelper::fresnsPrimaryId('group', $dtoRequest->postGid),
-            'postTitle' => $dtoRequest->postTitle,
+            'postGroupId' => PrimaryHelper::fresnsPrimaryId('group', $dtoRequest->gid),
+            'title' => $dtoRequest->title,
             'commentId' => null,
             'commentPostId' => PrimaryHelper::fresnsPrimaryId('post', $dtoRequest->commentPid),
             'content' => $dtoRequest->content,
@@ -108,10 +108,10 @@ class EditorController extends Controller
             }
         }
 
-        $map = null;
-        if ($dtoRequest->map) {
-            $map = json_decode($dtoRequest->map, true);
-            new LocationInfoDTO($map);
+        $locationInfo = null;
+        if ($dtoRequest->locationInfo) {
+            $locationInfo = json_decode($dtoRequest->locationInfo, true);
+            new LocationInfoDTO($locationInfo);
         }
 
         $extends = $dtoRequest->extends ? json_decode($dtoRequest->extends, true) : null;
@@ -126,17 +126,18 @@ class EditorController extends Controller
             'uid' => $authUser->uid,
             'type' => $wordType,
             'createType' => 1,
-            'postGid' => $dtoRequest->postGid,
-            'postTitle' => $dtoRequest->postTitle,
-            'postIsCommentDisabled' => $dtoRequest->postIsCommentDisabled,
-            'postIsCommentPrivate' => $dtoRequest->postIsCommentPrivate,
-            'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
+            'quotePid' => $dtoRequest->quotePid,
+            'gid' => $dtoRequest->gid,
+            'title' => $dtoRequest->title,
             'content' => $dtoRequest->content,
             'isMarkdown' => $dtoRequest->isMarkdown,
             'isAnonymous' => $dtoRequest->isAnonymous,
-            'map' => $map,
+            'commentPolicy' => $dtoRequest->commentPolicy,
+            'commentPrivate' => $dtoRequest->commentPrivate,
+            'gtid' => $dtoRequest->gtid,
+            'locationInfo' => $locationInfo,
             'extends' => $extends,
             'archives' => $archives,
             'requireReview' => ($checkDraftCode == 38200),
@@ -381,17 +382,18 @@ class EditorController extends Controller
             'type' => $wordType,
             'createType' => $dtoRequest->createType,
             'editorFskey' => $dtoRequest->editorFskey,
-            'postGid' => $dtoRequest->postGid,
-            'postTitle' => $dtoRequest->postTitle,
-            'postIsCommentDisabled' => $dtoRequest->postIsCommentDisabled,
-            'postIsCommentPrivate' => $dtoRequest->postIsCommentPrivate,
-            'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
+            'quotePid' => $dtoRequest->quotePid,
+            'gid' => $dtoRequest->gid,
+            'title' => $dtoRequest->title,
             'content' => $dtoRequest->content,
             'isMarkdown' => $dtoRequest->isMarkdown,
             'isAnonymous' => $dtoRequest->isAnonymous,
-            'map' => $dtoRequest->map,
+            'commentPolicy' => $dtoRequest->commentPolicy,
+            'commentPrivate' => $dtoRequest->commentPrivate,
+            'gtid' => $dtoRequest->gtid,
+            'locationInfo' => $dtoRequest->locationInfo,
             'extends' => $dtoRequest->extends,
             'archives' => $dtoRequest->archives,
         ];
