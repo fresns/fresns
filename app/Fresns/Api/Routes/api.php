@@ -169,9 +169,9 @@ Route::prefix('fresns/v1')->middleware([
         Route::post('{type}/draft', [EditorController::class, 'draftCreate'])->name('draft.create'); // Create Draft
         Route::get('{type}/drafts', [EditorController::class, 'draftList'])->name('draft.list'); // Draft List
         Route::get('{type}/draft/{did}', [EditorController::class, 'draftDetail'])->name('draft.detail'); // Draft Detail
-        Route::put('{type}/draft/{did}', [EditorController::class, 'draftUpdate'])->name('draft.update'); // Update Draft
+        Route::patch('{type}/draft/{did}', [EditorController::class, 'draftUpdate'])->name('draft.update'); // Update Draft
         Route::post('{type}/draft/{did}', [EditorController::class, 'draftPublish'])->name('draft.publish'); // Publish Draft
-        Route::patch('{type}/draft/{did}', [EditorController::class, 'draftRecall'])->name('draft.recall'); // Recall Draft (Draft under review)
+        Route::put('{type}/draft/{did}', [EditorController::class, 'draftRecall'])->name('draft.recall'); // Recall Draft (Draft under review)
         Route::delete('{type}/draft/{did}', [EditorController::class, 'draftDelete'])->name('draft.delete'); // Delete Draft
     });
 });
