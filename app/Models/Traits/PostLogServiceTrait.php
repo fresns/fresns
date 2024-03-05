@@ -88,6 +88,7 @@ trait PostLogServiceTrait
             $userItem['uid'] = $user->uid;
             $userItem['url'] = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$fsid;
             $userItem['username'] = $user->username;
+            $userItem['nickname'] = $user->nickname;
             $userItem['avatar'] = $user->getUserAvatar();
 
             $userList[] = $userItem;
