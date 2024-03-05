@@ -9,6 +9,9 @@
 namespace App\Models\Traits;
 
 use App\Helpers\DateHelper;
+use App\Helpers\FileHelper;
+use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
 use App\Models\Comment;
 use App\Models\ExtendUsage;
@@ -57,6 +60,17 @@ trait CommentLogServiceTrait
         $postPermissions = $post?->permissions;
         $privacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
+        // permissions
+        $activeButtonConfig = $permissions['activeButton'] ?? [];
+
+        $permissions['activeButton'] = [
+            'hasActiveButton' => $activeButtonConfig['hasActiveButton'] ?? false,
+            'buttonName' => StrHelper::languageContent($activeButtonConfig['buttonName'] ?? null, $langTag),
+            'buttonStyle' => $activeButtonConfig['buttonStyle'] ?? null,
+            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($activeButtonConfig['appFskey'] ?? null),
+        ];
+        // end permissions
+
         $geotag = $commentLogData->geotag;
 
         $comment = $this->comment;
@@ -81,6 +95,7 @@ trait CommentLogServiceTrait
         $info['permissions'] = $permissions;
 
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $commentLogData->id);
         $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
 
         $info['group'] = null;
