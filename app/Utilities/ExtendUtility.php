@@ -465,7 +465,7 @@ class ExtendUtility
         $roleManages = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
-            $roleManages[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_MANAGE, $role['rid'], $scene, null, $langTag);
+            $roleManages[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_MANAGE, $role['id'], $scene, null, $langTag);
         }
 
         $groupManages = [];
@@ -516,7 +516,7 @@ class ExtendUtility
         $roleExtends = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
-            $roleExtends[] = ExtendUtility::getAppExtendsByRole($usageType, $role['rid'], null, null, $langTag);
+            $roleExtends[] = ExtendUtility::getAppExtendsByRole($usageType, $role['id'], null, null, $langTag);
         }
 
         $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends));
@@ -554,7 +554,7 @@ class ExtendUtility
         $roleExtends = [];
         $roleArr = PermissionUtility::getUserRoles($authUserId);
         foreach ($roleArr as $role) {
-            $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_GROUP, $role['rid'], null, $groupId, $langTag);
+            $roleExtends[] = ExtendUtility::getAppExtendsByRole(AppUsage::TYPE_GROUP, $role['id'], null, $groupId, $langTag);
         }
 
         $groupAdminExtends = [];

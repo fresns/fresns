@@ -78,16 +78,18 @@ class PermissionUtility
         $cacheTag = 'fresnsUsers';
 
         // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return [];
-        }
+        // $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        // if ($isKnownEmpty) {
+        //     return [];
+        // }
 
         $userRoles = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($userRoles)) {
-            $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
-            $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
+            // $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
+            // $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
+            $roleArr1 = UserRole::where('user_id', $userId)->where('expired_at', '<', now());
+            $roleArr2 = UserRole::where('user_id', $userId)->whereNull('expired_at');
 
             $roleArr = $roleArr1->union($roleArr2)->get();
 
