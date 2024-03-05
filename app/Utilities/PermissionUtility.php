@@ -291,12 +291,11 @@ class PermissionUtility
             return false;
         }
 
-        $userRolesByExpired = UserRole::where('user_id', $userId)->where('expired_at', '<=', now())->pluck('role_id')->toArray();
-        $userRolesByExpiredNull = UserRole::where('user_id', $userId)->whereNull('expired_at')->pluck('role_id')->toArray();
+        $roles = PermissionUtility::getUserRoles($userId);
 
-        $userRoles = array_merge($userRolesByExpired, $userRolesByExpiredNull);
+        $roleIds = collect($roles)->pluck('id')->toArray();
 
-        return array_intersect($userRoles, $permRoleIds) ? true : false;
+        return array_intersect($roleIds, $permRoleIds) ? true : false;
     }
 
     // Check user role private whitelist

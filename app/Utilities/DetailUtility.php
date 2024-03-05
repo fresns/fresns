@@ -193,7 +193,8 @@ class DetailUtility
         }
 
         // user stats
-        if ($options['isLiveStats'] ?? null) {
+        $isLiveStats = $options['isLiveStats'] ?? false;
+        if ($isLiveStats) {
             $userStats = $user->getUserStats($langTag, $authUserId);
         } else {
             $cacheStatsKey = "fresns_detail_user_stats_{$user->id}";
@@ -599,7 +600,7 @@ class DetailUtility
                 'canDelete' => $permissions['canDelete'] ?? true,
                 'canEdit' => false,
                 'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
-                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
+                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['editorFskey'] ?? null),
             ];
 
             // interaction
@@ -968,7 +969,7 @@ class DetailUtility
                 'canDelete' => $permissions['canDelete'] ?? true,
                 'canEdit' => false,
                 'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
-                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['isAppEditor'] ?? null),
+                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['editorFskey'] ?? null),
             ];
 
             // interaction
