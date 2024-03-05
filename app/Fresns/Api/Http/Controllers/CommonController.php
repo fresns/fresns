@@ -704,7 +704,7 @@ class CommonController extends Controller
 
         switch ($dbType) {
             case 'mysql':
-                $downUsers = FileDownload::with('user')
+                $downUsers = FileDownload::with(['user'])
                     ->select([
                         DB::raw('any_value(id) as id'),
                         DB::raw('any_value(file_id) as file_id'),
@@ -723,7 +723,7 @@ class CommonController extends Controller
                 break;
 
             case 'pgsql':
-                $downUsers = FileDownload::with('user')
+                $downUsers = FileDownload::with(['user'])
                     ->select([
                         DB::raw('DISTINCT ON (user_id) id'),
                         'file_id',
@@ -742,7 +742,7 @@ class CommonController extends Controller
                 break;
 
             case 'sqlsrv':
-                $downUsers = FileDownload::with('user')
+                $downUsers = FileDownload::with(['user'])
                     ->select([
                         DB::raw('DISTINCT user_id'),
                         'id',
@@ -761,7 +761,7 @@ class CommonController extends Controller
                 break;
 
             case 'sqlite':
-                $downUsers = FileDownload::with('user')
+                $downUsers = FileDownload::with(['user'])
                     ->select([
                         'id',
                         'file_id',

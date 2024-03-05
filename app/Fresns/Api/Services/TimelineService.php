@@ -64,9 +64,9 @@ class TimelineService
         });
 
         // has author
-        $userPostQuery->whereRelation('author', 'is_enabled', 1);
-        $groupPostQuery->whereRelation('author', 'is_enabled', 1);
-        $digestPostQuery->whereRelation('author', 'is_enabled', 1);
+        $userPostQuery->whereRelation('author', 'is_enabled', true);
+        $groupPostQuery->whereRelation('author', 'is_enabled', true);
+        $digestPostQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -232,7 +232,7 @@ class TimelineService
         });
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -329,7 +329,7 @@ class TimelineService
         });
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -427,7 +427,7 @@ class TimelineService
         });
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -519,7 +519,7 @@ class TimelineService
         });
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -643,14 +643,14 @@ class TimelineService
         });
 
         // has author
-        $userCommentQuery->whereRelation('author', 'is_enabled', 1);
-        $groupCommentQuery->whereRelation('author', 'is_enabled', 1);
-        $digestCommentQuery->whereRelation('author', 'is_enabled', 1);
+        $userCommentQuery->whereRelation('author', 'is_enabled', true);
+        $groupCommentQuery->whereRelation('author', 'is_enabled', true);
+        $digestCommentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $userCommentQuery->whereRelation('post', 'is_enabled', 1);
-        $groupCommentQuery->whereRelation('post', 'is_enabled', 1);
-        $digestCommentQuery->whereRelation('post', 'is_enabled', 1);
+        $userCommentQuery->whereRelation('post', 'is_enabled', true);
+        $groupCommentQuery->whereRelation('post', 'is_enabled', true);
+        $digestCommentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $userCommentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
@@ -832,10 +832,10 @@ class TimelineService
         });
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $commentQuery->whereRelation('post', 'is_enabled', 1);
+        $commentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
@@ -944,10 +944,10 @@ class TimelineService
         });
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $commentQuery->whereRelation('post', 'is_enabled', 1);
+        $commentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
@@ -1054,10 +1054,10 @@ class TimelineService
         });
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $commentQuery->whereRelation('post', 'is_enabled', 1);
+        $commentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);
@@ -1162,10 +1162,10 @@ class TimelineService
         });
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $commentQuery->whereRelation('post', 'is_enabled', 1);
+        $commentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);

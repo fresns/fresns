@@ -62,7 +62,7 @@ class CommentController extends Controller
         $commentQuery = Comment::query();
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockGroupIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGroups);
@@ -180,7 +180,7 @@ class CommentController extends Controller
             // option
             $outputReplyToPost = false;
         } else {
-            $commentQuery->whereRelation('post', 'is_enabled', 1);
+            $commentQuery->whereRelation('post', 'is_enabled', true);
             $commentQuery->where('privacy_state', Comment::PRIVACY_PUBLIC);
         }
 
@@ -755,7 +755,7 @@ class CommentController extends Controller
         $historyQuery = CommentLog::where('comment_id', $comment->id)->where('state', CommentLog::STATE_SUCCESS)->latest();
 
         // has author
-        $historyQuery->whereRelation('author', 'is_enabled', 1);
+        $historyQuery->whereRelation('author', 'is_enabled', true);
 
         $histories = $historyQuery->paginate($dtoRequest->pageSize ?? 15);
 
@@ -992,10 +992,10 @@ class CommentController extends Controller
         $commentQuery = Comment::query();
 
         // has author
-        $commentQuery->whereRelation('author', 'is_enabled', 1);
+        $commentQuery->whereRelation('author', 'is_enabled', true);
 
         // has post
-        $commentQuery->whereRelation('post', 'is_enabled', 1);
+        $commentQuery->whereRelation('post', 'is_enabled', true);
 
         // privacy
         $commentQuery->where('top_parent_id', 0)->where('privacy_state', Comment::PRIVACY_PUBLIC);

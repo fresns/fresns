@@ -33,7 +33,7 @@ class NotificationController extends Controller
 
         $typeArr = array_filter(explode(',', $dtoRequest->types));
 
-        $notificationQuery = Notification::with('actionUser')->where('user_id', $authUserId);
+        $notificationQuery = Notification::with(['actionUser'])->where('user_id', $authUserId);
 
         $notificationQuery->when($typeArr, function ($query, $value) {
             $query->whereIn('type', $value);

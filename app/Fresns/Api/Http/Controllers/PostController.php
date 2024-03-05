@@ -65,7 +65,7 @@ class PostController extends Controller
         $postQuery = Post::query();
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $blockGroupIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGroups);
@@ -672,7 +672,7 @@ class PostController extends Controller
         $postQuery = Post::query();
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // filter
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
@@ -845,7 +845,7 @@ class PostController extends Controller
         $historyQuery = PostLog::where('post_id', $post->id)->where('state', PostLog::STATE_SUCCESS)->latest();
 
         // has author
-        $historyQuery->whereRelation('author', 'is_enabled', 1);
+        $historyQuery->whereRelation('author', 'is_enabled', true);
 
         $histories = $historyQuery->paginate($dtoRequest->pageSize ?? 15);
 
@@ -1075,7 +1075,7 @@ class PostController extends Controller
         $postQuery = Post::query();
 
         // has author
-        $postQuery->whereRelation('author', 'is_enabled', 1);
+        $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);

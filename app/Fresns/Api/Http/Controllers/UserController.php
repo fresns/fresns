@@ -819,7 +819,7 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('profile')->query();
+        $userQuery = UserStat::with(['profile']);
 
         $userQuery->whereRelation('profile', 'is_enabled', true);
 
@@ -1277,7 +1277,7 @@ class UserController extends Controller
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $markData = $markQuery->with('user')
+        $markData = $markQuery->with(['user'])
             ->where('user_id', $authUserId)
             ->type($markTypeInt)
             ->orderBy('created_at', $orderDirection)
