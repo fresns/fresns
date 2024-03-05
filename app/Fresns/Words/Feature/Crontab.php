@@ -207,7 +207,9 @@ class Crontab
             ];
         }
 
-        if (empty($response->json('data') ?? null)) {
+        $data = $response->json('data') ?? null;
+
+        if (empty($data)) {
             return $this->success();
         }
 

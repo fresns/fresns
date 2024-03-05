@@ -47,7 +47,9 @@ trait ExtendServiceTrait
 
                 $actionItemArr = [];
                 foreach ($actionItems as $actionItem) {
-                    if (empty($actionItem['key'] ?? null)) {
+                    $actionKey = $actionItem['key'] ?? null;
+
+                    if (empty($actionKey)) {
                         continue;
                     }
 
