@@ -252,7 +252,7 @@ class FileUtility
         $uid = $bodyInfo['uid'] ?? null;
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $aid);
-        $userId = PrimaryHelper::fresnsPrimaryId('user',$uid);
+        $userId = PrimaryHelper::fresnsPrimaryId('user', $uid);
 
         $tableId = $bodyInfo['tableId'];
         if (empty($bodyInfo['tableId'])) {
