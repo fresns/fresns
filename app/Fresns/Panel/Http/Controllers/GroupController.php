@@ -84,7 +84,9 @@ class GroupController extends Controller
 
     public function store(Group $group, Request $request)
     {
-        $group->parent_id = $request->parent_id ?? 0;
+        $parentId = $request->parent_id ?? 0;
+
+        $group->parent_id = $parentId;
         $group->sort_order = $request->sort_order;
         $group->name = $request->names;
         $group->description = $request->descriptions;
@@ -159,12 +161,19 @@ class GroupController extends Controller
             $group->save();
         }
 
+        if ($parentId) {
+            static::subgroupCount('increment', $parentId);
+        }
+
         return $this->createSuccess();
     }
 
     public function update(Group $group, Request $request)
     {
-        $group->parent_id = $request->parent_id ?? 0;
+        $oldParentId = $group->parent_id;
+        $newParentId = $request->parent_id ?? 0;
+
+        $group->parent_id = $newParentId;
         $group->sort_order = $request->sort_order;
         $group->name = $request->names;
         $group->description = $request->descriptions;
@@ -193,6 +202,11 @@ class GroupController extends Controller
         $group->admins()->sync($request->admin_ids);
 
         $group->save();
+
+        if ($oldParentId != $newParentId) {
+            static::subgroupCount('decrement', $oldParentId);
+            static::subgroupCount('increment', $newParentId);
+        }
 
         if ($request->file('cover_file')) {
             $wordBody = [
@@ -301,6 +315,16 @@ class GroupController extends Controller
 
         Post::where('group_id', $group->id)->update(['group_id' => $newGroupId]);
         PostLog::where('group_id', $group->id)->update(['group_id' => $newGroupId]);
+
+        $oldParentId = $group->parent_id;
+
+        $requestGroup = Group::where('id', $request->group_id)->first();
+        $newParentId = $requestGroup->parent_id;
+
+        if ($oldParentId != $newParentId) {
+            static::subgroupCount('decrement', $oldParentId);
+            static::subgroupCount('increment', $newParentId);
+        }
 
         $group->delete();
 
