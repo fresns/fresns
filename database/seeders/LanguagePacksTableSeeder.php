@@ -2414,6 +2414,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'userPinReset',
+                'lang_values' => '{"en":"Forgot PIN","zh-Hans":"忘记密码","zh-Hant":"忘記密碼"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'userEnter',
                 'lang_values' => '{"en":"Enter","zh-Hans":"进入社区","zh-Hant":"進入社區"}',
                 'is_custom' => 0,
