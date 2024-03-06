@@ -403,7 +403,7 @@ class PermissionUtility
             'publish_comment_review' => $permissions['publish_comment_review'] ?? false,
         ];
 
-        $perm['canPublish'] = false;
+        $perm['canPublish'] = $permConfig['can_publish'];
         $perm['allowPost'] = false;
         $perm['reviewPost'] = $permConfig['publish_post_review'];
         $perm['allowComment'] = false;
