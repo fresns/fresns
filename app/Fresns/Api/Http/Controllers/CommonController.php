@@ -73,12 +73,12 @@ class CommonController extends Controller
                 $userIdentifier = ConfigHelper::fresnsConfigByItemKey('user_identifier');
 
                 if ($userIdentifier == 'uid') {
-                    $userQuery = User::where('uid', 'like', "%$dtoRequest->key%");
+                    $userWhereAny = ['uid', 'nickname'];
                 } else {
-                    $userQuery = User::where('username', 'like', "%$dtoRequest->key%");
+                    $userWhereAny = ['username', 'nickname'];
                 }
 
-                $users = $userQuery->orWhere('nickname', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
+                $users = User::whereAny($userWhereAny, 'LIKE', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
                 if ($users) {
                     foreach ($users as $user) {
@@ -101,25 +101,23 @@ class CommonController extends Controller
                 break;
 
             case 'hashtag':
-                $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
+                $hashtags = Hashtag::where('name', 'LIKE', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
-                if ($hashtagQuery) {
-                    foreach ($hashtagQuery as $hashtag) {
-                        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
+                foreach ($hashtags as $hashtag) {
+                    $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
 
-                        $item['fsid'] = $hashtag->slug;
-                        $item['name'] = $hashtag->name;
-                        $item['image'] = FileHelper::fresnsFileUrlByTableColumn($hashtag->cover_file_id, $hashtag->cover_file_url);
-                        $item['interaction'] = [
-                            'likeStatus' => $interactionStatus['likeStatus'],
-                            'dislikeStatus' => $interactionStatus['dislikeStatus'],
-                            'followStatus' => $interactionStatus['followStatus'],
-                            'blockStatus' => $interactionStatus['blockStatus'],
-                            'note' => $interactionStatus['note'],
-                        ];
+                    $item['fsid'] = $hashtag->slug;
+                    $item['name'] = $hashtag->name;
+                    $item['image'] = FileHelper::fresnsFileUrlByTableColumn($hashtag->cover_file_id, $hashtag->cover_file_url);
+                    $item['interaction'] = [
+                        'likeStatus' => $interactionStatus['likeStatus'],
+                        'dislikeStatus' => $interactionStatus['dislikeStatus'],
+                        'followStatus' => $interactionStatus['followStatus'],
+                        'blockStatus' => $interactionStatus['blockStatus'],
+                        'note' => $interactionStatus['note'],
+                    ];
 
-                        $list[] = $item;
-                    }
+                    $list[] = $item;
                 }
                 break;
         }
