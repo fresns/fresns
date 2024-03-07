@@ -1384,7 +1384,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36312,
-                'messages' => '{"en":"Current user does not have the comment permission of the group.","zh-Hans":"当前用户无权在该小组评论","zh-Hant":"當前使用者無權在該社團留言"}',
+                'messages' => '{"en":"Current user does not have the comment permission of the group","zh-Hans":"当前用户无权在该小组评论","zh-Hant":"當前使用者無權在該社團留言"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1392,6 +1392,14 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36313,
+                'messages' => '{"en":"The current group is closed for publication","zh-Hans":"当前小组已关闭发表内容","zh-Hant":"目前小組已關閉發表內容"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 36314,
                 'messages' => '{"en":"This comment type does not allow editing","zh-Hans":"该评论类型不允许编辑","zh-Hant":"該留言類型不允許編輯"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,

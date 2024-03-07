@@ -7229,17 +7229,6 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_installed',
-                'item_value' => 'false',
-                'item_type' => 'boolean',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 0,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            [
                 'item_key' => 'webengine_status',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
