@@ -100,7 +100,7 @@ class CommonController extends Controller
 
         $users = [];
         if ($keyword) {
-            $users = User::where('username', 'like', "%$keyword%")->orWhere('nickname', 'like', "%$keyword%")->paginate();
+            $users = User::whereAny(['username', 'nickname'], 'LIKE', "%$keyword%")->paginate();
         }
 
         return response()->json($users);
