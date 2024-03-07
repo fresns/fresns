@@ -115,8 +115,8 @@ class Content
                     'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'title' => $title,
                     'content' => $content,
-                    'is_markdown' => $dtoWordBody->isMarkdown,
-                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
                     'location_info' => $dtoWordBody->locationInfo,
                     'permissions' => $permissions,
                 ];
@@ -152,8 +152,8 @@ class Content
                     'parent_comment_id' => PrimaryHelper::fresnsPrimaryId('comment', $checkPost->commentCid),
                     'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'content' => $content,
-                    'is_markdown' => $dtoWordBody->isMarkdown,
-                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
                     'is_private' => $dtoWordBody->commentPrivate,
                     'location_info' => $dtoWordBody->locationInfo,
                     'permissions' => $permissions,
@@ -272,8 +272,8 @@ class Content
 
                 if ($comment->top_parent_id != 0) {
                     return $this->failure(
-                        36313,
-                        ConfigUtility::getCodeMessage(36313, 'Fresns', $langTag)
+                        36314,
+                        ConfigUtility::getCodeMessage(36314, 'Fresns', $langTag)
                     );
                 }
 
@@ -529,13 +529,13 @@ class Content
 
                 $post = Post::create([
                     'user_id' => $author->id,
-                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->quotePid),
-                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid),
-                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
+                    'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->quotePid) ?? 0,
+                    'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid) ?? 0,
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid) ?? 0,
                     'title' => $dtoWordBody->title ? Str::of($dtoWordBody->title)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown,
-                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
                     'map_location' => $mapLocation,
                     'permissions' => $permissions,
                 ]);
@@ -568,10 +568,10 @@ class Content
                     'post_id' => $post->id,
                     'top_parent_id' => $commentTopParentId,
                     'parent_id' => $parentComment?->id,
-                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
+                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid) ?? 0,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown,
-                    'is_anonymous' => $dtoWordBody->isAnonymous,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
                     'privacy_state' => $privacyState,
                     'map_location' => $mapLocation,
                 ]);

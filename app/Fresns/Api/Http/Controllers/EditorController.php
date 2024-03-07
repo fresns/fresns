@@ -14,9 +14,7 @@ use App\Fresns\Api\Http\DTO\EditorDraftDetailDTO;
 use App\Fresns\Api\Http\DTO\EditorDraftListDTO;
 use App\Fresns\Api\Http\DTO\EditorDraftUpdateDTO;
 use App\Fresns\Api\Http\DTO\EditorQuickPublishDTO;
-use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\ContentService;
-use App\Fresns\Api\Services\PostService;
 use App\Fresns\Words\Content\DTO\LocationInfoDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
@@ -30,7 +28,6 @@ use App\Models\Extend;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Plugin;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Utilities\ConfigUtility;
@@ -76,7 +73,7 @@ class EditorController extends Controller
             'userId' => $authUser->id,
             'postId' => null,
             'postGroupId' => PrimaryHelper::fresnsPrimaryId('group', $dtoRequest->gid),
-            'title' => $dtoRequest->title,
+            'postTitle' => $dtoRequest->title,
             'commentId' => null,
             'commentPostId' => PrimaryHelper::fresnsPrimaryId('post', $dtoRequest->commentPid),
             'content' => $dtoRequest->content,
@@ -101,7 +98,7 @@ class EditorController extends Controller
                 throw new ApiException(32105);
             }
 
-            $servicePlugin = Plugin::where('fskey', $fileConfig['service'])->isEnabled()->first();
+            $servicePlugin = App::where('fskey', $fileConfig['service'])->isEnabled()->first();
 
             if (! $servicePlugin) {
                 throw new ApiException(32102);
@@ -303,19 +300,15 @@ class EditorController extends Controller
 
         switch ($type) {
             case 'post':
-                $service = new PostService();
-
-                $postLog = PostLog::with(['quotedPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
+                $draftModel = PostLog::with(['quotedPost', 'group', 'geotag'])->where('id', $fresnsResp->getData('logId'))->first();
                 break;
 
             case 'comment':
-                $service = new CommentService();
-
-                $commentLog = CommentLog::with(['parentComment', 'post', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
+                $draftModel = CommentLog::with(['parentComment', 'post', 'geotag'])->where('id', $fresnsResp->getData('logId'))->first();
                 break;
         }
+
+        $data['detail'] = $draftModel->getDraftInfo($langTag, $timezone);
 
         $edit['isEditDraft'] = true;
         $edit['editableStatus'] = $fresnsResp->getData('editableStatus');
@@ -432,19 +425,15 @@ class EditorController extends Controller
 
         switch ($dtoRequest->type) {
             case 'post':
-                $service = new PostService();
-
-                $postLog = PostLog::with(['quotedPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
+                $draftModel = PostLog::with(['quotedPost', 'group', 'geotag'])->where('id', $fresnsResp->getData('logId'))->first();
                 break;
 
             case 'comment':
-                $service = new CommentService();
-
-                $commentLog = CommentLog::with(['parentComment', 'post', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
+                $draftModel = CommentLog::with(['parentComment', 'post', 'geotag'])->where('id', $fresnsResp->getData('logId'))->first();
                 break;
         }
+
+        $data['detail'] = $draftModel->getDraftInfo($langTag, $timezone);
 
         $edit['isEditDraft'] = false;
         $edit['editableStatus'] = true;

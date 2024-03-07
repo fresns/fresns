@@ -372,12 +372,12 @@ class ValidationUtility
 
                     $checkGroup = PermissionUtility::checkUserGroupPublishPerm($draft['postGroupId'], $group->permissions, $draft['userId']);
 
-                    if (! $checkGroup['allowPost']) {
-                        return 36311;
+                    if (! $checkGroup['canPublish']) {
+                        return 36313;
                     }
 
-                    if ($checkGroup['subGroupPost']) {
-                        return 38208;
+                    if (! $checkGroup['allowPost']) {
+                        return 36311;
                     }
 
                     // Review

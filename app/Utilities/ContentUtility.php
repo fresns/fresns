@@ -1343,7 +1343,7 @@ class ContentUtility
             'is_markdown' => $post->is_markdown,
             'is_anonymous' => $post->is_anonymous,
             'more_info' => $post->more_info,
-            'permissions' => $$post->permissions,
+            'permissions' => $post->permissions,
         ];
 
         $postLog = PostLog::create($logData);
@@ -1375,7 +1375,7 @@ class ContentUtility
             'is_anonymous' => $comment->is_anonymous,
             'is_private' => ($comment->privacy_state != Comment::PRIVACY_PUBLIC) ? true : false,
             'more_info' => $comment->more_info,
-            'permissions' => $$comment->permissions,
+            'permissions' => $comment->permissions,
         ];
 
         $commentLog = CommentLog::create($logData);

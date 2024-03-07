@@ -283,7 +283,7 @@ class ExtendUtility
             $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
-                $query->where('scene', 'like', "%$value%");
+                $query->where('scene', 'LIKE', "%$value%");
             });
 
             $extendQuery->when($groupId, function ($query, $value) {
@@ -331,7 +331,7 @@ class ExtendUtility
             $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
-                $query->where('scene', 'like', "%$value%");
+                $query->where('scene', 'LIKE', "%$value%");
             });
 
             $extendQuery->when($groupId, function ($query, $value) {
@@ -385,7 +385,7 @@ class ExtendUtility
             $extendQuery = AppUsage::where('usage_type', $type)->where('is_group_admin', 1);
 
             $extendQuery->when($scene, function ($query, $value) {
-                $query->where('scene', 'like', "%$value%");
+                $query->where('scene', 'LIKE', "%$value%");
             });
 
             $extendQuery->when($groupId, function ($query, $value) {
