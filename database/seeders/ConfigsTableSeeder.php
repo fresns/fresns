@@ -7229,7 +7229,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_status',
+                'item_key' => 'website_engine_status',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
                 'is_multilingual' => 0,
@@ -7240,7 +7240,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_api_type',
+                'item_key' => 'website_engine_api_type',
                 'item_value' => 'local',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -7251,7 +7251,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_api_host',
+                'item_key' => 'website_engine_api_host',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -7262,7 +7262,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_api_app_id',
+                'item_key' => 'website_engine_api_app_id',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -7273,7 +7273,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_api_app_key',
+                'item_key' => 'website_engine_api_app_key',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -7284,7 +7284,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_key_id',
+                'item_key' => 'website_engine_key_id',
                 'item_value' => null,
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -7295,7 +7295,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_view_desktop',
+                'item_key' => 'website_engine_view_desktop',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -7306,7 +7306,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'webengine_view_mobile',
+                'item_key' => 'website_engine_view_mobile',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,

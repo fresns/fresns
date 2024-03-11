@@ -2270,8 +2270,16 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'settingBirthdayDisplayType',
+                'lang_values' => '{"en":"Birthday Display Type","zh-Hans":"生日显示方式","zh-Hant":"生日顯示方式"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'settingBirthdayDisplayType1',
-                'lang_values' => '{"en":"Non-Public","zh-Hans":"不公开","zh-Hant":"不公開"}',
+                'lang_values' => '{"en":"Full Display","zh-Hans":"完整显示","zh-Hant":"完整顯示"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2279,7 +2287,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'settingBirthdayDisplayType2',
-                'lang_values' => '{"en":"Show Year","zh-Hans":"显示年份","zh-Hant":"顯示年份"}',
+                'lang_values' => '{"en":"Display Year","zh-Hans":"显示年份","zh-Hant":"顯示年份"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2287,7 +2295,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'settingBirthdayDisplayType3',
-                'lang_values' => '{"en":"Show Month and Day","zh-Hans":"显示月和日","zh-Hant":"顯示月和日"}',
+                'lang_values' => '{"en":"Display Month and Day","zh-Hans":"显示月和日","zh-Hant":"顯示月和日"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2295,7 +2303,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'settingBirthdayDisplayType4',
-                'lang_values' => '{"en":"Full Display","zh-Hans":"完整显示","zh-Hant":"完整顯示"}',
+                'lang_values' => '{"en":"Non-Public","zh-Hans":"不公开","zh-Hant":"不公開"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,

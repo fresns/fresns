@@ -39,9 +39,9 @@ class CreateSessionsTable extends Migration
             $table->string('version', 16);
             $table->string('app_id', 8)->nullable()->index('token_app_id');
             $table->unsignedBigInteger('account_id')->index('token_account_id');
-            $table->string('account_token', 32);
+            $table->string('account_token', 64);
             $table->unsignedBigInteger('user_id')->nullable()->index('token_user_id');
-            $table->string('user_token', 32)->nullable();
+            $table->string('user_token', 64)->nullable();
             $table->string('scope', 128)->nullable();
             $table->text('payload')->nullable();
             $table->string('device_token', 128)->nullable();

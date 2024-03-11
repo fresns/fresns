@@ -26,6 +26,7 @@ class CreateAccountsTable extends Migration
             $table->string('phone', 128)->nullable()->unique('phone');
             $table->string('email', 128)->nullable()->unique('email');
             $table->string('password', 64)->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamp('last_login_at');
             $table->unsignedTinyInteger('is_verify')->default(0);
             $table->string('verify_app_fskey', 32)->nullable();

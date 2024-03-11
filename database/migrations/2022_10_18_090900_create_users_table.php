@@ -31,7 +31,6 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('gender')->default(1)->index('user_gender');
             $table->unsignedTinyInteger('gender_pronoun')->nullable();
             $table->string('gender_custom')->nullable();
-            $table->timestamp('birthday')->nullable();
             $table->unsignedTinyInteger('birthday_display_type')->default(1);
             $table->text('bio')->nullable();
             $table->string('location', 128)->nullable();
@@ -53,6 +52,7 @@ class CreateUsersTable extends Migration
                     $table->json('more_info')->nullable();
             }
             $table->timestamp('expired_at')->nullable();
+            $table->timestamp('last_login_at')->nullable();
             $table->timestamp('last_activity_at')->nullable();
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
@@ -62,6 +62,17 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('is_enabled')->default(1)->index('user_is_enabled');
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
+
+        Schema::create('user_logs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->index('user_log_user_id');
+            $table->unsignedTinyInteger('type')->index('user_log_type');
+            $table->text('content');
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -189,6 +200,7 @@ class CreateUsersTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('user_logs');
         Schema::dropIfExists('user_stats');
         Schema::dropIfExists('user_extcredits_logs');
         Schema::dropIfExists('user_roles');
