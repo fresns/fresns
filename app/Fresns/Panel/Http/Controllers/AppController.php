@@ -185,6 +185,7 @@ class AppController extends Controller
             if ($actionType == 'install') {
                 return \response($output."\n ".__('FsLang::tips.installSuccess'));
             }
+
             return \response($output."\n ".__('FsLang::tips.uninstallSuccess'));
         }
 
@@ -195,6 +196,7 @@ class AppController extends Controller
         if ($actionType == 'install') {
             return \response($output."\n ".__('FsLang::tips.installFailure'));
         }
+
         return \response($output."\n ".__('FsLang::tips.uninstallFailure'));
     }
 
