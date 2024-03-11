@@ -35,7 +35,6 @@ class EncryptCookies extends Middleware
         }
 
         $this->except = array_merge($this->except, [
-            "{$cookiePrefix}ulid",
             "{$cookiePrefix}lang_tag",
             "{$cookiePrefix}aid",
             "{$cookiePrefix}aid_token",
