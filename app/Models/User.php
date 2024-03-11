@@ -26,6 +26,11 @@ class User extends Model
     const GENDER_PRONOUN_HE = 2;
     const GENDER_PRONOUN_THEY = 3;
 
+    const BIRTHDAY_DISPLAY_FULL = 1;
+    const BIRTHDAY_DISPLAY_YEAR = 2;
+    const BIRTHDAY_DISPLAY_MONTH_AND_DAY = 3;
+    const BIRTHDAY_DISPLAY_PRIVATE = 4;
+
     const POLICY_EVERYONE = 1;
     const POLICY_PEOPLE_YOU_FOLLOW = 2;
     const POLICY_PEOPLE_YOU_FOLLOW_OR_VERIFIED = 3;
@@ -37,9 +42,9 @@ class User extends Model
     ];
 
     protected $dates = [
-        'birthday',
         'verified_at',
         'expired_at',
+        'last_login_at',
         'last_activity_at',
         'last_post_at',
         'last_comment_at',

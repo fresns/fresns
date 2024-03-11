@@ -12,14 +12,16 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\StrHelper;
 use App\Models\Role;
+use App\Models\User;
 use App\Models\UserRole;
 use App\Utilities\PermissionUtility;
 
 trait UserServiceTrait
 {
-    public function getUserProfile(): array
+    public function getUserProfile(?string $langTag = null): array
     {
         $userData = $this;
+        $account = $this->account;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'user_identifier',
@@ -42,6 +44,32 @@ trait UserServiceTrait
             }
         }
 
+        $birthday = null;
+        if ($userData->birthday_display_type != User::BIRTHDAY_DISPLAY_PRIVATE && $account->birthday) {
+            $dateFormat = $langTag ? ConfigHelper::fresnsConfigDateFormat($langTag) : 'Y-m-d';
+
+            $monthAndDayFormat = match ($dateFormat) {
+                'Y-m-d' => 'm-d',
+                'Y/m/d' => 'm/d',
+                'Y.m.d' => 'm.d',
+                'm-d-Y' => 'm-d',
+                'm/d/Y' => 'm/d',
+                'm.d.Y' => 'm.d',
+                'd-m-Y' => 'd-m',
+                'd/m/Y' => 'd/m',
+                'd.m.Y' => 'd.m',
+                default => 'm-d',
+            };
+
+            $birthday = match ($userData->birthday_display_type) {
+                User::BIRTHDAY_DISPLAY_FULL => $account->birthday->format($dateFormat),
+                User::BIRTHDAY_DISPLAY_YEAR => $account->birthday->format('Y'),
+                User::BIRTHDAY_DISPLAY_MONTH_AND_DAY => $account->birthday->format($monthAndDayFormat),
+                User::BIRTHDAY_DISPLAY_PRIVATE => null,
+                default => null,
+            };
+        }
+
         $fsid = $configKeys['user_identifier'] == 'uid' ? $userData->uid : $userData->username;
 
         $profile['fsid'] = $fsid;
@@ -56,7 +84,7 @@ trait UserServiceTrait
         $profile['gender'] = $userData->gender;
         $profile['genderPronoun'] = $userData->gender_pronoun;
         $profile['genderCustom'] = $userData->gender_custom;
-        $profile['birthday'] = $userData->birthday;
+        $profile['birthday'] = $birthday;
         $profile['birthdayDisplayType'] = $userData->birthday_display_type;
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;

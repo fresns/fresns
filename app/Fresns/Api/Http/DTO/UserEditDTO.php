@@ -24,7 +24,6 @@ class UserEditDTO extends DTO
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
             'genderCustom' => ['string', 'nullable'],
             'genderPronoun' => ['integer', 'nullable', 'in:1,2,3'],
-            'birthday' => ['date', 'nullable', 'before:today', 'after_or_equal:1920-01-01 00:00:00'],
             'birthdayDisplayType' => ['integer', 'nullable', 'in:1,2,3,4'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],

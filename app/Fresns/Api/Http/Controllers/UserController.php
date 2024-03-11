@@ -48,6 +48,7 @@ use App\Models\User;
 use App\Models\UserExtcreditsLog;
 use App\Models\UserFollow;
 use App\Models\UserLike;
+use App\Models\UserLog;
 use App\Models\UserStat;
 use App\Utilities\ContentUtility;
 use App\Utilities\DetailUtility;
@@ -143,6 +144,11 @@ class UserController extends Controller
             return $fresnsTokenResponse->errorResponse();
         }
 
+        // login time
+        $authUser->update([
+            'last_login_at' => now(),
+        ]);
+
         // get user data
         $userOptions = [
             'viewType' => 'list',
@@ -151,8 +157,10 @@ class UserController extends Controller
 
         $data = [
             'authToken' => [
+                'aid' => $fresnsTokenResponse->getData('aid'),
+                'aidToken' => $fresnsTokenResponse->getData('aidToken'),
                 'uid' => $fresnsTokenResponse->getData('uid'),
-                'token' => $fresnsTokenResponse->getData('uidToken'),
+                'uidToken' => $fresnsTokenResponse->getData('uidToken'),
                 'expiredHours' => $fresnsTokenResponse->getData('expiredHours'),
                 'expiredDays' => $fresnsTokenResponse->getData('expiredDays'),
                 'expiredDateTime' => $fresnsTokenResponse->getData('expiredDateTime'),
@@ -373,6 +381,14 @@ class UserController extends Controller
                 'username' => $username,
                 'last_username_at' => now(),
             ]);
+
+            if ($authUser->last_username_at) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_USERNAME,
+                    'content' => $authUser->username,
+                ]);
+            }
         }
 
         // edit nickname
@@ -418,16 +434,32 @@ class UserController extends Controller
                 'nickname' => $nickname,
                 'last_nickname_at' => now(),
             ]);
+
+            if ($authUser->last_nickname_at) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_NICKNAME,
+                    'content' => $authUser->nickname,
+                ]);
+            }
         }
 
         // edit avatarFid
         if ($dtoRequest->avatarFid) {
-            $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->avatarFid);
+            $avatarFileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->avatarFid);
 
             $authUser->fill([
-                'avatar_file_id' => $fileId,
+                'avatar_file_id' => $avatarFileId,
                 'avatar_file_url' => null,
             ]);
+
+            if ($authUser->avatar_file_id && $authUser->avatar_file_id != $avatarFileId) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_AVATAR,
+                    'content' => $authUser->avatar_file_id,
+                ]);
+            }
         }
 
         // edit avatarUrl
@@ -436,16 +468,32 @@ class UserController extends Controller
                 'avatar_file_id' => null,
                 'avatar_file_url' => $dtoRequest->avatarUrl,
             ]);
+
+            if ($authUser->avatar_file_url && $authUser->avatar_file_url != $dtoRequest->avatarUrl) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_AVATAR,
+                    'content' => $authUser->avatar_file_url,
+                ]);
+            }
         }
 
         // edit bannerFid
         if ($dtoRequest->bannerFid) {
-            $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->bannerFid);
+            $bannerFileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->bannerFid);
 
             $authUser->fill([
-                'banner_file_id' => $fileId,
+                'banner_file_id' => $bannerFileId,
                 'banner_file_url' => null,
             ]);
+
+            if ($authUser->banner_file_id && $authUser->banner_file_id != $bannerFileId) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_BANNER,
+                    'content' => $authUser->banner_file_id,
+                ]);
+            }
         }
 
         // edit bannerUrl
@@ -454,6 +502,14 @@ class UserController extends Controller
                 'banner_file_id' => null,
                 'banner_file_url' => $dtoRequest->bannerUrl,
             ]);
+
+            if ($authUser->banner_file_url && $authUser->banner_file_url != $dtoRequest->bannerUrl) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_BANNER,
+                    'content' => $authUser->banner_file_url,
+                ]);
+            }
         }
 
         // edit gender
@@ -473,12 +529,7 @@ class UserController extends Controller
             ]);
         }
 
-        // edit birthday
-        if ($dtoRequest->birthday) {
-            $authUser->fill([
-                'birthday' => $dtoRequest->birthday,
-            ]);
-        }
+        // edit birthday display type
         if ($dtoRequest->birthdayDisplayType) {
             $authUser->fill([
                 'birthday_display_type' => $dtoRequest->birthdayDisplayType,
@@ -516,6 +567,14 @@ class UserController extends Controller
             $authUser->fill([
                 'bio' => $bio,
             ]);
+
+            if ($authUser->bio && $authUser->bio != $bio) {
+                UserLog::create([
+                    'user_id' => $authUser->id,
+                    'type' => UserLog::TYPE_BIO,
+                    'content' => $bio,
+                ]);
+            }
         }
 
         // edit location
