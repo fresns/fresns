@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'クライアントは10分ごとにステータス設定を要求',
     // App-Center-Themes
-    'webengine_config' => 'エンジン構成',
-    'webengine_api_config' => 'APIコンフィグ',
-    'webengine_status' => 'エンジンステータス',
-    'webengine_api_type' => 'エンジンAPIタイプ',
-    'webengine_key_id' => 'アプリケーションキーの選択',
-    'webengine_view_desktop' => 'デスクトップ',
-    'webengine_view_mobile' => 'モバイル',
+    'website_engine_config' => 'エンジン構成',
+    'website_engine_api_config' => 'APIコンフィグ',
+    'website_engine_status' => 'エンジンステータス',
+    'website_engine_api_type' => 'エンジンAPIタイプ',
+    'website_engine_key_id' => 'アプリケーションキーの選択',
+    'website_engine_view_desktop' => 'デスクトップ',
+    'website_engine_view_mobile' => 'モバイル',
     // App-Center-Install
-    'install_engine' => 'エンジンの取り付け',
+    'install_website_engine' => 'ウェブサイト・エンジンのインストール',
     'install_plugin' => 'プラグインのインストール',
     'install_application' => 'インストールアプリ',
     'install_mode' => 'インストールモード',

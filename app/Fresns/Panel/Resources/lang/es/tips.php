@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => 'Guardar falló, el parámetro de la ruta contiene el nombre del parámetro reservado del sistema',
     'website_path_unique_error' => 'fallo al guardar, parámetros de ruta duplicados, los nombres de los parámetros de ruta no pueden repetirse',
     // theme
+    'website_engine_error' => 'Motor del sitio web no instalado',
     'theme_error' => 'El tema es incorrecto o no existe',
     'theme_functions_file_error' => 'El archivo de la vista de configuración del tema es incorrecto o no existe',
     'theme_json_file_error' => 'El archivo de configuración del tema es incorrecto o no existe',

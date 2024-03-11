@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => '保存失败，路径参数含有系统保留参数名',
     'website_path_unique_error' => '保存失败，路径参数重复，路径参数名不允许彼此重复',
     // theme
+    'website_engine_error' => '网站引擎未安装',
     'theme_error' => '主题错误或者不存在',
     'theme_functions_file_error' => '主题配置的视图文件错误或者不存在',
     'theme_json_file_error' => '主题配置文件错误或者不存在',

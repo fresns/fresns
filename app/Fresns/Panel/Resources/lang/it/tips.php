@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => 'Salvataggio fallito, il parametro percorso contiene un nome di parametro riservato al sistema',
     'website_path_unique_error' => 'Salvataggio fallito, parametri di percorso duplicati, i nomi dei parametri di percorso non possono ripetersi.',
     // theme
+    'website_engine_error' => 'Motore del sito web non installato',
     'theme_error' => 'Il tema non è corretto o non esiste',
     'theme_functions_file_error' => 'Il file di configurazione della vista del tema non è corretto o non esiste.',
     'theme_json_file_error' => 'Il file di configurazione del tema non è corretto o non esiste',

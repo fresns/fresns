@@ -274,36 +274,36 @@ class ClientController extends Controller
         return $this->updateSuccess();
     }
 
-    // web engine update
-    public function engineUpdate(Request $request)
+    // website engine update
+    public function websiteEngineUpdate(Request $request)
     {
-        $apiHost = Str::of($request->get('webengine_api_host'))->trim();
+        $apiHost = Str::of($request->get('website_engine_api_host'))->trim();
         $apiHost = Str::of($apiHost)->rtrim('/');
 
         $fresnsConfigItems = [
             [
-                'item_key' => 'webengine_api_type',
-                'item_value' => $request->webengine_api_type,
+                'item_key' => 'website_engine_api_type',
+                'item_value' => $request->website_engine_api_type,
                 'item_type' => 'string',
             ],
             [
-                'item_key' => 'webengine_api_host',
+                'item_key' => 'website_engine_api_host',
                 'item_value' => $apiHost,
                 'item_type' => 'string',
             ],
             [
-                'item_key' => 'webengine_api_app_id',
-                'item_value' => $request->webengine_api_app_id,
+                'item_key' => 'website_engine_api_app_id',
+                'item_value' => $request->website_engine_api_app_id,
                 'item_type' => 'string',
             ],
             [
-                'item_key' => 'webengine_api_app_key',
-                'item_value' => $request->webengine_api_app_key,
+                'item_key' => 'website_engine_api_app_key',
+                'item_value' => $request->website_engine_api_app_key,
                 'item_type' => 'string',
             ],
             [
-                'item_key' => 'webengine_key_id',
-                'item_value' => $request->webengine_key_id,
+                'item_key' => 'website_engine_key_id',
+                'item_value' => $request->website_engine_key_id,
                 'item_type' => 'number',
             ],
         ];

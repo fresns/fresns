@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => '10분마다 클라이언트 요청 상태 구성',
     // App-Center-Themes
-    'webengine_config' => '엔진 구성',
-    'webengine_api_config' => 'API 구성',
-    'webengine_status' => '웹 엔진 상태',
-    'webengine_api_type' => '엔진 API 유형',
-    'webengine_key_id' => '애플리케이션 키 선택',
-    'webengine_view_desktop' => '컴퓨터',
-    'webengine_view_mobile' => '모바일',
+    'website_engine_config' => '엔진 구성',
+    'website_engine_api_config' => 'API 구성',
+    'website_engine_status' => '웹 엔진 상태',
+    'website_engine_api_type' => '엔진 API 유형',
+    'website_engine_key_id' => '애플리케이션 키 선택',
+    'website_engine_view_desktop' => '컴퓨터',
+    'website_engine_view_mobile' => '모바일',
     // App-Center-Install
-    'install_engine' => '엔진 설치',
+    'install_website_engine' => '웹사이트 엔진 설치',
     'install_plugin' => '플러그인 설치',
     'install_application' => '앱 설치',
     'install_mode' => '설치 모드',

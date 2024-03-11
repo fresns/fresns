@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => 'Speichern fehlgeschlagen, Pfadparameter enthält vom System reservierten Parameternamen',
     'website_path_unique_error' => 'Speichern fehlgeschlagen, doppelte Pfadparameter, die Namen der Pfadparameter dürfen sich nicht wiederholen',
     // theme
+    'website_engine_error' => 'Website-Engine nicht installiert',
     'theme_error' => 'Das Thema ist falsch oder existiert nicht',
     'theme_functions_file_error' => 'Die Ansichtsdatei der Themenkonfiguration ist falsch oder existiert nicht',
     'theme_json_file_error' => 'Die Konfigurationsdatei des Themas ist falsch oder nicht vorhanden',

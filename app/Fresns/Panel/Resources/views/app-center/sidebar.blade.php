@@ -32,7 +32,7 @@
             </div>
             <form action="{{ route('panel.app-center.install') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('put')
+                @method('post')
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-text">{{ __('FsLang::panel.install_mode') }}</span>

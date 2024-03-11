@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => '保存に失敗しました。path パラメータにシステム予約パラメータ名が含まれています。',
     'website_path_unique_error' => '保存に失敗しました、パスパラメータが重複しています、パスパラメータ名は互いに繰り返すことはできません。',
     // theme
+    'website_engine_error' => 'ウェブサイトエンジンがインストールされていない',
     'theme_error' => 'テーマが正しくないか、存在しない',
     'theme_functions_file_error' => 'テーマ設定ビューファイルが正しくない、または存在しない',
     'theme_json_file_error' => 'テーマ設定ファイルが正しくない、または存在しない',

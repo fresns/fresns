@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => '저장하지 못했습니다. 경로 매개변수에 시스템 예약 매개변수 이름이 포함되어 있습니다.',
     'website_path_unique_error' => '저장에 실패했습니다. 경로 매개변수를 복제했습니다. 경로 매개변수 이름은 서로 복제할 수 없습니다.',
     // theme
+    'website_engine_error' => '웹사이트 엔진이 설치되지 않았습니다.',
     'theme_error' => '테마가 잘못되었거나 존재하지 않습니다.',
     'theme_functions_file_error' => '테마 구성에 대한 보기 파일이 잘못되었거나 존재하지 않습니다.',
     'theme_json_file_error' => '테마 구성 파일이 잘못되었거나 존재하지 않습니다.',

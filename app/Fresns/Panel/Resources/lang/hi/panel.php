@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'क्लाइंट हर 10 मिनट में स्टेटफुल कॉन्फ़िगरेशन का अनुरोध करता है',
     // App-Center-Themes
-    'webengine_config' => 'इंजन विन्यास',
-    'webengine_api_config' => 'एपीआई कॉन्फिग',
-    'webengine_status' => 'इंजन स्थिति',
-    'webengine_api_type' => 'इंजन एपीआई प्रकार',
-    'webengine_key_id' => 'एप्लिकेशन कुंजी का चयन करें',
-    'webengine_view_desktop' => 'कंप्यूटर',
-    'webengine_view_mobile' => 'मोबाइल',
+    'website_engine_config' => 'इंजन विन्यास',
+    'website_engine_api_config' => 'एपीआई कॉन्फिग',
+    'website_engine_status' => 'इंजन स्थिति',
+    'website_engine_api_type' => 'इंजन एपीआई प्रकार',
+    'website_engine_key_id' => 'एप्लिकेशन कुंजी का चयन करें',
+    'website_engine_view_desktop' => 'कंप्यूटर',
+    'website_engine_view_mobile' => 'मोबाइल',
     // App-Center-Install
-    'install_engine' => 'इंजन स्थापित करें',
+    'install_website_engine' => 'वेबसाइट इंजन स्थापित करें',
     'install_plugin' => 'प्लग मैं स्थापित',
     'install_application' => 'एप्लिकेशन इंस्टॉल करें',
     'install_mode' => 'मोड स्थापित करें',

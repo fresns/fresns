@@ -95,6 +95,7 @@ return [
     'website_path_reserved_error' => 'Simpan gagal, parameter jalur berisi nama parameter yang dicadangkan sistem',
     'website_path_unique_error' => 'Gagal menyimpan, parameter jalur duplikat, nama parameter jalur tidak diperbolehkan untuk saling mengulang',
     // theme
+    'website_engine_error' => 'Mesin situs web tidak diinstal',
     'theme_error' => 'Temanya salah atau tidak ada',
     'theme_functions_file_error' => 'File tampilan untuk konfigurasi tema salah atau tidak ada',
     'theme_json_file_error' => 'File konfigurasi tema salah atau tidak ada',

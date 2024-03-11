@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => '使用者端每 10 分鐘請求一次狀態配置',
     // App-Center-Themes
-    'webengine_config' => '網站引擎配置',
-    'webengine_api_config' => 'API 配置',
-    'webengine_status' => '引擎狀態',
-    'webengine_api_type' => '引擎 API 類型',
-    'webengine_key_id' => '關聯應用密鑰',
-    'webengine_view_desktop' => '電腦端',
-    'webengine_view_mobile' => '行動端',
+    'website_engine_config' => '網站引擎配置',
+    'website_engine_api_config' => 'API 配置',
+    'website_engine_status' => '引擎狀態',
+    'website_engine_api_type' => '引擎 API 類型',
+    'website_engine_key_id' => '關聯應用密鑰',
+    'website_engine_view_desktop' => '電腦端',
+    'website_engine_view_mobile' => '行動端',
     // App-Center-Install
-    'install_engine' => '安裝引擎',
+    'install_website_engine' => '安裝網站引擎',
     'install_plugin' => '安裝外掛',
     'install_application' => '安裝應用',
     'install_mode' => '安裝方式',

@@ -50,15 +50,14 @@ class AppController extends Controller
         // config keys
         $configKeys = [
             'platforms',
-            'webengine_installed',
-            'webengine_status',
-            'webengine_api_type',
-            'webengine_api_host',
-            'webengine_api_app_id',
-            'webengine_api_app_key',
-            'webengine_key_id',
-            'webengine_view_desktop',
-            'webengine_view_mobile',
+            'website_engine_status',
+            'website_engine_api_type',
+            'website_engine_api_host',
+            'website_engine_api_app_id',
+            'website_engine_api_app_key',
+            'website_engine_key_id',
+            'website_engine_view_desktop',
+            'website_engine_view_mobile',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -68,15 +67,18 @@ class AppController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $desktopFskey = $params['webengine_view_desktop'] ?? null;
-        $mobileFskey = $params['webengine_view_mobile'] ?? null;
+        // website engine
+        $websiteEngineExists = class_exists(\Fresns\WebsiteEngine\Providers\WebsiteEngineServiceProvider::class);
+
+        $desktopFskey = $params['website_engine_view_desktop'] ?? null;
+        $mobileFskey = $params['website_engine_view_mobile'] ?? null;
 
         $desktopThemeName = $themes->firstWhere('fskey', $desktopFskey)?->name ?? '';
         $mobileThemeName = $themes->firstWhere('fskey', $mobileFskey)?->name ?? '';
 
         $keys = SessionKey::where('type', SessionKey::TYPE_CORE)->where('platform_id', SessionKey::PLATFORM_WEB_RESPONSIVE)->isEnabled()->get();
 
-        return view('FsView::app-center.themes', compact('themes', 'params', 'desktopThemeName', 'mobileThemeName', 'keys'));
+        return view('FsView::app-center.themes', compact('themes', 'params', 'websiteEngineExists', 'desktopThemeName', 'mobileThemeName', 'keys'));
     }
 
     // apps
@@ -87,6 +89,7 @@ class AppController extends Controller
         return view('FsView::app-center.apps', compact('apps'));
     }
 
+    // app install
     public function install(Request $request)
     {
         $installMethod = $request->install_method;
@@ -160,6 +163,39 @@ class AppController extends Controller
         }
 
         return \response($output."\n ".__('FsLang::tips.installFailure'));
+    }
+
+    // website engine
+    public function websiteEngine(string $actionType)
+    {
+        $command = match ($actionType) {
+            'install' => 'fresns:install-website',
+            'uninstall' => 'fresns:uninstall-website',
+            default => null,
+        };
+
+        if (! $command) {
+            return \response("action type error\n ".__('FsLang::tips.installFailure'));
+        }
+
+        $exitCode = Artisan::call($command);
+        $output = Artisan::output();
+
+        if ($exitCode == 0) {
+            if ($actionType == 'install') {
+                return \response($output."\n ".__('FsLang::tips.installSuccess'));
+            }
+            return \response($output."\n ".__('FsLang::tips.uninstallSuccess'));
+        }
+
+        if ($output == '') {
+            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+        }
+
+        if ($actionType == 'install') {
+            return \response($output."\n ".__('FsLang::tips.installFailure'));
+        }
+        return \response($output."\n ".__('FsLang::tips.uninstallFailure'));
     }
 
     // iframe

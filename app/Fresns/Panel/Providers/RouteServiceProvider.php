@@ -48,10 +48,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middlewareGroup('panel', config('FsConfig.middleware', []));
 
-        Route::prefix('fresns')
-            ->name('panel.')
-            ->middleware('panel')
-            ->namespace($this->namespace)
-            ->group(__DIR__.'/../Routes/web.php');
+        Route::middleware('panel')->name('panel.')->prefix('fresns')->namespace($this->namespace)->group(dirname(__DIR__, 1).'/Routes/web.php');
     }
 }

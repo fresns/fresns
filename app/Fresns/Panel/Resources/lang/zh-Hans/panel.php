@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => '客户端每 10 分钟请求一次状态配置',
     // App-Center-Themes
-    'webengine_config' => '网站引擎配置',
-    'webengine_api_config' => 'API 配置',
-    'webengine_status' => '引擎状态',
-    'webengine_api_type' => '引擎 API 类型',
-    'webengine_key_id' => '关联应用密钥',
-    'webengine_view_desktop' => '电脑端',
-    'webengine_view_mobile' => '移动端',
+    'website_engine_config' => '网站引擎配置',
+    'website_engine_api_config' => 'API 配置',
+    'website_engine_status' => '引擎状态',
+    'website_engine_api_type' => '引擎 API 类型',
+    'website_engine_key_id' => '关联应用密钥',
+    'website_engine_view_desktop' => '电脑端',
+    'website_engine_view_mobile' => '移动端',
     // App-Center-Install
-    'install_engine' => '安装引擎',
+    'install_website_engine' => '安装网站引擎',
     'install_plugin' => '安装插件',
     'install_application' => '安装应用',
     'install_mode' => '安装方式',

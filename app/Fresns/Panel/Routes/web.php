@@ -224,8 +224,8 @@ Route::middleware(['panelAuth'])->group(function () {
         // status
         Route::get('status', [ClientController::class, 'statusIndex'])->name('client.status');
         Route::put('status', [ClientController::class, 'statusUpdate'])->name('client.status.update');
-        // web engine
-        Route::put('web-engine', [ClientController::class, 'engineUpdate'])->name('client.engine.update');
+        // website engine
+        Route::put('website-engine', [ClientController::class, 'websiteEngineUpdate'])->name('client.engine.update');
     });
 
     // app center
@@ -237,7 +237,8 @@ Route::middleware(['panelAuth'])->group(function () {
         // marketplace
         Route::get('marketplace', [AppController::class, 'iframe'])->name('marketplace');
         // install
-        Route::put('install', [AppController::class, 'install'])->name('install');
+        Route::post('install', [AppController::class, 'install'])->name('install');
+        Route::post('website-engine/{actionType}', [AppController::class, 'websiteEngine'])->name('website-engine');
         // settings
         Route::get('settings', [AppController::class, 'iframe'])->name('plugin.settings');
         Route::get('functions', [AppController::class, 'iframe'])->name('theme.functions');

@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'Configurazione dello stato di richiesta del cliente ogni 10 minuti',
     // App-Center-Themes
-    'webengine_config' => 'Configurazione del motore',
-    'webengine_api_config' => 'Configurazione API',
-    'webengine_status' => 'Stato del motore',
-    'webengine_api_type' => 'Tipo di API del motore',
-    'webengine_key_id' => 'Seleziona la chiave dell\'applicazione',
-    'webengine_view_desktop' => 'Computer',
-    'webengine_view_mobile' => 'Mobile',
+    'website_engine_config' => 'Configurazione del motore',
+    'website_engine_api_config' => 'Configurazione API',
+    'website_engine_status' => 'Stato del motore',
+    'website_engine_api_type' => 'Tipo di API del motore',
+    'website_engine_key_id' => 'Seleziona la chiave dell\'applicazione',
+    'website_engine_view_desktop' => 'Computer',
+    'website_engine_view_mobile' => 'Mobile',
     // App-Center-Install
-    'install_engine' => 'Installare il motore',
+    'install_website_engine' => 'Installare il motore del sito web',
     'install_plugin' => 'Installare il plugin',
     'install_application' => 'Installare l\'app',
     'install_mode' => 'Modalità di installazione',

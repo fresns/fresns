@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'Клиент запрашивает конфигурацию состояния каждые 10 минут',
     // App-Center-Themes
-    'webengine_config' => 'Конфигурация двигателя',
-    'webengine_api_config' => 'Конфигурация API',
-    'webengine_status' => 'Статус движка',
-    'webengine_api_type' => 'Тип API двигателя',
-    'webengine_key_id' => 'Выберите ключ приложения',
-    'webengine_view_desktop' => 'Компьютер',
-    'webengine_view_mobile' => 'Мобильный',
+    'website_engine_config' => 'Конфигурация двигателя',
+    'website_engine_api_config' => 'Конфигурация API',
+    'website_engine_status' => 'Статус движка',
+    'website_engine_api_type' => 'Тип API двигателя',
+    'website_engine_key_id' => 'Выберите ключ приложения',
+    'website_engine_view_desktop' => 'Компьютер',
+    'website_engine_view_mobile' => 'Мобильный',
     // App-Center-Install
-    'install_engine' => 'Установите двигатель',
+    'install_website_engine' => 'Установите движок сайта',
     'install_plugin' => 'Установить плагин',
     'install_application' => 'Установить приложение',
     'install_mode' => 'Режим установки',

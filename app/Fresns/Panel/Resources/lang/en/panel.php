@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'Client request status configuration every 10 minutes',
     // App-Center-Themes
-    'webengine_config' => 'Engine Config',
-    'webengine_api_config' => 'API Config',
-    'webengine_status' => 'Engine Status',
-    'webengine_api_type' => 'Engine API Type',
-    'webengine_key_id' => 'Select App Key',
-    'webengine_view_desktop' => 'Desktop',
-    'webengine_view_mobile' => 'Mobile',
+    'website_engine_config' => 'Engine Config',
+    'website_engine_api_config' => 'API Config',
+    'website_engine_status' => 'Engine Status',
+    'website_engine_api_type' => 'Engine API Type',
+    'website_engine_key_id' => 'Select App Key',
+    'website_engine_view_desktop' => 'Desktop',
+    'website_engine_view_mobile' => 'Mobile',
     // App-Center-Install
-    'install_engine' => 'Install Engine',
+    'install_website_engine' => 'Install Website Engine',
     'install_plugin' => 'Install Plugin',
     'install_application' => 'Install App',
     'install_mode' => 'Install Mode',

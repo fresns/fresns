@@ -948,15 +948,15 @@ return [
     // Client-Status
     'client_status_desc' => 'Konfigurasi status permintaan klien setiap 10 menit',
     // App-Center-Themes
-    'webengine_config' => 'Konfigurasi Mesin',
-    'webengine_api_config' => 'Konfigurasi API',
-    'webengine_status' => 'Status mesin',
-    'webengine_api_type' => 'Jenis API Mesin',
-    'webengine_key_id' => 'Pilih Kunci Aplikasi',
-    'webengine_view_desktop' => 'Komputer',
-    'webengine_view_mobile' => 'Ponsel',
+    'website_engine_config' => 'Konfigurasi Mesin',
+    'website_engine_api_config' => 'Konfigurasi API',
+    'website_engine_status' => 'Status mesin',
+    'website_engine_api_type' => 'Jenis API Mesin',
+    'website_engine_key_id' => 'Pilih Kunci Aplikasi',
+    'website_engine_view_desktop' => 'Komputer',
+    'website_engine_view_mobile' => 'Ponsel',
     // App-Center-Install
-    'install_engine' => 'Pasang Mesin',
+    'install_website_engine' => 'Instal Mesin Situs Web',
     'install_plugin' => 'Instal Plugin',
     'install_application' => 'Instal aplikasi',
     'install_mode' => 'Instal Mode',
