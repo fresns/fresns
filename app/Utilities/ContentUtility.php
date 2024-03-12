@@ -12,8 +12,6 @@ use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
-use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
@@ -34,7 +32,6 @@ use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
 use App\Models\PostLog;
-use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
 use Illuminate\Support\Arr;
@@ -584,52 +581,6 @@ class ContentUtility
         if ($configs['mention_status'] && $authUserId) {
             static::saveMention($content, $type, $id, $authUserId);
         }
-    }
-
-    // handle post read config
-    public static function handlePostReadConfig(?array $readConfig, string $langTag): ?array
-    {
-        if (! $readConfig) {
-            return null;
-        }
-
-        $permissions['users'] = [];
-        if (isset($readConfig['permissions']['users']) && $readConfig['permissions']['users']) {
-            $users = User::whereIn('uid', $readConfig['permissions']['users'])->get();
-            $userList = [];
-            foreach ($users as $user) {
-                $userList[] = $user->getUserProfile();
-            }
-            $permissions['users'] = $userList;
-        }
-
-        $permissions['roles'] = [];
-        if (isset($readConfig['permissions']['roles']) && $readConfig['permissions']['roles']) {
-            $roles = Role::whereIn('id', $readConfig['permissions']['roles'])->get();
-            $roleList = [];
-            foreach ($roles as $role) {
-                $roleItem['rid'] = $role->id;
-                $roleItem['nicknameColor'] = $role->nickname_color;
-                $roleItem['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $langTag);
-                $roleItem['nameDisplay'] = (bool) $role->is_display_name;
-                $roleItem['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
-                $roleItem['iconDisplay'] = (bool) $role->is_display_icon;
-                $roleItem['status'] = (bool) $role->is_enabled;
-
-                $roleList[] = $roleItem;
-            }
-            $permissions['roles'] = $roleList;
-        }
-
-        $item['isReadLocked'] = (bool) $readConfig['isReadLocked'];
-        $item['previewPercentage'] = $readConfig['previewPercentage'] ?? 0;
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($readConfig['pluginFskey']);
-        $item['pluginFskey'] = $readConfig['pluginFskey'];
-        $item['defaultLangBtnName'] = collect($readConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
-        $item['btnName'] = $readConfig['btnName'];
-        $item['permissions'] = $permissions;
-
-        return $item;
     }
 
     // save operation usages
