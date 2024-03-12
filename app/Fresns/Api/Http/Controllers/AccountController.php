@@ -18,6 +18,7 @@ use App\Models\AccountWalletLog;
 use App\Models\AppUsage;
 use App\Models\SessionLog;
 use App\Models\SessionToken;
+use App\Models\User;
 use App\Utilities\DetailUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\SubscribeUtility;
@@ -51,12 +52,17 @@ class AccountController extends Controller
             throw new ApiException(31502);
         }
 
+        if (empty($loginToken->user_id)) {
+            throw new ApiException(31602);
+        }
+
         $timeDifference = time() - strtotime($loginToken->created_at);
 
         if ($loginToken->action_id || $timeDifference > 300) {
             throw new ApiException(31507);
         }
 
+        // account
         $account = Account::where('id', $loginToken->account_id)->first();
 
         if (! $account) {
@@ -67,8 +73,19 @@ class AccountController extends Controller
             throw new ApiException(34307);
         }
 
-        // create token
-        $wordBody = [
+        // user
+        $user = User::where('id', $loginToken->user_id)->first();
+
+        if (! $user) {
+            throw new ApiException(31602);
+        }
+
+        if (! $user->is_enabled) {
+            throw new ApiException(35202);
+        }
+
+        // create account token
+        $accountWordBody = [
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -76,7 +93,7 @@ class AccountController extends Controller
             'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
         ];
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccountToken($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccountToken($accountWordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->errorResponse();
@@ -87,6 +104,37 @@ class AccountController extends Controller
             'device_token' => $dtoRequest->deviceToken,
         ]);
 
+        // create user token
+        $userWordBody = [
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'appId' => $this->appId(),
+            'aid' => $fresnsResp->getData('aid'),
+            'aidToken' => $fresnsResp->getData('aidToken'),
+            'uid' => $account->uid,
+            'deviceToken' => $dtoRequest->deviceToken,
+            'expiredTime' => null,
+        ];
+        $fresnsUserTokenResp = \FresnsCmdWord::plugin('Fresns')->createUserToken($userWordBody);
+
+        if ($fresnsUserTokenResp->isErrorResponse()) {
+            return $fresnsUserTokenResp->errorResponse();
+        }
+
+        $loginToken->update([
+            'action_id' => $fresnsUserTokenResp->getData('aidTokenId'),
+        ]);
+
+        // login time
+        $account->update([
+            'last_login_at' => now(),
+        ]);
+
+        $user->update([
+            'last_login_at' => now(),
+        ]);
+
+        // wallet
         $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());
         $walletRecharges = array_map(function ($item) {
             unset($item['editorToolbar']);
@@ -103,13 +151,16 @@ class AccountController extends Controller
             return $item;
         }, $withdraws);
 
+        // data
         $data = [
             'authToken' => [
-                'aid' => $fresnsResp->getData('aid'),
-                'token' => $fresnsResp->getData('aidToken'),
-                'expiredHours' => $fresnsResp->getData('expiredHours'),
-                'expiredDays' => $fresnsResp->getData('expiredDays'),
-                'expiredDateTime' => $fresnsResp->getData('expiredDateTime'),
+                'aid' => $fresnsUserTokenResp->getData('aid'),
+                'aidToken' => $fresnsUserTokenResp->getData('aidToken'),
+                'uid' => $fresnsUserTokenResp->getData('uid'),
+                'uidToken' => $fresnsUserTokenResp->getData('uidToken'),
+                'expiredHours' => $fresnsUserTokenResp->getData('expiredHours'),
+                'expiredDays' => $fresnsUserTokenResp->getData('expiredDays'),
+                'expiredDateTime' => $fresnsUserTokenResp->getData('expiredDateTime'),
             ],
             'items' => [
                 'walletRecharges' => $walletRecharges,

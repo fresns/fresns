@@ -37,6 +37,7 @@ use App\Models\Hashtag;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\User;
+use App\Models\UserLog;
 use App\Utilities\ConfigUtility;
 use App\Utilities\DetailUtility;
 use App\Utilities\InteractionUtility;
@@ -510,12 +511,28 @@ class CommonController extends Controller
             $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             if ($tableColumn == 'avatar_file_id') {
+                if ($authUser->avatar_file_id && $authUser->avatar_file_id != $fileId) {
+                    UserLog::create([
+                        'user_id' => $authUser->id,
+                        'type' => UserLog::TYPE_AVATAR,
+                        'content' => $authUser->avatar_file_id,
+                    ]);
+                }
+
                 $authUser->update([
                     'avatar_file_id' => $fileId,
                 ]);
             }
 
             if ($tableColumn == 'banner_file_id') {
+                if ($authUser->banner_file_id && $authUser->banner_file_id != $fileId) {
+                    UserLog::create([
+                        'user_id' => $authUser->id,
+                        'type' => UserLog::TYPE_BANNER,
+                        'content' => $authUser->banner_file_id,
+                    ]);
+                }
+
                 $authUser->update([
                     'banner_file_id' => $fileId,
                 ]);

@@ -21,7 +21,6 @@ use App\Models\AppUsage;
 use App\Models\Archive;
 use App\Models\Config;
 use App\Models\File;
-use App\Models\LanguagePack;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Utilities\ExtendUtility;
@@ -110,15 +109,15 @@ class GlobalController extends Controller
             ]);
 
             if (empty($accountConfigs['account_center_service'])) {
-                $configs['account_center_service'] = config('app.url').'/account-center?accessToken={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_center_service'] = config('app.url').'/account-center?accessToken={accessToken}&callbackKey={postMessageKey}$redirectURL={redirectUrl}';
             }
 
             if (empty($accountConfigs['account_register_service'])) {
-                $configs['account_register_service'] = config('app.url').'/account-center/sign-up?accessToken={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_register_service'] = config('app.url').'/account-center/sign-up?accessToken={accessToken}&callbackKey={postMessageKey}$redirectURL={redirectUrl}';
             }
 
             if (empty($accountConfigs['account_login_service'])) {
-                $configs['account_login_service'] = config('app.url').'/account-center/login?accessToken={accessToken}&callbackKey={postMessageKey}';
+                $configs['account_login_service'] = config('app.url').'/account-center/login?accessToken={accessToken}&callbackKey={postMessageKey}$redirectURL={redirectUrl}';
             }
 
             // cache minutes
@@ -147,21 +146,7 @@ class GlobalController extends Controller
     {
         $langTag = $this->langTag();
 
-        $cacheKey = "fresns_language_pack_{$langTag}";
-        $cacheTag = 'fresnsConfigs';
-
-        $languagePack = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($languagePack)) {
-            $languages = LanguagePack::all();
-
-            $languagePack = [];
-            foreach ($languages as $language) {
-                $languagePack[$language->lang_key] = StrHelper::languageContent($language->lang_values, $langTag);
-            }
-
-            CacheHelper::put($languagePack, $cacheKey, $cacheTag);
-        }
+        $languagePack = ConfigHelper::fresnsConfigLanguagePack($langTag);
 
         return $this->success($languagePack);
     }
