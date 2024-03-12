@@ -148,6 +148,7 @@ class InstallController extends Controller
 
                         $query = match ($connection) {
                             'mysql' => 'SELECT 1 LIMIT 1',
+                            'mariadb' => 'SELECT 1 LIMIT 1',
                             'pgsql' => 'SELECT 1 LIMIT 1',
                             'sqlsrv' => 'SELECT TOP 1 1',
                             'sqlite' => 'SELECT 1 LIMIT 1',

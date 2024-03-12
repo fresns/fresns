@@ -81,6 +81,7 @@
                         <div class="col-sm-5">
                             <select class="form-select" id="DB_CONNECTION" name="database[DB_CONNECTION]">
                                 <option value="mysql" selected>MySQL</option>
+                                <option value="mariadb">MariaDB</option>
                                 <option value="pgsql">PostgreSQL</option>
                                 <option value="sqlsrv">SQL Server</option>
                                 <option value="sqlite">SQLite</option>
@@ -295,57 +296,57 @@
         }
 
         if (step == 4) {
-            const selectBox = document.getElementById("DB_CONNECTION");
-            const sqlForm = document.getElementById("sqlForm");
+            const selectBox = document.getElementById('DB_CONNECTION');
+            const sqlForm = document.getElementById('sqlForm');
 
-            const databaseName = document.getElementById("database_name");
-            const nameSqlite = document.getElementById("database_name_sqlite");
+            const databaseName = document.getElementById('database_name');
+            const nameSqlite = document.getElementById('database_name_sqlite');
 
-            const portMysql = document.getElementById("database_port_mysql");
-            const portPgsql = document.getElementById("database_port_pgsql");
-            const portSqlsrv = document.getElementById("database_port_sqlsrv");
+            const portMysql = document.getElementById('database_port_mysql');
+            const portPgsql = document.getElementById('database_port_pgsql');
+            const portSqlsrv = document.getElementById('database_port_sqlsrv');
 
-            const database = document.getElementById("DB_DATABASE");
-            const port = document.getElementById("DB_PORT");
+            const database = document.getElementById('DB_DATABASE');
+            const port = document.getElementById('DB_PORT');
 
-            selectBox.addEventListener("change", function() {
-                if (selectBox.value === "mysql") {
-                    portMysql.style.display = "block";
-                    port.setAttribute("placeholder", "3306");
-                    port.setAttribute("value", "3306");
+            selectBox.addEventListener('change', function() {
+                if (selectBox.value == 'mysql' || selectBox.value == 'mariadb') {
+                    portMysql.style.display = 'block';
+                    port.setAttribute('placeholder', '3306');
+                    port.setAttribute('value', '3306');
                 } else {
-                    portMysql.style.display = "none";
+                    portMysql.style.display = 'none';
                 }
 
-                if (selectBox.value === "pgsql") {
-                    portPgsql.style.display = "block";
-                    port.setAttribute("placeholder", "5432");
-                    port.setAttribute("value", "5432");
+                if (selectBox.value == 'pgsql') {
+                    portPgsql.style.display = 'block';
+                    port.setAttribute('placeholder', '5432');
+                    port.setAttribute('value', '5432');
                 } else {
-                    portPgsql.style.display = "none";
+                    portPgsql.style.display = 'none';
                 }
 
-                if (selectBox.value === "sqlsrv") {
-                    portSqlsrv.style.display = "block";
-                    port.setAttribute("placeholder", "1433");
-                    port.setAttribute("value", "1433");
+                if (selectBox.value == 'sqlsrv') {
+                    portSqlsrv.style.display = 'block';
+                    port.setAttribute('placeholder', '1433');
+                    port.setAttribute('value', '1433');
                 } else {
-                    portSqlsrv.style.display = "none";
+                    portSqlsrv.style.display = 'none';
                 }
 
-                if (selectBox.value === "sqlite") {
-                    sqlForm.style.display = "none";
-                    databaseName.style.display = "none";
-                    nameSqlite.style.display = "block";
+                if (selectBox.value == 'sqlite') {
+                    sqlForm.style.display = 'none';
+                    databaseName.style.display = 'none';
+                    nameSqlite.style.display = 'block';
 
-                    database.setAttribute("value", "{{ database_path('fresns.sqlite') }}");
+                    database.setAttribute('value', "{{ database_path('fresns.sqlite') }}");
                 } else {
-                    sqlForm.style.display = "block";
-                    databaseName.style.display = "block";
-                    nameSqlite.style.display = "none";
+                    sqlForm.style.display = 'block';
+                    databaseName.style.display = 'block';
+                    nameSqlite.style.display = 'none';
 
-                    database.setAttribute("placeholder", "fresns");
-                    database.setAttribute("value", "fresns");
+                    database.setAttribute('placeholder', 'fresns');
+                    database.setAttribute('value', 'fresns');
                 }
             });
         }
