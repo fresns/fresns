@@ -23,6 +23,7 @@ class CreateAccountDTO extends DTO
             'connectPhone' => ['integer', 'nullable'],
             'connectCountryCode' => ['integer', 'nullable'],
             'password' => ['string', 'nullable'],
+            'birthday' => ['date', 'nullable'],
             'createUser' => ['boolean', 'nullable'],
             'userInfo' => ['array', 'nullable'],
         ];

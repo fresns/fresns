@@ -162,19 +162,21 @@ class Basic
             );
         }
 
-        if ($dtoWordBody->aid) {
-            $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($includeEmptyCheckArr);
-
-            if ($verifyAccountToken->isErrorResponse()) {
-                return $verifyAccountToken->errorResponse();
-            }
-        }
-
         if ($dtoWordBody->uid) {
             $verifyUserToken = \FresnsCmdWord::plugin()->verifyUserToken($includeEmptyCheckArr);
 
             if ($verifyUserToken->isErrorResponse()) {
                 return $verifyUserToken->errorResponse();
+            }
+
+            return $this->success();
+        }
+
+        if ($dtoWordBody->aid) {
+            $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($includeEmptyCheckArr);
+
+            if ($verifyAccountToken->isErrorResponse()) {
+                return $verifyAccountToken->errorResponse();
             }
         }
 

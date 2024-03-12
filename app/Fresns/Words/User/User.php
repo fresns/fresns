@@ -71,13 +71,14 @@ class User
             'account_id' => $account->id,
             'username' => $dtoWordBody->username,
             'nickname' => $dtoWordBody->nickname ?? Str::random(8),
-            'password' => isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null,
+            'pin' => isset($dtoWordBody->pin) ? Hash::make($dtoWordBody->pin) : null,
             'avatar_file_id' => isset($dtoWordBody->avatarFid) ? File::where('fid', $dtoWordBody->avatarFid)->value('id') : null,
             'avatar_file_url' => $dtoWordBody->avatarUrl ?? null,
             'banner_file_id' => isset($dtoWordBody->bannerFid) ? File::where('fid', $dtoWordBody->bannerFid)->value('id') : null,
             'banner_file_url' => $dtoWordBody->bannerUrl ?? null,
             'gender' => $dtoWordBody->gender ?? UserModel::GENDER_UNKNOWN,
-            'birthday' => $dtoWordBody->birthday ?? null,
+            'genderPronoun' => $dtoWordBody->genderPronoun ?? null,
+            'genderCustom' => $dtoWordBody->genderCustom ?? null,
         ];
         $userModel = UserModel::create(array_filter($userArr));
 
@@ -168,42 +169,28 @@ class User
         }
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+        $user = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
 
-        $userTokenModel = SessionToken::where('app_id', $dtoWordBody->appId)
-            ->where('account_id', $accountId)
-            ->where('account_token', $dtoWordBody->aidToken)
-            ->where('user_id', $userId)
-            ->first();
+        if (empty($user) || $user->account_id != $accountId) {
+            $langTag = AppHelper::getLangTag();
 
-        if ($userTokenModel) {
-            if (empty($userTokenModel->expired_at) || $userTokenModel->expired_at->greaterThan(Carbon::now())) {
-                $expiredHours = null;
-                $expiredDays = null;
-                $expiredDateTime = null;
-                if ($userTokenModel->expired_at) {
-                    $expiredHours = $userTokenModel->expired_at->diffInHours(Carbon::now());
-                    $expiredDays = $userTokenModel->expired_at->diffInDays(Carbon::now());
-                    $expiredDateTime = date('Y-m-d H:i:s', $userTokenModel->expired_at);
-                }
-
-                return $this->success([
-                    'aid' => $dtoWordBody->aid,
-                    'aidToken' => $dtoWordBody->aidToken,
-                    'uid' => $dtoWordBody->uid,
-                    'uidToken' => $userTokenModel->user_token,
-                    'uidTokenId' => $userTokenModel->id,
-                    'expiredHours' => $expiredHours,
-                    'expiredDays' => $expiredDays,
-                    'expiredDateTime' => $expiredDateTime,
-                ]);
-            }
+            return $this->failure(
+                31602,
+                ConfigUtility::getCodeMessage(31602, 'Fresns', $langTag)
+            );
         }
 
-        $token = \Str::random(32);
+        $userTokenModel = SessionToken::where('platform_id', $dtoWordBody->platformId)
+            ->where('app_id', $dtoWordBody->appId)
+            ->where('account_id', $accountId)
+            ->where('account_token', $dtoWordBody->aidToken)
+            ->where('user_id', $user->id)
+            ->first();
+
         $expiredHours = null;
         $expiredDays = null;
         $expiredDateTime = null;
+
         if ($dtoWordBody->expiredTime) {
             $now = time();
             $time = $dtoWordBody->expiredTime * 3600;
@@ -216,13 +203,33 @@ class User
             $expiredDateTime = date('Y-m-d H:i:s', $expiredTime);
         }
 
+        if ($userTokenModel) {
+            $userTokenModel->update([
+                'version' => $dtoWordBody->version,
+                'expired_at' => $expiredDateTime,
+            ]);
+
+            return $this->success([
+                'aid' => $dtoWordBody->aid,
+                'aidToken' => $dtoWordBody->aidToken,
+                'uid' => $dtoWordBody->uid,
+                'uidToken' => $userTokenModel->user_token,
+                'uidTokenId' => $userTokenModel->id,
+                'expiredHours' => $expiredHours,
+                'expiredDays' => $expiredDays,
+                'expiredDateTime' => $expiredDateTime,
+            ]);
+        }
+
+        $token = Str::random(64);
+
         $condition = [
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
             'app_id' => $dtoWordBody->appId,
             'account_id' => $accountId,
             'account_token' => $dtoWordBody->aidToken,
-            'user_id' => $userId,
+            'user_id' => $user->id,
             'user_token' => $token,
             'device_token' => $dtoWordBody->deviceToken ?? null,
             'expired_at' => $expiredDateTime,
@@ -247,11 +254,11 @@ class User
     {
         $dtoWordBody = new VerifyUserTokenDTO($wordBody);
 
-        $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
+        // $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
 
-        if ($verifyAccountToken->isErrorResponse()) {
-            return $verifyAccountToken->errorResponse();
-        }
+        // if ($verifyAccountToken->isErrorResponse()) {
+        //     return $verifyAccountToken->errorResponse();
+        // }
 
         $langTag = AppHelper::getLangTag();
 
@@ -261,15 +268,6 @@ class User
 
         $cacheKey = "fresns_token_user_{$userId}_{$uidToken}";
         $cacheTag = 'fresnsUsers';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return $this->failure(
-                31505,
-                ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
-            );
-        }
 
         $userToken = CacheHelper::get($cacheKey, $cacheTag);
 

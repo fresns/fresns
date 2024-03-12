@@ -28,6 +28,7 @@ use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class Account
 {
@@ -41,6 +42,11 @@ class Account
         $typeInt = (int) $dtoWordBody->type;
 
         switch ($typeInt) {
+            case AccountModel::ACT_TYPE_AID:
+                // aid
+                $checkAccount = null;
+                break;
+
             case AccountModel::ACT_TYPE_EMAIL:
                 // email
                 $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
@@ -149,11 +155,12 @@ class Account
                 'aid' => $accountModel->aid,
                 'username' => $userInfo['username'] ?? null,
                 'nickname' => $userInfo['nickname'] ?? null,
-                'password' => $userInfo['password'] ?? null,
+                'pin' => $userInfo['pin'] ?? null,
                 'avatarFid' => $userInfo['avatarFid'] ?? null,
                 'avatarUrl' => $userInfo['avatarUrl'] ?? null,
                 'gender' => $userInfo['gender'] ?? null,
-                'birthday' => $userInfo['birthday'] ?? null,
+                'gender_pronoun' => $userInfo['genderPronoun'] ?? null,
+                'gender_custom' => $userInfo['genderCustom'] ?? null,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createUser($userWordBody);
@@ -182,6 +189,10 @@ class Account
         $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->type) {
+            case AccountModel::ACT_TYPE_AID:
+                $account = AccountModel::where('aid', $dtoWordBody->account)->first();
+                break;
+
             case AccountModel::ACT_TYPE_EMAIL:
                 $account = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
@@ -251,10 +262,6 @@ class Account
                 return $fresnsResp->getOrigin();
             }
         }
-
-        $account->update([
-            'last_login_at' => now(),
-        ]);
 
         return $this->success([
             'type' => $account->type,
@@ -407,7 +414,6 @@ class Account
         $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
-        $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
 
         if (empty($accountId)) {
             return $this->failure(
@@ -416,6 +422,8 @@ class Account
             );
         }
 
+        $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
+
         if (empty($keyInfo) || ! $keyInfo->is_enabled) {
             return $this->failure(
                 31301,
@@ -423,10 +431,10 @@ class Account
             );
         }
 
-        $token = \Str::random(32);
         $expiredHours = null;
         $expiredDays = null;
         $expiredDateTime = null;
+
         if ($dtoWordBody->expiredTime) {
             $now = time();
             $time = $dtoWordBody->expiredTime * 3600;
@@ -438,6 +446,8 @@ class Account
             $expiredDays = $dt->diffInDays(Carbon::now());
             $expiredDateTime = date('Y-m-d H:i:s', $expiredTime);
         }
+
+        $token = Str::random(64);
 
         $condition = [
             'platform_id' => $dtoWordBody->platformId,
@@ -479,15 +489,6 @@ class Account
 
         $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
         $cacheTag = 'fresnsAccounts';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return $this->failure(
-                31505,
-                ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
-            );
-        }
 
         $accountToken = CacheHelper::get($cacheKey, $cacheTag);
 

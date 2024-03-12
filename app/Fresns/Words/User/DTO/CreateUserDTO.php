@@ -22,13 +22,14 @@ class CreateUserDTO extends DTO
             'appId' => ['string', 'nullable', 'required_with:aidToken'],
             'username' => ['string', 'nullable', 'alpha_dash'],
             'nickname' => ['string', 'nullable'],
-            'password' => ['string', 'nullable'],
+            'pin' => ['string', 'nullable'],
             'avatarFid' => ['string', 'nullable'],
             'avatarUrl' => ['string', 'nullable'],
             'bannerFid' => ['string', 'nullable'],
             'bannerUrl' => ['string', 'nullable'],
-            'gender' => ['numeric', 'nullable', 'in:1,2,3'],
-            'birthday' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
+            'gender' => ['numeric', 'nullable', 'in:1,2,3,4'],
+            'genderPronoun' => ['numeric', 'nullable', 'in:1,2,3'],
+            'genderCustom' => ['string', 'nullable'],
         ];
     }
 }
