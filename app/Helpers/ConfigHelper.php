@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
+use App\Models\LanguagePack;
 
 class ConfigHelper
 {
@@ -196,5 +197,27 @@ class ConfigHelper
         }
 
         return $urlExpire;
+    }
+
+    // Get language pack
+    public static function fresnsConfigLanguagePack(string $langTag): ?array
+    {
+        $cacheKey = "fresns_language_pack_{$langTag}";
+        $cacheTag = 'fresnsConfigs';
+
+        $languagePack = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($languagePack)) {
+            $languages = LanguagePack::all();
+
+            $languagePack = [];
+            foreach ($languages as $language) {
+                $languagePack[$language->lang_key] = StrHelper::languageContent($language->lang_values, $langTag);
+            }
+
+            CacheHelper::put($languagePack, $cacheKey, $cacheTag);
+        }
+
+        return $languagePack;
     }
 }

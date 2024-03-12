@@ -321,6 +321,7 @@ class PrimaryHelper
         return $subgroups;
     }
 
+    // get account id
     public static function fresnsAccountIdByUserId(?string $userId = null): ?int
     {
         if (empty($userId)) {
@@ -328,5 +329,23 @@ class PrimaryHelper
         }
 
         return PrimaryHelper::fresnsModelByFsid('user', $userId)?->account_id;
+    }
+
+    // get group id
+    public static function fresnsGroupIdByContentFsid(string $type, ?string $fsid = null): ?int
+    {
+        if (empty($fsid)) {
+            return null;
+        }
+
+        $model = PrimaryHelper::fresnsModelByFsid($type, $fsid);
+
+        if ($type == 'comment') {
+            $model = PrimaryHelper::fresnsModelById('post', $model?->post_id);
+        }
+
+        $groupId = $model?->group_id;
+
+        return $groupId;
     }
 }
