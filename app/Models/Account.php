@@ -28,13 +28,15 @@ class Account extends Authenticatable
     const TYPE_GENERAL_ADMIN = 2;
     const TYPE_GENERAL_ACCOUNT = 3;
 
-    const ACT_TYPE_EMAIL = 1;
-    const ACT_TYPE_PHONE = 2;
-    const ACT_TYPE_CONNECT = 3;
+    const ACT_TYPE_AID = 1;
+    const ACT_TYPE_EMAIL = 2;
+    const ACT_TYPE_PHONE = 3;
+    const ACT_TYPE_CONNECT = 4;
 
     protected $guarded = [];
 
     protected $dates = [
+        'birthday',
         'last_login_at',
         'verify_at',
         'wait_delete_at',
