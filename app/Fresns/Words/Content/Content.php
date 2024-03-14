@@ -492,33 +492,10 @@ class Content
             ]);
         }
 
-        // location info
-        $mapLocation = null;
-        if ($dtoWordBody->locationInfo) {
-            $dtoLocationInfo = new LocationInfoDTO($dtoWordBody->locationInfo);
-
-            $mapLng = $dtoLocationInfo->longitude;
-            $mapLat = $dtoLocationInfo->latitude;
-
-            if ($mapLng && $mapLat) {
-                switch (config('database.default')) {
-                    case 'mysql':
-                        $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
-                        break;
-
-                    case 'sqlite':
-                        $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
-                        break;
-
-                    case 'pgsql':
-                        $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
-                        break;
-
-                    case 'sqlsrv':
-                        $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
-                        break;
-                }
-            }
+        // geotag or location info
+        $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoWordBody->gtid);
+        if (empty($geotag) && $dtoWordBody->locationInfo) {
+            $geotag = ContentUtility::releaseLocationInfo($dtoWordBody->locationInfo);
         }
 
         switch ($type) {
@@ -531,12 +508,11 @@ class Content
                     'user_id' => $author->id,
                     'quoted_post_id' => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->quotePid) ?? 0,
                     'group_id' => PrimaryHelper::fresnsPrimaryId('group', $dtoWordBody->gid) ?? 0,
-                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid) ?? 0,
+                    'geotag_id' => $geotag?->id ?? 0,
                     'title' => $dtoWordBody->title ? Str::of($dtoWordBody->title)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_location' => $mapLocation,
                     'permissions' => $permissions,
                 ]);
 
@@ -567,13 +543,12 @@ class Content
                     'user_id' => $author->id,
                     'post_id' => $post->id,
                     'top_parent_id' => $commentTopParentId,
-                    'parent_id' => $parentComment?->id,
-                    'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid) ?? 0,
+                    'parent_id' => $parentComment?->id ?? 0,
+                    'geotag_id' => $geotag?->id ?? 0,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
                     'privacy_state' => $privacyState,
-                    'map_location' => $mapLocation,
                 ]);
 
                 ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);

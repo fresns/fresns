@@ -806,12 +806,16 @@ class ContentUtility
         // geotag
         $mapLocation = null;
         switch (config('database.default')) {
+            case 'sqlite':
+                $mapLocation = DB::raw("MakePoint($longitude, $latitude, 4326)");
+                break;
+
             case 'mysql':
                 $mapLocation = DB::raw("ST_GeomFromText('POINT($longitude $latitude)', 4326)");
                 break;
 
-            case 'sqlite':
-                $mapLocation = DB::raw("MakePoint($longitude, $latitude, 4326)");
+            case 'mariadb':
+                $mapLocation = DB::raw("ST_GeomFromText('POINT($longitude $latitude)', 4326)");
                 break;
 
             case 'pgsql':
@@ -991,32 +995,8 @@ class ContentUtility
     public static function releasePost(PostLog $postLog): Post
     {
         $geotag = PrimaryHelper::fresnsModelById('geotag', $postLog->geotag_id);
-        if (! $geotag && $postLog->location_info) {
+        if (empty($geotag) && $postLog->location_info) {
             $geotag = ContentUtility::releaseLocationInfo($postLog->location_info);
-        }
-
-        $mapLng = $geotag?->map_longitude;
-        $mapLat = $geotag?->map_latitude;
-
-        $mapLocation = null;
-        if ($mapLng && $mapLat) {
-            switch (config('database.default')) {
-                case 'mysql':
-                    $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
-                    break;
-
-                case 'sqlite':
-                    $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
-                    break;
-
-                case 'pgsql':
-                    $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
-                    break;
-
-                case 'sqlsrv':
-                    $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
-                    break;
-            }
         }
 
         // old post
@@ -1033,13 +1013,12 @@ class ContentUtility
             'user_id' => $postLog->user_id,
             'quoted_post_id' => $postLog->quoted_post_id,
             'group_id' => $postLog->group_id,
-            'geotag_id' => $geotag?->id,
+            'geotag_id' => $geotag?->id ?? 0,
             'title' => $postLog->title,
             'content' => $postLog->content,
             'lang_tag' => $postLog->lang_tag,
             'is_markdown' => $postLog->is_markdown,
             'is_anonymous' => $postLog->is_anonymous,
-            'map_location' => $mapLocation,
             'more_info' => $postLog->more_info,
             'permissions' => $postLog->permissions,
         ]);
@@ -1099,32 +1078,8 @@ class ContentUtility
         }
 
         $geotag = PrimaryHelper::fresnsModelById('geotag', $commentLog->geotag_id);
-        if (! $geotag && $commentLog->location_info) {
+        if (empty($geotag) && $commentLog->location_info) {
             $geotag = ContentUtility::releaseLocationInfo($commentLog->location_info);
-        }
-
-        $mapLng = $geotag?->map_longitude;
-        $mapLat = $geotag?->map_latitude;
-
-        $mapLocation = null;
-        if ($mapLng && $mapLat) {
-            switch (config('database.default')) {
-                case 'mysql':
-                    $mapLocation = DB::raw("ST_GeomFromText('POINT($mapLng $mapLat)', 4326)");
-                    break;
-
-                case 'sqlite':
-                    $mapLocation = DB::raw("MakePoint($mapLng, $mapLat, 4326)");
-                    break;
-
-                case 'pgsql':
-                    $mapLocation = DB::raw("ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)");
-                    break;
-
-                case 'sqlsrv':
-                    $mapLocation = DB::raw("geography::Point($mapLat, $mapLng, 4326)");
-                    break;
-            }
         }
 
         // old comment
@@ -1149,12 +1104,12 @@ class ContentUtility
             'post_id' => $commentLog->post_id,
             'top_parent_id' => $topParentId,
             'parent_id' => $commentLog->parent_comment_id,
+            'geotag_id' => $geotag?->id ?? 0,
             'content' => $commentLog->content,
             'lang_tag' => $commentLog->lang_tag,
             'is_markdown' => $commentLog->is_markdown,
             'is_anonymous' => $commentLog->is_anonymous,
             'privacy_state' => $privacyState,
-            'map_location' => $mapLocation,
             'more_info' => $commentLog->more_info,
             'permissions' => $commentLog->permissions,
         ]);
