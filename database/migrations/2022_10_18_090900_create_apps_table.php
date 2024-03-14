@@ -31,20 +31,16 @@ class CreateAppsTable extends Migration
                     $table->jsonb('panel_usages')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('panel_usages', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('panel_usages')->nullable();
             }
             $table->string('app_host', 128)->nullable();
             $table->string('access_path')->nullable();
             $table->string('settings_path', 128)->nullable();
-            $table->unsignedTinyInteger('is_upgrade')->default(0);
+            $table->boolean('is_upgrade')->default(0);
             $table->string('upgrade_code', 32)->nullable();
             $table->string('upgrade_version', 16)->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(0);
+            $table->boolean('is_enabled')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -55,21 +51,17 @@ class CreateAppsTable extends Migration
             $table->string('app_fskey', 64)->index('callback_app_fskey');
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('ulid', 64)->unique('callback_ulid');
+            $table->ulid('ulid')->unique('callback_ulid');
             $table->unsignedSmallInteger('type')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('content')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('content', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('content')->nullable();
             }
-            $table->unsignedTinyInteger('is_used')->default(0);
+            $table->boolean('is_used')->default(0);
             $table->string('used_app_fskey', 64)->nullable()->index('callback_used_app_fskey');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -85,25 +77,21 @@ class CreateAppsTable extends Migration
                     $table->jsonb('name');
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('name', 'max');
-                    break;
-
                 default:
                     $table->json('name');
             }
             $table->unsignedBigInteger('icon_file_id')->nullable();
             $table->string('icon_file_url')->nullable();
             $table->string('scene', 16)->nullable();
-            $table->unsignedTinyInteger('editor_toolbar')->default(0);
+            $table->boolean('editor_toolbar')->default(0);
             $table->unsignedTinyInteger('editor_number')->nullable();
-            $table->unsignedTinyInteger('is_group_admin')->nullable()->default(0);
+            $table->boolean('is_group_admin')->nullable()->default(0);
             $table->unsignedInteger('group_id')->nullable()->index('app_usage_group_id');
             $table->string('roles', 128)->nullable();
             $table->string('parameter', 128)->nullable();
             $table->unsignedSmallInteger('sort_order')->default(9);
-            $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('can_delete')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

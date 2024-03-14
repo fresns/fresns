@@ -28,11 +28,6 @@ class CreateOperationsTable extends Migration
                     $table->jsonb('description')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('name', 'max')->nullable();
-                    $table->nvarchar('description', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('name')->nullable();
                     $table->json('description')->nullable();
@@ -43,7 +38,7 @@ class CreateOperationsTable extends Migration
             $table->string('image_active_file_url')->nullable();
             $table->unsignedTinyInteger('display_type')->default(1);
             $table->string('app_fskey', 64);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

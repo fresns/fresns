@@ -23,7 +23,7 @@ class CreateVerifyCodesTable extends Migration
             $table->unsignedTinyInteger('type');
             $table->string('account', 128);
             $table->string('code', 12);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('expired_at');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

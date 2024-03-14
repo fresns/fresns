@@ -33,17 +33,12 @@ class CreateExtendsTable extends Migration
                     $table->jsonb('action_items')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('content', 'max')->nullable();
-                    $table->nvarchar('action_items', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('content')->nullable();
                     $table->json('action_items')->nullable();
             }
             $table->unsignedTinyInteger('position')->default(2);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('ended_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -55,7 +50,7 @@ class CreateExtendsTable extends Migration
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
             $table->unsignedBigInteger('extend_id')->index('extend_usage_extend_id');
-            $table->unsignedTinyInteger('can_delete')->default(1);
+            $table->boolean('can_delete')->default(1);
             $table->unsignedSmallInteger('sort_order')->default(9);
             $table->string('app_fskey', 64);
             $table->timestamp('created_at')->useCurrent();

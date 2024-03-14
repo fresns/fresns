@@ -44,10 +44,6 @@ class CreateUsersTable extends Migration
                     $table->jsonb('more_info')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('more_info', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('more_info')->nullable();
             }
@@ -59,8 +55,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_username_at')->nullable();
             $table->timestamp('last_nickname_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1)->index('user_is_enabled');
-            $table->unsignedTinyInteger('wait_delete')->default(0);
+            $table->boolean('is_enabled')->default(1)->index('user_is_enabled');
+            $table->boolean('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -72,7 +68,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('user_id')->index('user_log_user_id');
             $table->unsignedTinyInteger('type')->index('user_log_type');
             $table->text('content');
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -151,7 +147,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->index('role_user_id');
             $table->unsignedInteger('role_id')->index('user_role_id');
-            $table->unsignedTinyInteger('is_main')->default(0);
+            $table->boolean('is_main')->default(0);
             $table->timestamp('expired_at')->nullable();
             $table->unsignedInteger('restore_role_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
@@ -181,8 +177,8 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('follow_type');
             $table->unsignedBigInteger('follow_id');
             $table->string('user_note', 128)->nullable();
-            $table->unsignedTinyInteger('is_mutual')->default(0);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_mutual')->default(0);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

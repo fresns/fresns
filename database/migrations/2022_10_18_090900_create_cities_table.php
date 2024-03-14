@@ -36,13 +36,6 @@ class CreateCitiesTable extends Migration
                     $table->jsonb('city')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('continent', 'max')->nullable();
-                    $table->nvarchar('country', 'max')->nullable();
-                    $table->nvarchar('region', 'max')->nullable();
-                    $table->nvarchar('city', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('continent')->nullable();
                     $table->json('country')->nullable();

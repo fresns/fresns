@@ -25,10 +25,6 @@ class CreateStickersTable extends Migration
                     $table->jsonb('name');
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('name', 'max');
-                    break;
-
                 default:
                     $table->json('name');
             }
@@ -37,7 +33,7 @@ class CreateStickersTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->unsignedInteger('parent_id')->nullable()->index('sticker_parent_id');
             $table->unsignedSmallInteger('sort_order')->default(9);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

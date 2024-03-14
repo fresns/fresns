@@ -27,22 +27,10 @@ class CreateCommentsTable extends Migration
             $table->unsignedInteger('geotag_id')->default(0)->index('comment_geotag_id');
             $table->longText('content')->nullable();
             $table->string('lang_tag', 16)->nullable()->index('comment_lang_tag');
-            $table->unsignedTinyInteger('is_markdown')->default(0);
-            $table->unsignedTinyInteger('is_anonymous')->default(0)->index('comment_is_anonymous');
+            $table->boolean('is_markdown')->default(0);
+            $table->boolean('is_anonymous')->default(0)->index('comment_is_anonymous');
             $table->unsignedTinyInteger('privacy_state')->default(1)->index('comment_privacy_state');
-            switch (config('database.default')) {
-                case 'pgsql':
-                    $table->point('map_location')->nullable()->index('comment_map_location');
-                    break;
-
-                case 'sqlsrv':
-                    $table->geography('map_location')->nullable()->index('comment_map_location');
-                    break;
-
-                default:
-                    $table->point('map_location')->nullable()->index('comment_map_location');
-            }
-            $table->unsignedTinyInteger('is_sticky')->default(0);
+            $table->boolean('is_sticky')->default(0);
             $table->unsignedTinyInteger('digest_state')->default(1)->index('comment_digest_state');
             $table->timestamp('digested_at')->nullable();
             $table->unsignedInteger('view_count')->default(0);
@@ -65,17 +53,12 @@ class CreateCommentsTable extends Migration
                     $table->jsonb('permissions')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('more_info', 'max')->nullable();
-                    $table->nvarchar('permissions', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('more_info')->nullable();
                     $table->json('permissions')->nullable();
             }
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1)->index('comment_is_enabled');
+            $table->boolean('is_enabled')->default(1)->index('comment_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -92,9 +75,9 @@ class CreateCommentsTable extends Migration
             $table->unsignedInteger('geotag_id')->nullable();
             $table->longText('content')->nullable();
             $table->string('lang_tag', 16)->nullable()->index('comment_log_lang_tag');
-            $table->unsignedTinyInteger('is_markdown')->default(0);
-            $table->unsignedTinyInteger('is_anonymous')->default(0);
-            $table->unsignedTinyInteger('is_private')->default(0);
+            $table->boolean('is_markdown')->default(0);
+            $table->boolean('is_anonymous')->default(0);
+            $table->boolean('is_private')->default(0);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('location_info')->nullable();
@@ -102,18 +85,12 @@ class CreateCommentsTable extends Migration
                     $table->jsonb('permissions')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('location_info', 'max')->nullable();
-                    $table->nvarchar('more_info', 'max')->nullable();
-                    $table->nvarchar('permissions', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('location_info')->nullable();
                     $table->json('more_info')->nullable();
                     $table->json('permissions')->nullable();
             }
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->unsignedTinyInteger('state')->default(1)->index('comment_log_state');
             $table->string('reason')->nullable();
             $table->timestamp('submit_at')->nullable();

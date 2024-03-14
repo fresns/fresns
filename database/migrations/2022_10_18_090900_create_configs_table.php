@@ -22,9 +22,9 @@ class CreateConfigsTable extends Migration
             $table->string('item_key', 64)->unique('item_key');
             $table->longText('item_value')->nullable();
             $table->string('item_type', 16)->default('string');
-            $table->unsignedTinyInteger('is_multilingual')->default(0);
-            $table->unsignedTinyInteger('is_custom')->default(1);
-            $table->unsignedTinyInteger('is_api')->default(0);
+            $table->boolean('is_multilingual')->default(0);
+            $table->boolean('is_custom')->default(1);
+            $table->boolean('is_api')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -37,10 +37,6 @@ class CreateConfigsTable extends Migration
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('messages')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->nvarchar('messages', 'max')->nullable();
                     break;
 
                 default:
@@ -61,14 +57,10 @@ class CreateConfigsTable extends Migration
                     $table->jsonb('lang_values')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('lang_values', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('lang_values')->nullable();
             }
-            $table->unsignedTinyInteger('is_custom')->default(1);
+            $table->boolean('is_custom')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

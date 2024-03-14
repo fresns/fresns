@@ -31,11 +31,6 @@ class CreateGeotagsTable extends Migration
                     $table->jsonb('description')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('name', 'max')->nullable();
-                    $table->nvarchar('description', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('name')->nullable();
                     $table->json('description')->nullable();
@@ -44,23 +39,15 @@ class CreateGeotagsTable extends Migration
             $table->unsignedTinyInteger('map_id')->default(1)->index('geotag_map_id');
             $table->decimal('map_longitude', 12, 8)->index('geotag_map_longitude');
             $table->decimal('map_latitude', 12, 8)->index('geotag_map_latitude');
+            $table->geometry('map_location')->spatialIndex('geotag_map_location');
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->point('map_location')->index('geotag_map_location');
                     $table->jsonb('district')->nullable();
                     $table->jsonb('address')->nullable();
                     $table->jsonb('more_info')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->geography('map_location')->index('geotag_map_location');
-                    $table->nvarchar('district', 'max')->nullable();
-                    $table->nvarchar('address', 'max')->nullable();
-                    $table->nvarchar('more_info', 'max')->nullable();
-                    break;
-
                 default:
-                    $table->point('map_location')->index('geotag_map_location');
                     $table->json('district')->nullable();
                     $table->json('address')->nullable();
                     $table->json('more_info')->nullable();
@@ -76,7 +63,7 @@ class CreateGeotagsTable extends Migration
             $table->unsignedInteger('comment_digest_count')->default(0);
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1)->index('geotag_is_enabled');
+            $table->boolean('is_enabled')->default(1)->index('geotag_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

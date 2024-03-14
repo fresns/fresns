@@ -26,11 +26,6 @@ class CreateArchivesTable extends Migration
                     $table->jsonb('description')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('name', 'max')->nullable();
-                    $table->nvarchar('description', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('name')->nullable();
                     $table->json('description')->nullable();
@@ -46,16 +41,12 @@ class CreateArchivesTable extends Migration
                     $table->jsonb('element_options')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('element_options', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('element_options')->nullable();
             }
             $table->unsignedTinyInteger('file_type')->nullable();
-            $table->unsignedTinyInteger('is_multiple')->default(0);
-            $table->unsignedTinyInteger('is_required')->default(0);
+            $table->boolean('is_multiple')->default(0);
+            $table->boolean('is_required')->default(0);
             $table->string('input_pattern', 128)->nullable();
             $table->unsignedSmallInteger('input_max')->nullable();
             $table->unsignedSmallInteger('input_min')->nullable();
@@ -65,7 +56,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedSmallInteger('input_step')->nullable();
             $table->unsignedSmallInteger('sort_order')->default(9);
             $table->string('value_type', 16)->default('string');
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

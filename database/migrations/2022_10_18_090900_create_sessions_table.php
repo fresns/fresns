@@ -25,8 +25,8 @@ class CreateSessionsTable extends Migration
             $table->string('app_fskey', 32)->nullable();
             $table->string('app_id', 8)->unique('app_id');
             $table->string('app_key', 32);
-            $table->unsignedTinyInteger('is_read_only')->default(0);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->boolean('is_read_only')->default(0);
+            $table->boolean('is_enabled')->default(1);
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -74,11 +74,6 @@ class CreateSessionsTable extends Migration
                 case 'pgsql':
                     $table->jsonb('device_info')->nullable();
                     $table->jsonb('more_info')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->nvarchar('device_info', 'max')->nullable();
-                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:

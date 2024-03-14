@@ -30,10 +30,6 @@ class CreateHashtagsTable extends Migration
                     $table->jsonb('more_info')->nullable();
                     break;
 
-                case 'sqlsrv':
-                    $table->nvarchar('more_info', 'max')->nullable();
-                    break;
-
                 default:
                     $table->json('more_info')->nullable();
             }
@@ -48,7 +44,7 @@ class CreateHashtagsTable extends Migration
             $table->unsignedInteger('comment_digest_count')->default(0);
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1)->index('hashtag_is_enabled');
+            $table->boolean('is_enabled')->default(1)->index('hashtag_is_enabled');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

@@ -32,17 +32,13 @@ class CreateFilesTable extends Migration
             $table->string('path')->unique('file_path');
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
-            $table->unsignedTinyInteger('image_is_long')->default(0);
+            $table->boolean('image_is_long')->default(0);
             $table->unsignedSmallInteger('audio_time')->nullable();
             $table->unsignedSmallInteger('video_time')->nullable();
             $table->string('video_poster_path')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_info')->nullable();
-                    break;
-
-                case 'sqlsrv':
-                    $table->nvarchar('more_info', 'max')->nullable();
                     break;
 
                 default:
@@ -52,8 +48,8 @@ class CreateFilesTable extends Migration
             $table->string('transcoding_reason')->nullable();
             $table->string('original_path')->nullable();
             $table->unsignedTinyInteger('warning_type')->default(1);
-            $table->unsignedTinyInteger('is_enabled')->default(1);
-            $table->unsignedTinyInteger('physical_deletion')->default(0);
+            $table->boolean('is_enabled')->default(1);
+            $table->boolean('physical_deletion')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
