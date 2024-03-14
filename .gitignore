@@ -1,30 +1,24 @@
+/.phpunit.cache
 /node_modules
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /vendor
-.phpunit.cache
-.fleet
-.idea
-.vscode
-.tmp
 .env
 .env.backup
 .env.production
 .phpunit.result.cache
-.phpstorm.meta.php
-.devcontainer
-.DS_Store
-_ide_helper.php
-_ide_helper_models.php
 Homestead.json
 Homestead.yaml
 auth.json
-package.json
-package-lock.json
 npm-debug.log
 yarn-error.log
+/.fleet
+/.idea
+/.vscode
+
+# lock
 install.lock
 composer.lock
 
@@ -34,6 +28,6 @@ composer.lock
 /config/markets.php
 /plugins/*
 /themes/*
-/Web-Engine
+/Website-Engine
 composer-dev.json
 fresns-dev.json
