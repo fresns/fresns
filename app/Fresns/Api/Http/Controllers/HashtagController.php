@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
@@ -207,11 +207,11 @@ class HashtagController extends Controller
         $hashtag = Hashtag::where('slug', $slug)->first();
 
         if (empty($hashtag)) {
-            throw new ApiException(37200);
+            throw new ResponseException(37200);
         }
 
         if (! $hashtag->is_enabled) {
-            throw new ApiException(37201);
+            throw new ResponseException(37201);
         }
 
         $langTag = $this->langTag();
@@ -252,11 +252,11 @@ class HashtagController extends Controller
         $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
 
         if (empty($hashtag) || $hashtag?->deleted_at) {
-            throw new ApiException(37200);
+            throw new ResponseException(37200);
         }
 
         if (! $hashtag->is_enabled) {
-            throw new ApiException(37201);
+            throw new ResponseException(37201);
         }
 
         InteractionService::checkInteractionSetting('hashtag', $dtoRequest->type);

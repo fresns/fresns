@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Services;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Group;
@@ -56,7 +56,7 @@ class ContentService
         $dateLimit = strtotime($authUserExpiredDatetime);
 
         if ($contentCreatedDatetime > $dateLimit) {
-            throw new ApiException(35304);
+            throw new ResponseException(35304);
         }
     }
 
@@ -74,7 +74,7 @@ class ContentService
         }
 
         if (empty($authUserId)) {
-            throw new ApiException(37103);
+            throw new ResponseException(37103);
         }
 
         $userRole = PermissionUtility::getUserMainRole($authUserId);
@@ -87,7 +87,7 @@ class ContentService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $groupId, $authUserId);
 
         if (! $interactionStatus['followStatus']) {
-            throw new ApiException(37103);
+            throw new ResponseException(37103);
         }
 
         if ($group->private_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
@@ -95,14 +95,14 @@ class ContentService
         }
 
         if ($group->private_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
-            throw new ApiException(37105);
+            throw new ResponseException(37105);
         }
 
         $contentCreatedDatetime = strtotime($dateTime);
         $dateLimit = strtotime($interactionStatus['followExpiryDateTime']);
 
         if ($contentCreatedDatetime > $dateLimit) {
-            throw new ApiException(37106);
+            throw new ResponseException(37106);
         }
     }
 
@@ -115,23 +115,23 @@ class ContentService
         // Check publish limit
         $contentInterval = PermissionUtility::checkContentIntervalTime($authUserId, $type);
         if (! $contentInterval && ! $contentMainId) {
-            throw new ApiException(36119);
+            throw new ResponseException(36119);
         }
         $contentCount = PermissionUtility::checkContentPublishCountRules($authUserId, $type);
         if (! $contentCount && ! $contentMainId) {
-            throw new ApiException(36120);
+            throw new ResponseException(36120);
         }
 
         $publishConfig = ConfigUtility::getPublishConfigByType($type, $authUserId, $langTag, $timezone);
 
         // Check publication requirements
         if (! $publishConfig['perm']['publish']) {
-            throw new ApiException(36104, 'Fresns', $publishConfig['perm']['tips']);
+            throw new ResponseException(36104, 'Fresns', $publishConfig['perm']['tips']);
         }
 
         // Check additional requirements
         if ($publishConfig['limit']['status'] && $publishConfig['limit']['isInTime'] && $publishConfig['limit']['rule'] == 2) {
-            throw new ApiException(36304);
+            throw new ResponseException(36304);
         }
     }
 }

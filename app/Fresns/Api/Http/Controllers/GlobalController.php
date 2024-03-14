@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\GlobalArchivesDTO;
 use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
 use App\Fresns\Api\Http\DTO\GlobalRolesDTO;
@@ -249,7 +249,7 @@ class GlobalController extends Controller
         };
 
         if (empty($scene)) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $langTag = $this->langTag();

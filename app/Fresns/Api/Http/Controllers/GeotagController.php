@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\GeotagListDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
@@ -55,39 +55,46 @@ class GeotagController extends Controller
                 'mi' => $length * 0.6214,
                 default => $length,
             };
+            $distance = $nearbyLength * 1000;
 
             $mapLng = $dtoRequest->mapLng;
             $mapLat = $dtoRequest->mapLat;
 
             switch (config('database.default')) {
-                case 'mysql':
-                    $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
-                        ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$nearbyLength} * 1000")
-                        ->orderBy('distance');
-                    break;
-
                 case 'sqlite':
                     // use SpatiaLite
                     $geotagQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
-                        ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$nearbyLength} * 1000")
+                        ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$distance}")
+                        ->orderBy('distance');
+                    break;
+
+                case 'mysql':
+                    $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
+                        ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}")
+                        ->orderBy('distance');
+                    break;
+
+                case 'mariadb':
+                    $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
+                        ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}")
                         ->orderBy('distance');
                     break;
 
                 case 'pgsql':
                     // use PostGIS
                     $geotagQuery->select('*', DB::raw("ST_Distance(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography) AS distance"))
-                        ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$nearbyLength} * 1000)")
+                        ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$distance})")
                         ->orderBy('distance');
                     break;
 
                 case 'sqlsrv':
                     $geotagQuery->select('*', DB::raw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
-                        ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
+                        ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$distance}")
                         ->orderBy('distance');
                     break;
 
                 default:
-                    throw new ApiException(32303);
+                    throw new ResponseException(32303);
             }
         }
 
@@ -257,11 +264,11 @@ class GeotagController extends Controller
         $geotag = Geotag::where('gtid', $gtid)->first();
 
         if (empty($geotag)) {
-            throw new ApiException(37300);
+            throw new ResponseException(37300);
         }
 
         if (! $geotag->is_enabled) {
-            throw new ApiException(37301);
+            throw new ResponseException(37301);
         }
 
         $langTag = $this->langTag();
@@ -300,11 +307,11 @@ class GeotagController extends Controller
         $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $gtid);
 
         if (empty($geotag) || $geotag?->deleted_at) {
-            throw new ApiException(37300);
+            throw new ResponseException(37300);
         }
 
         if (! $geotag->is_enabled) {
-            throw new ApiException(37301);
+            throw new ResponseException(37301);
         }
 
         InteractionService::checkInteractionSetting('geotag', $dtoRequest->type);

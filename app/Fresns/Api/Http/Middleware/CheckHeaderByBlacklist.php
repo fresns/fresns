@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Middleware;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Helpers\ConfigHelper;
 use App\Utilities\SubscribeUtility;
 use Closure;
@@ -57,7 +57,7 @@ class CheckHeaderByBlacklist
 
         // check blacklist
         if (empty($accountBlacklist) || empty($userBlacklist)) {
-            throw new ApiException(33102);
+            throw new ResponseException(33102);
         }
 
         // current route name
@@ -65,12 +65,12 @@ class CheckHeaderByBlacklist
 
         // check account blacklist
         if (in_array($currentRouteName, $accountBlacklist) && ! $accountLogin) {
-            throw new ApiException(31501);
+            throw new ResponseException(31501);
         }
 
         // check user blacklist
         if (in_array($currentRouteName, $userBlacklist) && ! $userLogin) {
-            throw new ApiException(31601);
+            throw new ResponseException(31601);
         }
 
         // not login

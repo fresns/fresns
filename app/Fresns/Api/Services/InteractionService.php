@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Services;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Helpers\ConfigHelper;
 use App\Models\UserFollow;
 use App\Models\UserLike;
@@ -43,18 +43,18 @@ class InteractionService
 
         if ($contentType == 'user') {
             if ($interactionSet == 1) {
-                throw new ApiException(36201);
+                throw new ResponseException(36201);
             }
 
             if ($interactionSet == 2 && ! $isMe) {
-                throw new ApiException(36201);
+                throw new ResponseException(36201);
             }
 
             return;
         }
 
         if (! $interactionSet) {
-            throw new ApiException(36201);
+            throw new ResponseException(36201);
         }
     }
 

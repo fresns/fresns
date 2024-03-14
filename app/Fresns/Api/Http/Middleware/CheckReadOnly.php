@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Middleware;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Helpers\PrimaryHelper;
 use Closure;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class CheckReadOnly
             $currentRouteName = \request()->route()->getName();
 
             if (in_array($currentRouteName, $blacklist)) {
-                throw new ApiException(31305);
+                throw new ResponseException(31305);
             }
         }
 

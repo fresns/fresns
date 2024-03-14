@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\ConversationDeleteDTO;
 use App\Fresns\Api\Http\DTO\ConversationListDTO;
 use App\Fresns\Api\Http\DTO\ConversationMessagesDTO;
@@ -114,17 +114,17 @@ class ConversationController extends Controller
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($conversationUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $conversationUser->id);
 
         if (empty($conversation)) {
-            throw new ApiException(36601);
+            throw new ResponseException(36601);
         }
 
         if ($conversation->a_user_id != $authUser->id && $conversation->b_user_id != $authUser->id) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         // configs
@@ -259,17 +259,17 @@ class ConversationController extends Controller
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($conversationUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $conversationUser->id);
 
         if (empty($conversation)) {
-            throw new ApiException(36601);
+            throw new ResponseException(36601);
         }
 
         if ($conversation->a_user_id != $authUser->id && $conversation->b_user_id != $authUser->id) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         // messages
@@ -332,7 +332,7 @@ class ConversationController extends Controller
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($conversationUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $authUser = $this->user();
@@ -340,11 +340,11 @@ class ConversationController extends Controller
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $conversationUser->id);
 
         if (empty($conversation)) {
-            throw new ApiException(36601);
+            throw new ResponseException(36601);
         }
 
         if ($conversation->a_user_id != $authUser->id && $conversation->b_user_id != $authUser->id) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         $authUserType = null;
@@ -398,7 +398,7 @@ class ConversationController extends Controller
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($conversationUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $authUser = $this->user();
@@ -406,11 +406,11 @@ class ConversationController extends Controller
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $conversationUser->id);
 
         if (empty($conversation)) {
-            throw new ApiException(36601);
+            throw new ResponseException(36601);
         }
 
         if ($conversation->a_user_id != $authUser->id && $conversation->b_user_id != $authUser->id) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         // messages
@@ -444,7 +444,7 @@ class ConversationController extends Controller
         $conversationUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($conversationUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $authUser = $this->user();
@@ -452,11 +452,11 @@ class ConversationController extends Controller
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $conversationUser->id);
 
         if (empty($conversation)) {
-            throw new ApiException(36601);
+            throw new ResponseException(36601);
         }
 
         if ($conversation->a_user_id != $authUser->id && $conversation->b_user_id != $authUser->id) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         // messages
@@ -481,7 +481,7 @@ class ConversationController extends Controller
         $bConversation = Conversation::where('id', $conversation->id)->where('b_user_id', $authUser->id)->first();
 
         if (empty($aConversation) && empty($bConversation)) {
-            throw new ApiException(36602);
+            throw new ResponseException(36602);
         }
 
         $aConversation?->update([
@@ -516,7 +516,7 @@ class ConversationController extends Controller
         $conversationStatus = ConfigHelper::fresnsConfigByItemKey('conversation_status');
 
         if (! $conversationStatus) {
-            throw new ApiException(36600);
+            throw new ResponseException(36600);
         }
 
         $receiveUser = PrimaryHelper::fresnsModelByFsid('user', $dtoRequest->uidOrUsername);
@@ -526,17 +526,17 @@ class ConversationController extends Controller
         $authUser = $this->user();
 
         if (empty($authUser) || empty($receiveUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         if (! $authUser->is_enabled || ! $receiveUser->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         // check send
         $conversationPermInt = PermissionUtility::checkUserConversationPerm($receiveUser->id, $authUser->id, $langTag);
         if ($conversationPermInt) {
-            throw new ApiException($conversationPermInt);
+            throw new ResponseException($conversationPermInt);
         }
 
         // message type

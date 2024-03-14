@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonCmdWordDTO;
 use App\Fresns\Api\Http\DTO\CommonFileInfoDTO;
@@ -134,7 +134,7 @@ class CommonController extends Controller
         $callback = PluginHelper::fresnsPluginCallback($dtoRequest->fskey, $dtoRequest->ulid);
 
         if ($callback['code']) {
-            throw new ApiException($callback['code']);
+            throw new ResponseException($callback['code']);
         }
 
         return $this->success($callback['data']);
@@ -158,7 +158,7 @@ class CommonController extends Controller
         $cmdWordArr = array_values($filtered);
 
         if (empty($cmdWordArr)) {
-            throw new ApiException(32100);
+            throw new ResponseException(32100);
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($fskey)->$wordName($wordBody);
@@ -223,13 +223,13 @@ class CommonController extends Controller
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
         if (! $storageConfig['storageConfigStatus']) {
-            throw new ApiException(32100);
+            throw new ResponseException(32100);
         }
 
         $servicePlugin = App::where('fskey', $storageConfig['service'])->isEnabled()->first();
 
         if (! $servicePlugin) {
-            throw new ApiException(32102);
+            throw new ResponseException(32102);
         }
 
         // check file info
@@ -319,11 +319,11 @@ class CommonController extends Controller
         }
 
         if (empty($checkQuery)) {
-            throw new ApiException(32201);
+            throw new ResponseException(32201);
         }
 
         if (! $checkUser) {
-            throw new ApiException(36500);
+            throw new ResponseException(36500);
         }
 
         $tableId = $checkQuery->id;
@@ -332,30 +332,30 @@ class CommonController extends Controller
         if ($tableName == 'conversations') {
             $conversationPermInt = PermissionUtility::checkUserConversationPerm($checkQuery->id, $authUser->id, $langTag);
             if ($conversationPermInt != 0) {
-                throw new ApiException($conversationPermInt);
+                throw new ResponseException($conversationPermInt);
             }
 
             $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
             if (! in_array($dtoRequest->type, $conversationFiles)) {
                 switch ($dtoRequest->type) {
                     case 'image':
-                        throw new ApiException(36109);
+                        throw new ResponseException(36109);
                         break;
 
                     case 'video':
-                        throw new ApiException(36110);
+                        throw new ResponseException(36110);
                         break;
 
                     case 'audio':
-                        throw new ApiException(36111);
+                        throw new ResponseException(36111);
                         break;
 
                     case 'document':
-                        throw new ApiException(36112);
+                        throw new ResponseException(36112);
                         break;
 
                     default:
-                        throw new ApiException(36200);
+                        throw new ResponseException(36200);
                 }
             }
 
@@ -389,7 +389,7 @@ class CommonController extends Controller
                     $uploadStatus = $editorConfig['image']['status'];
 
                     if (! $uploadStatus) {
-                        throw new ApiException(36109);
+                        throw new ResponseException(36109);
                     }
                     break;
 
@@ -397,7 +397,7 @@ class CommonController extends Controller
                     $uploadStatus = $editorConfig['video']['status'];
 
                     if (! $uploadStatus) {
-                        throw new ApiException(36110);
+                        throw new ResponseException(36110);
                     }
                     break;
 
@@ -405,7 +405,7 @@ class CommonController extends Controller
                     $uploadStatus = $editorConfig['audio']['status'];
 
                     if (! $uploadStatus) {
-                        throw new ApiException(36111);
+                        throw new ResponseException(36111);
                     }
                     break;
 
@@ -413,7 +413,7 @@ class CommonController extends Controller
                     $uploadStatus = $editorConfig['document']['status'];
 
                     if (! $uploadStatus) {
-                        throw new ApiException(36112);
+                        throw new ResponseException(36112);
                     }
                     break;
             }
@@ -433,7 +433,7 @@ class CommonController extends Controller
                 ->count();
 
             if ($fileCount >= $uploadNumber) {
-                throw new ApiException(36115);
+                throw new ResponseException(36115);
             }
         }
 
@@ -458,14 +458,14 @@ class CommonController extends Controller
                 $extensionArr = explode(',', $extensionNames);
 
                 if (! in_array($extension, $extensionArr)) {
-                    throw new ApiException(36310, 'Fresns', ['currentFileExtension' => $extension]);
+                    throw new ResponseException(36310, 'Fresns', ['currentFileExtension' => $extension]);
                 }
 
                 $maxMb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size") + 1;
                 $maxBytes = $maxMb * 1024 * 1024;
                 $fileSize = $dtoRequest->file->getSize();
                 if ($fileSize > $maxBytes) {
-                    throw new ApiException(36113);
+                    throw new ResponseException(36113);
                 }
 
                 $wordBody = [
@@ -575,17 +575,17 @@ class CommonController extends Controller
         // check file
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
-            throw new ApiException(37600);
+            throw new ResponseException(37600);
         }
 
         if (! $file->is_enabled) {
-            throw new ApiException(37601);
+            throw new ResponseException(37601);
         }
 
         $checkUploader = FileUsage::where('file_id', $file->id)->where('account_id', $authAccountId)->where('user_id', $authUserId)->first();
 
         if (! $checkUploader) {
-            throw new ApiException(37602);
+            throw new ResponseException(37602);
         }
 
         $warningType = match ($dtoRequest->warning) {
@@ -615,22 +615,22 @@ class CommonController extends Controller
         // check down count
         $roleDownloadCount = $mainRolePerms['download_file_count'] ?? 0;
         if ($roleDownloadCount == 0) {
-            throw new ApiException(36102);
+            throw new ResponseException(36102);
         }
 
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
         if ($roleDownloadCount < $userDownloadCount) {
-            throw new ApiException(36117);
+            throw new ResponseException(36117);
         }
 
         // check file
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
-            throw new ApiException(37600);
+            throw new ResponseException(37600);
         }
 
         if (! $file->is_enabled) {
-            throw new ApiException(37601);
+            throw new ResponseException(37601);
         }
 
         // get model
@@ -642,11 +642,11 @@ class CommonController extends Controller
 
         // check model
         if (empty($model)) {
-            throw new ApiException(32201);
+            throw new ResponseException(32201);
         }
 
         if ($model->deleted_at) {
-            throw new ApiException(32304);
+            throw new ResponseException(32304);
         }
 
         $permissions = $model?->permissions ?? [];
@@ -657,13 +657,13 @@ class CommonController extends Controller
             $checkPostAuth = PermissionUtility::checkPostAuth($model->id, $authUserId);
 
             if (! $checkPostAuth) {
-                throw new ApiException(35301);
+                throw new ResponseException(35301);
             }
         }
 
         if ($dtoRequest->type == 'conversation') {
             if ($model->send_user_id != $authUserId && $model->receive_user_id != $authUserId) {
-                throw new ApiException(36602);
+                throw new ResponseException(36602);
             }
         }
 
@@ -674,7 +674,7 @@ class CommonController extends Controller
             ->first();
 
         if (empty($fileUsage)) {
-            throw new ApiException(32304);
+            throw new ResponseException(32304);
         }
 
         $data['link'] = FileHelper::fresnsFileOriginalUrlById($file->id);
@@ -708,17 +708,59 @@ class CommonController extends Controller
 
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
-            throw new ApiException(37600);
+            throw new ResponseException(37600);
         }
 
         if (! $file->is_enabled) {
-            throw new ApiException(37601);
+            throw new ResponseException(37601);
         }
 
         $dbType = config('database.default');
 
         switch ($dbType) {
+            case 'sqlite':
+                $downUsers = FileDownload::with(['user'])
+                    ->select([
+                        'id',
+                        'file_id',
+                        'file_type',
+                        'account_id',
+                        'user_id',
+                        'app_fskey',
+                        'target_type',
+                        'target_id',
+                        'created_at',
+                    ])
+                    ->whereIn('id', function ($query) use ($file) {
+                        $query->select(DB::raw('max(id)'))
+                            ->from('file_downloads')
+                            ->where('file_id', $file->id)
+                            ->groupBy('user_id');
+                    })
+                    ->orderByDesc('created_at')
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+
             case 'mysql':
+                $downUsers = FileDownload::with(['user'])
+                    ->select([
+                        DB::raw('any_value(id) as id'),
+                        DB::raw('any_value(file_id) as file_id'),
+                        DB::raw('any_value(file_type) as file_type'),
+                        DB::raw('any_value(account_id) as account_id'),
+                        DB::raw('any_value(user_id) as user_id'),
+                        DB::raw('any_value(app_fskey) as app_fskey'),
+                        DB::raw('any_value(target_type) as target_type'),
+                        DB::raw('any_value(target_id) as target_id'),
+                        DB::raw('any_value(created_at) as created_at'),
+                    ])
+                    ->where('file_id', $file->id)
+                    ->groupBy('user_id')
+                    ->latest()
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+
+            case 'mariadb':
                 $downUsers = FileDownload::with(['user'])
                     ->select([
                         DB::raw('any_value(id) as id'),
@@ -771,29 +813,6 @@ class CommonController extends Controller
                     ])
                     ->where('file_id', $file->id)
                     ->orderBy('user_id')
-                    ->orderByDesc('created_at')
-                    ->paginate($dtoRequest->pageSize ?? 15);
-                break;
-
-            case 'sqlite':
-                $downUsers = FileDownload::with(['user'])
-                    ->select([
-                        'id',
-                        'file_id',
-                        'file_type',
-                        'account_id',
-                        'user_id',
-                        'app_fskey',
-                        'target_type',
-                        'target_id',
-                        'created_at',
-                    ])
-                    ->whereIn('id', function ($query) use ($file) {
-                        $query->select(DB::raw('max(id)'))
-                            ->from('file_downloads')
-                            ->where('file_id', $file->id)
-                            ->groupBy('user_id');
-                    })
                     ->orderByDesc('created_at')
                     ->paginate($dtoRequest->pageSize ?? 15);
                 break;

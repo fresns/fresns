@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\CommentDetailDTO;
 use App\Fresns\Api\Http\DTO\CommentListDTO;
 use App\Fresns\Api\Http\DTO\CommentNearbyDTO;
@@ -142,13 +142,13 @@ class CommentController extends Controller
         if ($dtoRequest->uidOrUsername) {
             $profileCommentsEnabled = ConfigHelper::fresnsConfigByItemKey('profile_comments_enabled');
             if (! $profileCommentsEnabled) {
-                throw new ApiException(35305);
+                throw new ResponseException(35305);
             }
 
             $viewUser = PrimaryHelper::fresnsModelByFsid('user', $dtoRequest->uidOrUsername);
 
             if (empty($viewUser) || $viewUser->trashed()) {
-                throw new ApiException(31602);
+                throw new ResponseException(31602);
             }
 
             $commentQuery->where('user_id', $viewUser->id)->where('is_anonymous', false);
@@ -159,11 +159,11 @@ class CommentController extends Controller
             $viewPost = PrimaryHelper::fresnsModelByFsid('post', $dtoRequest->pid);
 
             if (empty($viewPost) || $viewPost->trashed()) {
-                throw new ApiException(37400);
+                throw new ResponseException(37400);
             }
 
             if (! $viewPost->is_enabled && $viewPost->user_id != $authUserId) {
-                throw new ApiException(37401);
+                throw new ResponseException(37401);
             }
 
             $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
@@ -189,11 +189,11 @@ class CommentController extends Controller
             $viewComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoRequest->cid);
 
             if (empty($viewComment) || $viewComment->trashed()) {
-                throw new ApiException(37500);
+                throw new ResponseException(37500);
             }
 
             if (! $viewComment->is_enabled) {
-                throw new ApiException(37501);
+                throw new ResponseException(37501);
             }
 
             if ($viewComment->top_parent_id) {
@@ -213,11 +213,11 @@ class CommentController extends Controller
             $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
 
             if (empty($viewGroup) || $viewGroup->trashed()) {
-                throw new ApiException(37100);
+                throw new ResponseException(37100);
             }
 
             if (! $viewGroup->is_enabled) {
-                throw new ApiException(37101);
+                throw new ResponseException(37101);
             }
 
             // group mode
@@ -248,12 +248,12 @@ class CommentController extends Controller
             $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
 
             if (empty($viewHashtag)) {
-                throw new ApiException(37200);
+                throw new ResponseException(37200);
             }
 
             // hashtag deactivate
             if (! $viewHashtag->is_enabled) {
-                throw new ApiException(37201);
+                throw new ResponseException(37201);
             }
 
             $commentQuery->whereRelation('hashtagUsages', 'hashtag_id', $viewHashtag->id);
@@ -264,12 +264,12 @@ class CommentController extends Controller
             $viewGeotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoRequest->gtid);
 
             if (empty($viewGeotag)) {
-                throw new ApiException(37300);
+                throw new ResponseException(37300);
             }
 
             // geotag deactivate
             if (! $viewGeotag->is_enabled) {
-                throw new ApiException(37301);
+                throw new ResponseException(37301);
             }
 
             $commentQuery->where('geotag_id', $viewGeotag->id);
@@ -546,22 +546,22 @@ class CommentController extends Controller
         $comment = Comment::with(['post', 'author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37500);
+            throw new ResponseException(37500);
         }
 
         // check post
         if (empty($comment->post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($comment->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUser?->id) {
-            throw new ApiException(37501);
+            throw new ResponseException(37501);
         }
 
         ContentService::checkUserContentViewPerm($comment->created_at, $authUser?->id, $authUser?->expired_at);
@@ -574,7 +574,7 @@ class CommentController extends Controller
             $visibilityTime = $comment->post->created_at->addDay($visibilityRule);
 
             if ($visibilityTime->gt(now())) {
-                throw new ApiException(37505);
+                throw new ResponseException(37505);
             }
         }
 
@@ -653,22 +653,22 @@ class CommentController extends Controller
         $comment = PrimaryHelper::fresnsModelByFsid('comment', $cid);
 
         if (empty($comment)) {
-            throw new ApiException(37500);
+            throw new ResponseException(37500);
         }
 
         // check post
         if (empty($comment->post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($comment->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUser?->id) {
-            throw new ApiException(37501);
+            throw new ResponseException(37501);
         }
 
         InteractionService::checkInteractionSetting('comment', $dtoRequest->type);
@@ -691,13 +691,13 @@ class CommentController extends Controller
         $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37500);
+            throw new ResponseException(37500);
         }
 
         $authUser = $this->user();
 
         if ($comment->user_id != $authUser->id) {
-            throw new ApiException(36403);
+            throw new ResponseException(36403);
         }
 
         $canDelete = PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky);
@@ -706,7 +706,7 @@ class CommentController extends Controller
         $canDeleteConfig = $permissions['canDelete'] ?? true;
 
         if (! $canDeleteConfig || ! $canDelete) {
-            throw new ApiException(36401);
+            throw new ResponseException(36401);
         }
 
         InteractionUtility::publishStats('comment', $comment->id, 'decrement');
@@ -730,22 +730,22 @@ class CommentController extends Controller
         $comment = PrimaryHelper::fresnsModelByFsid('comment', $cid);
 
         if (empty($comment)) {
-            throw new ApiException(37500);
+            throw new ResponseException(37500);
         }
 
         // check post
         if (empty($comment->post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($comment->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUser?->id) {
-            throw new ApiException(37501);
+            throw new ResponseException(37501);
         }
 
         ContentService::checkUserContentViewPerm($comment->created_at, $authUser?->id, $authUser?->expired_at);
@@ -794,32 +794,32 @@ class CommentController extends Controller
 
         // check log
         if (empty($commentLog)) {
-            throw new ApiException(37502);
+            throw new ResponseException(37502);
         }
 
         // check is enabled
         if (! $commentLog->is_enabled && $commentLog->user_id != $authUser?->id) {
-            throw new ApiException(37503);
+            throw new ResponseException(37503);
         }
 
         // check comment
         if (empty($commentLog->comment)) {
-            throw new ApiException(37500);
+            throw new ResponseException(37500);
         }
 
         // check post
         if (empty($commentLog->post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($commentLog->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $commentLog->comment->is_enabled && $commentLog->comment->user_id != $authUser?->id) {
-            throw new ApiException(37501);
+            throw new ResponseException(37501);
         }
 
         ContentService::checkUserContentViewPerm($commentLog->comment->created_at, $authUser?->id, $authUser?->expired_at);
@@ -994,6 +994,9 @@ class CommentController extends Controller
         // has author
         $commentQuery->whereRelation('author', 'is_enabled', true);
 
+        // has geotag
+        $commentQuery->whereNot('geotag_id', 0);
+
         // has post
         $commentQuery->whereRelation('post', 'is_enabled', true);
 
@@ -1066,39 +1069,46 @@ class CommentController extends Controller
             'mi' => $length * 0.6214,
             default => $length,
         };
+        $distance = $nearbyLength * 1000;
 
         $mapLng = $dtoRequest->mapLng;
         $mapLat = $dtoRequest->mapLat;
 
         switch (config('database.default')) {
-            case 'mysql':
-                $commentQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
-                    ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
-                break;
-
             case 'sqlite':
                 // use SpatiaLite
-                $commentQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
-                    ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
+                $commentQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$distance}");
+                });
+                break;
+
+            case 'mysql':
+                $commentQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                });
+                break;
+
+            case 'mariadb':
+                $commentQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                });
                 break;
 
             case 'pgsql':
                 // use PostGIS
-                $commentQuery->select('*', DB::raw("ST_Distance(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography) AS distance"))
-                    ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$nearbyLength} * 1000)")
-                    ->orderBy('distance');
+                $commentQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$distance})");
+                });
                 break;
 
             case 'sqlsrv':
-                $commentQuery->select('*', DB::raw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
-                    ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
+                $commentQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$distance}");
+                });
                 break;
 
             default:
-                throw new ApiException(32303);
+                throw new ResponseException(32303);
         }
 
         // lang tag

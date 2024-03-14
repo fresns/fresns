@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\EditorDraftCreateDTO;
 use App\Fresns\Api\Http\DTO\EditorDraftDetailDTO;
 use App\Fresns\Api\Http\DTO\EditorDraftListDTO;
@@ -43,7 +43,7 @@ class EditorController extends Controller
     public function configs(string $type)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $langTag = $this->langTag();
@@ -81,7 +81,7 @@ class EditorController extends Controller
         $checkDraftCode = ValidationUtility::draft($dtoRequest->type, $validDraft);
 
         if ($checkDraftCode && $checkDraftCode != 38200) {
-            throw new ApiException($checkDraftCode);
+            throw new ResponseException($checkDraftCode);
         }
 
         // check publish prem
@@ -91,17 +91,17 @@ class EditorController extends Controller
             $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
 
             if (! $fileConfig['storageConfigStatus']) {
-                throw new ApiException(32105);
+                throw new ResponseException(32105);
             }
 
             if (! $fileConfig['service']) {
-                throw new ApiException(32105);
+                throw new ResponseException(32105);
             }
 
             $servicePlugin = App::where('fskey', $fileConfig['service'])->isEnabled()->first();
 
             if (! $servicePlugin) {
-                throw new ApiException(32102);
+                throw new ResponseException(32102);
             }
         }
 
@@ -239,7 +239,7 @@ class EditorController extends Controller
                 \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($noticeWordBody);
             }
 
-            throw new ApiException(38200, 'Fresns', $data);
+            throw new ResponseException(38200, 'Fresns', $data);
         }
 
         return $this->success($data);
@@ -253,7 +253,7 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         if ($type != 'post' && $type != 'comment') {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $wordType = match ($type) {
@@ -337,30 +337,30 @@ class EditorController extends Controller
         switch ($dtoRequest->type) {
             case 'post':
                 if (! $userRolePerm['post_publish']) {
-                    throw new ApiException(36104);
+                    throw new ResponseException(36104);
                 }
 
                 $checkLogCount = PostLog::where('user_id', $authUser->id)->whereNot('state', PostLog::STATE_SUCCESS)->count();
 
                 if ($checkLogCount >= $userRolePerm['post_draft_count']) {
-                    throw new ApiException(38106);
+                    throw new ResponseException(38106);
                 }
                 break;
 
             case 'comment':
                 if (! $userRolePerm['comment_publish']) {
-                    throw new ApiException(36104);
+                    throw new ResponseException(36104);
                 }
 
                 $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);
                 if (! $checkCommentPerm['status']) {
-                    throw new ApiException($checkCommentPerm['code']);
+                    throw new ResponseException($checkCommentPerm['code']);
                 }
 
                 $checkLogCount = CommentLog::where('user_id', $authUser->id)->whereNot('state', CommentLog::STATE_SUCCESS)->count();
 
                 if ($checkLogCount >= $userRolePerm['comment_draft_count']) {
-                    throw new ApiException(38106);
+                    throw new ResponseException(38106);
                 }
                 break;
         }
@@ -450,7 +450,7 @@ class EditorController extends Controller
     public function draftList(string $type, Request $request)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $dtoRequest = new EditorDraftListDTO($request->all());
@@ -508,7 +508,7 @@ class EditorController extends Controller
     public function draftDetail(string $type, string $did, Request $request)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $dtoRequest = new EditorDraftDetailDTO($request->all());
@@ -523,7 +523,7 @@ class EditorController extends Controller
         };
 
         if (empty($draft)) {
-            throw new ApiException(38100);
+            throw new ResponseException(38100);
         }
 
         $parentModel = match ($type) {
@@ -580,7 +580,7 @@ class EditorController extends Controller
     public function draftUpdate(string $type, string $did, Request $request)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $dtoRequest = new EditorDraftUpdateDTO($request->all());
@@ -593,15 +593,15 @@ class EditorController extends Controller
         };
 
         if (empty($draft)) {
-            throw new ApiException(38100);
+            throw new ResponseException(38100);
         }
 
         if ($draft->state == PostLog::STATE_UNDER_REVIEW) {
-            throw new ApiException(38101);
+            throw new ResponseException(38101);
         }
 
         if ($draft->state == PostLog::STATE_SUCCESS) {
-            throw new ApiException(38102);
+            throw new ResponseException(38102);
         }
 
         $permissions = $draft->permissions;
@@ -616,11 +616,11 @@ class EditorController extends Controller
             } else {
                 $editorPlugin = App::where('fskey', $dtoRequest->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
                 if (empty($editorPlugin)) {
-                    throw new ApiException(32101);
+                    throw new ResponseException(32101);
                 }
 
                 if (! $editorPlugin->is_enabled) {
-                    throw new ApiException(32102);
+                    throw new ResponseException(32102);
                 }
 
                 $permissions['editor'] = [
@@ -649,17 +649,17 @@ class EditorController extends Controller
                         $group = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
 
                         if (! $group) {
-                            throw new ApiException(37100);
+                            throw new ResponseException(37100);
                         }
 
                         if (! $group->is_enabled) {
-                            throw new ApiException(37101);
+                            throw new ResponseException(37101);
                         }
 
                         $checkPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
 
                         if (! $checkPerm['allowPost']) {
-                            throw new ApiException(36311);
+                            throw new ResponseException(36311);
                         }
 
                         $draft->update([
@@ -751,11 +751,11 @@ class EditorController extends Controller
                 $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoRequest->gtid);
 
                 if (! $geotag) {
-                    throw new ApiException(37300);
+                    throw new ResponseException(37300);
                 }
 
                 if (! $geotag->is_enabled) {
-                    throw new ApiException(37301);
+                    throw new ResponseException(37301);
                 }
 
                 $draft->update([
@@ -809,7 +809,7 @@ class EditorController extends Controller
             $archive = Archive::where('code', $dtoRequest->deleteArchive)->first();
 
             if (empty($archive)) {
-                throw new ApiException(32304);
+                throw new ResponseException(32304);
             }
 
             $usageType = match ($type) {
@@ -823,7 +823,7 @@ class EditorController extends Controller
                 ->first();
 
             if (empty($archiveUsage)) {
-                throw new ApiException(36400);
+                throw new ResponseException(36400);
             }
 
             $archiveUsage->delete();
@@ -834,7 +834,7 @@ class EditorController extends Controller
             $extend = Extend::where('eid', $dtoRequest->deleteExtend)->first();
 
             if (empty($extend)) {
-                throw new ApiException(36400);
+                throw new ResponseException(36400);
             }
 
             $usageType = match ($type) {
@@ -848,11 +848,11 @@ class EditorController extends Controller
                 ->first();
 
             if (empty($extendUsage)) {
-                throw new ApiException(36400);
+                throw new ResponseException(36400);
             }
 
             if (! $extendUsage->can_delete) {
-                throw new ApiException(36401);
+                throw new ResponseException(36401);
             }
 
             $extendUsage->delete();
@@ -863,7 +863,7 @@ class EditorController extends Controller
             $file = File::where('fid', $dtoRequest->deleteFile)->first();
 
             if (empty($file)) {
-                throw new ApiException(36400);
+                throw new ResponseException(36400);
             }
 
             $tableName = match ($type) {
@@ -885,7 +885,7 @@ class EditorController extends Controller
     public function draftPublish(string $type, string $did)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $langTag = $this->langTag();
@@ -898,15 +898,15 @@ class EditorController extends Controller
         };
 
         if (empty($draft)) {
-            throw new ApiException(38100);
+            throw new ResponseException(38100);
         }
 
         if ($draft->state == PostLog::STATE_UNDER_REVIEW) {
-            throw new ApiException(38103);
+            throw new ResponseException(38103);
         }
 
         if ($draft->state == PostLog::STATE_SUCCESS) {
-            throw new ApiException(38104);
+            throw new ResponseException(38104);
         }
 
         $mainId = match ($type) {
@@ -980,11 +980,11 @@ class EditorController extends Controller
             }
 
             // Review
-            throw new ApiException(38200);
+            throw new ResponseException(38200);
         }
 
         if ($checkDraftCode) {
-            throw new ApiException($checkDraftCode);
+            throw new ResponseException($checkDraftCode);
         }
 
         $draft->update([
@@ -1021,7 +1021,7 @@ class EditorController extends Controller
     public function draftRecall(string $type, string $did)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $authUser = $this->user();
@@ -1032,11 +1032,11 @@ class EditorController extends Controller
         };
 
         if (empty($draft)) {
-            throw new ApiException(38100);
+            throw new ResponseException(38100);
         }
 
         if ($draft->state != PostLog::STATE_UNDER_REVIEW) {
-            throw new ApiException(36501);
+            throw new ResponseException(36501);
         }
 
         $draft->update([
@@ -1050,7 +1050,7 @@ class EditorController extends Controller
     public function draftDelete(string $type, string $did)
     {
         if (! in_array($type, ['post', 'comment'])) {
-            throw new ApiException(30002);
+            throw new ResponseException(30002);
         }
 
         $authUser = $this->user();
@@ -1061,15 +1061,15 @@ class EditorController extends Controller
         };
 
         if (empty($draft)) {
-            throw new ApiException(38100);
+            throw new ResponseException(38100);
         }
 
         if ($draft->state == PostLog::STATE_UNDER_REVIEW) {
-            throw new ApiException(36404);
+            throw new ResponseException(36404);
         }
 
         if ($draft->state == PostLog::STATE_SUCCESS) {
-            throw new ApiException(36405);
+            throw new ResponseException(36405);
         }
 
         $draft->delete();

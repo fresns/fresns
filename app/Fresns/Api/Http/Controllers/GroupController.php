@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\GroupListDTO;
 use App\Fresns\Api\Http\DTO\GroupTreeDTO;
@@ -108,11 +108,11 @@ class GroupController extends Controller
             $parentGroup = PrimaryHelper::fresnsModelByFsid('group', $value);
 
             if (empty($parentGroup) || $parentGroup->trashed()) {
-                throw new ApiException(37100);
+                throw new ResponseException(37100);
             }
 
             if (! $parentGroup->is_enabled) {
-                throw new ApiException(37101);
+                throw new ResponseException(37101);
             }
 
             $query->where('parent_id', $parentGroup->id);
@@ -286,11 +286,11 @@ class GroupController extends Controller
         $group = Group::where('gid', $gid)->first();
 
         if (empty($group)) {
-            throw new ApiException(37100);
+            throw new ResponseException(37100);
         }
 
         if (! $group->is_enabled) {
-            throw new ApiException(37101);
+            throw new ResponseException(37101);
         }
 
         $langTag = $this->langTag();
@@ -334,7 +334,7 @@ class GroupController extends Controller
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
         if (empty($group) || $group?->deleted_at) {
-            throw new ApiException(37100);
+            throw new ResponseException(37100);
         }
 
         if (! $group->creator) {
@@ -367,7 +367,7 @@ class GroupController extends Controller
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
         if (empty($group) || $group?->deleted_at) {
-            throw new ApiException(37100);
+            throw new ResponseException(37100);
         }
 
         if (! $group->admins) {
@@ -405,11 +405,11 @@ class GroupController extends Controller
         $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
         if (empty($group) || $group?->deleted_at) {
-            throw new ApiException(37100);
+            throw new ResponseException(37100);
         }
 
         if (! $group->is_enabled) {
-            throw new ApiException(37101);
+            throw new ResponseException(37101);
         }
 
         InteractionService::checkInteractionSetting('group', $dtoRequest->type);

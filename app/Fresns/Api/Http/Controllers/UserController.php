@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
@@ -75,7 +75,7 @@ class UserController extends Controller
         }
 
         if (empty($authUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $langTag = $this->langTag();
@@ -197,7 +197,7 @@ class UserController extends Controller
         $authUser = $this->user();
 
         if (empty($uidOrUsername) && empty($authUser)) {
-            throw new ApiException(30005);
+            throw new ResponseException(30005);
         }
 
         if ($uidOrUsername) {
@@ -205,7 +205,7 @@ class UserController extends Controller
             $authUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
             if ($authUser->account_id != $authAccount->id) {
-                throw new ApiException(35201);
+                throw new ResponseException(35201);
             }
         }
 
@@ -317,21 +317,21 @@ class UserController extends Controller
         $dtoRequest = new UserEditDTO($request->all());
 
         if ($dtoRequest->isEmpty()) {
-            throw new ApiException(30001);
+            throw new ResponseException(30001);
         }
 
         $authUser = $this->user();
 
         if (! $authUser->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         if ($dtoRequest->avatarFid && $dtoRequest->avatarUrl) {
-            throw new ApiException(30005);
+            throw new ResponseException(30005);
         }
 
         if ($dtoRequest->bannerFid && $dtoRequest->bannerUrl) {
-            throw new ApiException(30005);
+            throw new ResponseException(30005);
         }
 
         $editNameConfig = ConfigHelper::fresnsConfigByItemKeys([
@@ -343,14 +343,14 @@ class UserController extends Controller
         if ($dtoRequest->username) {
             $isEmpty = Str::of($dtoRequest->username)->trim()->isEmpty();
             if ($isEmpty) {
-                throw new ApiException(35102);
+                throw new ResponseException(35102);
             }
 
             if ($authUser->last_username_at) {
                 $nextEditUsernameTime = Carbon::parse($authUser->last_username_at)->addDays($editNameConfig['username_edit']);
 
                 if (now() < $nextEditUsernameTime) {
-                    throw new ApiException(35101);
+                    throw new ResponseException(35101);
                 }
             }
 
@@ -358,23 +358,23 @@ class UserController extends Controller
             $validateUsername = ValidationUtility::username($username);
 
             if (! $validateUsername['formatString'] || ! $validateUsername['formatHyphen'] || ! $validateUsername['formatNumeric']) {
-                throw new ApiException(35102);
+                throw new ResponseException(35102);
             }
 
             if (! $validateUsername['minLength']) {
-                throw new ApiException(35104);
+                throw new ResponseException(35104);
             }
 
             if (! $validateUsername['maxLength']) {
-                throw new ApiException(35103);
+                throw new ResponseException(35103);
             }
 
             if (! $validateUsername['use']) {
-                throw new ApiException(35105);
+                throw new ResponseException(35105);
             }
 
             if (! $validateUsername['banName']) {
-                throw new ApiException(35106);
+                throw new ResponseException(35106);
             }
 
             $authUser->fill([
@@ -395,14 +395,14 @@ class UserController extends Controller
         if ($dtoRequest->nickname) {
             $isEmpty = Str::of($dtoRequest->nickname)->trim()->isEmpty();
             if ($isEmpty) {
-                throw new ApiException(35107);
+                throw new ResponseException(35107);
             }
 
             if ($authUser->last_nickname_at) {
                 $nextEditNicknameTime = Carbon::parse($authUser->last_nickname_at)->addDays($editNameConfig['nickname_edit']);
 
                 if (now() < $nextEditNicknameTime) {
-                    throw new ApiException(35101);
+                    throw new ResponseException(35101);
                 }
             }
 
@@ -411,23 +411,23 @@ class UserController extends Controller
             $validateNickname = ValidationUtility::nickname($nickname);
 
             if (! $validateNickname['formatString'] || ! $validateNickname['formatSpace']) {
-                throw new ApiException(35107);
+                throw new ResponseException(35107);
             }
 
             if (! $validateNickname['minLength']) {
-                throw new ApiException(35109);
+                throw new ResponseException(35109);
             }
 
             if (! $validateNickname['maxLength']) {
-                throw new ApiException(35108);
+                throw new ResponseException(35108);
             }
 
             if (! $validateNickname['use']) {
-                throw new ApiException(35111);
+                throw new ResponseException(35111);
             }
 
             if (! $validateNickname['banName']) {
-                throw new ApiException(35110);
+                throw new ResponseException(35110);
             }
 
             $authUser->fill([
@@ -543,7 +543,7 @@ class UserController extends Controller
             $validateBio = ValidationUtility::bio($bio);
 
             if (! $validateBio['length']) {
-                throw new ApiException(33302);
+                throw new ResponseException(33302);
             }
 
             $bioConfig = ConfigHelper::fresnsConfigByItemKeys([
@@ -679,7 +679,7 @@ class UserController extends Controller
 
         $authUser = $this->user();
         if (! $authUser->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         $authUserId = $authUser->id;
@@ -688,12 +688,12 @@ class UserController extends Controller
 
         $markSet = ConfigHelper::fresnsConfigByItemKey($configKey);
         if (! $markSet) {
-            throw new ApiException(36200);
+            throw new ResponseException(36200);
         }
 
         $primaryId = PrimaryHelper::fresnsPrimaryId($dtoRequest->type, $dtoRequest->fsid);
         if (empty($primaryId)) {
-            throw new ApiException(32201);
+            throw new ResponseException(32201);
         }
 
         $contentType = match ($dtoRequest->type) {
@@ -725,7 +725,7 @@ class UserController extends Controller
             case 'follow':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $contentType, $primaryId);
                 if (! $validMark) {
-                    throw new ApiException(36202);
+                    throw new ResponseException(36202);
                 }
 
                 if ($contentType == UserFollow::TYPE_USER) {
@@ -735,7 +735,7 @@ class UserController extends Controller
                     $followCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_FOLLOW)->where('user_id', $authUserId)->where('follow_type', $markType)->count();
 
                     if ($rolePerm <= $followCount) {
-                        throw new ApiException(36118);
+                        throw new ResponseException(36118);
                     }
                 }
 
@@ -743,7 +743,7 @@ class UserController extends Controller
                     $group = PrimaryHelper::fresnsModelById('group', $primaryId);
 
                     if ($group?->follow_type != Group::FOLLOW_FRESNS) {
-                        throw new ApiException(36200);
+                        throw new ResponseException(36200);
                     }
                 }
 
@@ -753,7 +753,7 @@ class UserController extends Controller
             case 'block':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $contentType, $primaryId);
                 if (! $validMark) {
-                    throw new ApiException(36202);
+                    throw new ResponseException(36202);
                 }
 
                 if ($contentType == UserFollow::TYPE_USER) {
@@ -763,7 +763,7 @@ class UserController extends Controller
                     $blockCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_BLOCK)->where('user_id', $authUserId)->where('follow_type', $markType)->count();
 
                     if ($rolePerm <= $blockCount) {
-                        throw new ApiException(36118);
+                        throw new ResponseException(36118);
                     }
                 }
 
@@ -791,12 +791,12 @@ class UserController extends Controller
 
         $authUser = $this->user();
         if (! $authUser->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         $primaryId = PrimaryHelper::fresnsPrimaryId($dtoRequest->type, $dtoRequest->fsid);
         if (empty($primaryId)) {
-            throw new ApiException(32201);
+            throw new ResponseException(32201);
         }
 
         $contentType = match ($dtoRequest->type) {
@@ -811,7 +811,7 @@ class UserController extends Controller
         $userNote = UserFollow::where('user_id', $authUser->id)->type($contentType)->where('follow_id', $primaryId)->first();
 
         if (empty($userNote)) {
-            throw new ApiException(32201);
+            throw new ResponseException(32201);
         }
 
         $userNote->update([
@@ -830,16 +830,16 @@ class UserController extends Controller
 
         $authUser = $this->user();
         if (! $authUser->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         $extend = PrimaryHelper::fresnsModelByFsid('extend', $dtoRequest->eid);
         if (empty($extend)) {
-            throw new ApiException(37700);
+            throw new ResponseException(37700);
         }
 
         if (! $extend->is_enabled) {
-            throw new ApiException(37701);
+            throw new ResponseException(37701);
         }
 
         $actionItems = $extend->action_items;
@@ -848,7 +848,7 @@ class UserController extends Controller
         $hasKey = in_array($dtoRequest->key, $keys);
 
         if (! $hasKey) {
-            throw new ApiException(37702);
+            throw new ResponseException(37702);
         }
 
         ExtendUser::updateOrCreate([
@@ -1130,7 +1130,7 @@ class UserController extends Controller
         }
 
         if (empty($viewUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $langTag = $this->langTag();
@@ -1176,7 +1176,7 @@ class UserController extends Controller
         $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($viewUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $langTag = $this->langTag();
@@ -1253,7 +1253,7 @@ class UserController extends Controller
         $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($viewUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
@@ -1278,7 +1278,7 @@ class UserController extends Controller
         $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($viewUser)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $requestData = $request->all();
@@ -1303,7 +1303,7 @@ class UserController extends Controller
             $markSet = ConfigHelper::fresnsConfigByItemKey($setKey);
 
             if (! $markSet) {
-                throw new ApiException(36201);
+                throw new ResponseException(36201);
             }
         }
 

@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Middleware;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Traits\ApiHeaderTrait;
 use App\Fresns\Api\Traits\ApiResponseTrait;
 use App\Helpers\ConfigHelper;
@@ -35,7 +35,7 @@ class CheckSiteMode
         $authUser = $this->user();
 
         if (empty($authUser)) {
-            throw new ApiException(31601);
+            throw new ResponseException(31601);
         }
 
         $checkUserRolePrivateWhitelist = PermissionUtility::checkUserRolePrivateWhitelist($authUser->id);
@@ -44,7 +44,7 @@ class CheckSiteMode
         }
 
         if (empty($authUser->expired_at)) {
-            throw new ApiException(35306);
+            throw new ResponseException(35306);
         }
 
         $currentRouteName = \request()->route()->getName();
@@ -58,14 +58,14 @@ class CheckSiteMode
                 return $this->warning(35303);
             }
 
-            throw new ApiException(35302);
+            throw new ResponseException(35302);
         }
 
         $blacklist = config('FsApiBlacklist.disableForAfterExpiry');
 
         // check blacklist
         if (in_array($currentRouteName, $blacklist)) {
-            throw new ApiException(35302);
+            throw new ResponseException(35302);
         }
 
         return $next($request);

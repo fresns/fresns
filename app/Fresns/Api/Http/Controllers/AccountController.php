@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\AccountLoginDTO;
 use App\Fresns\Api\Http\DTO\AccountWalletLogsDTO;
 use App\Helpers\CacheHelper;
@@ -45,43 +45,43 @@ class AccountController extends Controller
             ->first();
 
         if (! $loginToken) {
-            throw new ApiException(31506);
+            throw new ResponseException(31506);
         }
 
         if (empty($loginToken->account_id)) {
-            throw new ApiException(31502);
+            throw new ResponseException(31502);
         }
 
         if (empty($loginToken->user_id)) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         $timeDifference = time() - strtotime($loginToken->created_at);
 
         if ($loginToken->action_id || $timeDifference > 300) {
-            throw new ApiException(31507);
+            throw new ResponseException(31507);
         }
 
         // account
         $account = Account::where('id', $loginToken->account_id)->first();
 
         if (! $account) {
-            throw new ApiException(31502);
+            throw new ResponseException(31502);
         }
 
         if (! $account->is_enabled) {
-            throw new ApiException(34307);
+            throw new ResponseException(34307);
         }
 
         // user
         $user = User::where('id', $loginToken->user_id)->first();
 
         if (! $user) {
-            throw new ApiException(31602);
+            throw new ResponseException(31602);
         }
 
         if (! $user->is_enabled) {
-            throw new ApiException(35202);
+            throw new ResponseException(35202);
         }
 
         // create account token
@@ -183,11 +183,11 @@ class AccountController extends Controller
         $authUser = $this->user();
 
         if (empty($authAccount)) {
-            throw new ApiException(31502);
+            throw new ResponseException(31502);
         }
 
         if (empty($authAccountToken)) {
-            throw new ApiException(31505);
+            throw new ResponseException(31505);
         }
 
         SessionToken::where('account_id', $authAccount->id)->where('account_token', $authAccountToken)->delete();
@@ -204,7 +204,7 @@ class AccountController extends Controller
         $authAccount = $this->account();
 
         if (empty($authAccount)) {
-            throw new ApiException(31502);
+            throw new ResponseException(31502);
         }
 
         $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());

@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Exceptions\ApiException;
+use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\HistoryDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
@@ -127,13 +127,13 @@ class PostController extends Controller
         if ($dtoRequest->uidOrUsername) {
             $profilePostsEnabled = ConfigHelper::fresnsConfigByItemKey('profile_posts_enabled');
             if (! $profilePostsEnabled) {
-                throw new ApiException(35305);
+                throw new ResponseException(35305);
             }
 
             $viewUser = PrimaryHelper::fresnsModelByFsid('user', $dtoRequest->uidOrUsername);
 
             if (empty($viewUser) || $viewUser->trashed()) {
-                throw new ApiException(31602);
+                throw new ResponseException(31602);
             }
 
             $postQuery->where('user_id', $viewUser->id)->where('is_anonymous', false);
@@ -145,12 +145,12 @@ class PostController extends Controller
             $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
 
             if (empty($viewGroup) || $viewGroup->trashed()) {
-                throw new ApiException(37100);
+                throw new ResponseException(37100);
             }
 
             // group deactivate
             if (! $viewGroup->is_enabled) {
-                throw new ApiException(37101);
+                throw new ResponseException(37101);
             }
 
             // group mode
@@ -177,12 +177,12 @@ class PostController extends Controller
             $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
 
             if (empty($viewHashtag)) {
-                throw new ApiException(37200);
+                throw new ResponseException(37200);
             }
 
             // hashtag deactivate
             if (! $viewHashtag->is_enabled) {
-                throw new ApiException(37201);
+                throw new ResponseException(37201);
             }
 
             $postQuery->whereRelation('hashtagUsages', 'hashtag_id', $viewHashtag->id);
@@ -193,12 +193,12 @@ class PostController extends Controller
             $viewGeotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoRequest->gtid);
 
             if (empty($viewGeotag)) {
-                throw new ApiException(37300);
+                throw new ResponseException(37300);
             }
 
             // geotag deactivate
             if (! $viewGeotag->is_enabled) {
-                throw new ApiException(37301);
+                throw new ResponseException(37301);
             }
 
             $postQuery->where('geotag_id', $viewGeotag->id);
@@ -473,17 +473,17 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($post->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
@@ -563,17 +563,17 @@ class PostController extends Controller
         $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
 
         if (empty($post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($post->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         InteractionService::checkInteractionSetting('post', $dtoRequest->type);
@@ -602,17 +602,17 @@ class PostController extends Controller
         $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
 
         if (empty($post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($post->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
@@ -651,17 +651,17 @@ class PostController extends Controller
         $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
 
         if (empty($post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($post->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
@@ -786,13 +786,13 @@ class PostController extends Controller
         $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(36400);
+            throw new ResponseException(36400);
         }
 
         $authUser = $this->user();
 
         if ($post->user_id != $authUser->id) {
-            throw new ApiException(36403);
+            throw new ResponseException(36403);
         }
 
         $canDelete = PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state);
@@ -801,7 +801,7 @@ class PostController extends Controller
         $canDeleteConfig = $permissions['canDelete'] ?? true;
 
         if (! $canDeleteConfig || ! $canDelete) {
-            throw new ApiException(36401);
+            throw new ResponseException(36401);
         }
 
         InteractionUtility::publishStats('post', $post->id, 'decrement');
@@ -825,17 +825,17 @@ class PostController extends Controller
         $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
 
         if (empty($post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($post->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         ContentService::checkUserContentViewPerm($post->created_at, $authUser?->id, $authUser?->expired_at);
@@ -884,27 +884,27 @@ class PostController extends Controller
 
         // check log
         if (empty($postLog)) {
-            throw new ApiException(37402);
+            throw new ResponseException(37402);
         }
 
         // check is enabled
         if (! $postLog->is_enabled && $postLog->user_id != $authUser?->id) {
-            throw new ApiException(37403);
+            throw new ResponseException(37403);
         }
 
         // check post
         if (empty($postLog->post)) {
-            throw new ApiException(37400);
+            throw new ResponseException(37400);
         }
 
         // check author
         if (empty($postLog->author)) {
-            throw new ApiException(35203);
+            throw new ResponseException(35203);
         }
 
         // check is enabled
         if (! $postLog->post->is_enabled && $postLog->post->user_id != $authUser?->id) {
-            throw new ApiException(37401);
+            throw new ResponseException(37401);
         }
 
         ContentService::checkUserContentViewPerm($postLog->post->created_at, $authUser?->id, $authUser?->expired_at);
@@ -1077,6 +1077,9 @@ class PostController extends Controller
         // has author
         $postQuery->whereRelation('author', 'is_enabled', true);
 
+        // has geotag
+        $postQuery->whereNot('geotag_id', 0);
+
         // block
         $filterGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
@@ -1136,39 +1139,46 @@ class PostController extends Controller
             'mi' => $length * 0.6214,
             default => $length,
         };
+        $distance = $nearbyLength * 1000;
 
         $mapLng = $dtoRequest->mapLng;
         $mapLat = $dtoRequest->mapLat;
 
         switch (config('database.default')) {
-            case 'mysql':
-                $postQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
-                    ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
-                break;
-
             case 'sqlite':
                 // use SpatiaLite
-                $postQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
-                    ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$distance}");
+                });
+                break;
+
+            case 'mysql':
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                });
+                break;
+
+            case 'mariadb':
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                });
                 break;
 
             case 'pgsql':
                 // use PostGIS
-                $postQuery->select('*', DB::raw("ST_Distance(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography) AS distance"))
-                    ->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$nearbyLength} * 1000)")
-                    ->orderBy('distance');
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$distance})");
+                });
                 break;
 
             case 'sqlsrv':
-                $postQuery->select('*', DB::raw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) AS distance"))
-                    ->havingRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$nearbyLength} * 1000")
-                    ->orderBy('distance');
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
+                    $query->whereRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$distance}");
+                });
                 break;
 
             default:
-                throw new ApiException(32303);
+                throw new ResponseException(32303);
         }
 
         // lang tag
@@ -1248,7 +1258,7 @@ class PostController extends Controller
 
         $postList = [];
         foreach ($posts as $post) {
-            $postList = DetailUtility::postDetail($post, $langTag, $timezone, $authUser?->id, $postOptions);
+            $postList[] = DetailUtility::postDetail($post, $langTag, $timezone, $authUser?->id, $postOptions);
         }
 
         return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());
