@@ -62,9 +62,9 @@ trait UserServiceTrait
             };
 
             $birthday = match ($userData->birthday_display_type) {
-                User::BIRTHDAY_DISPLAY_FULL => $account->birthday->format($dateFormat),
-                User::BIRTHDAY_DISPLAY_YEAR => $account->birthday->format('Y'),
-                User::BIRTHDAY_DISPLAY_MONTH_AND_DAY => $account->birthday->format($monthAndDayFormat),
+                User::BIRTHDAY_DISPLAY_FULL => date($dateFormat, strtotime($account->birthday)),
+                User::BIRTHDAY_DISPLAY_YEAR => date('Y', strtotime($account->birthday)),
+                User::BIRTHDAY_DISPLAY_MONTH_AND_DAY => date($monthAndDayFormat, strtotime($account->birthday)),
                 User::BIRTHDAY_DISPLAY_PRIVATE => null,
                 default => null,
             };
