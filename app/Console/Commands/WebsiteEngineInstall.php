@@ -8,8 +8,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Fresns\PluginManager\Support\Process;
+use Illuminate\Console\Command;
 
 class WebsiteEngineInstall extends Command
 {
