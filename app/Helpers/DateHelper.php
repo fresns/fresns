@@ -83,7 +83,11 @@ class DateHelper
         if (empty($databaseDateTime)) {
             switch (config('database.default')) {
                 case 'mysql':
-                    $databaseDateTime = DB::selectOne('select now() as now')->now;
+                    $databaseDateTime = DB::selectOne('SELECT NOW() as now')->now;
+                    break;
+
+                case 'mariadb':
+                    $databaseDateTime = DB::selectOne('SELECT NOW() AS now')->now;
                     break;
 
                 case 'pgsql':

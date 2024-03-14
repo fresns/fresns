@@ -77,6 +77,13 @@ class AppHelper
                 $sizeResult = DB::select('SELECT SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES')[0]->Size;
                 break;
 
+            case 'mariadb':
+                $name = 'MariaDB';
+                $version = DB::select('select version()')[0]->{'version()'};
+
+                $sizeResult = DB::select('SELECT SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES')[0]->Size;
+                break;
+
             case 'pgsql':
                 $name = 'PostgreSQL';
                 $fullVersion = DB::select('select version()')[0]->version;
@@ -92,6 +99,7 @@ class AppHelper
 
                 $sizeResult = DB::select('SELECT SUM(size) * 8 / 1024 AS "Size" FROM sys.master_files WHERE type_desc = \'ROWS\'')[0]->Size;
                 break;
+
             default:
                 $name = $type;
                 $version = '';
