@@ -118,21 +118,15 @@ class Basic
         }
 
         $timestamp = (int) $dtoWordBody->timestamp;
-        $timestampNum = strlen($timestamp);
-        $now = now('UTC');
-        $nowTimestamp = strtotime($now);
 
-        if ($timestampNum == 10) {
-            $expiredDuration = 600; // seconds
-        } else {
-            $nowTimestamp = $nowTimestamp * 1000;
-
-            $expiredDuration = 600 * 1000; // milliseconds
+        if (strlen($timestamp) == 13) {
+            $timestamp /= 1000;
+            $timestamp = intval($timestamp);
         }
 
-        $diff = $nowTimestamp - $timestamp;
+        $diff = time() - $timestamp;
 
-        if (abs($diff) > $expiredDuration) {
+        if ($diff > 600) {
             return $this->failure(
                 31303,
                 ConfigUtility::getCodeMessage(31303, 'Fresns', $langTag),
