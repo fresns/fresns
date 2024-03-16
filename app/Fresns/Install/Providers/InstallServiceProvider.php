@@ -18,7 +18,7 @@ class InstallServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // No more registered installation routes after they have been installed
+        // already installed
         if (file_exists(base_path('install.lock'))) {
             return;
         }
@@ -32,7 +32,7 @@ class InstallServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // No more registered installation routes after they have been installed
+        // already installed
         if (file_exists(base_path('install.lock'))) {
             return;
         }
@@ -46,7 +46,7 @@ class InstallServiceProvider extends ServiceProvider
 
     public function registerReverseProxySchema(): void
     {
-        // No more registered installation routes after they have been installed
+        // uninstalled
         if (! file_exists(base_path('install.lock'))) {
             config([
                 'trustedproxy.proxies' => '*',
