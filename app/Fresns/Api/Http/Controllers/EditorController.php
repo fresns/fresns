@@ -142,7 +142,7 @@ class EditorController extends Controller
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         $usageType = match ($fresnsResp->getData('type')) {
@@ -268,7 +268,7 @@ class EditorController extends Controller
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->generateDraft($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         // session log
@@ -393,7 +393,7 @@ class EditorController extends Controller
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         // session log
@@ -994,7 +994,7 @@ class EditorController extends Controller
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentPublishByDraft($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         // upload session log

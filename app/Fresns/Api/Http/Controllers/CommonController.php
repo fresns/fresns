@@ -183,7 +183,7 @@ class CommonController extends Controller
         ]);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         $usageType = match ($dtoRequest->usageType) {

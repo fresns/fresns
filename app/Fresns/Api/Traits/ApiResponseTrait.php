@@ -15,35 +15,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function success(mixed $data = null, ?string $message = null, int $code = 0, array $headers = [])
+    public function success(mixed $data = null, ?string $message = null, ?int $code = 0, ?array $headers = [])
     {
-        if (is_string($data)) {
-            $code = $message;
-            $message = $data;
-            $data = null;
-        }
-
-        // pagination data
-        $meta = [];
-        $pagination = [];
-        if (isset($data['data']) && isset($data['pagination'])) {
-            extract($data);
-        }
-
         $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag());
 
-        $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('pagination'));
+        $newHeaders = array_merge([
+            'Fresns-Version' => AppHelper::VERSION,
+            'Fresns-Api' => 'v1',
+            'Fresns-Author' => 'Jevan Tang',
+            'Content-Type' => 'application/json',
+        ], $headers);
 
-        return \response(
-            \json_encode($fresnsResponse, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT),
-            Response::HTTP_OK,
-            array_merge([
-                'Fresns-Version' => AppHelper::VERSION,
-                'Fresns-Api' => 'v1',
-                'Fresns-Author' => 'Jevan Tang',
-                'Content-Type' => 'application/json',
-            ], $headers)
-        );
+        return response()->json([
+            'code' => $code,
+            'message' => $message,
+            'data' => $data,
+        ], Response::HTTP_OK, $newHeaders);
     }
 
     public function warning(int $code, ?string $message = null, mixed $data = null)
@@ -64,27 +51,9 @@ trait ApiResponseTrait
         return $this->success($data, $newMessage);
     }
 
-    public function failure(int $code = 30000, ?string $message = null, mixed $data = null, array $headers = [])
+    public function failure($code, ?string $message = null, mixed $data = null, ?array $headers = [])
     {
-        if (! \request()->wantsJson()) {
-            $message = \json_encode(compact('code', 'message', 'data'), \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT);
-            if (! array_key_exists($code, Response::$statusTexts)) {
-                $code = 200;
-            }
-
-            return \response(
-                $message,
-                $code,
-                array_merge([
-                    'Fresns-Version' => AppHelper::VERSION,
-                    'Fresns-Api' => 'v1',
-                    'Fresns-Author' => 'Jevan Tang',
-                    'Content-Type' => 'application/json',
-                ], $headers)
-            );
-        }
-
-        return $this->success($data, $message ?: 'Unknown Error', $code ?: 3e4, $headers);
+        return $this->success($data, $message, $code, $headers);
     }
 
     public function fresnsPaginate($items, $total, $pageSize = 15)
@@ -93,15 +62,15 @@ trait ApiResponseTrait
             items: $items,
             total: $total,
             perPage: $pageSize ?: 15,
-            currentPage: \request('page'),
+            currentPage: request('page'),
         );
 
-        $paginate->withPath('/'.\request()->path())->withQueryString();
+        $paginate->withPath('/'.request()->path())->withQueryString();
 
         return $this->paginate($paginate);
     }
 
-    public function paginate(LengthAwarePaginator $paginate, ?callable $callable = null)
+    public function paginate(LengthAwarePaginator $paginate)
     {
         return $this->success([
             'pagination' => [
@@ -110,13 +79,7 @@ trait ApiResponseTrait
                 'currentPage' => $paginate->currentPage(),
                 'lastPage' => $paginate->lastPage(),
             ],
-            'list' => array_map(function ($item) use ($callable) {
-                if ($callable) {
-                    return $callable($item) ?? $item;
-                }
-
-                return $item;
-            }, $paginate->items()),
+            'list' => $paginate->items(),
         ]);
     }
 }

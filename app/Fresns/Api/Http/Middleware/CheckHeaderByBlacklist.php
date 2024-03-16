@@ -21,7 +21,7 @@ class CheckHeaderByBlacklist
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkHeaders();
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         // notify user activity

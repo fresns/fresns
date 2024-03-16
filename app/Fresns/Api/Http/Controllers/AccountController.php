@@ -96,7 +96,7 @@ class AccountController extends Controller
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccountToken($accountWordBody);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         $loginToken->update([
@@ -118,7 +118,7 @@ class AccountController extends Controller
         $fresnsUserTokenResp = \FresnsCmdWord::plugin('Fresns')->createUserToken($userWordBody);
 
         if ($fresnsUserTokenResp->isErrorResponse()) {
-            return $fresnsUserTokenResp->errorResponse();
+            return $fresnsUserTokenResp->getErrorResponse();
         }
 
         $loginToken->update([

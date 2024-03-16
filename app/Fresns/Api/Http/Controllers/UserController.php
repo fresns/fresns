@@ -119,7 +119,7 @@ class UserController extends Controller
             $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
-            return $fresnsResponse->errorResponse();
+            return $fresnsResponse->getErrorResponse();
         }
 
         // create token
@@ -141,7 +141,7 @@ class UserController extends Controller
             $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
-            return $fresnsTokenResponse->errorResponse();
+            return $fresnsTokenResponse->getErrorResponse();
         }
 
         // login time
