@@ -10,30 +10,27 @@ namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\PluginHelper;
-use App\Helpers\StrHelper;
 use App\Models\AccountConnect;
-use Illuminate\Support\Str;
 
 trait AccountServiceTrait
 {
-    public function getAccountInfo(): array
+    public function getAccountInfo(?string $langTag = null): array
     {
         $accountData = $this;
 
+        $birthday = null;
+        if ($accountData->birthday) {
+            $dateFormat = $langTag ? ConfigHelper::fresnsConfigDateFormat($langTag) : 'Y-m-d';
+
+            $birthday = date($dateFormat, strtotime($accountData->birthday));
+        }
+
         $info['aid'] = $accountData->aid;
-        $info['countryCode'] = (int) $accountData->country_code;
-        $info['purePhone'] = $accountData->pure_phone ? StrHelper::maskNumber($accountData->pure_phone) : null;
-        $info['phone'] = $accountData->phone ? StrHelper::maskNumber($accountData->phone) : null;
-        $info['email'] = $accountData->email ? StrHelper::maskEmail($accountData->email) : null;
+        $info['hasPhone'] = (bool) $accountData->phone;
+        $info['hasEmail'] = (bool) $accountData->email;
         $info['hasPassword'] = (bool) $accountData->password;
-        $info['verifyStatus'] = (bool) $accountData->is_verify;
-        $info['verifyRealName'] = $accountData->verify_real_name ? StrHelper::maskName($accountData->verify_real_name) : null;
-        $info['verifyGender'] = $accountData->verify_gender;
-        $info['verifyCertType'] = $accountData->verify_cert_type;
-        $info['verifyCertNumber'] = $accountData->verify_cert_number ? StrHelper::maskName($accountData->verify_cert_number) : null;
-        $info['verifyIdentityType'] = $accountData->verify_identity_type;
-        $info['verifyDateTime'] = $accountData->verify_at;
-        $info['registerDateTime'] = $accountData->created_at;
+        $info['birthday'] = $birthday;
+        $info['kycVerified'] = (bool) $accountData->is_verify;
         $info['status'] = (bool) $accountData->is_enabled;
         $info['waitDelete'] = (bool) $accountData->wait_delete;
         $info['waitDeleteDateTime'] = $accountData->wait_delete_at;
@@ -153,11 +150,6 @@ trait AccountServiceTrait
         $wallet['currencyPrecision'] = $currencyConfig['wallet_currency_precision'];
         $wallet['balance'] = $walletData->balance;
         $wallet['freezeAmount'] = $walletData->freeze_amount;
-        $wallet['bankName'] = $walletData->bank_name;
-        $wallet['swiftCode'] = $walletData->swift_code;
-        $wallet['bankAddress'] = $walletData->bank_address;
-        $wallet['bankAccount'] = $walletData->bank_account ? Str::mask($walletData->bank_account, '*', -8, 4) : null;
-        $wallet['bankStatus'] = (bool) $walletData->bank_status;
 
         return $wallet;
     }

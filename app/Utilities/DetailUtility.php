@@ -62,7 +62,7 @@ class DetailUtility
         $accountDetail = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($accountDetail)) {
-            $accountData = $account->getAccountInfo();
+            $accountData = $account->getAccountInfo($langTag);
 
             $item['connects'] = $account->getAccountConnects();
             $item['wallet'] = $account->getAccountWallet($langTag);
@@ -87,8 +87,6 @@ class DetailUtility
         $accountDetail['users'] = $users;
 
         // handle date
-        $accountDetail['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['verifyDateTime'], $timezone, $langTag);
-        $accountDetail['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['registerDateTime'], $timezone, $langTag);
         $accountDetail['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountDetail['waitDeleteDateTime'], $timezone, $langTag);
 
         return $accountDetail;
