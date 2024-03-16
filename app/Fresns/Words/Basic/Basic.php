@@ -55,7 +55,7 @@ class Basic
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+            return $fresnsResp->getErrorResponse();
         }
 
         // device info
@@ -160,7 +160,7 @@ class Basic
             $verifyUserToken = \FresnsCmdWord::plugin()->verifyUserToken($includeEmptyCheckArr);
 
             if ($verifyUserToken->isErrorResponse()) {
-                return $verifyUserToken->errorResponse();
+                return $verifyUserToken->getErrorResponse();
             }
 
             return $this->success();
@@ -170,7 +170,7 @@ class Basic
             $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($includeEmptyCheckArr);
 
             if ($verifyAccountToken->isErrorResponse()) {
-                return $verifyAccountToken->errorResponse();
+                return $verifyAccountToken->getErrorResponse();
             }
         }
 

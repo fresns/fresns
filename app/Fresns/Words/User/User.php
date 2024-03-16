@@ -53,7 +53,7 @@ class User
             $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
 
             if ($verifyAccountToken->isErrorResponse()) {
-                return $verifyAccountToken->errorResponse();
+                return $verifyAccountToken->getErrorResponse();
             }
         }
 
@@ -110,7 +110,7 @@ class User
         $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
 
         if ($verifyAccountToken->isErrorResponse()) {
-            return $verifyAccountToken->errorResponse();
+            return $verifyAccountToken->getErrorResponse();
         }
 
         $langTag = AppHelper::getLangTag();
@@ -165,7 +165,7 @@ class User
         $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
 
         if ($verifyAccountToken->isErrorResponse()) {
-            return $verifyAccountToken->errorResponse();
+            return $verifyAccountToken->getErrorResponse();
         }
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
@@ -257,7 +257,7 @@ class User
         // $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
 
         // if ($verifyAccountToken->isErrorResponse()) {
-        //     return $verifyAccountToken->errorResponse();
+        //     return $verifyAccountToken->getErrorResponse();
         // }
 
         $langTag = AppHelper::getLangTag();

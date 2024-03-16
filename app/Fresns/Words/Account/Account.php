@@ -166,7 +166,7 @@ class Account
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createUser($userWordBody);
 
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return $fresnsResp->getErrorResponse();
             }
 
             $uid = $fresnsResp->getData('uid');

@@ -440,7 +440,7 @@ class Content
             $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
             if ($reviewResp->isErrorResponse()) {
-                return $reviewResp->errorResponse();
+                return $reviewResp->getErrorResponse();
             }
 
             switch ($type) {
