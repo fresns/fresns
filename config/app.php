@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Fresns',
+    'name' => env('APP_NAME', 'Fresns'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,9 +80,9 @@ return [
 
     'locale' => env('APP_LOCALE', 'en'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'zh-Hans'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en-US'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------

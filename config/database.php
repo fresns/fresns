@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -33,7 +35,7 @@ return [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
+            'prefix' => env('DB_PREFIX', ''),
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
@@ -142,7 +144,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', 'fresns_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'fresns'), '_').'_database_'),
         ],
 
         'default' => [
