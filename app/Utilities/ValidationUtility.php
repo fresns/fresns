@@ -35,22 +35,6 @@ class ValidationUtility
         return true;
     }
 
-    // Validate is disposable email
-    public static function disposableEmail(?string $email = null): bool
-    {
-        if (empty($email)) {
-            return true;
-        }
-
-        $url = 'https://open.kickbox.com/v1/disposable/'.Str::after($email, '@');
-
-        try {
-            return ! json_decode(file_get_contents($url), true)['disposable'];
-        } catch (\Throwable $ex) {
-            return true;
-        }
-    }
-
     // Validate regex patterns
     public static function regexp(string $pattern): bool
     {
