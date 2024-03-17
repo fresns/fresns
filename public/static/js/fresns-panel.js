@@ -154,8 +154,38 @@ function progressExit() {
     progress.exit();
 }
 
+$(document).on('submit', 'form', function () {
+    var btn = $(this).find('button[type="submit"]');
+
+    btn.find('i').remove();
+
+    btn.prop('disabled', true);
+    if (btn.children('.spinner-border').length == 0) {
+        btn.prepend(
+            '<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> '
+        );
+    }
+    btn.children('.spinner-border').removeClass('d-none');
+});
+
 // settings
 $(document).ready(function () {
+    // btn spinner
+    $('.fs-btn-spinner').click(function () {
+        var btn = $(this);
+
+        btn.find('i').remove();
+
+        btn.prop('disabled', true);
+        btn.addClass('disabled');
+        if (btn.children('.spinner-border').length == 0) {
+            btn.prepend(
+                '<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> '
+            );
+        }
+        btn.children('.spinner-border').removeClass('d-none');
+    });
+
     // progress bar
     $(".fresns-modal").on('show.bs.modal', function() {
         $('.ajax-progress-submit').show().removeAttr("disabled");
