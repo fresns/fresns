@@ -14,9 +14,9 @@ use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
-use Illuminate\Routing\Controller;
 
 class WebController extends Controller
 {
