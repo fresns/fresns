@@ -704,7 +704,15 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34111,
-                'messages' => '{"en":"Account password or verification code cannot be empty","zh-Hans":"账号密码或者验证码不能全部为空","zh-Hant":"賬號密碼或者驗證碼不能全部為空"}',
+                'messages' => '{"en":"Password cannot be empty","zh-Hans":"密码不能为空","zh-Hant":"密碼不能為空"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 34112,
+                'messages' => '{"en":"Password or verify code cannot be empty","zh-Hans":"密码或者验证码不能全部为空","zh-Hant":"密碼或者驗證碼不能全部為空"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1160,7 +1168,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36108,
-                'messages' => '{"en":"Real-name verification is required for current role to publish content","zh-Hans":"当前角色发表内容需要先实名制认证","zh-Hant":"當前角色發表內容需要先實名制認證"}',
+                'messages' => '{"en":"KYC verification is required for current role to publish content","zh-Hans":"当前角色发表内容需要先实名制认证","zh-Hant":"當前角色發表內容需要先實名制認證"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1312,7 +1320,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36303,
-                'messages' => '{"en":"Please go through the real-name verification process before publishing content","zh-Hans":"发表内容需要先实名制认证","zh-Hant":"發表內容需要先實名制認證"}',
+                'messages' => '{"en":"Please go through the KYC verification process before publishing content","zh-Hans":"发表内容需要先实名制认证","zh-Hant":"發表內容需要先實名制認證"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,

@@ -82,11 +82,6 @@ class CreateAccountsTable extends Migration
             $table->decimal('balance', 10)->default(0);
             $table->decimal('freeze_amount', 10)->default(0);
             $table->string('password', 64)->nullable();
-            $table->string('bank_name', 64)->nullable();
-            $table->string('swift_code', 32)->nullable();
-            $table->string('bank_address')->nullable();
-            $table->string('bank_account', 128)->nullable();
-            $table->unsignedTinyInteger('bank_status')->default(1);
             $table->boolean('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

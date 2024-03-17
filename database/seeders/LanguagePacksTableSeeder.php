@@ -478,6 +478,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'manage',
+                'lang_values' => '{"en":"Manage","zh-Hans":"管理","zh-Hant":"管理"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'reset',
                 'lang_values' => '{"en":"Reset","zh-Hans":"重置","zh-Hant":"重置"}',
                 'is_custom' => 0,
@@ -1302,6 +1310,22 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'accountCenterDesc',
+                'lang_values' => '{"en":"Manage your profile, password and other configuration information in the Account Center.","zh-Hans":"在账户中心管理你的资料和密码等配置信息。","zh-Hant":"在帳戶中心管理你的資料和密碼等設定資訊。"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'lang_key' => 'accountCenterSeeMore',
+                'lang_values' => '{"en":"See more in Accounts Center","zh-Hans":"在账户中心查看更多","zh-Hant":"在帳戶中心查看更多信息"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'account',
                 'lang_values' => '{"en":"Account","zh-Hans":"账号","zh-Hant":"帳號"}',
                 'is_custom' => 0,
@@ -1630,8 +1654,8 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'accountRecallDelete',
-                'lang_values' => '{"en":"Recall Delete Account","zh-Hans":"撤销注销","zh-Hant":"撤銷註銷"}',
+                'lang_key' => 'accountRevokeDelete',
+                'lang_values' => '{"en":"Revoke Delete Account","zh-Hans":"撤销注销","zh-Hant":"撤銷註銷"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
