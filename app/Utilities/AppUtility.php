@@ -320,11 +320,14 @@ class AppUtility
             'site_url',
             'site_name',
             'site_desc',
-            'site_copyright',
+            'site_copyright_name',
             'default_language',
         ]);
 
-        $isHttps = \request()->getScheme() === 'https';
+        $isHttps = request()->getScheme() === 'https';
+
+        $siteName = base64_encode(json_encode($appConfig['site_name']));
+        $siteDesc = base64_encode(json_encode($appConfig['site_desc']));
 
         return [
             'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
@@ -333,13 +336,13 @@ class AppUtility
             'X-Fresns-Version' => AppHelper::VERSION,
             'X-Fresns-Database' => config('database.default'),
             'X-Fresns-Http-Ssl' => $isHttps ? 1 : 0,
-            'X-Fresns-Http-Host' => \request()->getHost(),
-            'X-Fresns-Http-Port' => \request()->getPort(),
+            'X-Fresns-Http-Host' => request()->getHost(),
+            'X-Fresns-Http-Port' => request()->getPort(),
             'X-Fresns-System-Url' => config('app.url'),
             'X-Fresns-Site-Url' => $appConfig['site_url'],
-            'X-Fresns-Site-Name' => base64_encode($appConfig['site_name']),
-            'X-Fresns-Site-Desc' => base64_encode($appConfig['site_desc']),
-            'X-Fresns-Site-Copyright' => base64_encode($appConfig['site_copyright']),
+            'X-Fresns-Site-Name' => $siteName,
+            'X-Fresns-Site-Desc' => $siteDesc,
+            'X-Fresns-Site-Copyright-Name' => base64_encode($appConfig['site_copyright_name']),
             'X-Fresns-Site-Language' => $appConfig['default_language'],
         ];
     }
