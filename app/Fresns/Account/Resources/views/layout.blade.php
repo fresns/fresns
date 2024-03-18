@@ -134,41 +134,32 @@
             }, 1000);
         }
 
-        // send verify code
-        function sendVerifyCode(obj) {
+        // guest send verify code
+        function guestSendVerifyCode(obj) {
             let type = $(obj).data('type'),
-                templateId = $(obj).data('template-id');
-                countryCodeSelectId = $(obj).data('country-code-select-id'),
                 accountInputId = $(obj).data('account-input-id');
 
-            let countryCode = '',
-                account = '';
-
-            if (countryCodeSelectId) {
-                countryCode = $('#' + countryCodeSelectId).val();
-            }
+            let account = '';
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
             }
 
-            if (templateId != 3 && templateId != 4 && !account) {
+            if (!account) {
                 tips("{{ $fsLang['errorEmpty'] }}");
 
                 return;
             }
 
             $.ajax({
-                url: "{{ route('account-center.send-verify-code') }}",
+                url: "{{ route('account-center.api.guest-send-verify-code') }}",
                 type: 'post',
                 data: {
                     'type': type,
                     'account': account,
-                    'countryCode': countryCode,
-                    'templateId': templateId,
                 },
                 error: function (error) {
-                    tips(error.responseJSON.message);
+                    tips(error.responseText);
                 },
                 success: function (res) {
                     if (res.code != 0) {
@@ -190,7 +181,7 @@
             let accessToken;
 
             $.ajaxSettings.async = false;
-            $.post("{{ route('account-center.make-access-token') }}", {}, function (res) {
+            $.post("{{ route('account-center.api.make-access-token') }}", {}, function (res) {
                 accessToken = res.data.accessToken;
             });
             $.ajaxSettings.async = true;

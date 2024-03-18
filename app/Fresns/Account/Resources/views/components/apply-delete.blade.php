@@ -1,7 +1,7 @@
 <div class="modal fade" id="applyDeleteModal" tabindex="-1" aria-labelledby="applyDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="api-request-form" action="{{ route('account-center.apply.delete') }}" method="post" autocomplete="off">
+            <form class="api-request-form" action="{{ route('account-center.api.apply.delete') }}" method="post" autocomplete="off">
                 @if (!$accountData['hasEmail'] && !$accountData['hasPhone'])
                     <div class="modal-body">
                         <div class="py-3 text-danger">{{ $fsLang['accountDeleteDesc'] }}</div>

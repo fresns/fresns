@@ -1,7 +1,7 @@
 <div class="modal fade" id="editWalletPasswordModal" tabindex="-1" aria-labelledby="editWalletPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="api-request-form" action="{{ route('account-center.update') }}" method="patch" autocomplete="off">
+            <form class="api-request-form" action="{{ route('account-center.api.update') }}" method="patch" autocomplete="off">
                 <input type="hidden" name="formType" value="walletPassword">
 
                 <div class="modal-body">

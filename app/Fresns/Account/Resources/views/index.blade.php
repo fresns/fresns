@@ -5,7 +5,7 @@
 @section('body')
     {{-- header --}}
     <header class="text-center">
-        <p><img src="{{ $siteLogo }}" height="24"></p>
+        <p><img src="{{ $siteLogo }}" height="30"></p>
         <h1 class="fs-4">{{ $fsLang['accountCenter'] }}</h1>
         <p class="fw-normal">{{ $fsLang['accountCenterDesc'] }}</p>
     </header>
@@ -223,6 +223,57 @@
 
 @push('script')
     <script>
+        // send verify code
+        function sendVerifyCode(obj) {
+            let type = $(obj).data('type'),
+                templateId = $(obj).data('template-id');
+                countryCodeSelectId = $(obj).data('country-code-select-id'),
+                accountInputId = $(obj).data('account-input-id');
+
+            let countryCode = '',
+                account = '';
+
+            if (countryCodeSelectId) {
+                countryCode = $('#' + countryCodeSelectId).val();
+            }
+
+            if (accountInputId) {
+                account = $('#' + accountInputId).val();
+            }
+
+            if (templateId != 3 && templateId != 4 && !account) {
+                tips("{{ $fsLang['errorEmpty'] }}");
+
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('account-center.api.send-verify-code') }}",
+                type: 'post',
+                data: {
+                    'type': type,
+                    'account': account,
+                    'countryCode': countryCode,
+                    'templateId': templateId,
+                },
+                error: function (error) {
+                    tips(error.responseJSON.message);
+                },
+                success: function (res) {
+                    if (res.code != 0) {
+                        tips(res.message);
+
+                        return;
+                    }
+
+                    tips("{{ $fsLang['send'].': '.$fsLang['success'] }}");
+
+                    Cookies.set('fresns_account_center_verify_code_time', 60, { expires: 1 });
+                    setSendCodeTime();
+                },
+            });
+        }
+
         // check verify code
         function checkVerifyCode(obj) {
             var btn = $(obj);
@@ -254,7 +305,7 @@
             btn.children('.spinner-border').removeClass('d-none');
 
             $.ajax({
-                url: "{{ route('account-center.check-verify-code') }}",
+                url: "{{ route('account-center.api.check-verify-code') }}",
                 type: 'post',
                 data: {
                     'type': type,
@@ -301,7 +352,7 @@
             btn.children('.spinner-border').removeClass('d-none');
 
             $.ajax({
-                url: "{{ route('account-center.revoke.delete') }}",
+                url: "{{ route('account-center.api.revoke.delete') }}",
                 type: 'post',
                 error: function (error) {
                     tips(error.responseJSON.message);

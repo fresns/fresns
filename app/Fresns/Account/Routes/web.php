@@ -17,15 +17,22 @@ Route::name('account-center.')->prefix('account-center')->group(function () {
         Route::get('/', [WebController::class, 'index'])->name('index');
         Route::get('sign-up', [WebController::class, 'signUp'])->name('sign-up');
         Route::get('login', [WebController::class, 'login'])->name('login');
+        Route::get('reset-password', [WebController::class, 'resetPassword'])->name('reset-password');
     });
 
-    Route::middleware(VerifyAccountToken::class)->group(function () {
-        Route::post('check-verify-code', [ApiController::class, 'checkVerifyCode'])->name('check-verify-code');
-        Route::patch('update', [ApiController::class, 'update'])->name('update');
-        Route::post('apply-delete', [ApiController::class, 'applyDelete'])->name('apply.delete');
-        Route::post('revoke-delete', [ApiController::class, 'revokeDelete'])->name('revoke.delete');
-    });
+    Route::name('api.')->prefix('api')->group(function () {
+        Route::post('make-access-token', [ApiController::class, 'makeAccessToken'])->name('make-access-token');
+        Route::post('guest-send-verify-code', [ApiController::class, 'guestSendVerifyCode'])->name('guest-send-verify-code');
+        Route::post('login', [ApiController::class, 'login'])->name('login');
+        Route::post('sign-up', [ApiController::class, 'signUp'])->name('sign-up');
+        Route::patch('reset-password', [ApiController::class, 'resetPassword'])->name('reset-password');
 
-    Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send-verify-code');
-    Route::post('make-access-token', [ApiController::class, 'makeAccessToken'])->name('make-access-token');
+        Route::middleware(VerifyAccountToken::class)->group(function () {
+            Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send-verify-code');
+            Route::post('check-verify-code', [ApiController::class, 'checkVerifyCode'])->name('check-verify-code');
+            Route::patch('update', [ApiController::class, 'update'])->name('update');
+            Route::post('apply-delete', [ApiController::class, 'applyDelete'])->name('apply.delete');
+            Route::post('revoke-delete', [ApiController::class, 'revokeDelete'])->name('revoke.delete');
+        });
+    });
 });

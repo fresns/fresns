@@ -1,7 +1,7 @@
 <div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="api-request-form" action="{{ route('account-center.update') }}" method="patch" autocomplete="off">
+            <form class="api-request-form" action="{{ route('account-center.api.update') }}" method="patch" autocomplete="off">
                 <input type="hidden" name="formType" value="email">
 
                 <div class="modal-body">
