@@ -83,7 +83,6 @@ class Basic
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
         $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
@@ -92,28 +91,28 @@ class Basic
         if (empty($keyInfo) || ! $keyInfo->is_enabled) {
             return $this->failure(
                 31301,
-                ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31301),
             );
         }
 
         if ($keyInfo->type != $keyType) {
             return $this->failure(
                 31304,
-                ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31304),
             );
         }
 
         if ($keyType == SessionKey::TYPE_APP && $keyInfo->app_fskey != $keyFskey) {
             return $this->failure(
                 31304,
-                ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31304),
             );
         }
 
         if ($keyInfo->platform_id != $dtoWordBody->platformId) {
             return $this->failure(
                 31102,
-                ConfigUtility::getCodeMessage(31102, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31102),
             );
         }
 
@@ -129,7 +128,7 @@ class Basic
         if ($diff > 600) {
             return $this->failure(
                 31303,
-                ConfigUtility::getCodeMessage(31303, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31303),
             );
         }
 
@@ -152,7 +151,7 @@ class Basic
         if (! $checkSign) {
             return $this->failure(
                 31302,
-                ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31302),
             );
         }
 
@@ -180,7 +179,6 @@ class Basic
     public function verifyAccessToken($wordBody)
     {
         $dtoWordBody = new VerifyAccessTokenDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         try {
             $accessTokenData = base64_decode(urldecode($dtoWordBody->accessToken));
@@ -189,17 +187,17 @@ class Basic
             if (empty($accessTokenJson)) {
                 return $this->failure(
                     30002,
-                    ConfigUtility::getCodeMessage(30002, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(30002)
                 );
             }
         } catch (\Exception $e) {
             return $this->failure(
                 31000,
-                ConfigUtility::getCodeMessage(31000, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31000)
             );
         }
 
-        $langTag = $accessTokenJson['X-Fresns-Client-Lang-Tag'] ?? $langTag;
+        $langTag = $accessTokenJson['X-Fresns-Client-Lang-Tag'] ?? AppHelper::getLangTag();
 
         // check deviceInfo
         try {
@@ -310,11 +308,10 @@ class Basic
             $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
 
-        $langTag = AppHelper::getLangTag();
         if (empty($pluginFskey)) {
             return $this->failure(
                 32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(32100),
             );
         }
 
@@ -326,7 +323,6 @@ class Basic
     public function checkCode($wordBody)
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         if ($dtoWordBody->type == 1) {
             $account = $dtoWordBody->account;
@@ -345,7 +341,7 @@ class Basic
         if (! $verifyInfo) {
             return $this->failure(
                 33203,
-                ConfigUtility::getCodeMessage(33203, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(33203),
             );
         }
 

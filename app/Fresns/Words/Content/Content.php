@@ -13,7 +13,6 @@ use App\Fresns\Words\Content\DTO\ContentPublishByDraftDTO;
 use App\Fresns\Words\Content\DTO\ContentQuickPublishDTO;
 use App\Fresns\Words\Content\DTO\CreateDraftDTO;
 use App\Fresns\Words\Content\DTO\GenerateDraftDTO;
-use App\Fresns\Words\Content\DTO\LocationInfoDTO;
 use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
 use App\Fresns\Words\Content\DTO\PhysicalDeletionContentDTO;
 use App\Fresns\Words\Content\DTO\SetContentCloseDeleteDTO;
@@ -46,7 +45,6 @@ use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Content
@@ -63,19 +61,18 @@ class Content
     public function createDraft($wordBody)
     {
         $dtoWordBody = new CreateDraftDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
             return $this->failure(
                 35201,
-                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35201)
             );
         }
         if (! $author->is_enabled) {
             return $this->failure(
                 35202,
-                ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35202)
             );
         }
 
@@ -139,7 +136,7 @@ class Content
                 if (empty($checkPost)) {
                     return $this->failure(
                         37400,
-                        ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(37400)
                     );
                 }
 
@@ -209,7 +206,6 @@ class Content
         $dtoWordBody = new GenerateDraftDTO($wordBody);
 
         $timezone = \request()->header('X-Fresns-Client-Timezone');
-        $langTag = AppHelper::getLangTag();
 
         $editTimeLimit = match ($dtoWordBody->type) {
             Content::TYPE_POST => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),
@@ -224,7 +220,7 @@ class Content
                 if (empty($post)) {
                     return $this->failure(
                         37400,
-                        ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(37400)
                     );
                 }
 
@@ -232,13 +228,13 @@ class Content
                 if (! $author) {
                     return $this->failure(
                         35201,
-                        ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(35201)
                     );
                 }
                 if (! $author->is_enabled) {
                     return $this->failure(
                         35202,
-                        ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(35202)
                     );
                 }
 
@@ -247,7 +243,7 @@ class Content
                 if ($checkEditCode) {
                     return $this->failure(
                         $checkEditCode,
-                        ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage($checkEditCode)
                     );
                 }
 
@@ -266,14 +262,14 @@ class Content
                 if (empty($comment)) {
                     return $this->failure(
                         37500,
-                        ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(37500)
                     );
                 }
 
                 if ($comment->top_parent_id != 0) {
                     return $this->failure(
                         36314,
-                        ConfigUtility::getCodeMessage(36314, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(36314)
                     );
                 }
 
@@ -281,13 +277,13 @@ class Content
                 if (! $author) {
                     return $this->failure(
                         35201,
-                        ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(35201)
                     );
                 }
                 if (! $author->is_enabled) {
                     return $this->failure(
                         35202,
-                        ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(35202)
                     );
                 }
 
@@ -296,7 +292,7 @@ class Content
                 if ($checkEditCode) {
                     return $this->failure(
                         $checkEditCode,
-                        ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage($checkEditCode)
                     );
                 }
 
@@ -328,19 +324,17 @@ class Content
             Content::TYPE_COMMENT => CommentLog::with(['author'])->where('id', $dtoWordBody->logId)->first(),
         };
 
-        $langTag = AppHelper::getLangTag();
-
         if (empty($logModel)) {
             return $this->failure(
                 38100,
-                ConfigUtility::getCodeMessage(38100, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(38100),
             );
         }
 
         if ($logModel->state == PostLog::STATE_SUCCESS) {
             return $this->failure(
                 38104,
-                ConfigUtility::getCodeMessage(38104, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(38104),
             );
         }
 
@@ -349,13 +343,13 @@ class Content
         if (empty($author)) {
             return $this->failure(
                 35201,
-                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35201)
             );
         }
         if (! $author->is_enabled) {
             return $this->failure(
                 35202,
-                ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35202)
             );
         }
 
@@ -369,7 +363,7 @@ class Content
                     if ($checkEditCode) {
                         return $this->failure(
                             $checkEditCode,
-                            ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                            ConfigUtility::getCodeMessage($checkEditCode)
                         );
                     }
                 }
@@ -389,7 +383,7 @@ class Content
                     if ($checkEditCode) {
                         return $this->failure(
                             $checkEditCode,
-                            ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                            ConfigUtility::getCodeMessage($checkEditCode)
                         );
                     }
                 }
@@ -412,19 +406,18 @@ class Content
     public function contentQuickPublish($wordBody)
     {
         $dtoWordBody = new ContentQuickPublishDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
             return $this->failure(
                 35201,
-                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35201)
             );
         }
         if (! $author->is_enabled) {
             return $this->failure(
                 35202,
-                ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35202)
             );
         }
 
@@ -586,7 +579,6 @@ class Content
     public function logicalDeletionContent($wordBody)
     {
         $dtoWordBody = new LogicalDeletionContentDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
             case Content::TABLE_MAIN:
@@ -599,7 +591,7 @@ class Content
                 if (empty($model)) {
                     return $this->failure(
                         36400,
-                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(36400)
                     );
                 }
 
@@ -650,7 +642,7 @@ class Content
                 if (empty($model)) {
                     return $this->failure(
                         36400,
-                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(36400)
                     );
                 }
 
@@ -685,7 +677,6 @@ class Content
     public function physicalDeletionContent($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionContentDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
             case Content::TABLE_MAIN:
@@ -698,7 +689,7 @@ class Content
                 if (empty($model)) {
                     return $this->failure(
                         36400,
-                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(36400)
                     );
                 }
 
@@ -751,7 +742,7 @@ class Content
                 if (empty($model)) {
                     return $this->failure(
                         36400,
-                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(36400)
                     );
                 }
 
@@ -808,7 +799,6 @@ class Content
     public function addContentMoreInfo($wordBody)
     {
         $dtoWordBody = new AddContentMoreInfoDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $model = match ($dtoWordBody->type) {
             Content::TYPE_POST => Post::where('pid', $dtoWordBody->fsid)->first(),
@@ -823,7 +813,7 @@ class Content
         if (empty($model)) {
             return $this->failure(
                 $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage($errorCode)
             );
         }
 
@@ -849,7 +839,6 @@ class Content
     public function setContentSticky($wordBody)
     {
         $dtoWordBody = new setContentStickyAndDigestDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             Content::TYPE_POST => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
@@ -864,7 +853,7 @@ class Content
         if (empty($primaryId)) {
             return $this->failure(
                 $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage($errorCode)
             );
         }
 
@@ -884,7 +873,6 @@ class Content
     public function setContentDigest($wordBody)
     {
         $dtoWordBody = new SetContentStickyAndDigestDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             Content::TYPE_POST => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->fsid),
@@ -899,7 +887,7 @@ class Content
         if (empty($primaryId)) {
             return $this->failure(
                 $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage($errorCode)
             );
         }
 
@@ -919,7 +907,6 @@ class Content
     public function setContentCloseDelete($wordBody)
     {
         $dtoWordBody = new SetContentCloseDeleteDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $model = match ($dtoWordBody->type) {
             Content::TYPE_POST => Post::where('pid', $dtoWordBody->fsid)->first(),
@@ -934,7 +921,7 @@ class Content
         if (empty($model)) {
             return $this->failure(
                 $errorCode,
-                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage($errorCode)
             );
         }
 
@@ -959,13 +946,12 @@ class Content
     public function setPostAuth($wordBody)
     {
         $dtoWordBody = new SetPostAuthDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
                 37400,
-                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(37400)
             );
         }
 
@@ -974,7 +960,7 @@ class Content
         if (empty($userId) && empty($roleId)) {
             return $this->failure(
                 30001,
-                ConfigUtility::getCodeMessage(30001, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(30001)
             );
         }
 
@@ -1022,13 +1008,12 @@ class Content
     public function setPostAffiliateUser($wordBody)
     {
         $dtoWordBody = new SetPostAffiliateUserDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
                 37400,
-                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(37400)
             );
         }
 
@@ -1036,7 +1021,7 @@ class Content
         if (empty($userId)) {
             return $this->failure(
                 35201,
-                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35201)
             );
         }
 

@@ -17,7 +17,7 @@ trait ApiResponseTrait
 {
     public function success(mixed $data = null, ?string $message = null, ?int $code = 0, ?array $headers = [])
     {
-        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag());
+        $message = $message ?: ConfigUtility::getCodeMessage($code);
 
         $newHeaders = array_merge([
             'Fresns-Version' => AppHelper::VERSION,
@@ -45,7 +45,7 @@ trait ApiResponseTrait
             'list' => [],
         ];
 
-        $message = ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag()) ?? 'Unknown Warning';
+        $message = ConfigUtility::getCodeMessage($code) ?? 'Unknown Warning';
         $newMessage = "[{$code}] {$message}";
 
         return $this->success($data, $newMessage);

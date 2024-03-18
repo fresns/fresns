@@ -35,7 +35,6 @@ class Wallet
     public function walletCheckPassword($wordBody)
     {
         $dtoWordBody = new WalletCheckPasswordDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
@@ -44,7 +43,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -58,7 +57,7 @@ class Wallet
             if (! $checkWallet) {
                 return $this->failure(
                     34502,
-                    ConfigUtility::getCodeMessage(34502, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34502)
                 );
             }
         }
@@ -70,7 +69,6 @@ class Wallet
     public function walletRecharge($wordBody)
     {
         $dtoWordBody = new WalletRechargeDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -79,7 +77,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -88,7 +86,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -97,7 +95,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -141,7 +139,6 @@ class Wallet
     public function walletWithdraw($wordBody)
     {
         $dtoWordBody = new WalletWithdrawDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -150,7 +147,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -159,7 +156,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -169,7 +166,7 @@ class Wallet
             if (! $checkWallet) {
                 return $this->failure(
                     34502,
-                    ConfigUtility::getCodeMessage(34502, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34502)
                 );
             }
         }
@@ -179,7 +176,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -195,7 +192,7 @@ class Wallet
         if (! $checkBalance) {
             return $this->failure(
                 34504,
-                ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34504)
             );
         }
 
@@ -232,12 +229,11 @@ class Wallet
     public function walletUpdateState($wordBody)
     {
         $dtoWordBody = new WalletUpdateStateDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
             return $this->failure(
                 21005,
-                ConfigUtility::getCodeMessage(21005, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(21005)
             );
         }
 
@@ -247,7 +243,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -279,7 +275,7 @@ class Wallet
         if (empty($walletLog)) {
             return $this->failure(
                 32201,
-                ConfigUtility::getCodeMessage(32201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(32201)
             );
         }
 
@@ -289,7 +285,7 @@ class Wallet
         ])) {
             return $this->failure(
                 21007,
-                ConfigUtility::getCodeMessage(21007, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(21007)
             );
         }
 
@@ -307,7 +303,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -325,7 +321,7 @@ class Wallet
                 if (! $checkBalance) {
                     return $this->failure(
                         34504,
-                        ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(34504)
                     );
                 }
 
@@ -351,7 +347,6 @@ class Wallet
     public function walletFreeze($wordBody)
     {
         $dtoWordBody = new WalletFreezeDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -360,7 +355,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -369,7 +364,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -378,7 +373,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -390,7 +385,7 @@ class Wallet
         if (! $checkBalance) {
             return $this->failure(
                 34505,
-                ConfigUtility::getCodeMessage(34505, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34505)
             );
         }
 
@@ -425,7 +420,6 @@ class Wallet
     public function walletUnfreeze($wordBody)
     {
         $dtoWordBody = new WalletUnfreezeDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -434,7 +428,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -443,7 +437,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -452,7 +446,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -463,7 +457,7 @@ class Wallet
         if ($wallet->freeze_amount < $amountTotal) {
             return $this->failure(
                 34505,
-                ConfigUtility::getCodeMessage(34505, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34505)
             );
         }
 
@@ -498,7 +492,6 @@ class Wallet
     public function walletIncrease($wordBody)
     {
         $dtoWordBody = new WalletIncreaseDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -509,7 +502,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -518,7 +511,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -527,7 +520,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -569,7 +562,7 @@ class Wallet
             if (empty($originWallet)) {
                 return $this->failure(
                     34503,
-                    ConfigUtility::getCodeMessage(34503, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34503)
                 );
             }
 
@@ -578,7 +571,7 @@ class Wallet
             if (! $checkBalance) {
                 return $this->failure(
                     34505,
-                    ConfigUtility::getCodeMessage(34505, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34505)
                 );
             }
 
@@ -587,7 +580,7 @@ class Wallet
             if (! $checkOriginClosingBalance) {
                 return $this->failure(
                     34507,
-                    ConfigUtility::getCodeMessage(34507, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34507)
                 );
             }
 
@@ -633,7 +626,6 @@ class Wallet
     public function walletDecrease($wordBody)
     {
         $dtoWordBody = new WalletDecreaseDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
@@ -644,7 +636,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -653,7 +645,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -663,7 +655,7 @@ class Wallet
             if (! $checkWallet) {
                 return $this->failure(
                     34502,
-                    ConfigUtility::getCodeMessage(34502, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34502)
                 );
             }
         }
@@ -680,7 +672,7 @@ class Wallet
         if (! $checkBalance) {
             return $this->failure(
                 34504,
-                ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34504)
             );
         }
 
@@ -689,7 +681,7 @@ class Wallet
         if (! $checkClosingBalance) {
             return $this->failure(
                 34506,
-                ConfigUtility::getCodeMessage(34506, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34506)
             );
         }
 
@@ -724,7 +716,7 @@ class Wallet
             if (empty($originWallet)) {
                 return $this->failure(
                     34503,
-                    ConfigUtility::getCodeMessage(34503, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34503)
                 );
             }
 
@@ -733,7 +725,7 @@ class Wallet
             if (! $checkOriginClosingBalance) {
                 return $this->failure(
                     34507,
-                    ConfigUtility::getCodeMessage(34507, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34507)
                 );
             }
 
@@ -779,12 +771,11 @@ class Wallet
     public function walletReversal($wordBody)
     {
         $dtoWordBody = new WalletReversalDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
             return $this->failure(
                 21005,
-                ConfigUtility::getCodeMessage(21005, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(21005)
             );
         }
 
@@ -794,7 +785,7 @@ class Wallet
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -822,7 +813,7 @@ class Wallet
         if (empty($walletLog)) {
             return $this->failure(
                 32201,
-                ConfigUtility::getCodeMessage(32201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(32201)
             );
         }
 
@@ -832,7 +823,7 @@ class Wallet
         ])) {
             return $this->failure(
                 21007,
-                ConfigUtility::getCodeMessage(21007, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(21007)
             );
         }
 
@@ -840,7 +831,7 @@ class Wallet
         if (empty($wallet)) {
             return $this->failure(
                 34501,
-                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34501)
             );
         }
 
@@ -858,7 +849,7 @@ class Wallet
                 if (! $checkObjectBalance) {
                     return $this->failure(
                         34504,
-                        ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(34504)
                     );
                 }
 
@@ -874,7 +865,7 @@ class Wallet
             if (! $checkBalance) {
                 return $this->failure(
                     34504,
-                    ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(34504)
                 );
             }
         }

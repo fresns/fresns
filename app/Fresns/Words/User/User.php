@@ -8,19 +8,18 @@
 
 namespace App\Fresns\Words\User;
 
-use App\Fresns\Words\Account\DTO\GetUserDeviceTokenDTO;
 use App\Fresns\Words\User\DTO\ClearUserAllBadgesDTO;
 use App\Fresns\Words\User\DTO\ClearUserBadgeDTO;
 use App\Fresns\Words\User\DTO\CreateUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
 use App\Fresns\Words\User\DTO\DeletionUserDTO;
+use App\Fresns\Words\User\DTO\GetUserDeviceTokenDTO;
 use App\Fresns\Words\User\DTO\SetUserBadgeDTO;
 use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\SetUserExtcreditsDTO;
 use App\Fresns\Words\User\DTO\SetUserGroupExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserTokenDTO;
-use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -57,13 +56,11 @@ class User
             }
         }
 
-        $langTag = AppHelper::getLangTag();
-
         $account = Account::where('aid', $dtoWordBody->aid)->first();
         if (empty($account)) {
             return $this->failure(
                 34301,
-                ConfigUtility::getCodeMessage(34301, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34301)
             );
         }
 
@@ -113,15 +110,13 @@ class User
             return $verifyAccountToken->getErrorResponse();
         }
 
-        $langTag = AppHelper::getLangTag();
-
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
         if (empty($user) || $user?->account_id != $accountId) {
             return $this->failure(
                 35201,
-                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(35201)
             );
         }
 
@@ -130,7 +125,7 @@ class User
         if ($loginErrorCount >= 5) {
             return $this->failure(
                 34306,
-                ConfigUtility::getCodeMessage(34306, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(34306),
             );
         }
 
@@ -138,14 +133,14 @@ class User
             if (empty($dtoWordBody->pin)) {
                 return $this->failure(
                     34111,
-                    ConfigUtility::getCodeMessage(34111, 'Fresns', $langTag),
+                    ConfigUtility::getCodeMessage(34111),
                 );
             }
 
             if (! Hash::check($dtoWordBody->pin, $user->pin)) {
                 return $this->failure(
                     35204,
-                    ConfigUtility::getCodeMessage(35204, 'Fresns', $langTag),
+                    ConfigUtility::getCodeMessage(35204),
                 );
             }
         }
@@ -172,11 +167,9 @@ class User
         $user = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
 
         if (empty($user) || $user->account_id != $accountId) {
-            $langTag = AppHelper::getLangTag();
-
             return $this->failure(
                 31602,
-                ConfigUtility::getCodeMessage(31602, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31602)
             );
         }
 
@@ -260,8 +253,6 @@ class User
         //     return $verifyAccountToken->getErrorResponse();
         // }
 
-        $langTag = AppHelper::getLangTag();
-
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $uidToken = $dtoWordBody->uidToken;
@@ -280,7 +271,7 @@ class User
             if (empty($userToken)) {
                 return $this->failure(
                     31603,
-                    ConfigUtility::getCodeMessage(31603, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(31603)
                 );
             }
 
@@ -290,14 +281,14 @@ class User
         if ($userToken->platform_id != $dtoWordBody->platformId) {
             return $this->failure(
                 31103,
-                ConfigUtility::getCodeMessage(31103, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31103)
             );
         }
 
         if ($userToken->expired_at && $userToken->expired_at < now()) {
             return $this->failure(
                 31504,
-                ConfigUtility::getCodeMessage(31504, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31504)
             );
         }
 
@@ -361,7 +352,6 @@ class User
     public function setUserExtcredits($wordBody)
     {
         $dtoWordBody = new SetUserExtcreditsDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $userStat = UserStat::where('user_id', $userId)->first();
@@ -401,7 +391,7 @@ class User
         if (! $operationStat) {
             return $this->failure(
                 21006,
-                ConfigUtility::getCodeMessage(21006, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(21006)
             );
         }
 

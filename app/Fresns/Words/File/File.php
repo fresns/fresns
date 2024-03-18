@@ -16,7 +16,6 @@ use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
 use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
-use App\Helpers\AppHelper;
 use App\Helpers\FileHelper;
 use App\Utilities\ConfigUtility;
 use App\Utilities\FileUtility;
@@ -29,14 +28,13 @@ class File
     public function getStorageToken($wordBody)
     {
         $dtoWordBody = new GetStorageTokenDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 
@@ -48,7 +46,6 @@ class File
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         // $bodyInfo = [
         //     'platformId' => $dtoWordBody->platformId,
@@ -72,7 +69,7 @@ class File
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 
@@ -107,14 +104,13 @@ class File
     public function getAntiLinkFileInfo($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 
@@ -130,14 +126,13 @@ class File
     public function getAntiLinkFileInfoList($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 
@@ -153,14 +148,13 @@ class File
     public function getAntiLinkFileOriginalUrl($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 
@@ -187,14 +181,13 @@ class File
     public function physicalDeletionFiles($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionFilesDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
             );
         }
 

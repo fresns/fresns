@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
@@ -86,10 +87,10 @@ class ConfigUtility
     }
 
     // get code message
-    public static function getCodeMessage(int $code, ?string $fskey = null, ?string $langTag = null): string
+    public static function getCodeMessage(int $code, ?string $fskey = null, ?string $langTag = null): ?string
     {
         $fskey = $fskey ?: 'Fresns';
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+        $langTag = $langTag ?: AppHelper::getLangTag();
 
         $cacheKey = "fresns_code_messages_{$fskey}";
         $cacheTag = 'fresnsConfigs';

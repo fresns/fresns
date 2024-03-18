@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Exceptions;
 
 use App\Fresns\Api\Traits\ApiResponseTrait;
-use App\Helpers\AppHelper;
 use App\Utilities\ConfigUtility;
 
 class ResponseException extends \Exception
@@ -26,13 +25,13 @@ class ResponseException extends \Exception
         parent::__construct($message, $code);
     }
 
-    public function getCodeMessage(int $code, ?string $fskey = '')
-    {
-        return ConfigUtility::getCodeMessage($code, $fskey, AppHelper::getLangTag());
-    }
-
     public function render()
     {
         return $this->failure($this->getCode(), $this->getMessage(), $this->data);
+    }
+
+    public function getCodeMessage(int $code, ?string $fskey = ''): ?string
+    {
+        return ConfigUtility::getCodeMessage($code, $fskey);
     }
 }
