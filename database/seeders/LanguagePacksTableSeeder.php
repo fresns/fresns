@@ -1335,7 +1335,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'email',
-                'lang_values' => '{"en":"Email","zh-Hans":"邮箱","zh-Hant":"信箱"}',
+                'lang_values' => '{"en":"Email","zh-Hans":"邮箱","zh-Hant":"電子郵件地址"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1343,7 +1343,15 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'phone',
-                'lang_values' => '{"en":"Phone Number","zh-Hans":"手机号","zh-Hant":"手機號"}',
+                'lang_values' => '{"en":"Phone Number","zh-Hans":"手机号","zh-Hant":"手機號碼"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'lang_key' => 'emailOrPhone',
+                'lang_values' => '{"en":"Email or Phone Number","zh-Hans":"邮箱或手机号","zh-Hant":"電子郵件地址或手機號碼"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1351,7 +1359,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'newEmail',
-                'lang_values' => '{"en":"New Email","zh-Hans":"新邮箱","zh-Hant":"新信箱"}',
+                'lang_values' => '{"en":"New Email","zh-Hans":"新邮箱","zh-Hant":"新電子郵件地址"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1359,7 +1367,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'newPhone',
-                'lang_values' => '{"en":"New Phone","zh-Hans":"新手机号","zh-Hant":"新手機號"}',
+                'lang_values' => '{"en":"New Phone","zh-Hans":"新手机号","zh-Hant":"新手機號碼"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1375,7 +1383,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'currentPhone',
-                'lang_values' => '{"en":"Current Phone Number","zh-Hans":"当前手机号","zh-Hant":"目前手機號"}',
+                'lang_values' => '{"en":"Current Phone Number","zh-Hans":"当前手机号","zh-Hant":"目前手機號碼"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1391,7 +1399,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'currentEmailDesc',
-                'lang_values' => '{"en":"The email address currently used for the account","zh-Hans":"账户现在绑定的邮箱","zh-Hant":"帳戶現在綁定的信箱"}',
+                'lang_values' => '{"en":"The email address currently used for the account","zh-Hans":"账户现在绑定的邮箱","zh-Hant":"帳戶現在綁定的電子郵件地址"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1399,7 +1407,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'currentPhoneDesc',
-                'lang_values' => '{"en":"Phone number currently used for the account","zh-Hans":"账户现在绑定的手机号","zh-Hant":"帳戶現在綁定的手機號"}',
+                'lang_values' => '{"en":"Phone number currently used for the account","zh-Hans":"账户现在绑定的手机号","zh-Hant":"帳戶現在綁定的手機號碼"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -1407,7 +1415,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'emailEditDesc',
-                'lang_values' => '{"en":"Once you have switched to a new email address, you can log in with your new email address and current password.","zh-Hans":"换绑新邮箱之后，可以用新的邮箱及当前密码登录","zh-Hant":"換綁新信箱之後，可以用新的信箱及目前密碼登入"}',
+                'lang_values' => '{"en":"Once you have switched to a new email address, you can log in with your new email address and current password.","zh-Hans":"换绑新邮箱之后，可以用新的邮箱及当前密码登录","zh-Hant":"換綁新電子郵件地址之後，可以用新的電子郵件地址及目前密碼登入"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
