@@ -85,10 +85,12 @@ class CheckAccessToken
 
         $siteName = ConfigHelper::fresnsConfigByItemKey('site_name', $langTag);
         $fsLang = ConfigHelper::fresnsConfigLanguagePack($langTag);
+        $accountCenterCaptcha = ConfigHelper::fresnsConfigByItemKey('account_center_captcha');
 
         View::share('siteName', $siteName);
         View::share('fsLang', $fsLang);
         View::share('langTag', $langTag);
+        View::share('accountCenterCaptcha', $accountCenterCaptcha);
 
         $request->attributes->add([
             'fresns_account_center_app_id' => $appId,
