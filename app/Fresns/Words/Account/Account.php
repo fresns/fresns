@@ -37,7 +37,6 @@ class Account
     public function createAccount($wordBody)
     {
         $dtoWordBody = new CreateAccountDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $typeInt = (int) $dtoWordBody->type;
 
@@ -80,7 +79,7 @@ class Account
                 if ($count > 0) {
                     return $this->failure(
                         34403,
-                        ConfigUtility::getCodeMessage(34403, 'Fresns', $langTag)
+                        ConfigUtility::getCodeMessage(34403)
                     );
                 }
                 break;
@@ -89,7 +88,7 @@ class Account
         if ($checkAccount) {
             return $this->failure(
                 34204,
-                ConfigUtility::getCodeMessage(34204, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(34204)
             );
         }
 
@@ -186,9 +185,19 @@ class Account
     public function verifyAccount($wordBody)
     {
         $dtoWordBody = new VerifyAccountDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->type) {
+            case AccountModel::ACT_TYPE_AUTO:
+                $account = AccountModel::whereAny(['aid', 'email', 'phone'], $dtoWordBody->account)->first();
+
+                if (! $dtoWordBody->password) {
+                    return $this->failure(
+                        34111,
+                        ConfigUtility::getCodeMessage(34111),
+                    );
+                }
+                break;
+
             case AccountModel::ACT_TYPE_AID:
                 $account = AccountModel::where('aid', $dtoWordBody->account)->first();
                 break;
@@ -207,14 +216,14 @@ class Account
                 if (empty($accountConnect)) {
                     return $this->failure(
                         34301,
-                        ConfigUtility::getCodeMessage(34301, 'Fresns', $langTag),
+                        ConfigUtility::getCodeMessage(34301),
                     );
                 }
 
                 if (! $accountConnect->is_enabled) {
                     return $this->failure(
                         34404,
-                        ConfigUtility::getCodeMessage(34404, 'Fresns', $langTag),
+                        ConfigUtility::getCodeMessage(34404),
                     );
                 }
 
@@ -225,7 +234,7 @@ class Account
         if (empty($account)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31502),
             );
         }
 
@@ -234,7 +243,7 @@ class Account
         if ($loginErrorCount >= 5) {
             return $this->failure(
                 34306,
-                ConfigUtility::getCodeMessage(34306, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(34306),
             );
         }
 
@@ -242,16 +251,27 @@ class Account
             if (! Hash::check($dtoWordBody->password, $account->password)) {
                 return $this->failure(
                     34304,
-                    ConfigUtility::getCodeMessage(34304, 'Fresns', $langTag),
+                    ConfigUtility::getCodeMessage(34304),
                 );
             }
         }
 
         if ($dtoWordBody->verifyCode) {
+            $accountType = 2;
+            $countryCode = $account->country_code;
+            $accountInfo = $account->pure_phone;
+
+            $isEmail = filter_var($dtoWordBody->account, FILTER_VALIDATE_EMAIL);
+            if ($isEmail) {
+                $accountType = 1;
+                $countryCode = null;
+                $accountInfo = $account->email;
+            }
+
             $codeWordBody = [
-                'type' => $dtoWordBody->type,
-                'account' => $dtoWordBody->account,
-                'countryCode' => $dtoWordBody->countryCode,
+                'type' => $accountType,
+                'account' => $accountInfo,
+                'countryCode' => $countryCode,
                 'verifyCode' => $dtoWordBody->verifyCode,
                 'templateId' => VerifyCode::TEMPLATE_LOGIN,
             ];
@@ -272,7 +292,6 @@ class Account
     public function setAccountConnect($wordBody)
     {
         $dtoWordBody = new SetAccountConnectDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountConnect = AccountConnect::withTrashed()->with(['account'])->where('connect_platform_id', $dtoWordBody->connectPlatformId)->where('connect_account_id', $dtoWordBody->connectAccountId)->first();
 
@@ -282,7 +301,7 @@ class Account
         if ($accountConnect && $account) {
             return $this->failure(
                 34405,
-                ConfigUtility::getCodeMessage(34405, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(34405),
             );
         }
 
@@ -307,7 +326,7 @@ class Account
         } catch (\Exception $e) {
             return $this->failure(
                 32302,
-                ConfigUtility::getCodeMessage(32302, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(32302),
             );
         }
 
@@ -333,7 +352,6 @@ class Account
     public function disconnectAccountConnect($wordBody)
     {
         $dtoWordBody = new DisconnectAccountConnectDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
 
@@ -349,7 +367,7 @@ class Account
         if ($connectArr->count() == 1 && empty($accountModel->email) && empty($accountModel->phone)) {
             return $this->failure(
                 34406,
-                ConfigUtility::getCodeMessage(34406, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(34406),
             );
         }
 
@@ -411,14 +429,13 @@ class Account
     public function createAccountToken($wordBody)
     {
         $dtoWordBody = new CreateAccountTokenDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -427,7 +444,7 @@ class Account
         if (empty($keyInfo) || ! $keyInfo->is_enabled) {
             return $this->failure(
                 31301,
-                ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
+                ConfigUtility::getCodeMessage(31301),
             );
         }
 
@@ -474,14 +491,13 @@ class Account
     public function verifyAccountToken($wordBody)
     {
         $dtoWordBody = new VerifyAccountTokenDTO($wordBody);
-        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         if (empty($accountId)) {
             return $this->failure(
                 31502,
-                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31502)
             );
         }
 
@@ -501,7 +517,7 @@ class Account
             if (empty($accountToken)) {
                 return $this->failure(
                     31505,
-                    ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
+                    ConfigUtility::getCodeMessage(31505)
                 );
             }
 
@@ -511,14 +527,14 @@ class Account
         if ($accountToken->platform_id != $dtoWordBody->platformId) {
             return $this->failure(
                 31103,
-                ConfigUtility::getCodeMessage(31103, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31103)
             );
         }
 
         if ($accountToken->expired_at && $accountToken->expired_at < now()) {
             return $this->failure(
                 31504,
-                ConfigUtility::getCodeMessage(31504, 'Fresns', $langTag)
+                ConfigUtility::getCodeMessage(31504)
             );
         }
 
