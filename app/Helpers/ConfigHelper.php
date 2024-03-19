@@ -101,6 +101,34 @@ class ConfigHelper
         return FileHelper::fresnsFileUrlById($configValue, $urlConfig);
     }
 
+    // Get config plugins
+    public static function fresnsConfigPluginsByItemKey(string $itemKey): ?array
+    {
+        $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
+
+        if (! $configValue) {
+            return [];
+        }
+
+        if (is_array($configValue)) {
+            $itemArr = [];
+
+            foreach ($configValue as $plugin) {
+                $code = $plugin['code'] ?? null;
+                $fskey = $plugin['fskey'] ?? null;
+
+                $itemArr[] = [
+                    'code' => $code,
+                    'url' => PluginHelper::fresnsPluginUrlByFskey($fskey),
+                ];
+            }
+
+            return $itemArr;
+        }
+
+        return PluginHelper::fresnsPluginUrlByFskey($configValue);
+    }
+
     // Get length units based on langTag
     public static function fresnsConfigLengthUnit(string $langTag): string
     {

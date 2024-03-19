@@ -8,6 +8,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Str;
+
 class SignHelper
 {
     const SIGN_PARAM_ARR = [
@@ -61,5 +63,19 @@ class SignHelper
         $sign = hash('sha256', $signData);
 
         return $sign;
+    }
+
+    // Make Login Token
+    public static function makeLoginToken(string|int $account): string
+    {
+        $random = Str::random(32);
+        $ulid = Str::ulid();
+        $uuid = Str::uuid();
+
+        $tokenString = $random.$ulid.$uuid.$account;
+
+        $loginToken = hash('sha256', $tokenString);
+
+        return $loginToken;
     }
 }
