@@ -145,6 +145,10 @@ class User
             }
         }
 
+        $user->update([
+            'last_login_at' => now(),
+        ]);
+
         $data['aid'] = $dtoWordBody->aid;
         $data['aidToken'] = $dtoWordBody->aidToken;
         $data['uid'] = $user->uid;

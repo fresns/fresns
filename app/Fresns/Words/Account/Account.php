@@ -16,7 +16,6 @@ use App\Fresns\Words\Account\DTO\GetAccountDeviceTokenDTO;
 use App\Fresns\Words\Account\DTO\SetAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountTokenDTO;
-use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account as AccountModel;
@@ -282,6 +281,10 @@ class Account
                 return $fresnsResp->getOrigin();
             }
         }
+
+        $account->update([
+            'last_login_at' => now(),
+        ]);
 
         return $this->success([
             'type' => $account->type,
