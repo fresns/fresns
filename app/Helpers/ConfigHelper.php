@@ -133,6 +133,7 @@ class ConfigHelper
 
             $itemArr = array_map(function ($item) {
                 unset($item['order']);
+
                 return $item;
             }, $itemArr);
 
