@@ -112,10 +112,20 @@ class AccountController extends Controller
                 if (array_key_exists($key, $services)) {
                     continue;
                 }
+
+                try {
+                    $namesString = $request->connectNames[$key];
+
+                    $connectNames = json_decode($namesString, true);
+                } catch (\Exception $e) {
+                    $connectNames = [];
+                }
+
                 $services[$id] = [
-                    'order' => $request->connectOrder[$key] ?? 9,
                     'code' => $id,
+                    'name' => $connectNames,
                     'fskey' => $request->connectPlugin[$key] ?? '',
+                    'order' => $request->connectOrder[$key] ?? 9,
                 ];
             }
 

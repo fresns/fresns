@@ -197,6 +197,10 @@
                             @endforeach
                         </select>
 
+                        <label class="input-group-text">{{ __('FsLang::panel.table_name') }}</label>
+                        <input type="hidden" name="connectNames[]" value="{{ json_encode($connectService['name']) }}">
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectNameModal">{{ __('FsLang::panel.button_config') }}</button>
+
                         <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
                         <select class="form-select" name="connectPlugin[]">
                             @foreach ($accountConnectPlugins as $plugin)
@@ -262,6 +266,10 @@
                 @endforeach
             </select>
 
+            <label class="input-group-text">{{ __('FsLang::panel.table_name') }}</label>
+            <input type="hidden" name="connectNames[]" value="">
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectNameModal">{{ __('FsLang::panel.button_config') }}</button>
+
             <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
             <select class="form-select" name="connectPlugin[]">
                 @foreach ($accountConnectPlugins as $plugin)
@@ -275,4 +283,99 @@
             <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>
         </div>
     </template>
+
+    <!-- Name Language Modal -->
+    <div class="modal fade connect-name-lang-modal" id="connectNameModal" tabindex="-1" aria-labelledby="connectNameModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.table_name') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle text-nowrap">
+                            <thead>
+                                <tr class="table-info">
+                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($optionalLanguages as $lang)
+                                    <tr>
+                                        <td>
+                                            {{ $lang['langTag'] }}
+                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $lang['langName'] }}
+                                            @if ($lang['areaName'])
+                                                {{ '('.$lang['areaName'].')' }}
+                                            @endif
+                                        </td>
+                                        <td><input type="text" name="names[{{ $lang['langTag'] }}]" class="form-control name-input" value=""></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--button_confirm-->
+                    <div class="text-center">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('script')
+    <script>
+        $('#connectNameModal').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            $(this).data('triggerButton', button);
+
+            $(this).find('.name-input').each(function() {
+                $(this).val('');
+            });
+
+            var namesString = button.closest('.input-group').find('input[name="connectNames[]"]').val();
+
+            if (namesString) {
+                try {
+                    var names = JSON.parse(namesString);
+                    Object.entries(names).forEach(([langTag, langContent]) => {
+                        $(this).find(`input[name='names[${langTag}]']`).val(langContent);
+                    });
+                } catch (error) {
+                    console.error("Parsing error:", error);
+                }
+            }
+        });
+
+        $('#connectNameModal').on('hide.bs.modal', function (e) {
+            var updatedNames = {};
+            var modal = $(this);
+
+            modal.find('.name-input').each(function () {
+                var inputName = $(this).attr('name');
+                var langTag = inputName.match(/names\[(.*?)\]/)[1];
+                if (langTag) {
+                    updatedNames[langTag] = $(this).val();
+                }
+            });
+
+            var updatedNamesString = JSON.stringify(updatedNames);
+
+            var triggerButton = modal.data('triggerButton');
+
+            if (triggerButton) {
+                triggerButton.closest('.input-group').find('input[name="connectNames[]"]').val(updatedNamesString);
+            }
+        });
+    </script>
+@endpush
