@@ -24,7 +24,7 @@ class AppCallback extends Model
     const TYPE_EXTEND = 12;
     const TYPE_OPERATION = 13;
     const TYPE_FILE = 14;
-    const TYPE_MAP = 15;
+    const TYPE_LOCATION_INFO = 15;
 
     protected $casts = [
         'content' => 'json',
