@@ -102,7 +102,7 @@ class ConfigHelper
     }
 
     // Get config plugins
-    public static function fresnsConfigPluginsByItemKey(string $itemKey): ?array
+    public static function fresnsConfigPluginsByItemKey(string $itemKey, ?string $langTag = null): ?array
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
@@ -115,13 +115,26 @@ class ConfigHelper
 
             foreach ($configValue as $plugin) {
                 $code = $plugin['code'] ?? null;
+                $name = $plugin['name'] ?? [];
                 $fskey = $plugin['fskey'] ?? null;
+                $order = $plugin['order'] ?? 9;
 
                 $itemArr[] = [
                     'code' => $code,
+                    'name' => StrHelper::languageContent($name, $langTag),
                     'url' => PluginHelper::fresnsPluginUrlByFskey($fskey),
+                    'order' => $order,
                 ];
             }
+
+            usort($itemArr, function ($a, $b) {
+                return $a['order'] <=> $b['order'];
+            });
+
+            $itemArr = array_map(function ($item) {
+                unset($item['order']);
+                return $item;
+            }, $itemArr);
 
             return $itemArr;
         }
