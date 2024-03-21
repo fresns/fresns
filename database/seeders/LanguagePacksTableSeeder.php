@@ -2287,7 +2287,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'settingNicknameWarning',
-                'lang_values' => '{"en":"No punctuation or special symbols","zh-Hans":"不能带标点符号或特殊符号","zh-Hant":"不能帶標點符號或特殊符號"}',
+                'lang_values' => '{"en":"No punctuation or special symbols in nickname","zh-Hans":"昵称不能带标点符号或特殊符号","zh-Hant":"暱稱不能帶標點符號或特殊符號"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2439,7 +2439,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'userPin',
-                'lang_values' => '{"en":"Auth PIN","zh-Hans":"用户密码","zh-Hant":"使用者密碼"}',
+                'lang_values' => '{"en":"Auth PIN","zh-Hans":"用户 PIN","zh-Hant":"使用者 PIN"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2447,7 +2447,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'userPinLogin',
-                'lang_values' => '{"en":"PIN Login","zh-Hans":"密码登录","zh-Hant":"密碼登入"}',
+                'lang_values' => '{"en":"PIN Login","zh-Hans":"PIN 登录","zh-Hant":"PIN 登入"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
@@ -2455,7 +2455,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'userPinReset',
-                'lang_values' => '{"en":"Forgot PIN","zh-Hans":"忘记密码","zh-Hant":"忘記密碼"}',
+                'lang_values' => '{"en":"Forgot PIN","zh-Hans":"忘记 PIN","zh-Hant":"忘記 PIN"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,

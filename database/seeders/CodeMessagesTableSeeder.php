@@ -335,6 +335,14 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 31508,
+                'messages' => '{"en":"There are multiple users for the current account, please select a user","zh-Hans":"当前账户有多个用户，请选择一个用户","zh-Hant":"目前帳戶有多個使用者，請選擇一個使用者"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 31601,
                 'messages' => '{"en":"User not logged in, Unable to use","zh-Hans":"用户未登录，无权操作","zh-Hant":"使用者未登入，無權操作"}',
                 'created_at' => '2022-10-18 17:00:00',
@@ -353,6 +361,14 @@ class CodeMessagesTableSeeder extends Seeder
                 'app_fskey' => 'Fresns',
                 'code' => 31603,
                 'messages' => '{"en":"User login token are incorrect or do not exist","zh-Hans":"用户登录凭证错误或者不存在","zh-Hant":"使用者登入憑證錯誤或者不存在"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 31604,
+                'messages' => '{"en":"The current user has set a PIN, please enter the PIN to log in","zh-Hans":"当前用户设置了 PIN，请输入 PIN 登录","zh-Hant":"目前使用者設定了 PIN，請輸入 PIN 登入"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -623,8 +639,16 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 34100,
+                'messages' => '{"en":"Account cannot be empty","zh-Hans":"账号不能为空","zh-Hant":"賬號不能為空"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 34101,
-                'messages' => '{"en":"Email format incorrect","zh-Hans":"邮箱格式不正确","zh-Hant":"郵箱格式不正確"}',
+                'messages' => '{"en":"Email format incorrect","zh-Hans":"邮箱格式不正确","zh-Hant":"電子郵件地址格式不正確"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -632,7 +656,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34102,
-                'messages' => '{"en":"Phone number format incorrect","zh-Hans":"手机号格式不正确","zh-Hant":"手機號格式不正確"}',
+                'messages' => '{"en":"Phone number format incorrect","zh-Hans":"手机号格式不正确","zh-Hant":"手機號碼格式不正確"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -696,7 +720,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34110,
-                'messages' => '{"en":"Email that do not support the domain","zh-Hans":"不支持该域名的邮箱","zh-Hant":"不支持該域名的郵箱"}',
+                'messages' => '{"en":"Email that do not support the domain","zh-Hans":"不支持该域名的邮箱","zh-Hant":"不支持該域名的電子郵件地址"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -719,6 +743,14 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 34113,
+                'messages' => '{"en":"Birthday cannot be empty","zh-Hans":"出生日期不能为空","zh-Hant":"出生日期不能為空"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 34201,
                 'messages' => '{"en":"This registration channel has been closed and account registration through this function is prohibited","zh-Hans":"该注册通道已关闭，禁止通过此功能注册账号","zh-Hant":"該註冊通道已關閉，禁止透過此功能註冊賬號"}',
                 'created_at' => '2022-10-18 17:00:00',
@@ -728,7 +760,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34202,
-                'messages' => '{"en":"Registration with Email not supported","zh-Hans":"不支持邮箱注册","zh-Hant":"不支持郵箱註冊"}',
+                'messages' => '{"en":"Registration with Email not supported","zh-Hans":"不支持邮箱注册","zh-Hant":"不支持電子郵件地址註冊"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -736,7 +768,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34203,
-                'messages' => '{"en":"Registration with mobile phone number not supported","zh-Hans":"不支持手机号注册","zh-Hant":"不支持手機號註冊"}',
+                'messages' => '{"en":"Registration with Phone number not supported","zh-Hans":"不支持手机号注册","zh-Hant":"不支持手機號碼註冊"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -752,7 +784,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34205,
-                'messages' => '{"en":"Email has been used","zh-Hans":"邮箱已被使用","zh-Hant":"郵箱已被使用"}',
+                'messages' => '{"en":"Email has been used","zh-Hans":"邮箱已被使用","zh-Hant":"電子郵件地址已被使用"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -760,7 +792,23 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34206,
-                'messages' => '{"en":"Phone number has been used","zh-Hans":"手机号已被使用","zh-Hant":"手機號已被使用"}',
+                'messages' => '{"en":"Phone number has been used","zh-Hans":"手机号已被使用","zh-Hant":"手機號碼已被使用"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 34207,
+                'messages' => '{"en":"Login with Email not supported","zh-Hans":"不支持邮箱登录","zh-Hant":"不支持電子郵件地址登入"}',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 34208,
+                'messages' => '{"en":"Login with Phone number not supported","zh-Hans":"不支持手机号登录","zh-Hant":"不支持手機號碼登入"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -776,7 +824,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34302,
-                'messages' => '{"en":"Email not exist","zh-Hans":"邮箱不存在","zh-Hant":"郵箱不存在"}',
+                'messages' => '{"en":"Email not exist","zh-Hans":"邮箱不存在","zh-Hant":"電子郵件地址不存在"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -784,7 +832,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34303,
-                'messages' => '{"en":"Phone number not exist","zh-Hans":"手机号不存在","zh-Hant":"手機號不存在"}',
+                'messages' => '{"en":"Phone number not exist","zh-Hans":"手机号不存在","zh-Hant":"手機號碼不存在"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -832,7 +880,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34401,
-                'messages' => '{"en":"Email bound","zh-Hans":"已绑定邮箱","zh-Hant":"已綁定郵箱"}',
+                'messages' => '{"en":"Email bound","zh-Hans":"已绑定邮箱","zh-Hant":"已綁定電子郵件地址"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -872,7 +920,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34406,
-                'messages' => '{"en":"Your account is not set up with an email and phone number, so after you are disconnected your account will be empty, and you will not be able to log in, so disconnect is disabled.","zh-Hans":"您的账号未设置邮箱和手机号，解绑后账号为空，将无法登录，所以禁止解绑。","zh-Hant":"您的賬號未設置郵箱和手機號，解綁後賬號為空，將無法登入，所以禁止解綁。"}',
+                'messages' => '{"en":"Your account is not set up with an email and phone number, so after you are disconnected your account will be empty, and you will not be able to log in, so disconnect is disabled.","zh-Hans":"您的账号未设置邮箱和手机号，解绑后账号为空，将无法登录，所以禁止解绑。","zh-Hant":"您的賬號未設置電子郵件地址和手機號碼，解綁後賬號為空，將無法登入，所以禁止解綁。"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1048,7 +1096,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 35204,
-                'messages' => '{"en":"Incorrect password","zh-Hans":"用户登录密码不正确","zh-Hant":"使用者登入密碼不正確"}',
+                'messages' => '{"en":"Incorrect User PIN","zh-Hans":"用户 PIN 不正确","zh-Hant":"使用者 PIN 不正確"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1152,7 +1200,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36106,
-                'messages' => '{"en":"Current role has to have an email bound before publishing content","zh-Hans":"当前角色发表内容需要先绑定邮箱","zh-Hant":"當前角色發表內容需要先綁定郵箱"}',
+                'messages' => '{"en":"Current role has to have an email bound before publishing content","zh-Hans":"当前角色发表内容需要先绑定邮箱","zh-Hant":"當前角色發表內容需要先綁定電子郵件地址"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1160,7 +1208,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36107,
-                'messages' => '{"en":"Current role has to have a mobile phone number bound before publishing content","zh-Hans":"当前角色发表内容需要先绑定手机号","zh-Hant":"當前角色發表內容需要先綁定手機號"}',
+                'messages' => '{"en":"Current role has to have a mobile phone number bound before publishing content","zh-Hans":"当前角色发表内容需要先绑定手机号","zh-Hant":"當前角色發表內容需要先綁定手機號碼"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1304,7 +1352,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36301,
-                'messages' => '{"en":"Please have your email bound before publishing content","zh-Hans":"发表内容需要先绑定邮箱","zh-Hant":"發表內容需要先綁定郵箱"}',
+                'messages' => '{"en":"Please have your email bound before publishing content","zh-Hans":"发表内容需要先绑定邮箱","zh-Hant":"發表內容需要先綁定電子郵件地址"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1312,7 +1360,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36302,
-                'messages' => '{"en":"Please have your mobile phone number bound before publishing content","zh-Hans":"发表内容需要先绑定手机号","zh-Hant":"發表內容需要先綁定手機號"}',
+                'messages' => '{"en":"Please have your mobile phone number bound before publishing content","zh-Hans":"发表内容需要先绑定手机号","zh-Hant":"發表內容需要先綁定手機號碼"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
