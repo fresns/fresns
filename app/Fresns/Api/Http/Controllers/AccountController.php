@@ -36,7 +36,7 @@ class AccountController extends Controller
         $version = $this->version();
         $appId = $this->appId();
 
-        $loginToken = SessionLog::where('type', SessionLog::TYPE_ACCOUNT_LOGIN)
+        $loginTokenInfo = SessionLog::whereIn('type', [SessionLog::TYPE_ACCOUNT_LOGIN, SessionLog::TYPE_USER_LOGIN])
             ->where('platform_id', $platformId)
             ->where('version', $version)
             ->where('app_id', $appId)
@@ -44,26 +44,26 @@ class AccountController extends Controller
             ->where('login_token', $dtoRequest->loginToken)
             ->first();
 
-        if (! $loginToken) {
+        if (! $loginTokenInfo) {
             throw new ResponseException(31506);
         }
 
-        if (empty($loginToken->account_id)) {
+        if (empty($loginTokenInfo->account_id)) {
             throw new ResponseException(31502);
         }
 
-        if (empty($loginToken->user_id)) {
+        if (empty($loginTokenInfo->user_id)) {
             throw new ResponseException(31602);
         }
 
-        $timeDifference = time() - strtotime($loginToken->created_at);
+        $checkTime = $loginTokenInfo->created_at->addMinutes(5);
 
-        if ($loginToken->action_id || $timeDifference > 300) {
+        if ($loginTokenInfo->action_id || $checkTime->lt(now())) {
             throw new ResponseException(31507);
         }
 
         // account
-        $account = Account::where('id', $loginToken->account_id)->first();
+        $account = Account::where('id', $loginTokenInfo->account_id)->first();
 
         if (! $account) {
             throw new ResponseException(31502);
@@ -74,7 +74,7 @@ class AccountController extends Controller
         }
 
         // user
-        $user = User::where('id', $loginToken->user_id)->first();
+        $user = User::where('id', $loginTokenInfo->user_id)->first();
 
         if (! $user) {
             throw new ResponseException(31602);
@@ -99,7 +99,7 @@ class AccountController extends Controller
             return $fresnsResp->getErrorResponse();
         }
 
-        $loginToken->update([
+        $loginTokenInfo->update([
             'action_id' => $fresnsResp->getData('aidTokenId'),
             'device_token' => $dtoRequest->deviceToken,
         ]);
@@ -121,7 +121,7 @@ class AccountController extends Controller
             return $fresnsUserTokenResp->getErrorResponse();
         }
 
-        $loginToken->update([
+        $loginTokenInfo->update([
             'action_id' => $fresnsUserTokenResp->getData('aidTokenId'),
         ]);
 

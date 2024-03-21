@@ -85,25 +85,27 @@ class PluginHelper
     }
 
     // get plugin callback
-    public static function fresnsPluginCallback(string $fskey, string $ulid): array
+    public static function fresnsPluginCallback(string $ulid, ?string $fskey = null): array
     {
         $callbackArr = [
             'code' => 0,
             'data' => [],
         ];
 
-        $plugin = App::where('fskey', $fskey)->first();
+        if ($fskey) {
+            $plugin = App::where('fskey', $fskey)->first();
 
-        if (empty($plugin)) {
-            $callbackArr['code'] = 32101;
+            if (empty($plugin)) {
+                $callbackArr['code'] = 32101;
 
-            return $callbackArr;
-        }
+                return $callbackArr;
+            }
 
-        if (! $plugin->is_enabled) {
-            $callbackArr['code'] = 32102;
+            if (! $plugin->is_enabled) {
+                $callbackArr['code'] = 32102;
 
-            return $callbackArr;
+                return $callbackArr;
+            }
         }
 
         $callback = AppCallback::where('ulid', $ulid)->first();
@@ -138,13 +140,7 @@ class PluginHelper
         $callback->used_app_fskey = $fskey;
         $callback->save();
 
-        $data = [
-            'ulid' => $callback->ulid,
-            'type' => $callback->type,
-            'content' => $callback->content,
-        ];
-
-        $callbackArr['data'] = $data;
+        $callbackArr['data'] = $callback->content;
 
         return $callbackArr;
     }

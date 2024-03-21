@@ -131,7 +131,7 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonCallbacksDTO($request->all());
 
-        $callback = PluginHelper::fresnsPluginCallback($dtoRequest->fskey, $dtoRequest->ulid);
+        $callback = PluginHelper::fresnsPluginCallback($dtoRequest->ulid, $dtoRequest->fskey);
 
         if ($callback['code']) {
             throw new ResponseException($callback['code']);
