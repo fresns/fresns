@@ -109,34 +109,27 @@ class AccountController extends Controller
         $services = [];
         if ($request->connectId) {
             foreach ($request->connectId as $key => $id) {
-                if (array_key_exists($key, $services)) {
-                    continue;
-                }
-
                 try {
                     $namesString = $request->connectNames[$key];
 
-                    $connectNames = json_decode($namesString, true);
+                    $connectNameArr = json_decode($namesString, true);
                 } catch (\Exception $e) {
-                    $connectNames = [];
+                    $connectNameArr = [];
                 }
 
                 $services[$id] = [
                     'code' => $id,
-                    'name' => $connectNames,
+                    'name' => $connectNameArr,
                     'fskey' => $request->connectPlugin[$key] ?? '',
                     'order' => $request->connectOrder[$key] ?? 9,
                 ];
             }
 
             usort($services, function ($a, $b) {
-                if ($a['order'] == 1) {
-                    return -1;
-                } elseif ($b['order'] == 1) {
-                    return 1;
-                } else {
-                    return $a['order'] - $b['order'];
-                }
+                $orderA = $a['order'] === '' ? 9 : (int) $a['order'];
+                $orderB = $b['order'] === '' ? 9 : (int) $b['order'];
+
+                return $orderA <=> $orderB;
             });
         }
         $connectConfig = Config::where('item_key', 'account_connect_services')->first();
