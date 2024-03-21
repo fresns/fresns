@@ -40,7 +40,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ $accountPassport['email'] ? $fsLang['newEmail'] : $fsLang['email'] }}</span>
                             <input type="email" class="form-control" name="newEmail" value="" required>
-                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="email" data-template-id="3" data-input-id="newEmail" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="email" data-template-id="3" data-account-input-id="newEmail" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                         </div>
                         <div class="input-group">
                             <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>

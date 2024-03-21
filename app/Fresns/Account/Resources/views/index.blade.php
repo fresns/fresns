@@ -105,7 +105,7 @@
         @if ($accountConnects)
             <h3 class="mb-2 ms-1 fs-6">{{ $fsLang['settingConnects'] }}</h3>
             <div class="list-group mb-4">
-                @foreach (fs_account('detail.connects') as $item)
+                @foreach ($accountConnects as $item)
                     <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                         data-title="{{ $fsLang['settingConnects'] }}"
                         data-url="{{ $item['service'] }}"
@@ -227,22 +227,22 @@
         function sendVerifyCode(obj) {
             let type = $(obj).data('type'),
                 templateId = $(obj).data('template-id');
-                countryCodeSelectId = $(obj).data('country-code-select-id'),
+                countryCodeInputId = $(obj).data('country-code-input-id'),
                 accountInputId = $(obj).data('account-input-id');
 
             let countryCode = '',
                 account = '';
 
-            if (countryCodeSelectId) {
-                countryCode = $('#' + countryCodeSelectId).val();
+            if (countryCodeInputId) {
+                countryCode = $('#' + countryCodeInputId).val();
             }
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
             }
 
-            if (templateId != 3 && templateId != 4 && !account) {
-                tips("{{ $fsLang['errorEmpty'] }}");
+            if (templateId == 3 && !account) {
+                tips("{{ $accountEmptyError }}");
 
                 return;
             }
@@ -291,7 +291,7 @@
             }
 
             if (!verifyCode) {
-                tips("{{ $fsLang['errorEmpty'] }}");
+                tips("{{ $verifyCodeEmptyError }}");
 
                 return;
             }

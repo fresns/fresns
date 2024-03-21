@@ -15,6 +15,12 @@
         .iframe-modal {
             width: 100%;
         }
+        .input-number::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        .input-number::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
     </style>
     @stack('style')
 </head>
@@ -24,6 +30,22 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-4">
                 @yield('body')
+            </div>
+        </div>
+    </div>
+
+    {{-- Country Code Modal --}}
+    <div class="modal fade" id="countryCodeModal" tabindex="-1" aria-labelledby="countryCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm d-flex justify-content-center">
+            <div class="modal-content w-50">
+                <div class="modal-body p-0">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-success">{{ $fsLang['countryCode'] }}</button>
+                        @foreach($smsSupportedCodes as $code)
+                            <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal" data-code="{{ $code }}" onclick="countryCodeSelect(this)">+{{ $code }}</button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -48,6 +70,14 @@
     <script src="/static/js/js-cookie.min.js"></script>
     <script src="/static/js/iframeResizer.min.js"></script>
     <script>
+        /* fresns token */
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // submit button
         $(document).on('submit', 'form', function () {
             var btn = $(this).find('button[type="submit"]');
 
@@ -58,13 +88,6 @@
                 );
             }
             btn.children('.spinner-border').removeClass('d-none');
-        });
-
-        $.ajaxSetup({
-            headers: {
-                Accept: 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
         });
 
         // set timeout toast hide
@@ -92,7 +115,7 @@
             setTimeoutToastHide();
         };
 
-        // send timer
+        // verify code timer
         var verifyCodeTime = Cookies.get('fresns_account_center_verify_code_time');
 
         var isNumeric = !isNaN(Number(verifyCodeTime));
@@ -137,16 +160,22 @@
         // guest send verify code
         function guestSendVerifyCode(obj) {
             let type = $(obj).data('type'),
-                accountInputId = $(obj).data('account-input-id');
+                accountInputId = $(obj).data('account-input-id'),
+                countryCodeInputId = $(obj).data('country-code-input-id');
 
             let account = '';
+            let countryCode = '';
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
             }
 
+            if (countryCodeInputId) {
+                countryCode = $('#' + countryCodeInputId).val();
+            }
+
             if (!account) {
-                tips("{{ $fsLang['errorEmpty'] }}");
+                tips("{{ $accountEmptyError }}");
 
                 return;
             }
@@ -157,6 +186,7 @@
                 data: {
                     'type': type,
                     'account': account,
+                    'countryCode': countryCode,
                 },
                 error: function (error) {
                     tips(error.responseText);
@@ -189,6 +219,41 @@
             return accessToken;
         }
 
+        // click email
+        function clickEmail() {
+            $('#countryCodeButton').addClass('d-none');
+            $('#accountInfo').addClass('rounded-start');
+
+            var inputElement = document.getElementById('accountInfo');
+            inputElement.type = 'email';
+            inputElement.placeholder = "{{ $fsLang['email'] }}";
+        };
+
+        // click phone
+        function clickPhone() {
+            $('#countryCodeButton').removeClass('d-none');
+            $('#accountInfo').removeClass('rounded-start');
+
+            var inputElement = document.getElementById('accountInfo');
+            inputElement.type = 'number';
+            inputElement.placeholder = "{{ $fsLang['phone'] }}";
+        };
+
+        // country code select
+        function countryCodeSelect(obj) {
+            let code = $(obj).data('code');
+
+            $('input[name="countryCode"]').val(code);
+
+            $('#countryCodeButton').text('+' + code);
+
+            var editPhoneModal = document.getElementById('editPhoneModal');
+            if (editPhoneModal) {
+                new bootstrap.Modal('#editPhoneModal').show();
+            }
+        };
+
+        // fresns extensions modal
         (function ($) {
             $('#fresnsModal.fresnsExtensions').on('show.bs.modal', function (e) {
                 let button = $(e.relatedTarget),
@@ -222,7 +287,7 @@
                 $('#fresnsModal.fresnsExtensions iframe').on('load', function () {
                     $(this).iFrameResize({
                         autoResize: true,
-                        minHeight: modalHeight ? modalHeight : 300,
+                        minHeight: modalHeight ? modalHeight : 400,
                         heightCalculationMethod: isOldIE ? 'max' : 'lowestElement',
                         scrolling: true,
                     });
@@ -253,8 +318,58 @@
                 return;
             }
 
-            window.location.reload();
+            if (fresnsCallback.data.loginToken) {
+                fresnsCallbackSend(fresnsCallback.data.loginToken);
+            }
         };
+
+        // fresns extensions send
+        function fresnsCallbackSend(loginToken) {
+            const postMessageKey = Cookies.get('fresns_callback_key');
+            const redirectUrl = Cookies.get('fresns_redirect_url');
+
+            const fresnsCallbackMessage = {
+                code: 0,
+                message: 'ok',
+                action: {
+                    postMessageKey: postMessageKey,
+                    windowClose: true,
+                    reloadData: true,
+                    redirectUrl: redirectUrl,
+                },
+                data: {
+                    loginToken: loginToken
+                },
+            }
+
+            const messageString = JSON.stringify(fresnsCallbackMessage);
+
+            switch (true) {
+                case (window.Android !== undefined):
+                    // Android (addJavascriptInterface)
+                    window.Android.receiveMessage(messageString);
+                    break;
+
+                case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
+                    // iOS (WKScriptMessageHandler)
+                    window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
+                    break;
+
+                case (window.FresnsJavascriptChannel !== undefined):
+                    // Flutter
+                    window.FresnsJavascriptChannel.postMessage(messageString);
+                    break;
+
+                case (window.ReactNativeWebView !== undefined):
+                    // React Native WebView
+                    window.ReactNativeWebView.postMessage(messageString);
+                    break;
+
+                // Web
+                default:
+                    parent.postMessage(messageString, '*');
+            }
+        }
     </script>
     @stack('script')
 </body>

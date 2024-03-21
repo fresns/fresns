@@ -7,7 +7,7 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-text">{{ $fsLang['userBirthday'] }}</span>
-                        <input type="date" class="form-control" name="birthday" value="{{ $birthday }}">
+                        <input type="date" class="form-control" name="birthday" value="{{ $birthday }}" min="1920-01-01" max="{{ date('Y-m-d') }}">
                     </div>
                 </div>
                 <div class="modal-footer">

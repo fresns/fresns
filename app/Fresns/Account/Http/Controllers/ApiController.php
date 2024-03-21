@@ -15,15 +15,20 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
+use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
+use App\Models\AppCallback;
 use App\Models\SessionLog;
+use App\Models\User;
+use App\Models\VerifyCode;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -68,6 +73,634 @@ class ApiController extends Controller
         return $this->success($data);
     }
 
+    public function guestSendVerifyCode(Request $request)
+    {
+        $type = $request->type;
+        if (! in_array($type, ['register', 'login', 'resetPassword'])) {
+            return $this->failure(30002);
+        }
+
+        $accountInfo = $request->account;
+        $countryCode = $request->countryCode;
+
+        $isEmail = filter_var($accountInfo, FILTER_VALIDATE_EMAIL);
+        $isPureInt = StrHelper::isPureInt($accountInfo);
+
+        if (! $isEmail && ! $isPureInt) {
+            return $this->failure(30002);
+        }
+
+        // register
+        if ($type == 'register') {
+            $emailRegister = ConfigHelper::fresnsConfigByItemKey('account_email_register');
+            if ($isEmail && ! $emailRegister) {
+                return $this->failure(34202);
+            }
+
+            $phoneRegister = ConfigHelper::fresnsConfigByItemKey('account_phone_register');
+            if ($isPureInt && ! $phoneRegister) {
+                return $this->failure(34203);
+            }
+        }
+
+        // login
+        $loginWithCode = ConfigHelper::fresnsConfigByItemKey('account_login_with_code');
+        if ($type == 'login' && ! $loginWithCode) {
+            return $this->failure(33100);
+        }
+
+        // send word body
+        $sendType = null;
+        $sendAccount = null;
+        $sendCountryCode = null;
+        $sendTemplateId = match ($type) {
+            'login' => VerifyCode::TEMPLATE_LOGIN_ACCOUNT,
+            'register' => VerifyCode::TEMPLATE_REGISTER_ACCOUNT,
+            'resetPassword' => VerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
+            default => null,
+        };
+
+        if ($isEmail) {
+            $accountModel = Account::where('email', $accountInfo)->first();
+
+            $sendType = VerifyCode::TYPE_EMAIL;
+            $sendAccount = $accountModel?->email;
+        } else {
+            $phone = $countryCode.$accountInfo;
+            $accountModel = Account::where('phone', $phone)->first();
+
+            $sendType = VerifyCode::TYPE_SMS;
+            $sendAccount = $accountModel?->pure_phone;
+            $sendCountryCode = $accountModel?->country_code;
+        }
+
+        // type switch
+        switch ($type) {
+            case 'register':
+                if ($accountModel) {
+                    return $this->failure(34204);
+                }
+
+                $sendAccount = $accountInfo;
+                $sendCountryCode = $countryCode;
+                break;
+
+            case 'login':
+                if (empty($accountModel)) {
+                    return $this->failure(31502);
+                }
+                break;
+
+            case 'resetPassword':
+                if (empty($accountModel)) {
+                    return $this->failure(31502);
+                }
+                break;
+        }
+
+        $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $wordBody = [
+            'type' => $sendType,
+            'account' => $sendAccount,
+            'countryCode' => $sendCountryCode,
+            'templateId' => $sendTemplateId,
+            'langTag' => $langTag,
+        ];
+
+        $fresnsSendCodeResp = \FresnsCmdWord::plugin('Fresns')->sendCode($wordBody);
+
+        if ($fresnsSendCodeResp->isErrorResponse()) {
+            return $$fresnsSendCodeResp->getErrorResponse();
+        }
+
+        return $this->success();
+    }
+
+    public function register(Request $request)
+    {
+        $countryCode = $request->countryCode;
+        $account = $request->account;
+        if (empty($account)) {
+            return $this->failure(34100);
+        }
+
+        switch ($request->accountType) {
+            case 'email':
+                $emailRegister = ConfigHelper::fresnsConfigByItemKey('account_email_register');
+                if (! $emailRegister) {
+                    return $this->failure(34202);
+                }
+
+                $accountModel = Account::where('email', $account)->first();
+
+                $sendType = VerifyCode::TYPE_EMAIL;
+                break;
+
+            case 'phone':
+                $phoneRegister = ConfigHelper::fresnsConfigByItemKey('account_phone_register');
+                if (! $phoneRegister) {
+                    return $this->failure(34203);
+                }
+
+                $phone = $countryCode.$account;
+                $accountModel = Account::where('phone', $phone)->first();
+
+                $sendType = VerifyCode::TYPE_SMS;
+                break;
+
+            default:
+                return $this->failure(30002);
+        }
+
+        if ($accountModel) {
+            $errorCode = match ($request->accountType) {
+                'email' => 34206,
+                'phone' => 34205,
+            };
+
+            return $this->failure($errorCode);
+        }
+
+        // verifyCode
+        $verifyCode = $request->verifyCode;
+        if (empty($verifyCode)) {
+            return $this->failure(33202);
+        }
+
+        // birthday
+        $birthday = $request->birthday;
+        if (empty($birthday) || ! strtotime($birthday)) {
+            return $this->failure(34113);
+        }
+
+        // password
+        $password = $request->password;
+        if (empty($password)) {
+            return $this->failure(34111);
+        }
+
+        $validatePassword = ValidationUtility::password($password);
+
+        if (! $validatePassword['length']) {
+            return $this->failure(34105);
+        }
+
+        if (! $validatePassword['number']) {
+            return $this->failure(34106);
+        }
+
+        if (! $validatePassword['lowercase']) {
+            return $this->failure(34107);
+        }
+
+        if (! $validatePassword['uppercase']) {
+            return $this->failure(34108);
+        }
+
+        if (! $validatePassword['symbols']) {
+            return $this->failure(34109);
+        }
+
+        // nickname
+        $nickname = $request->nickname;
+        if (empty($nickname)) {
+            return $this->failure(33202);
+        }
+
+        $nickname = Str::of($nickname)->trim();
+        $validateNickname = ValidationUtility::nickname($nickname);
+
+        if (! $validateNickname['formatString'] || ! $validateNickname['formatSpace']) {
+            return $this->failure(35107);
+        }
+
+        if (! $validateNickname['minLength']) {
+            return $this->failure(35109);
+        }
+
+        if (! $validateNickname['maxLength']) {
+            return $this->failure(35108);
+        }
+
+        if (! $validateNickname['use']) {
+            return $this->failure(35111);
+        }
+
+        if (! $validateNickname['banName']) {
+            return $this->failure(35110);
+        }
+
+        // checkCode
+        $wordBody = [
+            'type' => $sendType,
+            'account' => $account,
+            'countryCode' => $request->countryCode,
+            'verifyCode' => $verifyCode,
+            'templateId' => VerifyCode::TEMPLATE_REGISTER_ACCOUNT,
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
+
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->getErrorResponse();
+        }
+
+        // create account
+        $accountType = match ($request->accountType) {
+            'email' => 2,
+            'phone' => 3,
+        };
+        $createAccountWordBody = [
+            'type' => $accountType,
+            'account' => $account,
+            'countryCode' => $request->countryCode,
+            'password' => $password,
+            'birthday' => $birthday,
+            'createUser' => true,
+            'userInfo' => [
+                'nickname' => $nickname,
+            ],
+        ];
+
+        $fresnsCreateAccountResp = \FresnsCmdWord::plugin('Fresns')->createAccount($createAccountWordBody);
+
+        if ($fresnsCreateAccountResp->isErrorResponse()) {
+            return $fresnsCreateAccountResp->getErrorResponse();
+        }
+
+        // loginToken
+        $loginToken = SignHelper::makeLoginToken($account);
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_ACCOUNT_REGISTER,
+            'platformId' => Cookie::get('fresns_account_center_platform_id'),
+            'version' => Cookie::get('fresns_account_center_version'),
+            'appId' => Cookie::get('fresns_account_center_app_id'),
+            'langTag' => Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag(),
+            'fskey' => 'Fresns',
+            'actionName' => request()->path(),
+            'actionDesc' => 'Create Account',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => null,
+            'aid' => $fresnsCreateAccountResp->getData('aid'),
+            'uid' => $fresnsCreateAccountResp->getData('uid'),
+            'deviceInfo' => AppHelper::getDeviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => $loginToken,
+            'moreInfo' => null,
+        ];
+
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+        // callback ulid
+        $callbackUlid = Cookie::get('fresns_callback_ulid');
+        if ($callbackUlid && Str::of($callbackUlid)->isUlid()) {
+            AppCallback::updateOrCreate([
+                'ulid' => $callbackUlid,
+            ], [
+                'app_fskey' => 'Fresns',
+                'type' => AppCallback::TYPE_TOKEN,
+                'content' => [
+                    'loginToken' => $loginToken,
+                ],
+                'is_used' => false,
+            ]);
+        }
+
+        return $this->success([
+            'loginToken' => $loginToken,
+        ]);
+    }
+
+    public function login(Request $request)
+    {
+        $countryCode = $request->countryCode;
+        $account = $request->account;
+        if (empty($account)) {
+            return $this->failure(34100);
+        }
+
+        $password = $request->password;
+        $verifyCode = $request->verifyCode;
+        if (empty($password) && empty($verifyCode)) {
+            return $this->failure(34112);
+        }
+
+        switch ($request->accountType) {
+            case 'email':
+                $emailLogin = ConfigHelper::fresnsConfigByItemKey('account_email_login');
+                if (! $emailLogin) {
+                    return $this->failure(34207);
+                }
+
+                $accountModel = Account::withCount('users')->where('email', $account)->first();
+
+                $verifyType = Account::ACT_TYPE_EMAIL;
+                $verifyAccount = $accountModel?->email;
+                $verifyCountryCode = null;
+                break;
+
+            case 'phone':
+                $phoneLogin = ConfigHelper::fresnsConfigByItemKey('account_phone_login');
+                if (! $phoneLogin) {
+                    return $this->failure(34208);
+                }
+
+                $phone = $countryCode.$account;
+                $accountModel = Account::withCount('users')->where('phone', $phone)->first();
+
+                $verifyType = Account::ACT_TYPE_PHONE;
+                $verifyAccount = $accountModel?->pure_phone;
+                $verifyCountryCode = $accountModel?->country_code;
+                break;
+
+            default:
+                return $this->failure(30002);
+        }
+
+        if (! $accountModel) {
+            return $this->failure(34301);
+        }
+
+        // loginToken
+        $loginToken = SignHelper::makeLoginToken($account);
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_ACCOUNT_LOGIN,
+            'platformId' => Cookie::get('fresns_account_center_platform_id'),
+            'version' => Cookie::get('fresns_account_center_version'),
+            'appId' => Cookie::get('fresns_account_center_app_id'),
+            'langTag' => Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag(),
+            'fskey' => 'Fresns',
+            'actionName' => request()->path(),
+            'actionDesc' => 'Account Login',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => null,
+            'aid' => $accountModel->aid,
+            'uid' => null,
+            'deviceInfo' => AppHelper::getDeviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => $loginToken,
+            'moreInfo' => null,
+        ];
+
+        $wordBody = [
+            'type' => $verifyType,
+            'account' => $verifyAccount,
+            'countryCode' => $verifyCountryCode,
+            'password' => $password,
+            'verifyCode' => $verifyCode,
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifyAccount($wordBody);
+
+        if ($fresnsResp->isErrorResponse()) {
+            $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
+
+            \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+            return $fresnsResp->getErrorResponse();
+        }
+
+        // account users
+        $userCount = $accountModel->users_count;
+
+        $user = $accountModel->users()->first();
+
+        if ($userCount == 1 && ! $user->pin) {
+            $sessionLog['uid'] = $user->uid;
+            \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+            return $this->success([
+                'loginToken' => $loginToken,
+            ]);
+        }
+
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+        $userAuthInfoArr = [
+            'aid' => $accountModel->aid,
+            'loginToken' => $loginToken,
+        ];
+
+        $userAuthInfo = base64_encode(json_encode($userAuthInfoArr));
+
+        Cookie::queue('fresns_account_center_user_auth', $userAuthInfo);
+
+        return $this->success();
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $account = $request->account;
+        if (empty($account)) {
+            return $this->failure(34100);
+        }
+
+        $verifyCode = $request->verifyCode;
+        if (empty($verifyCode)) {
+            return $this->failure(33202);
+        }
+
+        $newPassword = $request->newPassword;
+        if (empty($newPassword)) {
+            return $this->failure(34111);
+        }
+
+        $validatePassword = ValidationUtility::password($newPassword);
+
+        if (! $validatePassword['length']) {
+            return $this->failure(34105);
+        }
+
+        if (! $validatePassword['number']) {
+            return $this->failure(34106);
+        }
+
+        if (! $validatePassword['lowercase']) {
+            return $this->failure(34107);
+        }
+
+        if (! $validatePassword['uppercase']) {
+            return $this->failure(34108);
+        }
+
+        if (! $validatePassword['symbols']) {
+            return $this->failure(34109);
+        }
+
+        $accountType = $request->accountType;
+        $countryCode = $request->countryCode;
+
+        $sendType = match ($accountType) {
+            'email' => VerifyCode::TYPE_EMAIL,
+            'phone' => VerifyCode::TYPE_SMS,
+            default => null,
+        };
+
+        $isEmail = filter_var($account, FILTER_VALIDATE_EMAIL);
+        if ($isEmail) {
+            $accountModel = Account::where('email', $account)->first();
+
+            $sendAccount = $accountModel?->email;
+        } else {
+            $phone = $countryCode.$account;
+            $accountModel = Account::where('phone', $phone)->first();
+
+            $sendAccount = $accountModel?->pure_phone;
+        }
+        if (empty($accountModel)) {
+            return $this->failure(34301);
+        }
+
+        $wordBody = [
+            'type' => $sendType,
+            'account' => $sendAccount,
+            'countryCode' => $accountModel->country_code,
+            'verifyCode' => $verifyCode,
+            'templateId' => VerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
+
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->getErrorResponse();
+        }
+
+        $dataPassword = Hash::make($newPassword);
+
+        $accountModel->update([
+            'password' => $dataPassword,
+        ]);
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_ACCOUNT_EDIT_PASSWORD,
+            'platformId' => Cookie::get('fresns_account_center_platform_id'),
+            'version' => Cookie::get('fresns_account_center_version'),
+            'appId' => Cookie::get('fresns_account_center_app_id'),
+            'langTag' => Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag(),
+            'fskey' => 'Fresns',
+            'actionName' => request()->path(),
+            'actionDesc' => 'Account Reset Password',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => null,
+            'aid' => $accountModel->aid,
+            'uid' => null,
+            'deviceInfo' => AppHelper::getDeviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+        return $this->success();
+    }
+
+    public function userAuth(Request $request)
+    {
+        $userAuthInfo = Cookie::get('fresns_account_center_user_auth');
+
+        if (empty($userAuthInfo)) {
+            return $this->failure(30001);
+        }
+
+        try {
+            $stringify = base64_decode($userAuthInfo, true);
+            $userAuthInfoArr = json_decode($stringify, true);
+
+            $aid = $userAuthInfoArr['aid'];
+            $loginToken = $userAuthInfoArr['loginToken'];
+
+            if (empty($aid) || empty($loginToken)) {
+                Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+                return $this->failure(30001);
+            }
+        } catch (\Exception $e) {
+            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+            return $this->failure(30001);
+        }
+
+        $accountModel = Account::where('aid', $aid)->first();
+
+        if (empty($accountModel)) {
+            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+            return $this->failure(34301);
+        }
+
+        $loginTokenInfo = SessionLog::where('account_id', $accountModel->id)->where('login_token', $loginToken)->first();
+
+        if (! $loginTokenInfo) {
+            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+            return $this->failure(32206);
+        }
+
+        if ($loginTokenInfo->user_id) {
+            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+            return $this->failure(32204);
+        }
+
+        $checkTime = $loginTokenInfo->created_at->addMinutes(20);
+
+        if ($checkTime->lt(now())) {
+            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
+
+            return $this->failure(32203);
+        }
+
+        $uid = $request->uid;
+        if (empty($uid)) {
+            return $this->failure(32201);
+        }
+
+        $userModel = User::where('account_id', $accountModel->id)->where('uid', $uid)->first();
+        if (empty($userModel)) {
+            return $this->failure(35201);
+        }
+
+        // pin
+        if ($userModel->pin) {
+            $pin = $request->pin;
+
+            if (empty($pin)) {
+                return $this->failure(31604);
+            }
+
+            if (! Hash::check($pin, $userModel->pin)) {
+                return $this->failure(35204);
+            }
+        }
+
+        $loginTokenInfo->update([
+            'user_id' => $userModel->id,
+        ]);
+
+        // login time
+        $accountModel->update([
+            'last_login_at' => now(),
+        ]);
+
+        $userModel->update([
+            'last_login_at' => now(),
+        ]);
+
+        return $this->success([
+            'loginToken' => $loginToken,
+        ]);
+    }
+
     public function sendVerifyCode(Request $request)
     {
         $dtoRequest = new SendVerifyCodeDTO($request->all());
@@ -78,20 +711,7 @@ class ApiController extends Controller
 
         $account = null;
         if ($templateId == 3 || $templateId == 4 || $templateId == 8) {
-            $platformId = Cookie::get('fresns_account_center_platform_id');
             $aid = Cookie::get('fresns_account_center_aid');
-            $aidToken = Cookie::get('fresns_account_center_aid_token');
-
-            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifyAccountToken([
-                'platformId' => $platformId,
-                'aid' => $aid,
-                'aidToken' => $aidToken,
-            ]);
-
-            if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->getErrorResponse();
-            }
-
             $account = Account::where('aid', $aid)->first();
 
             if (empty($account)) {
@@ -106,16 +726,16 @@ class ApiController extends Controller
             }
         }
 
-        if ($dtoRequest->type == 'email') {
-            $accountType = 1;
-        } else {
-            $accountType = 2;
-        }
+        $sendType = match ($dtoRequest->type) {
+            'email' => VerifyCode::TYPE_EMAIL,
+            'sms' => VerifyCode::TYPE_SMS,
+            default => null,
+        };
 
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
         $wordBody = [
-            'type' => $accountType,
+            'type' => $sendType,
             'account' => $accountInfo,
             'countryCode' => $countryCode,
             'templateId' => $templateId,
@@ -139,11 +759,11 @@ class ApiController extends Controller
         $type = $request->type;
 
         if ($type == 'email') {
-            $accountType = 1;
+            $accountType = VerifyCode::TYPE_EMAIL;
             $countryCode = null;
             $accountInfo = $account?->email;
         } else {
-            $accountType = 2;
+            $accountType = VerifyCode::TYPE_SMS;
             $countryCode = $account?->country_code;
             $accountInfo = $account?->pure_phone;
         }
@@ -246,7 +866,7 @@ class ApiController extends Controller
                     'account' => $newEmail,
                     'countryCode' => null,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => 3,
+                    'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -286,7 +906,7 @@ class ApiController extends Controller
                     'account' => $newPurePhone,
                     'countryCode' => $newCountryCode,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => 3,
+                    'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -333,7 +953,7 @@ class ApiController extends Controller
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => 3,
+                        'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -416,7 +1036,7 @@ class ApiController extends Controller
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => 3,
+                        'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -488,7 +1108,7 @@ class ApiController extends Controller
             'account' => $accountInfo,
             'countryCode' => $account->country_code,
             'verifyCode' => $verifyCode,
-            'templateId' => 8,
+            'templateId' => VerifyCode::TEMPLATE_DELETE_ACCOUNT,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);

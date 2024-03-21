@@ -75,18 +75,20 @@
 
                     <div class="form-text">
                         {{ $fsLang['passwordInfo'] }}:
-                        @if (in_array('number', $fsConfig['password_strength'])) {{ fs_lang('passwordInfoNumbers') }} @endif
+                        @if (in_array('number', $fsConfig['password_strength'])) {{ $fsLang['passwordInfoNumbers'] }} @endif
                         @if (in_array('number', $fsConfig['password_strength']) && in_array('lowercase', $fsConfig['password_strength'])) , @endif
 
-                        @if (in_array('lowercase', $fsConfig['password_strength'])) {{ fs_lang('passwordInfoLowercaseLetters') }} @endif
+                        @if (in_array('lowercase', $fsConfig['password_strength'])) {{ $fsLang['passwordInfoLowercaseLetters'] }} @endif
                         @if (in_array('lowercase', $fsConfig['password_strength']) && in_array('uppercase', $fsConfig['password_strength'])) , @endif
 
-                        @if (in_array('uppercase', $fsConfig['password_strength'])) {{ fs_lang('passwordInfoUppercaseLetters') }} @endif
+                        @if (in_array('uppercase', $fsConfig['password_strength'])) {{ $fsLang['passwordInfoUppercaseLetters'] }} @endif
                         @if (in_array('uppercase', $fsConfig['password_strength']) && in_array('symbols', $fsConfig['password_strength'])) , @endif
 
-                        @if (in_array('symbols', $fsConfig['password_strength'])) {{ fs_lang('passwordInfoSymbols') }} @endif
+                        @if (in_array('symbols', $fsConfig['password_strength'])) {{ $fsLang['passwordInfoSymbols'] }} @endif
 
-                        | {{ $fsLang['modifierLength'] }}: {{ $fsConfig['password_length'].'~32' }}
+                        <div class="vr mx-2"></div>
+
+                        {{ $fsLang['modifierLength'] }}: {{ $fsConfig['password_length'].'~32' }}
                     </div>
                 </div>
                 <div class="modal-footer">

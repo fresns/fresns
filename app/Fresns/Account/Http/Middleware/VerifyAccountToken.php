@@ -18,9 +18,6 @@ class VerifyAccountToken
 {
     public function handle(Request $request, Closure $next)
     {
-        $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
-        $request->headers->set('X-Fresns-Client-Lang-Tag', $langTag);
-
         $service = ConfigHelper::fresnsConfigByItemKey('account_center_service');
 
         if ($service) {

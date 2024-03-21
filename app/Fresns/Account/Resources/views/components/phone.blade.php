@@ -37,14 +37,24 @@
                     @endif
                     {{-- new phone --}}
                     <div id="newPhone" @if ($accountPassport['email'] && $accountPassport['phone']) class="d-none" @endif>
+                        <input type="hidden" name="countryCode" id="countryCode" value="{{ $smsDefaultCode }}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ $accountPassport['phone'] ? $fsLang['newPhone'] : $fsLang['phone'] }}</span>
-                            <input type="number" class="form-control" name="newPhone" value="" required>
-                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="email" data-template-id="3" data-input-id="newPhone" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                            {{-- country code --}}
+                            @if (count($smsSupportedCodes) == 1)
+                                <span class="input-group-text">+{{ $smsDefaultCode }}</span>
+                            @else
+                                <button class="btn btn-outline-secondary" type="button" id="countryCodeButton" data-bs-toggle="modal" data-bs-target="#countryCodeModal">+{{ $smsDefaultCode }}</button>
+                            @endif
+
+                            {{-- input --}}
+                            <input type="number" class="form-control input-number" name="newPhone" id="newPhoneInput" placeholder="{{ $fsLang['phone'] }}" required>
                         </div>
+
                         <div class="input-group">
                             <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
                             <input type="text" class="form-control" name="newVerifyCode" value="" required>
+                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="3" data-account-input-id="newPhoneInput" data-country-code-input-id="countryCode" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                         </div>
                     </div>
                 </div>
