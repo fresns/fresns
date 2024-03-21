@@ -21,7 +21,7 @@ if (yearElement) {
 /* Fresns Token */
 $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
 
