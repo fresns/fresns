@@ -21,6 +21,7 @@ use App\Fresns\Api\Services\ContentService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\TimelineService;
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
@@ -123,85 +124,100 @@ class PostController extends Controller
             $query->whereNotIn('id', $value);
         });
 
-        // user
-        if ($dtoRequest->uidOrUsername) {
+        // cache tag
+        $cacheTag = 'fresnsConfigs';
+
+        // users
+        if ($dtoRequest->users) {
             $profilePostsEnabled = ConfigHelper::fresnsConfigByItemKey('profile_posts_enabled');
             if (! $profilePostsEnabled) {
                 throw new ResponseException(35305);
             }
 
-            $viewUser = PrimaryHelper::fresnsModelByFsid('user', $dtoRequest->uidOrUsername);
+            $crc32 = crc32($dtoRequest->users);
+            $cacheKey = "fresns_api_list_{$crc32}_user_ids";
 
-            if (empty($viewUser) || $viewUser->trashed()) {
-                throw new ResponseException(31602);
+            $userExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($userExplodeArr)) {
+                $userExplodeArr = PermissionUtility::getPrimaryIdArr('user', $dtoRequest->users);
+
+                CacheHelper::put($userExplodeArr, $cacheKey, $cacheTag);
             }
 
-            $postQuery->where('user_id', $viewUser->id)->where('is_anonymous', false);
+            if ($userExplodeArr['idCount'] == 0) {
+                return $this->warning(35400);
+            }
+
+            $postQuery->whereIn('user_id', $userExplodeArr['idArr'])->where('is_anonymous', false);
         }
 
-        // group
+        // groups
         $groupDateLimit = null;
-        if ($dtoRequest->gid) {
-            $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
+        if ($dtoRequest->groups) {
+            $crc32Text = $dtoRequest->groups.$dtoRequest->includeSubgroups.$authUserId;
+            $crc32 = crc32($crc32Text);
+            $cacheKey = "fresns_api_list_{$crc32}_group_ids";
 
-            if (empty($viewGroup) || $viewGroup->trashed()) {
-                throw new ResponseException(37100);
+            $groupExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($groupExplodeArr)) {
+                $groupExplodeArr = PermissionUtility::getPrimaryIdArr('group', $dtoRequest->groups, $authUserId, $dtoRequest->includeSubgroups);
+
+                CacheHelper::put($groupExplodeArr, $cacheKey, $cacheTag);
             }
 
-            // group deactivate
-            if (! $viewGroup->is_enabled) {
-                throw new ResponseException(37101);
+            if ($groupExplodeArr['idCount'] == 0) {
+                return $this->warning(37102);
             }
 
-            // group mode
-            $checkLimit = PermissionUtility::getGroupContentDateLimit($viewGroup->id, $authUserId);
+            $groupDateLimit = $groupExplodeArr['datetime'];
 
-            if ($checkLimit['code']) {
-                return $this->warning($checkLimit['code']);
-            }
-
-            $groupDateLimit = $checkLimit['datetime'];
-
-            if ($dtoRequest->includeSubgroups) {
-                $groupIdArr = PrimaryHelper::fresnsSubgroupsIdArr($viewGroup->id);
-
-                $postQuery->whereIn('group_id', $groupIdArr);
-            } else {
-                $postQuery->where('group_id', $viewGroup->id);
-            }
+            $postQuery->whereIn('group_id', $groupExplodeArr['idArr']);
         }
 
-        // hashtag
-        if ($dtoRequest->htid) {
-            $slug = StrHelper::slug($dtoRequest->htid);
-            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
+        // hashtags
+        if ($dtoRequest->hashtags) {
+            $crc32 = crc32($dtoRequest->hashtags);
+            $cacheKey = "fresns_api_list_{$crc32}_hashtag_ids";
 
-            if (empty($viewHashtag)) {
-                throw new ResponseException(37200);
+            $hashtagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($hashtagExplodeArr)) {
+                $hashtagExplodeArr = PermissionUtility::getPrimaryIdArr('hashtag', $dtoRequest->hashtags);
+
+                CacheHelper::put($hashtagExplodeArr, $cacheKey, $cacheTag);
             }
 
-            // hashtag deactivate
-            if (! $viewHashtag->is_enabled) {
-                throw new ResponseException(37201);
+            if ($hashtagExplodeArr['idCount'] == 0) {
+                return $this->warning(37202);
             }
 
-            $postQuery->whereRelation('hashtagUsages', 'hashtag_id', $viewHashtag->id);
+            $viewHashtagIdArr = $hashtagExplodeArr['idArr'];
+
+            $postQuery->whereHas('hashtagUsages', function ($query) use ($viewHashtagIdArr) {
+                $query->whereIn('hashtag_id', $viewHashtagIdArr);
+            });
         }
 
-        // geotag
-        if ($dtoRequest->gtid) {
-            $viewGeotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoRequest->gtid);
+        // geotags
+        if ($dtoRequest->geotags) {
+            $crc32 = crc32($dtoRequest->geotags);
+            $cacheKey = "fresns_api_list_{$crc32}_geotag_ids";
 
-            if (empty($viewGeotag)) {
-                throw new ResponseException(37300);
+            $geotagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($geotagExplodeArr)) {
+                $geotagExplodeArr = PermissionUtility::getPrimaryIdArr('geotag', $dtoRequest->geotags);
+
+                CacheHelper::put($geotagExplodeArr, $cacheKey, $cacheTag);
             }
 
-            // geotag deactivate
-            if (! $viewGeotag->is_enabled) {
-                throw new ResponseException(37301);
+            if ($geotagExplodeArr['idCount'] == 0) {
+                return $this->warning(37302);
             }
 
-            $postQuery->where('geotag_id', $viewGeotag->id);
+            $postQuery->whereIn('geotag_id', $geotagExplodeArr['idArr']);
         }
 
         // other conditions

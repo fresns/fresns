@@ -15,10 +15,10 @@ class PostListDTO extends DTO
     public function rules(): array
     {
         return [
-            'uidOrUsername' => ['nullable'], // posts->user_id
-            'htid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
-            'gtid' => ['string', 'nullable'], // posts->geotag_id
-            'gid' => ['string', 'nullable'], // posts->group_id
+            'users' => ['string', 'nullable'], // posts->user_id
+            'hashtags' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'geotags' => ['string', 'nullable'], // posts->geotag_id
+            'groups' => ['string', 'nullable'], // posts->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
             'langTag' => ['string', 'nullable'], // posts->lang_tag
             'contentType' => ['string', 'nullable'],
