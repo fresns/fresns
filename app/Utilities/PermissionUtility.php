@@ -234,7 +234,7 @@ class PermissionUtility
         }
 
         if (empty($authUserId)) {
-            $checkResp['code'] = 37103;
+            $checkResp['code'] = 37104;
 
             return $checkResp;
         }
@@ -248,7 +248,7 @@ class PermissionUtility
 
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $groupId, $authUserId);
         if (! $interactionStatus['followStatus']) {
-            $checkResp['code'] = 37103;
+            $checkResp['code'] = 37104;
 
             return $checkResp;
         }
@@ -259,7 +259,7 @@ class PermissionUtility
 
         if ($group->private_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
             if (! $interactionStatus['followExpiryDateTime']) {
-                $checkResp['code'] = 37105;
+                $checkResp['code'] = 37106;
 
                 return $checkResp;
             }
@@ -267,7 +267,7 @@ class PermissionUtility
             $now = time();
             $expiryTime = strtotime($interactionStatus['followExpiryDateTime']);
             if ($expiryTime < $now) {
-                $checkResp['code'] = 37105;
+                $checkResp['code'] = 37106;
 
                 return $checkResp;
             }
@@ -276,6 +276,112 @@ class PermissionUtility
         $checkResp['datetime'] = $interactionStatus['followExpiryDateTime'];
 
         return $checkResp;
+    }
+
+    // get primary ids
+    public static function getPrimaryIdArr(string $type, string $fsids, ?int $authUserId = null, bool $includeSubgroups = false): array
+    {
+        $fsidArr = array_filter(explode(',', $fsids));
+        $fsidArr = array_unique($fsidArr);
+
+        $fsidCount = count($fsidArr);
+
+        if ($type == 'group' && $fsidCount == 1) {
+            $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $fsidArr[0]);
+
+            $checkLimit = PermissionUtility::getGroupContentDateLimit($viewGroup->id, $authUserId);
+
+            $idArr = [$viewGroup->id];
+
+            if ($checkLimit['code']) {
+                $idArr = [];
+            }
+
+            $idCount = count($idArr);
+
+            return [
+                'fsidCount' => $fsidCount,
+                'idCount' => $idCount,
+                'idArr' => $idArr,
+                'datetime' => $checkLimit['datetime'],
+            ];
+        }
+
+        $idArr = [];
+        switch ($type) {
+            case 'user':
+                foreach ($fsidArr as $fsid) {
+                    $user = PrimaryHelper::fresnsModelByFsid('user', $fsid);
+
+                    if (empty($user) || $user->trashed()) {
+                        continue;
+                    }
+
+                    $idArr[] = $user->id;
+                }
+                break;
+
+            case 'group':
+                $subgroupsArr = [];
+                foreach ($fsidArr as $fsid) {
+                    $group = PrimaryHelper::fresnsModelByFsid('group', $fsid);
+
+                    if (empty($group) || $group->trashed() || ! $group->is_enabled) {
+                        continue;
+                    }
+
+                    $checkLimit = PermissionUtility::getGroupContentDateLimit($group->id, $authUserId);
+
+                    if ($checkLimit['code'] || $checkLimit['datetime']) {
+                        continue;
+                    }
+
+                    if ($includeSubgroups) {
+                        $subgroupsArr = array_merge($subgroupsArr, PrimaryHelper::fresnsSubgroupsIdArr($group->id));
+                    }
+
+                    $idArr[] = $group->id;
+                }
+
+                $idArr = array_merge($idArr, $subgroupsArr);
+                break;
+
+            case 'hashtag':
+                foreach ($fsidArr as $fsid) {
+                    $slug = StrHelper::slug($fsid);
+                    $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
+
+                    if (empty($hashtag) || $hashtag->trashed() || ! $hashtag->is_enabled) {
+                        continue;
+                    }
+
+                    $idArr[] = $hashtag->id;
+                }
+                break;
+
+            case 'geotag':
+                foreach ($fsidArr as $fsid) {
+                    $geotag = PrimaryHelper::fresnsModelByFsid('geotag', $fsid);
+
+                    if (empty($geotag) || $geotag->trashed() || ! $geotag->is_enabled) {
+                        continue;
+                    }
+
+                    $idArr[] = $geotag->id;
+                }
+                break;
+        }
+
+        $idArr = array_unique($idArr);
+
+        $idCount = count($idArr);
+
+        return [
+            'fsidCount' => $fsidCount,
+            'idCount' => $idCount,
+            'idArr' => $idArr,
+            'datetime' => null,
+        ];
     }
 
     // Check if the user belongs to the account
