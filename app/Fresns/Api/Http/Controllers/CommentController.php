@@ -19,6 +19,7 @@ use App\Fresns\Api\Services\ContentService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\TimelineService;
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
@@ -138,22 +139,6 @@ class CommentController extends Controller
         $outputReplyToPost = true;
         $outputReplyToComment = false;
 
-        // user
-        if ($dtoRequest->uidOrUsername) {
-            $profileCommentsEnabled = ConfigHelper::fresnsConfigByItemKey('profile_comments_enabled');
-            if (! $profileCommentsEnabled) {
-                throw new ResponseException(35305);
-            }
-
-            $viewUser = PrimaryHelper::fresnsModelByFsid('user', $dtoRequest->uidOrUsername);
-
-            if (empty($viewUser) || $viewUser->trashed()) {
-                throw new ResponseException(31602);
-            }
-
-            $commentQuery->where('user_id', $viewUser->id)->where('is_anonymous', false);
-        }
-
         // post
         if ($dtoRequest->pid) {
             $viewPost = PrimaryHelper::fresnsModelByFsid('post', $dtoRequest->pid);
@@ -207,72 +192,104 @@ class CommentController extends Controller
             $outputReplyToComment = true;
         }
 
-        // group
+        // cache tag
+        $cacheTag = 'fresnsConfigs';
+
+        // users
+        if ($dtoRequest->users) {
+            $profileCommentsEnabled = ConfigHelper::fresnsConfigByItemKey('profile_comments_enabled');
+            if (! $profileCommentsEnabled) {
+                throw new ResponseException(35305);
+            }
+
+            $crc32 = crc32($dtoRequest->users);
+            $cacheKey = "fresns_api_list_{$crc32}_user_ids";
+
+            $userExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($userExplodeArr)) {
+                $userExplodeArr = PermissionUtility::getPrimaryIdArr('user', $dtoRequest->users);
+
+                CacheHelper::put($userExplodeArr, $cacheKey, $cacheTag);
+            }
+
+            if ($userExplodeArr['idCount'] == 0) {
+                return $this->warning(35400);
+            }
+
+            $commentQuery->whereIn('user_id', $userExplodeArr['idArr'])->where('is_anonymous', false);
+        }
+
+        // groups
         $groupDateLimit = null;
-        if ($dtoRequest->gid) {
-            $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
+        if ($dtoRequest->groups) {
+            $crc32Text = $dtoRequest->groups.$dtoRequest->includeSubgroups.$authUserId;
+            $crc32 = crc32($crc32Text);
+            $cacheKey = "fresns_api_list_{$crc32}_group_ids";
 
-            if (empty($viewGroup) || $viewGroup->trashed()) {
-                throw new ResponseException(37100);
+            $groupExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($groupExplodeArr)) {
+                $groupExplodeArr = PermissionUtility::getPrimaryIdArr('group', $dtoRequest->groups, $authUserId, $dtoRequest->includeSubgroups);
+
+                CacheHelper::put($groupExplodeArr, $cacheKey, $cacheTag);
             }
 
-            if (! $viewGroup->is_enabled) {
-                throw new ResponseException(37101);
+            if ($groupExplodeArr['idCount'] == 0) {
+                return $this->warning(37102);
             }
 
-            // group mode
-            $checkLimit = PermissionUtility::getGroupContentDateLimit($viewGroup->id, $authUserId);
+            $groupDateLimit = $groupExplodeArr['datetime'];
 
-            if ($checkLimit['code']) {
-                return $this->warning($checkLimit['code']);
-            }
+            $viewGroupIdArr = $groupExplodeArr['idArr'];
 
-            $groupDateLimit = $checkLimit['datetime'];
-
-            if ($dtoRequest->includeSubgroups) {
-                $groupIdArr = PrimaryHelper::fresnsSubgroupsIdArr($viewGroup->id);
-
-                $commentQuery->whereDoesntHave('post', function ($query) use ($groupIdArr) {
-                    $query->whereIn('group_id', $groupIdArr);
-                });
-            } else {
-                $groupId = $viewGroup->id;
-
-                $commentQuery->whereRelation('post', 'group_id', $groupId);
-            }
+            $commentQuery->whereDoesntHave('post', function ($query) use ($viewGroupIdArr) {
+                $query->whereIn('group_id', $viewGroupIdArr);
+            });
         }
 
-        // hashtag
-        if ($dtoRequest->htid) {
-            $slug = StrHelper::slug($dtoRequest->htid);
-            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $slug);
+        // hashtags
+        if ($dtoRequest->hashtags) {
+            $crc32 = crc32($dtoRequest->hashtags);
+            $cacheKey = "fresns_api_list_{$crc32}_hashtag_ids";
 
-            if (empty($viewHashtag)) {
-                throw new ResponseException(37200);
+            $hashtagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($hashtagExplodeArr)) {
+                $hashtagExplodeArr = PermissionUtility::getPrimaryIdArr('hashtag', $dtoRequest->hashtags);
+
+                CacheHelper::put($hashtagExplodeArr, $cacheKey, $cacheTag);
             }
 
-            // hashtag deactivate
-            if (! $viewHashtag->is_enabled) {
-                throw new ResponseException(37201);
+            if ($hashtagExplodeArr['idCount'] == 0) {
+                return $this->warning(37202);
             }
 
-            $commentQuery->whereRelation('hashtagUsages', 'hashtag_id', $viewHashtag->id);
+            $viewHashtagIdArr = $hashtagExplodeArr['idArr'];
+
+            $commentQuery->whereHas('hashtagUsages', function ($query) use ($viewHashtagIdArr) {
+                $query->whereIn('hashtag_id', $viewHashtagIdArr);
+            });
         }
 
-        // geotag
-        if ($dtoRequest->gtid) {
-            $viewGeotag = PrimaryHelper::fresnsModelByFsid('geotag', $dtoRequest->gtid);
+        // geotags
+        if ($dtoRequest->geotags) {
+            $crc32 = crc32($dtoRequest->geotags);
+            $cacheKey = "fresns_api_list_{$crc32}_geotag_ids";
 
-            if (empty($viewGeotag)) {
-                throw new ResponseException(37300);
+            $geotagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($geotagExplodeArr)) {
+                $geotagExplodeArr = PermissionUtility::getPrimaryIdArr('geotag', $dtoRequest->geotags);
+
+                CacheHelper::put($geotagExplodeArr, $cacheKey, $cacheTag);
             }
 
-            // geotag deactivate
-            if (! $viewGeotag->is_enabled) {
-                throw new ResponseException(37301);
+            if ($geotagExplodeArr['idCount'] == 0) {
+                return $this->warning(37302);
             }
 
-            $commentQuery->where('geotag_id', $viewGeotag->id);
+            $commentQuery->whereIn('geotag_id', $geotagExplodeArr['idArr']);
         }
 
         // other conditions

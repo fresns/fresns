@@ -15,12 +15,12 @@ class CommentListDTO extends DTO
     public function rules(): array
     {
         return [
-            'uidOrUsername' => ['nullable'], // comments->user_id
             'pid' => ['string', 'nullable'], // comments->post_id
             'cid' => ['string', 'nullable'], // comments->top_parent_id
-            'htid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
-            'gtid' => ['string', 'nullable'], // comments->geotag_id
-            'gid' => ['string', 'nullable'], // comments->post_id->group_id
+            'users' => ['string', 'nullable'], // comments->user_id
+            'hashtags' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'geotags' => ['string', 'nullable'], // comments->geotag_id
+            'groups' => ['string', 'nullable'], // comments->group_id
             'includeSubgroups' => ['boolean', 'nullable'],
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
