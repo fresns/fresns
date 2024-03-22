@@ -328,6 +328,8 @@
             const postMessageKey = Cookies.get('fresns_callback_key');
             const redirectUrl = Cookies.get('fresns_redirect_url');
 
+            console.log('fresnsCallbackSend', postMessageKey, redirectUrl);
+
             const fresnsCallbackMessage = {
                 code: 0,
                 message: 'ok',

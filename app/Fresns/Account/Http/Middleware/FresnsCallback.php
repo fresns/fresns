@@ -18,17 +18,17 @@ class FresnsCallback
     {
         $postMessageKey = $request->callbackKey;
         if ($postMessageKey) {
-            Cookie::queue('fresns_callback_key', $postMessageKey);
+            Cookie::queue(Cookie::make('fresns_callback_key', $postMessageKey, null, '/', null, true, false));
         }
 
         $callbackUlid = $request->callbackUlid;
         if ($callbackUlid) {
-            Cookie::queue('fresns_callback_ulid', $callbackUlid);
+            Cookie::queue(Cookie::make('fresns_callback_ulid', $callbackUlid, null, '/', null, true, false));
         }
 
         $redirectURL = $request->redirectURL;
         if ($redirectURL) {
-            Cookie::queue('fresns_redirect_url', $redirectURL);
+            Cookie::queue(Cookie::make('fresns_redirect_url', $redirectURL, null, '/', null, true, false));
         }
 
         return $next($request);
