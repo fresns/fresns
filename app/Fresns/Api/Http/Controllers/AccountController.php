@@ -111,7 +111,7 @@ class AccountController extends Controller
             'appId' => $this->appId(),
             'aid' => $fresnsResp->getData('aid'),
             'aidToken' => $fresnsResp->getData('aidToken'),
-            'uid' => $account->uid,
+            'uid' => $user->uid,
             'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
         ];
