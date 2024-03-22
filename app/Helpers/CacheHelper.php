@@ -779,6 +779,10 @@ class CacheHelper
     // fresns_api_language_pack_{$langTag}                          // tag: fresnsConfigs
     // fresns_api_archives_{$type}_{$fskey}_{$langTag}              // tag: fresnsConfigs
     // fresns_api_stickers_{$langTag}                               // tag: fresnsConfigs
+    // fresns_api_list_{$crc32}_user_ids                            // tag: fresnsConfigs
+    // fresns_api_list_{$crc32}_group_ids                           // tag: fresnsConfigs
+    // fresns_api_list_{$crc32}_hashtag_ids                         // tag: fresnsConfigs
+    // fresns_api_list_{$crc32}_geotag_ids                          // tag: fresnsConfigs
 
     /**
      * tag: fresnsUsers.
