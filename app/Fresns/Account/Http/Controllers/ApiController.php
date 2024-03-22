@@ -662,7 +662,7 @@ class ApiController extends Controller
 
         $uid = $request->uid;
         if (empty($uid)) {
-            return $this->failure(32201);
+            return $this->failure(35100);
         }
 
         $userModel = User::where('account_id', $accountModel->id)->where('uid', $uid)->first();

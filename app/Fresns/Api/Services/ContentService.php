@@ -74,7 +74,7 @@ class ContentService
         }
 
         if (empty($authUserId)) {
-            throw new ResponseException(37103);
+            throw new ResponseException(37104);
         }
 
         $userRole = PermissionUtility::getUserMainRole($authUserId);
@@ -87,7 +87,7 @@ class ContentService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $groupId, $authUserId);
 
         if (! $interactionStatus['followStatus']) {
-            throw new ResponseException(37103);
+            throw new ResponseException(37104);
         }
 
         if ($group->private_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
@@ -95,14 +95,14 @@ class ContentService
         }
 
         if ($group->private_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
-            throw new ResponseException(37105);
+            throw new ResponseException(37106);
         }
 
         $contentCreatedDatetime = strtotime($dateTime);
         $dateLimit = strtotime($interactionStatus['followExpiryDateTime']);
 
         if ($contentCreatedDatetime > $dateLimit) {
-            throw new ResponseException(37106);
+            throw new ResponseException(37107);
         }
     }
 

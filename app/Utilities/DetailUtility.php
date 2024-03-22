@@ -1724,7 +1724,7 @@ class DetailUtility
 
         // groupDateLimit
         $groupDateLimit = PermissionUtility::getGroupContentDateLimit($post->group_id, $authUserId);
-        if ($groupDateLimit['code'] == 37103) {
+        if ($groupDateLimit['code'] == 37104) {
             return array_replace($postDetail, $newContent);
         }
 
