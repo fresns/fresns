@@ -13,6 +13,9 @@ try {
 }
 
 $encryptCookies = [
+    'fresns_callback_key',
+    'fresns_callback_ulid',
+    'fresns_redirect_url',
     'fresns_timezone',
     "{$cookiePrefix}lang_tag",
     "{$cookiePrefix}aid",
