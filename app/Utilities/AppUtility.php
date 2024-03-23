@@ -67,7 +67,7 @@ class AppUtility
             ];
 
             try {
-                $versionInfoUrl = $baseUrl.'/v2/22/version.json';
+                $versionInfoUrl = $baseUrl.'/v3/version-1.json';
                 $client = new \GuzzleHttp\Client($options);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -116,7 +116,7 @@ class AppUtility
             ];
 
             try {
-                $newUrl = $baseUrl.'/v2/news.json';
+                $newUrl = $baseUrl.'/v3/news.json';
                 $client = new \GuzzleHttp\Client($options);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -321,6 +321,8 @@ class AppUtility
             'site_name',
             'site_desc',
             'site_copyright_name',
+            'language_status',
+            'language_menus',
             'default_language',
         ]);
 
@@ -328,6 +330,7 @@ class AppUtility
 
         $siteName = base64_encode(json_encode($appConfig['site_name']));
         $siteDesc = base64_encode(json_encode($appConfig['site_desc']));
+        $languageMenus = base64_encode(json_encode($appConfig['language_menus']));
 
         return [
             'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
@@ -343,7 +346,10 @@ class AppUtility
             'X-Fresns-Site-Name' => $siteName,
             'X-Fresns-Site-Desc' => $siteDesc,
             'X-Fresns-Site-Copyright-Name' => base64_encode($appConfig['site_copyright_name']),
-            'X-Fresns-Site-Language' => $appConfig['default_language'],
+            'X-Fresns-Site-Timezone' => config('app.timezone'),
+            'X-Fresns-Site-Language-Status' => $appConfig['language_status'],
+            'X-Fresns-Site-Language-Menus' => $languageMenus,
+            'X-Fresns-Site-Language-Default' => $appConfig['default_language'],
         ];
     }
 }
