@@ -1745,17 +1745,16 @@ $(document).ready(function () {
     });
 
     $('.uninstall-plugin').click(function () {
-        var clearData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
-        if (clearData ){
-            clearData = 1
-        }
-        else {
-            clearData = 0
+        var uninstallData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
+        if (uninstallData ){
+            uninstallData = 1
+        } else {
+            uninstallData = 0
         }
         window.uninstallMessage = trans('tips.uninstallFailure'); //FsLang
         $.ajax({
             method: 'post',
-            url: window.url + '&clearData=' + clearData,
+            url: window.url + '&uninstallData=' + uninstallData,
             data: {
                 _method: 'delete'
             },

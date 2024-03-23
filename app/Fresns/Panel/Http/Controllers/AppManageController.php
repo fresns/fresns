@@ -8,8 +8,10 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\App;
 use App\Utilities\AppUtility;
+use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
@@ -65,10 +67,34 @@ class AppManageController extends Controller
     {
         $fskey = $request->fskey;
 
-        if ($request->get('is_enabled') != 0) {
-            $exitCode = Artisan::call('market:activate', ['fskey' => $fskey]);
+        if (empty($fskey)) {
+            return back()->with('failure', 'fskey cannot be empty');
+        }
+
+        $app = App::where('fskey', $fskey)->first();
+
+        if (empty($app)) {
+            return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
+        }
+
+        $status = $request->is_enabled;
+
+        if ($status) {
+            $exitCode = Artisan::call('plugin:deactivate', [
+                'fskey' => $fskey,
+            ]);
+
+            $app->update([
+                'is_enabled' => false,
+            ]);
         } else {
-            $exitCode = Artisan::call('market:deactivate', ['fskey' => $fskey]);
+            $exitCode = Artisan::call('plugin:activate', [
+                'fskey' => $fskey,
+            ]);
+
+            $app->update([
+                'is_enabled' => true,
+            ]);
         }
 
         return $this->updateSuccess();
@@ -76,32 +102,25 @@ class AppManageController extends Controller
 
     public function pluginUninstall(Request $request)
     {
-        if ($request->get('clearData') == 1) {
-            $exitCode = Artisan::call('market:remove-plugin', [
-                'fskey' => $request->fskey,
-                '--cleardata' => true,
-            ]);
-        } else {
-            $exitCode = Artisan::call('market:remove-plugin', [
-                'fskey' => $request->fskey,
-                '--cleardata' => false,
-            ]);
-        }
+        $fskey = $request->fskey;
+        $uninstallData = (bool) $request->uninstallData;
 
-        // $exitCode = 0 success
+        $exitCode = Artisan::call('plugin:uninstall', [
+            'fskey' => $fskey,
+            '--cleardata' => $uninstallData,
+        ]);
+
         // $exitCode != 0 fail
+        $message = __('FsLang::tips.uninstallFailure');
 
-        $message = __('FsLang::tips.uninstallSuccess');
-        if ($exitCode != 0) {
-            $message = __('FsLang::tips.uninstallFailure');
+        if ($exitCode == 0) {
+            // $exitCode = 0 success
+            $message = __('FsLang::tips.uninstallSuccess');
+
+            App::where('fskey', $fskey)->delete();
         }
 
         return response(Artisan::output()."\n".$message);
-    }
-
-    public function themeUpgrade(Request $request)
-    {
-        $fskey = $request->fskey;
     }
 
     public function themeUninstall(Request $request)
@@ -113,9 +132,30 @@ class AppManageController extends Controller
             return back()->with('failure', 'fskey cannot be empty');
         }
 
-        // App::where('fskey', $fskey)->delete();
+        $exitCode = Artisan::call('theme:uninstall', [
+            'fskey' => $fskey,
+        ]);
 
-        return $this->deleteSuccess();
+        // $exitCode != 0 fail
+        if ($exitCode != 0) {
+            return back()->with('failure', __('FsLang::tips.uninstallFailure'));
+        }
+
+        if ($deleteData) {
+            $themeJson = AppHelper::getThemeConfig($fskey);
+
+            $functionItems = $themeJson['functionItems'] ?? [];
+
+            $itemKeys = array_map(function ($item) {
+                return $item['itemKey'];
+            }, $functionItems);
+
+            ConfigUtility::removeFresnsConfigItems($itemKeys);
+        }
+
+        App::where('fskey', $fskey)->delete();
+
+        return $this->uninstallSuccess();
     }
 
     public function appDownload(Request $request)

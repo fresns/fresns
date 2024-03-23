@@ -260,7 +260,6 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // theme manage
     Route::prefix('theme')->name('theme.')->group(function () {
-        Route::put('upgrade', [AppManageController::class, 'themeUpgrade'])->name('upgrade');
         Route::delete('uninstall', [AppManageController::class, 'themeUninstall'])->name('uninstall');
     });
 
