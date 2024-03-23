@@ -33,7 +33,7 @@
                 @foreach ($apps as $app)
                     <tr>
                         <td class="py-3">
-                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/open-source/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a></span>
+                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a></span>
                             <span class="badge bg-secondary fs-9">{{ $app->version }}</span>
                             @if ($app->is_upgrade)
                                 <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger link-light fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>
