@@ -81,7 +81,7 @@ class Controller extends BaseController
         }
 
         // lang tag
-        $langTag = Cookie::get('panel_lang', config('app.locale'));
+        $langTag = Cookie::get('fresns_panel_lang', config('app.locale'));
 
         // url
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';

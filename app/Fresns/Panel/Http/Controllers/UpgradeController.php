@@ -60,7 +60,7 @@ class UpgradeController extends Controller
             $manualUpgradeStepInt = null;
         }
 
-        $langTag = Cookie::get('panel_lang', config('app.locale'));
+        $langTag = Cookie::get('fresns_panel_lang', config('app.locale'));
         $manualUpgradeGuide = AppUtility::WEBSITE_URL.'/guide/upgrade.html#manual-upgrade';
         if ($langTag == 'zh-Hans') {
             $manualUpgradeGuide = AppUtility::WEBSITE_ZH_HANS_URL.'/guide/upgrade.html#%E6%89%8B%E5%8A%A8%E5%8D%87%E7%BA%A7';

@@ -125,9 +125,9 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $panelLang = \request()->cookie('panel_lang');
+        $panelLang = \request()->cookie('fresns_panel_lang');
         if (empty($panelLang)) {
-            Cookie::queue('panel_lang', config('app.locale'));
+            Cookie::queue('fresns_panel_lang', config('app.locale'));
         }
 
         $versionMd5 = AppHelper::VERSION_MD5_16BIT;
