@@ -279,7 +279,7 @@ class PermissionUtility
     }
 
     // get primary ids
-    public static function getPrimaryIdArr(string $type, string $fsids, ?int $authUserId = null, bool $includeSubgroups = false): array
+    public static function getPrimaryIdArr(string $type, string $fsids, ?int $authUserId = null, ?bool $includeSubgroups = false): array
     {
         $fsidArr = array_filter(explode(',', $fsids));
         $fsidArr = array_unique($fsidArr);
