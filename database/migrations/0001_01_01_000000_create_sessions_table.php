@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSessionsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -95,4 +95,4 @@ class CreateSessionsTable extends Migration
         Schema::dropIfExists('session_tokens');
         Schema::dropIfExists('session_logs');
     }
-}
+};

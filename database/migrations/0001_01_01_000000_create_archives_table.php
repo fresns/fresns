@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArchivesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -86,4 +86,4 @@ class CreateArchivesTable extends Migration
         Schema::dropIfExists('archives');
         Schema::dropIfExists('archive_usages');
     }
-}
+};

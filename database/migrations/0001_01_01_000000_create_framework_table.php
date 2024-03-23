@@ -10,15 +10,39 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
      */
     public function up(): void
     {
+        // Session
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+
+        // Cache
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
+        });
+
+        // Queue
         Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('queue')->index();
             $table->longText('payload');
             $table->unsignedTinyInteger('attempts');
@@ -56,8 +80,14 @@ class CreateJobsTable extends Migration
      */
     public function down(): void
     {
+        // Session
+        Schema::dropIfExists('sessions');
+        // Cache
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
+        // Queue
         Schema::dropIfExists('jobs');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('failed_jobs');
     }
-}
+};

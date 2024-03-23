@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -91,4 +91,4 @@ class CreateGroupsTable extends Migration
         Schema::dropIfExists('groups');
         Schema::dropIfExists('group_admins');
     }
-}
+};

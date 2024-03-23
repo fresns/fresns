@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDomainsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -64,4 +64,4 @@ class CreateDomainsTable extends Migration
         Schema::dropIfExists('domain_links');
         Schema::dropIfExists('domain_link_usages');
     }
-}
+};

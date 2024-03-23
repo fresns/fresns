@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConfigsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -76,4 +76,4 @@ class CreateConfigsTable extends Migration
         Schema::dropIfExists('code_messages');
         Schema::dropIfExists('language_packs');
     }
-}
+};

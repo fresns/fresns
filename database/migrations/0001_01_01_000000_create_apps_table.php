@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run fresns migrations.
@@ -122,4 +122,4 @@ class CreateAppsTable extends Migration
         Schema::dropIfExists('app_usages');
         Schema::dropIfExists('app_badges');
     }
-}
+};
