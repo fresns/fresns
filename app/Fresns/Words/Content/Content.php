@@ -205,6 +205,7 @@ class Content
     {
         $dtoWordBody = new GenerateDraftDTO($wordBody);
 
+        $langTag = AppHelper::getLangTag();
         $timezone = \request()->header('X-Fresns-Client-Timezone');
 
         $editTimeLimit = match ($dtoWordBody->type) {
