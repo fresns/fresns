@@ -1574,6 +1574,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'accountLoggingIn',
+                'lang_values' => '{"en":"Logging in...","zh-Hans":"登录中...","zh-Hant":"登入中..."}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'accountRegisterCloseDesc',
                 'lang_values' => '{"en":"This registration channel has been closed and account registration through this function is prohibited","zh-Hans":"该注册通道已关闭，禁止通过此功能注册账号","zh-Hant":"此註冊通道已關閉，禁止透過此功能註冊帳號"}',
                 'is_custom' => 0,
