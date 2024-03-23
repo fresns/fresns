@@ -1011,7 +1011,7 @@ class ContentUtility
             'id' => $postLog->post_id,
         ], [
             'user_id' => $postLog->user_id,
-            'quoted_post_id' => $postLog->quoted_post_id,
+            'quoted_post_id' => $postLog->quoted_post_id ?? 0,
             'group_id' => $postLog->group_id,
             'geotag_id' => $geotag?->id ?? 0,
             'title' => $postLog->title,
