@@ -180,7 +180,7 @@ class AppUtility
     public static function writeInstallTime(): void
     {
         Config::updateOrCreate([
-            'item_key' => 'install_datetime',
+            'item_key' => 'installed_datetime',
         ], [
             'item_value' => now(),
             'item_type' => 'string',
@@ -316,8 +316,9 @@ class AppUtility
 
     public static function getMarketHeaders(): array
     {
-        $appConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'install_datetime',
+        // config keys
+        $configKeys = [
+            'installed_datetime',
             'build_type',
             'site_url',
             'site_name',
@@ -326,32 +327,50 @@ class AppUtility
             'language_status',
             'language_menus',
             'default_language',
-        ]);
+        ];
 
-        $isHttps = request()->getScheme() === 'https';
+        $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        $siteName = base64_encode(json_encode($appConfig['site_name']));
-        $siteDesc = base64_encode(json_encode($appConfig['site_desc']));
-        $languageMenus = base64_encode(json_encode($appConfig['language_menus']));
+        $installedDatetime = $configs->where('item_key', 'installed_datetime')->first()?->item_value;
+        $buildType = $configs->where('item_key', 'build_type')->first()?->item_value;
+
+        $isHttps = request()->getScheme() == 'https';
+
+        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value;
+
+        $siteName = $configs->where('item_key', 'site_name')->first()?->item_value;
+        $siteNameStringify = $siteName ? base64_encode(json_encode($siteName)) : null;
+
+        $siteDesc = $configs->where('item_key', 'site_desc')->first()?->item_value;
+        $siteDescStringify = $siteName ? base64_encode(json_encode($siteDesc)) : null;
+
+        $siteCopyrightName = $configs->where('item_key', 'site_copyright_name')->first()?->item_value;
+        $siteCopyrightNameStringify = $siteName ? base64_encode($siteCopyrightName) : null;
+
+        $languageStatus = $configs->where('item_key', 'language_status')->first()?->item_value;
+        $defaultLanguage = $configs->where('item_key', 'default_language')->first()?->item_value;
+
+        $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value;
+        $languageMenusStringify = $siteName ? base64_encode(json_encode($languageMenus)) : null;
 
         return [
             'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
-            'X-Fresns-Install-Datetime' => $appConfig['install_datetime'],
-            'X-Fresns-Build-Type' => $appConfig['build_type'],
+            'X-Fresns-Installed-Datetime' => $installedDatetime,
+            'X-Fresns-Build-Type' => $buildType,
             'X-Fresns-Version' => AppHelper::VERSION,
             'X-Fresns-Database' => config('database.default'),
             'X-Fresns-Http-Ssl' => $isHttps ? 1 : 0,
             'X-Fresns-Http-Host' => request()->getHost(),
             'X-Fresns-Http-Port' => request()->getPort(),
             'X-Fresns-System-Url' => config('app.url'),
-            'X-Fresns-Site-Url' => $appConfig['site_url'],
-            'X-Fresns-Site-Name' => $siteName,
-            'X-Fresns-Site-Desc' => $siteDesc,
-            'X-Fresns-Site-Copyright-Name' => base64_encode($appConfig['site_copyright_name']),
+            'X-Fresns-Site-Url' => $siteUrl,
+            'X-Fresns-Site-Name' => $siteNameStringify,
+            'X-Fresns-Site-Desc' => $siteDescStringify,
+            'X-Fresns-Site-Copyright-Name' => $siteCopyrightNameStringify,
             'X-Fresns-Site-Timezone' => config('app.timezone'),
-            'X-Fresns-Site-Language-Status' => $appConfig['language_status'],
-            'X-Fresns-Site-Language-Menus' => $languageMenus,
-            'X-Fresns-Site-Language-Default' => $appConfig['default_language'],
+            'X-Fresns-Site-Language-Status' => $languageStatus ? 1 : 0,
+            'X-Fresns-Site-Language-Menus' => $languageMenusStringify,
+            'X-Fresns-Site-Language-Default' => $defaultLanguage,
         ];
     }
 }
