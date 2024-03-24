@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => '시작합니다!',
     // server
     'server_title' => '서버 요구 사항',
-    'server_check_php_version' => 'PHP 8.1+',
+    'server_check_php_version' => 'PHP 8.2+',
     'server_check_composer_version' => 'Composer 2.5+',
     'server_check_https' => '사이트에는 HTTPS가 권장됩니다.',
     'server_check_folder_ownership' => '폴더 소유권',

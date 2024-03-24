@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => 'Вперёд!',
     // server
     'server_title' => 'Требования к серверу',
-    'server_check_php_version' => 'PHP 8.1+',
+    'server_check_php_version' => 'PHP 8.2+',
     'server_check_composer_version' => 'Composer 2.5+',
     'server_check_https' => 'Для сайтов рекомендуется HTTPS',
     'server_check_folder_ownership' => 'Владение папками',

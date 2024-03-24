@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => '现在开始安装',
     // server
     'server_title' => '基础环境检查',
-    'server_check_php_version' => 'PHP 版本要求 8.1 或以上',
+    'server_check_php_version' => 'PHP 版本要求 8.2 或以上',
     'server_check_composer_version' => 'Composer 版本要求 2.5 或以上',
     'server_check_https' => '站点推荐使用 HTTPS',
     'server_check_folder_ownership' => '目录权限',

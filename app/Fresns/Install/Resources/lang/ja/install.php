@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => 'さあ、始めましょう !',
     // server
     'server_title' => 'サーバーの要件',
-    'server_check_php_version' => 'PHP 8.1+',
+    'server_check_php_version' => 'PHP 8.2+',
     'server_check_composer_version' => 'Composer 2.5+',
     'server_check_https' => 'HTTPSを推奨するサイト',
     'server_check_folder_ownership' => 'フォルダの所有権',

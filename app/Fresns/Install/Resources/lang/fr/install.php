@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => 'C’est parti !',
     // server
     'server_title' => 'Exigences relatives au serveur',
-    'server_check_php_version' => 'PHP 8.1+',
+    'server_check_php_version' => 'PHP 8.2+',
     'server_check_composer_version' => 'Composer 2.5+',
     'server_check_https' => 'HTTPS est recommandé pour les sites',
     'server_check_folder_ownership' => 'Propriété des dossiers',
