@@ -14,10 +14,10 @@ use App\Utilities\AppUtility;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class WebController extends Controller
 {
