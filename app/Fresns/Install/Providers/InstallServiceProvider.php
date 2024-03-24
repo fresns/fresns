@@ -68,7 +68,7 @@ class InstallServiceProvider extends ServiceProvider
         $template = [
             'APP_KEY' => $appKey,
             'APP_URL' => $appUrl,
-            'APP_TIMEZONE' => '',
+            'APP_TIMEZONE' => 'UTC',
             'DB_CONNECTION' => '',
             'DB_HOST' => '',
             'DB_PORT' => '',
