@@ -2,8 +2,8 @@
 
 return [
     // Common Service Providers
+    App\Providers\AppServiceProvider::class,
     App\Providers\SqlLogServiceProvider::class,
-    App\Providers\MarketServiceProvider::class,
 
     // Fresns Service Providers
     App\Fresns\Install\Providers\InstallServiceProvider::class,
