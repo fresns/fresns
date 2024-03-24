@@ -162,7 +162,7 @@ $(document).on('submit', 'form', function () {
     btn.prop('disabled', true);
     if (btn.children('.spinner-border').length == 0) {
         btn.prepend(
-            '<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> '
+            '<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> '
         );
     }
     btn.children('.spinner-border').removeClass('d-none');
@@ -180,7 +180,7 @@ $(document).ready(function () {
         btn.addClass('disabled');
         if (btn.children('.spinner-border').length == 0) {
             btn.prepend(
-                '<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> '
+                '<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> '
             );
         }
         btn.children('.spinner-border').removeClass('d-none');
@@ -1991,11 +1991,11 @@ window.onmessage = function (event) {
     }
 
     switch (fresnsCallback.action.postMessageKey) {
-        case 'fresnsInstallExtension':
+        case 'fresnsInstallApp':
             // (new bootstrap.Modal('#installModal')).show();
 
             setTimeout(function () {
-                console.log("Install Extension ", fresnsCallback.data.fskey)
+                console.log("Install App ", fresnsCallback.data.fskey)
 
                 $('.showSelectTypeName').text($('#installModal .selectInputType li[data-name="inputDirectory"]').text())
                 $('input[name="install_method"]').val('inputFskey')
@@ -2007,11 +2007,11 @@ window.onmessage = function (event) {
                 $('#installSubmit').click()
             }, 1000);
             break;
-        case 'fresnsDownloadExtension':
+        case 'fresnsDownloadApp':
             // (new bootstrap.Modal('#downloadModal')).show();
 
             setTimeout(function () {
-                console.log("Download Extension ", fresnsCallback.data.fskey)
+                console.log("Download App ", fresnsCallback.data.fskey)
 
                 $('input[name="app_fskey"]').val(fresnsCallback.data.fskey)
 
