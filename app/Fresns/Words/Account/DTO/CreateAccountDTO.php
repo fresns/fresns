@@ -15,10 +15,10 @@ class CreateAccountDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'required', 'in:1,2,3'],
-            'account' => ['nullable', 'required_if:type,1,2'], // email or integer
-            'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
-            'connectInfo' => ['array', 'nullable', 'required_if:type,3'],
+            'type' => ['integer', 'required', 'in:1,2,3,4'],
+            'account' => ['nullable', 'required_if:type,2,3'], // email or integer
+            'countryCode' => ['integer', 'nullable', 'required_if:type,3'],
+            'connectInfo' => ['array', 'nullable', 'required_if:type,4'],
             'connectEmail' => ['string', 'nullable'],
             'connectPhone' => ['integer', 'nullable'],
             'connectCountryCode' => ['integer', 'nullable'],

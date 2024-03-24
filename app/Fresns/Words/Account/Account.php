@@ -40,22 +40,22 @@ class Account
         $typeInt = (int) $dtoWordBody->type;
 
         switch ($typeInt) {
-            case AccountModel::ACT_TYPE_AID:
+            case AccountModel::CREATE_TYPE_AID:
                 // aid
                 $checkAccount = null;
                 break;
 
-            case AccountModel::ACT_TYPE_EMAIL:
+            case AccountModel::CREATE_TYPE_EMAIL:
                 // email
                 $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::ACT_TYPE_PHONE:
+            case AccountModel::CREATE_TYPE_PHONE:
                 // phone
                 $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::ACT_TYPE_CONNECT:
+            case AccountModel::CREATE_TYPE_CONNECT:
                 // connect
                 $checkAccount = null;
 
@@ -93,15 +93,15 @@ class Account
 
         $inputArr = [];
         $inputArr = match ($typeInt) {
-            AccountModel::ACT_TYPE_EMAIL => [
+            AccountModel::CREATE_TYPE_EMAIL => [
                 'email' => $dtoWordBody->account,
             ],
-            AccountModel::ACT_TYPE_PHONE => [
+            AccountModel::CREATE_TYPE_PHONE => [
                 'country_code' => $dtoWordBody->countryCode,
                 'pure_phone' => $dtoWordBody->account,
                 'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
             ],
-            AccountModel::ACT_TYPE_CONNECT => [
+            AccountModel::CREATE_TYPE_CONNECT => [
                 'email' => $dtoWordBody->connectEmail,
                 'country_code' => $dtoWordBody->connectCountryCode,
                 'pure_phone' => $dtoWordBody->connectPhone,
@@ -186,7 +186,7 @@ class Account
         $dtoWordBody = new VerifyAccountDTO($wordBody);
 
         switch ($dtoWordBody->type) {
-            case AccountModel::ACT_TYPE_AUTO:
+            case AccountModel::VERIFY_TYPE_AUTO:
                 $account = AccountModel::whereAny(['aid', 'email', 'phone'], $dtoWordBody->account)->first();
 
                 if (! $dtoWordBody->password) {
@@ -197,20 +197,20 @@ class Account
                 }
                 break;
 
-            case AccountModel::ACT_TYPE_AID:
+            case AccountModel::VERIFY_TYPE_AID:
                 $account = AccountModel::where('aid', $dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::ACT_TYPE_EMAIL:
+            case AccountModel::VERIFY_TYPE_EMAIL:
                 $account = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::ACT_TYPE_PHONE:
+            case AccountModel::VERIFY_TYPE_PHONE:
                 $phoneNumber = $dtoWordBody->countryCode.$dtoWordBody->account;
                 $account = AccountModel::where('phone', $phoneNumber)->first();
                 break;
 
-            case AccountModel::ACT_TYPE_CONNECT:
+            case AccountModel::VERIFY_TYPE_CONNECT:
                 $accountConnect = AccountConnect::with(['account'])->where('connect_platform_id', $dtoWordBody->connectPlatformId)->where('connect_account_id', $dtoWordBody->connectAccountId)->first();
                 if (empty($accountConnect)) {
                     return $this->failure(
@@ -272,7 +272,7 @@ class Account
                 'account' => $accountInfo,
                 'countryCode' => $countryCode,
                 'verifyCode' => $dtoWordBody->verifyCode,
-                'templateId' => VerifyCode::TEMPLATE_LOGIN,
+                'templateId' => VerifyCode::TEMPLATE_LOGIN_ACCOUNT,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($codeWordBody);

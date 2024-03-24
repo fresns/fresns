@@ -28,11 +28,16 @@ class Account extends Authenticatable
     const TYPE_GENERAL_ADMIN = 2;
     const TYPE_GENERAL_ACCOUNT = 3;
 
-    const ACT_TYPE_AUTO = 1;
-    const ACT_TYPE_AID = 2;
-    const ACT_TYPE_EMAIL = 3;
-    const ACT_TYPE_PHONE = 4;
-    const ACT_TYPE_CONNECT = 5;
+    const CREATE_TYPE_AID = 1;
+    const CREATE_TYPE_EMAIL = 2;
+    const CREATE_TYPE_PHONE = 3;
+    const CREATE_TYPE_CONNECT = 4;
+
+    const VERIFY_TYPE_AUTO = 1;
+    const VERIFY_TYPE_AID = 2;
+    const VERIFY_TYPE_EMAIL = 3;
+    const VERIFY_TYPE_PHONE = 4;
+    const VERIFY_TYPE_CONNECT = 5;
 
     protected $guarded = [];
 

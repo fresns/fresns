@@ -308,8 +308,8 @@ class ApiController extends Controller
 
         // create account
         $accountType = match ($request->accountType) {
-            'email' => 2,
-            'phone' => 3,
+            'email' => Account::CREATE_TYPE_EMAIL,
+            'phone' => Account::CREATE_TYPE_PHONE,
         };
         $createAccountWordBody = [
             'type' => $accountType,
@@ -398,7 +398,7 @@ class ApiController extends Controller
 
                 $accountModel = Account::withCount('users')->where('email', $account)->first();
 
-                $verifyType = Account::ACT_TYPE_EMAIL;
+                $verifyType = Account::VERIFY_TYPE_EMAIL;
                 $verifyAccount = $accountModel?->email;
                 $verifyCountryCode = null;
                 break;
@@ -412,7 +412,7 @@ class ApiController extends Controller
                 $phone = $countryCode.$account;
                 $accountModel = Account::withCount('users')->where('phone', $phone)->first();
 
-                $verifyType = Account::ACT_TYPE_PHONE;
+                $verifyType = Account::VERIFY_TYPE_PHONE;
                 $verifyAccount = $accountModel?->pure_phone;
                 $verifyCountryCode = $accountModel?->country_code;
                 break;
