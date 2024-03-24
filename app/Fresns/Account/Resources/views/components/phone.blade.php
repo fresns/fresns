@@ -36,7 +36,7 @@
                         </div>
                     @endif
                     {{-- new phone --}}
-                    <div id="newPhone" @if ($accountPassport['email'] && $accountPassport['phone']) class="d-none" @endif>
+                    <div id="newPhone" @if ($accountPassport['email'] || $accountPassport['phone']) class="d-none" @endif>
                         <input type="hidden" name="countryCode" id="countryCode" value="{{ $smsDefaultCode }}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ $accountPassport['phone'] ? $fsLang['newPhone'] : $fsLang['phone'] }}</span>

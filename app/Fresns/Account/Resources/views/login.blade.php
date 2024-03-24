@@ -50,6 +50,8 @@
                             </div>
                         </div>
                     </div>
+                @else
+                    <input type="hidden" name="accountType" value="{{ $fsConfig['account_email_login'] ? 'email' : 'phone' }}">
                 @endif
 
                 {{-- account --}}

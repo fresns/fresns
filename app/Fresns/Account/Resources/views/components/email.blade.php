@@ -36,7 +36,7 @@
                         </div>
                     @endif
                     {{-- new email --}}
-                    <div id="newEmail" @if ($accountPassport['email'] && $accountPassport['phone']) class="d-none" @endif>
+                    <div id="newEmail" @if ($accountPassport['email'] || $accountPassport['phone']) class="d-none" @endif>
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ $accountPassport['email'] ? $fsLang['newEmail'] : $fsLang['email'] }}</span>
                             <input type="email" class="form-control" name="newEmail" value="" required>
