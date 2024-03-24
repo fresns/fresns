@@ -1012,7 +1012,7 @@ class ContentUtility
         ], [
             'user_id' => $postLog->user_id,
             'quoted_post_id' => $postLog->quoted_post_id ?? 0,
-            'group_id' => $postLog->group_id,
+            'group_id' => $postLog->group_id ?? 0,
             'geotag_id' => $geotag?->id ?? 0,
             'title' => $postLog->title,
             'content' => $postLog->content,
@@ -1103,7 +1103,7 @@ class ContentUtility
             'user_id' => $commentLog->user_id,
             'post_id' => $commentLog->post_id,
             'top_parent_id' => $topParentId,
-            'parent_id' => $commentLog->parent_comment_id,
+            'parent_id' => $commentLog->parent_comment_id ?? 0,
             'geotag_id' => $geotag?->id ?? 0,
             'content' => $commentLog->content,
             'lang_tag' => $commentLog->lang_tag,
