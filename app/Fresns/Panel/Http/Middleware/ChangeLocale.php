@@ -9,12 +9,13 @@
 namespace App\Fresns\Panel\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 
 class ChangeLocale
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if ($request->lang) {
             Cookie::queue('fresns_panel_lang', $request->lang);

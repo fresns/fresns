@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Models\App;
 use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
@@ -70,6 +71,8 @@ class AppManageController extends Controller
         if (empty($fskey)) {
             return back()->with('failure', 'fskey cannot be empty');
         }
+
+        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}", 'fresnsConfigs');
 
         $app = App::where('fskey', $fskey)->first();
 

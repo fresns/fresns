@@ -46,7 +46,6 @@ class PanelServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->app->register(RouteServiceProvider::class);
-        $this->app->register(EventServiceProvider::class);
     }
 
     /**
