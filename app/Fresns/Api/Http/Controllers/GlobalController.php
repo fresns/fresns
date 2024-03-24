@@ -78,17 +78,7 @@ class GlobalController extends Controller
                         break;
 
                     case 'plugins':
-                        $itemValue = [];
-                        if ($model->item_value) {
-                            foreach ($model->item_value as $plugin) {
-                                $pluginItem['code'] = $plugin['code'];
-                                $pluginItem['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
-
-                                $itemArr[] = $pluginItem;
-                            }
-
-                            $itemValue = $itemArr;
-                        }
+                        $itemValue = ConfigHelper::fresnsConfigPluginsByItemKey($model->item_key, $langTag);
                         break;
 
                     default:
@@ -170,6 +160,12 @@ class GlobalController extends Controller
 
         $channelList = [];
         foreach ($allChannels as $channel) {
+            $fskey = $channel['fskey'] ?? null;
+
+            if (empty($fskey)) {
+                continue;
+            }
+
             $badge = ExtendUtility::getAppBadge($channel['fskey'], $authUserId);
 
             $channel['badgeType'] = $badge['badgeType'];
