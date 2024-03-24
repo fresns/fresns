@@ -141,7 +141,7 @@ class AppUtility
     public static function writeEnvironment(array $dbConfig, ?string $appUrl = null): void
     {
         // Get the config file template
-        $envExamplePath = app_path('Fresns/Install/.env.template');
+        $envExamplePath = app_path('Fresns/Install/Config/.env.template');
         $envPath = base_path('.env');
 
         $envTemp = file_get_contents($envExamplePath);
@@ -156,16 +156,18 @@ class AppUtility
         $driver = $dbConfig['DB_CONNECTION'];
 
         // Temp write key
-        $template['APP_KEY'] = $appKey;
-        $template['APP_URL'] = $appUrl;
-        $template['DB_CONNECTION'] = $driver;
-        $template['DB_HOST'] = ($driver == 'sqlite') ? '' : $dbConfig['DB_HOST'];
-        $template['DB_PORT'] = ($driver == 'sqlite') ? '' : $dbConfig['DB_PORT'];
-        $template['DB_DATABASE'] = $dbConfig['DB_DATABASE'];
-        $template['DB_USERNAME'] = ($driver == 'sqlite') ? '' : $dbConfig['DB_USERNAME'];
-        $template['DB_PASSWORD'] = ($driver == 'sqlite') ? '' : $dbConfig['DB_PASSWORD'];
-        $template['DB_TIMEZONE'] = $dbConfig['DB_TIMEZONE'];
-        $template['DB_PREFIX'] = $dbConfig['DB_PREFIX'];
+        $template = [
+            'APP_KEY' => $appKey,
+            'APP_URL' => $appUrl,
+            'APP_TIMEZONE' => $dbConfig['DB_TIMEZONE'],
+            'DB_CONNECTION' => $driver,
+            'DB_HOST' => ($driver == 'sqlite') ? '' : $dbConfig['DB_HOST'],
+            'DB_PORT' => ($driver == 'sqlite') ? '' : $dbConfig['DB_PORT'],
+            'DB_DATABASE' => $dbConfig['DB_DATABASE'],
+            'DB_USERNAME' => ($driver == 'sqlite') ? '' : $dbConfig['DB_USERNAME'],
+            'DB_PASSWORD' => ($driver == 'sqlite') ? '' : $dbConfig['DB_PASSWORD'],
+            'DB_PREFIX' => $dbConfig['DB_PREFIX'],
+        ];
 
         foreach ($template as $key => $value) {
             $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
@@ -193,7 +195,7 @@ class AppUtility
     public static function makeAdminAccount(string $email, string $password): void
     {
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccount([
-            'type' => 1,
+            'type' => Account::CREATE_TYPE_EMAIL,
             'account' => $email,
             'password' => $password,
             'createUser' => true,

@@ -6,12 +6,13 @@
  * Released under the Apache-2.0 License.
  */
 
-use App\Fresns\Install\Http\Controllers as ApiController;
-use App\Fresns\Install\Http\Middleware\ChangeLanguage;
+use App\Fresns\Install\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware([
-    ChangeLanguage::class,
-])->group(function () {
-    Route::get('install', [ApiController\InstallController::class, 'showInstallForm'])->name('install.fresns');
-});
+Route::get('/', [WebController::class, 'index'])->name('index');
+
+Route::post('config-database', [WebController::class, 'configDatabase'])->name('config-database');
+Route::post('data-artisan', [WebController::class, 'dataArtisan'])->name('data-artisan');
+Route::post('add-admin', [WebController::class, 'addAdmin'])->name('add-admin');
+
+Route::get('check-server', [WebController::class, 'checkServer'])->name('check-server');

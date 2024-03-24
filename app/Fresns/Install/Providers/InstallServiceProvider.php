@@ -23,8 +23,7 @@ class InstallServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->registerInstallAppKey();
-        $this->registerReverseProxySchema();
+        $this->envConfig();
     }
 
     /**
@@ -44,42 +43,48 @@ class InstallServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
     }
 
-    public function registerReverseProxySchema(): void
+    /**
+     * env config.
+     */
+    public function envConfig(): void
     {
-        // uninstalled
-        if (! file_exists(base_path('install.lock'))) {
-            config([
-                'trustedproxy.proxies' => '*',
-            ]);
+        $envPath = base_path('.env');
+
+        if (file_exists($envPath)) {
+            return;
         }
 
-        if (config('app.trusted_proxies')) {
-            $customProxies = config('app.trusted_proxies', '');
+        $envExamplePath = app_path('Fresns/Install/Config/.env.template');
 
-            config([
-                'trustedproxy.proxies' => explode(',', $customProxies),
-            ]);
+        $envTemp = file_get_contents($envExamplePath);
+
+        $generateKey = Encrypter::generateKey(config('app.cipher'));
+        $appKey = sprintf('base64:%s', base64_encode($generateKey));
+
+        $parseUrl = parse_url(\request()->getUri());
+        $appUrl = $parseUrl['scheme'].'://'.$parseUrl['host'];
+
+        // Temp write key
+        $template = [
+            'APP_KEY' => $appKey,
+            'APP_URL' => $appUrl,
+            'APP_TIMEZONE' => '',
+            'DB_CONNECTION' => '',
+            'DB_HOST' => '',
+            'DB_PORT' => '',
+            'DB_DATABASE' => '',
+            'DB_USERNAME' => '',
+            'DB_PASSWORD' => '',
+            'DB_PREFIX' => '',
+        ];
+
+        foreach ($template as $key => $value) {
+            $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
         }
 
-        $handler = resolve(\Illuminate\Contracts\Http\Kernel::class);
+        file_put_contents($envPath, $envTemp);
 
-        $handler->pushMiddleware(\App\Fresns\Install\Http\Middleware\DetectionRequestProtocol::class);
-    }
-
-    public function registerInstallAppKey(): void
-    {
-        if (! file_exists(base_path('.env'))) {
-            $appKey = Encrypter::generateKey(config('app.cipher'));
-            $parseUrl = parse_url(\request()->getUri());
-            $appUrl = $parseUrl['scheme'].'://'.$parseUrl['host'];
-            $envContent = sprintf("APP_DEBUG=true\nAPP_KEY=base64:%s\nAPP_URL=%s",
-                base64_encode($appKey),
-                $appUrl
-            );
-            file_put_contents(base_path('.env'), $envContent);
-
-            config(['app.key' => $appKey]);
-        }
+        config(['app.key' => $appKey]);
     }
 
     /**

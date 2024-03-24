@@ -8,39 +8,20 @@
 
 namespace App\Fresns\Install\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
+use App\Fresns\Panel\Http\Middleware\ChangeLocale;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
-     */
     public function boot(): void
     {
         parent::boot();
     }
 
-    /**
-     * Define the routes for the application.
-     */
     public function map(): void
     {
-        $this->configureRateLimiting();
-
-        Route::middleware(['web'])->group(__DIR__.'/../Routes/web.php');
-        Route::middleware(['api', 'cookie'])->group(__DIR__.'/../Routes/api.php');
-    }
-
-    protected function configureRateLimiting(): void
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        Route::name('install.')->prefix('install')->middleware(['web', ChangeLocale::class])->withoutMiddleware([VerifyCsrfToken::class])->group(__DIR__.'/../Routes/web.php');
     }
 }

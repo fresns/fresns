@@ -39,12 +39,12 @@ class InstallFresns extends Command
             $dbType = $this->choice('Please select the database type', $dbTypeArr, 'MySQL');
 
             $dbType = match ($dbType) {
+                'SQLite' => 'sqlite',
                 'MySQL' => 'mysql',
-                'MariaDB' => 'mysql',
+                'MariaDB' => 'mariadb',
                 'PostgreSQL' => 'pgsql',
                 'SQL Server' => 'sqlsrv',
                 'SQLServer' => 'sqlsrv',
-                'SQLite' => 'sqlite',
                 default => null,
             };
 
@@ -56,6 +56,7 @@ class InstallFresns extends Command
         // 3. Configuring database information
         $port = match ($dbType) {
             'mysql' => '3306',
+            'mariadb' => '3306',
             'pgsql' => '5432',
             'sqlsrv' => '1433',
             default => '',
@@ -128,7 +129,7 @@ class InstallFresns extends Command
         $this->call('migrate');
         $this->call('db:seed');
         $this->call('storage:link');
-        $this->call('plugin:migrate');
+        // $this->call('plugin:migrate');
 
         // 7. Register for an administrator account
         do {
