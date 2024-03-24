@@ -22,7 +22,7 @@ class ConfigsTableSeeder extends Seeder
 
         DB::table('configs')->insert([
             [
-                'item_key' => 'install_datetime',
+                'item_key' => 'installed_datetime',
                 'item_value' => null,
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -5789,7 +5789,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'channel_group_name',
-                'item_value' => '{"en":"Groups","zh-Hans":小组主页","zh-Hant":"社團主頁"}',
+                'item_value' => '{"en":"Groups","zh-Hans":"小组主页","zh-Hant":"社團主頁"}',
                 'item_type' => 'object',
                 'is_multilingual' => 1,
                 'is_custom' => 0,
