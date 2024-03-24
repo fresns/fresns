@@ -1,6 +1,6 @@
 {
     "name": "Fresns",
-    "version": "3.0.0-alpha",
+    "version": "3.0.0-beta",
     "activate": true,
     "deactivateDescribe": {
         "default": ""
