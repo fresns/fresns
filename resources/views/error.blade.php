@@ -66,7 +66,7 @@
             // Add spinner if it does not exist
             if (0 === btn.children('.spinner-border').length) {
                 btn.prepend(
-                    '<span class="spinner-border spinner-border-sm mg-r-5" role="status" aria-hidden="true"></span> '
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> '
                 );
             }
 
