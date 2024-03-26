@@ -195,7 +195,7 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><input type="text" name="names[{{ $lang['langTag'] }}]" class="form-control name-input" value="{{ $langParams['name'][$lang['langTag']] ?? '' }}"></td>
+                                            <td><input type="text" name="names[{{ $lang['langTag'] }}]" class="form-control name-input" value=""></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
