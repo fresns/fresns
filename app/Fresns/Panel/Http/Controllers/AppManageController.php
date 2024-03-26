@@ -80,7 +80,7 @@ class AppManageController extends Controller
             return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
         }
 
-        $status = $request->is_enabled;
+        $status = $app->is_enabled;
 
         if ($status) {
             $exitCode = Artisan::call('plugin:deactivate', [
