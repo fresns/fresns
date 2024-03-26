@@ -59,6 +59,10 @@ class SettingController extends Controller
             $buildConfig = Config::where('item_key', 'build_type')->firstOrNew();
             $buildConfig->item_value = $request->build_type;
             $buildConfig->save();
+
+            CacheHelper::forgetFresnsConfigs('build_type');
+
+            CacheHelper::forgetFresnsKey('fresns_new_version', 'fresnsSystems');
         }
 
         return $this->updateSuccess();
