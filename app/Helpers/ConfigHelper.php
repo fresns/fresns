@@ -242,7 +242,7 @@ class ConfigHelper
     }
 
     // Get language pack
-    public static function fresnsConfigLanguagePack(string $langTag): ?array
+    public static function fresnsConfigLanguagePack(string $langTag, ?string $key = null): mixed
     {
         $cacheKey = "fresns_language_pack_{$langTag}";
         $cacheTag = 'fresnsConfigs';
@@ -258,6 +258,10 @@ class ConfigHelper
             }
 
             CacheHelper::put($languagePack, $cacheKey, $cacheTag);
+        }
+
+        if ($key) {
+            return $languagePack[$key] ?? null;
         }
 
         return $languagePack;
