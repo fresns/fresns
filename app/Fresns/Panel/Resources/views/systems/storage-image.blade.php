@@ -47,6 +47,19 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
                     <input type="text" class="form-control" name="image_bucket_domain" value="{{ $params['image_bucket_domain'] }}">
                 </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_filesystem_disk') }}</label>
+                    <div class="form-control">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="image_filesystem_disk" id="image_filesystem_disk_local" value="local" {{ ($params['image_filesystem_disk'] == 'local') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="image_filesystem_disk_local">{{ __('FsLang::panel.option_local').' (local)' }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="image_filesystem_disk" id="image_filesystem_disk_remote" value="remote" {{ ($params['image_filesystem_disk'] == 'remote') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="image_filesystem_disk_remote">{{ __('FsLang::panel.option_remote').' (remote)' }}</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4 form-text pt-1">
                 <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}<br>
