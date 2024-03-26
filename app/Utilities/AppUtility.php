@@ -155,7 +155,7 @@ class AppUtility
                 'title' => 'The design concept of Fresns social networking service software',
                 'link' => 'https://docs.fresns.com/open-source/guide/idea.html',
                 'color' => null,
-            ]
+            ],
         ];
         if ($news) {
             $newsList = StrHelper::languageContent($news, App::getLocale());
