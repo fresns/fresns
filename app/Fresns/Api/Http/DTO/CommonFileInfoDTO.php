@@ -23,7 +23,6 @@ class CommonFileInfoDTO extends DTO
             'md5' => ['string', 'nullable'],
             'sha' => ['string', 'nullable'],
             'shaType' => ['string', 'nullable', 'required_with:sha'],
-            'disk' => ['string', 'nullable', 'in:local,remote'],
             'path' => ['string', 'required'],
             'imageWidth' => ['integer', 'nullable', 'required_if:fileType,image'],
             'imageHeight' => ['integer', 'nullable', 'required_if:fileType,image'],

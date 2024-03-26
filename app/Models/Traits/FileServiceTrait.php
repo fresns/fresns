@@ -20,13 +20,14 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->disk == 'local') {
+        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
+
+        if ($fileConfigInfo['filesystemDisk'] == 'local') {
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
         }
 
-        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
 
         $fileUrl = StrHelper::qualifyUrl($filePath, $fileConfigInfo['bucketDomain']);
 
@@ -37,15 +38,15 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->disk == 'local') {
+        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
+
+        if ($fileConfigInfo['filesystemDisk'] == 'local') {
             $fileOriginalPath = Storage::build(config('filesystems.disks.public'))->url($fileData->original_path);
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $fileOriginalPath = $fileData->original_path;
             $filePath = $fileData->path;
         }
-
-        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
 
         $path = $fileData->original_path ? $fileOriginalPath : $filePath;
 
@@ -114,6 +115,7 @@ trait FileServiceTrait
 
         $imageConfig = ConfigHelper::fresnsConfigByItemKeys([
             'image_bucket_domain',
+            'image_filesystem_disk',
             'image_handle_position',
             'image_thumb_config',
             'image_thumb_ratio',
@@ -121,9 +123,7 @@ trait FileServiceTrait
             'image_thumb_big',
         ]);
 
-        $imageHandlePosition = $imageConfig['image_handle_position'];
-
-        if ($fileData->disk == 'local') {
+        if ($imageConfig['image_filesystem_disk'] == 'local') {
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
@@ -132,6 +132,8 @@ trait FileServiceTrait
         $info['imageWidth'] = $fileData->image_width;
         $info['imageHeight'] = $fileData->image_height;
         $info['imageLong'] = (bool) $fileData->image_is_long;
+
+        $imageHandlePosition = $imageConfig['image_handle_position'];
 
         // imageHandlePosition = empty
         if (empty($imageHandlePosition)) {
@@ -185,21 +187,22 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->disk == 'local') {
+        $videoConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'video_bucket_domain',
+            'video_filesystem_disk',
+            'video_poster_parameter',
+            'video_poster_handle_position',
+            'video_transcode_parameter',
+            'video_transcode_handle_position',
+        ]);
+
+        if ($videoConfig['video_filesystem_disk'] == 'local') {
             $posterPath = Storage::build(config('filesystems.disks.public'))->url($fileData->video_poster_path);
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $posterPath = $fileData->video_poster_path;
             $filePath = $fileData->path;
         }
-
-        $videoConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'video_bucket_domain',
-            'video_poster_parameter',
-            'video_poster_handle_position',
-            'video_transcode_parameter',
-            'video_transcode_handle_position',
-        ]);
 
         if ($videoConfig['video_poster_handle_position']) {
             $posterPath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_poster_handle_position'], $videoConfig['video_poster_parameter'], $filePath);
@@ -221,17 +224,18 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->disk == 'local') {
+        $audioConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'audio_bucket_domain',
+            'audio_filesystem_disk',
+            'audio_transcode_parameter',
+            'audio_transcode_handle_position',
+        ]);
+
+        if ($audioConfig['audio_filesystem_disk'] == 'local') {
             $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
         }
-
-        $audioConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'audio_bucket_domain',
-            'audio_transcode_parameter',
-            'audio_transcode_handle_position',
-        ]);
 
         if ($audioConfig['audio_transcode_handle_position']) {
             $filePath = FileHelper::fresnsFilePathByHandlePosition($audioConfig['audio_transcode_handle_position'], $audioConfig['audio_transcode_parameter'], $filePath);

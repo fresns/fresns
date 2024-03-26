@@ -51,7 +51,6 @@ class FileUtility
         //     'md5' => 'files->md5',
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->shaType',
-        //     'disk' => 'files->disk',
         //     'moreInfo' => 'files->more_info',
         // ];
 
@@ -93,7 +92,6 @@ class FileUtility
         //         'md5' => 'files->md5',
         //         'sha' => 'files->sha',
         //         'shaType' => 'files->sha_type',
-        //         'disk' => 'files->disk',
         //         'path' => 'files->path',
         //         'imageWidth' => 'Image Only: files->image_width',
         //         'imageHeight' => 'Image Only: files->image_height',
@@ -143,7 +141,6 @@ class FileUtility
                 'md5' => $fileInfo['md5'] ?? null,
                 'sha' => $fileInfo['sha'] ?? null,
                 'sha_type' => $fileInfo['shaType'] ?? null,
-                'disk' => $fileInfo['disk'] ?? 'remote',
                 'path' => $fileInfo['path'],
                 'image_width' => $imageWidth,
                 'image_height' => $imageHeight,
@@ -233,7 +230,6 @@ class FileUtility
             'md5' => $bodyInfo['md5'] ?? null,
             'sha' => $bodyInfo['sha'] ?? null,
             'sha_type' => $bodyInfo['shaType'] ?? null,
-            'disk' => $bodyInfo['disk'] ?? 'remote',
             'path' => $diskPath,
             'image_width' => $imageWidth,
             'image_height' => $imageHeight,
