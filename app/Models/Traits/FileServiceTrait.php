@@ -28,7 +28,6 @@ trait FileServiceTrait
             $filePath = $fileData->path;
         }
 
-
         $fileUrl = StrHelper::qualifyUrl($filePath, $fileConfigInfo['bucketDomain']);
 
         return $fileUrl;
