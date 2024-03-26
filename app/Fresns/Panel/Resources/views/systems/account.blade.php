@@ -46,7 +46,7 @@
                             <select class="form-select" name="account_center_captcha[type]">
                                 <option value="" {{ !($params['account_center_captcha']['type'] ?? '') ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                                 <option value="turnstile" {{ ($params['account_center_captcha']['type'] ?? '') == 'turnstile' ? 'selected' : '' }}>Turnstile (Cloudflare)</option>
-                                <option value="reCAPTCHA" {{ ($params['account_center_captcha']['type'] ?? '') == 'reCAPTCHA' ? 'selected' : '' }}>reCAPTCHA (Google)</option>
+                                <option value="reCAPTCHA" {{ ($params['account_center_captcha']['type'] ?? '') == 'reCAPTCHA' ? 'selected' : '' }}>reCAPTCHA v3 (Google)</option>
                                 <option value="hCaptcha" {{ ($params['account_center_captcha']['type'] ?? '') == 'hCaptcha' ? 'selected' : '' }}>hCaptcha (Intuition Machines)</option>
                             </select>
                         </div>
