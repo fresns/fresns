@@ -293,6 +293,14 @@ class PermissionUtility
 
             $idArr = [$viewGroup->id];
 
+            if ($includeSubgroups) {
+                $subgroupsArr = PrimaryHelper::fresnsSubgroupsIdArr($viewGroup->id);
+
+                $idArr = array_merge($idArr, $subgroupsArr);
+            }
+
+            $idArr = array_unique($idArr);
+
             if ($checkLimit['code']) {
                 $idArr = [];
             }
