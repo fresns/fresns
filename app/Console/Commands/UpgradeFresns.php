@@ -11,6 +11,7 @@ namespace App\Console\Commands;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Utilities\AppUtility;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
@@ -152,7 +153,7 @@ class UpgradeFresns extends Command
                 'https' => $httpProxy,
             ],
         ];
-        $client = new \GuzzleHttp\Client($options);
+        $client = new Client($options);
 
         $downloadUrl = AppUtility::newVersion()['upgradePackage'];
 

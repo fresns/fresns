@@ -11,10 +11,12 @@ namespace App\Utilities;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\App as AppModel;
 use App\Models\Config;
 use App\Models\UserRole;
+use GuzzleHttp\Client;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
@@ -55,6 +57,7 @@ class AppUtility
 
         if (empty($newVersion)) {
             $baseUrl = AppUtility::BASE_URL;
+            $fileUrl = $baseUrl.'/v3/version-1.json';
 
             $httpProxy = config('app.http_proxy');
 
@@ -67,12 +70,12 @@ class AppUtility
             ];
 
             try {
-                $versionInfoUrl = $baseUrl.'/v3/version-1.json';
-                $client = new \GuzzleHttp\Client($options);
-                $response = $client->request('GET', $versionInfoUrl);
-                $versionInfo = json_decode($response->getBody(), true);
-                $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
+                $client = new Client($options);
+                $response = $client->request('GET', $fileUrl);
 
+                $versionInfo = json_decode($response->getBody(), true);
+
+                $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
                 if ($buildType == 1) {
                     $newVersion = $versionInfo['stableBuild'];
                 } else {
@@ -82,9 +85,9 @@ class AppUtility
                 $newVersion = [
                     'version' => AppHelper::VERSION,
                     'releaseDate' => null,
-                    'changeIntro' => 'https://fresns.org/guide/changelog.html',
+                    'changeIntro' => 'https://fresns.org/intro/changelog.html',
                     'upgradeAuto' => false,
-                    'upgradeIntro' => 'https://fresns.org/guide/changelog.html',
+                    'upgradeIntro' => 'https://fresns.org/intro/changelog.html',
                     'upgradePackage' => null,
                 ];
             }
@@ -95,7 +98,7 @@ class AppUtility
         return $newVersion;
     }
 
-    public static function fresnsNews(): array
+    public static function fresnsNews(): ?array
     {
         $cacheKey = 'fresns_news';
         $cacheTag = 'fresnsSystems';
@@ -104,6 +107,7 @@ class AppUtility
 
         if (empty($news)) {
             $baseUrl = AppUtility::BASE_URL;
+            $fileUrl = $baseUrl.'/v3/news.json';
 
             $httpProxy = config('app.http_proxy');
 
@@ -116,9 +120,9 @@ class AppUtility
             ];
 
             try {
-                $newUrl = $baseUrl.'/v3/news.json';
-                $client = new \GuzzleHttp\Client($options);
-                $response = $client->request('GET', $newUrl);
+                $client = new Client($options);
+                $response = $client->request('GET', $fileUrl);
+
                 $news = json_decode($response->getBody(), true);
             } catch (\Exception $e) {
                 $news = [];
@@ -127,12 +131,34 @@ class AppUtility
             CacheHelper::put($news, $cacheKey, $cacheTag, 5, now()->addHours(3));
         }
 
-        $newsList = [];
+        $newsList = [
+            [
+                'date' => '03/28/2024',
+                'title' => '[Must Read] Help/Questions',
+                'link' => 'https://fresns.org/guide/faq.html',
+                'color' => '#f40',
+            ],
+            [
+                'date' => '03/28/2024',
+                'title' => '[Must Read] Guide to give feedback to Fresns official questions',
+                'link' => 'https://fresns.org/guide/feedback.html',
+                'color' => '#f40',
+            ],
+            [
+                'date' => '03/28/2024',
+                'title' => 'Introduction of 16 excellent features of Fresns product',
+                'link' => 'https://fresns.org/intro/features.html',
+                'color' => null,
+            ],
+            [
+                'date' => '03/28/2024',
+                'title' => 'The design concept of Fresns social networking service software',
+                'link' => 'https://docs.fresns.com/open-source/guide/idea.html',
+                'color' => null,
+            ]
+        ];
         if ($news) {
-            $newsData = collect($news)->where('langTag', App::getLocale())->first();
-            $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
-
-            $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
+            $newsList = StrHelper::languageContent($news, App::getLocale());
         }
 
         return $newsList;
