@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('md5', 128)->nullable();
             $table->string('sha', 128)->nullable();
             $table->string('sha_type', 16)->nullable();
-            $table->string('disk', 32)->default('remote');
             $table->string('path')->unique('file_path');
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
