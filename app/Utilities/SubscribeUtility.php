@@ -157,9 +157,9 @@ class SubscribeUtility
     }
 
     // notifyAccountAndUserLogin
-    public static function notifyAccountAndUserLogin(int $accountId, array $accountToken, array $accountDetail, ?int $userId = null, ?array $userToken = null, ?array $userDetail = null): void
+    public static function notifyAccountAndUserLogin(int $accountId, array $authToken, array $accountDetail, ?int $userId = null, ?array $userDetail = null): void
     {
-        Queue::push(function () use ($accountId, $accountToken, $accountDetail, $userId, $userToken, $userDetail) {
+        Queue::push(function () use ($accountId, $authToken, $accountDetail, $userId, $userDetail) {
             $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_ACCOUNT_AND_USER_LOGIN);
             if (empty($subscribeItems)) {
                 return;
@@ -170,9 +170,8 @@ class SubscribeUtility
                     'accountId' => $accountId,
                     'userId' => $userId,
                 ],
-                'accountToken' => $accountToken,
+                'authToken' => $authToken,
                 'accountDetail' => $accountDetail,
-                'userToken' => $userToken,
                 'userDetail' => $userDetail,
             ];
 

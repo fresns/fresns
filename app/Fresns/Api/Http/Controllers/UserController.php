@@ -174,17 +174,10 @@ class UserController extends Controller
 
         // notify subscribe
         $authAccount = $this->account();
-        $accountToken = [
-            'aid' => \request()->header('X-Fresns-Aid'),
-            'token' => $this->accountToken(),
-            'expiredHours' => null,
-            'expiredDays' => null,
-            'expiredDateTime' => null,
-        ];
 
         $accountDetail = DetailUtility::accountDetail($authAccount, $langTag, $timezone);
 
-        SubscribeUtility::notifyAccountAndUserLogin($authAccount->id, $accountToken, $accountDetail, $authUser->id, $data['authToken'], $data['detail']);
+        SubscribeUtility::notifyAccountAndUserLogin($authAccount->id, $data['authToken'], $accountDetail, $authUser->id, $data['detail']);
 
         return $this->success($data);
     }
