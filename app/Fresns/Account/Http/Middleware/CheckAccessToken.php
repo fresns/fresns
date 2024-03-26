@@ -37,6 +37,14 @@ class CheckAccessToken
         View::share('siteIcon', $siteIcon);
         View::share('siteLogo', $siteLogo);
 
+        $accountCenterCaptcha = ConfigHelper::fresnsConfigByItemKey('account_center_captcha');
+        $captcha = [
+            'type' => $accountCenterCaptcha['type'] ?? null,
+            'siteKey' => $accountCenterCaptcha['siteKey'] ?? null,
+            'secretKey' => $accountCenterCaptcha['secretKey'] ?? null,
+        ];
+        View::share('captcha', $captcha);
+
         // Verify Access Token
         if ($request->accessToken) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifyAccessToken([

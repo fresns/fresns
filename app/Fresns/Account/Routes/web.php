@@ -9,6 +9,7 @@
 use App\Fresns\Account\Http\Controllers\ApiController;
 use App\Fresns\Account\Http\Controllers\WebController;
 use App\Fresns\Account\Http\Middleware\CheckAccessToken;
+use App\Fresns\Account\Http\Middleware\CheckCaptcha;
 use App\Fresns\Account\Http\Middleware\FresnsCallback;
 use App\Fresns\Account\Http\Middleware\SetHeaders;
 use App\Fresns\Account\Http\Middleware\VerifyAccountToken;
@@ -23,17 +24,17 @@ Route::name('account-center.')->prefix('account-center')->group(function () {
         Route::get('user-auth', [WebController::class, 'userAuth'])->name('user-auth');
     });
 
-    Route::name('api.')->prefix('api')->middleware(SetHeaders::class)->group(function () {
-        Route::post('make-access-token', [ApiController::class, 'makeAccessToken'])->name('make-access-token');
+    Route::name('api.')->prefix('api')->middleware([SetHeaders::class, CheckCaptcha::class])->group(function () {
+        Route::post('make-access-token', [ApiController::class, 'makeAccessToken'])->name('make-access-token')->withoutMiddleware([CheckCaptcha::class]);
         Route::post('guest-send-verify-code', [ApiController::class, 'guestSendVerifyCode'])->name('guest-send-verify-code');
         Route::post('register', [ApiController::class, 'register'])->name('register');
         Route::post('login', [ApiController::class, 'login'])->name('login');
         Route::patch('reset-password', [ApiController::class, 'resetPassword'])->name('reset-password');
-        Route::post('user-auth', [ApiController::class, 'userAuth'])->name('user-auth');
+        Route::post('user-auth', [ApiController::class, 'userAuth'])->name('user-auth')->withoutMiddleware([CheckCaptcha::class]);
 
         Route::middleware(VerifyAccountToken::class)->group(function () {
             Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send-verify-code');
-            Route::post('check-verify-code', [ApiController::class, 'checkVerifyCode'])->name('check-verify-code');
+            Route::post('check-verify-code', [ApiController::class, 'checkVerifyCode'])->name('check-verify-code')->withoutMiddleware([CheckCaptcha::class]);
             Route::patch('update', [ApiController::class, 'update'])->name('update');
             Route::post('apply-delete', [ApiController::class, 'applyDelete'])->name('apply.delete');
             Route::post('revoke-delete', [ApiController::class, 'revokeDelete'])->name('revoke.delete');
