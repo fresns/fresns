@@ -623,41 +623,41 @@ $(document).ready(function () {
 
     $('#emailModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        let isEnabled = button.data('enable');
-        let action = button.data('action');
         let title = button.data('title');
+        let action = button.data('action');
+        let status = button.data('status');
+        let templates = button.data('templates');
 
         $(this).find('form').trigger('reset');
-        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
-        $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);
+        $(this).find('form').attr('action', action);
+        $(this).find('input:radio[name=is_enabled][value="' + status + '"]').prop('checked', true);
 
-        if (languages) {
-            languages.map((language) => {
-                $(this).find("input[name='titles[" + language.langTag + "]'").val(language.title);
-                $(this).find("textarea[name='contents[" + language.langTag + "]'").val(language.content);
+        if (templates) {
+            Object.entries(templates).forEach(([langTag, template]) => {
+                $(this).find("input[name='titles[" + langTag + "]']").val(template.title);
+                $(this).find("textarea[name='contents[" + langTag + "]']").val(template.content);
             });
         }
     });
 
     $('#smsModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        let isEnabled = button.data('enable');
-        let action = button.data('action');
         let title = button.data('title');
+        let action = button.data('action');
+        let status = button.data('status');
+        let templates = button.data('templates');
 
         $(this).find('form').trigger('reset');
-        $(this).find('input:radio[name=is_enabled][value="' + isEnabled + '"]').prop('checked', true);
-        $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);
+        $(this).find('form').attr('action', action);
+        $(this).find('input:radio[name=is_enabled][value="' + status + '"]').prop('checked', true);
 
-        if (languages) {
-            languages.map((language) => {
-                $(this).find("input[name='sign_names[" + language.langTag + "]'").val(language.signName);
-                $(this).find("input[name='template_codes[" + language.langTag + "]'").val(language.templateCode);
-                $(this).find("input[name='code_params[" + language.langTag + "]'").val(language.codeParam);
+        if (templates) {
+            Object.entries(templates).forEach(([langTag, template]) => {
+                $(this).find("input[name='sign_names[" + langTag + "]'").val(template.signName);
+                $(this).find("input[name='template_codes[" + langTag + "]'").val(template.templateCode);
+                $(this).find("input[name='code_params[" + langTag + "]'").val(template.codeParam);
             });
         }
     });

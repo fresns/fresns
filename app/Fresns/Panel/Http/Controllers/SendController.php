@@ -25,27 +25,15 @@ class SendController extends Controller
             'ios_notifications_service',
             'android_notifications_service',
             'desktop_notifications_service',
-            'wechat_notifications_service',
+            'verifycode_template1',
+            'verifycode_template2',
+            'verifycode_template3',
+            'verifycode_template4',
+            'verifycode_template5',
+            'verifycode_template6',
+            'verifycode_template7',
+            'verifycode_template8',
         ];
-
-        $templateConfigKeys = [
-            __('FsLang::panel.send_code_template_1') => 'verifycode_template1',
-            __('FsLang::panel.send_code_template_2') => 'verifycode_template2',
-            __('FsLang::panel.send_code_template_3') => 'verifycode_template3',
-            __('FsLang::panel.send_code_template_4') => 'verifycode_template4',
-            __('FsLang::panel.send_code_template_5') => 'verifycode_template5',
-            __('FsLang::panel.send_code_template_6') => 'verifycode_template6',
-            __('FsLang::panel.send_code_template_7') => 'verifycode_template7',
-            __('FsLang::panel.send_code_template_8') => 'verifycode_template8',
-        ];
-
-        $codeConfigs = Config::whereIn('item_key', $templateConfigKeys)->get();
-        foreach ($codeConfigs as $config) {
-            $originValue = collect($config->item_value);
-            $value['email'] = $originValue->where('type', 'email')->first();
-            $value['sms'] = $originValue->where('type', 'sms')->first();
-            $codeParams[$config->item_key] = $value;
-        }
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
@@ -65,11 +53,8 @@ class SendController extends Controller
         $appPlugins = $plugins->filter(function ($plugin) {
             return in_array('appNotifications', $plugin->panel_usages);
         });
-        $wechatPlugins = $plugins->filter(function ($plugin) {
-            return in_array('wechatNotifications', $plugin->panel_usages);
-        });
 
-        return view('FsView::systems.send', compact('params', 'emailPlugins', 'smsPlugins', 'appPlugins', 'wechatPlugins', 'templateConfigKeys', 'codeParams'));
+        return view('FsView::systems.send', compact('params', 'emailPlugins', 'smsPlugins', 'appPlugins'));
     }
 
     public function update(Request $request)
@@ -82,7 +67,6 @@ class SendController extends Controller
             'ios_notifications_service',
             'android_notifications_service',
             'desktop_notifications_service',
-            'wechat_notifications_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -107,26 +91,24 @@ class SendController extends Controller
 
     public function updateEmail($itemKey, Request $request)
     {
-        $config = Config::where('item_key', $itemKey)->firstOrFail();
+        $config = Config::where('item_key', $itemKey)->first();
 
-        $emailTemplates = [];
+        if (empty($config)) {
+            return back()->with('failure', $itemKey.' Not Available');
+        }
+
+        $verifyCodeTemplate = $config->item_value;
+
+        $verifyCodeTemplate['email']['status'] = (bool) $request->is_enabled;
+
         foreach ($request->titles as $langTag => $title) {
-            $emailTemplates[] = [
-                'langTag' => $langTag,
+            $verifyCodeTemplate['email']['templates'][$langTag] = [
                 'title' => $title,
                 'content' => $request->contents[$langTag],
             ];
         }
 
-        $value = $config->item_value;
-        foreach ($value as &$item) {
-            if ($item['type'] == 'email') {
-                $item['isEnabled'] = $request->is_enabled ? true : false;
-                $item['templates'] = $emailTemplates;
-            }
-        }
-
-        $config->item_value = $value;
+        $config->item_value = $verifyCodeTemplate;
         $config->save();
 
         return redirect(route('panel.send.index').'#templates-tab')->with('success', __('FsLang::tips.updateSuccess'));
@@ -134,27 +116,25 @@ class SendController extends Controller
 
     public function updateSms($itemKey, Request $request)
     {
-        $config = Config::where('item_key', $itemKey)->firstOrFail();
+        $config = Config::where('item_key', $itemKey)->first();
 
-        $smsTemplates = [];
+        if (empty($config)) {
+            return back()->with('failure', $itemKey.' Not Available');
+        }
+
+        $verifyCodeTemplate = $config->item_value;
+
+        $verifyCodeTemplate['sms']['status'] = (bool) $request->is_enabled;
+
         foreach ($request->sign_names as $langTag => $signName) {
-            $smsTemplates[] = [
-                'langTag' => $langTag,
+            $verifyCodeTemplate['sms']['templates'][$langTag] = [
                 'signName' => $signName,
                 'templateCode' => $request->template_codes[$langTag],
                 'codeParam' => $request->code_params[$langTag],
             ];
         }
 
-        $value = $config->item_value;
-        foreach ($value as &$item) {
-            if ($item['type'] == 'sms') {
-                $item['isEnabled'] = $request->is_enabled ? true : false;
-                $item['templates'] = $smsTemplates;
-            }
-        }
-
-        $config->item_value = $value;
+        $config->item_value = $verifyCodeTemplate;
         $config->save();
 
         return redirect(route('panel.send.index').'#templates-tab')->with('success', __('FsLang::tips.updateSuccess'));

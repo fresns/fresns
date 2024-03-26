@@ -151,37 +151,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $index = 0; ?>
-                        @foreach ($templateConfigKeys as $name => $key)
-                            <?php $index++; ?>
+                        @foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $number)
+                            @php
+                                $itemKey = 'verifycode_template'.$number;
+                            @endphp
                             <tr>
-                                <td>{{ $index }}</td>
-                                <td>{{ $name }}</td>
+                                <td>{{ $number }}</td>
+                                <td>{{ __('FsLang::panel.send_code_template_'.$number) }}</td>
                                 <td>
-                                    @if ($codeParams[$key]['email']['isEnabled'] ?? false)
+                                    @if ($params[$itemKey]['email']['status'] ?? false)
                                         <span class="badge bg-success me-2">{{ __('FsLang::panel.option_email') }}</span>
                                     @endif
-                                    @if ($codeParams[$key]['sms']['isEnabled'] ?? false)
+                                    @if ($params[$itemKey]['sms']['status'] ?? false)
                                         <span class="badge bg-success">{{ __('FsLang::panel.option_sms') }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-primary btn-sm me-3"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#emailModal"
-                                        data-title="{{ $name }}"
-                                        data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
-                                        data-enable="{{ $codeParams[$key]['email']['isEnabled'] ?? false }}"
-                                        data-languages="{{ json_encode($codeParams[$key]['email']['templates'] ?? []) }}">
+                                    <button type="button" class="btn btn-outline-primary btn-sm me-3" data-bs-toggle="modal" data-bs-target="#emailModal"
+                                        data-title="{{ __('FsLang::panel.send_code_template_'.$number) }}"
+                                        data-action="{{ route('panel.send.email.update', ['itemKey' => $itemKey])}}"
+                                        data-status="{{ $params[$itemKey]['email']['status'] ?? false }}"
+                                        data-templates="{{ json_encode($params[$itemKey]['email']['templates'] ?? []) }}">
                                         {{ __('FsLang::panel.button_config_email_template') }}
                                     </button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#smsModal"
-                                        data-title="{{ $name }}"
-                                        data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
-                                        data-enable="{{ $codeParams[$key]['sms']['isEnabled'] ?? false }}"
-                                        data-languages="{{ json_encode($codeParams[$key]['sms']['templates'] ?? []) }}">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#smsModal"
+                                        data-title="{{ __('FsLang::panel.send_code_template_'.$number) }}"
+                                        data-action="{{ route('panel.send.sms.update', ['itemKey' => $itemKey])}}"
+                                        data-status="{{ $params[$itemKey]['sms']['status'] ?? false }}"
+                                        data-templates="{{ json_encode($params[$itemKey]['sms']['templates'] ?? []) }}">
                                         {{ __('FsLang::panel.button_config_sms_template') }}
                                     </button>
                                 </td>
@@ -243,7 +240,7 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><input type="text" name="titles[{{ $lang['langTag'] }}]" class="form-control title" value="{{ $langParams['name'][$lang['langTag']] ?? '' }}"></td>
+                                            <td><input type="text" name="titles[{{ $lang['langTag'] }}]" class="form-control title" value=""></td>
                                             <td><textarea class="form-control content" name="contents[{{ $lang['langTag']}}]" rows="3"></textarea></td>
                                         </tr>
                                     @endforeach
