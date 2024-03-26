@@ -9,6 +9,7 @@
 namespace App\Utilities;
 
 use App\Helpers\CacheHelper;
+use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Comment;
 use App\Models\Domain;
@@ -1015,7 +1016,6 @@ class InteractionUtility
             'type' => Notification::TYPE_SYSTEM,
             'content' => null,
             'isMarkdown' => null,
-            'isMultilingual' => null,
             'isAccessApp' => null,
             'appFskey' => null,
             'actionUid' => null,
@@ -1108,7 +1108,6 @@ class InteractionUtility
             'type' => $notificationType,
             'content' => null,
             'isMarkdown' => null,
-            'isMultilingual' => null,
             'isAccessApp' => null,
             'appFskey' => null,
             'actionUid' => $user->uid,
@@ -1155,15 +1154,18 @@ class InteractionUtility
                 ->where('mention_id', $actionModel->id)
                 ->get();
 
+            $contentLangTag = $actionModel?->lang_tag ?? ConfigHelper::fresnsConfigDefaultLangTag();
+
             foreach ($mentions as $mention) {
                 $mentionUser = PrimaryHelper::fresnsModelById('user', $mention->mention_user_id);
 
                 $mentionWordBody = [
                     'uid' => $mentionUser->uid,
                     'type' => Notification::TYPE_MENTION,
-                    'content' => Str::limit($actionModel->content),
+                    'content' => [
+                        $contentLangTag => Str::limit($actionModel->content),
+                    ],
                     'isMarkdown' => 0,
-                    'isMultilingual' => 0,
                     'isAccessApp' => null,
                     'appFskey' => null,
                     'actionUid' => $actionUser->uid,
@@ -1193,9 +1195,10 @@ class InteractionUtility
                 $quoteWordBody = [
                     'uid' => $notifyUser->uid,
                     'type' => Notification::TYPE_QUOTE,
-                    'content' => Str::limit($actionModel->content),
+                    'content' => [
+                        $contentLangTag => Str::limit($actionModel->content),
+                    ],
                     'isMarkdown' => 0,
-                    'isMultilingual' => 0,
                     'isAccessApp' => null,
                     'appFskey' => null,
                     'actionUid' => $actionUser->uid,
@@ -1241,9 +1244,10 @@ class InteractionUtility
                 $commentWordBody = [
                     'uid' => $notifyUser->uid,
                     'type' => Notification::TYPE_COMMENT,
-                    'content' => Str::limit($actionModel->content),
+                    'content' => [
+                        $contentLangTag => Str::limit($actionModel->content),
+                    ],
                     'isMarkdown' => 0,
-                    'isMultilingual' => 0,
                     'isAccessApp' => null,
                     'appFskey' => null,
                     'actionUid' => $actionUser->uid,

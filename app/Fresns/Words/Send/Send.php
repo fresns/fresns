@@ -16,7 +16,6 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\CommentLog;
-use App\Models\Language;
 use App\Models\Notification;
 use App\Models\PostLog;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
@@ -173,8 +172,6 @@ class Send
             }
         }
 
-        $isMultilingual = $dtoWordBody['isMultilingual'] ?? 0;
-
         $contentId = match ($dtoWordBody['type']) {
             Notification::TYPE_COMMENT => PrimaryHelper::fresnsPrimaryId('comment', $dtoWordBody['contentFsid']),
             Notification::TYPE_QUOTE => PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody['contentFsid']),
@@ -185,9 +182,8 @@ class Send
         $notificationData = [
             'user_id' => $userId,
             'type' => $dtoWordBody['type'],
-            'content' => $isMultilingual ? null : $dtoWordBody['content'],
+            'content' => $dtoWordBody['content'] ?? [],
             'is_markdown' => $dtoWordBody['isMarkdown'] ?? 0,
-            'is_multilingual' => $dtoWordBody['isMultilingual'] ?? 0,
             'is_access_app' => $dtoWordBody['isAccessApp'] ?? 0,
             'app_fskey' => $dtoWordBody['appFskey'] ?? null,
             'action_user_id' => $actionUser?->id ?? null,
@@ -198,24 +194,7 @@ class Send
             'action_content_id' => $contentId,
         ];
 
-        $notification = Notification::create($notificationData);
-
-        if ($isMultilingual) {
-            $contentArr = json_decode($dtoWordBody['content'], true);
-
-            foreach ($contentArr as $content) {
-                $langItems = [
-                    'table_name' => 'notifications',
-                    'table_column' => 'content',
-                    'table_id' => $notification->id,
-                    'table_key' => null,
-                    'lang_tag' => $content['langTag'],
-                    'lang_content' => $content['content'],
-                ];
-
-                Language::updateOrCreate($langItems);
-            }
-        }
+        Notification::create($notificationData);
 
         return 0;
     }
