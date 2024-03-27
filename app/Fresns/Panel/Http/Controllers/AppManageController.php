@@ -82,23 +82,27 @@ class AppManageController extends Controller
 
         $status = $app->is_enabled;
 
+        $newStatus = true;
+
         if ($status) {
             $exitCode = Artisan::call('plugin:deactivate', [
                 'fskey' => $fskey,
             ]);
 
-            $app->update([
-                'is_enabled' => false,
-            ]);
+            $newStatus = false;
         } else {
             $exitCode = Artisan::call('plugin:activate', [
                 'fskey' => $fskey,
             ]);
-
-            $app->update([
-                'is_enabled' => true,
-            ]);
         }
+
+        if ($exitCode != 0) {
+            return back()->with('failure', __('FsLang::tips.updateFailure'));
+        }
+
+        $app->update([
+            'is_enabled' => $newStatus,
+        ]);
 
         return $this->updateSuccess();
     }
