@@ -37,6 +37,26 @@ class CheckAccessToken
         View::share('siteIcon', $siteIcon);
         View::share('siteLogo', $siteLogo);
 
+        $siteName = ConfigHelper::fresnsConfigByItemKey('site_name', $langTag);
+        $fsLang = ConfigHelper::fresnsConfigLanguagePack($langTag);
+        $accountCenterCaptcha = ConfigHelper::fresnsConfigByItemKey('account_center_captcha');
+        $accountEmptyError = ConfigUtility::getCodeMessage(34100, 'Fresns', $langTag);
+        $verifyCodeEmptyError = ConfigUtility::getCodeMessage(33202, 'Fresns', $langTag);
+
+        $fsConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'send_sms_default_code',
+            'send_sms_supported_codes',
+        ]);
+
+        View::share('siteName', $siteName);
+        View::share('fsLang', $fsLang);
+        View::share('langTag', $langTag);
+        View::share('accountCenterCaptcha', $accountCenterCaptcha);
+        View::share('accountEmptyError', $accountEmptyError);
+        View::share('verifyCodeEmptyError', $verifyCodeEmptyError);
+        View::share('smsDefaultCode', $fsConfig['send_sms_default_code']);
+        View::share('smsSupportedCodes', $fsConfig['send_sms_supported_codes']);
+
         $accountCenterCaptcha = ConfigHelper::fresnsConfigByItemKey('account_center_captcha');
         $captcha = [
             'type' => $accountCenterCaptcha['type'] ?? null,
@@ -91,26 +111,6 @@ class CheckAccessToken
             Cookie::queue('fresns_account_center_uid', $uid);
             Cookie::queue('fresns_account_center_uid_token', $uidToken);
         }
-
-        $siteName = ConfigHelper::fresnsConfigByItemKey('site_name', $langTag);
-        $fsLang = ConfigHelper::fresnsConfigLanguagePack($langTag);
-        $accountCenterCaptcha = ConfigHelper::fresnsConfigByItemKey('account_center_captcha');
-        $accountEmptyError = ConfigUtility::getCodeMessage(34100, 'Fresns', $langTag);
-        $verifyCodeEmptyError = ConfigUtility::getCodeMessage(33202, 'Fresns', $langTag);
-
-        $fsConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'send_sms_default_code',
-            'send_sms_supported_codes',
-        ]);
-
-        View::share('siteName', $siteName);
-        View::share('fsLang', $fsLang);
-        View::share('langTag', $langTag);
-        View::share('accountCenterCaptcha', $accountCenterCaptcha);
-        View::share('accountEmptyError', $accountEmptyError);
-        View::share('verifyCodeEmptyError', $verifyCodeEmptyError);
-        View::share('smsDefaultCode', $fsConfig['send_sms_default_code']);
-        View::share('smsSupportedCodes', $fsConfig['send_sms_supported_codes']);
 
         $request->attributes->add([
             'fresns_account_center_app_id' => $appId,
