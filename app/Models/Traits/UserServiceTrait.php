@@ -9,6 +9,7 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\StrHelper;
 use App\Models\Role;
@@ -165,21 +166,68 @@ trait UserServiceTrait
         $roleArr = UserRole::with('roleInfo')->where('user_id', $userData->id)->get();
 
         $roles = [];
-        foreach ($roleArr as $role) {
-            $roleInfo = $role?->roleInfo;
+        foreach ($roleArr as $userRole) {
+            $roleInfo = $userRole?->roleInfo;
 
             if (empty($roleInfo)) {
                 continue;
             }
 
             $item['rid'] = $roleInfo->rid;
-            $item['isMain'] = (bool) $role->is_main;
+            $item['isMain'] = (bool) $userRole->is_main;
             $item['nicknameColor'] = $roleInfo->nickname_color;
             $item['name'] = StrHelper::languageContent($roleInfo->name, $langTag);
             $item['nameDisplay'] = (bool) $roleInfo->is_display_name;
             $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleInfo->icon_file_id, $roleInfo->icon_file_url);
             $item['iconDisplay'] = (bool) $roleInfo->is_display_icon;
             $item['status'] = (bool) $roleInfo->is_enabled;
+
+            $roles[] = $item;
+        }
+
+        return $roles;
+    }
+
+    public function getUserRolesFullInfo(?string $langTag = null): array
+    {
+        $userData = $this;
+
+        $roleArr = UserRole::with('roleInfo')->where('user_id', $userData->id)->get();
+
+        $roles = [];
+        foreach ($roleArr as $userRole) {
+            $roleInfo = $userRole?->roleInfo;
+
+            if (empty($roleInfo)) {
+                continue;
+            }
+
+            $item['rid'] = $roleInfo->rid;
+            $item['status'] = (bool) $roleInfo->is_enabled;
+            $item['nicknameColor'] = $roleInfo->nickname_color;
+            $item['name'] = StrHelper::languageContent($roleInfo->name, $langTag);
+            $item['nameDisplay'] = (bool) $roleInfo->is_display_name;
+            $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleInfo->icon_file_id, $roleInfo->icon_file_url);
+            $item['iconDisplay'] = (bool) $roleInfo->is_display_icon;
+
+            $item['isMain'] = (bool) $userRole->is_main;
+            $item['expiryDateTime'] = DateHelper::fresnsFormatConversion($userRole->expired_at, $langTag);
+            $item['restoreRole'] = null;
+
+            if ($userRole->restoreRole) {
+                $restoreRole = $userRole->restoreRole;
+
+                $restoreRoleInfo = [
+                    'rid' => $restoreRole->rid,
+                    'nicknameColor' => $restoreRole->nickname_color,
+                    'name' => StrHelper::languageContent($restoreRole->name, $langTag),
+                    'nameDisplay' => (bool) $restoreRole->is_display_name,
+                    'icon' => FileHelper::fresnsFileUrlByTableColumn($restoreRole->icon_file_id, $restoreRole->icon_file_url),
+                    'iconDisplay' => (bool) $restoreRole->is_display_icon,
+                ];
+
+                $item['restoreRole'] = $restoreRoleInfo;
+            }
 
             $roles[] = $item;
         }
