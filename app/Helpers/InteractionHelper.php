@@ -11,6 +11,7 @@ namespace App\Helpers;
 use App\Models\Account;
 use App\Models\Comment;
 use App\Models\File;
+use App\Models\Geotag;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Post;
@@ -26,6 +27,7 @@ class InteractionHelper
         $overview['userCount'] = User::count();
         $overview['groupCount'] = Group::count();
         $overview['hashtagCount'] = Hashtag::count();
+        $overview['geotagCount'] = Geotag::count();
         $overview['postCount'] = Post::count();
         $overview['commentCount'] = Comment::count();
         $overview['postDigest1Count'] = Post::where('digest_state', Post::DIGEST_GENERAL)->count();
