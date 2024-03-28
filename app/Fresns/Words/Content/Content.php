@@ -132,12 +132,20 @@ class Content
 
             case Content::TYPE_COMMENT:
                 // comment
-                $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
-                if (empty($checkPost)) {
-                    return $this->failure(
-                        37400,
-                        ConfigUtility::getCodeMessage(37400)
-                    );
+                $commentPost = ContentUtility::getCommentPost($dtoWordBody->commentPid, $dtoWordBody->commentCid);
+                if (empty($commentPost)) {
+                    return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
+                }
+
+                $parentCommentId = null;
+                if ($dtoWordBody->commentCid) {
+                    $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
+
+                    if (empty($comment)) {
+                        return $this->failure(37500, ConfigUtility::getCodeMessage(37500));
+                    }
+
+                    $parentCommentId = $comment->id;
                 }
 
                 $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', CommentLog::STATE_DRAFT)->first();
@@ -145,8 +153,8 @@ class Content
                 $logData = [
                     'user_id' => $author->id,
                     'create_type' => $dtoWordBody->createType,
-                    'post_id' => $checkPost->id,
-                    'parent_comment_id' => PrimaryHelper::fresnsPrimaryId('comment', $checkPost->commentCid),
+                    'post_id' => $commentPost->id,
+                    'parent_comment_id' => $parentCommentId,
                     'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'content' => $content,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
@@ -159,7 +167,7 @@ class Content
                 if (empty($checkLog)) {
                     $logModel = CommentLog::create($logData);
                 } else {
-                    if ($checkLog->post_id == $checkPost->id) {
+                    if ($checkLog->post_id == $commentPost->id) {
                         $checkLog->update($logData);
                         $logModel = $checkLog;
                     } else {
@@ -521,23 +529,43 @@ class Content
 
                 // comment
             case 'comment':
+                $commentPostId = 0;
                 $commentTopParentId = 0;
-                $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
-                if ($parentComment) {
-                    $commentTopParentId = $parentComment->top_parent_id ?: $parentComment->id;
+
+                $privacy = 'public';
+                if ($dtoWordBody->commentPid) {
+                    $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
+
+                    if (empty($post)) {
+                        return $this->failure(37400, ConfigUtility::getCodeMessage(37400));
+                    }
+
+                    $commentPostId = $post->id;
+
+                    $postPermissions = $post->permissions;
+                    $privacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
                 }
 
-                $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
-                $postPermissions = $post->permissions;
-                $privacy = $postPermissions['commentConfig']['privacy'] ?? 'public';
+                $parentCommentId = 0;
+                if ($dtoWordBody->commentCid) {
+                    $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
+
+                    if (empty($comment)) {
+                        return $this->failure(37500, ConfigUtility::getCodeMessage(37500));
+                    }
+
+                    $commentPostId = $comment->post_id;
+                    $parentCommentId = $comment->id;
+                    $commentTopParentId = $comment->top_parent_id ?: $comment->id;
+                }
 
                 $privacyState = ($privacy == 'private') ? Comment::PRIVACY_PRIVATE_BY_POST : Comment::PRIVACY_PUBLIC;
 
                 $comment = Comment::create([
                     'user_id' => $author->id,
-                    'post_id' => $post->id,
+                    'post_id' => $commentPostId,
                     'top_parent_id' => $commentTopParentId,
-                    'parent_id' => $parentComment?->id ?? 0,
+                    'parent_id' => $parentCommentId,
                     'geotag_id' => $geotag?->id ?? 0,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
