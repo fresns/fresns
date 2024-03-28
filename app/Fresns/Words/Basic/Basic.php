@@ -190,6 +190,13 @@ class Basic
                     ConfigUtility::getCodeMessage(30002)
                 );
             }
+
+            if (! is_array($accessTokenJson)) {
+                return $this->failure(
+                    30004,
+                    ConfigUtility::getCodeMessage(30004)
+                );
+            }
         } catch (\Exception $e) {
             return $this->failure(
                 31000,
