@@ -95,6 +95,7 @@ class ExtendUtility
         $operations = $operationQuery->get()->map(function ($usageInfo) use ($langTag) {
             $operationInfo = $usageInfo->operation;
 
+            $item['type'] = $operationInfo->type;
             $item['code'] = $operationInfo->code;
             $item['style'] = $operationInfo->style;
             $item['name'] = StrHelper::languageContent($operationInfo->name, $langTag); // Multilingual
@@ -107,10 +108,29 @@ class ExtendUtility
             return $item;
         })->groupBy('type');
 
-        $operationList['customizes'] = $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? [];
-        $operationList['buttonIcons'] = $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? [];
-        $operationList['diversifyImages'] = $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? [];
-        $operationList['tips'] = $operations->get(Operation::TYPE_TIP)?->all() ?? [];
+        $operationList['customizes'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? []);
+
+        $operationList['buttonIcons'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? []);
+
+        $operationList['diversifyImages'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? []);
+
+        $operationList['tips'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $operations->get(Operation::TYPE_TIP)?->all() ?? []);
 
         return $operationList;
     }
@@ -132,9 +152,23 @@ class ExtendUtility
             return $item;
         })->groupBy('type');
 
-        $extendList['texts'] = $extends->get(Extend::TYPE_TEXT)?->all() ?? [];
-        $extendList['infos'] = $extends->get(Extend::TYPE_INFO)?->all() ?? [];
-        $extendList['actions'] = $extends->get(Extend::TYPE_ACTION)?->all() ?? [];
+        $extendList['texts'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $extends->get(Extend::TYPE_TEXT)?->all() ?? []);
+
+        $extendList['infos'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $extends->get(Extend::TYPE_INFO)?->all() ?? []);
+
+        $extendList['actions'] = array_map(function ($item) {
+            unset($item['type']);
+
+            return $item;
+        }, $extends->get(Extend::TYPE_ACTION)?->all() ?? []);
 
         return $extendList;
     }
