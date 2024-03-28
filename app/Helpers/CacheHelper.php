@@ -260,6 +260,15 @@ class CacheHelper
         // extend
         if ($cacheType == 'fresnsExtend') {
             CacheHelper::forgetFresnsTag('fresnsExtensions');
+
+            $apps = App::all();
+            foreach ($apps as $app) {
+                $fskey = $app->fskey;
+
+                CacheHelper::forgetFresnsKey("fresns_plugin_host_{$fskey}", 'fresnsConfigs');
+                CacheHelper::forgetFresnsKey("fresns_plugin_url_{$fskey}", 'fresnsConfigs');
+                CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}", 'fresnsConfigs');
+            }
         }
 
         // view
