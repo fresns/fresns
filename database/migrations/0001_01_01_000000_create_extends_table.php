@@ -20,9 +20,8 @@ return new class extends Migration
         Schema::create('extends', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('eid', 32)->unique('eid');
-            $table->unsignedBigInteger('user_id')->index('extend_user_id');
             $table->unsignedTinyInteger('type')->default(1);
-            $table->unsignedTinyInteger('view_type')->default(1);
+            $table->unsignedBigInteger('user_id')->index('extend_user_id');
             $table->string('app_fskey', 64);
             $table->string('url_parameter', 128)->nullable();
             $table->unsignedBigInteger('image_file_id')->nullable();
@@ -37,7 +36,8 @@ return new class extends Migration
                     $table->json('content')->nullable();
                     $table->json('action_items')->nullable();
             }
-            $table->unsignedTinyInteger('position')->default(2);
+            $table->unsignedTinyInteger('view_position')->default(2);
+            $table->unsignedTinyInteger('view_type')->default(1);
             $table->boolean('is_enabled')->default(1);
             $table->timestamp('ended_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
