@@ -16,7 +16,7 @@ class EditorQuickPublishDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:post,comment'],
-            'commentPid' => ['string', 'nullable', 'required_if:type,comment'],
+            'commentPid' => ['string', 'nullable'],
             'commentCid' => ['string', 'nullable'],
             'quotePid' => ['string', 'nullable'],
             'gid' => ['string', 'nullable'],

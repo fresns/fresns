@@ -40,8 +40,32 @@ use Illuminate\Support\Str;
 
 class ContentUtility
 {
+    // get comment post
+    public static function getCommentPost(?string $commentPid = null, ?string $commentCid = null): ?Post
+    {
+        if (empty($commentPid) || empty($commentCid)) {
+            return null;
+        }
+
+        if ($commentCid) {
+            $comment = PrimaryHelper::fresnsModelByFsid('comment', $commentCid);
+
+            if (empty($comment)) {
+                return null;
+            }
+
+            $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
+
+            return $post;
+        }
+
+        $post = PrimaryHelper::fresnsModelByFsid('post', $commentPid);
+
+        return $post;
+    }
+
     // preg regexp
-    public static function getRegexpByType($type): string
+    public static function getRegexpByType(string $type): string
     {
         $hashtagRegexp = ConfigHelper::fresnsConfigByItemKey('hashtag_regexp');
 

@@ -68,6 +68,17 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
+        $commentPostId = null;
+        if ($dtoRequest->type == 'comment') {
+            $commentPost = ContentUtility::getCommentPost($dtoRequest->commentPid, $dtoRequest->commentCid);
+
+            if (empty($commentPost)) {
+                return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
+            }
+
+            $commentPostId = $commentPost->id;
+        }
+
         // check draft content
         $validDraft = [
             'userId' => $authUser->id,
@@ -75,7 +86,7 @@ class EditorController extends Controller
             'postGroupId' => PrimaryHelper::fresnsPrimaryId('group', $dtoRequest->gid),
             'postTitle' => $dtoRequest->title,
             'commentId' => null,
-            'commentPostId' => PrimaryHelper::fresnsPrimaryId('post', $dtoRequest->commentPid),
+            'commentPostId' => $commentPostId,
             'content' => $dtoRequest->content,
         ];
         $checkDraftCode = ValidationUtility::draft($dtoRequest->type, $validDraft);
@@ -350,6 +361,11 @@ class EditorController extends Controller
             case 'comment':
                 if (! $userRolePerm['comment_publish']) {
                     throw new ResponseException(36104);
+                }
+
+                $commentPost = ContentUtility::getCommentPost($dtoRequest->commentPid, $dtoRequest->commentCid);
+                if (empty($commentPost)) {
+                    return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
                 }
 
                 $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);

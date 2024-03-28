@@ -17,7 +17,7 @@ class ContentQuickPublishDTO extends DTO
         return [
             'uid' => ['integer', 'required'],
             'type' => ['integer', 'required', 'in:1,2'],
-            'commentPid' => ['string', 'nullable', 'required_if:type,2'],
+            'commentPid' => ['string', 'nullable'],
             'commentCid' => ['string', 'nullable'],
             'quotePid' => ['string', 'nullable'],
             'gid' => ['string', 'nullable'],
