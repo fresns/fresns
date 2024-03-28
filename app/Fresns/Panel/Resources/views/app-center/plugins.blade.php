@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <form method="post" action="{{ route('panel.plugin.check.status') }}">
+                <form action="{{ route('panel.plugin.check.status') }}" method="post">
                     @csrf
                     @method('post')
                     <button class="btn btn-primary" type="submit"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_status') }}</button>
@@ -65,15 +65,19 @@
                             @endif
                         </td>
                         <td {!! App::getLocale() == 'en' ? 'style="width:210px"' : '' !!}>
-                            @if ($plugin->is_enabled)
-                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['fskey' => $plugin->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
-                                @if ($plugin->settings_path)
-                                    <a href="{{ route('panel.app-center.plugin.settings', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                            <form action="{{ route('panel.plugin.update', ['fskey' => $plugin->fskey]) }}" method="post">
+                                @csrf
+                                @method('patch')
+                                @if ($plugin->is_enabled)
+                                    <button class="btn btn-outline-secondary btn-sm" type="submit">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                    @if ($plugin->settings_path)
+                                        <a href="{{ route('panel.app-center.plugin.settings', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                                    @endif
+                                @else
+                                    <button class="btn btn-outline-success btn-sm" type="submit">{{ __('FsLang::panel.button_activate') }}</button>
+                                    <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['fskey' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                                 @endif
-                            @else
-                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['fskey' => $plugin->fskey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['fskey' => $plugin->fskey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
-                            @endif
+                            </form>
                         </td>
                     </tr>
                 @endforeach

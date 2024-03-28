@@ -161,9 +161,7 @@ $(document).on('submit', 'form', function () {
 
     btn.prop('disabled', true);
     if (btn.children('.spinner-border').length == 0) {
-        btn.prepend(
-            '<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> '
-        );
+        btn.prepend('<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> ');
     }
     btn.children('.spinner-border').removeClass('d-none');
 });
@@ -179,9 +177,7 @@ $(document).ready(function () {
         btn.prop('disabled', true);
         btn.addClass('disabled');
         if (btn.children('.spinner-border').length == 0) {
-            btn.prepend(
-                '<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> '
-            );
+            btn.prepend('<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> ');
         }
         btn.children('.spinner-border').removeClass('d-none');
     });
@@ -1714,22 +1710,6 @@ $(document).ready(function () {
         $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(name);
         $(this).find('.app-id').text(appId);
-    });
-
-    // plugin setting
-    $('.plugin-manage').click(function () {
-        $.ajax({
-            method: 'post',
-            url: $(this).data('action'),
-            data: {
-                _method: 'patch',
-                is_enabled: $(this).data('enable')
-            },
-            success: function (response) {
-                window.tips(response.message);
-                location.reload();
-            },
-        });
     });
 
     $('#uninstallConfirm').on('show.bs.modal', function (e) {
