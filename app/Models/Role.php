@@ -10,8 +10,8 @@ namespace App\Models;
 
 class Role extends Model
 {
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'name' => 'json',

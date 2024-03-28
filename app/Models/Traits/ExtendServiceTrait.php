@@ -22,8 +22,7 @@ trait ExtendServiceTrait
         $content = $extendData->content;
 
         $item['eid'] = $extendData->eid;
-        $item['type'] = $extendData->view_type;
-        $item['typeString'] = StrHelper::extendViewTypeString($extendData->view_type);
+        $item['type'] = $extendData->type;
         $item['image'] = FileHelper::fresnsFileUrlByTableColumn($extendData->image_file_id, $extendData->image_file_url);
         switch ($extendData->type) {
             case Extend::TYPE_TEXT:
@@ -70,7 +69,9 @@ trait ExtendServiceTrait
                 $item['items'] = $actionItemArr;
                 break;
         }
-        $item['position'] = $extendData->position;
+        $item['viewPosition'] = ($extendData->view_position == 1) ? 'top' : 'bottom';
+        $item['viewType'] = $extendData->view_type;
+        $item['viewTypeString'] = StrHelper::extendViewTypeString($extendData->view_type);
         $item['appUrl'] = PluginHelper::fresnsPluginUsageUrl($extendData->app_fskey, $extendData->url_parameter);
 
         return $item;

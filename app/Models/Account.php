@@ -21,8 +21,8 @@ class Account extends Authenticatable
     use SoftDeletes;
     use Traits\AccountServiceTrait;
     use Traits\DataChangeNotifyTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
 
     const TYPE_SYSTEM_ADMIN = 1;
     const TYPE_GENERAL_ADMIN = 2;

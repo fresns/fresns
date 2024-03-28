@@ -10,9 +10,9 @@ namespace App\Models;
 
 class CommentLog extends Model
 {
-    use Traits\CommentLogServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\CommentLogServiceTrait;
 
     const STATE_DRAFT = 1;
     const STATE_UNDER_REVIEW = 2;

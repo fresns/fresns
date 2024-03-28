@@ -10,8 +10,8 @@ namespace App\Models;
 
 class Hashtag extends Model
 {
-    use Traits\HashtagServiceTrait;
     use Traits\IsEnabledTrait;
+    use Traits\HashtagServiceTrait;
 
     protected $casts = [
         'more_info' => 'json',

@@ -24,8 +24,8 @@ class AppUsage extends Model
     const SCENE_COMMENT = 2;
     const SCENE_USER = 3;
 
-    use Traits\AppUsageServiceTrait;
     use Traits\IsEnabledTrait;
+    use Traits\AppUsageServiceTrait;
 
     protected $casts = [
         'name' => 'json',

@@ -10,9 +10,9 @@ namespace App\Models;
 
 class Comment extends Model
 {
-    use Traits\CommentServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\CommentServiceTrait;
 
     const PRIVACY_PUBLIC = 1;
     const PRIVACY_PRIVATE = 2;

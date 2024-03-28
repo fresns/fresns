@@ -10,8 +10,9 @@ namespace App\Models;
 
 class Geotag extends Model
 {
-    use Traits\GeotagServiceTrait;
+    use Traits\FsidTrait;
     use Traits\IsEnabledTrait;
+    use Traits\GeotagServiceTrait;
 
     protected $casts = [
         'name' => 'json',

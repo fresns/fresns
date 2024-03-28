@@ -19,8 +19,8 @@ class Extend extends Model
     const INFO_TYPE_PORTRAIT = 3;
     const INFO_TYPE_LANDSCAPE = 4;
 
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
     use Traits\ExtendServiceTrait;
 
     protected $casts = [

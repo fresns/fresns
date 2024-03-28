@@ -10,9 +10,9 @@ namespace App\Models;
 
 class PostLog extends Model
 {
-    use Traits\PostLogServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\PostLogServiceTrait;
 
     const STATE_DRAFT = 1;
     const STATE_UNDER_REVIEW = 2;

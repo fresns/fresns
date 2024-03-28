@@ -33,9 +33,9 @@ class File extends Model
     const WARNING_VIOLENCE = 3;
     const WARNING_SENSITIVE = 4;
 
-    use Traits\FileServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\FileServiceTrait;
 
     protected $casts = [
         'more_info' => 'json',

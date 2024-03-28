@@ -13,9 +13,9 @@ use App\Helpers\StrHelper;
 
 class User extends Model
 {
-    use Traits\UserServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\UserServiceTrait;
 
     const GENDER_UNKNOWN = 1;
     const GENDER_MALE = 2;

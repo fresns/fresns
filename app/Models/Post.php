@@ -10,9 +10,9 @@ namespace App\Models;
 
 class Post extends Model
 {
-    use Traits\PostServiceTrait;
-    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
+    use Traits\IsEnabledTrait;
+    use Traits\PostServiceTrait;
 
     const DIGEST_NO = 1;
     const DIGEST_GENERAL = 2;

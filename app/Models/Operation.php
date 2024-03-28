@@ -19,4 +19,9 @@ class Operation extends Model
     const USE_TYPE_FUNCTION = 2;
 
     use Traits\IsEnabledTrait;
+
+    protected $casts = [
+        'name' => 'json',
+        'description' => 'json',
+    ];
 }
