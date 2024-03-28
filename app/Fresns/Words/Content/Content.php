@@ -64,16 +64,10 @@ class Content
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
-            return $this->failure(
-                35201,
-                ConfigUtility::getCodeMessage(35201)
-            );
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
         }
         if (! $author->is_enabled) {
-            return $this->failure(
-                35202,
-                ConfigUtility::getCodeMessage(35202)
-            );
+            return $this->failure(35202, ConfigUtility::getCodeMessage(35202));
         }
 
         $permissions = [];
@@ -227,33 +221,21 @@ class Content
                 $post = Post::where('pid', $dtoWordBody->fsid)->first();
 
                 if (empty($post)) {
-                    return $this->failure(
-                        37400,
-                        ConfigUtility::getCodeMessage(37400)
-                    );
+                    return $this->failure(37400, ConfigUtility::getCodeMessage(37400));
                 }
 
                 $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
                 if (! $author) {
-                    return $this->failure(
-                        35201,
-                        ConfigUtility::getCodeMessage(35201)
-                    );
+                    return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
                 }
                 if (! $author->is_enabled) {
-                    return $this->failure(
-                        35202,
-                        ConfigUtility::getCodeMessage(35202)
-                    );
+                    return $this->failure(35202, ConfigUtility::getCodeMessage(35202));
                 }
 
                 // check edit
                 $checkEditCode = PermissionUtility::checkContentEdit('post', $post->created_at, $post->sticky_state, $post->digest_state);
                 if ($checkEditCode) {
-                    return $this->failure(
-                        $checkEditCode,
-                        ConfigUtility::getCodeMessage($checkEditCode)
-                    );
+                    return $this->failure($checkEditCode, ConfigUtility::getCodeMessage($checkEditCode));
                 }
 
                 $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editTimeLimit, $timezone, $langTag);
@@ -269,40 +251,25 @@ class Content
                 $comment = Comment::where('cid', $dtoWordBody->fsid)->first();
 
                 if (empty($comment)) {
-                    return $this->failure(
-                        37500,
-                        ConfigUtility::getCodeMessage(37500)
-                    );
+                    return $this->failure(37500, ConfigUtility::getCodeMessage(37500));
                 }
 
                 if ($comment->top_parent_id != 0) {
-                    return $this->failure(
-                        36314,
-                        ConfigUtility::getCodeMessage(36314)
-                    );
+                    return $this->failure(36314, ConfigUtility::getCodeMessage(36314));
                 }
 
                 $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
                 if (! $author) {
-                    return $this->failure(
-                        35201,
-                        ConfigUtility::getCodeMessage(35201)
-                    );
+                    return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
                 }
                 if (! $author->is_enabled) {
-                    return $this->failure(
-                        35202,
-                        ConfigUtility::getCodeMessage(35202)
-                    );
+                    return $this->failure(35202, ConfigUtility::getCodeMessage(35202));
                 }
 
                 // check edit
                 $checkEditCode = PermissionUtility::checkContentEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state);
                 if ($checkEditCode) {
-                    return $this->failure(
-                        $checkEditCode,
-                        ConfigUtility::getCodeMessage($checkEditCode)
-                    );
+                    return $this->failure($checkEditCode, ConfigUtility::getCodeMessage($checkEditCode));
                 }
 
                 $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editTimeLimit, $timezone, $langTag);
@@ -334,32 +301,20 @@ class Content
         };
 
         if (empty($logModel)) {
-            return $this->failure(
-                38100,
-                ConfigUtility::getCodeMessage(38100),
-            );
+            return $this->failure(38100, ConfigUtility::getCodeMessage(38100));
         }
 
         if ($logModel->state == PostLog::STATE_SUCCESS) {
-            return $this->failure(
-                38104,
-                ConfigUtility::getCodeMessage(38104),
-            );
+            return $this->failure(38104, ConfigUtility::getCodeMessage(38104));
         }
 
         $author = $logModel->author;
 
         if (empty($author)) {
-            return $this->failure(
-                35201,
-                ConfigUtility::getCodeMessage(35201)
-            );
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
         }
         if (! $author->is_enabled) {
-            return $this->failure(
-                35202,
-                ConfigUtility::getCodeMessage(35202)
-            );
+            return $this->failure(35202, ConfigUtility::getCodeMessage(35202));
         }
 
         switch ($dtoWordBody->type) {
@@ -370,10 +325,7 @@ class Content
                     $checkEditCode = PermissionUtility::checkContentEdit('post', $postModel->created_at, $postModel->sticky_state, $postModel->digest_state);
 
                     if ($checkEditCode) {
-                        return $this->failure(
-                            $checkEditCode,
-                            ConfigUtility::getCodeMessage($checkEditCode)
-                        );
+                        return $this->failure($checkEditCode, ConfigUtility::getCodeMessage($checkEditCode));
                     }
                 }
 
@@ -390,10 +342,7 @@ class Content
                     $checkEditCode = PermissionUtility::checkContentEdit('comment', $commentModel->created_at, $commentModel->is_sticky, $commentModel->digest_state);
 
                     if ($checkEditCode) {
-                        return $this->failure(
-                            $checkEditCode,
-                            ConfigUtility::getCodeMessage($checkEditCode)
-                        );
+                        return $this->failure($checkEditCode, ConfigUtility::getCodeMessage($checkEditCode));
                     }
                 }
 
@@ -418,16 +367,10 @@ class Content
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
-            return $this->failure(
-                35201,
-                ConfigUtility::getCodeMessage(35201)
-            );
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
         }
         if (! $author->is_enabled) {
-            return $this->failure(
-                35202,
-                ConfigUtility::getCodeMessage(35202)
-            );
+            return $this->failure(35202, ConfigUtility::getCodeMessage(35202));
         }
 
         $type = match ($dtoWordBody->type) {
@@ -618,10 +561,7 @@ class Content
                 };
 
                 if (empty($model)) {
-                    return $this->failure(
-                        36400,
-                        ConfigUtility::getCodeMessage(36400)
-                    );
+                    return $this->failure(36400, ConfigUtility::getCodeMessage(36400));
                 }
 
                 // logs
@@ -669,10 +609,7 @@ class Content
                 };
 
                 if (empty($model)) {
-                    return $this->failure(
-                        36400,
-                        ConfigUtility::getCodeMessage(36400)
-                    );
+                    return $this->failure(36400, ConfigUtility::getCodeMessage(36400));
                 }
 
                 $tableName = match ($dtoWordBody->type) {
@@ -716,10 +653,7 @@ class Content
                 };
 
                 if (empty($model)) {
-                    return $this->failure(
-                        36400,
-                        ConfigUtility::getCodeMessage(36400)
-                    );
+                    return $this->failure(36400, ConfigUtility::getCodeMessage(36400));
                 }
 
                 // logs
@@ -769,10 +703,7 @@ class Content
                 };
 
                 if (empty($model)) {
-                    return $this->failure(
-                        36400,
-                        ConfigUtility::getCodeMessage(36400)
-                    );
+                    return $this->failure(36400, ConfigUtility::getCodeMessage(36400));
                 }
 
                 $tableName = match ($dtoWordBody->type) {
@@ -840,10 +771,7 @@ class Content
         };
 
         if (empty($model)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode)
-            );
+            return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
         }
 
         $moreInfo = $model->more_info ?? [];
@@ -880,10 +808,7 @@ class Content
         };
 
         if (empty($primaryId)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode)
-            );
+            return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
         }
 
         $typeName = match ($dtoWordBody->type) {
@@ -914,10 +839,7 @@ class Content
         };
 
         if (empty($primaryId)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode)
-            );
+            return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
         }
 
         $typeName = match ($dtoWordBody->type) {
@@ -948,10 +870,7 @@ class Content
         };
 
         if (empty($model)) {
-            return $this->failure(
-                $errorCode,
-                ConfigUtility::getCodeMessage($errorCode)
-            );
+            return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
         }
 
         $permissions = $model->permissions;
@@ -978,19 +897,13 @@ class Content
 
         $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
-            return $this->failure(
-                37400,
-                ConfigUtility::getCodeMessage(37400)
-            );
+            return $this->failure(37400, ConfigUtility::getCodeMessage(37400));
         }
 
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         $roleId = $dtoWordBody->rid;
         if (empty($userId) && empty($roleId)) {
-            return $this->failure(
-                30001,
-                ConfigUtility::getCodeMessage(30001)
-            );
+            return $this->failure(30001, ConfigUtility::getCodeMessage(30001));
         }
 
         switch ($dtoWordBody->type) {
@@ -1040,18 +953,12 @@ class Content
 
         $postId = PrimaryHelper::fresnsPrimaryId('post', $dtoWordBody->pid);
         if (empty($postId)) {
-            return $this->failure(
-                37400,
-                ConfigUtility::getCodeMessage(37400)
-            );
+            return $this->failure(37400, ConfigUtility::getCodeMessage(37400));
         }
 
         $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
         if (empty($userId)) {
-            return $this->failure(
-                35201,
-                ConfigUtility::getCodeMessage(35201)
-            );
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
         }
 
         switch ($dtoWordBody->type) {

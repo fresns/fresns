@@ -76,19 +76,13 @@ class Account
                 }
 
                 if ($count > 0) {
-                    return $this->failure(
-                        34403,
-                        ConfigUtility::getCodeMessage(34403)
-                    );
+                    return $this->failure(34403, ConfigUtility::getCodeMessage(34403));
                 }
                 break;
         }
 
         if ($checkAccount) {
-            return $this->failure(
-                34204,
-                ConfigUtility::getCodeMessage(34204)
-            );
+            return $this->failure(34204, ConfigUtility::getCodeMessage(34204));
         }
 
         $inputArr = [];
@@ -190,10 +184,7 @@ class Account
                 $account = AccountModel::whereAny(['aid', 'email', 'phone'], $dtoWordBody->account)->first();
 
                 if (! $dtoWordBody->password) {
-                    return $this->failure(
-                        34111,
-                        ConfigUtility::getCodeMessage(34111),
-                    );
+                    return $this->failure(34111, ConfigUtility::getCodeMessage(34111));
                 }
                 break;
 
@@ -213,17 +204,11 @@ class Account
             case AccountModel::VERIFY_TYPE_CONNECT:
                 $accountConnect = AccountConnect::with(['account'])->where('connect_platform_id', $dtoWordBody->connectPlatformId)->where('connect_account_id', $dtoWordBody->connectAccountId)->first();
                 if (empty($accountConnect)) {
-                    return $this->failure(
-                        34301,
-                        ConfigUtility::getCodeMessage(34301),
-                    );
+                    return $this->failure(34301, ConfigUtility::getCodeMessage(34301));
                 }
 
                 if (! $accountConnect->is_enabled) {
-                    return $this->failure(
-                        34404,
-                        ConfigUtility::getCodeMessage(34404),
-                    );
+                    return $this->failure(34404, ConfigUtility::getCodeMessage(34404));
                 }
 
                 $account = $accountConnect?->account;
@@ -231,27 +216,18 @@ class Account
         }
 
         if (empty($account)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502),
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $loginErrorCount = ConfigUtility::getLoginErrorCount($account->id);
 
         if ($loginErrorCount >= 5) {
-            return $this->failure(
-                34306,
-                ConfigUtility::getCodeMessage(34306),
-            );
+            return $this->failure(34306, ConfigUtility::getCodeMessage(34306));
         }
 
         if ($dtoWordBody->password) {
             if (! Hash::check($dtoWordBody->password, $account->password)) {
-                return $this->failure(
-                    34304,
-                    ConfigUtility::getCodeMessage(34304),
-                );
+                return $this->failure(34304, ConfigUtility::getCodeMessage(34304));
             }
         }
 
@@ -302,10 +278,7 @@ class Account
 
         // I already have connected an account
         if ($accountConnect && $account) {
-            return $this->failure(
-                34405,
-                ConfigUtility::getCodeMessage(34405),
-            );
+            return $this->failure(34405, ConfigUtility::getCodeMessage(34405));
         }
 
         try {
@@ -327,10 +300,7 @@ class Account
                 'deleted_at' => null,
             ]);
         } catch (\Exception $e) {
-            return $this->failure(
-                32302,
-                ConfigUtility::getCodeMessage(32302),
-            );
+            return $this->failure(32302, ConfigUtility::getCodeMessage(32302));
         }
 
         if (empty($account->email) && $dtoWordBody->connectEmail) {
@@ -368,10 +338,7 @@ class Account
             ->get();
 
         if ($connectArr->count() == 1 && empty($accountModel->email) && empty($accountModel->phone)) {
-            return $this->failure(
-                34406,
-                ConfigUtility::getCodeMessage(34406),
-            );
+            return $this->failure(34406, ConfigUtility::getCodeMessage(34406));
         }
 
         foreach ($connectArr as $connect) {
@@ -436,19 +403,13 @@ class Account
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
 
         if (empty($keyInfo) || ! $keyInfo->is_enabled) {
-            return $this->failure(
-                31301,
-                ConfigUtility::getCodeMessage(31301),
-            );
+            return $this->failure(31301, ConfigUtility::getCodeMessage(31301));
         }
 
         $expiredHours = null;
@@ -498,10 +459,7 @@ class Account
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $aidToken = $dtoWordBody->aidToken;
@@ -518,27 +476,18 @@ class Account
                 ->first();
 
             if (empty($accountToken)) {
-                return $this->failure(
-                    31505,
-                    ConfigUtility::getCodeMessage(31505)
-                );
+                return $this->failure(31505, ConfigUtility::getCodeMessage(31505));
             }
 
             CacheHelper::put($accountToken, $cacheKey, $cacheTag);
         }
 
         if ($accountToken->platform_id != $dtoWordBody->platformId) {
-            return $this->failure(
-                31103,
-                ConfigUtility::getCodeMessage(31103)
-            );
+            return $this->failure(31103, ConfigUtility::getCodeMessage(31103));
         }
 
         if ($accountToken->expired_at && $accountToken->expired_at < now()) {
-            return $this->failure(
-                31504,
-                ConfigUtility::getCodeMessage(31504)
-            );
+            return $this->failure(31504, ConfigUtility::getCodeMessage(31504));
         }
 
         return $this->success();

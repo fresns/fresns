@@ -31,10 +31,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [
@@ -57,10 +54,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [
@@ -83,10 +77,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [
@@ -109,10 +100,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [
@@ -135,10 +123,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [
@@ -161,10 +146,7 @@ class SearchController extends Controller
         if (! $searchService) {
             $langTag = $this->langTag();
 
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag));
         }
 
         $wordBody = [

@@ -32,10 +32,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getStorageToken($wordBody);
@@ -67,10 +64,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
@@ -108,10 +102,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         if ($storageConfig['antiLinkStatus']) {
@@ -130,10 +121,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         if ($storageConfig['antiLinkStatus']) {
@@ -152,10 +140,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         if ($storageConfig['antiLinkStatus']) {
@@ -185,10 +170,7 @@ class File
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
-            return $this->failure(
-                21000,
-                ConfigUtility::getCodeMessage(21000, 'CmdWord'),
-            );
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->physicalDeletionFiles($wordBody);

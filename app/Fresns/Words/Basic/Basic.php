@@ -89,31 +89,19 @@ class Basic
         $keyFskey = $dtoWordBody->verifyFskey;
 
         if (empty($keyInfo) || ! $keyInfo->is_enabled) {
-            return $this->failure(
-                31301,
-                ConfigUtility::getCodeMessage(31301),
-            );
+            return $this->failure(31301, ConfigUtility::getCodeMessage(31301));
         }
 
         if ($keyInfo->type != $keyType) {
-            return $this->failure(
-                31304,
-                ConfigUtility::getCodeMessage(31304),
-            );
+            return $this->failure(31304, ConfigUtility::getCodeMessage(31304));
         }
 
         if ($keyType == SessionKey::TYPE_APP && $keyInfo->app_fskey != $keyFskey) {
-            return $this->failure(
-                31304,
-                ConfigUtility::getCodeMessage(31304),
-            );
+            return $this->failure(31304, ConfigUtility::getCodeMessage(31304));
         }
 
         if ($keyInfo->platform_id != $dtoWordBody->platformId) {
-            return $this->failure(
-                31102,
-                ConfigUtility::getCodeMessage(31102),
-            );
+            return $this->failure(31102, ConfigUtility::getCodeMessage(31102));
         }
 
         $timestamp = (int) $dtoWordBody->timestamp;
@@ -126,10 +114,7 @@ class Basic
         $diff = time() - $timestamp;
 
         if ($diff > 600) {
-            return $this->failure(
-                31303,
-                ConfigUtility::getCodeMessage(31303),
-            );
+            return $this->failure(31303, ConfigUtility::getCodeMessage(31303));
         }
 
         $includeEmptyCheckArr = [
@@ -149,10 +134,7 @@ class Basic
         $checkSign = SignHelper::checkSign($withoutEmptyCheckArr, $keyInfo->app_key);
 
         if (! $checkSign) {
-            return $this->failure(
-                31302,
-                ConfigUtility::getCodeMessage(31302),
-            );
+            return $this->failure(31302, ConfigUtility::getCodeMessage(31302));
         }
 
         if ($dtoWordBody->uid) {
@@ -185,23 +167,14 @@ class Basic
             $accessTokenJson = json_decode($accessTokenData, true) ?? [];
 
             if (empty($accessTokenJson)) {
-                return $this->failure(
-                    30002,
-                    ConfigUtility::getCodeMessage(30002)
-                );
+                return $this->failure(30002, ConfigUtility::getCodeMessage(30002));
             }
 
             if (! is_array($accessTokenJson)) {
-                return $this->failure(
-                    30004,
-                    ConfigUtility::getCodeMessage(30004)
-                );
+                return $this->failure(30004, ConfigUtility::getCodeMessage(30004));
             }
         } catch (\Exception $e) {
-            return $this->failure(
-                31000,
-                ConfigUtility::getCodeMessage(31000)
-            );
+            return $this->failure(31000, ConfigUtility::getCodeMessage(31000));
         }
 
         $langTag = $accessTokenJson['X-Fresns-Client-Lang-Tag'] ?? AppHelper::getLangTag();
@@ -247,19 +220,13 @@ class Basic
 
         if ($dtoWordBody->accountLogin) {
             if (empty($headers['aid']) || empty($headers['aidToken'])) {
-                return $this->failure(
-                    31501,
-                    ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag)
-                );
+                return $this->failure(31501, ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag));
             }
         }
 
         if ($dtoWordBody->userLogin) {
             if (empty($headers['uid']) || empty($headers['uidToken'])) {
-                return $this->failure(
-                    31601,
-                    ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag)
-                );
+                return $this->failure(31601, ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag));
             }
         }
 
@@ -316,10 +283,7 @@ class Basic
         }
 
         if (empty($pluginFskey)) {
-            return $this->failure(
-                32100,
-                ConfigUtility::getCodeMessage(32100),
-            );
+            return $this->failure(32100, ConfigUtility::getCodeMessage(32100));
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendCode($wordBody);
@@ -346,10 +310,7 @@ class Basic
             ->first();
 
         if (! $verifyInfo) {
-            return $this->failure(
-                33203,
-                ConfigUtility::getCodeMessage(33203),
-            );
+            return $this->failure(33203, ConfigUtility::getCodeMessage(33203));
         }
 
         $verifyInfo->update([

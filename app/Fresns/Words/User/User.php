@@ -58,10 +58,7 @@ class User
 
         $account = Account::where('aid', $dtoWordBody->aid)->first();
         if (empty($account)) {
-            return $this->failure(
-                34301,
-                ConfigUtility::getCodeMessage(34301)
-            );
+            return $this->failure(34301, ConfigUtility::getCodeMessage(34301));
         }
 
         $userArr = [
@@ -114,34 +111,22 @@ class User
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
         if (empty($user) || $user?->account_id != $accountId) {
-            return $this->failure(
-                35201,
-                ConfigUtility::getCodeMessage(35201)
-            );
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201));
         }
 
         $loginErrorCount = ConfigUtility::getLoginErrorCount($user->account->id, $user->id);
 
         if ($loginErrorCount >= 5) {
-            return $this->failure(
-                34306,
-                ConfigUtility::getCodeMessage(34306),
-            );
+            return $this->failure(34306, ConfigUtility::getCodeMessage(34306));
         }
 
         if ($user->pin) {
             if (empty($dtoWordBody->pin)) {
-                return $this->failure(
-                    34111,
-                    ConfigUtility::getCodeMessage(34111),
-                );
+                return $this->failure(34111, ConfigUtility::getCodeMessage(34111));
             }
 
             if (! Hash::check($dtoWordBody->pin, $user->pin)) {
-                return $this->failure(
-                    35204,
-                    ConfigUtility::getCodeMessage(35204),
-                );
+                return $this->failure(35204, ConfigUtility::getCodeMessage(35204));
             }
         }
 
@@ -171,10 +156,7 @@ class User
         $user = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
 
         if (empty($user) || $user->account_id != $accountId) {
-            return $this->failure(
-                31602,
-                ConfigUtility::getCodeMessage(31602)
-            );
+            return $this->failure(31602, ConfigUtility::getCodeMessage(31602));
         }
 
         $userTokenModel = SessionToken::where('platform_id', $dtoWordBody->platformId)
@@ -273,27 +255,18 @@ class User
                 ->first();
 
             if (empty($userToken)) {
-                return $this->failure(
-                    31603,
-                    ConfigUtility::getCodeMessage(31603)
-                );
+                return $this->failure(31603, ConfigUtility::getCodeMessage(31603));
             }
 
             CacheHelper::put($userToken, $cacheKey, $cacheTag);
         }
 
         if ($userToken->platform_id != $dtoWordBody->platformId) {
-            return $this->failure(
-                31103,
-                ConfigUtility::getCodeMessage(31103)
-            );
+            return $this->failure(31103, ConfigUtility::getCodeMessage(31103));
         }
 
         if ($userToken->expired_at && $userToken->expired_at < now()) {
-            return $this->failure(
-                31504,
-                ConfigUtility::getCodeMessage(31504)
-            );
+            return $this->failure(31504, ConfigUtility::getCodeMessage(31504));
         }
 
         return $this->success();
@@ -393,10 +366,7 @@ class User
         }
 
         if (! $operationStat) {
-            return $this->failure(
-                21006,
-                ConfigUtility::getCodeMessage(21006)
-            );
+            return $this->failure(21006, ConfigUtility::getCodeMessage(21006));
         }
 
         $log = [

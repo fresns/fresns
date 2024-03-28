@@ -17,7 +17,6 @@ use App\Fresns\Words\Account\DTO\WalletReversalDTO;
 use App\Fresns\Words\Account\DTO\WalletUnfreezeDTO;
 use App\Fresns\Words\Account\DTO\WalletUpdateStateDTO;
 use App\Fresns\Words\Account\DTO\WalletWithdrawDTO;
-use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\AccountWallet;
@@ -41,10 +40,7 @@ class Wallet
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         if (empty($wallet->password) && empty($dtoWordBody->password)) {
@@ -55,10 +51,7 @@ class Wallet
             $checkWallet = static::checkWalletPassword($wallet, $dtoWordBody->password);
             // Account wallet password is incorrect
             if (! $checkWallet) {
-                return $this->failure(
-                    34502,
-                    ConfigUtility::getCodeMessage(34502)
-                );
+                return $this->failure(34502, ConfigUtility::getCodeMessage(34502));
             }
         }
 
@@ -75,28 +68,19 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // amount
@@ -145,39 +129,27 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         if ($wallet->password) {
             $checkWallet = static::checkWalletPassword($wallet, $dtoWordBody->password);
             // Account wallet password is incorrect
             if (! $checkWallet) {
-                return $this->failure(
-                    34502,
-                    ConfigUtility::getCodeMessage(34502)
-                );
+                return $this->failure(34502, ConfigUtility::getCodeMessage(34502));
             }
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // amount
@@ -190,10 +162,7 @@ class Wallet
         $checkBalance = static::checkBalance($wallet, $amountTotal);
         // The counterparty wallet balance is not allowed to make payment
         if (! $checkBalance) {
-            return $this->failure(
-                34504,
-                ConfigUtility::getCodeMessage(34504)
-            );
+            return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
         }
 
         // wallet log
@@ -231,20 +200,14 @@ class Wallet
         $dtoWordBody = new WalletUpdateStateDTO($wordBody);
 
         if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
-            return $this->failure(
-                21005,
-                ConfigUtility::getCodeMessage(21005)
-            );
+            return $this->failure(21005, ConfigUtility::getCodeMessage(21005));
         }
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->whereIn('state', [
@@ -273,20 +236,14 @@ class Wallet
         $walletLog = $walletLogQuery->first();
 
         if (empty($walletLog)) {
-            return $this->failure(
-                32201,
-                ConfigUtility::getCodeMessage(32201)
-            );
+            return $this->failure(32201, ConfigUtility::getCodeMessage(32201));
         }
 
         if (! in_array($walletLog->type, [
             AccountWalletLog::TYPE_IN_RECHARGE,
             AccountWalletLog::TYPE_DE_WITHDRAW,
         ])) {
-            return $this->failure(
-                21007,
-                ConfigUtility::getCodeMessage(21007)
-            );
+            return $this->failure(21007, ConfigUtility::getCodeMessage(21007));
         }
 
         if ($dtoWordBody->updateState != AccountWalletLog::STATE_SUCCESS) {
@@ -301,10 +258,7 @@ class Wallet
 
         $wallet = AccountWallet::where('account_id', $accountId)->first();
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         switch ($walletLog->type) {
@@ -319,10 +273,7 @@ class Wallet
 
                 // The counterparty wallet balance is not allowed to make payment
                 if (! $checkBalance) {
-                    return $this->failure(
-                        34504,
-                        ConfigUtility::getCodeMessage(34504)
-                    );
+                    return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
                 }
 
                 static::balanceChange($wallet, 'decrement', $walletLog->amount_total);
@@ -353,28 +304,19 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // amount
@@ -383,10 +325,7 @@ class Wallet
         $checkBalance = static::checkBalance($wallet, $amountTotal);
         // The counterparty wallet balance is not allowed to make payment
         if (! $checkBalance) {
-            return $this->failure(
-                34505,
-                ConfigUtility::getCodeMessage(34505)
-            );
+            return $this->failure(34505, ConfigUtility::getCodeMessage(34505));
         }
 
         // wallet log
@@ -426,28 +365,19 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // amount
@@ -455,10 +385,7 @@ class Wallet
 
         // The counterparty wallet balance is not allowed to make payment
         if ($wallet->freeze_amount < $amountTotal) {
-            return $this->failure(
-                34505,
-                ConfigUtility::getCodeMessage(34505)
-            );
+            return $this->failure(34505, ConfigUtility::getCodeMessage(34505));
         }
 
         // wallet log
@@ -500,28 +427,19 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // amount
@@ -560,28 +478,19 @@ class Wallet
 
             // The counterparty wallet not exist or has been banned
             if (empty($originWallet)) {
-                return $this->failure(
-                    34503,
-                    ConfigUtility::getCodeMessage(34503)
-                );
+                return $this->failure(34503, ConfigUtility::getCodeMessage(34503));
             }
 
             $checkBalance = static::checkBalance($originWallet, $amountTotal);
             // The counterparty wallet balance is not allowed to make payment
             if (! $checkBalance) {
-                return $this->failure(
-                    34505,
-                    ConfigUtility::getCodeMessage(34505)
-                );
+                return $this->failure(34505, ConfigUtility::getCodeMessage(34505));
             }
 
             // The closing balance of the counterparty does not match with the wallet limit
             $checkOriginClosingBalance = static::checkClosingBalance($originWallet);
             if (! $checkOriginClosingBalance) {
-                return $this->failure(
-                    34507,
-                    ConfigUtility::getCodeMessage(34507)
-                );
+                return $this->failure(34507, ConfigUtility::getCodeMessage(34507));
             }
 
             // increase
@@ -634,29 +543,20 @@ class Wallet
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         if ($wallet->password) {
             $checkWallet = static::checkWalletPassword($wallet, $dtoWordBody->password);
             // Account wallet password is incorrect
             if (! $checkWallet) {
-                return $this->failure(
-                    34502,
-                    ConfigUtility::getCodeMessage(34502)
-                );
+                return $this->failure(34502, ConfigUtility::getCodeMessage(34502));
             }
         }
 
@@ -670,19 +570,13 @@ class Wallet
         $checkBalance = static::checkBalance($wallet, $amountTotal);
         // The counterparty wallet balance is not allowed to make payment
         if (! $checkBalance) {
-            return $this->failure(
-                34504,
-                ConfigUtility::getCodeMessage(34504)
-            );
+            return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
         }
 
         $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
-            return $this->failure(
-                34506,
-                ConfigUtility::getCodeMessage(34506)
-            );
+            return $this->failure(34506, ConfigUtility::getCodeMessage(34506));
         }
 
         // wallet log
@@ -714,19 +608,13 @@ class Wallet
 
             // The counterparty wallet not exist or has been banned
             if (empty($originWallet)) {
-                return $this->failure(
-                    34503,
-                    ConfigUtility::getCodeMessage(34503)
-                );
+                return $this->failure(34503, ConfigUtility::getCodeMessage(34503));
             }
 
             // The closing balance of the counterparty does not match with the wallet limit
             $checkOriginClosingBalance = static::checkClosingBalance($originWallet);
             if (! $checkOriginClosingBalance) {
-                return $this->failure(
-                    34507,
-                    ConfigUtility::getCodeMessage(34507)
-                );
+                return $this->failure(34507, ConfigUtility::getCodeMessage(34507));
             }
 
             // decrement
@@ -773,20 +661,14 @@ class Wallet
         $dtoWordBody = new WalletReversalDTO($wordBody);
 
         if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
-            return $this->failure(
-                21005,
-                ConfigUtility::getCodeMessage(21005)
-            );
+            return $this->failure(21005, ConfigUtility::getCodeMessage(21005));
         }
 
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $dtoWordBody->aid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
-            return $this->failure(
-                31502,
-                ConfigUtility::getCodeMessage(31502)
-            );
+            return $this->failure(31502, ConfigUtility::getCodeMessage(31502));
         }
 
         $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->where('state', AccountWalletLog::STATE_SUCCESS);
@@ -811,28 +693,19 @@ class Wallet
         $walletLog = $walletLogQuery->first();
 
         if (empty($walletLog)) {
-            return $this->failure(
-                32201,
-                ConfigUtility::getCodeMessage(32201)
-            );
+            return $this->failure(32201, ConfigUtility::getCodeMessage(32201));
         }
 
         if (! in_array($walletLog->type, [
             AccountWalletLog::TYPE_IN_TRANSACTION,
             AccountWalletLog::TYPE_DE_TRANSACTION,
         ])) {
-            return $this->failure(
-                21007,
-                ConfigUtility::getCodeMessage(21007)
-            );
+            return $this->failure(21007, ConfigUtility::getCodeMessage(21007));
         }
 
         $wallet = AccountWallet::where('account_id', $accountId)->first();
         if (empty($wallet)) {
-            return $this->failure(
-                34501,
-                ConfigUtility::getCodeMessage(34501)
-            );
+            return $this->failure(34501, ConfigUtility::getCodeMessage(34501));
         }
 
         // object wallet and log
@@ -847,10 +720,7 @@ class Wallet
                 $checkObjectBalance = static::checkBalance($objectWallet, $objectWalletLog->amount_total);
                 // The counterparty wallet balance is not allowed to make payment
                 if (! $checkObjectBalance) {
-                    return $this->failure(
-                        34504,
-                        ConfigUtility::getCodeMessage(34504)
-                    );
+                    return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
                 }
 
                 $objectWalletLog->update([
@@ -863,10 +733,7 @@ class Wallet
             // The counterparty wallet balance is not allowed to make payment
             $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
             if (! $checkBalance) {
-                return $this->failure(
-                    34504,
-                    ConfigUtility::getCodeMessage(34504)
-                );
+                return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
             }
         }
 
