@@ -40,9 +40,7 @@
 
             btn.prop('disabled', true);
             if (btn.children('.spinner-border').length == 0) {
-                btn.prepend(
-                    '<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> '
-                );
+                btn.prepend('<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> ');
             }
             btn.children('.spinner-border').removeClass('d-none');
         });
