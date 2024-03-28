@@ -175,6 +175,22 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 30006,
+                'messages' => '{"en":"Same old and new value, no change","zh-Hans":"新旧值一样，没有变化","zh-Hant":"新值和舊值一樣，沒有變化"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 30007,
+                'messages' => '{"en":"Can\'t be empty","zh-Hans":"不能留空","zh-Hant":"不能留空"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 31000,
                 'messages' => '{"en":"Header error","zh-Hans":"Header Error","zh-Hant":"Header Error"}',
                 'created_at' => '2022-10-18 10:00:00',
