@@ -273,7 +273,8 @@ class CommonController extends Controller
         if ($dtoRequest->moreInfo) {
             try {
                 $moreInfo = json_decode($dtoRequest->moreInfo, true);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         // upload
