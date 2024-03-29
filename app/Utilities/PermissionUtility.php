@@ -538,6 +538,7 @@ class PermissionUtility
         $checkGroupAdmin = static::checkUserGroupAdmin($groupId, $userId);
 
         if ($checkGroupAdmin) {
+            $adminPerm['canPublish'] = true;
             $adminPerm['allowPost'] = true;
             $adminPerm['reviewPost'] = false;
             $adminPerm['allowComment'] = true;
