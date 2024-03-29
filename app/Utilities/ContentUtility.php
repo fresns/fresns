@@ -43,7 +43,7 @@ class ContentUtility
     // get comment post
     public static function getCommentPost(?string $commentPid = null, ?string $commentCid = null): ?Post
     {
-        if (empty($commentPid) || empty($commentCid)) {
+        if (empty($commentPid) && empty($commentCid)) {
             return null;
         }
 
