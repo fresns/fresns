@@ -13,8 +13,8 @@ use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonCmdWordDTO;
 use App\Fresns\Api\Http\DTO\CommonFileInfoDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
-use App\Fresns\Api\Http\DTO\CommonFileStorageTokenDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUploadsDTO;
+use App\Fresns\Api\Http\DTO\CommonFileUploadTokenDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUsersDTO;
 use App\Fresns\Api\Http\DTO\CommonFileWarningDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
@@ -29,6 +29,7 @@ use App\Helpers\StrHelper;
 use App\Models\App;
 use App\Models\Comment;
 use App\Models\CommentLog;
+use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\File;
 use App\Models\FileDownload;
@@ -166,10 +167,10 @@ class CommonController extends Controller
         return $fresnsResp->getOrigin();
     }
 
-    // file storage token
-    public function fileStorageToken(Request $request)
+    // file upload token
+    public function fileUploadToken(Request $request)
     {
-        $dtoRequest = new CommonFileStorageTokenDTO($request->all());
+        $dtoRequest = new CommonFileUploadTokenDTO($request->all());
 
         $type = match ($dtoRequest->type) {
             'image' => File::TYPE_IMAGE,
@@ -178,7 +179,13 @@ class CommonController extends Controller
             'document' => File::TYPE_DOCUMENT,
         };
 
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getStorageToken([
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
+
+        if (! $storageConfig['storageConfigStatus']) {
+            return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
+        }
+
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken([
             'type' => $type,
         ]);
 
@@ -209,9 +216,6 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonFileUploadsDTO($request->all());
 
-        $langTag = $this->langTag();
-        $authUser = $this->user();
-
         $fileType = match ($dtoRequest->type) {
             'image' => File::TYPE_IMAGE,
             'video' => File::TYPE_VIDEO,
@@ -232,211 +236,31 @@ class CommonController extends Controller
             throw new ResponseException(32102);
         }
 
+        $platformId = $this->platformId();
+        $aid = \request()->header('X-Fresns-Aid');
+        $uid = \request()->header('X-Fresns-Uid');
+
         // check file info
-        if ($dtoRequest->uploadMode == 'fileInfo') {
-            $fileInfoArr = json_decode($dtoRequest->fileInfo, true);
-            $fileInfoArr['fileType'] = $dtoRequest->type;
+        $permWordBody = [
+            'usageType' => $dtoRequest->usageType,
+            'usageFsid' => $dtoRequest->usageFsid,
+            'type' => $fileType,
+            'uid' => $uid,
+        ];
 
-            new CommonFileInfoDTO($fileInfoArr);
+        $permResp = \FresnsCmdWord::plugin('Fresns')->checkUploadPerm($permWordBody);
+
+        if ($permResp->isErrorResponse()) {
+            return $permResp->getErrorResponse();
         }
 
-        // more info
-        $moreInfo = null;
-        if ($dtoRequest->moreInfo) {
-            $moreInfo = json_decode($dtoRequest->moreInfo, true);
-        }
+        $usageType = $permResp->getData('usageType');
+        $tableName = $permResp->getData('tableName');
+        $tableColumn = $permResp->getData('tableColumn');
+        $tableId = $permResp->getData('tableId');
+        $tableKey = $permResp->getData('tableKey');
 
-        $tableName = match ($dtoRequest->usageType) {
-            'userAvatar' => 'users',
-            'userBanner' => 'users',
-            'conversation' => 'conversations',
-            'post' => 'posts',
-            'comment' => 'comments',
-            'postDraft' => 'post_logs',
-            'commentDraft' => 'comment_logs',
-        };
-
-        $tableColumn = match ($dtoRequest->usageType) {
-            'userAvatar' => 'avatar_file_id',
-            'userBanner' => 'banner_file_id',
-            'conversation' => 'id',
-            'post' => 'id',
-            'comment' => 'id',
-            'postDraft' => 'id',
-            'commentDraft' => 'id',
-        };
-
-        $fsid = $dtoRequest->usageFsid;
-
-        switch ($tableName) {
-            case 'users':
-                if (StrHelper::isPureInt($fsid)) {
-                    $checkQuery = User::where('uid', $fsid)->first();
-                } else {
-                    $checkQuery = User::where('username', $fsid)->first();
-                }
-
-                $checkUser = $checkQuery?->id == $authUser->id;
-                break;
-
-            case 'posts':
-                $checkQuery = Post::where('pid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            case 'comments':
-                $checkQuery = Comment::where('cid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            case 'conversations':
-                if (StrHelper::isPureInt($fsid)) {
-                    $checkQuery = User::where('uid', $fsid)->first();
-                } else {
-                    $checkQuery = User::where('username', $fsid)->first();
-                }
-
-                $checkUser = true;
-                break;
-
-            case 'post_logs':
-                $checkQuery = PostLog::where('hpid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            case 'comment_logs':
-                $checkQuery = CommentLog::where('hcid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            default:
-                $checkQuery = null;
-                $checkUser = false;
-        }
-
-        if (empty($checkQuery)) {
-            throw new ResponseException(32201);
-        }
-
-        if (! $checkUser) {
-            throw new ResponseException(36500);
-        }
-
-        $tableId = $checkQuery->id;
-
-        // conversation message
-        if ($tableName == 'conversations') {
-            $conversationPermInt = PermissionUtility::checkUserConversationPerm($checkQuery->id, $authUser->id, $langTag);
-            if ($conversationPermInt != 0) {
-                throw new ResponseException($conversationPermInt);
-            }
-
-            $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
-            if (! in_array($dtoRequest->type, $conversationFiles)) {
-                switch ($dtoRequest->type) {
-                    case 'image':
-                        throw new ResponseException(36109);
-                        break;
-
-                    case 'video':
-                        throw new ResponseException(36110);
-                        break;
-
-                    case 'audio':
-                        throw new ResponseException(36111);
-                        break;
-
-                    case 'document':
-                        throw new ResponseException(36112);
-                        break;
-
-                    default:
-                        throw new ResponseException(36200);
-                }
-            }
-
-            $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $checkQuery->id);
-            $tableId = $conversation->id;
-        }
-
-        // usage type
-        $usageType = match ($tableName) {
-            'users' => FileUsage::TYPE_USER,
-            'posts' => FileUsage::TYPE_POST,
-            'comments' => FileUsage::TYPE_COMMENT,
-            'conversations' => FileUsage::TYPE_CONVERSATION,
-            'post_logs' => FileUsage::TYPE_POST,
-            'comment_logs' => FileUsage::TYPE_COMMENT,
-            default => FileUsage::TYPE_OTHER,
-        };
-
-        // check publish file count
-        $publishType = match ($usageType) {
-            FileUsage::TYPE_POST => 'post',
-            FileUsage::TYPE_COMMENT => 'comment',
-            default => null,
-        };
-
-        if ($publishType) {
-            $editorConfig = ConfigUtility::getEditorConfigByType($publishType, $authUser->id, $langTag);
-
-            switch ($dtoRequest->type) {
-                case 'image':
-                    $uploadStatus = $editorConfig['image']['status'];
-
-                    if (! $uploadStatus) {
-                        throw new ResponseException(36109);
-                    }
-                    break;
-
-                case 'video':
-                    $uploadStatus = $editorConfig['video']['status'];
-
-                    if (! $uploadStatus) {
-                        throw new ResponseException(36110);
-                    }
-                    break;
-
-                case 'audio':
-                    $uploadStatus = $editorConfig['audio']['status'];
-
-                    if (! $uploadStatus) {
-                        throw new ResponseException(36111);
-                    }
-                    break;
-
-                case 'document':
-                    $uploadStatus = $editorConfig['document']['status'];
-
-                    if (! $uploadStatus) {
-                        throw new ResponseException(36112);
-                    }
-                    break;
-            }
-
-            $uploadNumber = match ($dtoRequest->type) {
-                'image' => $editorConfig['image']['uploadNumber'],
-                'video' => $editorConfig['video']['uploadNumber'],
-                'audio' => $editorConfig['audio']['uploadNumber'],
-                'document' => $editorConfig['document']['uploadNumber'],
-            };
-
-            $fileCount = FileUsage::where('file_type', $fileType)
-                ->where('usage_type', $usageType)
-                ->where('table_name', $tableName)
-                ->where('table_column', $tableColumn)
-                ->where('table_id', $checkQuery->id)
-                ->count();
-
-            if ($fileCount >= $uploadNumber) {
-                throw new ResponseException(36115);
-            }
-        }
-
+        // warning type
         $warningType = match ($dtoRequest->warning) {
             'nudity' => File::WARNING_NUDITY,
             'violence' => File::WARNING_VIOLENCE,
@@ -444,10 +268,13 @@ class CommonController extends Controller
             default => File::WARNING_NONE,
         };
 
-        // header info
-        $platformId = $this->platformId();
-        $aid = \request()->header('X-Fresns-Aid');
-        $uid = \request()->header('X-Fresns-Uid');
+        // more info
+        $moreInfo = null;
+        if ($dtoRequest->moreInfo) {
+            try {
+                $moreInfo = json_decode($dtoRequest->moreInfo, true);
+            } catch (\Exception $e) {}
+        }
 
         // upload
         switch ($dtoRequest->uploadMode) {
@@ -458,7 +285,9 @@ class CommonController extends Controller
                 $extensionArr = explode(',', $extensionNames);
 
                 if (! in_array($extension, $extensionArr)) {
-                    throw new ResponseException(36310, 'Fresns', ['currentFileExtension' => $extension]);
+                    throw new ResponseException(36310, 'Fresns', [
+                        'currentFileExtension' => $extension,
+                    ]);
                 }
 
                 $maxMb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size") + 1;
@@ -474,7 +303,7 @@ class CommonController extends Controller
                     'tableName' => $tableName,
                     'tableColumn' => $tableColumn,
                     'tableId' => $tableId,
-                    'tableKey' => $fsid,
+                    'tableKey' => $tableKey,
                     'aid' => $aid,
                     'uid' => $uid,
                     'type' => $fileType,
@@ -487,13 +316,22 @@ class CommonController extends Controller
                 break;
 
             case 'fileInfo':
+                try {
+                    $fileInfoArr = json_decode($dtoRequest->fileInfo, true);
+                    $fileInfoArr['fileType'] = $dtoRequest->type;
+
+                    new CommonFileInfoDTO($fileInfoArr);
+                } catch (\Exception $e) {
+                    throw new ResponseException(30004);
+                }
+
                 $wordBody = [
                     'platformId' => $platformId,
                     'usageType' => $usageType,
                     'tableName' => $tableName,
                     'tableColumn' => $tableColumn,
                     'tableId' => $tableId,
-                    'tableKey' => $fsid,
+                    'tableKey' => $tableKey,
                     'aid' => $aid,
                     'uid' => $uid,
                     'type' => $fileType,
@@ -506,8 +344,13 @@ class CommonController extends Controller
                 break;
         }
 
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->getErrorResponse();
+        }
+
         // user avatar or banner
-        if ($fresnsResp->isSuccessResponse() && $tableName == 'users') {
+        $authUser = $this->user();
+        if ($tableName == 'users') {
             $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
 
             if ($tableColumn == 'avatar_file_id') {
@@ -542,8 +385,11 @@ class CommonController extends Controller
         }
 
         // conversation
-        if ($fresnsResp->isSuccessResponse() && $tableName == 'conversations') {
+        if ($tableName == 'conversations') {
             $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
+
+            $conversation = Conversation::where('id', $tableId)->first();
+
             $receiveUserId = ($authUser->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
 
             // conversation message

@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonFileStorageTokenDTO extends DTO
+class CommonFileUploadTokenDTO extends DTO
 {
     public function rules(): array
     {

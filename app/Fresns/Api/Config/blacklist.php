@@ -16,7 +16,7 @@ return [
     // Public mode account
     'publicAccount' => [
         'api.global.archives',
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.uploads',
         'api.common.file.warning',
         'api.common.file.link',
@@ -60,7 +60,7 @@ return [
     // Public mode user
     'publicUser' => [
         'api.global.archives',
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.uploads',
         'api.common.file.warning',
         'api.common.file.link',
@@ -104,7 +104,7 @@ return [
         'api.global.stickers',
         'api.common.input.tips',
         'api.common.callback',
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.uploads',
         'api.common.file.warning',
         'api.common.file.link',
@@ -188,7 +188,7 @@ return [
         'api.global.stickers',
         'api.common.input.tips',
         'api.common.callback',
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.uploads',
         'api.common.file.warning',
         'api.common.file.link',
@@ -293,7 +293,7 @@ return [
 
     // Disable for after expiry
     'disableForAfterExpiry' => [
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.warning',
         'api.common.file.link',
         'api.user.edit',
@@ -323,7 +323,7 @@ return [
 
     // Disable for read only
     'disableForReadOnly' => [
-        'api.common.file.storage.token',
+        'api.common.file.upload.token',
         'api.common.file.uploads',
         'api.conversation.send.message',
         'api.editor.publish',

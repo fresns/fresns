@@ -48,7 +48,7 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('cmd-word', [CommonController::class, 'cmdWord'])->name('cmd.word');
         Route::prefix('file')->name('file.')->group(function () {
-            Route::get('storage-token', [CommonController::class, 'fileStorageToken'])->name('storage.token');
+            Route::get('upload-token', [CommonController::class, 'fileUploadToken'])->name('upload.token');
             Route::post('uploads', [CommonController::class, 'fileUploads'])->name('uploads');
             Route::patch('{fid}/warning', [CommonController::class, 'fileUpdateWarning'])->name('warning');
             Route::get('{fid}/link', [CommonController::class, 'fileLink'])->name('link');
