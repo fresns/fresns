@@ -83,7 +83,8 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'clearUserAllBadges', 'provider' => [User::class, 'clearUserAllBadges']],
 
         // File
-        ['word' => 'getStorageToken', 'provider' => [File::class, 'getStorageToken']],
+        ['word' => 'checkUploadPerm', 'provider' => [File::class, 'checkUploadPerm']],
+        ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],
         ['word' => 'uploadFile', 'provider' => [File::class, 'uploadFile']],
         ['word' => 'uploadFileInfo', 'provider' => [File::class, 'uploadFileInfo']],
         ['word' => 'getAntiLinkFileInfo', 'provider' => [File::class, 'getAntiLinkFileInfo']],
