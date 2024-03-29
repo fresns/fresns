@@ -127,7 +127,7 @@ class SettingController extends Controller
 
                     CacheHelper::forgetFresnsMultilingual("fresns_web_account_{$account?->aid}", 'fresnsWeb');
                     CacheHelper::forgetFresnsMultilingual("fresns_web_user_{$user?->uid}", 'fresnsWeb');
-                    CacheHelper::forgetFresnsMultilingual("fresns_web_user_panel_{$user?->uid}", 'fresnsWeb');
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_user_overview_{$user?->uid}", 'fresnsWeb');
                 }
                 break;
 
