@@ -10,7 +10,7 @@ namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-class GetStorageTokenDTO extends DTO
+class GetUploadTokenDTO extends DTO
 {
     public function rules(): array
     {
