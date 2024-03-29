@@ -47,7 +47,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_url_desc') }}</div>
         </div>
 
-        {{-- <div class="row">
+        <div class="row">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_build_type') }}:</label>
             <div class="col-lg-6">
                 <select class="form-select" name="build_type" required>
@@ -57,7 +57,7 @@
                 </select>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
-        </div> --}}
+        </div>
 
         <!--Save-->
         <div class="row my-4">
