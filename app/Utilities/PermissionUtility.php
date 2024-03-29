@@ -860,7 +860,7 @@ class PermissionUtility
     public static function checkContentIntervalTime(int $userId, string $type): bool
     {
         $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
-        $interval = $rolePerm["{$type}_second_interval"] ?? 0;
+        $interval = (int) $rolePerm["{$type}_second_interval"] ?? 0;
 
         if ($interval == 0) {
             return true;
