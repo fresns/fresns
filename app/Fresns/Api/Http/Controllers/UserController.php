@@ -348,6 +348,11 @@ class UserController extends Controller
             }
 
             $username = Str::of($dtoRequest->username)->trim();
+
+            if ($username == $authUser->username) {
+                throw new ResponseException(30006);
+            }
+
             $validateUsername = ValidationUtility::username($username);
 
             if (! $validateUsername['formatString'] || ! $validateUsername['formatHyphen'] || ! $validateUsername['formatNumeric']) {
@@ -400,6 +405,10 @@ class UserController extends Controller
             }
 
             $nickname = Str::of($dtoRequest->nickname)->trim();
+
+            if ($nickname == $authUser->nickname) {
+                throw new ResponseException(30006);
+            }
 
             $validateNickname = ValidationUtility::nickname($nickname);
 
@@ -533,6 +542,10 @@ class UserController extends Controller
         if ($dtoRequest->bio) {
             $bio = Str::of($dtoRequest->bio)->trim();
 
+            if ($bio == $authUser->bio) {
+                throw new ResponseException(30006);
+            }
+
             $validateBio = ValidationUtility::bio($bio);
 
             if (! $validateBio['length']) {
@@ -561,11 +574,11 @@ class UserController extends Controller
                 'bio' => $bio,
             ]);
 
-            if ($authUser->bio && $authUser->bio != $bio) {
+            if ($authUser->bio) {
                 UserLog::create([
                     'user_id' => $authUser->id,
                     'type' => UserLog::TYPE_BIO,
-                    'content' => $bio,
+                    'content' => $authUser->bio,
                 ]);
             }
         }
