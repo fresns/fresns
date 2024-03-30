@@ -198,7 +198,7 @@
                         </select>
 
                         <label class="input-group-text">{{ __('FsLang::panel.table_name') }}</label>
-                        <input type="hidden" name="connectNames[]" value="{{ json_encode($connectService['name']) }}">
+                        <input type="hidden" name="connectNames[]" value="{{ ($connectService['name'] ?? []) ? json_encode($connectService['name']) : '' }}">
                         <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectNameModal">{{ __('FsLang::panel.button_config') }}</button>
 
                         <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>

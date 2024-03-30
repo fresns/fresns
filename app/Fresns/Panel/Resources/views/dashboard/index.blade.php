@@ -257,7 +257,7 @@
                     <p>{{ __('FsLang::panel.system_info_database_timezone') }}: <code>{{ $databaseInfo['timezone'] }}</code></p>
                     <p>{{ __('FsLang::panel.system_info_env_timezone_name') }}: <code>{{ $databaseInfo['envTimezone'] }}</code></p>
                     <p>{{ __('FsLang::panel.system_info_env_timezone_utc') }}: <code>{{ $databaseInfo['envTimezoneToUtc'] }}</code></p>
-                    <p>{{ __('FsLang::tips.timezone_env_edit_tip') }} <code>DB_TIMEZONE</code></p>
+                    <p>{{ __('FsLang::tips.timezone_env_edit_tip') }} <code>APP_TIMEZONE</code></p>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item list-group-item-info">
                             <span class="badge bg-primary">{{ $databaseInfo['timezone'] }}</span>
