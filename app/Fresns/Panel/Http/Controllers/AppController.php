@@ -155,14 +155,14 @@ class AppController extends Controller
         }
 
         if ($exitCode == 0) {
-            return \response($output."\n ".__('FsLang::tips.installSuccess'));
+            return \response($output."\n".__('FsLang::tips.installSuccess'));
         }
 
         if ($output == '') {
-            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+            $output = __('FsLang::tips.viewLog')."\n".' /storage/logs';
         }
 
-        return \response($output."\n ".__('FsLang::tips.installFailure'));
+        return \response($output."\n".__('FsLang::tips.installFailure'));
     }
 
     // website engine
@@ -175,7 +175,7 @@ class AppController extends Controller
         };
 
         if (! $command) {
-            return \response("action type error\n ".__('FsLang::tips.installFailure'));
+            return \response("action type error\n".__('FsLang::tips.installFailure'));
         }
 
         $exitCode = Artisan::call($command);
@@ -183,21 +183,21 @@ class AppController extends Controller
 
         if ($exitCode == 0) {
             if ($actionType == 'install') {
-                return \response($output."\n ".__('FsLang::tips.installSuccess'));
+                return \response($output."\n".__('FsLang::tips.installSuccess'));
             }
 
-            return \response($output."\n ".__('FsLang::tips.uninstallSuccess'));
+            return \response($output."\n".__('FsLang::tips.uninstallSuccess'));
         }
 
         if ($output == '') {
-            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+            $output = __('FsLang::tips.viewLog')."\n".' /storage/logs';
         }
 
         if ($actionType == 'install') {
-            return \response($output."\n ".__('FsLang::tips.installFailure'));
+            return \response($output."\n".__('FsLang::tips.installFailure'));
         }
 
-        return \response($output."\n ".__('FsLang::tips.uninstallFailure'));
+        return \response($output."\n".__('FsLang::tips.uninstallFailure'));
     }
 
     // iframe
