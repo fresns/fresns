@@ -813,6 +813,53 @@ class EditorController extends Controller
             ContentUtility::saveExtendUsages($usageType, $draft->id, $dtoRequest->extends);
         }
 
+        // file sort order
+        if ($dtoRequest->fileOrder) {
+            $fileIdArr = [];
+            $sortOrderArr = [];
+            foreach ($dtoRequest->fileOrder as $fileOrder) {
+                $fid = $fileOrder['fid'] ?? null;
+                $sortOrder = $fileOrder['sortOrder'] ?? 9;
+
+                if (empty($fid)) {
+                    continue;
+                }
+
+                $fileId = PrimaryHelper::fresnsPrimaryId('file', $fid);
+                if (empty($fileId)) {
+                    continue;
+                }
+
+                $fileIdArr[] = $fileId;
+                $sortOrderArr[$fileId] = $sortOrder;
+            }
+
+            $usageType = match ($type) {
+                'post' => FileUsage::TYPE_POST,
+                'comment' => FileUsage::TYPE_COMMENT,
+            };
+
+            $tableName = match ($type) {
+                'post' => 'post_logs',
+                'comment' => 'comment_logs',
+            };
+
+            $fileIdArr = array_unique($fileIdArr);
+
+            $fileUsages = FileUsage::whereIn('file_id', $fileIdArr)
+                ->where('usage_type', $usageType)
+                ->where('table_name', $tableName)
+                ->where('table_column', 'id')
+                ->where('table_id', $draft->id)
+                ->get();
+
+            foreach ($fileUsages as $fileUsage) {
+                $fileUsage->update([
+                    'sort_order' => $sortOrderArr[$fileUsage->file_id] ?? 9,
+                ]);
+            }
+        }
+
         // deleteLocation
         if ($dtoRequest->deleteLocation) {
             $draft->update([
