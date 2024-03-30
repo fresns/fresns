@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Dateisystem Diskette',
     'storage_extension_names' => 'Unterstützte Verlängerung',
     'storage_max_size' => 'Unterstützte maximale Größe',
-    'storage_max_time' => 'Unterstützte maximale Zeit',
+    'storage_max_duration' => 'Unterstützte maximale Zeit',
     'storage_url_status' => 'Diebstahlsicherungskettenfunktion',
     'storage_url_status_desc' => 'Wenn das Plugin nicht die Anti-Diebstahl-Kettenfunktion unterstützt, öffnen Sie nicht, andernfalls ist die Ressource nicht zugänglich',
     'storage_url_key' => 'Diebstahlsicherungskettenschlüssel',

@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'ファイルシステムディスク',
     'storage_extension_names' => 'サポートされている拡張子',
     'storage_max_size' => 'サポートされている最大サイズ',
-    'storage_max_time' => 'サポートされている最大時間',
+    'storage_max_duration' => 'サポートされている最大時間',
     'storage_url_status' => '盗難防止チェーン機能',
     'storage_url_status_desc' => 'プラグインが盗難防止チェーン機能をサポートしていない場合は、開かないでください。そうしないと、リソースにアクセスできない。',
     'storage_url_key' => '盗難防止チェーンキー',

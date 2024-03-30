@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Disco del sistema de archivos',
     'storage_extension_names' => 'Extensión admitida',
     'storage_max_size' => 'Tamaño máximo soportado',
-    'storage_max_time' => 'Tiempo máximo admitido',
+    'storage_max_duration' => 'Tiempo máximo admitido',
     'storage_url_status' => 'Función de la cadena antirrobo',
     'storage_url_status_desc' => 'Si el complemento no admite la función de la cadena antirrobo, no se abra, de lo contrario, el recurso no será accesible',
     'storage_url_key' => 'Clave de la cadena antirrobo',

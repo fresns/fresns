@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Disco del filesystem',
     'storage_extension_names' => 'Estensione supportata',
     'storage_max_size' => 'Dimensione massima supportata',
-    'storage_max_time' => 'Tempo massimo supportato',
+    'storage_max_duration' => 'Tempo massimo supportato',
     'storage_url_status' => 'Funzione a catena antifurto',
     'storage_url_status_desc' => 'Se il plugin non supporta la funzione della catena antifurto, non aprire, altrimenti la risorsa non sarà accessibile',
     'storage_url_key' => 'Chiave a catena antifurto',

@@ -369,7 +369,7 @@
                     </div>
                     <input type="number" class="form-control input-number" value="{{ $permissions['video_max_size']['permValue'] ?? '' }}" value="1" name="permissions[video_max_size]" placeholder="{{ __('FsLang::panel.storage_max_size') }}">
                     <span class="input-group-text">MB</span>
-                    <input type="number" class="form-control input-number" value="{{ $permissions['video_max_time']['permValue'] ?? '' }}" value="1" name="permissions[video_max_time]" placeholder="{{ __('FsLang::panel.storage_max_time') }}">
+                    <input type="number" class="form-control input-number" value="{{ $permissions['video_max_duration']['permValue'] ?? '' }}" value="1" name="permissions[video_max_duration]" placeholder="{{ __('FsLang::panel.storage_max_duration') }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
                 <!--audio-->
@@ -385,7 +385,7 @@
                     </div>
                     <input type="number" class="form-control input-number" value="{{ $permissions['audio_max_size']['permValue'] ?? '' }}" value="1" name="permissions[audio_max_size]" placeholder="{{ __('FsLang::panel.storage_max_size') }}">
                     <span class="input-group-text">MB</span>
-                    <input type="number" class="form-control input-number" value="{{ $permissions['audio_max_time']['permValue'] ?? '' }}" value="1" name="permissions[audio_max_time]" placeholder="{{ __('FsLang::panel.storage_max_time') }}">
+                    <input type="number" class="form-control input-number" value="{{ $permissions['audio_max_duration']['permValue'] ?? '' }}" value="1" name="permissions[audio_max_duration]" placeholder="{{ __('FsLang::panel.storage_max_duration') }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
                 <!--document-->

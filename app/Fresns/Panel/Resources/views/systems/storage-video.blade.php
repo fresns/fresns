@@ -82,8 +82,8 @@
                     <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_time') }}</label>
-                    <input type="number" class="form-control" id="video_max_time" name="video_max_time" value="{{ $params['video_max_time'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_duration') }}</label>
+                    <input type="number" class="form-control" id="video_max_duration" name="video_max_duration" value="{{ $params['video_max_duration'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                     <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>

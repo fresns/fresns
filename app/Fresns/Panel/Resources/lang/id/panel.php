@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Disk sistem file',
     'storage_extension_names' => 'Ekstensi yang didukung',
     'storage_max_size' => 'Mendukung ukuran maksimum',
-    'storage_max_time' => 'Mendukung waktu maksimum',
+    'storage_max_duration' => 'Mendukung waktu maksimum',
     'storage_url_status' => 'Fungsi rantai anti-pencurian',
     'storage_url_status_desc' => 'Jika plugin tidak mendukung fungsi rantai anti-pencurian, jangan terbuka, jika tidak sumber daya tidak akan dapat diakses',
     'storage_url_key' => 'Kunci rantai anti-pencurian',

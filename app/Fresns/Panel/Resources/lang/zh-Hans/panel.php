@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => '文件系统磁盘',
     'storage_extension_names' => '支持的扩展名',
     'storage_max_size' => '支持的最大尺寸',
-    'storage_max_time' => '支持的最大时长',
+    'storage_max_duration' => '支持的最大时长',
     'storage_url_status' => '防盗链功能',
     'storage_url_status_desc' => '如果插件不支持防盗链功能，请勿开启，否则将导致资源无法访问。',
     'storage_url_key' => '防盗链 Key',

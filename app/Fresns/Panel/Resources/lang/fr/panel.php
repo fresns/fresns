@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Disque du système de fichiers',
     'storage_extension_names' => 'Extension prise en charge',
     'storage_max_size' => 'Taille maximale supportée',
-    'storage_max_time' => 'Temps maximum pris en charge',
+    'storage_max_duration' => 'Temps maximum pris en charge',
     'storage_url_status' => 'Fonction de chaîne anti-vol',
     'storage_url_status_desc' => 'Si le plugin ne prend pas en charge la fonction de chaîne antivol, ne s\'ouvre pas, sinon la ressource ne sera pas accessible',
     'storage_url_key' => 'Touche de chaîne anti-vol',

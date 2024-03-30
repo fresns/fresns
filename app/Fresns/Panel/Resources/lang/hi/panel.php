@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'फाइलसिस्टम डिस्क',
     'storage_extension_names' => 'समर्थित विस्तार',
     'storage_max_size' => 'अधिकतम आकार का समर्थन किया',
-    'storage_max_time' => 'अधिकतम समय का समर्थन किया',
+    'storage_max_duration' => 'अधिकतम समय का समर्थन किया',
     'storage_url_status' => 'विरोधी चोरी श्रृंखला समारोह',
     'storage_url_status_desc' => 'यदि प्लगइन एंटी-चोरी चेन फ़ंक्शन का समर्थन नहीं करता है, तो खुलें, अन्यथा संसाधन सुलभ नहीं होगा।',
     'storage_url_key' => 'विरोधी चोरी की कुंजी',

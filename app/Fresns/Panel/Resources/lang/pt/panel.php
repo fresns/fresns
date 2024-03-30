@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Disco do Sistema de Ficheiros',
     'storage_extension_names' => 'Extensão suportada',
     'storage_max_size' => 'Tamanho máximo suportado',
-    'storage_max_time' => 'Tempo máximo suportado',
+    'storage_max_duration' => 'Tempo máximo suportado',
     'storage_url_status' => 'Função da cadeia anti-roubo',
     'storage_url_status_desc' => 'Se o plugin não suportar a função de corrente anti-roubo, não abra, caso contrário, o recurso não será acessível',
     'storage_url_key' => 'Chave da cadeia anti-roubo',

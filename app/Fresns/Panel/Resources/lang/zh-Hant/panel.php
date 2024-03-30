@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => '文件系統磁盤',
     'storage_extension_names' => '支援的副檔名',
     'storage_max_size' => '支援的最大尺寸',
-    'storage_max_time' => '支援的最大時長',
+    'storage_max_duration' => '支援的最大時長',
     'storage_url_status' => '防盜鏈功能',
     'storage_url_status_desc' => '如果外掛不支援防盜鏈功能，請勿開啟，否則將導致資源無法訪問。',
     'storage_url_key' => '防盜鏈 Key',

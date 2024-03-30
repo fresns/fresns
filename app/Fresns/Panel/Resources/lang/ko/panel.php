@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => '파일 시스템 디스크',
     'storage_extension_names' => '지원되는 확장자',
     'storage_max_size' => '지원 최대 크기',
-    'storage_max_time' => '지원되는 최대 시간',
+    'storage_max_duration' => '지원되는 최대 시간',
     'storage_url_status' => '도난 방지 체인 기능',
     'storage_url_status_desc' => '플러그인이 도난 방지 체인 기능을 지원하지 않으면 열지 마십시오. 그렇지 않으면 자원에 액세스 할 수 없습니다',
     'storage_url_key' => '도난 방지 체인 키',
