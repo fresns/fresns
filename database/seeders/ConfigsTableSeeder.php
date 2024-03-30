@@ -1331,7 +1331,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'video_max_time',
+                'item_key' => 'video_max_duration',
                 'item_value' => '30',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -1529,7 +1529,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'audio_max_time',
+                'item_key' => 'audio_max_duration',
                 'item_value' => '60',
                 'item_type' => 'number',
                 'is_multilingual' => 0,

@@ -3024,7 +3024,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'editorUploadTipMaxTime',
+                'lang_key' => 'editorUploadTipMaxDuration',
                 'lang_values' => '{"en":"Max time","zh-Hans":"支持的最长时间","zh-Hant":"支援的最長時間"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
