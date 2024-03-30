@@ -141,10 +141,10 @@ class ConversationController extends Controller
             'image_max_size',
             'video_extension_names',
             'video_max_size',
-            'video_max_time',
+            'video_max_duration',
             'audio_extension_names',
             'audio_max_size',
-            'audio_max_time',
+            'audio_max_duration',
             'document_extension_names',
             'document_max_size',
         ]);
@@ -159,39 +159,48 @@ class ConversationController extends Controller
         $audioUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['audio_service']);
         $documentUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['document_service']);
 
+        $imageMaxSize = (int) (empty($rolePerm['image_max_size']) ? $conversationConfigs['image_max_size'] : $rolePerm['image_max_size']);
         $image = [
             'status' => in_array('image', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['image_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
-            'maxSize' => (int) (empty($rolePerm['image_max_size']) ? $conversationConfigs['image_max_size'] : $rolePerm['image_max_size']),
-            'maxTime' => null,
+            'maxSize' => $imageMaxSize + 1,
+            'maxDuration' => null,
             'uploadType' => $imageUploadUrl ? $imageUploadType : 'api',
             'uploadUrl' => $imageUploadUrl,
         ];
+
+        $videoMaxSize = (int) (empty($rolePerm['video_max_size']) ? $conversationConfigs['video_max_size'] : $rolePerm['video_max_size']);
+        $videoMaxDuration = (int) (empty($rolePerm['video_max_duration']) ? $conversationConfigs['video_max_duration'] : $rolePerm['video_max_duration']);
         $video = [
             'status' => in_array('video', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['video_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
-            'maxSize' => (int) (empty($rolePerm['video_max_size']) ? $conversationConfigs['video_max_size'] : $rolePerm['video_max_size']),
-            'maxTime' => (int) (empty($rolePerm['video_max_time']) ? $conversationConfigs['video_max_time'] : $rolePerm['video_max_time']),
+            'maxSize' => $videoMaxSize + 1,
+            'maxDuration' => $videoMaxDuration + 1,
             'uploadType' => $videoUploadUrl ? $videoUploadType : 'api',
             'uploadUrl' => $videoUploadUrl,
         ];
+
+        $audioMaxSize = (int) (empty($rolePerm['audio_max_size']) ? $conversationConfigs['audio_max_size'] : $rolePerm['audio_max_size']);
+        $audioMaxDuration = (int) (empty($rolePerm['audio_max_duration']) ? $conversationConfigs['audio_max_duration'] : $rolePerm['audio_max_duration']);
         $audio = [
             'status' => in_array('audio', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['audio_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
-            'maxSize' => (int) (empty($rolePerm['audio_max_size']) ? $conversationConfigs['audio_max_size'] : $rolePerm['audio_max_size']),
-            'maxTime' => (int) (empty($rolePerm['audio_max_time']) ? $conversationConfigs['audio_max_time'] : $rolePerm['audio_max_time']),
+            'maxSize' => $audioMaxSize + 1,
+            'maxDuration' => $audioMaxDuration + 1,
             'uploadType' => $audioUploadUrl ? $audioUploadType : 'api',
             'uploadUrl' => $audioUploadUrl,
         ];
+
+        $documentMaxSize = (int) (empty($rolePerm['document_max_size']) ? $conversationConfigs['document_max_size'] : $rolePerm['document_max_size']);
         $document = [
             'status' => in_array('document', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['document_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
-            'maxSize' => (int) (empty($rolePerm['document_max_size']) ? $conversationConfigs['document_max_size'] : $rolePerm['document_max_size']),
-            'maxTime' => null,
+            'maxSize' => $documentMaxSize + 1,
+            'maxDuration' => null,
             'uploadType' => $documentUploadUrl ? $documentUploadType : 'api',
             'uploadUrl' => $documentUploadUrl,
         ];
