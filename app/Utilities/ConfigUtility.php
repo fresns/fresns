@@ -158,12 +158,12 @@ class ConfigUtility
             "{$type}_editor_image_upload_number",
             'video_extension_names',
             'video_max_size',
-            'video_max_time',
+            'video_max_duration',
             "{$type}_editor_video_upload_type",
             "{$type}_editor_video_upload_number",
             'audio_extension_names',
             'audio_max_size',
-            'audio_max_time',
+            'audio_max_duration',
             "{$type}_editor_audio_upload_type",
             "{$type}_editor_audio_upload_number",
             'document_extension_names',
@@ -199,48 +199,54 @@ class ConfigUtility
         $documentUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['document_service']);
 
         // images
+        $imageMaxSize = (int) (empty($rolePerm['image_max_size']) ? $editorConfig['image_max_size'] : $rolePerm['image_max_size']);
         $image = [
             'status' => $editorConfig["{$type}_editor_image"] ? $rolePerm["{$type}_editor_image"] : false,
             'extensions' => Str::lower($editorConfig['image_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
-            'maxSize' => (int) (empty($rolePerm['image_max_size']) ? $editorConfig['image_max_size'] : $rolePerm['image_max_size']),
-            'maxTime' => null,
+            'maxSize' => $imageMaxSize + 1,
+            'maxDuration' => null,
             'uploadType' => $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_type"] : 'api',
             'uploadUrl' => $imageUploadUrl,
             'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_image_upload_number"]) ? $editorConfig["{$type}_editor_image_upload_number"] : $rolePerm["{$type}_editor_image_upload_number"]),
         ];
 
         // videos
+        $videoMaxSize = (int) (empty($rolePerm['video_max_size']) ? $editorConfig['video_max_size'] : $rolePerm['video_max_size']);
+        $videoMaxDuration = (int) (empty($rolePerm['video_max_duration']) ? $editorConfig['video_max_duration'] : $rolePerm['video_max_duration']);
         $video = [
             'status' => $editorConfig["{$type}_editor_video"] ? $rolePerm["{$type}_editor_video"] : false,
             'extensions' => Str::lower($editorConfig['video_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
-            'maxSize' => (int) (empty($rolePerm['video_max_size']) ? $editorConfig['video_max_size'] : $rolePerm['video_max_size']),
-            'maxTime' => (int) (empty($rolePerm['video_max_time']) ? $editorConfig['video_max_time'] : $rolePerm['video_max_time']),
+            'maxSize' => $videoMaxSize + 1,
+            'maxDuration' => $videoMaxDuration + 1,
             'uploadType' => $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_type"] : 'api',
             'uploadUrl' => $videoUploadUrl,
             'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_video_upload_number"]) ? $editorConfig["{$type}_editor_video_upload_number"] : $rolePerm["{$type}_editor_video_upload_number"]),
         ];
 
         // audios
+        $audioMaxSize = (int) (empty($rolePerm['audio_max_size']) ? $editorConfig['audio_max_size'] : $rolePerm['audio_max_size']);
+        $audioMaxDuration = (int) (empty($rolePerm['audio_max_duration']) ? $editorConfig['audio_max_duration'] : $rolePerm['audio_max_duration']);
         $audio = [
             'status' => $editorConfig["{$type}_editor_audio"] ? $rolePerm["{$type}_editor_audio"] : false,
             'extensions' => Str::lower($editorConfig['audio_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
-            'maxSize' => (int) (empty($rolePerm['audio_max_size']) ? $editorConfig['audio_max_size'] : $rolePerm['audio_max_size']),
-            'maxTime' => (int) (empty($rolePerm['audio_max_time']) ? $editorConfig['audio_max_time'] : $rolePerm['audio_max_time']),
+            'maxSize' => $audioMaxSize + 1,
+            'maxDuration' => $audioMaxDuration + 1,
             'uploadType' => $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_type"] : 'api',
             'uploadUrl' => $audioUploadUrl,
             'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_audio_upload_number"]) ? $editorConfig["{$type}_editor_audio_upload_number"] : $rolePerm["{$type}_editor_audio_upload_number"]),
         ];
 
         // documents
+        $documentMaxSize = (int) (empty($rolePerm['document_max_size']) ? $editorConfig['document_max_size'] : $rolePerm['document_max_size']);
         $document = [
             'status' => $editorConfig["{$type}_editor_document"] ? $rolePerm["{$type}_editor_document"] : false,
             'extensions' => Str::lower($editorConfig['document_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
-            'maxSize' => (int) (empty($rolePerm['document_max_size']) ? $editorConfig['document_max_size'] : $rolePerm['document_max_size']),
-            'maxTime' => null,
+            'maxSize' => $documentMaxSize + 1,
+            'maxDuration' => null,
             'uploadType' => $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_type"] : 'api',
             'uploadUrl' => $documentUploadUrl,
             'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_document_upload_number"]) ? $editorConfig["{$type}_editor_document_upload_number"] : $rolePerm["{$type}_editor_document_upload_number"]),
