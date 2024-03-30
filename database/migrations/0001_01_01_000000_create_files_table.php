@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('fid', 32)->unique('fid');
             $table->unsignedTinyInteger('type')->index('file_type');
             $table->string('name', 128);
-            $table->string('mime', 128)->nullable();
+            $table->string('mime', 128);
             $table->string('extension', 32);
-            $table->unsignedInteger('size')->nullable();
+            $table->unsignedInteger('size');
             $table->string('md5', 128)->nullable();
             $table->string('sha', 128)->nullable();
             $table->string('sha_type', 16)->nullable();
@@ -47,6 +47,7 @@ return new class extends Migration
             $table->string('transcoding_reason')->nullable();
             $table->string('original_path')->nullable();
             $table->unsignedTinyInteger('warning_type')->default(1);
+            $table->boolean('is_uploaded')->default(1);
             $table->boolean('is_enabled')->default(1);
             $table->boolean('physical_deletion')->default(0);
             $table->timestamp('created_at')->useCurrent();
