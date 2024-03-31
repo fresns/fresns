@@ -15,10 +15,13 @@ class CheckUploadPermDTO extends DTO
     public function rules(): array
     {
         return [
+            'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
             'usageType' => ['string', 'required', 'in:userAvatar,userBanner,conversation,post,comment,postDraft,commentDraft'],
             'usageFsid' => ['string', 'required'],
             'type' => ['integer', 'required', 'in:1,2,3,4'],
-            'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
+            'extension' => ['string', 'nullable'],
+            'size' => ['integer', 'nullable'],
+            'duration' => ['integer', 'nullable'],
         ];
     }
 }

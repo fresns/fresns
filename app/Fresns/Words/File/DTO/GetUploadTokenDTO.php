@@ -16,6 +16,8 @@ class GetUploadTokenDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'in:1,2,3,4'],
+            'path' => ['string', 'required'],
+            'minutes' => ['integer', 'required'],
         ];
     }
 }

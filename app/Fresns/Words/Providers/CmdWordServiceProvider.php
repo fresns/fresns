@@ -86,7 +86,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'checkUploadPerm', 'provider' => [File::class, 'checkUploadPerm']],
         ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],
         ['word' => 'uploadFile', 'provider' => [File::class, 'uploadFile']],
-        ['word' => 'uploadFileInfo', 'provider' => [File::class, 'uploadFileInfo']],
         ['word' => 'getAntiLinkFileInfo', 'provider' => [File::class, 'getAntiLinkFileInfo']],
         ['word' => 'getAntiLinkFileInfoList', 'provider' => [File::class, 'getAntiLinkFileInfoList']],
         ['word' => 'getAntiLinkFileOriginalUrl', 'provider' => [File::class, 'getAntiLinkFileOriginalUrl']],

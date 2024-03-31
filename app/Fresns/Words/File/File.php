@@ -16,7 +16,6 @@ use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
 use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
-use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
@@ -32,6 +31,7 @@ use App\Utilities\ConfigUtility;
 use App\Utilities\FileUtility;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Str;
 
 class File
 {
@@ -63,6 +63,24 @@ class File
             'commentDraft' => 'id',
         };
 
+        // usage type
+        $usageType = match ($tableName) {
+            'users' => FileUsage::TYPE_USER,
+            'posts' => FileUsage::TYPE_POST,
+            'comments' => FileUsage::TYPE_COMMENT,
+            'conversations' => FileUsage::TYPE_CONVERSATION,
+            'post_logs' => FileUsage::TYPE_POST,
+            'comment_logs' => FileUsage::TYPE_COMMENT,
+            default => FileUsage::TYPE_OTHER,
+        };
+
+        // publish type
+        $publishType = match ($usageType) {
+            FileUsage::TYPE_POST => 'post',
+            FileUsage::TYPE_COMMENT => 'comment',
+            default => null,
+        };
+
         // fsid
         $fsid = $dtoWordBody->usageFsid;
 
@@ -78,9 +96,68 @@ class File
         // auth user
         $authUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
 
+        // check extension
+        if ($dtoWordBody->extension) {
+            $extensionNames = ConfigHelper::fresnsConfigByItemKey("{$fileTypeString}_extension_names");
+            $extensionArr = explode(',', $extensionNames);
+
+            $extension = Str::of($dtoWordBody->extension)->ltrim('.');
+
+            if (! in_array($extension, $extensionArr)) {
+                return $this->failure(36310, ConfigUtility::getCodeMessage(36310), [
+                    'currentFileExtension' => $extension,
+                ]);
+            }
+        }
+
+        // user role config
+        $maxMb = ConfigHelper::fresnsConfigByItemKey("{$fileTypeString}_max_size") + 1;
+        $maxDuration = ConfigHelper::fresnsConfigByItemKey("{$fileTypeString}_max_duration") + 1;
+        if ($publishType) {
+            $editorConfig = ConfigUtility::getEditorConfigByType($publishType, $authUser->id);
+
+            $uploadStatus = $editorConfig[$fileTypeString]['status'];
+            if (! $uploadStatus) {
+                $errorCode = match ($fileTypeInt) {
+                    FileModel::TYPE_IMAGE => 36109,
+                    FileModel::TYPE_VIDEO => 36110,
+                    FileModel::TYPE_AUDIO => 36111,
+                    FileModel::TYPE_DOCUMENT => 36112,
+                    default => 36200,
+                };
+
+                return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
+            }
+
+            $maxMb = $editorConfig[$fileTypeString]['maxSize'];
+            $maxDuration = $editorConfig[$fileTypeString]['maxDuration'];
+        }
+
+        // check size
+        if ($dtoWordBody->size) {
+            $maxBytes = $maxMb * 1024 * 1024;
+
+            if ($dtoWordBody->size > $maxBytes) {
+                return $this->failure(36113, ConfigUtility::getCodeMessage(36113));
+            }
+        }
+
+        // check duration
+        if ($dtoWordBody->duration && in_array($fileTypeString, ['video', 'audio'])) {
+            if ($dtoWordBody->duration > $maxDuration) {
+                return $this->failure(36114, ConfigUtility::getCodeMessage(36114));
+            }
+        }
+
         // check model
         switch ($tableName) {
             case 'users':
+                // check type
+                if ($fileTypeString != 'image') {
+                    return $this->failure(36310, ConfigUtility::getCodeMessage(36310));
+                }
+
+                // query
                 if (StrHelper::isPureInt($fsid)) {
                     $checkQuery = User::where('uid', $fsid)->first();
                 } else {
@@ -103,6 +180,21 @@ class File
                 break;
 
             case 'conversations':
+                // check type
+                $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
+                if (! in_array($fileTypeString, $conversationFiles)) {
+                    $errorCode = match ($fileTypeInt) {
+                        FileModel::TYPE_IMAGE => 36109,
+                        FileModel::TYPE_VIDEO => 36110,
+                        FileModel::TYPE_AUDIO => 36111,
+                        FileModel::TYPE_DOCUMENT => 36112,
+                        default => 36200,
+                    };
+
+                    return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
+                }
+
+                // query
                 if (StrHelper::isPureInt($fsid)) {
                     $checkQuery = User::where('uid', $fsid)->first();
                 } else {
@@ -147,57 +239,11 @@ class File
                 return $this->failure($conversationPermInt, ConfigUtility::getCodeMessage($conversationPermInt));
             }
 
-            $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
-            if (! in_array($fileTypeString, $conversationFiles)) {
-                $errorCode = match ($fileTypeInt) {
-                    FileModel::TYPE_IMAGE => 36109,
-                    FileModel::TYPE_VIDEO => 36110,
-                    FileModel::TYPE_AUDIO => 36111,
-                    FileModel::TYPE_DOCUMENT => 36112,
-                    default => 36200,
-                };
-
-                return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
-            }
-
             $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $checkQuery->id);
             $tableId = $conversation->id;
         }
 
-        // usage type
-        $usageType = match ($tableName) {
-            'users' => FileUsage::TYPE_USER,
-            'posts' => FileUsage::TYPE_POST,
-            'comments' => FileUsage::TYPE_COMMENT,
-            'conversations' => FileUsage::TYPE_CONVERSATION,
-            'post_logs' => FileUsage::TYPE_POST,
-            'comment_logs' => FileUsage::TYPE_COMMENT,
-            default => FileUsage::TYPE_OTHER,
-        };
-
-        // check publish file count
-        $publishType = match ($usageType) {
-            FileUsage::TYPE_POST => 'post',
-            FileUsage::TYPE_COMMENT => 'comment',
-            default => null,
-        };
-
         if ($publishType) {
-            $editorConfig = ConfigUtility::getEditorConfigByType($publishType, $authUser->id);
-
-            $uploadStatus = $editorConfig[$fileTypeString]['status'] ?? false;
-            if (! $uploadStatus) {
-                $errorCode = match ($fileTypeInt) {
-                    FileModel::TYPE_IMAGE => 36109,
-                    FileModel::TYPE_VIDEO => 36110,
-                    FileModel::TYPE_AUDIO => 36111,
-                    FileModel::TYPE_DOCUMENT => 36112,
-                    default => 36200,
-                };
-
-                return $this->failure($errorCode, ConfigUtility::getCodeMessage($errorCode));
-            }
-
             $uploadNumber = $editorConfig[$fileTypeString]['uploadNumber'] ?? 0;
 
             $fileCount = FileUsage::where('file_type', $fileTypeInt)
@@ -242,23 +288,6 @@ class File
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
 
-        // $bodyInfo = [
-        //     'platformId' => $dtoWordBody->platformId,
-        //     'usageType' => $dtoWordBody->usageType,
-        //     'tableName' => $dtoWordBody->tableName,
-        //     'tableColumn' => $dtoWordBody->tableColumn,
-        //     'tableId' => $dtoWordBody->tableId,
-        //     'tableKey' => $dtoWordBody->tableKey,
-        //     'aid' => $dtoWordBody->aid,
-        //     'uid' => $dtoWordBody->uid,
-        //     'type' => $dtoWordBody->type,
-        //     'warningType' => $dtoWordBody->warningType,
-        //     'moreInfo' => $dtoWordBody->moreInfo,
-        // ];
-        // $uploadFile = FileUtility::uploadFile($bodyInfo, $dtoWordBody->file);
-
-        // return $this->success($uploadFile);
-
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
         if (! $storageConfig['storageConfigStatus']) {
@@ -268,29 +297,6 @@ class File
         $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
 
         return $fresnsResp->getOrigin();
-    }
-
-    public function uploadFileInfo($wordBody)
-    {
-        $dtoWordBody = new UploadFileInfoDTO($wordBody);
-
-        $bodyInfo = [
-            'platformId' => $dtoWordBody->platformId,
-            'usageType' => $dtoWordBody->usageType,
-            'tableName' => $dtoWordBody->tableName,
-            'tableColumn' => $dtoWordBody->tableColumn,
-            'tableId' => $dtoWordBody->tableId,
-            'tableKey' => $dtoWordBody->tableKey,
-            'aid' => $dtoWordBody->aid,
-            'uid' => $dtoWordBody->uid,
-            'type' => $dtoWordBody->type,
-            'fileInfo' => $dtoWordBody->fileInfo,
-            'warningType' => $dtoWordBody->warningType,
-            'moreInfo' => $dtoWordBody->moreInfo,
-        ];
-        $uploadFileInfo = FileUtility::uploadFileInfo($bodyInfo);
-
-        return $this->success($uploadFileInfo);
     }
 
     public function getAntiLinkFileInfo($wordBody)
