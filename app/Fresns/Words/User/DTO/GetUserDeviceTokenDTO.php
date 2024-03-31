@@ -16,7 +16,7 @@ class GetUserDeviceTokenDTO extends DTO
     {
         return [
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
-            'platformId' => ['integer', 'nullable', 'between:1,11'],
+            'platformId' => ['integer', 'nullable'],
         ];
     }
 }

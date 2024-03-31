@@ -16,7 +16,7 @@ class VerifySignDTO extends DTO
     {
         return [
             'appId' => ['string', 'required'],
-            'platformId' => ['integer', 'required', 'between:1,11'],
+            'platformId' => ['integer', 'required'],
             'version' => ['string', 'required'],
             'aid' => ['string', 'nullable'],
             'aidToken' => ['string', 'nullable', 'required_with:aid'],

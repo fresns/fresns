@@ -16,7 +16,7 @@ class CheckHeadersDTO extends DTO
     {
         return [
             'appId' => ['string', 'required'],
-            'platformId' => ['integer', 'required', 'between:1,11'],
+            'platformId' => ['integer', 'required'],
             'version' => ['string', 'required'],
             'deviceInfo' => ['string', 'required'],
             'timezone' => ['string', 'nullable'],

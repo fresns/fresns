@@ -16,7 +16,7 @@ class CreateSessionLogDTO extends DTO
     {
         return [
             'type' => ['integer', 'required'],
-            'platformId' => ['integer', 'required', 'between:1,11'],
+            'platformId' => ['integer', 'required'],
             'version' => ['string', 'required'],
             'appId' => ['string', 'nullable'],
             'langTag' => ['string', 'nullable'],

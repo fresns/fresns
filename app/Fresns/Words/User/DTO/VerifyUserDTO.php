@@ -15,7 +15,7 @@ class VerifyUserDTO extends DTO
     public function rules(): array
     {
         return [
-            'platformId' => ['integer', 'required', 'between:1,11'],
+            'platformId' => ['integer', 'required'],
             'version' => ['string', 'required'],
             'appId' => ['string', 'required'],
             'aid' => ['string', 'required'],

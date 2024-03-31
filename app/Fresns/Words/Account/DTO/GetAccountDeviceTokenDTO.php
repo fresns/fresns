@@ -16,7 +16,7 @@ class GetAccountDeviceTokenDTO extends DTO
     {
         return [
             'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
-            'platformId' => ['integer', 'nullable', 'between:1,11'],
+            'platformId' => ['integer', 'nullable'],
         ];
     }
 }
