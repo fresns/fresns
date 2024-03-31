@@ -191,6 +191,14 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 30008,
+                'messages' => '{"en":"Operation failed, please try again","zh-Hans":"操作失败，请重试","zh-Hant":"操作失敗，請重試"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 31000,
                 'messages' => '{"en":"Header error","zh-Hans":"Header Error","zh-Hant":"Header Error"}',
                 'created_at' => '2022-10-18 10:00:00',
