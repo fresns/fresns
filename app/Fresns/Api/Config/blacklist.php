@@ -17,8 +17,8 @@ return [
     'publicAccount' => [
         'api.global.archives',
         'api.common.file.upload.token',
-        'api.common.file.uploads',
-        'api.common.file.warning',
+        'api.common.file.upload',
+        'api.common.file.info',
         'api.common.file.link',
         'api.account.logout',
         'api.account.detail',
@@ -61,8 +61,8 @@ return [
     'publicUser' => [
         'api.global.archives',
         'api.common.file.upload.token',
-        'api.common.file.uploads',
-        'api.common.file.warning',
+        'api.common.file.upload',
+        'api.common.file.info',
         'api.common.file.link',
         'api.user.extcredits.records',
         'api.user.edit',
@@ -105,8 +105,8 @@ return [
         'api.common.input.tips',
         'api.common.callback',
         'api.common.file.upload.token',
-        'api.common.file.uploads',
-        'api.common.file.warning',
+        'api.common.file.upload',
+        'api.common.file.info',
         'api.common.file.link',
         'api.common.file.users',
         'api.account.logout',
@@ -189,8 +189,8 @@ return [
         'api.common.input.tips',
         'api.common.callback',
         'api.common.file.upload.token',
-        'api.common.file.uploads',
-        'api.common.file.warning',
+        'api.common.file.upload',
+        'api.common.file.info',
         'api.common.file.link',
         'api.common.file.users',
         'api.user.extcredits.records',
@@ -294,7 +294,7 @@ return [
     // Disable for after expiry
     'disableForAfterExpiry' => [
         'api.common.file.upload.token',
-        'api.common.file.warning',
+        'api.common.file.info',
         'api.common.file.link',
         'api.user.edit',
         'api.user.device.token',
@@ -324,7 +324,7 @@ return [
     // Disable for read only
     'disableForReadOnly' => [
         'api.common.file.upload.token',
-        'api.common.file.uploads',
+        'api.common.file.upload',
         'api.conversation.send.message',
         'api.editor.publish',
         'api.editor.edit',

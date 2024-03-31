@@ -49,8 +49,8 @@ Route::prefix('fresns/v1')->middleware([
         Route::post('cmd-word', [CommonController::class, 'cmdWord'])->name('cmd.word');
         Route::prefix('file')->name('file.')->group(function () {
             Route::get('upload-token', [CommonController::class, 'fileUploadToken'])->name('upload.token');
-            Route::post('uploads', [CommonController::class, 'fileUploads'])->name('uploads');
-            Route::patch('{fid}/warning', [CommonController::class, 'fileUpdateWarning'])->name('warning');
+            Route::post('upload', [CommonController::class, 'fileUpload'])->name('upload');
+            Route::patch('{fid}/info', [CommonController::class, 'fileUpdateInfo'])->name('info');
             Route::get('{fid}/link', [CommonController::class, 'fileLink'])->name('link');
             Route::get('{fid}/users', [CommonController::class, 'fileUsers'])->name('users');
         });

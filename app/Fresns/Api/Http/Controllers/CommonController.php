@@ -13,10 +13,9 @@ use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonCmdWordDTO;
 use App\Fresns\Api\Http\DTO\CommonFileInfoDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
-use App\Fresns\Api\Http\DTO\CommonFileUploadsDTO;
+use App\Fresns\Api\Http\DTO\CommonFileUploadDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUploadTokenDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUsersDTO;
-use App\Fresns\Api\Http\DTO\CommonFileWarningDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
 use App\Fresns\Api\Http\DTO\CommonIpInfoDTO;
 use App\Helpers\CacheHelper;
@@ -25,26 +24,23 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
-use App\Helpers\StrHelper;
 use App\Models\App;
-use App\Models\Comment;
-use App\Models\CommentLog;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\File;
 use App\Models\FileDownload;
 use App\Models\FileUsage;
 use App\Models\Hashtag;
-use App\Models\Post;
-use App\Models\PostLog;
 use App\Models\User;
 use App\Models\UserLog;
 use App\Utilities\ConfigUtility;
 use App\Utilities\DetailUtility;
+use App\Utilities\FileUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CommonController extends Controller
 {
@@ -185,36 +181,124 @@ class CommonController extends Controller
             return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
-        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken([
+        $servicePlugin = App::where('fskey', $storageConfig['service'])->isEnabled()->first();
+
+        if (! $servicePlugin) {
+            throw new ResponseException(32102);
+        }
+
+        $platformId = $this->platformId();
+        $aid = \request()->header('X-Fresns-Aid');
+        $uid = \request()->header('X-Fresns-Uid');
+
+        // check file info
+        $permWordBody = [
+            'uid' => $uid,
+            'usageType' => $dtoRequest->usageType,
+            'usageFsid' => $dtoRequest->usageFsid,
             'type' => $type,
-        ]);
+            'extension' => $dtoRequest->extension,
+            'size' => $dtoRequest->size,
+            'duration' => $dtoRequest->duration,
+        ];
+
+        $permResp = \FresnsCmdWord::plugin('Fresns')->checkUploadPerm($permWordBody);
+
+        if ($permResp->isErrorResponse()) {
+            return $permResp->getErrorResponse();
+        }
+
+        $usageType = $permResp->getData('usageType');
+        $tableName = $permResp->getData('tableName');
+        $tableColumn = $permResp->getData('tableColumn');
+        $tableId = $permResp->getData('tableId');
+        $tableKey = $permResp->getData('tableKey');
+
+        $storePath = FileHelper::fresnsFileStoragePath($type, $usageType);
+        $fileNewName = (string) Str::ulid();
+        $path = $storePath.'/'.$fileNewName.'.'.$dtoRequest->extension;
+
+        $wordBody = [
+            'type' => $type,
+            'path' => $path,
+            'minutes' => 10,
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getUploadToken($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->getErrorResponse();
         }
 
-        $usageType = match ($dtoRequest->usageType) {
-            'userAvatar' => FileUsage::TYPE_USER,
-            'userBanner' => FileUsage::TYPE_USER,
-            'conversationMessage' => FileUsage::TYPE_CONVERSATION,
-            'post' => FileUsage::TYPE_POST,
-            'comment' => FileUsage::TYPE_COMMENT,
-            'postDraft' => FileUsage::TYPE_POST,
-            'commentDraft' => FileUsage::TYPE_COMMENT,
+        // more info
+        $moreInfo = null;
+        if ($dtoRequest->moreInfo) {
+            try {
+                $moreInfo = json_decode($dtoRequest->moreInfo, true);
+            } catch (\Exception $e) {
+            }
+        }
+
+        // warning type
+        $warningType = match ($dtoRequest->warning) {
+            'none' => File::WARNING_NONE,
+            'nudity' => File::WARNING_NUDITY,
+            'violence' => File::WARNING_VIOLENCE,
+            'sensitive' => File::WARNING_SENSITIVE,
+            default => File::WARNING_NONE,
         };
 
-        $pathPrefix = FileHelper::fresnsFileStoragePath($type, $usageType);
+        $fileInfo = [
+            'type' => $type,
+            'name' => $dtoRequest->name,
+            'mime' => $dtoRequest->mime,
+            'extension' => $dtoRequest->extension,
+            'size' => $dtoRequest->size,
+            'md5' => $dtoRequest->md5,
+            'sha' => $dtoRequest->sha,
+            'shaType' => $dtoRequest->shaType,
+            'path' => $path,
+            'imageWidth' => $dtoRequest->width,
+            'imageHeight' => $dtoRequest->height,
+            'audioDuration' => $dtoRequest->duration,
+            'videoDuration' => $dtoRequest->duration,
+            'videoPosterPath' => null,
+            'moreInfo' => $moreInfo,
+            'transcodingState' => File::TRANSCODING_STATE_WAIT,
+            'originalPath' => null,
+            'warningType' => $warningType,
+            'uploaded' => false,
+        ];
+
+        $usageInfo = [
+            'usageType' => $usageType,
+            'platformId' => $platformId,
+            'tableName' => $tableName,
+            'tableColumn' => $tableColumn,
+            'tableId' => $tableId,
+            'tableKey' => $tableKey,
+            'sortOrder' => null,
+            'aid' => $aid,
+            'uid' => $uid,
+            'remark' => null,
+        ];
+
+        $fileModel = FileUtility::saveFileInfo($fileInfo, $usageInfo);
+
+        if (! $fileModel) {
+            throw new ResponseException(30008);
+        }
 
         $data = $fresnsResp->getData();
-        $data['pathPrefix'] = $pathPrefix;
+        $data['fid'] = $fileModel->fid;
 
         return $this->success($data);
     }
 
-    // file uploads
-    public function fileUploads(Request $request)
+    // file upload
+    public function fileUpload(Request $request)
     {
-        $dtoRequest = new CommonFileUploadsDTO($request->all());
+        $dtoRequest = new CommonFileUploadDTO($request->all());
 
         $fileType = match ($dtoRequest->type) {
             'image' => File::TYPE_IMAGE,
@@ -240,12 +324,18 @@ class CommonController extends Controller
         $aid = \request()->header('X-Fresns-Aid');
         $uid = \request()->header('X-Fresns-Uid');
 
+        $fileExtension = $dtoRequest->file->extension();
+        $fileSize = $dtoRequest->file->getSize();
+
         // check file info
         $permWordBody = [
+            'uid' => $uid,
             'usageType' => $dtoRequest->usageType,
             'usageFsid' => $dtoRequest->usageFsid,
             'type' => $fileType,
-            'uid' => $uid,
+            'extension' => $fileExtension,
+            'size' => $fileSize,
+            'duration' => null,
         ];
 
         $permResp = \FresnsCmdWord::plugin('Fresns')->checkUploadPerm($permWordBody);
@@ -262,6 +352,7 @@ class CommonController extends Controller
 
         // warning type
         $warningType = match ($dtoRequest->warning) {
+            'none' => File::WARNING_NONE,
             'nudity' => File::WARNING_NUDITY,
             'violence' => File::WARNING_VIOLENCE,
             'sensitive' => File::WARNING_SENSITIVE,
@@ -278,72 +369,22 @@ class CommonController extends Controller
         }
 
         // upload
-        switch ($dtoRequest->uploadMode) {
-            case 'file':
-                $extension = $dtoRequest->file->extension();
+        $wordBody = [
+            'platformId' => $platformId,
+            'usageType' => $usageType,
+            'tableName' => $tableName,
+            'tableColumn' => $tableColumn,
+            'tableId' => $tableId,
+            'tableKey' => $tableKey,
+            'aid' => $aid,
+            'uid' => $uid,
+            'type' => $fileType,
+            'file' => $dtoRequest->file,
+            'warningType' => $warningType,
+            'moreInfo' => $moreInfo,
+        ];
 
-                $extensionNames = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_extension_names");
-                $extensionArr = explode(',', $extensionNames);
-
-                if (! in_array($extension, $extensionArr)) {
-                    throw new ResponseException(36310, 'Fresns', [
-                        'currentFileExtension' => $extension,
-                    ]);
-                }
-
-                $maxMb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size") + 1;
-                $maxBytes = $maxMb * 1024 * 1024;
-                $fileSize = $dtoRequest->file->getSize();
-                if ($fileSize > $maxBytes) {
-                    throw new ResponseException(36113);
-                }
-
-                $wordBody = [
-                    'platformId' => $platformId,
-                    'usageType' => $usageType,
-                    'tableName' => $tableName,
-                    'tableColumn' => $tableColumn,
-                    'tableId' => $tableId,
-                    'tableKey' => $tableKey,
-                    'aid' => $aid,
-                    'uid' => $uid,
-                    'type' => $fileType,
-                    'file' => $dtoRequest->file,
-                    'warningType' => $warningType,
-                    'moreInfo' => $moreInfo,
-                ];
-
-                $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
-                break;
-
-            case 'fileInfo':
-                try {
-                    $fileInfoArr = json_decode($dtoRequest->fileInfo, true);
-                    $fileInfoArr['fileType'] = $dtoRequest->type;
-
-                    new CommonFileInfoDTO($fileInfoArr);
-                } catch (\Exception $e) {
-                    throw new ResponseException(30004);
-                }
-
-                $wordBody = [
-                    'platformId' => $platformId,
-                    'usageType' => $usageType,
-                    'tableName' => $tableName,
-                    'tableColumn' => $tableColumn,
-                    'tableId' => $tableId,
-                    'tableKey' => $tableKey,
-                    'aid' => $aid,
-                    'uid' => $uid,
-                    'type' => $fileType,
-                    'fileInfo' => $dtoRequest->fileInfo,
-                    'warningType' => $warningType,
-                    'moreInfo' => $moreInfo,
-                ];
-
-                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo($wordBody);
-                break;
-        }
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->getErrorResponse();
@@ -411,10 +452,10 @@ class CommonController extends Controller
         return $fresnsResp->getOrigin();
     }
 
-    // file update warning
-    public function fileUpdateWarning(string $fid, Request $request)
+    // file update info
+    public function fileUpdateInfo(string $fid, Request $request)
     {
-        $dtoRequest = new CommonFileWarningDTO($request->all());
+        $dtoRequest = new CommonFileInfoDTO($request->all());
 
         $authAccountId = $this->account()->id;
         $authUserId = $this->user()->id;
@@ -435,18 +476,49 @@ class CommonController extends Controller
             throw new ResponseException(37602);
         }
 
-        $warningType = match ($dtoRequest->warning) {
-            'nudity' => File::WARNING_NUDITY,
-            'violence' => File::WARNING_VIOLENCE,
-            'sensitive' => File::WARNING_SENSITIVE,
-            default => File::WARNING_NONE,
-        };
+        // uploaded
+        if ($dtoRequest->uploaded) {
+            $file->update([
+                'is_uploaded' => true,
+            ]);
+        }
 
-        $file->update([
-            'warning_type' => $warningType,
-        ]);
+        // warning
+        if ($dtoRequest->warning) {
+            $warningType = match ($dtoRequest->warning) {
+                'none' => File::WARNING_NONE,
+                'nudity' => File::WARNING_NUDITY,
+                'violence' => File::WARNING_VIOLENCE,
+                'sensitive' => File::WARNING_SENSITIVE,
+                default => File::WARNING_NONE,
+            };
 
-        return $this->success();
+            $file->update([
+                'warning_type' => $warningType,
+            ]);
+        }
+
+        // more info
+        if ($dtoRequest->moreInfo) {
+            $moreInfo = null;
+            if ($dtoRequest->moreInfo) {
+                try {
+                    $moreInfo = json_decode($dtoRequest->moreInfo, true);
+                } catch (\Exception $e) {
+                    throw new ResponseException(30004);
+                }
+            }
+
+            $file->update([
+                'more_info' => $moreInfo,
+            ]);
+        }
+
+        CacheHelper::clearDataCache('file', $file->fid);
+
+        $fileInfo = FileHelper::fresnsFileInfoById($file->id);
+
+        return $this->success($fileInfo);
     }
 
     // file download link

@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonFileUploadsDTO extends DTO
+class CommonFileUploadDTO extends DTO
 {
     public function rules(): array
     {
@@ -18,10 +18,8 @@ class CommonFileUploadsDTO extends DTO
             'usageType' => ['string', 'required', 'in:userAvatar,userBanner,conversation,post,comment,postDraft,commentDraft'],
             'usageFsid' => ['string', 'required'],
             'type' => ['string', 'required', 'in:image,video,audio,document'],
-            'uploadMode' => ['string', 'required', 'in:file,fileInfo'],
-            'file' => ['file', 'nullable', 'required_if:uploadMode,file'],
-            'fileInfo' => ['string', 'nullable', 'required_if:uploadMode,fileInfo'],
-            'warning' => ['string', 'nullable', 'in:nudity,violence,sensitive'],
+            'file' => ['file', 'required'],
+            'warning' => ['string', 'nullable', 'in:none,nudity,violence,sensitive'],
             'moreInfo' => ['string', 'nullable'],
         ];
     }
