@@ -76,11 +76,19 @@ trait FileServiceTrait
             File::TYPE_DOCUMENT => 'document_substitution',
         };
 
+        $warningText = match ($fileData->warning_type) {
+            File::WARNING_NONE => 'none',
+            File::WARNING_NUDITY => 'nudity',
+            File::WARNING_VIOLENCE => 'violence',
+            File::WARNING_SENSITIVE => 'sensitive',
+            default => 'none',
+        };
+
         $info['fid'] = $fileData->fid;
         $info['type'] = $fileData->type;
         $info['status'] = (bool) $fileData->is_enabled;
         $info['substitutionImageUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey($substitutionConfig);
-        $info['warningType'] = $fileData->warning_type;
+        $info['warning'] = $warningText;
         $info['name'] = $fileData->name;
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
@@ -211,7 +219,7 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_transcode_handle_position'], $videoConfig['video_transcode_parameter'], $filePath);
         }
 
-        $info['videoTime'] = $fileData->video_time;
+        $info['videoDuration'] = $fileData->video_duration;
         $info['videoPosterUrl'] = StrHelper::qualifyUrl($posterPath, $videoConfig['video_bucket_domain']);
         $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $videoConfig['video_bucket_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
@@ -240,7 +248,7 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($audioConfig['audio_transcode_handle_position'], $audioConfig['audio_transcode_parameter'], $filePath);
         }
 
-        $info['audioTime'] = $fileData->audio_time;
+        $info['audioDuration'] = $fileData->audio_duration;
         $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $audioConfig['audio_bucket_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
 
