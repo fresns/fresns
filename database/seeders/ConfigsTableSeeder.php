@@ -4974,7 +4974,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_image_upload_number',
+                'item_key' => 'post_editor_image_max_upload_number',
                 'item_value' => '9',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -4985,7 +4985,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_video_upload_number',
+                'item_key' => 'post_editor_video_max_upload_number',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -4996,7 +4996,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_audio_upload_number',
+                'item_key' => 'post_editor_audio_max_upload_number',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -5007,7 +5007,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_document_upload_number',
+                'item_key' => 'post_editor_document_max_upload_number',
                 'item_value' => '10',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -5370,7 +5370,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_image_upload_number',
+                'item_key' => 'comment_editor_image_max_upload_number',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -5381,7 +5381,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_video_upload_number',
+                'item_key' => 'comment_editor_video_max_upload_number',
                 'item_value' => '0',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -5392,7 +5392,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_audio_upload_number',
+                'item_key' => 'comment_editor_audio_max_upload_number',
                 'item_value' => '0',
                 'item_type' => 'number',
                 'is_multilingual' => 0,
@@ -5403,7 +5403,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_document_upload_number',
+                'item_key' => 'comment_editor_document_max_upload_number',
                 'item_value' => '0',
                 'item_type' => 'number',
                 'is_multilingual' => 0,

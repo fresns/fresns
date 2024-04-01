@@ -155,21 +155,21 @@ class ConfigUtility
             'image_extension_names',
             'image_max_size',
             "{$type}_editor_image_upload_type",
-            "{$type}_editor_image_upload_number",
+            "{$type}_editor_image_max_upload_number",
             'video_extension_names',
             'video_max_size',
             'video_max_duration',
             "{$type}_editor_video_upload_type",
-            "{$type}_editor_video_upload_number",
+            "{$type}_editor_video_max_upload_number",
             'audio_extension_names',
             'audio_max_size',
             'audio_max_duration',
             "{$type}_editor_audio_upload_type",
-            "{$type}_editor_audio_upload_number",
+            "{$type}_editor_audio_max_upload_number",
             'document_extension_names',
             'document_max_size',
             "{$type}_editor_document_upload_type",
-            "{$type}_editor_document_upload_number",
+            "{$type}_editor_document_max_upload_number",
             'post_editor_title',
             'post_editor_title_show',
             'post_editor_title_required',
@@ -206,9 +206,9 @@ class ConfigUtility
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
             'maxSize' => $imageMaxSize + 1,
             'maxDuration' => null,
+            'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_image_max_upload_number"]) ? $editorConfig["{$type}_editor_image_max_upload_number"] : $rolePerm["{$type}_editor_image_max_upload_number"]),
             'uploadType' => $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_type"] : 'api',
             'uploadUrl' => $imageUploadUrl,
-            'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_image_upload_number"]) ? $editorConfig["{$type}_editor_image_upload_number"] : $rolePerm["{$type}_editor_image_upload_number"]),
         ];
 
         // videos
@@ -220,9 +220,9 @@ class ConfigUtility
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
             'maxSize' => $videoMaxSize + 1,
             'maxDuration' => $videoMaxDuration + 1,
+            'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_video_max_upload_number"]) ? $editorConfig["{$type}_editor_video_max_upload_number"] : $rolePerm["{$type}_editor_video_max_upload_number"]),
             'uploadType' => $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_type"] : 'api',
             'uploadUrl' => $videoUploadUrl,
-            'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_video_upload_number"]) ? $editorConfig["{$type}_editor_video_upload_number"] : $rolePerm["{$type}_editor_video_upload_number"]),
         ];
 
         // audios
@@ -234,9 +234,9 @@ class ConfigUtility
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
             'maxSize' => $audioMaxSize + 1,
             'maxDuration' => $audioMaxDuration + 1,
+            'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_audio_max_upload_number"]) ? $editorConfig["{$type}_editor_audio_max_upload_number"] : $rolePerm["{$type}_editor_audio_max_upload_number"]),
             'uploadType' => $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_type"] : 'api',
             'uploadUrl' => $audioUploadUrl,
-            'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_audio_upload_number"]) ? $editorConfig["{$type}_editor_audio_upload_number"] : $rolePerm["{$type}_editor_audio_upload_number"]),
         ];
 
         // documents
@@ -247,9 +247,9 @@ class ConfigUtility
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
             'maxSize' => $documentMaxSize + 1,
             'maxDuration' => null,
+            'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_document_max_upload_number"]) ? $editorConfig["{$type}_editor_document_max_upload_number"] : $rolePerm["{$type}_editor_document_max_upload_number"]),
             'uploadType' => $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_type"] : 'api',
             'uploadUrl' => $documentUploadUrl,
-            'uploadNumber' => (int) (empty($rolePerm["{$type}_editor_document_upload_number"]) ? $editorConfig["{$type}_editor_document_upload_number"] : $rolePerm["{$type}_editor_document_upload_number"]),
         ];
 
         // title
