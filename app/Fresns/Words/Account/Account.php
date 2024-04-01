@@ -254,7 +254,7 @@ class Account
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($codeWordBody);
 
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->getOrigin();
+                return $fresnsResp->getErrorResponse();
             }
         }
 

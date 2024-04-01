@@ -215,7 +215,7 @@ class Basic
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
 
         if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->getOrigin();
+            return $fresnsResp->getErrorResponse();
         }
 
         if ($dtoWordBody->accountLogin) {
