@@ -32,8 +32,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
             $table->boolean('image_is_long')->default(0);
-            $table->unsignedSmallInteger('audio_time')->nullable();
-            $table->unsignedSmallInteger('video_time')->nullable();
+            $table->unsignedSmallInteger('audio_duration')->nullable();
+            $table->unsignedSmallInteger('video_duration')->nullable();
             $table->string('video_poster_path')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
