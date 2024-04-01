@@ -295,7 +295,7 @@ class Basic
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);
 
-        if ($dtoWordBody->type == 1) {
+        if ($dtoWordBody->type == VerifyCode::TYPE_EMAIL) {
             $account = $dtoWordBody->account;
         } else {
             $account = $dtoWordBody->countryCode.$dtoWordBody->account;
