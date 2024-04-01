@@ -363,6 +363,7 @@ class CacheHelper
                 break;
 
             case 'file':
+                CacheHelper::forgetFresnsKey("fresns_file_info_{$fsid}", 'fresnsFiles');
                 CacheHelper::forgetFresnsFileUsage($fsid);
                 break;
         }
@@ -738,6 +739,11 @@ class CacheHelper
     // fresns_model_comment_log_{$commentLogId}                     // tag: fresnsComments
     // fresns_model_seo_{$usageType}_{$usageId}                     // tag: fresnsSeo
     // fresns_model_conversation_{$userId}_{$conversationUserId}    // tag: fresnsUsers
+
+    /**
+     * fresns file.
+     */
+    // fresns_file_info_{$fid}
 
     /**
      * fresns detail.
