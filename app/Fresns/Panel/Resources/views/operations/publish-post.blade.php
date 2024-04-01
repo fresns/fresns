@@ -201,7 +201,7 @@
                         <option value="sdk" @if ($params['post_editor_image_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_image_upload_number" name="post_editor_image_upload_number" value="{{ $params['post_editor_image_upload_number'] }}">
+                    <input type="number" class="form-control input-number" id="post_editor_image_max_upload_number" name="post_editor_image_max_upload_number" value="{{ $params['post_editor_image_max_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
@@ -217,7 +217,7 @@
                         <option value="sdk" @if ($params['post_editor_video_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_video_upload_number" name="post_editor_video_upload_number" value="{{ $params['post_editor_video_upload_number'] }}">
+                    <input type="number" class="form-control input-number" id="post_editor_video_max_upload_number" name="post_editor_video_max_upload_number" value="{{ $params['post_editor_video_max_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
@@ -233,7 +233,7 @@
                         <option value="sdk" @if ($params['post_editor_audio_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_audio_upload_number" name="post_editor_audio_upload_number" value="{{ $params['post_editor_audio_upload_number'] }}">
+                    <input type="number" class="form-control input-number" id="post_editor_audio_max_upload_number" name="post_editor_audio_max_upload_number" value="{{ $params['post_editor_audio_max_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
@@ -249,7 +249,7 @@
                         <option value="sdk" @if ($params['post_editor_document_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_document_upload_number" name="post_editor_document_upload_number" value="{{ $params['post_editor_document_upload_number'] }}">
+                    <input type="number" class="form-control input-number" id="post_editor_document_max_upload_number" name="post_editor_document_max_upload_number" value="{{ $params['post_editor_document_max_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
