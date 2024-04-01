@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Konfigurasi fungsi pemrosesan audio',
     'storage_function_audio_config_desc' => 'Anda dapat mengkonfigurasi ID template. Untuk detailnya, silakan merujuk ke deskripsi plugin terkait',
     'storage_function_document_config' => 'Konfigurasi pratinjau online',
-    'storage_function_document_config_desc' => 'Apa pun yang tersisa di kotak input, yang mewakili fungsi pratinjau. Alamat Dukungan Nama Variabel {docurl} atau {fid}',
     'storage_function_substitution_config' => 'Peta pengganti negara tidak valid',
     'storage_function_substitution_config_desc' => 'Ketika status file sumber daya "tidak valid", peta indikasi tidak sah digunakan',
     'storage_function_substitution_image' => 'Gambar Petunjuk Tidak Valid',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Posisi Pemrosesan Parameter Poster',
     'storage_audio_transcode_parameter' => 'Parameter transcoding audio',
     'storage_audio_transcode_handle_position' => 'Posisi Pemrosesan Parameter Transcode Audio',
-    'storage_document_online_preview' => 'Pratinjau aturan alamat',
+    'storage_document_preview_service' => 'Layanan Pratinjau Dokumen',
     'storage_document_preview_extension_names' => 'Dukungan ekstensi pratinjau',
     // Operating-User
     'user_name' => 'Identitas Nama Kustom',

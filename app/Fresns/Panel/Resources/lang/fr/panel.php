@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Configuration de la fonction de traitement audio',
     'storage_function_audio_config_desc' => 'Vous pouvez configurer l\'ID de modèle. Pour plus de détails, veuillez vous reporter à la description du plugin associé',
     'storage_function_document_config' => 'Configuration de la prévisualisation en ligne',
-    'storage_function_document_config_desc' => 'Tout ce qui reste dans la zone d\'entrée, ce qui ne représente aucune fonction de prévisualisation. Adresse Support Nom de la variable {docurl} ou {fid}',
     'storage_function_substitution_config' => 'Carte de remplacement d\'état non valide',
     'storage_function_substitution_config_desc' => 'Lorsque l\'état du fichier de ressources est "invalide", la carte d\'indication illégitime est utilisée',
     'storage_function_substitution_image' => 'Image indique invalide',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Poster Parameter Processing Position',
     'storage_audio_transcode_parameter' => 'Paramètres de transcodage audio',
     'storage_audio_transcode_handle_position' => 'Position de traitement des paramètres de transcodage audio',
-    'storage_document_online_preview' => 'Règle d\'adresse de prévisualisation',
+    'storage_document_preview_service' => 'Service de prévisualisation des documents',
     'storage_document_preview_extension_names' => 'Principation d\'aperçu de la prise en charge',
     // Operating-User
     'user_name' => 'Nom personnalisé d\'identité',

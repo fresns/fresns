@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Конфигурация функции обработки аудио',
     'storage_function_audio_config_desc' => 'Вы можете настроить идентификатор шаблона. Для получения подробной информации, пожалуйста, обратитесь к описанию связанного плагина',
     'storage_function_document_config' => 'Онлайн предварительный просмотр конфигурации',
-    'storage_function_document_config_desc' => 'Все осталось в поле ввода, которая не представляет функцию предварительного просмотра. Адрес Поддерживает имя переменной {docurl} или {fid}',
     'storage_function_substitution_config' => 'Неверная замена состояния',
     'storage_function_substitution_config_desc' => 'Когда статус файла ресурсов «недействителен», используется незаконная карта индикации',
     'storage_function_substitution_image' => 'Изображение неверный подсказку',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Позиция обработки параметров плаката',
     'storage_audio_transcode_parameter' => 'Параметры транскодирования звука',
     'storage_audio_transcode_handle_position' => 'Позиция обработки параметров транскодирования аудио',
-    'storage_document_online_preview' => 'Предварительный просмотр Адрес Правило',
+    'storage_document_preview_service' => 'Сервис предварительного просмотра документов',
     'storage_document_preview_extension_names' => 'Расширение предварительного просмотра поддержки',
     // Operating-User
     'user_name' => 'Идентичность пользовательского имени',

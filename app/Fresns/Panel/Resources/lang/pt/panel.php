@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Configuração de função de processamento de áudio',
     'storage_function_audio_config_desc' => 'Você pode configurar o ID do modelo. Para detalhes, consulte a descrição do plugin associado',
     'storage_function_document_config' => 'Configuração de visualização online',
-    'storage_function_document_config_desc' => 'Qualquer coisa deixada na caixa de entrada, que não representa nenhuma função de visualização. Nome da variável de suporte de endereço {docurl} ou {fid}',
     'storage_function_substitution_config' => 'Mapa de substituição de estado inválido',
     'storage_function_substitution_config_desc' => 'Quando o status do arquivo de recurso é "inválido", o mapa de indicação ilegítima é usado',
     'storage_function_substitution_image' => 'Imagem inválida da imagem',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Posição de processamento de parâmetros de cartazes',
     'storage_audio_transcode_parameter' => 'Parâmetros de transcodificação de áudio',
     'storage_audio_transcode_handle_position' => 'Transcodificador de áudio Posição de processamento de parâmetros',
-    'storage_document_online_preview' => 'Preview Endereço Regra',
+    'storage_document_preview_service' => 'Serviço de pré-visualização de documentos',
     'storage_document_preview_extension_names' => 'Extensão de pré-visualização de suporte',
     // Operating-User
     'user_name' => 'Nome personalizado de identidade',

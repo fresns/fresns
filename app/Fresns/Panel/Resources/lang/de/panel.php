@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Audioverarbeitungsfunktionskonfiguration',
     'storage_function_audio_config_desc' => 'Sie können die Vorlagen-ID konfigurieren. Einzelheiten finden Sie in der Beschreibung des zugehörigen Plugins',
     'storage_function_document_config' => 'Online-Vorschau-Konfiguration',
-    'storage_function_document_config_desc' => 'Alles in der Eingabebox, das keine Vorschaumfunktion darstellt. Adressunterstützungsvariablenname {docurl} oder {fid}',
     'storage_function_substitution_config' => 'Ungültige Status-Ersatzkarte',
     'storage_function_substitution_config_desc' => 'Wenn der Status der Ressourcendatei "ungültig" ist, wird die illegative Anzeigenkarte verwendet',
     'storage_function_substitution_image' => 'Bild ungültiger Hinweis',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Poster Parameter Verarbeitungsposition',
     'storage_audio_transcode_parameter' => 'Audio-Transcoding-Parameter',
     'storage_audio_transcode_handle_position' => 'Audio Transcode Parameter Verarbeitungsposition',
-    'storage_document_online_preview' => 'Vorschauadresse Regel',
+    'storage_document_preview_service' => 'Dokumentvorschau-Service',
     'storage_document_preview_extension_names' => 'Support-Vorschau-Erweiterung',
     // Operating-User
     'user_name' => 'Identität benutzerdefinierte Name',

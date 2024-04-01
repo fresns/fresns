@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Configuración de la función de procesamiento de audio',
     'storage_function_audio_config_desc' => 'Puede configurar la identificación de la plantilla. Para obtener más información, consulte la descripción del complemento asociado',
     'storage_function_document_config' => 'Configuración de vista previa en línea',
-    'storage_function_document_config_desc' => 'Cualquier cosa que quede en el cuadro de entrada, que representa ninguna función de vista previa. Nombre de la variable de soporte de dirección {DocURL} o {fid}',
     'storage_function_substitution_config' => 'Mapa de reemplazo de estado no válido',
     'storage_function_substitution_config_desc' => 'Cuando el estado del archivo de recursos es "inválido", se utiliza el mapa de indicación ilegítimo',
     'storage_function_substitution_image' => 'Imagen de la imagen no válida',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Posición de procesamiento de parámetros de póster',
     'storage_audio_transcode_parameter' => 'Parámetros de transcodificación de audio',
     'storage_audio_transcode_handle_position' => 'Posición de procesamiento de parámetros de transcodificación de audio',
-    'storage_document_online_preview' => 'Regla de la dirección de vista previa',
+    'storage_document_preview_service' => 'Servicio de vista previa de documentos',
     'storage_document_preview_extension_names' => 'Extensión de vista previa de soporte',
     // Operating-User
     'user_name' => 'Nombre personalizado de identidad',

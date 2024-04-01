@@ -110,21 +110,23 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_url_status_desc') }}</div>
         </div>
-        <!--storage_document_online_preview-->
+        <!--storage_document_preview_service-->
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_document_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_document_online_preview') }}</label>
-                    <input type="text" class="form-control" id="document_online_preview" name="document_online_preview" value="{{ $params['document_online_preview'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_document_preview_service') }}</label>
+                    <select class="form-select" id="document_preview_service" name="document_preview_service">
+                        <option value="">🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                        @foreach ($documentPreviewPlugins as $previewPlugin)
+                            <option value="{{ $previewPlugin->fskey }}" {{ $params['document_preview_service'] == $previewPlugin->fskey ? 'selected' : '' }}>{{ $previewPlugin->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.storage_document_preview_extension_names') }}</label>
                     <input type="text" class="form-control" id="document_preview_extension_names" placeholder="doc,docx,xls,xlsx,csv,ppt,pptx,pps,ppts,pdf" name="document_preview_extension_names" value="{{ $params['document_preview_extension_names'] }}">
                 </div>
-            </div>
-            <div class="col-lg-4 form-text pt-1">
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_function_document_config_desc') }}
             </div>
         </div>
         <!--button_save-->

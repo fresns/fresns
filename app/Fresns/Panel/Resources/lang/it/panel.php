@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Configurazione della funzione di elaborazione audio',
     'storage_function_audio_config_desc' => 'È possibile configurare l\'ID del modello. Per ulteriori informazioni, si prega di fare riferimento alla descrizione del plugin associato',
     'storage_function_document_config' => 'Anteprima online Configuration',
-    'storage_function_document_config_desc' => 'Nulla di sinistra nella casella di input, che non rappresenta alcuna funzione di anteprima. Indirizzo Supporto nome variabile {docurl} o {fid}',
     'storage_function_substitution_config' => 'Mappa di sostituzione dello stato non valida',
     'storage_function_substitution_config_desc' => 'Quando lo stato del file di risorsa è "non valido", viene utilizzata la mappa di indicazione illegittima',
     'storage_function_substitution_image' => 'Immagine suggerimento non valido',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Posizione di elaborazione dei parametri del poster',
     'storage_audio_transcode_parameter' => 'parametri di transcodifica audio',
     'storage_audio_transcode_handle_position' => 'Posizione di elaborazione dei parametri di transcodifica audio',
-    'storage_document_online_preview' => 'Anteprima regola dell\'indirizzo',
+    'storage_document_preview_service' => 'Servizio di anteprima dei documenti',
     'storage_document_preview_extension_names' => 'Supporta l\'estensione di anteprima',
     // Operating-User
     'user_name' => 'Nome personalizzato personalizzato',

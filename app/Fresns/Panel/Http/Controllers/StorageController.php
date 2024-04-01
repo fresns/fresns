@@ -265,7 +265,7 @@ class StorageController extends Controller
             'document_url_status',
             'document_url_key',
             'document_url_expire',
-            'document_online_preview',
+            'document_preview_service',
             'document_preview_extension_names',
         ];
 
@@ -278,8 +278,11 @@ class StorageController extends Controller
         $storagePlugins = $plugins->filter(function ($plugin) {
             return in_array('storage', $plugin->panel_usages);
         });
+        $documentPreviewPlugins = $plugins->filter(function ($plugin) {
+            return in_array('documentPreview', $plugin->panel_usages);
+        });
 
-        return view('FsView::systems.storage-document', compact('params', 'storagePlugins'));
+        return view('FsView::systems.storage-document', compact('params', 'storagePlugins', 'documentPreviewPlugins'));
     }
 
     public function documentUpdate(Request $request)
@@ -298,7 +301,7 @@ class StorageController extends Controller
             'document_url_status',
             'document_url_key',
             'document_url_expire',
-            'document_online_preview',
+            'document_preview_service',
             'document_preview_extension_names',
         ];
 

@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => '音頻處理功能配置',
     'storage_function_audio_config_desc' => '可以配置模板 ID，詳情請查閱關聯外掛的說明。',
     'storage_function_document_config' => '在線預覽配置',
-    'storage_function_document_config_desc' => '輸入框任意一個留空，均代表不開啟預覽功能。地址支援變量名 {docurl} 或 {fid}',
     'storage_function_substitution_config' => '無效狀態補位圖',
     'storage_function_substitution_config_desc' => '當資源文件的狀態為“無效”時輸出的補位提示用圖。',
     'storage_function_substitution_image' => '圖片無效提示圖',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => '視頻封面圖參數處理位置',
     'storage_audio_transcode_parameter' => '音頻轉碼參數',
     'storage_audio_transcode_handle_position' => '音頻轉碼參數處理位置',
-    'storage_document_online_preview' => '預覽地址規則',
+    'storage_document_preview_service' => '文件預覽服務',
     'storage_document_preview_extension_names' => '支援預覽的副檔名',
     // Operating-User
     'user_name' => '身份自定義名稱',

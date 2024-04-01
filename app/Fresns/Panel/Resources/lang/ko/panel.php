@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => '오디오 처리 기능 구성',
     'storage_function_audio_config_desc' => '템플릿 ID를 구성 할 수 있습니다. 자세한 내용은 관련 플러그인의 설명을 참조하십시오',
     'storage_function_document_config' => '온라인 미리보기 구성',
-    'storage_function_document_config_desc' => '미리보기 기능을 나타내지 않는 입력 상자에 남아있는 것. 주소 지원 변수 이름 {docurl} 또는 {fid}',
     'storage_function_substitution_config' => '유효하지 않은 상태 교체지도',
     'storage_function_substitution_config_desc' => '리소스 파일의 상태가 "유효하지 않은"일 때, 불법 표시 맵이 사용됩니다',
     'storage_function_substitution_image' => '그림이 잘못되었습니다',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => '포스터 매개변수 처리 위치',
     'storage_audio_transcode_parameter' => '오디오 트랜스 코딩 매개 변수',
     'storage_audio_transcode_handle_position' => '오디오 트랜스코드 매개변수 처리 위치',
-    'storage_document_online_preview' => '미리보기 주소 규칙',
+    'storage_document_preview_service' => '문서 미리보기 서비스',
     'storage_document_preview_extension_names' => '지원 미리보기 확장자',
     // Operating-User
     'user_name' => '신원 사용자 정의 이름',

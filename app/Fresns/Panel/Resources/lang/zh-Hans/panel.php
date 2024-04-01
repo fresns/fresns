@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => '音频处理功能配置',
     'storage_function_audio_config_desc' => '可以配置模板 ID，详情请查阅关联插件的说明。',
     'storage_function_document_config' => '在线预览配置',
-    'storage_function_document_config_desc' => '输入框任意一个留空，均代表不开启预览功能。地址支持变量名 {docurl} 或 {fid}',
     'storage_function_substitution_config' => '无效状态补位图',
     'storage_function_substitution_config_desc' => '当资源文件的状态为“无效”时输出的补位提示用图。',
     'storage_function_substitution_image' => '图片无效提示图',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => '视频封面图参数处理位置',
     'storage_audio_transcode_parameter' => '音频转码参数',
     'storage_audio_transcode_handle_position' => '音频转码参数处理位置',
-    'storage_document_online_preview' => '预览地址规则',
+    'storage_document_preview_service' => '文档预览服务',
     'storage_document_preview_extension_names' => '支持预览的扩展名',
     // Operating-User
     'user_name' => '身份自定义名称',

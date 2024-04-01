@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'オーディオ処理機能の設定',
     'storage_function_audio_config_desc' => 'テンプレートIDを設定できます。詳細は、関連するプラグインの説明を参照してください。',
     'storage_function_document_config' => 'オンラインプレビュー構成',
-    'storage_function_document_config_desc' => '入力ボックスに残っているものは、プレビュー機能を表します。アドレスサポート変数名{docurl}または{fid}',
     'storage_function_substitution_config' => '無効な状態交換マップ',
     'storage_function_substitution_config_desc' => 'リソースファイルのステータスが「無効」の場合、不正な表示マップが使用されます。',
     'storage_function_substitution_image' => '画像無効なヒント',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'ポスターパラメータ処理位置',
     'storage_audio_transcode_parameter' => 'オーディオトランスコーディングパラメータ',
     'storage_audio_transcode_handle_position' => 'オーディオトランスコードパラメータ処理位置',
-    'storage_document_online_preview' => 'プレビューアドレスルール',
+    'storage_document_preview_service' => 'ドキュメント・プレビュー・サービス',
     'storage_document_preview_extension_names' => 'プレビューの拡張機能をサポートします',
     // Operating-User
     'user_name' => 'アイデンティティカスタムネーム',

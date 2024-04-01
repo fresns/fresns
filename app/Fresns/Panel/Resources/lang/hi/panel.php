@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'ऑडियो प्रोसेसिंग फ़ंक्शन कॉन्फ़िगरेशन',
     'storage_function_audio_config_desc' => 'आप टेम्पलेट आईडी को कॉन्फ़िगर कर सकते हैं। विवरण के लिए, कृपया संबंधित प्लगइन के विवरण का संदर्भ लें।',
     'storage_function_document_config' => 'ऑनलाइन पूर्वावलोकन विन्यास',
-    'storage_function_document_config_desc' => 'इनपुट बॉक्स में कुछ भी छोड़ा गया, जो कोई पूर्वावलोकन फ़ंक्शन का प्रतिनिधित्व करता है। पता समर्थन परिवर्तनीय नाम {docurl} या {fid}',
     'storage_function_substitution_config' => 'अमान्य राज्य प्रतिस्थापन मानचित्र',
     'storage_function_substitution_config_desc' => 'जब संसाधन फ़ाइल की स्थिति "अमान्य" होती है, तो अवैध संकेत मानचित्र का उपयोग किया जाता है।',
     'storage_function_substitution_image' => 'चित्र अमान्य संकेत',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'पोस्टर पैरामीटर प्रसंस्करण स्थिति',
     'storage_audio_transcode_parameter' => 'ऑडियो ट्रांसकोडिंग पैरामीटर',
     'storage_audio_transcode_handle_position' => 'ऑडियो ट्रांसकोड पैरामीटर प्रसंस्करण स्थिति',
-    'storage_document_online_preview' => 'पूर्वावलोकन पता नियम',
+    'storage_document_preview_service' => 'दस्तावेज़ पूर्वावलोकन सेवा',
     'storage_document_preview_extension_names' => 'समर्थन पूर्वावलोकन विस्तार',
     // Operating-User
     'user_name' => 'पहचान कस्टम नाम',

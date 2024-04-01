@@ -523,7 +523,6 @@ return [
     'storage_function_audio_config' => 'Audio Function',
     'storage_function_audio_config_desc' => 'For config tutorials, please refer to the guide of the associated plugin',
     'storage_function_document_config' => 'Document Function',
-    'storage_function_document_config_desc' => 'Leave any of the input box empty, it means no preview function is enabled. Address support variable name {docurl} or {fid}',
     'storage_function_substitution_config' => 'Substitution Config',
     'storage_function_substitution_config_desc' => 'Substitution hint usage image output when the status of the resource file is "invalid"',
     'storage_function_substitution_image' => 'Substitution Image',
@@ -559,7 +558,7 @@ return [
     'storage_video_poster_handle_position' => 'Poster Parameter Handle Position',
     'storage_audio_transcode_parameter' => 'Transcode Parameter',
     'storage_audio_transcode_handle_position' => 'Transcode Parameter Handle Position',
-    'storage_document_online_preview' => 'Preview url rules',
+    'storage_document_preview_service' => 'Document Preview Service',
     'storage_document_preview_extension_names' => 'Extensions that support preview',
     // Operating-User
     'user_name' => 'Identity Custom Name',
