@@ -14,29 +14,14 @@ use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\File;
 use App\Models\FileUsage;
+use App\Models\SessionKey;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class FileUtility
 {
-    /**
-     * Get the mime-type of a given file.
-     */
-    public static function mimeTypeFromPath($path): string|bool
-    {
-        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-    }
-
-    /**
-     * Get the mime-type of a given content.
-     */
-    public static function mimeTypeFromContent($content): string|bool
-    {
-        return finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
-    }
-
     // uploadFile
-    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): ?array
+    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): ?File
     {
         // $bodyInfoExample = [
         //     'platformId' => 'file_usages->platform_id',
@@ -47,18 +32,25 @@ class FileUtility
         //     'tableKey' => 'file_usages->table_key',
         //     'aid' => 'file_usages->account_id',
         //     'uid' => 'file_usages->user_id',
-        //     'type' => 'files->type and file_usages->file_type',
+        //     'type' => 'files->type',
         //     'md5' => 'files->md5',
         //     'sha' => 'files->sha',
-        //     'shaType' => 'files->shaType',
+        //     'shaType' => 'files->sha_type',
+        //     'warningType' => 'files->warning_type',
         //     'moreInfo' => 'files->more_info',
         // ];
 
-        // $diskConfig >> /config/filesystems.php
-        // local, ftp, sftp
+        // check file info
+        $fileType = $bodyInfo['type'] ?? null;
+        $usageType = $bodyInfo['usageType'] ?? null;
+
+        if (empty($fileType) || empty($usageType)) {
+            return null;
+        }
+
         $fresnsStorage = Storage::build($diskConfig);
 
-        $storePath = FileHelper::fresnsFileStoragePath($bodyInfo['type'], $bodyInfo['usageType']);
+        $storePath = FileHelper::fresnsFileStoragePath($fileType, $usageType);
 
         $diskPath = $fresnsStorage->putFile($storePath, $file);
 
@@ -68,60 +60,142 @@ class FileUtility
             return null;
         }
 
-        return FileUtility::saveFileInfoToDatabase($bodyInfo, $diskPath, $file);
+        $fileInfo = [
+            'type' => $fileType,
+            'md5' => $bodyInfo['md5'] ?? null,
+            'sha' => $bodyInfo['sha'] ?? null,
+            'shaType' => $bodyInfo['shaType'] ?? null,
+            'path' => $diskPath,
+            'audioDuration' => $bodyInfo['audioDuration'] ?? null,
+            'videoDuration' => $bodyInfo['videoDuration'] ?? null,
+            'videoPosterPath' => $bodyInfo['videoPosterPath'] ?? null,
+            'moreInfo' => $bodyInfo['moreInfo'] ?? null,
+            'transcodingState' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
+            'originalPath' => $fileInfo['originalPath'] ?? null,
+            'warningType' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
+            'uploaded' => $fileInfo['uploaded'] ?? true,
+        ];
+
+        $usageInfo = [
+            'usageType' => $usageType,
+            'platformId' => $bodyInfo['platformId'] ?? null,
+            'tableName' => $bodyInfo['tableName'] ?? null,
+            'tableColumn' => $bodyInfo['tableColumn'] ?? null,
+            'tableId' => $bodyInfo['tableId'] ?? null,
+            'tableKey' => $bodyInfo['tableKey'] ?? null,
+            'aid' => $bodyInfo['aid'] ?? null,
+            'uid' => $bodyInfo['uid'] ?? null,
+            'remark' => $bodyInfo['remark'] ?? null,
+        ];
+
+        return FileUtility::uploadFileInfo($file, $fileInfo, $usageInfo);
     }
 
     // uploadFileInfo
-    public static function uploadFileInfo(array $bodyInfo): array
+    public static function uploadFileInfo(UploadedFile $file, array $fileInfo, ?array $usageInfo = []): ?File
     {
-        // $bodyInfoExample = [
-        //     'platformId' => 'file_usages->platform_id',
-        //     'usageType' => 'file_usages->usage_type',
-        //     'tableName' => 'file_usages->table_name',
-        //     'tableColumn' => 'file_usages->table_column',
-        //     'tableId' => 'file_usages->table_id',
-        //     'tableKey' => 'file_usages->table_key',
-        //     'aid' => 'file_usages->account_id',
-        //     'uid' => 'file_usages->user_id',
-        //     'type' => 'files->type and file_usages->file_type',
-        //     'fileInfo' => [
-        //         'name' => 'files->name',
-        //         'mime' => 'files->mime',
-        //         'extension' => 'files->extension',
-        //         'size' => 'files->size', // Unit: Byte
-        //         'md5' => 'files->md5',
-        //         'sha' => 'files->sha',
-        //         'shaType' => 'files->sha_type',
-        //         'path' => 'files->path',
-        //         'imageWidth' => 'Image Only: files->image_width',
-        //         'imageHeight' => 'Image Only: files->image_height',
-        //         'videoTime' => 'Video Only: files->video_time',
-        //         'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //         'audioTime' => 'Audio Only: files->audio_time',
-        //         'transcodingState' => 'Audio and Video Only: files->transcoding_state',
-        //         'originalPath' => 'files->original_path',
-        //         'sort_order' => 'file_usages->sort_order',
-        //         'remark' => 'file_usages->remark',
-        //     ],
-        //     'warningType' => 'files->warning_type',
+        // $fileInfoExample = [
+        //     'type' => 'files->type',
+        //     'md5' => 'files->md5',
+        //     'sha' => 'files->sha',
+        //     'shaType' => 'files->sha_type',
+        //     'path' => 'files->path',
+        //     'audioDuration' => 'Audio Only: files->audio_duration',
+        //     'videoDuration' => 'Video Only: files->video_duration',
+        //     'videoPosterPath' => 'Video Only: files->video_poster_path',
         //     'moreInfo' => [
         //         // files->more_info
         //     ],
+        //     'transcodingState' => 'files->transcoding_state', // audio or video Only
+        //     'originalPath' => 'files->original_path',
+        //     'warningType' => 'files->warning_type',
+        //     'uploaded' => 'files->is_uploaded',
         // ];
 
-        // if (! Str::isJson($bodyInfo['fileInfo'])) {
-        //     return null;
-        // }
+        // check file info
+        $fileType = $fileInfo['type'] ?? null;
+        $filePath = $fileInfo['path'] ?? null;
 
-        $fileIdArr = [];
-        foreach ($bodyInfo['fileInfo'] as $fileInfo) {
+        if (empty($fileType) || empty($filePath)) {
+            return null;
+        }
+
+        $name = $file->getClientOriginalName();
+        $mime = $file->getMimeType();
+        $extension = $file->getClientOriginalExtension();
+        $size = $file->getSize();
+        $imageWidth = null;
+        $imageHeight = null;
+
+        if ($fileInfo['type'] == File::TYPE_IMAGE) {
+            $imageSize = getimagesize($file->path());
+
+            $imageWidth = $imageSize[0] ?? null;
+            $imageHeight = $imageSize[1] ?? null;
+        }
+
+        $fileInfo['name'] = $name;
+        $fileInfo['mime'] = $mime;
+        $fileInfo['extension'] = $extension;
+        $fileInfo['size'] = $size;
+        $fileInfo['imageWidth'] = $imageWidth;
+        $fileInfo['imageHeight'] = $imageHeight;
+
+        return FileUtility::saveFileInfo($fileInfo, $usageInfo);
+    }
+
+    // saveFileInfo
+    public static function saveFileInfo(array $fileInfo, ?array $usageInfo = []): ?File
+    {
+        // $fileInfoExample = [
+        //     'type' => 'files->type', // required
+        //     'name' => 'files->name', // required
+        //     'mime' => 'files->mime',
+        //     'extension' => 'files->extension', // required
+        //     'size' => 'files->size', // required, unit: Byte
+        //     'md5' => 'files->md5',
+        //     'sha' => 'files->sha',
+        //     'shaType' => 'files->sha_type',
+        //     'path' => 'files->path', // required
+        //     'imageWidth' => 'Image Only: files->image_width',
+        //     'imageHeight' => 'Image Only: files->image_height',
+        //     'audioDuration' => 'Audio Only: files->audio_duration',
+        //     'videoDuration' => 'Video Only: files->video_duration',
+        //     'videoPosterPath' => 'Video Only: files->video_poster_path',
+        //     'moreInfo' => [
+        //         // files->more_info
+        //     ],
+        //     'transcodingState' => 'files->transcoding_state', // audio or video Only
+        //     'originalPath' => 'files->original_path',
+        //     'warningType' => 'files->warning_type',
+        //     'uploaded' => 'files->is_uploaded',
+        // ];
+
+        // check file info
+        $checkItems = [
+            'type' => $fileInfo['type'] ?? null,
+            'name' => $fileInfo['name'] ?? null,
+            'extension' => $fileInfo['extension'] ?? null,
+            'size' => $fileInfo['size'] ?? null,
+            'path' => $fileInfo['path'] ?? null,
+        ];
+
+        $filteredItems = array_filter($checkItems);
+
+        if (count($filteredItems) < count($checkItems)) {
+            return null;
+        }
+
+        // file model
+        $file = File::where('path', $fileInfo['path'])->first();
+        if (! $file) {
             $imageWidth = $fileInfo['imageWidth'] ?? null;
             $imageHeight = $fileInfo['imageHeight'] ?? null;
-            $imageIsLong = 0;
+            $imageIsLong = false;
 
-            if ($bodyInfo['type'] == 1 && $imageWidth >= 700) {
+            if ($fileInfo['type'] == File::TYPE_IMAGE && $imageWidth >= 700) {
                 if ($imageHeight >= $imageWidth * 3) {
-                    $imageIsLong = 1;
+                    $imageIsLong = true;
                 }
             }
 
@@ -133,7 +207,7 @@ class FileUtility
             }
 
             $fileInput = [
-                'type' => $bodyInfo['type'], // bodyInfo
+                'type' => $fileInfo['type'],
                 'name' => $fileInfo['name'],
                 'mime' => $mime,
                 'extension' => $fileInfo['extension'],
@@ -145,131 +219,82 @@ class FileUtility
                 'image_width' => $imageWidth,
                 'image_height' => $imageHeight,
                 'image_is_long' => $imageIsLong,
-                'video_time' => $fileInfo['videoTime'] ?? null,
+                'audio_duration' => $fileInfo['audioDuration'] ?? null,
+                'video_duration' => $fileInfo['videoDuration'] ?? null,
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
-                'audio_time' => $fileInfo['audioTime'] ?? null,
-                'transcoding_state' => $fileInfo['transcodingState'] ?? 1,
-                'more_info' => $bodyInfo['moreInfo'], // bodyInfo
+                'more_info' => $fileInfo['moreInfo'] ?? null,
+                'transcoding_state' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
                 'original_path' => $fileInfo['originalPath'] ?? null,
-                'warning_type' => $bodyInfo['warningType'] ?? 1, // bodyInfo
-            ];
-            $fileId = File::create($fileInput)->id;
-
-            $aid = $bodyInfo['aid'] ?? null;
-            $uid = $bodyInfo['uid'] ?? null;
-
-            $accountId = PrimaryHelper::fresnsPrimaryId('account', $aid);
-            $userId = PrimaryHelper::fresnsPrimaryId('user', $uid);
-
-            if (empty($accountId)) {
-                $accountId = PrimaryHelper::fresnsAccountIdByUserId($userId);
-            }
-
-            $tableId = $bodyInfo['tableId'];
-            if (empty($bodyInfo['tableId'])) {
-                $tableId = PrimaryHelper::fresnsPrimaryId($bodyInfo['tableName'], $bodyInfo['tableKey']);
-            }
-
-            $useInput = [
-                'file_id' => $fileId,
-                'file_type' => $bodyInfo['type'],
-                'usage_type' => $bodyInfo['usageType'],
-                'platform_id' => $bodyInfo['platformId'],
-                'table_name' => $bodyInfo['tableName'],
-                'table_column' => $bodyInfo['tableColumn'],
-                'table_id' => $tableId,
-                'table_key' => $bodyInfo['tableKey'] ?? null,
-                'sort_order' => $fileInfo['sortOrder'] ?? 9,
-                'remark' => $fileInfo['remark'] ?? null,
-                'account_id' => $accountId,
-                'user_id' => $userId,
+                'warning_type' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
+                'is_uploaded' => $fileInfo['uploaded'] ?? true,
             ];
 
-            FileUsage::create($useInput);
-
-            $fileIdArr[] = $fileId;
+            $file = File::create($fileInput);
         }
 
-        $fileTypeName = match (intval($bodyInfo['type'])) {
-            default => throw new \RuntimeException('Unknown file type: '.$bodyInfo['type']),
-            1 => 'images',
-            2 => 'videos',
-            3 => 'audios',
-            4 => 'documents',
-        };
+        if ($usageInfo) {
+            FileUtility::saveFileUsageInfo($file->type, $file->id, $usageInfo);
+        }
 
-        $fileInfo = FileHelper::fresnsFileInfoListByIds($fileIdArr)[$fileTypeName];
-
-        return $fileInfo;
+        return $file;
     }
 
-    // saveFileInfoToDatabase
-    public static function saveFileInfoToDatabase(array $bodyInfo, string $diskPath, UploadedFile $file): array
+    // saveFileUsageInfo
+    public static function saveFileUsageInfo(int $fileType, int $fileId, ?array $usageInfo = []): ?FileUsage
     {
-        $imageWidth = null;
-        $imageHeight = null;
-        $imageIsLong = 0;
-        if ($bodyInfo['type'] == File::TYPE_IMAGE) {
-            $imageSize = getimagesize($file->path());
-            $imageWidth = $imageSize[0] ?? null;
-            $imageHeight = $imageSize[1] ?? null;
+        // $usageInfoExample = [
+        //     'usageType' => 'file_usages->usage_type',
+        //     'platformId' => 'file_usages->platform_id',
+        //     'tableName' => 'file_usages->table_name',
+        //     'tableColumn' => 'file_usages->table_column',
+        //     'tableId' => 'file_usages->table_id',
+        //     'tableKey' => 'file_usages->table_key',
+        //     'sortOrder' => 'file_usages->sort_order',
+        //     'aid' => 'file_usages->account_id',
+        //     'uid' => 'file_usages->user_id',
+        //     'remark' => 'file_usages->remark',
+        // ];
 
-            if ($imageWidth >= 700) {
-                if ($imageHeight >= $imageWidth * 3) {
-                    $imageIsLong = 1;
-                }
-            }
+        // check usage info
+        $usageType = $usageInfo['usageType'] ?? null;
+        $tableName = $usageInfo['tableName'] ?? null;
+        $tableId = $usageInfo['tableId'] ?? null;
+        $tableKey = $usageInfo['tableKey'] ?? null;
+
+        if (empty($tableId) && empty($tableKey)) {
+            return null;
         }
 
-        $fileInput = [
-            'type' => $bodyInfo['type'],
-            'name' => $file->getClientOriginalName(),
-            'mime' => $file->getMimeType(),
-            'extension' => $file->getClientOriginalExtension(),
-            'size' => $file->getSize(),
-            'md5' => $bodyInfo['md5'] ?? null,
-            'sha' => $bodyInfo['sha'] ?? null,
-            'sha_type' => $bodyInfo['shaType'] ?? null,
-            'path' => $diskPath,
-            'image_width' => $imageWidth,
-            'image_height' => $imageHeight,
-            'image_is_long' => $imageIsLong,
-            'video_time' => $bodyInfo['videoTime'] ?? null,
-            'video_poster_path' => $bodyInfo['videoPosterPath'] ?? null,
-            'audio_time' => $bodyInfo['audioTime'] ?? null,
-            'transcoding_state' => $bodyInfo['transcodingState'] ?? 1,
-            'more_info' => $bodyInfo['moreInfo'] ?? null,
-            'warning_type' => $bodyInfo['warningType'] ?? 1, // bodyInfo
-        ];
+        if (empty($usageType) || empty($tableName)) {
+            return null;
+        }
 
-        $fileId = File::create($fileInput)->id;
-
-        $aid = $bodyInfo['aid'] ?? null;
-        $uid = $bodyInfo['uid'] ?? null;
-
+        $aid = $usageInfo['aid'] ?? null;
         $accountId = PrimaryHelper::fresnsPrimaryId('account', $aid);
-        $userId = PrimaryHelper::fresnsPrimaryId('user', $uid);
 
-        $tableId = $bodyInfo['tableId'];
-        if (empty($bodyInfo['tableId'])) {
-            $tableId = PrimaryHelper::fresnsPrimaryId($bodyInfo['tableName'], $bodyInfo['tableKey']);
+        $userId = null;
+        $uid = $usageInfo['uid'] ?? null;
+        if ($uid) {
+            $userId = PrimaryHelper::fresnsPrimaryId('user', $uid);
+            $accountId = PrimaryHelper::fresnsAccountIdByUserId($userId);
         }
 
         $useInput = [
             'file_id' => $fileId,
-            'file_type' => $bodyInfo['type'],
-            'usage_type' => $bodyInfo['usageType'],
-            'platform_id' => $bodyInfo['platformId'],
-            'table_name' => $bodyInfo['tableName'],
-            'table_column' => $bodyInfo['tableColumn'],
+            'file_type' => $fileType,
+            'usage_type' => $usageType,
+            'platform_id' => $usageInfo['platformId'] ?? SessionKey::PLATFORM_OTHER,
+            'table_name' => $tableName,
+            'table_column' => $usageInfo['tableColumn'] ?? 'id',
             'table_id' => $tableId,
-            'table_key' => $bodyInfo['tableKey'] ?? null,
+            'table_key' => $tableKey,
+            'sort_order' => $usageInfo['sortOrder'] ?? 9,
             'account_id' => $accountId,
             'user_id' => $userId,
+            'remark' => $usageInfo['remark'] ?? null,
         ];
-        FileUsage::create($useInput);
 
-        return FileHelper::fresnsFileInfoById($fileId);
+        return FileUsage::create($useInput);
     }
 
     // logicalDeletionFiles
