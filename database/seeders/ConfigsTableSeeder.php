@@ -1738,9 +1738,9 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'document_online_preview',
+                'item_key' => 'document_preview_service',
                 'item_value' => null,
-                'item_type' => 'string',
+                'item_type' => 'plugin',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 0,

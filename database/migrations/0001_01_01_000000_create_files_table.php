@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('mime', 128);
             $table->string('extension', 32);
             $table->unsignedInteger('size');
-            $table->string('md5', 128)->nullable();
             $table->string('sha', 128)->nullable();
             $table->string('sha_type', 16)->nullable();
             $table->string('path')->unique('file_path');
@@ -35,24 +34,18 @@ return new class extends Migration
             $table->unsignedSmallInteger('audio_duration')->nullable();
             $table->unsignedSmallInteger('video_duration')->nullable();
             $table->string('video_poster_path')->nullable();
-            switch (config('database.default')) {
-                case 'pgsql':
-                    $table->jsonb('more_info')->nullable();
-                    break;
-
-                default:
-                    $table->json('more_info')->nullable();
-            }
             $table->unsignedTinyInteger('transcoding_state')->default(1);
             $table->string('transcoding_reason')->nullable();
             $table->string('original_path')->nullable();
             $table->unsignedTinyInteger('warning_type')->default(1);
-            $table->boolean('is_uploaded')->default(1);
-            $table->boolean('is_enabled')->default(1);
-            $table->boolean('physical_deletion')->default(0);
+            $table->boolean('is_uploaded')->default(1)->index('file_is_uploaded');
+            $table->boolean('is_enabled')->default(1)->index('file_is_enabled');
+            $table->boolean('physical_deletion')->default(0)->index('file_physical_deletion');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
+
+            $table->index(['sha', 'sha_type'], 'file_sha');
         });
 
         Schema::create('file_usages', function (Blueprint $table) {
@@ -66,6 +59,14 @@ return new class extends Migration
             $table->unsignedBigInteger('table_id')->nullable();
             $table->string('table_key', 64)->nullable();
             $table->unsignedSmallInteger('sort_order')->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('more_info')->nullable();
+                    break;
+
+                default:
+                    $table->json('more_info')->nullable();
+            }
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->text('remark')->nullable();
