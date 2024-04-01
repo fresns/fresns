@@ -26,9 +26,9 @@ class EditorDraftUpdateDTO extends DTO
             'commentPrivate' => ['boolean', 'nullable'],
             'gtid' => ['string', 'nullable'],
             'locationInfo' => ['array', 'nullable'],
+            'fileInfo' => ['array', 'nullable'],
             'archives' => ['array', 'nullable'],
             'extends' => ['array', 'nullable'],
-            'fileOrder' => ['array', 'nullable'],
             'deleteLocation' => ['boolean', 'nullable'],
             'deleteArchive' => ['string', 'nullable'], // code
             'deleteExtend' => ['string', 'nullable'], // eid

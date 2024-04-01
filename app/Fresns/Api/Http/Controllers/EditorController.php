@@ -813,25 +813,29 @@ class EditorController extends Controller
             ContentUtility::saveExtendUsages($usageType, $draft->id, $dtoRequest->extends);
         }
 
-        // file sort order
-        if ($dtoRequest->fileOrder) {
+        // file info
+        if ($dtoRequest->fileInfo) {
             $fileIdArr = [];
             $sortOrderArr = [];
-            foreach ($dtoRequest->fileOrder as $fileOrder) {
-                $fid = $fileOrder['fid'] ?? null;
-                $sortOrder = $fileOrder['sortOrder'] ?? 9;
+            $moreInfoArr = [];
 
-                if (empty($fid)) {
+            foreach ($dtoRequest->fileInfo as $info) {
+                $fid = $info['fid'] ?? null;
+
+                $id = PrimaryHelper::fresnsPrimaryId('file', $fid);
+                if (empty($id)) {
                     continue;
                 }
 
-                $fileId = PrimaryHelper::fresnsPrimaryId('file', $fid);
-                if (empty($fileId)) {
-                    continue;
+                $fileIdArr[] = $id;
+
+                if (array_key_exists('sortOrder', $info) && is_numeric($info['sortOrder'])) {
+                    $sortOrderArr[$id] = $info['sortOrder'];
                 }
 
-                $fileIdArr[] = $fileId;
-                $sortOrderArr[$fileId] = $sortOrder;
+                if (array_key_exists('moreInfo', $info)) {
+                    $moreInfoArr[$id] = $info['moreInfo'];
+                }
             }
 
             $usageType = match ($type) {
@@ -854,9 +858,19 @@ class EditorController extends Controller
                 ->get();
 
             foreach ($fileUsages as $fileUsage) {
-                $fileUsage->update([
-                    'sort_order' => $sortOrderArr[$fileUsage->file_id] ?? 9,
-                ]);
+                $fileId = $fileUsage->file_id;
+
+                if (array_key_exists($fileId, $sortOrderArr)) {
+                    $fileUsage->update([
+                        'sort_order' => $sortOrderArr[$fileId],
+                    ]);
+                }
+
+                if (array_key_exists($fileId, $moreInfoArr)) {
+                    $fileUsage->update([
+                        'more_info' => $moreInfoArr[$fileId],
+                    ]);
+                }
             }
         }
 

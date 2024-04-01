@@ -10,14 +10,13 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonFileInfoDTO extends DTO
+class CommonFileUpdateDTO extends DTO
 {
     public function rules(): array
     {
         return [
             'uploaded' => ['boolean', 'nullable'],
             'warning' => ['string', 'nullable', 'in:none,nudity,violence,sensitive'],
-            'moreInfo' => ['string', 'nullable'],
         ];
     }
 }

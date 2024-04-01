@@ -11,8 +11,8 @@ namespace App\Fresns\Api\Http\Controllers;
 use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonCmdWordDTO;
-use App\Fresns\Api\Http\DTO\CommonFileInfoDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
+use App\Fresns\Api\Http\DTO\CommonFileUpdateDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUploadDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUploadTokenDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUsersDTO;
@@ -254,8 +254,6 @@ class CommonController extends Controller
             'mime' => $dtoRequest->mime,
             'extension' => $dtoRequest->extension,
             'size' => $dtoRequest->size,
-            'md5' => $dtoRequest->md5,
-            'sha' => $dtoRequest->sha,
             'shaType' => $dtoRequest->shaType,
             'path' => $path,
             'imageWidth' => $dtoRequest->width,
@@ -452,10 +450,10 @@ class CommonController extends Controller
         return $fresnsResp->getOrigin();
     }
 
-    // file update info
-    public function fileUpdateInfo(string $fid, Request $request)
+    // file update
+    public function fileUpdate(string $fid, Request $request)
     {
-        $dtoRequest = new CommonFileInfoDTO($request->all());
+        $dtoRequest = new CommonFileUpdateDTO($request->all());
 
         $authAccountId = $this->account()->id;
         $authUserId = $this->user()->id;
@@ -495,22 +493,6 @@ class CommonController extends Controller
 
             $file->update([
                 'warning_type' => $warningType,
-            ]);
-        }
-
-        // more info
-        if ($dtoRequest->moreInfo) {
-            $moreInfo = null;
-            if ($dtoRequest->moreInfo) {
-                try {
-                    $moreInfo = json_decode($dtoRequest->moreInfo, true);
-                } catch (\Exception $e) {
-                    throw new ResponseException(30004);
-                }
-            }
-
-            $file->update([
-                'more_info' => $moreInfo,
             ]);
         }
 

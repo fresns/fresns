@@ -22,7 +22,6 @@ class CommonFileUploadTokenDTO extends DTO
             'mime' => ['string', 'required'],
             'extension' => ['string', 'required'],
             'size' => ['integer', 'required'],
-            'md5' => ['string', 'nullable'],
             'sha' => ['string', 'nullable'],
             'shaType' => ['string', 'nullable', 'required_with:sha'],
             'width' => ['integer', 'nullable', 'required_if:type,image'],
