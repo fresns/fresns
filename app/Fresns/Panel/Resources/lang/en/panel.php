@@ -539,7 +539,7 @@ return [
     'storage_filesystem_disk' => 'Filesystem Disk',
     'storage_extension_names' => 'Supported extensions',
     'storage_max_size' => 'Max size supported',
-    'storage_max_duration' => 'Max time supported',
+    'storage_max_duration' => 'Max duration supported',
     'storage_url_status' => 'Anti Link',
     'storage_url_status_desc' => 'If the plugin does not support the anti-link chain function, please do not open, otherwise the resource will not be accessible',
     'storage_url_key' => 'Anti Link Key',
