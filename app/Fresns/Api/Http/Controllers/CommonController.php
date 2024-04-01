@@ -230,15 +230,6 @@ class CommonController extends Controller
             return $fresnsResp->getErrorResponse();
         }
 
-        // more info
-        $moreInfo = null;
-        if ($dtoRequest->moreInfo) {
-            try {
-                $moreInfo = json_decode($dtoRequest->moreInfo, true);
-            } catch (\Exception $e) {
-            }
-        }
-
         // warning type
         $warningType = match ($dtoRequest->warning) {
             'none' => File::WARNING_NONE,
@@ -261,12 +252,20 @@ class CommonController extends Controller
             'audioDuration' => $dtoRequest->duration,
             'videoDuration' => $dtoRequest->duration,
             'videoPosterPath' => null,
-            'moreInfo' => $moreInfo,
             'transcodingState' => File::TRANSCODING_STATE_WAIT,
             'originalPath' => null,
             'warningType' => $warningType,
             'uploaded' => false,
         ];
+
+        // more info
+        $moreInfo = null;
+        if ($dtoRequest->moreInfo) {
+            try {
+                $moreInfo = json_decode($dtoRequest->moreInfo, true);
+            } catch (\Exception $e) {
+            }
+        }
 
         $usageInfo = [
             'usageType' => $usageType,
@@ -276,6 +275,7 @@ class CommonController extends Controller
             'tableId' => $tableId,
             'tableKey' => $tableKey,
             'sortOrder' => null,
+            'moreInfo' => $moreInfo,
             'aid' => $aid,
             'uid' => $uid,
             'remark' => null,

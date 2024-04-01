@@ -262,12 +262,38 @@ class FileHelper
 
         $fileData = $fileUsages->map(fn ($fileUsage) => $fileUsage->file)->groupBy('type');
 
+        $fileExtraInfo = [];
+        foreach ($fileUsages as $fileUsage) {
+            $fid = $fileUsage->file?->fid;
+
+            if (empty($fid)) {
+                continue;
+            }
+
+            $fileExtraInfo[$fid] = [
+                'sortOrder' => $fileUsage->sort_order,
+                'moreInfo' => $fileUsage->more_info,
+            ];
+        }
+
         $data['images'] = $fileData->get(File::TYPE_IMAGE)?->all() ?? [];
         $data['videos'] = $fileData->get(File::TYPE_VIDEO)?->all() ?? [];
         $data['audios'] = $fileData->get(File::TYPE_AUDIO)?->all() ?? [];
         $data['documents'] = $fileData->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
         $fileList = FileHelper::handleAntiLinkFileInfoList($data);
+
+        foreach ($fileList as $type => &$files) {
+            foreach ($files as &$file) {
+                $fid = $file['fid'] ?? null;
+
+                if ($fid && isset($fileExtraInfo[$fid])) {
+                    $file['sortOrder'] = $fileExtraInfo[$fid]['sortOrder'];
+                    $file['moreInfo'] = $fileExtraInfo[$fid]['moreInfo'];
+                }
+            }
+        }
+        unset($files);
 
         return $fileList;
     }
@@ -359,28 +385,26 @@ class FileHelper
     }
 
     // get file document preview url
-    public static function fresnsFileDocumentPreviewUrl(string $documentUrl, string $fid, ?string $fileExtension = null): ?string
+    public static function fresnsFileDocumentPreviewUrl(?string $fileExtension = null): ?string
     {
         $config = ConfigHelper::fresnsConfigByItemKeys([
-            'document_online_preview',
+            'document_preview_service',
             'document_preview_extension_names',
         ]);
 
-        if (empty($config['document_online_preview']) || empty($config['document_preview_extension_names']) || empty($fileExtension)) {
+        $previewUrl = PluginHelper::fresnsPluginUrlByFskey($config['document_preview_service']);
+
+        if (empty($previewUrl) || empty($config['document_preview_extension_names']) || empty($fileExtension)) {
             return null;
         }
 
-        $documentPreviewUrl = null;
-
         $previewExtArr = explode(',', $config['document_preview_extension_names']);
 
-        if (in_array($fileExtension, $previewExtArr)) {
-            $replaceUrl = str_replace('{docurl}', $documentUrl, $config['document_online_preview']);
-
-            $documentPreviewUrl = str_replace('{fid}', $fid, $replaceUrl);
+        if (! in_array($fileExtension, $previewExtArr)) {
+            return null;
         }
 
-        return $documentPreviewUrl;
+        return $previewUrl;
     }
 
     // get file type number
@@ -418,7 +442,7 @@ class FileHelper
             default => null,
         };
 
-        if (empty($position) || empty($filePath)) {
+        if (empty($position) || empty($parameter) || empty($filePath)) {
             return $filePath;
         }
 

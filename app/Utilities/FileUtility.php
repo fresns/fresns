@@ -33,9 +33,6 @@ class FileUtility
         //     'aid' => 'file_usages->account_id',
         //     'uid' => 'file_usages->user_id',
         //     'type' => 'files->type',
-        //     'md5' => 'files->md5',
-        //     'sha' => 'files->sha',
-        //     'shaType' => 'files->sha_type',
         //     'warningType' => 'files->warning_type',
         //     'moreInfo' => 'files->more_info',
         // ];
@@ -60,16 +57,16 @@ class FileUtility
             return null;
         }
 
+        $sha256Hash = hash_file('sha256', $file->path());
+
         $fileInfo = [
             'type' => $fileType,
-            'md5' => $bodyInfo['md5'] ?? null,
-            'sha' => $bodyInfo['sha'] ?? null,
-            'shaType' => $bodyInfo['shaType'] ?? null,
+            'sha' => $sha256Hash,
+            'shaType' => 'sha256',
             'path' => $diskPath,
             'audioDuration' => $bodyInfo['audioDuration'] ?? null,
             'videoDuration' => $bodyInfo['videoDuration'] ?? null,
             'videoPosterPath' => $bodyInfo['videoPosterPath'] ?? null,
-            'moreInfo' => $bodyInfo['moreInfo'] ?? null,
             'transcodingState' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
             'originalPath' => $fileInfo['originalPath'] ?? null,
             'warningType' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
@@ -83,6 +80,7 @@ class FileUtility
             'tableColumn' => $bodyInfo['tableColumn'] ?? null,
             'tableId' => $bodyInfo['tableId'] ?? null,
             'tableKey' => $bodyInfo['tableKey'] ?? null,
+            'moreInfo' => $bodyInfo['moreInfo'] ?? null,
             'aid' => $bodyInfo['aid'] ?? null,
             'uid' => $bodyInfo['uid'] ?? null,
             'remark' => $bodyInfo['remark'] ?? null,
@@ -96,17 +94,13 @@ class FileUtility
     {
         // $fileInfoExample = [
         //     'type' => 'files->type',
-        //     'md5' => 'files->md5',
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->sha_type',
         //     'path' => 'files->path',
         //     'audioDuration' => 'Audio Only: files->audio_duration',
         //     'videoDuration' => 'Video Only: files->video_duration',
         //     'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //     'moreInfo' => [
-        //         // files->more_info
-        //     ],
-        //     'transcodingState' => 'files->transcoding_state', // audio or video Only
+        //     'transcodingState' => 'files->transcoding_state', // audio or video only
         //     'originalPath' => 'files->original_path',
         //     'warningType' => 'files->warning_type',
         //     'uploaded' => 'files->is_uploaded',
@@ -153,7 +147,6 @@ class FileUtility
         //     'mime' => 'files->mime',
         //     'extension' => 'files->extension', // required
         //     'size' => 'files->size', // required, unit: Byte
-        //     'md5' => 'files->md5',
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->sha_type',
         //     'path' => 'files->path', // required
@@ -162,9 +155,6 @@ class FileUtility
         //     'audioDuration' => 'Audio Only: files->audio_duration',
         //     'videoDuration' => 'Video Only: files->video_duration',
         //     'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //     'moreInfo' => [
-        //         // files->more_info
-        //     ],
         //     'transcodingState' => 'files->transcoding_state', // audio or video Only
         //     'originalPath' => 'files->original_path',
         //     'warningType' => 'files->warning_type',
@@ -212,7 +202,6 @@ class FileUtility
                 'mime' => $mime,
                 'extension' => $fileInfo['extension'],
                 'size' => $fileInfo['size'],
-                'md5' => $fileInfo['md5'] ?? null,
                 'sha' => $fileInfo['sha'] ?? null,
                 'sha_type' => $fileInfo['shaType'] ?? null,
                 'path' => $fileInfo['path'],
@@ -222,7 +211,6 @@ class FileUtility
                 'audio_duration' => $fileInfo['audioDuration'] ?? null,
                 'video_duration' => $fileInfo['videoDuration'] ?? null,
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
-                'more_info' => $fileInfo['moreInfo'] ?? null,
                 'transcoding_state' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
                 'original_path' => $fileInfo['originalPath'] ?? null,
                 'warning_type' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
@@ -250,6 +238,9 @@ class FileUtility
         //     'tableId' => 'file_usages->table_id',
         //     'tableKey' => 'file_usages->table_key',
         //     'sortOrder' => 'file_usages->sort_order',
+        //     'moreInfo' => [
+        //         // files->more_info
+        //     ],
         //     'aid' => 'file_usages->account_id',
         //     'uid' => 'file_usages->user_id',
         //     'remark' => 'file_usages->remark',
@@ -289,6 +280,7 @@ class FileUtility
             'table_id' => $tableId,
             'table_key' => $tableKey,
             'sort_order' => $usageInfo['sortOrder'] ?? 9,
+            'more_info' => $usageInfo['moreInfo'] ?? null,
             'account_id' => $accountId,
             'user_id' => $userId,
             'remark' => $usageInfo['remark'] ?? null,
@@ -313,7 +305,7 @@ class FileUtility
 
             $file->delete();
 
-            CacheHelper::forgetFresnsFileUsage($file->id);
+            CacheHelper::clearDataCache('file', $file->fid);
         }
     }
 }

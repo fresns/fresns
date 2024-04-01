@@ -93,10 +93,8 @@ trait FileServiceTrait
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
         $info['size'] = $fileSizeInfo;
-        $info['md5'] = $fileData->md5;
         $info['sha'] = $fileData->sha;
         $info['shaType'] = $fileData->sha_type;
-        $info['moreInfo'] = $fileData->more_info;
 
         $fileMetaInfo = $this->getFileMetaInfoByType();
 
@@ -259,7 +257,7 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        $info['documentPreviewUrl'] = FileHelper::fresnsFileDocumentPreviewUrl($fileData->getFileUrl(), $fileData->fid, $fileData->extension);
+        $info['documentPreviewUrl'] = FileHelper::fresnsFileDocumentPreviewUrl($fileData->extension);
 
         return $info;
     }

@@ -363,6 +363,7 @@ class CacheHelper
                 break;
 
             case 'file':
+                CacheHelper::forgetFresnsKey("fresns_file_info_{$id}", 'fresnsFiles');
                 CacheHelper::forgetFresnsKey("fresns_file_info_{$fsid}", 'fresnsFiles');
                 CacheHelper::forgetFresnsFileUsage($fsid);
                 break;
@@ -743,6 +744,7 @@ class CacheHelper
     /**
      * fresns file.
      */
+    // fresns_file_info_{$id}
     // fresns_file_info_{$fid}
 
     /**

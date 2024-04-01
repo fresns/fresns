@@ -243,8 +243,9 @@ class File
             $tableId = $conversation->id;
         }
 
+        $uploadNumberConfig = 1;
         if ($publishType) {
-            $uploadNumber = $editorConfig[$fileTypeString]['uploadNumber'] ?? 0;
+            $maxUploadNumber = $editorConfig[$fileTypeString]['maxUploadNumber'] ?? 0;
 
             $fileCount = FileUsage::where('file_type', $fileTypeInt)
                 ->where('usage_type', $usageType)
@@ -253,7 +254,9 @@ class File
                 ->where('table_id', $tableId)
                 ->count();
 
-            if ($fileCount >= $uploadNumber) {
+            $uploadNumberConfig = $maxUploadNumber - $fileCount;
+
+            if ($uploadNumberConfig <= 0) {
                 return $this->failure(36115, ConfigUtility::getCodeMessage(36115));
             }
         }
@@ -264,6 +267,7 @@ class File
             'tableColumn' => $tableColumn,
             'tableId' => $tableId,
             'tableKey' => $fsid,
+            'maxUploadNumber' => $uploadNumberConfig,
         ];
 
         return $this->success($data);
