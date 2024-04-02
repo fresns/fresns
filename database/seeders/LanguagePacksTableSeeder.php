@@ -3032,7 +3032,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'editorUploadTipNumber',
+                'lang_key' => 'editorUploadTipMaxNumber',
                 'lang_values' => '{"en":"Max number","zh-Hans":"支持上传的数量","zh-Hant":"支援上傳的數量"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
