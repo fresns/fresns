@@ -168,14 +168,14 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonFileUploadTokenDTO($request->all());
 
-        $type = match ($dtoRequest->type) {
+        $fileTypeInt = match ($dtoRequest->type) {
             'image' => File::TYPE_IMAGE,
             'video' => File::TYPE_VIDEO,
             'audio' => File::TYPE_AUDIO,
             'document' => File::TYPE_DOCUMENT,
         };
 
-        $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($fileTypeInt);
 
         if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
@@ -196,7 +196,7 @@ class CommonController extends Controller
             'uid' => $uid,
             'usageType' => $dtoRequest->usageType,
             'usageFsid' => $dtoRequest->usageFsid,
-            'type' => $type,
+            'type' => $fileTypeInt,
             'extension' => $dtoRequest->extension,
             'size' => $dtoRequest->size,
             'duration' => $dtoRequest->duration,
@@ -214,12 +214,12 @@ class CommonController extends Controller
         $tableId = $permResp->getData('tableId');
         $tableKey = $permResp->getData('tableKey');
 
-        $storePath = FileHelper::fresnsFileStoragePath($type, $usageType);
+        $storePath = FileHelper::fresnsFileStoragePath($fileTypeInt, $usageType);
         $fileNewName = (string) Str::ulid();
         $path = $storePath.'/'.$fileNewName.'.'.$dtoRequest->extension;
 
         $wordBody = [
-            'type' => $type,
+            'type' => $fileTypeInt,
             'path' => $path,
             'minutes' => 10,
         ];
@@ -240,7 +240,7 @@ class CommonController extends Controller
         };
 
         $fileInfo = [
-            'type' => $type,
+            'type' => $fileTypeInt,
             'name' => $dtoRequest->name,
             'mime' => $dtoRequest->mime,
             'extension' => $dtoRequest->extension,
