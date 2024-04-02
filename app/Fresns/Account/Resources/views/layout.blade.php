@@ -69,6 +69,7 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/js-cookie.min.js"></script>
     <script src="/static/js/iframeResizer.min.js"></script>
+    <script src="/static/js/fresns-callback.js"></script>
     <script>
         /* fresns token */
         $.ajaxSetup({
@@ -295,80 +296,32 @@
 
         // fresns extensions callback
         window.onmessage = function (event) {
-            let fresnsCallback;
+            let callbackData = FresnsCallback.decode(event.data);
 
-            try {
-                fresnsCallback = JSON.parse(event.data);
-            } catch (error) {
+            if (callbackData.code != 0) {
+                tips(callbackData.message);
                 return;
             }
 
-            console.log('fresnsCallback', fresnsCallback);
-
-            if (!fresnsCallback) {
-                return;
-            }
-
-            if (fresnsCallback.code != 0) {
-                if (fresnsCallback.message) {
-                    tips(fresnsCallback.message);
-                }
-                return;
-            }
-
-            if (fresnsCallback.data.loginToken) {
-                fresnsCallbackSend(fresnsCallback.data.loginToken);
+            if (callbackData.data.loginToken) {
+                fresnsAccountCallback(callbackData.data.loginToken);
             }
         };
 
         // fresns extensions send
-        function fresnsCallbackSend(loginToken) {
-            const postMessageKey = Cookies.get('fresns_callback_key');
-            const redirectUrl = Cookies.get('fresns_redirect_url');
+        function fresnsAccountCallback(loginToken) {
+            let callbackAction = {
+                postMessageKey: Cookies.get('fresns_callback_key'),
+                windowClose: true,
+                redirectUrl: Cookies.get('fresns_redirect_url'),
+                dataHandler: '',
+            };
+            let apiData = {
+                loginToken: loginToken
+            },
 
-            console.log('fresnsCallbackSend', postMessageKey, redirectUrl);
-
-            const fresnsCallbackMessage = {
-                code: 0,
-                message: 'ok',
-                action: {
-                    postMessageKey: postMessageKey,
-                    windowClose: true,
-                    reloadData: true,
-                    redirectUrl: redirectUrl,
-                },
-                data: {
-                    loginToken: loginToken
-                },
-            }
-
-            const messageString = JSON.stringify(fresnsCallbackMessage);
-
-            switch (true) {
-                case (window.Android !== undefined):
-                    // Android (addJavascriptInterface)
-                    window.Android.receiveMessage(messageString);
-                    break;
-
-                case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
-                    // iOS (WKScriptMessageHandler)
-                    window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
-                    break;
-
-                case (window.FresnsJavascriptChannel !== undefined):
-                    // Flutter
-                    window.FresnsJavascriptChannel.postMessage(messageString);
-                    break;
-
-                case (window.ReactNativeWebView !== undefined):
-                    // React Native WebView
-                    window.ReactNativeWebView.postMessage(messageString);
-                    break;
-
-                // Web
-                default:
-                    parent.postMessage(messageString, '*');
-            }
+            // /static/js/fresns-callback.js
+            FresnsCallback.send(callbackAction, apiData);
         }
     </script>
 

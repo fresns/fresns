@@ -132,7 +132,7 @@
 
                     if (res.code == 0) {
                         if (res.data && res.data.loginToken) {
-                            fresnsCallbackSend(res.data.loginToken);
+                            fresnsAccountCallback(res.data.loginToken);
                             return;
                         }
                     }
