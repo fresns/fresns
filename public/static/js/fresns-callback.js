@@ -5,12 +5,12 @@
  */
 
 var FresnsCallback = {
-    encode: function(action, data = null, code = 0, message = 'ok') {
+    encode: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok') {
         const messageArr = {
-            code: code,
-            message: message,
-            data: data,
-            action: action,
+            code: apiCode,
+            message: apiMessage,
+            data: apiData,
+            action: callbackAction,
             // action: {
             //     postMessageKey: '',
             //     windowClose: true,
@@ -25,8 +25,20 @@ var FresnsCallback = {
     },
 
     decode: function(stringify = '') {
+        const errorResponse = {
+            code: 40000,
+            message: 'Callback data format error',
+            data: null,
+            action: {
+                postMessageKey: '',
+                windowClose: true,
+                redirectUrl: '',
+                dataHandler: '',
+            },
+        }
+
         if (!stringify) {
-            return;
+            return errorResponse;
         }
 
         let callbackData;
@@ -34,32 +46,32 @@ var FresnsCallback = {
         try {
             callbackData = JSON.parse(stringify);
         } catch (error) {
-            console.log('fresns callback data error', error);
-            return;
+            console.log('fresns callback json parse error: ', error);
+            return errorResponse;
         }
 
         if (!callbackData) {
-            return;
+            return errorResponse;
         }
 
-        const fresnsCallbackData = {
-            code: callbackData.code || 24000,
-            message: callbackData.message || 'Callback data format error',
-            data: callbackData.data || null,
+        const successResponse = {
+            code: callbackData.code || errorResponse.code,
+            message: callbackData.message || errorResponse.message,
+            data: callbackData.data || errorResponse.data,
             action: {
-                postMessageKey: callbackData.action?.postMessageKey || '',
-                windowClose: callbackData.action?.windowClose || true,
-                redirectUrl: callbackData.action?.redirectUrl || '',
-                dataHandler: callbackData.action?.dataHandler || '',
+                postMessageKey: callbackData.action?.postMessageKey || errorResponse.action.postMessageKey,
+                windowClose: callbackData.action?.windowClose || errorResponse.action.windowClose,
+                redirectUrl: callbackData.action?.redirectUrl || errorResponse.action.redirectUrl,
+                dataHandler: callbackData.action?.dataHandler || errorResponse.action.dataHandler,
             },
         }
 
-        return fresnsCallbackData;
+        return successResponse;
     },
 
-    send: function(action, data = null, code = 0, message = 'ok') {
+    send: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok') {
         setTimeout(function () {
-            const messageString = FresnsCallback.encode(action, data, code, message);
+            const messageString = FresnsCallback.encode(callbackAction, apiData, apiCode, apiMessage);
 
             const userAgent = navigator.userAgent.toLowerCase();
 
