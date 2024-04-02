@@ -75,8 +75,16 @@ class Content
         if ($dtoWordBody->editorFskey) {
             $editorPlugin = App::where('fskey', $dtoWordBody->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
 
+            if (! $editorPlugin || ! in_array('editor', $editorPlugin?->panel_usages)) {
+                return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
+            }
+
+            if (! $editorPlugin->is_enabled) {
+                return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+            }
+
             $permissions['editor'] = [
-                'isAppEditor' => $editorPlugin ? true : false,
+                'isAppEditor' => true,
                 'editorFskey' => $editorPlugin->fskey,
             ];
         }

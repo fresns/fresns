@@ -624,26 +624,20 @@ class EditorController extends Controller
 
         // editorFskey
         if ($dtoRequest->editorFskey) {
-            if (in_array($dtoRequest->editorFskey, ['Fresns', 'fresns'])) {
-                $permissions['editor'] = [
-                    'isAppEditor' => false,
-                    'editorFskey' => null,
-                ];
-            } else {
-                $editorPlugin = App::where('fskey', $dtoRequest->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
-                if (empty($editorPlugin)) {
-                    throw new ResponseException(32101);
-                }
+            $editorPlugin = App::where('fskey', $dtoRequest->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
 
-                if (! $editorPlugin->is_enabled) {
-                    throw new ResponseException(32102);
-                }
-
-                $permissions['editor'] = [
-                    'isAppEditor' => true,
-                    'editorFskey' => $dtoRequest->editorFskey,
-                ];
+            if (! $editorPlugin || ! in_array('editor', $editorPlugin?->panel_usages)) {
+                throw new ResponseException(32101);
             }
+
+            if (! $editorPlugin->is_enabled) {
+                throw new ResponseException(32102);
+            }
+
+            $permissions['editor'] = [
+                'isAppEditor' => true,
+                'editorFskey' => $dtoRequest->editorFskey,
+            ];
 
             $draft->update([
                 'permissions' => $permissions,
