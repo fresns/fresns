@@ -155,7 +155,7 @@
 
                     if (res.code == 0) {
                         if (res.data && res.data.loginToken) {
-                            fresnsAccountCallback(res.data.loginToken);
+                            sendAccountCallback(res.data.loginToken);
                             return;
                         }
 

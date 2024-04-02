@@ -70,6 +70,23 @@
     <script src="/static/js/js-cookie.min.js"></script>
     <script src="/static/js/iframeResizer.min.js"></script>
     <script src="/static/js/fresns-callback.js"></script>
+    @switch($captcha['type'])
+        {{-- Turnstile (Cloudflare) --}}
+        @case('turnstile')
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+            @break
+
+        {{-- reCAPTCHA (Google) --}}
+        @case('reCAPTCHA')
+            <script src="https://www.google.com/recaptcha/api.js?render={{ $captcha['siteKey'] }}"></script>
+            @break
+
+        {{-- hCaptcha (Intuition Machines) --}}
+        @case('hCaptcha')
+            <script src="https://js.hcaptcha.com/1/api.js?hl={{ $langTag }}" async defer></script>
+            @break
+    @endswitch
+
     <script>
         /* fresns token */
         $.ajaxSetup({
@@ -298,18 +315,23 @@
         window.onmessage = function (event) {
             let callbackData = FresnsCallback.decode(event.data);
 
+            if (callbackData.code == 40000) {
+                // callback data format error
+                return;
+            }
+
             if (callbackData.code != 0) {
                 tips(callbackData.message);
                 return;
             }
 
             if (callbackData.data.loginToken) {
-                fresnsAccountCallback(callbackData.data.loginToken);
+                sendAccountCallback(callbackData.data.loginToken);
             }
         };
 
         // fresns extensions send
-        function fresnsAccountCallback(loginToken) {
+        function sendAccountCallback(loginToken) {
             let callbackAction = {
                 postMessageKey: Cookies.get('fresns_callback_key'),
                 windowClose: true,
@@ -318,29 +340,12 @@
             };
             let apiData = {
                 loginToken: loginToken
-            },
+            };
 
             // /static/js/fresns-callback.js
             FresnsCallback.send(callbackAction, apiData);
         }
     </script>
-
-    @switch($captcha['type'])
-        {{-- Turnstile (Cloudflare) --}}
-        @case('turnstile')
-            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-            @break
-
-        {{-- reCAPTCHA (Google) --}}
-        @case('reCAPTCHA')
-            <script src="https://www.google.com/recaptcha/api.js?render={{ $captcha['siteKey'] }}"></script>
-            @break
-
-        {{-- hCaptcha (Intuition Machines) --}}
-        @case('hCaptcha')
-            <script src="https://js.hcaptcha.com/1/api.js?hl={{ $langTag }}" async defer></script>
-            @break
-    @endswitch
 
     @stack('script')
 </body>

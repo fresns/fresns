@@ -229,7 +229,7 @@
                     tips(res.message);
 
                     if (res.code == 0) {
-                        fresnsAccountCallback(res.data.loginToken);
+                        sendAccountCallback(res.data.loginToken);
                     }
                 },
                 complete: function (e) {
