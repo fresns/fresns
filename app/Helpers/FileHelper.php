@@ -200,7 +200,7 @@ class FileHelper
     }
 
     // get file info by file id or fid
-    public static function fresnsFileInfoById(int|string $fileIdOrFid): ?array
+    public static function fresnsFileInfoById(int|string $fileIdOrFid, ?array $usageInfo = []): ?array
     {
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
@@ -223,16 +223,34 @@ class FileHelper
             return $fresnsResponse->getData() ?? null;
         }
 
-        return $file->getFileInfo();
+        $fileInfo = $file->getFileInfo();
+
+        $tableName = $usageInfo['tableName'] ?? null;
+        $tableColumn = $usageInfo['tableColumn'] ?? null;
+        $tableId = $usageInfo['tableId'] ?? null;
+        $tableKey = $usageInfo['tableKey'] ?? null;
+        if ($tableName && $tableColumn && ($tableId || $tableKey)) {
+            $fileUsageQuery = FileUsage::where('file_id', $file->id)->where('table_name', $tableName)->where('table_column', $tableColumn);
+
+            if ($tableId) {
+                $fileUsageQuery->where('table_id', $tableId);
+            } else {
+                $fileUsageQuery->where('table_key', $tableKey);
+            }
+
+            $fileUsage = $fileUsageQuery->first();
+
+            $fileInfo['sortOrder'] = $fileUsage?->sort_order;
+            $fileInfo['moreInfo'] = $fileUsage?->more_info;
+        }
+
+        return $fileInfo;
     }
 
     // get file info list by file id or fid
     public static function fresnsFileInfoListByIds(array $fileIdsOrFids): array
     {
-        $files = File::whereIn('id', $fileIdsOrFids)
-            ->orWhereIn('fid', $fileIdsOrFids)
-            ->get()
-            ->groupBy('type');
+        $files = File::whereIn('id', $fileIdsOrFids)->orWhereIn('fid', $fileIdsOrFids)->get()->groupBy('type');
 
         $data['images'] = $files->get(File::TYPE_IMAGE)?->all() ?? [];
         $data['videos'] = $files->get(File::TYPE_VIDEO)?->all() ?? [];
@@ -247,15 +265,12 @@ class FileHelper
     // get file info list by table column
     public static function fresnsFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null): array
     {
-        $fileUsageQuery = FileUsage::with('file')
-            ->where('table_name', $tableName)
-            ->where('table_column', $tableColumn)
-            ->orderBy('sort_order');
+        $fileUsageQuery = FileUsage::with('file')->where('table_name', $tableName)->where('table_column', $tableColumn)->orderBy('sort_order');
 
-        if (empty($tableId)) {
-            $fileUsageQuery->where('table_key', $tableKey);
-        } else {
+        if ($tableId) {
             $fileUsageQuery->where('table_id', $tableId);
+        } else {
+            $fileUsageQuery->where('table_key', $tableKey);
         }
 
         $fileUsages = $fileUsageQuery->get();
