@@ -273,6 +273,8 @@ class FileHelper
             $fileUsageQuery->where('table_key', $tableKey);
         }
 
+        $fileUsageQuery->whereRelation('file', 'is_uploaded', true);
+
         $fileUsages = $fileUsageQuery->get();
 
         $fileData = $fileUsages->map(fn ($fileUsage) => $fileUsage->file)->groupBy('type');

@@ -179,8 +179,8 @@ class FileUtility
         // file model
         $file = File::where('path', $fileInfo['path'])->first();
         if (! $file) {
-            $imageWidth = $fileInfo['imageWidth'] ?? null;
-            $imageHeight = $fileInfo['imageHeight'] ?? null;
+            $imageWidth = $fileInfo['imageWidth'] ?: null;
+            $imageHeight = $fileInfo['imageHeight'] ?: null;
             $imageIsLong = false;
 
             if ($fileInfo['type'] == File::TYPE_IMAGE && $imageWidth >= 700) {
