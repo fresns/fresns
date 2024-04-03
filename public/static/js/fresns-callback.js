@@ -46,7 +46,6 @@ var FresnsCallback = {
         try {
             callbackData = JSON.parse(stringify);
         } catch (error) {
-            console.log('fresns callback json parse error: ', error);
             return errorResponse;
         }
 
