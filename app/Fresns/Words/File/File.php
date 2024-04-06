@@ -247,12 +247,11 @@ class File
         if ($publishType) {
             $maxUploadNumber = $editorConfig[$fileTypeString]['maxUploadNumber'] ?? 0;
 
-            $fileCount = FileUsage::where('file_type', $fileTypeInt)
-                ->where('usage_type', $usageType)
-                ->where('table_name', $tableName)
-                ->where('table_column', $tableColumn)
-                ->where('table_id', $tableId)
-                ->count();
+            $fileUsageQuery = FileUsage::where('file_type', $fileTypeInt)->where('usage_type', $usageType)->where('table_name', $tableName)->where('table_column', $tableColumn)->where('table_id', $tableId);
+
+            $fileUsageQuery->whereRelation('file', 'is_uploaded', true);
+
+            $fileCount = $fileUsageQuery->count();
 
             $uploadNumberConfig = $maxUploadNumber - $fileCount;
 
