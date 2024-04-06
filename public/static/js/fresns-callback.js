@@ -54,7 +54,7 @@ var FresnsCallback = {
         }
 
         const successResponse = {
-            code: callbackData.code || errorResponse.code,
+            code: callbackData.code !== undefined && callbackData.code !== null ? callbackData.code : errorResponse.code,
             message: callbackData.message || errorResponse.message,
             data: callbackData.data || errorResponse.data,
             action: {
