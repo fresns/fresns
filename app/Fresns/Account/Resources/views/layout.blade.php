@@ -196,6 +196,9 @@
                 return;
             }
 
+            Cookies.set('fresns_account_center_verify_code_time', 60, { expires: 1 });
+            setSendCodeTime();
+
             $.ajax({
                 url: "{{ route('account-center.api.guest-send-verify-code') }}",
                 type: 'post',
@@ -211,13 +214,11 @@
                     if (res.code != 0) {
                         tips(res.message);
 
+                        Cookies.set('fresns_account_center_verify_code_time', 0, { expires: 1 });
                         return;
                     }
 
                     tips("{{ $fsLang['send'].': '.$fsLang['success'] }}");
-
-                    Cookies.set('fresns_account_center_verify_code_time', 60, { expires: 1 });
-                    setSendCodeTime();
                 },
             });
         }

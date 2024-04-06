@@ -80,8 +80,8 @@ class ApiController extends Controller
             return $this->failure(30002);
         }
 
-        $accountInfo = $request->account;
-        $countryCode = $request->countryCode;
+        $accountInfo = Str::of($request->account)->trim()->toString();
+        $countryCode = (int) $request->countryCode;
 
         $isEmail = filter_var($accountInfo, FILTER_VALIDATE_EMAIL);
         $isPureInt = StrHelper::isPureInt($accountInfo);
@@ -126,6 +126,7 @@ class ApiController extends Controller
             $sendType = VerifyCode::TYPE_EMAIL;
             $sendAccount = $accountModel?->email;
         } else {
+            $accountInfo = (int) $accountInfo;
             $phone = $countryCode.$accountInfo;
             $accountModel = Account::where('phone', $phone)->first();
 
@@ -706,8 +707,8 @@ class ApiController extends Controller
         $dtoRequest = new SendVerifyCodeDTO($request->all());
 
         $templateId = $dtoRequest->templateId;
-        $countryCode = $dtoRequest->countryCode;
-        $accountInfo = $dtoRequest->account;
+        $countryCode = (int) $dtoRequest->countryCode;
+        $accountInfo = Str::of($request->account)->trim()->toString();
 
         $account = null;
         if ($templateId == 3 || $templateId == 4 || $templateId == 8) {
@@ -731,6 +732,10 @@ class ApiController extends Controller
             'sms' => VerifyCode::TYPE_SMS,
             default => null,
         };
+
+        if ($dtoRequest->type == 'sms') {
+            $accountInfo = (int) $accountInfo;
+        }
 
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
