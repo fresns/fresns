@@ -13,7 +13,7 @@ try {
 }
 
 $encryptCookies = [
-    'fresns_panel_lang',
+    'fresns_panel_locale',
     'fresns_callback_key',
     'fresns_callback_ulid',
     'fresns_redirect_url',
