@@ -210,7 +210,7 @@ trait FileServiceTrait
         }
 
         if ($videoConfig['video_poster_handle_position']) {
-            $posterPath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_poster_handle_position'], $videoConfig['video_poster_parameter'], $filePath);
+            $posterPath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_poster_handle_position'], $videoConfig['video_poster_parameter'], $posterPath);
         }
 
         if ($videoConfig['video_transcode_handle_position']) {
