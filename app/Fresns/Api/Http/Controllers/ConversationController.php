@@ -165,31 +165,26 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['image_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
             'maxSize' => $imageMaxSize + 1,
-            'maxDuration' => null,
             'uploadType' => $imageUploadUrl ? $imageUploadType : 'api',
             'uploadUrl' => $imageUploadUrl,
         ];
 
         $videoMaxSize = (int) (empty($rolePerm['video_max_size']) ? $conversationConfigs['video_max_size'] : $rolePerm['video_max_size']);
-        $videoMaxDuration = (int) (empty($rolePerm['video_max_duration']) ? $conversationConfigs['video_max_duration'] : $rolePerm['video_max_duration']);
         $video = [
             'status' => in_array('video', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['video_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
             'maxSize' => $videoMaxSize + 1,
-            'maxDuration' => $videoMaxDuration + 1,
             'uploadType' => $videoUploadUrl ? $videoUploadType : 'api',
             'uploadUrl' => $videoUploadUrl,
         ];
 
         $audioMaxSize = (int) (empty($rolePerm['audio_max_size']) ? $conversationConfigs['audio_max_size'] : $rolePerm['audio_max_size']);
-        $audioMaxDuration = (int) (empty($rolePerm['audio_max_duration']) ? $conversationConfigs['audio_max_duration'] : $rolePerm['audio_max_duration']);
         $audio = [
             'status' => in_array('audio', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['audio_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
             'maxSize' => $audioMaxSize + 1,
-            'maxDuration' => $audioMaxDuration + 1,
             'uploadType' => $audioUploadUrl ? $audioUploadType : 'api',
             'uploadUrl' => $audioUploadUrl,
         ];
@@ -200,7 +195,6 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['document_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
             'maxSize' => $documentMaxSize + 1,
-            'maxDuration' => null,
             'uploadType' => $documentUploadUrl ? $documentUploadType : 'api',
             'uploadUrl' => $documentUploadUrl,
         ];
