@@ -18,14 +18,14 @@ class ChangeLocale
     public function handle(Request $request, Closure $next)
     {
         if ($request->lang) {
-            Cookie::queue('fresns_panel_lang', $request->lang);
+            Cookie::queue('fresns_panel_locale', $request->lang);
 
-            return back()->withInput($request->except('fresns_panel_lang'));
+            return back()->withInput($request->except('fresns_panel_locale'));
         }
 
-        App::setLocale(Cookie::get('fresns_panel_lang', config('app.locale')));
+        App::setLocale(Cookie::get('fresns_panel_locale', config('app.locale')));
 
-        $request->headers->set('fresns_panel_lang', App::getLocale());
+        $request->headers->set('fresns_panel_locale', App::getLocale());
 
         return $next($request);
     }
