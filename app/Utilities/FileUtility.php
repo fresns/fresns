@@ -17,6 +17,7 @@ use App\Models\FileUsage;
 use App\Models\SessionKey;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Mime\MimeTypes;
 
 class FileUtility
 {
@@ -191,9 +192,11 @@ class FileUtility
 
             $mime = $fileInfo['mime'] ?? null;
             if (empty($mime)) {
-                $mimes = new \Mimey\MimeTypes;
+                $mimeTypes = new MimeTypes();
 
-                $mime = $mimes->getMimeType($fileInfo['extension']);
+                $types = $mimeTypes->getMimeTypes($fileInfo['extension']);
+
+                $mime = $types[0] ?? 'application/octet-stream';
             }
 
             $fileInput = [
