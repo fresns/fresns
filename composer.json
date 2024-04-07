@@ -40,7 +40,6 @@
         "fresns/theme-manager": "^3.0",
         "fresns/market-manager": "^4.0",
         "hisorange/browser-detect": "^5.0",
-        "xantios/mimey": "^2.2",
         "nelexa/zip": "^4.0"
     },
     "require-dev": {
