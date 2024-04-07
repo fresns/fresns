@@ -9,6 +9,7 @@
 namespace App\Providers;
 
 use App\Utilities\AppUtility;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // fresns marketplace
         AppUtility::macroMarketHeaders();
+
+        // force scheme
+        $appUrl = config('app.url');
+        $parseUrl = parse_url($appUrl);
+        if ($parseUrl['scheme'] == 'https') {
+            URL::forceScheme('https');
+        }
 
         // trusted proxies
         $customProxies = config('app.trusted_proxies', '');
