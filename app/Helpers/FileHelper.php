@@ -11,6 +11,7 @@ namespace App\Helpers;
 use App\Models\File;
 use App\Models\FileUsage;
 use Illuminate\Support\Str;
+use Symfony\Component\Mime\MimeTypes;
 
 class FileHelper
 {
@@ -22,6 +23,7 @@ class FileHelper
             2 => 'video',
             3 => 'audio',
             4 => 'document',
+            default => 'image',
         };
 
         $data = ConfigHelper::fresnsConfigByItemKeys([
@@ -78,16 +80,7 @@ class FileHelper
             $audioFileExt = Str::lower($audioFileExt);
             $documentFileExt = Str::lower($documentFileExt);
 
-            // $builder = \Mimey\MimeMappingBuilder::create();
-            // $mapping = $builder->getMapping();
-            // $mapping['mimes'];
-            // $mapping['extensions'];
-            // foreach ($mapping['mimes'] as $ext => $mimes) {
-            // }
-            // foreach ($mapping['extensions'] as $mime => $exts) {
-            // }
-
-            $mimes = new \Mimey\MimeTypes;
+            $mimeTypes = new MimeTypes();
 
             $imageFileExtArr = explode(',', $imageFileExt);
             $videoFileExtArr = explode(',', $videoFileExt);
@@ -97,7 +90,8 @@ class FileHelper
             $imageFileMimeAccept = [];
             $imageFileExtAccept = [];
             foreach ($imageFileExtArr as $imageExt) {
-                $fileExtMimes = $mimes->getAllMimeTypes($imageExt);
+                $fileExtMimes = $mimeTypes->getMimeTypes($imageExt);
+
                 foreach ($fileExtMimes as $fileExtMime) {
                     $imageFileMimeAccept[] = $fileExtMime;
                 }
@@ -108,7 +102,7 @@ class FileHelper
             $videoFileMimeAccept = [];
             $videoFileExtAccept = [];
             foreach ($videoFileExtArr as $videoExt) {
-                $fileExtMimes = $mimes->getAllMimeTypes($videoExt);
+                $fileExtMimes = $mimeTypes->getMimeTypes($videoExt);
                 foreach ($fileExtMimes as $fileExtMime) {
                     $videoFileMimeAccept[] = $fileExtMime;
                 }
@@ -119,7 +113,7 @@ class FileHelper
             $audioFileMimeAccept = [];
             $audioFileExtAccept = [];
             foreach ($audioFileExtArr as $audioExt) {
-                $fileExtMimes = $mimes->getAllMimeTypes($audioExt);
+                $fileExtMimes = $mimeTypes->getMimeTypes($audioExt);
                 foreach ($fileExtMimes as $fileExtMime) {
                     $audioFileMimeAccept[] = $fileExtMime;
                 }
@@ -130,7 +124,7 @@ class FileHelper
             $documentFileMimeAccept = [];
             $documentFileExtAccept = [];
             foreach ($documentFileExtArr as $documentExt) {
-                $fileExtMimes = $mimes->getAllMimeTypes($documentExt);
+                $fileExtMimes = $mimeTypes->getMimeTypes($documentExt);
                 foreach ($fileExtMimes as $fileExtMime) {
                     $documentFileMimeAccept[] = $fileExtMime;
                 }
