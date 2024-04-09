@@ -615,7 +615,7 @@ class DetailUtility
 
             $fidArr = ContentUtility::extractFile($postInfo['content']);
             if ($fidArr) {
-                $detailContent['content'] = ContentUtility::replaceFile($postInfo['content']);
+                $detailContent['content'] = ContentUtility::replaceFile($newContent);
 
                 $detailContent['files'] = [
                     'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
@@ -835,6 +835,17 @@ class DetailUtility
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $postDetail['content']) {
             $postDetail['content'] = $post->is_markdown ? Str::markdown($postDetail['content']) : nl2br($postDetail['content']);
+
+            $searchArr = [
+                '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
+                '&quot;&gt;</audio>',
+            ];
+            $replaceArr = [
+                '<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="',
+                '"></audio>',
+            ];
+
+            $postDetail['content'] = str_replace($searchArr, $replaceArr, $postDetail['content']);
         }
 
         $postDetail = self::handlePostAndCommentDate($postDetail, $timezone, $langTag);
@@ -993,7 +1004,7 @@ class DetailUtility
 
             $fidArr = ContentUtility::extractFile($commentInfo['content']);
             if ($fidArr) {
-                $detailContent['content'] = ContentUtility::replaceFile($commentInfo['content']);
+                $detailContent['content'] = ContentUtility::replaceFile($newContent);
 
                 $detailContent['files'] = [
                     'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
@@ -1199,6 +1210,17 @@ class DetailUtility
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $commentDetail['content']) {
             $commentDetail['content'] = $comment->is_markdown ? Str::markdown($commentDetail['content']) : nl2br($commentDetail['content']);
+
+            $searchArr = [
+                '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
+                '&quot;&gt;</audio>',
+            ];
+            $replaceArr = [
+                '<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="',
+                '"></audio>',
+            ];
+
+            $commentDetail['content'] = str_replace($searchArr, $replaceArr, $commentDetail['content']);
         }
 
         $commentDetail = self::handlePostAndCommentDate($commentDetail, $timezone, $langTag);
@@ -1285,7 +1307,7 @@ class DetailUtility
 
             $fidArr = ContentUtility::extractFile($historyInfo['content']);
             if ($fidArr) {
-                $detailContent['content'] = ContentUtility::replaceFile($historyInfo['content']);
+                $detailContent['content'] = ContentUtility::replaceFile($newContent);
 
                 $detailContent['files'] = [
                     'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
@@ -1391,6 +1413,17 @@ class DetailUtility
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $historyDetail['content']) {
             $historyDetail['content'] = $postLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+
+            $searchArr = [
+                '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
+                '&quot;&gt;</audio>',
+            ];
+            $replaceArr = [
+                '<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="',
+                '"></audio>',
+            ];
+
+            $historyDetail['content'] = str_replace($searchArr, $replaceArr, $historyDetail['content']);
         }
 
         // filter
@@ -1474,7 +1507,7 @@ class DetailUtility
 
             $fidArr = ContentUtility::extractFile($historyInfo['content']);
             if ($fidArr) {
-                $detailContent['content'] = ContentUtility::replaceFile($historyInfo['content']);
+                $detailContent['content'] = ContentUtility::replaceFile($newContent);
 
                 $detailContent['files'] = [
                     'images' => ArrUtility::forget($item['files']['images'], 'fid', $fidArr),
@@ -1570,6 +1603,17 @@ class DetailUtility
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $historyDetail['content']) {
             $historyDetail['content'] = $commentLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+
+            $searchArr = [
+                '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
+                '&quot;&gt;</audio>',
+            ];
+            $replaceArr = [
+                '<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="',
+                '"></audio>',
+            ];
+
+            $historyDetail['content'] = str_replace($searchArr, $replaceArr, $historyDetail['content']);
         }
 
         // filter

@@ -739,7 +739,7 @@ class ContentUtility
             return ! is_null($value);
         })) === count($cityInfo);
 
-        $cityId = null;
+        $cityId = 0;
         if ($allNotEmpty) {
             $cityModel = City::where('continent_code', $cityInfo['continentCode'])
                 ->where('country_code', $cityInfo['countryCode'])
@@ -870,7 +870,7 @@ class ContentUtility
 
         $geotagItems = [
             'place_id' => $placeId,
-            'place_type' => $locationInfo['placeType'] ?? null,
+            'place_type' => $locationInfo['placeType'] ?? 'unknown',
             'name' => $dbName,
             'description' => $dbDescription,
             'city_id' => $cityId,
