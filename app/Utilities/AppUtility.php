@@ -360,8 +360,6 @@ class AppUtility
         $installedDatetime = $configs->where('item_key', 'installed_datetime')->first()?->item_value;
         $buildType = $configs->where('item_key', 'build_type')->first()?->item_value;
 
-        $isHttps = request()->getScheme() == 'https';
-
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value;
 
         $siteName = $configs->where('item_key', 'site_name')->first()?->item_value;
@@ -380,12 +378,11 @@ class AppUtility
         $languageMenusStringify = $siteName ? base64_encode(json_encode($languageMenus)) : null;
 
         return [
-            'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
+            'X-Fresns-Panel-Locale' => App::getLocale(),
             'X-Fresns-Installed-Datetime' => $installedDatetime,
             'X-Fresns-Build-Type' => $buildType,
             'X-Fresns-Version' => AppHelper::VERSION,
             'X-Fresns-Database' => config('database.default'),
-            'X-Fresns-Http-Ssl' => $isHttps ? 1 : 0,
             'X-Fresns-Http-Host' => request()->getHost(),
             'X-Fresns-Http-Port' => request()->getPort(),
             'X-Fresns-System-Url' => config('app.url'),
