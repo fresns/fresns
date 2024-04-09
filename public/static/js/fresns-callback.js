@@ -75,14 +75,14 @@ var FresnsCallback = {
             const userAgent = navigator.userAgent.toLowerCase();
 
             switch (true) {
-                // Android (addJavascriptInterface)
-                case (window.Android !== undefined):
-                    window.Android.receiveMessage(messageString);
-                    break;
-
                 // iOS (WKScriptMessageHandler)
                 case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
                     window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
+                    break;
+
+                // Android (addJavascriptInterface)
+                case (window.Android !== undefined):
+                    window.Android.receiveMessage(messageString);
                     break;
 
                 // Flutter
@@ -103,7 +103,7 @@ var FresnsCallback = {
                     });
                     break;
 
-                // Web
+                // Web Browser
                 default:
                     parent.postMessage(messageString, '*');
             }
