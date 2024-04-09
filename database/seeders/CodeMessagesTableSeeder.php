@@ -1464,7 +1464,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 36310,
-                'messages' => '{"en":"This type of file can not be uploaded","zh-Hans":"该文件类型不在允许上传的范围内","zh-Hant":"該文件類型不在允許上傳的範圍內"}',
+                'messages' => '{"en":"This extension of file can not be uploaded","zh-Hans":"该文件类型不在允许上传的范围内","zh-Hant":"該文件類型不在允許上傳的範圍內"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,

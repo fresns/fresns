@@ -46,28 +46,6 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('app_callbacks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('app_fskey', 64)->index('callback_app_fskey');
-            $table->unsignedBigInteger('account_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->ulid('ulid')->unique('callback_ulid');
-            $table->unsignedSmallInteger('type')->default(1);
-            switch (config('database.default')) {
-                case 'pgsql':
-                    $table->jsonb('content')->nullable();
-                    break;
-
-                default:
-                    $table->json('content')->nullable();
-            }
-            $table->boolean('is_used')->default(0);
-            $table->string('used_app_fskey', 64)->nullable()->index('callback_used_app_fskey');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
-            $table->softDeletes();
-        });
-
         Schema::create('app_usages', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedTinyInteger('usage_type')->index('app_usage_type');
@@ -118,7 +96,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('apps');
-        Schema::dropIfExists('app_callbacks');
         Schema::dropIfExists('app_usages');
         Schema::dropIfExists('app_badges');
     }
