@@ -14,8 +14,7 @@ try {
 
 $encryptCookies = [
     'fresns_panel_locale',
-    'fresns_callback_key',
-    'fresns_callback_ulid',
+    'fresns_post_message_key',
     'fresns_redirect_url',
     'fresns_timezone',
     "{$cookiePrefix}lang_tag",
@@ -26,11 +25,6 @@ $encryptCookies = [
 ];
 
 return Application::configure(basePath: dirname(__DIR__))
-    // ->withRouting(
-    //     // web: __DIR__.'/../routes/web.php',
-    //     // commands: __DIR__.'/../routes/console.php',
-    //     // health: '/up',
-    // )
     ->withMiddleware(function (Middleware $middleware) use ($encryptCookies) {
         $middleware->encryptCookies(except: $encryptCookies);
     })
