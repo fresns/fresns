@@ -66,7 +66,7 @@ class SignHelper
     }
 
     // Make Login Token
-    public static function makeLoginToken(string|int $account): string
+    public static function makeLoginToken(string|int|null $account = null): string
     {
         $random = Str::random(32);
         $ulid = Str::ulid();
