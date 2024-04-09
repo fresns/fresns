@@ -18,7 +18,6 @@ use App\Helpers\SignHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
-use App\Models\AppCallback;
 use App\Models\SessionLog;
 use App\Models\User;
 use App\Models\VerifyCode;
@@ -71,6 +70,74 @@ class ApiController extends Controller
         ];
 
         return $this->success($data);
+    }
+
+    public function checkLoginToken(Request $request)
+    {
+        $platformId = Cookie::get('fresns_account_center_platform_id');
+        $version = Cookie::get('fresns_account_center_version');
+        $appId = Cookie::get('fresns_account_center_app_id');
+
+        if (empty($platformId) || empty($version) || empty($appId)) {
+            return $this->failure(30001);
+        }
+
+        $loginToken = $request->loginToken;
+
+        if (empty($loginToken)) {
+            return $this->failure(31503);
+        }
+
+        $loginTokenInfo = SessionLog::whereIn('type', [
+                SessionLog::TYPE_ACCOUNT_REGISTER,
+                SessionLog::TYPE_ACCOUNT_LOGIN,
+                SessionLog::TYPE_USER_ADD,
+                SessionLog::TYPE_USER_LOGIN,
+            ])
+            ->where('platform_id', $platformId)
+            ->where('version', $version)
+            ->where('app_id', $appId)
+            ->where('action_state', SessionLog::STATE_SUCCESS)
+            ->where('login_token', $loginToken)
+            ->first();
+
+        if (! $loginTokenInfo) {
+            return $this->failure(32206);
+        }
+
+        if (! $loginTokenInfo->account_id) {
+            return $this->failure(31505);
+        }
+
+        if ($loginTokenInfo->user_id) {
+            return $this->success();
+        }
+
+        $accountModel = Account::withCount('users')->where('id', $loginTokenInfo->account_id)->first();
+
+        // account users
+        $userCount = $accountModel->users_count;
+
+        $user = $accountModel->users()->first();
+
+        if ($userCount == 1 && ! $user->pin) {
+            $loginTokenInfo->update([
+                'user_id' => $user->id,
+            ]);
+
+            return $this->success();
+        }
+
+        $userAuthInfoArr = [
+            'aid' => $accountModel->aid,
+            'loginToken' => $loginToken,
+        ];
+
+        $userAuthInfo = base64_encode(json_encode($userAuthInfoArr));
+
+        Cookie::queue('fresns_account_center_user_auth', $userAuthInfo);
+
+        return $this->failure(31508);
     }
 
     public function guestSendVerifyCode(Request $request)
@@ -355,21 +422,6 @@ class ApiController extends Controller
 
         // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
-
-        // callback ulid
-        $callbackUlid = Cookie::get('fresns_callback_ulid');
-        if ($callbackUlid && Str::of($callbackUlid)->isUlid()) {
-            AppCallback::updateOrCreate([
-                'ulid' => $callbackUlid,
-            ], [
-                'app_fskey' => 'Fresns',
-                'type' => AppCallback::TYPE_TOKEN,
-                'content' => [
-                    'loginToken' => $loginToken,
-                ],
-                'is_used' => false,
-            ]);
-        }
 
         return $this->success([
             'loginToken' => $loginToken,

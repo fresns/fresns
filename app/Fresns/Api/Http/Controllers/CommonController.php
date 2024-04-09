@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Fresns\Api\Exceptions\ResponseException;
-use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonCmdWordDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
 use App\Fresns\Api\Http\DTO\CommonFileUpdateDTO;
@@ -22,7 +21,6 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\App;
 use App\Models\Conversation;
@@ -121,20 +119,6 @@ class CommonController extends Controller
         }
 
         return $this->success($list);
-    }
-
-    // callback
-    public function callback(Request $request)
-    {
-        $dtoRequest = new CommonCallbacksDTO($request->all());
-
-        $callback = PluginHelper::fresnsPluginCallback($dtoRequest->ulid, $dtoRequest->fskey);
-
-        if ($callback['code']) {
-            throw new ResponseException($callback['code']);
-        }
-
-        return $this->success($callback['data']);
     }
 
     // cmd word
@@ -245,27 +229,18 @@ class CommonController extends Controller
             'mime' => $dtoRequest->mime,
             'extension' => $dtoRequest->extension,
             'size' => $dtoRequest->size,
+            'width' => $dtoRequest->width,
+            'height' => $dtoRequest->height,
+            'duration' => $dtoRequest->duration,
+            'sha' => $dtoRequest->sha,
             'shaType' => $dtoRequest->shaType,
-            'path' => $path,
-            'imageWidth' => $dtoRequest->width,
-            'imageHeight' => $dtoRequest->height,
-            'audioDuration' => $dtoRequest->duration,
-            'videoDuration' => $dtoRequest->duration,
-            'videoPosterPath' => null,
-            'transcodingState' => File::TRANSCODING_STATE_WAIT,
-            'originalPath' => null,
             'warningType' => $warningType,
+            'path' => $path,
+            'transcodingState' => File::TRANSCODING_STATE_WAIT,
+            'videoPosterPath' => null,
+            'originalPath' => null,
             'uploaded' => false,
         ];
-
-        // more info
-        $moreInfo = null;
-        if ($dtoRequest->moreInfo) {
-            try {
-                $moreInfo = json_decode($dtoRequest->moreInfo, true);
-            } catch (\Exception $e) {
-            }
-        }
 
         $usageInfo = [
             'usageType' => $usageType,
@@ -275,7 +250,7 @@ class CommonController extends Controller
             'tableId' => $tableId,
             'tableKey' => $tableKey,
             'sortOrder' => null,
-            'moreInfo' => $moreInfo,
+            'moreInfo' => $dtoRequest->moreInfo,
             'aid' => $aid,
             'uid' => $uid,
             'remark' => null,
@@ -368,18 +343,19 @@ class CommonController extends Controller
 
         // upload
         $wordBody = [
-            'platformId' => $platformId,
+            'file' => $dtoRequest->file,
+            'type' => $fileType,
+            'warningType' => $warningType,
+
             'usageType' => $usageType,
+            'platformId' => $platformId,
             'tableName' => $tableName,
             'tableColumn' => $tableColumn,
             'tableId' => $tableId,
             'tableKey' => $tableKey,
+            'moreInfo' => $moreInfo,
             'aid' => $aid,
             'uid' => $uid,
-            'type' => $fileType,
-            'file' => $dtoRequest->file,
-            'warningType' => $warningType,
-            'moreInfo' => $moreInfo,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);

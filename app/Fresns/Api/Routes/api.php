@@ -45,10 +45,9 @@ Route::prefix('fresns/v1')->middleware([
     Route::prefix('common')->name('common.')->group(function () {
         Route::get('ip-info', [CommonController::class, 'ipInfo'])->name('ip.info')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
-        Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('cmd-word', [CommonController::class, 'cmdWord'])->name('cmd.word');
         Route::prefix('file')->name('file.')->group(function () {
-            Route::get('upload-token', [CommonController::class, 'fileUploadToken'])->name('upload.token');
+            Route::post('upload-token', [CommonController::class, 'fileUploadToken'])->name('upload.token');
             Route::post('upload', [CommonController::class, 'fileUpload'])->name('upload');
             Route::patch('{fid}/info', [CommonController::class, 'fileUpdate'])->name('update');
             Route::get('{fid}/link', [CommonController::class, 'fileLink'])->name('link');
