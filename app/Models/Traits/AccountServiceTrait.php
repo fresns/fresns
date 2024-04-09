@@ -10,6 +10,7 @@ namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 use App\Models\AccountConnect;
 
 trait AccountServiceTrait
@@ -38,18 +39,20 @@ trait AccountServiceTrait
         return $info;
     }
 
-    public function getAccountConnects(): array
+    public function getAccountConnects(?string $langTag = null): array
     {
         $connectsArr = $this->connects;
 
         $connects = ConfigHelper::fresnsConfigByItemKey('connects');
         $connectServices = ConfigHelper::fresnsConfigByItemKey('account_connect_services') ?? [];
 
+        // connect table
         $excludeConnectIds = [
             AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM,
             AccountConnect::CONNECT_QQ_OPEN_PLATFORM,
         ];
 
+        // connect table foreach
         $connectsItemArr = [];
         foreach ($connectsArr as $connect) {
             if (in_array($connect->connect_platform_id, $excludeConnectIds)) {
@@ -59,30 +62,34 @@ trait AccountServiceTrait
             // connect key
             $connectKey = array_search($connect->connect_platform_id, array_column($connects, 'id'));
 
-            $connectName = null;
+            $platformName = null;
             if ($connectKey) {
-                $connectName = $connects[$connectKey]['name'];
+                $platformName = $connects[$connectKey]['name'];
             }
 
-            $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($connect->app_fskey);
-            if (empty($pluginUrl)) {
-                // service fskey
-                $fskey = null;
-                foreach ($connectServices as $service) {
-                    $code = (int) $service['code'];
+            // connect service key
+            $fskey = null;
+            $nameArr = [];
+            foreach ($connectServices as $service) {
+                $code = (int) $service['code'];
 
-                    if ($code != $connect->connect_platform_id) {
-                        continue;
-                    }
-
-                    $fskey = $service['fskey'];
+                if ($code != $connect->connect_platform_id) {
+                    continue;
                 }
 
+                $nameArr = $service['name'] ?? [];
+                $fskey = $service['fskey'];
+            }
+
+            // app url
+            $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($connect->app_fskey);
+            if (empty($pluginUrl)) {
                 $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($fskey);
             }
 
             $item['connectPlatformId'] = $connect->connect_platform_id;
-            $item['connectName'] = $connectName;
+            $item['connectPlatformName'] = $platformName;
+            $item['connectName'] = StrHelper::languageContent($nameArr, $langTag);
             $item['connected'] = true;
             $item['service'] = $pluginUrl;
             $item['username'] = $connect->connect_username;
@@ -93,12 +100,15 @@ trait AccountServiceTrait
             $connectsItemArr[] = $item;
         }
 
+        // connect config
         $connectPlatformIdArr = $connectsArr->pluck('connect_platform_id')->toArray();
-
         $combinedArray = array_merge($connectPlatformIdArr, $excludeConnectIds);
 
+        // connect config foreach
         foreach ($connectServices as $service) {
             $connectPlatformId = (int) $service['code'];
+            $connectNameArr = $service['name'] ?? [];
+            $pluginFskey = $service['fskey'] ?? null;
 
             if (in_array($connectPlatformId, $combinedArray)) {
                 continue;
@@ -107,15 +117,16 @@ trait AccountServiceTrait
             // connect key
             $connectKey = array_search($connectPlatformId, array_column($connects, 'id'));
 
-            $connectName = null;
+            $connectPlatformName = null;
             if ($connectKey) {
-                $connectName = $connects[$connectKey]['name'];
+                $connectPlatformName = $connects[$connectKey]['name'];
             }
 
             $item['connectPlatformId'] = $connectPlatformId;
-            $item['connectName'] = $connectName;
+            $item['connectPlatformName'] = $connectPlatformName;
+            $item['connectName'] = StrHelper::languageContent($connectNameArr, $langTag);
             $item['connected'] = false;
-            $item['service'] = PluginHelper::fresnsPluginUrlByFskey($service['fskey']) ?? $service['fskey'];
+            $item['service'] = PluginHelper::fresnsPluginUrlByFskey($pluginFskey);
             $item['username'] = null;
             $item['nickname'] = null;
             $item['avatar'] = null;
