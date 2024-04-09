@@ -326,15 +326,50 @@
                 return;
             }
 
-            if (callbackData.data.loginToken) {
-                sendAccountCallback(callbackData.data.loginToken);
+            if (callbackData.action.windowClose) {
+                $('#fresnsModal').modal('hide');
+            }
+
+            if (callbackData.action.redirectUrl) {
+                window.location.href = callbackData.action.redirectUrl;
+            }
+
+            if (callbackData.action.postMessageKey == 'reload' || callbackData.action.dataHandler == 'reload') {
+                window.location.reload();
+            }
+
+            if ('loginToken' in callbackData.data && callbackData.data.loginToken) {
+                $.ajax({
+                    url: "{{ route('account-center.api.check-login-token') }}",
+                    type: 'post',
+                    data: {
+                        'loginToken': callbackData.data.loginToken,
+                    },
+                    error: function (error) {
+                        tips(error.responseText);
+                    },
+                    success: function (res) {
+                        tips(res.message);
+
+                        if (res.code == 31508) {
+                            window.location.href = "{{ route('account-center.user-auth') }}";
+                            return;
+                        }
+
+                        if (res.code != 0) {
+                            return;
+                        }
+
+                        sendAccountCallback(callbackData.data.loginToken);
+                    },
+                });
             }
         };
 
         // fresns extensions send
         function sendAccountCallback(loginToken) {
             let callbackAction = {
-                postMessageKey: Cookies.get('fresns_callback_key'),
+                postMessageKey: Cookies.get('fresns_post_message_key'),
                 windowClose: true,
                 redirectUrl: Cookies.get('fresns_redirect_url'),
                 dataHandler: '',

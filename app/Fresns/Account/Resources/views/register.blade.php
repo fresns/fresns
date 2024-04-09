@@ -20,7 +20,7 @@
                     <button class="btn btn-outline-dark rounded-pill mt-2" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                         data-title="{{ $fsLang['accountLogin'] }}"
                         data-url="{{ $item['url'] }}"
-                        data-post-message-key="fresnsLogin"
+                        data-post-message-key="{{ $postMessageKey }}"
                         data-connect-platform-id="{{ $item['code'] }}">
                         {{ $item['name'] }}
                     </button>

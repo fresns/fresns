@@ -130,11 +130,13 @@
                 success: function (res) {
                     tips(res.message);
 
-                    if (res.code == 0) {
-                        if (res.data && res.data.loginToken) {
-                            sendAccountCallback(res.data.loginToken);
-                            return;
-                        }
+                    if (res.code != 0) {
+                        return;
+                    }
+
+                    if ('loginToken' in res.data && res.data.loginToken) {
+                        sendAccountCallback(res.data.loginToken);
+                        return;
                     }
 
                     if (res.code == 32201 || res.code == 35201 || res.code == 31604 || res.code == 35204) {

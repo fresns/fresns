@@ -18,7 +18,7 @@
                     <button class="btn btn-outline-dark rounded-pill mt-2" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                         data-title="{{ $fsLang['accountLogin'] }}"
                         data-url="{{ $item['url'] }}"
-                        data-post-message-key="fresnsLogin"
+                        data-post-message-key="{{ $postMessageKey }}"
                         data-connect-platform-id="{{ $item['code'] }}">
                         {{ $item['name'] }}
                     </button>
@@ -153,14 +153,16 @@
                 success: function (res) {
                     tips(res.message);
 
-                    if (res.code == 0) {
-                        if (res.data && res.data.loginToken) {
-                            sendAccountCallback(res.data.loginToken);
-                            return;
-                        }
-
-                        window.location.href = "{{ route('account-center.user-auth') }}";
+                    if (res.code != 0) {
+                        return;
                     }
+
+                    if ('loginToken' in res.data && res.data.loginToken) {
+                        sendAccountCallback(res.data.loginToken);
+                        return;
+                    }
+
+                    window.location.href = "{{ route('account-center.user-auth') }}";
                 },
                 complete: function (e) {
                     btn.prop('disabled', false);

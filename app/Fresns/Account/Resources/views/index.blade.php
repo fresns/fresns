@@ -60,7 +60,7 @@
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsLang['accountKyc'] }}"
                     data-url="{{ $fsConfig['account_kyc_service'] }}"
-                    data-post-message-key="fresnsAccountCenter">
+                    data-post-message-key="reload">
                     <div class="my-1">
                         <h5 class="my-1 fs-6">{{ $fsLang['setting'] }}</h5>
                     </div>
@@ -92,7 +92,7 @@
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsConfig['user_name'] }}"
                     data-url="{{ $fsConfig['account_users_service'] }}"
-                    data-post-message-key="fresnsAccountCenter">
+                    data-post-message-key="reload">
                     <div class="my-1">
                         <h5 class="my-1 fs-6">{{ $fsLang['manage'] }}</h5>
                     </div>
@@ -110,7 +110,7 @@
                         data-title="{{ $fsLang['settingConnects'] }}"
                         data-url="{{ $item['service'] }}"
                         data-connect-platform-id="{{ $item['connectPlatformId'] }}"
-                        data-post-message-key="fresnsAccountCenter">
+                        data-post-message-key="reload">
                         <div class="my-1">
                             <h5 class="my-1 fs-6">{{ $item['connectName'] }}</h5>
                             <small class="text-secondary">{{ $item['connected'] ? $item['nickname'] : $fsLang['settingAccountConnect'] }}</small>

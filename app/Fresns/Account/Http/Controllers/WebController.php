@@ -67,7 +67,7 @@ class WebController extends Controller
 
         $accountData = $account->getAccountInfo($langTag);
         $accountWallet = $account->getAccountWallet($langTag);
-        $accountConnects = $account->getAccountConnects();
+        $accountConnects = $account->getAccountConnects($langTag);
 
         $fsConfig = ConfigHelper::fresnsConfigByItemKeys([
             'wallet_status',
@@ -267,9 +267,10 @@ class WebController extends Controller
 
     public function userAuth(Request $request)
     {
-        $service = ConfigHelper::fresnsConfigByItemKey('account_login_service');
+        $registerService = ConfigHelper::fresnsConfigByItemKey('account_register_service');
+        $loginService = ConfigHelper::fresnsConfigByItemKey('account_login_service');
 
-        if ($service) {
+        if ($registerService && $loginService) {
             return Response::view('404', [], 404);
         }
 
@@ -352,12 +353,7 @@ class WebController extends Controller
 
         $postMessageKey = $request->callbackKey;
         if (empty($postMessageKey)) {
-            $postMessageKey = Cookie::get('fresns_callback_key');
-        }
-
-        $callbackUlid = $request->callbackUlid;
-        if (empty($callbackUlid)) {
-            $callbackUlid = Cookie::get('fresns_callback_ulid');
+            $postMessageKey = Cookie::get('fresns_post_message_key');
         }
 
         $redirectURL = $request->redirectURL;
@@ -367,7 +363,6 @@ class WebController extends Controller
 
         $pluginUrl = Str::replace('{accessToken}', $accessToken, $url);
         $pluginUrl = Str::replace('{postMessageKey}', $postMessageKey, $pluginUrl);
-        $pluginUrl = Str::replace('{callbackUlid}', $callbackUlid, $pluginUrl);
         $pluginUrl = Str::replace('{redirectUrl}', $redirectURL, $pluginUrl);
 
         return $pluginUrl;

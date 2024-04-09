@@ -26,6 +26,7 @@ Route::name('account-center.')->prefix('account-center')->group(function () {
 
     Route::name('api.')->prefix('api')->middleware([SetHeaders::class, CheckCaptcha::class])->group(function () {
         Route::post('make-access-token', [ApiController::class, 'makeAccessToken'])->name('make-access-token')->withoutMiddleware([CheckCaptcha::class]);
+        Route::post('check-login-token', [ApiController::class, 'checkLoginToken'])->name('check-login-token')->withoutMiddleware([CheckCaptcha::class]);
         Route::post('guest-send-verify-code', [ApiController::class, 'guestSendVerifyCode'])->name('guest-send-verify-code');
         Route::post('register', [ApiController::class, 'register'])->name('register');
         Route::post('login', [ApiController::class, 'login'])->name('login');
