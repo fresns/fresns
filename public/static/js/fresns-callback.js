@@ -68,43 +68,66 @@ var FresnsCallback = {
         return successResponse;
     },
 
-    send: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok') {
+    send: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok', timeout = 2000) {
         setTimeout(function () {
             const messageString = FresnsCallback.encode(callbackAction, apiData, apiCode, apiMessage);
 
             const userAgent = navigator.userAgent.toLowerCase();
 
             switch (true) {
+                // Android (addJavascriptInterface)
                 case (window.Android !== undefined):
-                    // Android (addJavascriptInterface)
                     window.Android.receiveMessage(messageString);
                     break;
 
+                // iOS (WKScriptMessageHandler)
                 case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
-                    // iOS (WKScriptMessageHandler)
                     window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
                     break;
 
+                // Flutter
                 case (window.FresnsJavascriptChannel !== undefined):
-                    // Flutter
                     window.FresnsJavascriptChannel.postMessage(messageString);
                     break;
 
+                // React Native WebView
                 case (window.ReactNativeWebView !== undefined):
-                    // React Native WebView
                     window.ReactNativeWebView.postMessage(messageString);
                     break;
 
+                // WeChat Mini Program
                 case (userAgent.indexOf('miniprogram') > -1):
-                    // WeChat Mini Program
-                    wx.miniProgram.postMessage({ data: messageString });
-                    wx.miniProgram.navigateBack();
+                    loadScript('https://res.wx.qq.com/open/js/jweixin-1.6.0.js', function() {
+                        wx.miniProgram.postMessage({ data: messageString });
+                        wx.miniProgram.navigateBack();
+                    });
                     break;
 
                 // Web
                 default:
                     parent.postMessage(messageString, '*');
             }
-        }, 2000);
+        }, timeout);
     },
 };
+
+function loadScript(url, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+
+    if (script.readyState) { // IE
+        script.onreadystatechange = function() {
+            if (script.readyState == 'loaded' || script.readyState == 'complete') {
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else { // Other Browsers
+        script.onload = function() {
+            callback();
+        };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+}
