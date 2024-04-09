@@ -16,6 +16,23 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileServiceTrait
 {
+    public function size(): string
+    {
+        $fileData = $this;
+
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+        $bytes = max($fileData->size, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+
+        $bytes /= pow(1024, $pow);
+
+        $sizeString = round($bytes, 2).' '.$units[$pow];
+
+        return $sizeString;
+    }
+
     public function getFileUrl(): ?string
     {
         $fileData = $this;
@@ -58,17 +75,6 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        // format file size
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        $bytes = max($fileData->size, 0);
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow = min($pow, count($units) - 1);
-
-        $bytes /= pow(1024, $pow);
-
-        $fileSizeInfo = round($bytes, 2).' '.$units[$pow];
-
         $substitutionConfig = match ($fileData->type) {
             File::TYPE_IMAGE => 'image_substitution',
             File::TYPE_VIDEO => 'video_substitution',
@@ -92,7 +98,10 @@ trait FileServiceTrait
         $info['name'] = $fileData->name;
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
-        $info['size'] = $fileSizeInfo;
+        $info['size'] = $fileData->size();
+        $info['width'] = $fileData->width;
+        $info['height'] = $fileData->height;
+        $info['duration'] = $fileData->duration;
         $info['sha'] = $fileData->sha;
         $info['shaType'] = $fileData->sha_type;
 
@@ -134,9 +143,7 @@ trait FileServiceTrait
             $filePath = $fileData->path;
         }
 
-        $info['imageWidth'] = $fileData->image_width;
-        $info['imageHeight'] = $fileData->image_height;
-        $info['imageLong'] = (bool) $fileData->image_is_long;
+        $info['imageLong'] = (bool) $fileData->is_long_image;
 
         $imageHandlePosition = $imageConfig['image_handle_position'];
 
@@ -217,7 +224,6 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_transcode_handle_position'], $videoConfig['video_transcode_parameter'], $filePath);
         }
 
-        $info['videoDuration'] = $fileData->video_duration;
         $info['videoPosterUrl'] = StrHelper::qualifyUrl($posterPath, $videoConfig['video_bucket_domain']);
         $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $videoConfig['video_bucket_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
@@ -246,7 +252,6 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($audioConfig['audio_transcode_handle_position'], $audioConfig['audio_transcode_parameter'], $filePath);
         }
 
-        $info['audioDuration'] = $fileData->audio_duration;
         $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $audioConfig['audio_bucket_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
 

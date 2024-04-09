@@ -25,17 +25,24 @@ class FileUtility
     public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): ?File
     {
         // $bodyInfoExample = [
-        //     'platformId' => 'file_usages->platform_id',
+        //     'type' => 'files->type',
+        //     'width' => 'files->width', // image and video Only
+        //     'height' => 'files->height', // image and video Only
+        //     'duration' => 'files->duration', // audio and video Only
+        //     'warningType' => 'files->warning_type',
+
         //     'usageType' => 'file_usages->usage_type',
+        //     'platformId' => 'file_usages->platform_id',
         //     'tableName' => 'file_usages->table_name',
         //     'tableColumn' => 'file_usages->table_column',
         //     'tableId' => 'file_usages->table_id',
         //     'tableKey' => 'file_usages->table_key',
+        //     'sortOrder' => 'file_usages->sort_order',
+        //     'moreInfo' => [
+        //         // file_usages->more_info
+        //     ],
         //     'aid' => 'file_usages->account_id',
         //     'uid' => 'file_usages->user_id',
-        //     'type' => 'files->type',
-        //     'warningType' => 'files->warning_type',
-        //     'moreInfo' => 'files->more_info',
         // ];
 
         // check file info
@@ -62,16 +69,14 @@ class FileUtility
 
         $fileInfo = [
             'type' => $fileType,
+            'width' => $bodyInfo['width'] ?? null,
+            'height' => $bodyInfo['height'] ?? null,
+            'duration' => $bodyInfo['duration'] ?? null,
             'sha' => $sha256Hash,
             'shaType' => 'sha256',
-            'path' => $diskPath,
-            'audioDuration' => $bodyInfo['audioDuration'] ?? null,
-            'videoDuration' => $bodyInfo['videoDuration'] ?? null,
-            'videoPosterPath' => $bodyInfo['videoPosterPath'] ?? null,
-            'transcodingState' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
-            'originalPath' => $fileInfo['originalPath'] ?? null,
             'warningType' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
-            'uploaded' => $fileInfo['uploaded'] ?? true,
+            'path' => $diskPath,
+            'uploaded' => true,
         ];
 
         $usageInfo = [
@@ -81,6 +86,7 @@ class FileUtility
             'tableColumn' => $bodyInfo['tableColumn'] ?? null,
             'tableId' => $bodyInfo['tableId'] ?? null,
             'tableKey' => $bodyInfo['tableKey'] ?? null,
+            'sortOrder' => $bodyInfo['sortOrder'] ?? 9,
             'moreInfo' => $bodyInfo['moreInfo'] ?? null,
             'aid' => $bodyInfo['aid'] ?? null,
             'uid' => $bodyInfo['uid'] ?? null,
@@ -95,15 +101,16 @@ class FileUtility
     {
         // $fileInfoExample = [
         //     'type' => 'files->type',
+        //     'width' => 'files->width', // image and video Only
+        //     'height' => 'files->height', // image and video Only
+        //     'duration' => 'files->duration', // audio and video Only
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->sha_type',
-        //     'path' => 'files->path',
-        //     'audioDuration' => 'Audio Only: files->audio_duration',
-        //     'videoDuration' => 'Video Only: files->video_duration',
-        //     'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //     'transcodingState' => 'files->transcoding_state', // audio or video only
-        //     'originalPath' => 'files->original_path',
         //     'warningType' => 'files->warning_type',
+        //     'path' => 'files->path',
+        //     'transcodingState' => 'files->transcoding_state', // audio and video only
+        //     'videoPosterPath' => 'files->video_poster_path', // video only
+        //     'originalPath' => 'files->original_path',
         //     'uploaded' => 'files->is_uploaded',
         // ];
 
@@ -119,22 +126,22 @@ class FileUtility
         $mime = $file->getMimeType();
         $extension = $file->getClientOriginalExtension();
         $size = $file->getSize();
-        $imageWidth = null;
-        $imageHeight = null;
+        $mediaWidth = null;
+        $mediaHeight = null;
 
         if ($fileInfo['type'] == File::TYPE_IMAGE) {
             $imageSize = getimagesize($file->path());
 
-            $imageWidth = $imageSize[0] ?? null;
-            $imageHeight = $imageSize[1] ?? null;
+            $mediaWidth = $fileInfo['width'] ?? $imageSize[0] ?? null;
+            $mediaHeight = $fileInfo['height'] ?? $imageSize[1] ?? null;
         }
 
         $fileInfo['name'] = $name;
         $fileInfo['mime'] = $mime;
         $fileInfo['extension'] = $extension;
         $fileInfo['size'] = $size;
-        $fileInfo['imageWidth'] = $imageWidth;
-        $fileInfo['imageHeight'] = $imageHeight;
+        $fileInfo['width'] = $mediaWidth;
+        $fileInfo['height'] = $mediaHeight;
 
         return FileUtility::saveFileInfo($fileInfo, $usageInfo);
     }
@@ -148,17 +155,16 @@ class FileUtility
         //     'mime' => 'files->mime',
         //     'extension' => 'files->extension', // required
         //     'size' => 'files->size', // required, unit: Byte
+        //     'width' => 'files->width', // image and video Only
+        //     'height' => 'files->height', // image and video Only
+        //     'duration' => 'files->duration', // audio and video Only
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->sha_type',
-        //     'path' => 'files->path', // required
-        //     'imageWidth' => 'Image Only: files->image_width',
-        //     'imageHeight' => 'Image Only: files->image_height',
-        //     'audioDuration' => 'Audio Only: files->audio_duration',
-        //     'videoDuration' => 'Video Only: files->video_duration',
-        //     'videoPosterPath' => 'Video Only: files->video_poster_path',
-        //     'transcodingState' => 'files->transcoding_state', // audio or video Only
-        //     'originalPath' => 'files->original_path',
         //     'warningType' => 'files->warning_type',
+        //     'path' => 'files->path', // required
+        //     'transcodingState' => 'files->transcoding_state', // audio and video only
+        //     'videoPosterPath' => 'files->video_poster_path', // video only
+        //     'originalPath' => 'files->original_path',
         //     'uploaded' => 'files->is_uploaded',
         // ];
 
@@ -180,8 +186,8 @@ class FileUtility
         // file model
         $file = File::where('path', $fileInfo['path'])->first();
         if (! $file) {
-            $imageWidth = $fileInfo['imageWidth'] ?: null;
-            $imageHeight = $fileInfo['imageHeight'] ?: null;
+            $imageWidth = $fileInfo['width'] ?: null;
+            $imageHeight = $fileInfo['height'] ?: null;
             $imageIsLong = false;
 
             if ($fileInfo['type'] == File::TYPE_IMAGE && $imageWidth >= 700) {
@@ -205,18 +211,17 @@ class FileUtility
                 'mime' => $mime,
                 'extension' => $fileInfo['extension'],
                 'size' => $fileInfo['size'],
+                'width' => $fileInfo['width'] ?? null,
+                'height' => $fileInfo['height'] ?? null,
+                'duration' => $fileInfo['duration'] ?? null,
                 'sha' => $fileInfo['sha'] ?? null,
                 'sha_type' => $fileInfo['shaType'] ?? null,
+                'warning_type' => $fileInfo['warningType'] ?? File::WARNING_NONE,
                 'path' => $fileInfo['path'],
-                'image_width' => $imageWidth,
-                'image_height' => $imageHeight,
-                'image_is_long' => $imageIsLong,
-                'audio_duration' => $fileInfo['audioDuration'] ?? null,
-                'video_duration' => $fileInfo['videoDuration'] ?? null,
-                'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
                 'transcoding_state' => $fileInfo['transcodingState'] ?? File::TRANSCODING_STATE_WAIT,
+                'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
                 'original_path' => $fileInfo['originalPath'] ?? null,
-                'warning_type' => $bodyInfo['warningType'] ?? File::WARNING_NONE,
+                'is_long_image' => $imageIsLong,
                 'is_uploaded' => $fileInfo['uploaded'] ?? true,
             ];
 

@@ -22,13 +22,13 @@ class CommonFileUploadTokenDTO extends DTO
             'mime' => ['string', 'required'],
             'extension' => ['string', 'required'],
             'size' => ['integer', 'required'],
+            'width' => ['integer', 'nullable', 'required_if:type,image', 'required_if:type,video'],
+            'height' => ['integer', 'nullable', 'required_if:type,image', 'required_if:type,video'],
+            'duration' => ['integer', 'nullable', 'required_if:type,video', 'required_if:type,audio'],
             'sha' => ['string', 'nullable'],
             'shaType' => ['string', 'nullable', 'required_with:sha'],
-            'width' => ['integer', 'nullable', 'required_if:type,image'],
-            'height' => ['integer', 'nullable', 'required_if:type,image'],
-            'duration' => ['integer', 'nullable', 'required_if:type,video', 'required_if:type,audio'],
             'warning' => ['string', 'nullable', 'in:none,nudity,violence,sensitive'],
-            'moreInfo' => ['string', 'nullable'],
+            'moreInfo' => ['array', 'nullable'],
         ];
     }
 }
