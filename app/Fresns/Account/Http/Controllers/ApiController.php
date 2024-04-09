@@ -89,11 +89,11 @@ class ApiController extends Controller
         }
 
         $loginTokenInfo = SessionLog::whereIn('type', [
-                SessionLog::TYPE_ACCOUNT_REGISTER,
-                SessionLog::TYPE_ACCOUNT_LOGIN,
-                SessionLog::TYPE_USER_ADD,
-                SessionLog::TYPE_USER_LOGIN,
-            ])
+            SessionLog::TYPE_ACCOUNT_REGISTER,
+            SessionLog::TYPE_ACCOUNT_LOGIN,
+            SessionLog::TYPE_USER_ADD,
+            SessionLog::TYPE_USER_LOGIN,
+        ])
             ->where('platform_id', $platformId)
             ->where('version', $version)
             ->where('app_id', $appId)
