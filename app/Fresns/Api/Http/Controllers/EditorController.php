@@ -192,17 +192,19 @@ class EditorController extends Controller
         // upload file
         if ($dtoRequest->image) {
             $fileWordBody = [
+                'file' => $dtoRequest->image,
+                'type' => File::TYPE_IMAGE,
+                'warningType' => null,
+
                 'usageType' => $usageType,
                 'platformId' => $this->platformId(),
                 'tableName' => $tableName,
                 'tableColumn' => 'id',
                 'tableId' => $tableId,
                 'tableKey' => null,
+                'moreInfo' => null,
                 'aid' => $this->account()->aid,
                 'uid' => $authUser->uid,
-                'type' => File::TYPE_IMAGE,
-                'moreInfo' => null,
-                'file' => $dtoRequest->image,
             ];
 
             \FresnsCmdWord::plugin('Fresns')->uploadFile($fileWordBody);
