@@ -8,14 +8,18 @@
 
 namespace App\Models\Traits;
 
+use App\Models\AccountConnect;
 use App\Models\App;
+use App\Models\AppBadge;
+use App\Models\AppUsage;
 use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\LanguagePack;
 use App\Models\Seo;
 use App\Models\Sticker;
+use App\Models\TempCallbackContent;
+use App\Models\TempVerifyCode;
 use App\Models\UserStat;
-use App\Models\VerifyCode;
 use App\Utilities\SubscribeUtility;
 
 trait DataChangeNotifyTrait
@@ -26,11 +30,15 @@ trait DataChangeNotifyTrait
             Config::class,
             CodeMessage::class,
             LanguagePack::class,
-            App::class,
             Sticker::class,
+            App::class,
+            AppBadge::class,
+            AppUsage::class,
+            AccountConnect::class,
             UserStat::class,
             Seo::class,
-            VerifyCode::class,
+            TempVerifyCode::class,
+            TempCallbackContent::class,
         ];
 
         if (in_array(static::class, $excludedClasses)) {
