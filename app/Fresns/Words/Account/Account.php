@@ -22,7 +22,7 @@ use App\Models\Account as AccountModel;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
-use App\Models\VerifyCode;
+use App\Models\TempVerifyCode;
 use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
@@ -248,7 +248,7 @@ class Account
                 'account' => $accountInfo,
                 'countryCode' => $countryCode,
                 'verifyCode' => $dtoWordBody->verifyCode,
-                'templateId' => VerifyCode::TEMPLATE_LOGIN_ACCOUNT,
+                'templateId' => TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($codeWordBody);

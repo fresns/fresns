@@ -12,8 +12,8 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\TempVerifyCode;
 use App\Models\User;
-use App\Models\VerifyCode;
 use Illuminate\Support\Str;
 
 class ValidationUtility
@@ -25,8 +25,8 @@ class ValidationUtility
             return true;
         }
 
-        $minuteSendCount = VerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinute())->count();
-        $minutesSendCount = VerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinutes(10))->count();
+        $minuteSendCount = TempVerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinute())->count();
+        $minutesSendCount = TempVerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinutes(10))->count();
 
         if ($minuteSendCount > 1 || $minutesSendCount > 5) {
             return false;

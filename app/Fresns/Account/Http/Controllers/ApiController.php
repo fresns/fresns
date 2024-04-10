@@ -19,8 +19,8 @@ use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\SessionLog;
+use App\Models\TempVerifyCode;
 use App\Models\User;
-use App\Models\VerifyCode;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -181,23 +181,23 @@ class ApiController extends Controller
         $sendAccount = null;
         $sendCountryCode = null;
         $sendTemplateId = match ($type) {
-            'login' => VerifyCode::TEMPLATE_LOGIN_ACCOUNT,
-            'register' => VerifyCode::TEMPLATE_REGISTER_ACCOUNT,
-            'resetPassword' => VerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
+            'login' => TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT,
+            'register' => TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT,
+            'resetPassword' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
             default => null,
         };
 
         if ($isEmail) {
             $accountModel = Account::where('email', $accountInfo)->first();
 
-            $sendType = VerifyCode::TYPE_EMAIL;
+            $sendType = TempVerifyCode::TYPE_EMAIL;
             $sendAccount = $accountModel?->email;
         } else {
             $accountInfo = (int) $accountInfo;
             $phone = $countryCode.$accountInfo;
             $accountModel = Account::where('phone', $phone)->first();
 
-            $sendType = VerifyCode::TYPE_SMS;
+            $sendType = TempVerifyCode::TYPE_SMS;
             $sendAccount = $accountModel?->pure_phone;
             $sendCountryCode = $accountModel?->country_code;
         }
@@ -262,7 +262,7 @@ class ApiController extends Controller
 
                 $accountModel = Account::where('email', $account)->first();
 
-                $sendType = VerifyCode::TYPE_EMAIL;
+                $sendType = TempVerifyCode::TYPE_EMAIL;
                 break;
 
             case 'phone':
@@ -274,7 +274,7 @@ class ApiController extends Controller
                 $phone = $countryCode.$account;
                 $accountModel = Account::where('phone', $phone)->first();
 
-                $sendType = VerifyCode::TYPE_SMS;
+                $sendType = TempVerifyCode::TYPE_SMS;
                 break;
 
             default:
@@ -365,7 +365,7 @@ class ApiController extends Controller
             'account' => $account,
             'countryCode' => $request->countryCode,
             'verifyCode' => $verifyCode,
-            'templateId' => VerifyCode::TEMPLATE_REGISTER_ACCOUNT,
+            'templateId' => TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -591,8 +591,8 @@ class ApiController extends Controller
         $countryCode = $request->countryCode;
 
         $sendType = match ($accountType) {
-            'email' => VerifyCode::TYPE_EMAIL,
-            'phone' => VerifyCode::TYPE_SMS,
+            'email' => TempVerifyCode::TYPE_EMAIL,
+            'phone' => TempVerifyCode::TYPE_SMS,
             default => null,
         };
 
@@ -616,7 +616,7 @@ class ApiController extends Controller
             'account' => $sendAccount,
             'countryCode' => $accountModel->country_code,
             'verifyCode' => $verifyCode,
-            'templateId' => VerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
+            'templateId' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -780,8 +780,8 @@ class ApiController extends Controller
         }
 
         $sendType = match ($dtoRequest->type) {
-            'email' => VerifyCode::TYPE_EMAIL,
-            'sms' => VerifyCode::TYPE_SMS,
+            'email' => TempVerifyCode::TYPE_EMAIL,
+            'sms' => TempVerifyCode::TYPE_SMS,
             default => null,
         };
 
@@ -816,11 +816,11 @@ class ApiController extends Controller
         $type = $request->type;
 
         if ($type == 'email') {
-            $accountType = VerifyCode::TYPE_EMAIL;
+            $accountType = TempVerifyCode::TYPE_EMAIL;
             $countryCode = null;
             $accountInfo = $account?->email;
         } else {
-            $accountType = VerifyCode::TYPE_SMS;
+            $accountType = TempVerifyCode::TYPE_SMS;
             $countryCode = $account?->country_code;
             $accountInfo = $account?->pure_phone;
         }
@@ -923,7 +923,7 @@ class ApiController extends Controller
                     'account' => $newEmail,
                     'countryCode' => null,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
+                    'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -963,7 +963,7 @@ class ApiController extends Controller
                     'account' => $newPurePhone,
                     'countryCode' => $newCountryCode,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
+                    'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -1010,7 +1010,7 @@ class ApiController extends Controller
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
+                        'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -1093,7 +1093,7 @@ class ApiController extends Controller
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => VerifyCode::TEMPLATE_EDIT_PROFILE,
+                        'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -1165,7 +1165,7 @@ class ApiController extends Controller
             'account' => $accountInfo,
             'countryCode' => $account->country_code,
             'verifyCode' => $verifyCode,
-            'templateId' => VerifyCode::TEMPLATE_DELETE_ACCOUNT,
+            'templateId' => TempVerifyCode::TEMPLATE_DELETE_ACCOUNT,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);

@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class VerifyCode extends Model
+class TempVerifyCode extends Model
 {
     const TYPE_EMAIL = 1;
     const TYPE_SMS = 2;
