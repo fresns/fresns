@@ -34,10 +34,12 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'checkHeaders', 'provider' => [Basic::class, 'checkHeaders']],
         ['word' => 'verifySign', 'provider' => [Basic::class, 'verifySign']],
         ['word' => 'verifyAccessToken', 'provider' => [Basic::class, 'verifyAccessToken']],
+        ['word' => 'ipInfo', 'provider' => [Basic::class, 'ipInfo']],
         ['word' => 'createSessionLog', 'provider' => [Basic::class, 'createSessionLog']],
         ['word' => 'sendCode', 'provider' => [Basic::class, 'sendCode']],
         ['word' => 'checkCode', 'provider' => [Basic::class, 'checkCode']],
-        ['word' => 'ipInfo', 'provider' => [Basic::class, 'ipInfo']],
+        ['word' => 'updateOrCreateCallbackContent', 'provider' => [Basic::class, 'updateOrCreateCallbackContent']],
+        ['word' => 'getCallbackContent', 'provider' => [Basic::class, 'getCallbackContent']],
 
         // Send
         ['word' => 'sendEmail', 'provider' => [Send::class, 'sendEmail']],

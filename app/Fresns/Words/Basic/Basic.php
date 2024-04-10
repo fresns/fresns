@@ -12,17 +12,21 @@ use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
 use App\Fresns\Words\Basic\DTO\CheckHeadersDTO;
 use App\Fresns\Words\Basic\DTO\CreateSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
+use App\Fresns\Words\Basic\DTO\GetCallbackContentDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
+use App\Fresns\Words\Basic\DTO\UpdateOrCreateCallbackContentDTO;
 use App\Fresns\Words\Basic\DTO\VerifyAccessTokenDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
+use App\Models\App;
 use App\Models\SessionKey;
 use App\Models\SessionLog;
-use App\Models\VerifyCode;
+use App\Models\TempCallbackContent;
+use App\Models\TempVerifyCode;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
@@ -295,13 +299,13 @@ class Basic
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);
 
-        if ($dtoWordBody->type == VerifyCode::TYPE_EMAIL) {
+        if ($dtoWordBody->type == TempVerifyCode::TYPE_EMAIL) {
             $account = $dtoWordBody->account;
         } else {
             $account = $dtoWordBody->countryCode.$dtoWordBody->account;
         }
 
-        $verifyInfo = VerifyCode::where('template_id', $dtoWordBody->templateId)
+        $verifyInfo = TempVerifyCode::where('template_id', $dtoWordBody->templateId)
             ->where('type', $dtoWordBody->type)
             ->where('account', $account)
             ->where('code', $dtoWordBody->verifyCode)
@@ -371,5 +375,81 @@ class Basic
         }
 
         return $this->success($ipInfo);
+    }
+
+    public function updateOrCreateCallbackContent($wordBody)
+    {
+        $dtoWordBody = new UpdateOrCreateCallbackContentDTO($wordBody);
+
+        // plugin
+        $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
+
+        if (empty($plugin)) {
+            return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
+        }
+
+        if (! $plugin->is_enabled) {
+            return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+        }
+
+        // callback
+        TempCallbackContent::updateOrCreate([
+            'app_fskey' => $dtoWordBody->fskey,
+            'ulid' => $dtoWordBody->ulid,
+        ], [
+            'type' => $dtoWordBody->type ?? TempCallbackContent::TYPE_UNKNOWN,
+            'content' => $dtoWordBody->content ?? [],
+            'retention_days' => $dtoWordBody->retentionDays ?? 1,
+            'is_enabled' => true,
+        ]);
+
+        return $this->success($dtoWordBody->content);
+    }
+
+    public function getCallbackContent($wordBody)
+    {
+        $dtoWordBody = new GetCallbackContentDTO($wordBody);
+
+        // plugin
+        $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
+
+        if (empty($plugin)) {
+            return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
+        }
+
+        if (! $plugin->is_enabled) {
+            return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+        }
+
+        // callback
+        $callbackData = TempCallbackContent::where('app_fskey', $dtoWordBody->fskey)->where('ulid', $dtoWordBody->ulid)->first();
+
+        if (empty($callbackData)) {
+            return $this->failure(32303, ConfigUtility::getCodeMessage(32303));
+        }
+
+        if (! $callbackData->is_enabled) {
+            return $this->failure(32204, ConfigUtility::getCodeMessage(32204));
+        }
+
+        if (empty($callbackData->content)) {
+            return $this->failure(32206, ConfigUtility::getCodeMessage(32206));
+        }
+
+        if ($dtoWordBody->timeout) {
+            $checkTime = $callbackData->created_at->addMinutes($dtoWordBody->timeout);
+
+            if ($checkTime->lt(now())) {
+                return $this->failure(32203, ConfigUtility::getCodeMessage(32203));
+            }
+        }
+
+        if ($dtoWordBody->markAsUsed) {
+            $callbackData->update([
+                'is_enabled' => false,
+            ]);
+        }
+
+        return $this->success($callbackData->content);
     }
 }
