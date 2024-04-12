@@ -20,8 +20,8 @@ class CheckAccessToken
     public function handle(Request $request, Closure $next)
     {
         $appId = Cookie::get('fresns_account_center_app_id');
-        $version = Cookie::get('fresns_account_center_version');
         $platformId = Cookie::get('fresns_account_center_platform_id');
+        $version = Cookie::get('fresns_account_center_version');
         $deviceInfo = Cookie::get('fresns_account_center_device_info');
 
         $timezone = Cookie::get('fresns_account_center_timezone');
@@ -82,12 +82,12 @@ class CheckAccessToken
                 $code = $fresnsResp->getCode();
                 $message = $fresnsResp->getMessage();
 
-                return response()->view('FsAccountView::tips', compact('code', 'message'), 403);
+                return response()->view('FsAccountView::commons.tips', compact('code', 'message'), 403);
             }
 
             $appId = $fresnsResp->getData('appId');
-            $version = $fresnsResp->getData('version');
             $platformId = $fresnsResp->getData('platformId');
+            $version = $fresnsResp->getData('version');
             $deviceInfo = base64_encode(json_encode($fresnsResp->getData('deviceInfo')));
 
             $timezone = $fresnsResp->getData('timezone');
@@ -99,8 +99,8 @@ class CheckAccessToken
             $uidToken = $fresnsResp->getData('uidToken');
 
             Cookie::queue('fresns_account_center_app_id', $appId);
-            Cookie::queue('fresns_account_center_version', $version);
             Cookie::queue('fresns_account_center_platform_id', $platformId);
+            Cookie::queue('fresns_account_center_version', $version);
             Cookie::queue('fresns_account_center_device_info', $deviceInfo);
 
             Cookie::queue('fresns_account_center_timezone', $timezone);
@@ -114,8 +114,8 @@ class CheckAccessToken
 
         $request->attributes->add([
             'fresns_account_center_app_id' => $appId,
-            'fresns_account_center_version' => $version,
             'fresns_account_center_platform_id' => $platformId,
+            'fresns_account_center_version' => $version,
             'fresns_account_center_device_info' => $deviceInfo,
             'fresns_account_center_timezone' => $timezone,
             'fresns_account_center_lang_tag' => $langTag,

@@ -1,61 +1,76 @@
-@extends('FsAccountView::layout')
+@extends('FsAccountView::commons.layout')
 
-@section('title', $fsLang['select'])
+@section('title', $loginType == 'userAuth' ? $fsLang['select'] : $fsLang['accountLoggingIn'])
 
 @section('body')
     {{-- header --}}
     <header class="text-center">
         <p><img src="{{ $siteLogo }}" height="30"></p>
-        <h1 class="fs-4">{{ $fsLang['select'] }}</h1>
+        @if ($loginType == 'userAuth')
+            <h1 class="fs-4">{{ $fsLang['select'] }}</h1>
+        @endif
     </header>
 
     {{-- main --}}
     <main class="m-4">
-        <div class="row justify-content-center">
-            @foreach($accountDetail['users'] as $user)
-                <div class="col-6 col-md-4 d-flex flex-column align-items-center">
-                    {{-- avatar --}}
-                    <img src="{{ $user['avatar'] }}" loading="lazy" class="auth-avatar rounded-circle">
-
-                    {{-- nickname --}}
-                    <div class="auth-nickname mt-2">{{ $user['nickname'] }}</div>
-
-                    {{-- username --}}
-                    <div class="text-secondary">{{ '@' . $user['username'] }}</div>
-
-                    {{-- button --}}
-                    @if ($user['hasPin'])
-                        <div class="btn-group my-2">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#userPinLogin" data-uid="{{ $user['uid'] }}" data-nickname="{{ $user['nickname'] }}">
-                                {{ $fsLang['userPinLogin'] }}
-                            </button>
-
-                            @if ($usersService)
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split btn-sm" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                                            data-title="{{ $fsLang['userPinReset'] }}"
-                                            data-url="{{ $usersService }}"
-                                            data-uid="{{ $user['uid'] }}"
-                                            data-post-message-key="reload">
-                                            {{ $fsLang['userPinReset'] }}
-                                        </button>
-                                    </li>
-                                </ul>
-                            @endif
-                        </div>
-                    @else
-                        <form class="api-request-form" action="{{ route('account-center.api.user-auth') }}" method="post">
-                            <input type="hidden" name="uid" value="{{ $user['uid'] }}">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm my-2">{{ $fsLang['select'] }}</button>
-                        </form>
-                    @endif
+        {{-- callback --}}
+        <div class="d-none" id="loginLoading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-            @endforeach
+            </div>
+            <p class="text-center mt-3 mb-5">{{ $fsLang['accountLoggingIn'] }}</p>
         </div>
+
+        {{-- select user --}}
+        @if ($loginType == 'userAuth')
+            <div class="row justify-content-center" id="selectUser">
+                @foreach($accountDetail['users'] as $user)
+                    <div class="col-6 col-md-4 d-flex flex-column align-items-center">
+                        {{-- avatar --}}
+                        <img src="{{ $user['avatar'] }}" loading="lazy" class="auth-avatar rounded-circle">
+
+                        {{-- nickname --}}
+                        <div class="auth-nickname mt-2">{{ $user['nickname'] }}</div>
+
+                        {{-- username --}}
+                        <div class="text-secondary">{{ '@' . $user['username'] }}</div>
+
+                        {{-- button --}}
+                        @if ($user['hasPin'])
+                            <div class="btn-group my-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#userPinLogin" data-uid="{{ $user['uid'] }}" data-nickname="{{ $user['nickname'] }}">
+                                    {{ $fsLang['userPinLogin'] }}
+                                </button>
+
+                                @if ($usersService)
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split btn-sm" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                                                data-title="{{ $fsLang['userPinReset'] }}"
+                                                data-url="{{ $usersService }}"
+                                                data-uid="{{ $user['uid'] }}"
+                                                data-post-message-key="reload">
+                                                {{ $fsLang['userPinReset'] }}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                @endif
+                            </div>
+                        @else
+                            <form class="api-request-form" action="{{ route('account-center.api.user-auth') }}" method="post">
+                                <input type="hidden" name="uid" value="{{ $user['uid'] }}">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm my-2">{{ $fsLang['select'] }}</button>
+                            </form>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </main>
 
     {{-- After Login: Select User - Enter Password Modal --}}
@@ -75,13 +90,15 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary me-auto" id="userPinReset" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                            data-title="{{ $fsLang['userPinReset'] }}"
-                            data-url="{{ $usersService }}"
-                            data-uid=""
-                            data-post-message-key="reload">
-                            {{ $fsLang['userPinReset'] }}
-                        </button>
+                        @if ($usersService)
+                            <button type="button" class="btn btn-secondary me-auto" id="userPinReset" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                                data-title="{{ $fsLang['userPinReset'] }}"
+                                data-url="{{ $usersService }}"
+                                data-uid=""
+                                data-post-message-key="reload">
+                                {{ $fsLang['userPinReset'] }}
+                            </button>
+                        @endif
 
                         <button type="submit" class="btn btn-primary">{{ $fsLang['userEnter'] }}</button>
                     </div>
@@ -102,6 +119,28 @@
 
 @push('script')
     <script>
+        const loginType = "{{ $loginType }}";
+        const redirectURL = "{!! $redirectURL !!}";
+
+        const selectUser = $('#selectUser');
+
+        if (loginType == 'callback') {
+            $('#loginLoading').removeClass('d-none');
+            if (selectUser.length) {
+                selectUser.addClass('d-none');
+            }
+
+            const loginToken = "{{ $loginToken }}";
+
+            sendAccountCallback(loginToken);
+
+            if (redirectURL && window.top == window.self) {
+                console.log('current page not in iframe');
+
+                window.location.href = redirectURL;
+            }
+        }
+
         $('#userPinLogin').on('show.bs.modal', function (e) {
             var button = $(e.relatedTarget);
 
@@ -134,8 +173,19 @@
                         return;
                     }
 
-                    if ('loginToken' in res.data && res.data.loginToken) {
+                    if (res.data && res.data.loginToken) {
                         sendAccountCallback(res.data.loginToken);
+
+                        $('#loginLoading').removeClass('d-none');
+                        if (selectUser.length) {
+                            selectUser.addClass('d-none');
+                        }
+
+                        if (redirectURL && window.top == window.self) {
+                            console.log('api request form: current page not in iframe');
+
+                            window.location.href = redirectURL;
+                        }
                         return;
                     }
 

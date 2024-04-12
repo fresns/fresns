@@ -1,4 +1,4 @@
-@extends('FsAccountView::layout')
+@extends('FsAccountView::commons.layout')
 
 @section('title', $fsLang['accountLogin'])
 
@@ -12,25 +12,7 @@
     {{-- main --}}
     <main class="m-4">
         {{-- quick login --}}
-        @if ($connectServices)
-            <div class="d-grid gap-2">
-                @foreach($connectServices as $item)
-                    <button class="btn btn-outline-dark rounded-pill mt-2" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                        data-title="{{ $fsLang['accountLogin'] }}"
-                        data-url="{{ $item['url'] }}"
-                        data-post-message-key="{{ $postMessageKey }}"
-                        data-connect-platform-id="{{ $item['code'] }}">
-                        {{ $item['name'] }}
-                    </button>
-                @endforeach
-            </div>
-
-            @if ($fsConfig['account_email_login'] || $fsConfig['account_phone_login'])
-                <div class="text-center my-4">
-                    <span class="badge text-bg-secondary">{{ $fsLang['modifierOr'] }}</span>
-                </div>
-            @endif
-        @endif
+        @include('FsAccountView::commons.quick-login')
 
         {{-- login --}}
         @if ($fsConfig['account_email_login'] || $fsConfig['account_phone_login'])
@@ -88,7 +70,7 @@
                 </div>
 
                 {{-- link --}}
-                <div class="mt-4 text-center">
+                <div class="mt-4 text-center" id="footer-link">
                     <a href="{{ route('account-center.reset-password') }}" class="link-primary">{{ $fsLang['passwordForgot'] }}</a>
                     @if ($fsConfig['account_register_status'])
                         <div class="vr mx-3"></div>
@@ -102,6 +84,15 @@
 
 @push('script')
     <script>
+        const siteURL = "{{ $fsConfig['site_url'] }}";
+
+        if (siteURL && window.top == window.self) {
+            console.log('current page not in iframe');
+            let html = `<div class="vr mx-3"></div><a href="${siteURL}" class="link-primary">{{ $fsLang['home'] }}</a>`;
+
+            $('#footer-link').append(html);
+        }
+
         $('#switchLoginType').click(function () {
             var btn = $(this);
             var loginOrRegister = {{ $fsConfig['account_login_or_register'] ? 1 : 0 }};
@@ -157,7 +148,7 @@
                         return;
                     }
 
-                    if ('loginToken' in res.data && res.data.loginToken) {
+                    if (res.data && res.data.loginToken) {
                         sendAccountCallback(res.data.loginToken);
                         return;
                     }

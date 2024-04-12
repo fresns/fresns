@@ -1,4 +1,4 @@
-@extends('FsAccountView::layout')
+@extends('FsAccountView::commons.layout')
 
 @section('title', $fsLang['accountRegister'])
 
@@ -11,26 +11,7 @@
     {{-- main --}}
     <main class="m-4">
         {{-- quick login --}}
-        @if ($connectServices)
-            <div class="text-center">
-                <h3 class="fs-4">{{ $fsLang['accountLoginByConnects'] }}</h3>
-            </div>
-            <div class="d-grid gap-2">
-                @foreach($connectServices as $item)
-                    <button class="btn btn-outline-dark rounded-pill mt-2" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                        data-title="{{ $fsLang['accountLogin'] }}"
-                        data-url="{{ $item['url'] }}"
-                        data-post-message-key="{{ $postMessageKey }}"
-                        data-connect-platform-id="{{ $item['code'] }}">
-                        {{ $item['name'] }}
-                    </button>
-                @endforeach
-            </div>
-
-            <div class="text-center my-4">
-                <span class="badge text-bg-secondary">{{ $fsLang['modifierOr'] }}</span>
-            </div>
-        @endif
+        @include('FsAccountView::commons.quick-login')
 
         {{-- register --}}
         <div class="text-center mb-3">

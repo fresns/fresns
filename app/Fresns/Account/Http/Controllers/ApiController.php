@@ -20,7 +20,6 @@ use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\SessionLog;
 use App\Models\TempVerifyCode;
-use App\Models\User;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -74,70 +73,20 @@ class ApiController extends Controller
 
     public function checkLoginToken(Request $request)
     {
-        $platformId = Cookie::get('fresns_account_center_platform_id');
-        $version = Cookie::get('fresns_account_center_version');
-        $appId = Cookie::get('fresns_account_center_app_id');
-
-        if (empty($platformId) || empty($version) || empty($appId)) {
-            return $this->failure(30001);
-        }
-
-        $loginToken = $request->loginToken;
-
-        if (empty($loginToken)) {
-            return $this->failure(31503);
-        }
-
-        $loginTokenInfo = SessionLog::whereIn('type', [
-            SessionLog::TYPE_ACCOUNT_REGISTER,
-            SessionLog::TYPE_ACCOUNT_LOGIN,
-            SessionLog::TYPE_USER_ADD,
-            SessionLog::TYPE_USER_LOGIN,
-        ])
-            ->where('platform_id', $platformId)
-            ->where('version', $version)
-            ->where('app_id', $appId)
-            ->where('action_state', SessionLog::STATE_SUCCESS)
-            ->where('login_token', $loginToken)
-            ->first();
-
-        if (! $loginTokenInfo) {
-            return $this->failure(32206);
-        }
-
-        if (! $loginTokenInfo->account_id) {
-            return $this->failure(31505);
-        }
-
-        if ($loginTokenInfo->user_id) {
-            return $this->success();
-        }
-
-        $accountModel = Account::withCount('users')->where('id', $loginTokenInfo->account_id)->first();
-
-        // account users
-        $userCount = $accountModel->users_count;
-
-        $user = $accountModel->users()->first();
-
-        if ($userCount == 1 && ! $user->pin) {
-            $loginTokenInfo->update([
-                'user_id' => $user->id,
-            ]);
-
-            return $this->success();
-        }
-
-        $userAuthInfoArr = [
-            'aid' => $accountModel->aid,
-            'loginToken' => $loginToken,
+        $wordBody = [
+            'appId' => Cookie::get('fresns_account_center_app_id'),
+            'platformId' => Cookie::get('fresns_account_center_platform_id'),
+            'version' => Cookie::get('fresns_account_center_version'),
+            'loginToken' => $request->loginToken,
         ];
 
-        $userAuthInfo = base64_encode(json_encode($userAuthInfoArr));
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkLoginToken($wordBody);
 
-        Cookie::queue('fresns_account_center_user_auth', $userAuthInfo);
+        if ($fresnsResp->getCode() == 31604 || $fresnsResp->getCode() == 31508) {
+            Cookie::queue('fresns_account_center_login_token', $request->loginToken);
+        }
 
-        return $this->failure(31508);
+        return $fresnsResp->getOrigin();
     }
 
     public function guestSendVerifyCode(Request $request)
@@ -536,14 +485,7 @@ class ApiController extends Controller
         // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
-        $userAuthInfoArr = [
-            'aid' => $accountModel->aid,
-            'loginToken' => $loginToken,
-        ];
-
-        $userAuthInfo = base64_encode(json_encode($userAuthInfoArr));
-
-        Cookie::queue('fresns_account_center_user_auth', $userAuthInfo);
+        Cookie::queue('fresns_account_center_login_token', $loginToken);
 
         return $this->success();
     }
@@ -659,98 +601,28 @@ class ApiController extends Controller
 
     public function userAuth(Request $request)
     {
-        $userAuthInfo = Cookie::get('fresns_account_center_user_auth');
+        $cookieLoginToken = Cookie::get('fresns_account_center_login_token');
 
-        if (empty($userAuthInfo)) {
-            return $this->failure(30001);
+        if (empty($cookieLoginToken)) {
+            Cookie::queue(Cookie::forget('fresns_account_center_login_token'));
+
+            return $this->failure(31506);
         }
 
-        try {
-            $stringify = base64_decode($userAuthInfo, true);
-            $userAuthInfoArr = json_decode($stringify, true);
+        $wordBody = [
+            'loginToken' => $cookieLoginToken,
+            'uid' => $request->uid,
+            'pin' => $request->pin,
+        ];
 
-            $aid = $userAuthInfoArr['aid'];
-            $loginToken = $userAuthInfoArr['loginToken'];
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->updateLoginToken($wordBody);
 
-            if (empty($aid) || empty($loginToken)) {
-                Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-                return $this->failure(30001);
-            }
-        } catch (\Exception $e) {
-            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-            return $this->failure(30001);
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->getErrorResponse();
         }
-
-        $accountModel = Account::where('aid', $aid)->first();
-
-        if (empty($accountModel)) {
-            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-            return $this->failure(34301);
-        }
-
-        $loginTokenInfo = SessionLog::where('account_id', $accountModel->id)->where('login_token', $loginToken)->first();
-
-        if (! $loginTokenInfo) {
-            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-            return $this->failure(32206);
-        }
-
-        if ($loginTokenInfo->user_id) {
-            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-            return $this->failure(32204);
-        }
-
-        $checkTime = $loginTokenInfo->created_at->addMinutes(20);
-
-        if ($checkTime->lt(now())) {
-            Cookie::queue(Cookie::forget('fresns_account_center_user_auth'));
-
-            return $this->failure(32203);
-        }
-
-        $uid = $request->uid;
-        if (empty($uid)) {
-            return $this->failure(35100);
-        }
-
-        $userModel = User::where('account_id', $accountModel->id)->where('uid', $uid)->first();
-        if (empty($userModel)) {
-            return $this->failure(35201);
-        }
-
-        // pin
-        if ($userModel->pin) {
-            $pin = $request->pin;
-
-            if (empty($pin)) {
-                return $this->failure(31604);
-            }
-
-            if (! Hash::check($pin, $userModel->pin)) {
-                return $this->failure(35204);
-            }
-        }
-
-        $loginTokenInfo->update([
-            'user_id' => $userModel->id,
-        ]);
-
-        // login time
-        $accountModel->update([
-            'last_login_at' => now(),
-        ]);
-
-        $userModel->update([
-            'last_login_at' => now(),
-        ]);
 
         return $this->success([
-            'loginToken' => $loginToken,
+            'loginToken' => $cookieLoginToken,
         ]);
     }
 

@@ -29,11 +29,11 @@ class FresnsCallback
 
         $redirectURL = $request->redirectURL;
         if ($redirectURL && $redirectURL != '{redirectUrl}') {
-            Cookie::queue(Cookie::make('fresns_redirect_url', $redirectURL, null, '/', null, false, false));
+            Cookie::queue('fresns_account_center_callback_redirect_url', urldecode($redirectURL));
         }
 
         if ($redirectURL == '{redirectUrl}') {
-            Cookie::queue(Cookie::forget('fresns_redirect_url'));
+            Cookie::queue(Cookie::forget('fresns_account_center_callback_redirect_url'));
         }
 
         return $next($request);

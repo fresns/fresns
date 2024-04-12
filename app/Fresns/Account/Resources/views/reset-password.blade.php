@@ -1,4 +1,4 @@
-@extends('FsAccountView::layout')
+@extends('FsAccountView::commons.layout')
 
 @section('title', $fsLang['accountReset'])
 

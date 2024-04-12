@@ -14,6 +14,7 @@
     <style>
         .iframe-modal {
             width: 100%;
+            overflow: auto;
         }
         .input-number::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -54,7 +55,7 @@
     <div id="fresns-tips"></div>
 
     {{-- Fresns Extensions Modal --}}
-    <div class="modal fade fresnsExtensions" id="fresnsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="fresnsModalLabel" aria-hidden="true">
+    <div class="modal fade" id="fresnsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="fresnsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body" style="padding:0"></div>
@@ -68,7 +69,6 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/js-cookie.min.js"></script>
-    <script src="/static/js/iframeResizer.min.js"></script>
     <script src="/static/js/fresns-callback.js"></script>
     @switch($captcha['type'])
         {{-- Turnstile (Cloudflare) --}}
@@ -223,19 +223,6 @@
             });
         }
 
-        // make access token
-        function makeAccessToken() {
-            let accessToken;
-
-            $.ajaxSettings.async = false;
-            $.post("{{ route('account-center.api.make-access-token') }}", {}, function (res) {
-                accessToken = res.data.accessToken;
-            });
-            $.ajaxSettings.async = true;
-
-            return accessToken;
-        }
-
         // click email
         function clickEmail() {
             $('#countryCodeButton').addClass('d-none');
@@ -270,108 +257,109 @@
             }
         };
 
-        // fresns extensions modal
-        (function ($) {
-            $('#fresnsModal.fresnsExtensions').on('show.bs.modal', function (e) {
-                let button = $(e.relatedTarget),
-                    modalHeight = button.data('modal-height'),
-                    modalWidth = button.data('modal-width'),
-                    reg = /\{[^\}]+\}/g,
-                    url = button.data('url'),
-                    replaceJson = button.data(),
-                    searchArr = url.match(reg);
+        // make access token
+        function makeAccessToken() {
+            let accessToken;
 
-                if (searchArr) {
-                    searchArr.forEach(function (v) {
-                        let attr = v.substring(1, v.length - 1);
-                        if (replaceJson[attr]) {
-                            url = url.replace(v, replaceJson[attr]);
-                        } else {
-                            if (v === '{accessToken}') {
-                                url = url.replace('{accessToken}', makeAccessToken());
-                            } else {
-                                url = url.replace(v, '');
-                            }
-                        }
-                    });
-                }
-
-                let inputHtml = `<iframe src="` + url + `" class="iframe-modal"></iframe>`;
-                $(this).find('.modal-body').empty().html(inputHtml);
-
-                // iFrame Resizer
-                let isOldIE = navigator.userAgent.indexOf('MSIE') !== -1;
-                $('#fresnsModal.fresnsExtensions iframe').on('load', function () {
-                    $(this).iFrameResize({
-                        autoResize: true,
-                        minHeight: modalHeight ? modalHeight : 400,
-                        heightCalculationMethod: isOldIE ? 'max' : 'lowestElement',
-                        scrolling: true,
-                    });
-                });
+            $.ajaxSettings.async = false;
+            $.post("{{ route('account-center.api.make-access-token') }}", {}, function (res) {
+                accessToken = res.data.accessToken;
             });
-        })(jQuery);
+            $.ajaxSettings.async = true;
+
+            return accessToken;
+        }
+
+        // fresns extensions modal
+        $('#fresnsModal').on('show.bs.modal', function (e) {
+            let button = $(e.relatedTarget),
+                url = button.data('url'),
+                replaceJson = button.data(),
+                reg = /\{[^\}]+\}/g,
+                searchArr = url.match(reg);
+
+            if (searchArr) {
+                searchArr.forEach(function (v) {
+                    let attr = v.substring(1, v.length - 1);
+                    if (replaceJson[attr]) {
+                        url = url.replace(v, replaceJson[attr]);
+                    } else {
+                        if (v === '{accessToken}') {
+                            url = url.replace('{accessToken}', makeAccessToken());
+                        } else {
+                            url = url.replace(v, '');
+                        }
+                    }
+                });
+            }
+
+            let inputHtml = '<iframe src="' + url + '" class="iframe-modal" scrolling="yes" style="min-height:450px;"></iframe>';
+
+            $(this).find('.modal-body').empty().html(inputHtml);
+        });
 
         // fresns extensions callback
-        window.onmessage = function (event) {
-            let callbackData = FresnsCallback.decode(event.data);
+        @if (! Route::is('account-center.user-auth'))
+            window.onmessage = function (event) {
+                let callbackData = FresnsCallback.decode(event.data);
 
-            if (callbackData.code == 40000) {
-                // callback data format error
-                return;
-            }
+                if (callbackData.code == 40000) {
+                    // callback data format error
+                    return;
+                }
 
-            if (callbackData.code != 0) {
-                tips(callbackData.message);
-                return;
-            }
+                if (callbackData.code != 0) {
+                    tips(callbackData.message);
+                    return;
+                }
 
-            if (callbackData.action.windowClose) {
-                $('#fresnsModal').modal('hide');
-            }
+                if (callbackData.action.windowClose) {
+                    $('#fresnsModal').modal('hide');
+                }
 
-            if (callbackData.action.redirectUrl) {
-                window.location.href = callbackData.action.redirectUrl;
-            }
+                if (callbackData.action.redirectUrl) {
+                    window.location.href = callbackData.action.redirectUrl;
+                }
 
-            if (callbackData.action.postMessageKey == 'reload' || callbackData.action.dataHandler == 'reload') {
-                window.location.reload();
-            }
+                if (callbackData.action.postMessageKey == 'reload' || callbackData.action.dataHandler == 'reload') {
+                    window.location.reload();
+                }
 
-            if ('loginToken' in callbackData.data && callbackData.data.loginToken) {
-                $.ajax({
-                    url: "{{ route('account-center.api.check-login-token') }}",
-                    type: 'post',
-                    data: {
-                        'loginToken': callbackData.data.loginToken,
-                    },
-                    error: function (error) {
-                        tips(error.responseText);
-                    },
-                    success: function (res) {
-                        tips(res.message);
+                if (callbackData.data && callbackData.data.loginToken) {
+                    $.ajax({
+                        url: "{{ route('account-center.api.check-login-token') }}",
+                        type: 'post',
+                        data: {
+                            'loginToken': callbackData.data.loginToken,
+                        },
+                        error: function (error) {
+                            tips(error.responseText);
+                        },
+                        success: function (res) {
+                            tips(res.message);
 
-                        if (res.code == 31508) {
-                            window.location.href = "{{ route('account-center.user-auth') }}";
-                            return;
-                        }
+                            if (res.code == 31508) {
+                                window.location.href = "{{ route('account-center.user-auth') }}";
+                                return;
+                            }
 
-                        if (res.code != 0) {
-                            return;
-                        }
+                            if (res.code != 0) {
+                                return;
+                            }
 
-                        sendAccountCallback(callbackData.data.loginToken);
-                    },
-                });
-            }
-        };
+                            sendAccountCallback(callbackData.data.loginToken);
+                        },
+                    });
+                }
+            };
+        @endif
 
         // fresns extensions send
         function sendAccountCallback(loginToken) {
             let callbackAction = {
                 postMessageKey: Cookies.get('fresns_post_message_key'),
                 windowClose: true,
-                redirectUrl: Cookies.get('fresns_redirect_url'),
+                redirectUrl: '',
                 dataHandler: '',
             };
             let apiData = {
