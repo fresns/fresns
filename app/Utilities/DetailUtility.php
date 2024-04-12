@@ -566,11 +566,11 @@ class DetailUtility
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
 
             // group
-            $item['group'] = $post?->group?->gid;
+            $item['group'] = $post->group?->gid;
 
             // hashtags
             $item['hashtags'] = [];
-            if ($post?->hashtags?->isNotEmpty()) {
+            if ($post->hashtags?->isNotEmpty()) {
                 foreach ($post->hashtags as $hashtag) {
                     $hashtagItem[] = $hashtag->slug;
                 }
@@ -579,13 +579,13 @@ class DetailUtility
             }
 
             // geotag
-            $item['geotag'] = $post?->geotag?->gtid;
+            $item['geotag'] = $post->geotag?->gtid;
 
             // author
-            $item['author'] = $post?->author?->uid;
+            $item['author'] = $post->author?->uid;
 
             // quoted post
-            $quotedPost = $post?->quotedPost;
+            $quotedPost = $post->quotedPost;
             $item['isMultiLevelQuote'] = (bool) $quotedPost?->quoted_post_id;
             $item['quotedPost'] = $quotedPost?->pid;
 
@@ -940,7 +940,7 @@ class DetailUtility
 
             $permissions = $comment->permissions;
 
-            $post = $comment?->post;
+            $post = $comment->post;
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
@@ -953,7 +953,7 @@ class DetailUtility
 
             // hashtags
             $item['hashtags'] = [];
-            if ($comment?->hashtags?->isNotEmpty()) {
+            if ($comment->hashtags?->isNotEmpty()) {
                 foreach ($comment->hashtags as $hashtag) {
                     $hashtagItem[] = $hashtag->slug;
                 }
@@ -962,11 +962,11 @@ class DetailUtility
             }
 
             // geotag
-            $item['geotag'] = $comment?->geotag?->gtid;
+            $item['geotag'] = $comment->geotag?->gtid;
 
             // author
-            $item['author'] = $comment?->author?->uid;
-            $item['isPostAuthor'] = $comment->user_id == $post?->user_id ? true : false;
+            $item['author'] = $comment->author?->uid;
+            $item['isPostAuthor'] = $comment->user_id == $post->user_id ? true : false;
 
             $item['previewLikeUsers'] = [];
             $item['previewComments'] = [];
@@ -988,8 +988,9 @@ class DetailUtility
             $item['replyToPost'] = null;
             $item['replyToComment'] = null;
             $item['replyInfo'] = [
-                'post' => $post?->pid,
-                'comment' => $comment?->parentComment?->cid,
+                'post' => $post->pid,
+                'comment' => $comment->parentComment?->cid,
+                // 'comment' => ($comment->user_id == $comment->parentComment?->user_id) ? null : $comment->parentComment?->cid,
             ];
 
             $item['followType'] = null;
@@ -1181,7 +1182,10 @@ class DetailUtility
 
         $commentDetail['privacy'] = $commentPrivacy;
 
-        if ($options['outputReplyToPost'] ?? false && $commentDetail['replyInfo']['post']) {
+        $outputReplyToPost = $options['outputReplyToPost'] ?? false;
+        $outputReplyToComment = $options['outputReplyToComment'] ?? false;
+
+        if ($outputReplyToPost && $commentDetail['replyInfo']['post']) {
             $replyToPostOptions = [
                 'viewType' => 'quoted',
                 'filter' => [
@@ -1190,9 +1194,9 @@ class DetailUtility
                 ],
             ];
 
-            $commentDetail['replyToPost'] = self::postDetail($commentDetail['replyToPost'], $langTag, null, $authUserId, $replyToPostOptions);
+            $commentDetail['replyToPost'] = self::postDetail($commentDetail['replyInfo']['post'], $langTag, null, $authUserId, $replyToPostOptions);
         }
-        if ($options['outputReplyToComment'] ?? false && $commentDetail['replyInfo']['comment']) {
+        if ($outputReplyToComment && $commentDetail['replyInfo']['comment']) {
             $replyToCommentOptions = [
                 'viewType' => 'quoted',
                 'filter' => [
@@ -1201,7 +1205,7 @@ class DetailUtility
                 ],
             ];
 
-            $commentDetail['replyToComment'] = self::commentDetail($commentDetail['replyToComment'], $langTag, null, $authUserId, $replyToCommentOptions);
+            $commentDetail['replyToComment'] = self::commentDetail($commentDetail['replyInfo']['comment'], $langTag, null, $authUserId, $replyToCommentOptions);
         }
 
         unset($commentDetail['replyInfo']);
@@ -1280,7 +1284,7 @@ class DetailUtility
         if (empty($historyDetail)) {
             $historyInfo = $postLog->getPostHistoryInfo();
 
-            $post = $postLog?->post;
+            $post = $postLog->post;
 
             if (empty($post)) {
                 return null;
@@ -1295,7 +1299,7 @@ class DetailUtility
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $postLog->id, $langTag);
 
             // author
-            $item['author'] = $postLog?->author?->uid;
+            $item['author'] = $postLog->author?->uid;
 
             // handle post detail content
             $newContent = ContentUtility::handleAndReplaceAll($historyInfo['content'], $postLog->is_markdown, $postLog->user_id, Mention::TYPE_POST, $post->id);
@@ -1475,14 +1479,14 @@ class DetailUtility
         if (empty($historyDetail)) {
             $historyInfo = $commentLog->getCommentHistoryInfo();
 
-            $comment = $commentLog?->comment;
+            $comment = $commentLog->comment;
 
             if (empty($comment)) {
                 return null;
             }
 
-            $post = $commentLog?->post;
-            $postPermissions = $post?->permissions;
+            $post = $commentLog->post;
+            $postPermissions = $post->permissions;
 
             $item['privacy'] = $postPermissions['commentConfig']['privacy'] ?? 'public';
 
@@ -1495,7 +1499,7 @@ class DetailUtility
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT_LOG, $commentLog->id, $langTag);
 
             // author
-            $item['author'] = $commentLog?->author?->uid;
+            $item['author'] = $commentLog->author?->uid;
 
             // handle post detail content
             $newContent = ContentUtility::handleAndReplaceAll($historyInfo['content'], $commentLog->is_markdown, $commentLog->user_id, Mention::TYPE_COMMENT, $comment->id);
