@@ -1071,7 +1071,7 @@ class LanguagePacksTableSeeder extends Seeder
             ],
             [
                 'lang_key' => 'modifierOr',
-                'lang_values' => '{"en":"or","zh-Hans":"或","zh-Hant":"或"}',
+                'lang_values' => '{"en":"or","zh-Hans":"或者","zh-Hant":"或者"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,

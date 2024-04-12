@@ -58,9 +58,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('app_fskey', 64)->default('Fresns')->index('log_app_fskey');
             $table->unsignedTinyInteger('type')->default(1)->index('log_type');
+            $table->string('app_id', 8)->nullable()->index('log_app_id');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
-            $table->string('app_id', 8)->nullable()->index('log_app_id');
             $table->string('lang_tag', 16)->nullable();
             $table->string('action_name', 128);
             $table->string('action_desc', 128)->nullable();
