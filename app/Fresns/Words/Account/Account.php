@@ -431,9 +431,9 @@ class Account
         $token = Str::random(64);
 
         $condition = [
+            'app_id' => $dtoWordBody->appId,
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
-            'app_id' => $dtoWordBody->appId,
             'account_id' => $accountId,
             'account_token' => $token,
             'device_token' => $dtoWordBody->deviceToken ?? null,

@@ -17,9 +17,9 @@ class CreateUserDTO extends DTO
         return [
             'aid' => ['string', 'required'],
             'aidToken' => ['string', 'nullable'],
+            'appId' => ['string', 'nullable', 'required_with:aidToken'],
             'platformId' => ['integer', 'nullable', 'required_with:aidToken'],
             'version' => ['string', 'nullable', 'required_with:aidToken'],
-            'appId' => ['string', 'nullable', 'required_with:aidToken'],
             'username' => ['string', 'nullable', 'alpha_dash'],
             'nickname' => ['string', 'nullable'],
             'pin' => ['string', 'nullable'],

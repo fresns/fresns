@@ -32,9 +32,9 @@ class AccountController extends Controller
     {
         $dtoRequest = new AccountLoginDTO($request->all());
 
+        $appId = $this->appId();
         $platformId = $this->platformId();
         $version = $this->version();
-        $appId = $this->appId();
 
         $loginTokenInfo = SessionLog::whereIn('type', [
             SessionLog::TYPE_ACCOUNT_REGISTER,
@@ -42,9 +42,9 @@ class AccountController extends Controller
             SessionLog::TYPE_USER_ADD,
             SessionLog::TYPE_USER_LOGIN,
         ])
+            ->where('app_id', $appId)
             ->where('platform_id', $platformId)
             ->where('version', $version)
-            ->where('app_id', $appId)
             ->where('action_state', SessionLog::STATE_SUCCESS)
             ->where('login_token', $dtoRequest->loginToken)
             ->first();
@@ -91,9 +91,9 @@ class AccountController extends Controller
 
         // create account token
         $accountWordBody = [
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'aid' => $account->aid,
             'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
@@ -111,9 +111,9 @@ class AccountController extends Controller
 
         // create user token
         $userWordBody = [
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'aid' => $fresnsResp->getData('aid'),
             'aidToken' => $fresnsResp->getData('aidToken'),
             'uid' => $user->uid,
@@ -127,7 +127,7 @@ class AccountController extends Controller
         }
 
         $loginTokenInfo->update([
-            'action_id' => $fresnsUserTokenResp->getData('aidTokenId'),
+            'action_id' => $fresnsUserTokenResp->getData('uidTokenId'),
         ]);
 
         // login time

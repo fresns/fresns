@@ -15,9 +15,9 @@ class CreateUserTokenDTO extends DTO
     public function rules(): array
     {
         return [
+            'appId' => ['string', 'required'],
             'platformId' => ['integer', 'required'],
             'version' => ['string', 'required'],
-            'appId' => ['string', 'required'],
             'aid' => ['string', 'required'],
             'aidToken' => ['string', 'required'],
             'uid' => ['integer', 'required'],

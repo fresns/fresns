@@ -85,9 +85,9 @@ class UserController extends Controller
         $sessionLog = [
             'type' => SessionLog::TYPE_USER_LOGIN,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $this->langTag(),
             'aid' => $this->account()?->aid,
             'uid' => $authUser->uid,
@@ -103,9 +103,9 @@ class UserController extends Controller
 
         // login
         $wordBody = [
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'aid' => \request()->header('X-Fresns-Aid'),
             'aidToken' => $this->accountToken(),
             'uid' => $authUser->uid,
@@ -124,9 +124,9 @@ class UserController extends Controller
 
         // create token
         $createTokenWordBody = [
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'aid' => $fresnsResponse->getData('aid'),
             'aidToken' => $fresnsResponse->getData('aidToken'),
             'uid' => $fresnsResponse->getData('uid'),
@@ -628,9 +628,9 @@ class UserController extends Controller
         $sessionLog = [
             'type' => SessionLog::TYPE_USER_EDIT_DATA,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
@@ -656,15 +656,15 @@ class UserController extends Controller
     {
         $dtoRequest = new UserDeviceTokenDTO($request->all());
 
-        $platformId = $this->platformId();
         $appId = $this->appId();
+        $platformId = $this->platformId();
         $authAccount = $this->account();
         $authAccountToken = $this->accountToken();
         $authUser = $this->user();
         $authUserToken = $this->userToken();
 
-        $sessionToken = SessionToken::where('platform_id', $platformId)
-            ->where('app_id', $appId)
+        $sessionToken = SessionToken::where('app_id', $appId)
+            ->where('platform_id', $platformId)
             ->where('account_id', $authAccount->id)
             ->where('account_token', $authAccountToken)
             ->where('user_id', $authUser->id)

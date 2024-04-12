@@ -214,9 +214,9 @@ class EditorController extends Controller
         $sessionLog = [
             'type' => $logType,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
@@ -292,9 +292,9 @@ class EditorController extends Controller
         $sessionLog = [
             'type' => $logType,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
@@ -422,9 +422,9 @@ class EditorController extends Controller
         $sessionLog = [
             'type' => $logType,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
@@ -998,9 +998,9 @@ class EditorController extends Controller
         $sessionLog = [
             'type' => $sessionLogType,
             'fskey' => 'Fresns',
+            'appId' => $this->appId(),
             'platformId' => $this->platformId(),
             'version' => $this->version(),
-            'appId' => $this->appId(),
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,

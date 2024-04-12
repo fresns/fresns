@@ -159,8 +159,8 @@ class User
             return $this->failure(31602, ConfigUtility::getCodeMessage(31602));
         }
 
-        $userTokenModel = SessionToken::where('platform_id', $dtoWordBody->platformId)
-            ->where('app_id', $dtoWordBody->appId)
+        $userTokenModel = SessionToken::where('app_id', $dtoWordBody->appId)
+            ->where('platform_id', $dtoWordBody->platformId)
             ->where('account_id', $accountId)
             ->where('account_token', $dtoWordBody->aidToken)
             ->where('user_id', $user->id)
@@ -203,9 +203,9 @@ class User
         $token = Str::random(64);
 
         $condition = [
+            'app_id' => $dtoWordBody->appId,
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
-            'app_id' => $dtoWordBody->appId,
             'account_id' => $accountId,
             'account_token' => $dtoWordBody->aidToken,
             'user_id' => $user->id,
