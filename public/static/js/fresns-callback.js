@@ -25,6 +25,8 @@ var FresnsCallback = {
     },
 
     decode: function(stringify = '') {
+        console.log('FresnsCallback', 'Receive', stringify);
+
         const errorResponse = {
             code: 40000,
             message: 'Callback data format error',
@@ -68,9 +70,11 @@ var FresnsCallback = {
         return successResponse;
     },
 
-    send: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok', timeout = 2000) {
+    send: function(callbackAction, apiData = null, apiCode = 0, apiMessage = 'ok', timeout = 0) {
         setTimeout(function () {
             const messageString = FresnsCallback.encode(callbackAction, apiData, apiCode, apiMessage);
+
+            console.log('FresnsCallback', 'Send', messageString);
 
             const userAgent = navigator.userAgent.toLowerCase();
 
