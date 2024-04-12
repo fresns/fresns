@@ -10,11 +10,13 @@ namespace App\Fresns\Words\Basic;
 
 use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
 use App\Fresns\Words\Basic\DTO\CheckHeadersDTO;
+use App\Fresns\Words\Basic\DTO\CheckLoginTokenDTO;
 use App\Fresns\Words\Basic\DTO\CreateSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Fresns\Words\Basic\DTO\GetCallbackContentDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
+use App\Fresns\Words\Basic\DTO\UpdateLoginTokenDTO;
 use App\Fresns\Words\Basic\DTO\UpdateOrCreateCallbackContentDTO;
 use App\Fresns\Words\Basic\DTO\VerifyAccessTokenDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
@@ -22,13 +24,16 @@ use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
+use App\Models\Account;
 use App\Models\App;
 use App\Models\SessionKey;
 use App\Models\SessionLog;
 use App\Models\TempCallbackContent;
 use App\Models\TempVerifyCode;
+use App\Models\User;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Facades\Hash;
 
 class Basic
 {
@@ -250,22 +255,25 @@ class Basic
 
         $userId = null;
         if (isset($dtoWordBody->uid)) {
-            $userId = PrimaryHelper::fresnsPrimaryId('user', $dtoWordBody->uid);
+            $userModel = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
+
+            $userId = $userModel?->id;
+            $accountId = $userModel?->account_id;
         }
 
         $input = [
             'type' => $dtoWordBody->type,
             'app_fskey' => $dtoWordBody->fskey ?? 'Fresns',
+            'app_id' => $dtoWordBody->appId ?? null,
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
-            'app_id' => $dtoWordBody->appId ?? null,
             'lang_tag' => $dtoWordBody->langTag ?? null,
-            'account_id' => $accountId,
-            'user_id' => $userId,
             'action_name' => $dtoWordBody->actionName,
             'action_desc' => $dtoWordBody->actionDesc,
             'action_state' => $dtoWordBody->actionState,
             'action_id' => $dtoWordBody->actionId ?? null,
+            'account_id' => $accountId,
+            'user_id' => $userId,
             'device_info' => $dtoWordBody->deviceInfo ?? null,
             'device_token' => $dtoWordBody->deviceToken ?? null,
             'login_token' => $dtoWordBody->loginToken ?? null,
@@ -273,6 +281,122 @@ class Basic
         ];
 
         SessionLog::create($input);
+
+        return $this->success();
+    }
+
+    public function checkLoginToken($wordBody)
+    {
+        $dtoWordBody = new CheckLoginTokenDTO($wordBody);
+
+        $loginTokenInfo = SessionLog::whereIn('type', [
+            SessionLog::TYPE_ACCOUNT_REGISTER,
+            SessionLog::TYPE_ACCOUNT_LOGIN,
+            SessionLog::TYPE_USER_ADD,
+            SessionLog::TYPE_USER_LOGIN,
+        ])
+            ->where('app_id', $dtoWordBody->appId)
+            ->where('platform_id', $dtoWordBody->platformId)
+            ->where('version', $dtoWordBody->version)
+            ->where('action_state', SessionLog::STATE_SUCCESS)
+            ->where('login_token', $dtoWordBody->loginToken)
+            ->first();
+
+        $langTag = AppHelper::getLangTag();
+
+        if (! $loginTokenInfo) {
+            return $this->failure(32206, ConfigUtility::getCodeMessage(32206, 'Fresns', $langTag));
+        }
+
+        if (! $loginTokenInfo->account_id) {
+            return $this->failure(31505, ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag));
+        }
+
+        if ($loginTokenInfo->user_id) {
+            return $this->success();
+        }
+
+        $accountModel = Account::withCount('users')->where('id', $loginTokenInfo->account_id)->first();
+
+        // account users
+        $userCount = $accountModel->users_count;
+
+        $user = $accountModel->users()->first();
+
+        if ($userCount == 1 && $user->pin) {
+            return $this->failure(31604, ConfigUtility::getCodeMessage(31604, 'Fresns', $langTag));
+        }
+
+        if ($userCount == 1 && ! $user->pin) {
+            $loginTokenInfo->update([
+                'user_id' => $user->id,
+            ]);
+
+            return $this->success();
+        }
+
+        return $this->failure(31508, ConfigUtility::getCodeMessage(31508, 'Fresns', $langTag));
+    }
+
+    public function updateLoginToken($wordBody)
+    {
+        $dtoWordBody = new UpdateLoginTokenDTO($wordBody);
+
+        $langTag = AppHelper::getLangTag();
+
+        $userModel = User::with(['account'])->where('uid', $dtoWordBody->uid)->first();
+
+        if (empty($userModel)) {
+            return $this->failure(35201, ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag));
+        }
+
+        $accountModel = $userModel->account;
+
+        if (empty($accountModel)) {
+            return $this->failure(34301, ConfigUtility::getCodeMessage(34301, 'Fresns', $langTag));
+        }
+
+        $loginTokenInfo = SessionLog::where('account_id', $accountModel->id)->where('login_token', $dtoWordBody->loginToken)->first();
+
+        if (! $loginTokenInfo) {
+            return $this->failure(32206, ConfigUtility::getCodeMessage(32206, 'Fresns', $langTag));
+        }
+
+        if ($loginTokenInfo->user_id) {
+            return $this->failure(32204, ConfigUtility::getCodeMessage(32204, 'Fresns', $langTag));
+        }
+
+        $checkTime = $loginTokenInfo->created_at->addMinutes(20);
+
+        if ($checkTime->lt(now())) {
+            return $this->failure(32203, ConfigUtility::getCodeMessage(32203, 'Fresns', $langTag));
+        }
+
+        // pin
+        if ($userModel->pin) {
+            $pin = $dtoWordBody->pin;
+
+            if (empty($pin)) {
+                return $this->failure(31604, ConfigUtility::getCodeMessage(31604, 'Fresns', $langTag));
+            }
+
+            if (! Hash::check($pin, $userModel->pin)) {
+                return $this->failure(35204, ConfigUtility::getCodeMessage(35204, 'Fresns', $langTag));
+            }
+        }
+
+        $loginTokenInfo->update([
+            'user_id' => $userModel->id,
+        ]);
+
+        // login time
+        $accountModel->update([
+            'last_login_at' => now(),
+        ]);
+
+        $userModel->update([
+            'last_login_at' => now(),
+        ]);
 
         return $this->success();
     }
