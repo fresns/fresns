@@ -24,6 +24,7 @@ use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\Seo;
 use App\Models\SessionKey;
+use App\Models\SessionLog;
 use App\Models\User;
 
 class PrimaryHelper
@@ -278,6 +279,30 @@ class PrimaryHelper
         }
 
         return $conversationModel;
+    }
+
+    public static function fresnsModelAccountByLoginToken(string $appId, int $platformId, string $version, string $loginToken): ?Account
+    {
+        $loginTokenInfo = SessionLog::whereIn('type', [
+            SessionLog::TYPE_ACCOUNT_REGISTER,
+            SessionLog::TYPE_ACCOUNT_LOGIN,
+            SessionLog::TYPE_USER_ADD,
+            SessionLog::TYPE_USER_LOGIN,
+        ])
+            ->where('app_id', $appId)
+            ->where('platform_id', $platformId)
+            ->where('version', $version)
+            ->where('action_state', SessionLog::STATE_SUCCESS)
+            ->where('login_token', $loginToken)
+            ->first();
+
+        if (empty($loginTokenInfo) || ! $loginTokenInfo?->account_id) {
+            return null;
+        }
+
+        $accountModel = Account::where('id', $loginTokenInfo->account_id)->first();
+
+        return $accountModel;
     }
 
     // get primary id
