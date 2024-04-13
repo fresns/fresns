@@ -1,4 +1,4 @@
-@extends('FsAccountView::layout')
+@extends('FsAccountView::commons.layout')
 
 @section('title', $fsLang['accountCenter'])
 
@@ -60,6 +60,7 @@
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsLang['accountKyc'] }}"
                     data-url="{{ $fsConfig['account_kyc_service'] }}"
+                    data-redirect-url="{{ $redirectURL }}"
                     data-post-message-key="reload">
                     <div class="my-1">
                         <h5 class="my-1 fs-6">{{ $fsLang['setting'] }}</h5>
@@ -92,6 +93,7 @@
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsConfig['user_name'] }}"
                     data-url="{{ $fsConfig['account_users_service'] }}"
+                    data-redirect-url="{{ $redirectURL }}"
                     data-post-message-key="reload">
                     <div class="my-1">
                         <h5 class="my-1 fs-6">{{ $fsLang['manage'] }}</h5>
@@ -110,6 +112,7 @@
                         data-title="{{ $fsLang['settingConnects'] }}"
                         data-url="{{ $item['service'] }}"
                         data-connect-platform-id="{{ $item['connectPlatformId'] }}"
+                        data-redirect-url="{{ $redirectURL }}"
                         data-post-message-key="reload">
                         <div class="my-1">
                             <h5 class="my-1 fs-6">{{ $item['connectName'] }}</h5>

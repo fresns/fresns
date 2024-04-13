@@ -85,7 +85,12 @@ class WebController extends Controller
         $timezone = $request->attributes->get('fresns_account_center_timezone');
         $accountData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['waitDeleteDateTime'], $timezone, $langTag);
 
-        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig'));
+        $redirectURL = $request->redirectURL ?? Cookie::get('fresns_account_center_callback_redirect_url');
+        if ($redirectURL && $redirectURL != '{redirectUrl}') {
+            $redirectURL = urlencode($redirectURL);
+        }
+
+        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig', 'redirectURL'));
     }
 
     public function register(Request $request)
