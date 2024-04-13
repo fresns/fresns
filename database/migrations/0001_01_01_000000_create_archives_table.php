@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('code', 32)->unique('archive_code');
             $table->unsignedTinyInteger('usage_type')->index('archive_usage_type');
             $table->unsignedInteger('usage_group_id')->default(0)->index('archive_usage_group_id');
-            $table->unsignedTinyInteger('usage_group_content_type')->nullable();
             $table->string('form_element', 16);
             $table->string('element_type', 16)->nullable();
             switch (config('database.default')) {
