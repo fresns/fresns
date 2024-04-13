@@ -303,7 +303,7 @@ class FileUtility
     }
 
     // useFile
-    public static function useFile (int $userId, int|string $fileIdOrFid, string $tableName, string $tableColumn, int $tableId): void
+    public static function useFile(int $userId, int|string $fileIdOrFid, string $tableName, string $tableColumn, int $tableId): void
     {
         if (! in_array($tableName, ['users', 'conversations', 'archive_usages'])) {
             return;
