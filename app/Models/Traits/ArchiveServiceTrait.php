@@ -45,7 +45,7 @@ trait ArchiveServiceTrait
         $info['isMultiple'] = (bool) $archiveData->is_multiple;
         $info['isRequired'] = (bool) $archiveData->is_required;
         $info['fileType'] = $archiveData->file_type;
-        $info['fileExt'] = Str::lower($fileExt);
+        $info['fileExtensions'] = Str::lower($fileExt);
         $info['fileAccept'] = FileHelper::fresnsFileAcceptByType($archiveData->file_type);
         $info['inputPattern'] = $archiveData->input_pattern;
         $info['inputMax'] = $archiveData->input_max;

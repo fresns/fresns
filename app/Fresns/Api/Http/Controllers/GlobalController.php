@@ -16,6 +16,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\AppUsage;
 use App\Models\Archive;
@@ -188,7 +189,8 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalArchivesDTO($requestData);
 
         $langTag = $this->langTag();
-        $fskey = $dtoRequest->fskey ?? null;
+
+        $gid = $dtoRequest->gid ?? null;
 
         $usageType = match ($dtoRequest->type) {
             'user' => Archive::TYPE_USER,
@@ -199,7 +201,7 @@ class GlobalController extends Controller
             'comment' => Archive::TYPE_COMMENT,
         };
 
-        $cacheKey = "fresns_api_archives_{$type}_{$fskey}_{$langTag}";
+        $cacheKey = "fresns_api_archives_{$type}_{$gid}_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -211,17 +213,19 @@ class GlobalController extends Controller
         $archives = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($archives)) {
-            $archiveData = Archive::type($usageType)
-                ->when($fskey, function ($query, $value) {
-                    $query->where('app_fskey', $value);
-                })
-                ->where('usage_group_id', 0)
-                ->isEnabled()
-                ->orderBy('sort_order')
-                ->get();
+            $archiveQuery = Archive::type($usageType)->isEnabled();
+
+            $groupId = PrimaryHelper::fresnsPrimaryId('group', $gid);
+            if ($groupId) {
+                $archiveQuery->where('usage_group_id', $groupId);
+            } else {
+                $archiveQuery->where('usage_group_id', 0);
+            }
+
+            $archives = $archiveQuery->isEnabled()->orderBy('sort_order')->get();
 
             $items = [];
-            foreach ($archiveData as $archive) {
+            foreach ($archives as $archive) {
                 $items[] = $archive->getArchiveInfo($langTag);
             }
 

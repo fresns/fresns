@@ -52,12 +52,28 @@ class ExtendUtility
                 $plugins = json_encode($usageInfo->archive_value) ?? [];
 
                 foreach ($plugins as $plugin) {
-                    $item['code'] = $plugin['code'];
-                    $item['fskey'] = $plugin['fskey'];
-                    $item['appUrl'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
+                    $code = $plugin['code'] ?? null;
+                    $name = $plugin['name'] ?? [];
+                    $fskey = $plugin['fskey'] ?? null;
+                    $order = $plugin['order'] ?? 9;
 
-                    $pluginArr[] = $item;
+                    $pluginArr[] = [
+                        'code' => $code,
+                        'name' => StrHelper::languageContent($name, $langTag),
+                        'url' => PluginHelper::fresnsPluginUrlByFskey($fskey),
+                        'order' => $order,
+                    ];
                 }
+
+                usort($pluginArr, function ($a, $b) {
+                    return $a['order'] <=> $b['order'];
+                });
+
+                $pluginArr = array_map(function ($item) {
+                    unset($item['order']);
+
+                    return $item;
+                }, $pluginArr);
             }
 
             $archiveValue = match ($archiveInfo->value_type) {

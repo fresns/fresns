@@ -18,8 +18,6 @@ class Archive extends Model
     const TYPE_GEOTAG = 4;
     const TYPE_POST = 5;
     const TYPE_COMMENT = 6;
-    const TYPE_POST_LOG = 7;
-    const TYPE_COMMENT_LOG = 8;
 
     use Traits\IsEnabledTrait;
 

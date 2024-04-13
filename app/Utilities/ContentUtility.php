@@ -14,6 +14,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\Archive;
 use App\Models\ArchiveUsage;
 use App\Models\City;
 use App\Models\Comment;
@@ -939,16 +940,20 @@ class ContentUtility
 
         ExtendUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->delete();
 
-        $extendUsages = ExtendUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+        $extendUsages = ExtendUsage::with('extend')->where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
-        foreach ($extendUsages as $extend) {
+        foreach ($extendUsages as $extendUsage) {
+            if (empty($extendUsage->extend)) {
+                continue;
+            }
+
             $extendDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
-                'extend_id' => $extend->extend_id,
-                'can_delete' => $extend->can_delete,
-                'sort_order' => $extend->sort_order,
-                'app_fskey' => $extend->app_fskey,
+                'extend_id' => $extendUsage->extend_id,
+                'can_delete' => $extendUsage->can_delete,
+                'sort_order' => $extendUsage->sort_order,
+                'app_fskey' => $extendUsage->app_fskey,
             ];
 
             ExtendUsage::create($extendDataItem);
@@ -970,14 +975,18 @@ class ContentUtility
 
         OperationUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->delete();
 
-        $operationUsages = OperationUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+        $operationUsages = OperationUsage::with('operation')->where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
-        foreach ($operationUsages as $operation) {
+        foreach ($operationUsages as $operationUsage) {
+            if (empty($operationUsage->operation)) {
+                continue;
+            }
+
             $operationDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
-                'operation_id' => $operation->operation_id,
-                'app_fskey' => $operation->app_fskey,
+                'operation_id' => $operationUsage->operation_id,
+                'app_fskey' => $operationUsage->app_fskey,
             ];
 
             OperationUsage::create($operationDataItem);
@@ -985,7 +994,7 @@ class ContentUtility
     }
 
     // release archive usages
-    public static function releaseArchiveUsages(string $type, int $logId, int $primaryId): void
+    public static function releaseArchiveUsages(string $type, int $logId, int $primaryId, ?int $groupId = null): void
     {
         $logUsageType = match ($type) {
             'post' => ArchiveUsage::TYPE_POST_LOG,
@@ -999,16 +1008,39 @@ class ContentUtility
 
         ArchiveUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->delete();
 
-        $archiveUsages = ArchiveUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+        $archiveQuery = match ($type) {
+            'post' => Archive::where('usage_type', Archive::TYPE_POST),
+            'comment' => Archive::where('usage_type', Archive::TYPE_COMMENT),
+        };
 
-        foreach ($archiveUsages as $archive) {
+        $archiveQuery->where(function ($query) use ($groupId) {
+            $query->where('usage_group_id', 0)->when($groupId, function ($query) use ($groupId) {
+                $query->orWhere('usage_group_id', $groupId);
+            });
+        });
+
+        $archiveConfigs = $archiveQuery->get();
+
+        $archiveUsages = ArchiveUsage::with('archive')->where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+
+        foreach ($archiveUsages as $archiveUsage) {
+            if (empty($archiveUsage->archive) || empty($archiveUsage->archive_value)) {
+                continue;
+            }
+
+            $config = $archiveConfigs->where('id', $archiveUsage->archive->id)->first();
+
+            if (empty($config)) {
+                continue;
+            }
+
             $archiveDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
-                'archive_id' => $archive->archive_id,
-                'archive_value' => $archive->archive_value,
-                'is_private' => $archive->is_private,
-                'app_fskey' => $archive->app_fskey,
+                'archive_id' => $archiveUsage->archive_id,
+                'archive_value' => $archiveUsage->archive_value,
+                'is_private' => $archiveUsage->is_private,
+                'app_fskey' => $archiveUsage->app_fskey,
             ];
 
             ArchiveUsage::create($archiveDataItem);
@@ -1047,7 +1079,7 @@ class ContentUtility
             'permissions' => $postLog->permissions,
         ]);
 
-        ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
+        ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id, $postLog->group_id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
@@ -1140,7 +1172,7 @@ class ContentUtility
 
         ContentUtility::releaseFileUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseExtendUsages('comment', $commentLog->id, $comment->id);
-        ContentUtility::releaseArchiveUsages('comment', $commentLog->id, $comment->id);
+        ContentUtility::releaseArchiveUsages('comment', $commentLog->id, $comment->id, $post?->group_id);
         ContentUtility::releaseOperationUsages('comment', $commentLog->id, $comment->id);
 
         if ($commentLog->comment_id) {

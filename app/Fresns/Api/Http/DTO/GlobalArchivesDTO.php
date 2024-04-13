@@ -16,7 +16,7 @@ class GlobalArchivesDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:user,group,hashtag,geotag,post,comment'],
-            'fskey' => ['string', 'nullable', 'exists:App\Models\App,fskey'],
+            'gid' => ['string', 'nullable'],
         ];
     }
 }
