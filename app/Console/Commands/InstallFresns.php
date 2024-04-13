@@ -36,9 +36,9 @@ class InstallFresns extends Command
         // 2. Select database type
         do {
             $dbTypeArr = ['MySQL', 'MariaDB', 'PostgreSQL', 'SQL Server', 'SQLite'];
-            $dbType = $this->choice('Please select the database type', $dbTypeArr, 'MySQL');
+            $dbTypeChoice = $this->choice('Please select the database type', $dbTypeArr, 'MySQL');
 
-            $dbType = match ($dbType) {
+            $dbType = match ($dbTypeChoice) {
                 'SQLite' => 'sqlite',
                 'MySQL' => 'mysql',
                 'MariaDB' => 'mariadb',
