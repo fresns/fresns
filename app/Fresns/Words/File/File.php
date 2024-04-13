@@ -20,6 +20,8 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\Archive;
+use App\Models\ArchiveUsage;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\File as FileModel;
@@ -45,22 +47,28 @@ class File
         $tableName = match ($dtoWordBody->usageType) {
             'userAvatar' => 'users',
             'userBanner' => 'users',
+            'userArchive' => 'archive_usages',
             'conversation' => 'conversations',
             'post' => 'posts',
             'comment' => 'comments',
             'postDraft' => 'post_logs',
+            'postDraftArchive' => 'archive_usages',
             'commentDraft' => 'comment_logs',
+            'commentDraftArchive' => 'archive_usages',
         };
 
         // table column
         $tableColumn = match ($dtoWordBody->usageType) {
             'userAvatar' => 'avatar_file_id',
             'userBanner' => 'banner_file_id',
+            'userArchive' => 'id',
             'conversation' => 'id',
             'post' => 'id',
             'comment' => 'id',
             'postDraft' => 'id',
+            'postDraftArchive' => 'id',
             'commentDraft' => 'id',
+            'commentDraftArchive' => 'id',
         };
 
         // usage type
@@ -71,6 +79,7 @@ class File
             'conversations' => FileUsage::TYPE_CONVERSATION,
             'post_logs' => FileUsage::TYPE_POST,
             'comment_logs' => FileUsage::TYPE_COMMENT,
+            'archive_usages' => FileUsage::TYPE_EXTEND,
             default => FileUsage::TYPE_OTHER,
         };
 
@@ -150,10 +159,21 @@ class File
         }
 
         // check model
-        switch ($tableName) {
-            case 'users':
-                // check type
-                if ($fileTypeString != 'image') {
+        $checkType = match ($dtoWordBody->usageType) {
+            'userAvatar' => 'user',
+            'userBanner' => 'user',
+            'userArchive' => 'user',
+            'conversation' => 'conversation',
+            'post' => 'post',
+            'comment' => 'comment',
+            'postDraft' => 'postDraft',
+            'postDraftArchive' => 'postDraft',
+            'commentDraft' => 'commentDraft',
+            'commentDraftArchive' => 'commentDraft',
+        };
+        switch ($checkType) {
+            case 'user':
+                if ($dtoWordBody->usageType != 'userArchive' && $fileTypeString != 'image') {
                     return $this->failure(36310, ConfigUtility::getCodeMessage(36310));
                 }
 
@@ -167,20 +187,7 @@ class File
                 $checkUser = $checkQuery?->id == $authUser->id;
                 break;
 
-            case 'posts':
-                $checkQuery = Post::where('pid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            case 'comments':
-                $checkQuery = Comment::where('cid', $fsid)->first();
-
-                $checkUser = $checkQuery?->user_id == $authUser->id;
-                break;
-
-            case 'conversations':
-                // check type
+            case 'conversation':
                 $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
                 if (! in_array($fileTypeString, $conversationFiles)) {
                     $errorCode = match ($fileTypeInt) {
@@ -204,21 +211,36 @@ class File
                 $checkUser = true;
                 break;
 
-            case 'post_logs':
-                $checkQuery = PostLog::where('hpid', $fsid)->first();
+            case 'post':
+                $checkQuery = Post::where('pid', $fsid)->first();
 
                 $checkUser = $checkQuery?->user_id == $authUser->id;
                 break;
 
-            case 'comment_logs':
-                $checkQuery = CommentLog::where('hcid', $fsid)->first();
+            case 'comment':
+                $checkQuery = Comment::where('cid', $fsid)->first();
 
                 $checkUser = $checkQuery?->user_id == $authUser->id;
+                break;
+
+            case 'postDraft':
+                $checkQuery = PostLog::where('hpid', $fsid)->first();
+
+                $checkUser = $checkQuery?->user_id == $authUser->id;
+                $archiveGroupId = $checkQuery?->group_id;
+                break;
+
+            case 'commentDraft':
+                $checkQuery = CommentLog::with('post')->where('hcid', $fsid)->first();
+
+                $checkUser = $checkQuery?->user_id == $authUser->id;
+                $archiveGroupId = $checkQuery?->post?->group_id;
                 break;
 
             default:
                 $checkQuery = null;
                 $checkUser = false;
+                $archiveGroupId = null;
         }
 
         if (empty($checkQuery)) {
@@ -243,6 +265,45 @@ class File
             $tableId = $conversation->id;
         }
 
+        // archive
+        if (in_array($dtoWordBody->usageType, ['userArchive', 'postDraftArchive', 'commentDraftArchive'])) {
+            $archiveModel = PrimaryHelper::fresnsModelByFsid('archive', $dtoWordBody->archiveCode);
+            if (empty($archiveModel)) {
+                return $this->failure(37800, ConfigUtility::getCodeMessage(37800));
+            }
+
+            if (! $archiveModel->is_enabled) {
+                return $this->failure(37801, ConfigUtility::getCodeMessage(37801));
+            }
+
+            $archiveUsageType = match ($dtoWordBody->usageType) {
+                'userArchive' => Archive::TYPE_USER,
+                'postDraftArchive' => Archive::TYPE_POST,
+                'commentDraftArchive' => Archive::TYPE_COMMENT,
+            };
+
+            if ($archiveModel->usage_type != $archiveUsageType || $archiveModel->element_type != 'file') {
+                return $this->failure(37802, ConfigUtility::getCodeMessage(37802));
+            }
+
+            if ($archiveModel->usage_group_id && $archiveModel->usage_group_id != $archiveGroupId) {
+                return $this->failure(37802, ConfigUtility::getCodeMessage(37802));
+            }
+
+            if ($archiveModel->file_type != $dtoWordBody->type) {
+                return $this->failure(36310, ConfigUtility::getCodeMessage(36310));
+            }
+
+            $archiveUsage = ArchiveUsage::firstOrCreate([
+                'usage_type' => $archiveUsageType,
+                'usage_id' => $checkQuery->id,
+                'archive_id' => $archiveModel->id,
+            ]);
+
+            $tableId = $archiveUsage->id;
+        }
+
+        // post and comment uploadNumberConfig
         $uploadNumberConfig = 1;
         if ($publishType) {
             $maxUploadNumber = $editorConfig[$fileTypeString]['maxUploadNumber'] ?? 0;

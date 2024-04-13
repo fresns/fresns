@@ -16,8 +16,9 @@ class CheckUploadPermDTO extends DTO
     {
         return [
             'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
-            'usageType' => ['string', 'required', 'in:userAvatar,userBanner,conversation,post,comment,postDraft,commentDraft'],
+            'usageType' => ['string', 'required', 'in:userAvatar,userBanner,userArchive,conversation,post,comment,postDraft,postDraftArchive,commentDraft,commentDraftArchive'],
             'usageFsid' => ['string', 'required'],
+            'archiveCode' => ['string', 'nullable', 'required_if:usageType,userArchive', 'required_if:usageType,postDraftArchive', 'required_if:usageType,commentDraftArchive'],
             'type' => ['integer', 'required', 'in:1,2,3,4'],
             'extension' => ['string', 'nullable'],
             'size' => ['integer', 'nullable'],
