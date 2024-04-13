@@ -1034,7 +1034,7 @@ class ContentUtility
                 continue;
             }
 
-            $archiveDataItem = [
+            $archiveDataItems = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'archive_id' => $archiveUsage->archive_id,
@@ -1043,7 +1043,7 @@ class ContentUtility
                 'app_fskey' => $archiveUsage->app_fskey,
             ];
 
-            ArchiveUsage::create($archiveDataItem);
+            ArchiveUsage::create($archiveDataItems);
         }
     }
 
@@ -1254,7 +1254,7 @@ class ContentUtility
         $archiveUsages = ArchiveUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
 
         foreach ($archiveUsages as $archive) {
-            $archiveDataItem = [
+            $archiveDataItems = [
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'archive_id' => $archive->archive_id,
@@ -1263,7 +1263,7 @@ class ContentUtility
                 'app_fskey' => $archive->app_fskey,
             ];
 
-            ArchiveUsage::create($archiveDataItem);
+            ArchiveUsage::create($archiveDataItems);
         }
 
         // extends
