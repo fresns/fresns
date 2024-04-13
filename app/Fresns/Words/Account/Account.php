@@ -277,7 +277,7 @@ class Account
         $account = $accountConnect?->account;
 
         // I already have connected an account
-        if ($accountConnect && $account) {
+        if ($accountConnect && $account?->aid != $dtoWordBody->aid) {
             return $this->failure(34405, ConfigUtility::getCodeMessage(34405));
         }
 
