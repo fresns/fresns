@@ -35,7 +35,7 @@ return new class extends Migration
         Schema::create('temp_callback_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('app_fskey', 64);
-            $table->ulid('ulid');
+            $table->string('key', 128);
             $table->unsignedSmallInteger('type')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -51,7 +51,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['app_fskey', 'ulid'], 'callback_fskey_ulid');
+            $table->unique(['app_fskey', 'key'], 'callback_key');
         });
     }
 

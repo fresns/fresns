@@ -888,7 +888,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34307,
-                'messages' => '{"en":"Current account has been banned","zh-Hans":"该账号已被禁用","zh-Hant":"該賬號已停用"}',
+                'messages' => '{"en":"Current account disabled","zh-Hans":"该账号已被禁用","zh-Hant":"該賬號已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -952,7 +952,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34501,
-                'messages' => '{"en":"Account wallet not exist or has been banned","zh-Hans":"账号钱包不存在或者已禁用","zh-Hant":"賬號錢包不存在或者已禁用"}',
+                'messages' => '{"en":"Account wallet not exist or disabled","zh-Hans":"账号钱包不存在或者已禁用","zh-Hant":"賬號錢包不存在或者已禁用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -968,7 +968,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 34503,
-                'messages' => '{"en":"The counterparty wallet not exist or has been banned","zh-Hans":"对方钱包不存在或者已禁用","zh-Hant":"對方錢包不存在或者已禁用"}',
+                'messages' => '{"en":"The counterparty wallet not exist or disabled","zh-Hans":"对方钱包不存在或者已禁用","zh-Hant":"對方錢包不存在或者已禁用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1112,7 +1112,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 35202,
-                'messages' => '{"en":"Current user has been banned","zh-Hans":"当前用户已被禁用","zh-Hant":"當前使用者已停用"}',
+                'messages' => '{"en":"Current user disabled","zh-Hans":"当前用户已被禁用","zh-Hant":"當前使用者已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1680,7 +1680,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37101,
-                'messages' => '{"en":"Group has been banned","zh-Hans":"小组已被禁用","zh-Hant":"社團已停用"}',
+                'messages' => '{"en":"Group disabled","zh-Hans":"小组已被禁用","zh-Hant":"社團已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1712,7 +1712,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37105,
-                'messages' => '{"en":"The current user has been banned from viewing the content of this group","zh-Hans":"当前用户已被禁止查看本小组内容","zh-Hant":"當前使用者已被禁止查看本社團內容"}',
+                'messages' => '{"en":"The current user disabled from viewing the content of this group","zh-Hans":"当前用户已被禁止查看本小组内容","zh-Hant":"當前使用者已被禁止查看本社團內容"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1744,7 +1744,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37201,
-                'messages' => '{"en":"Hashtag has been banned","zh-Hans":"话题已被禁用","zh-Hant":"話題已停用"}',
+                'messages' => '{"en":"Hashtag disabled","zh-Hans":"话题已被禁用","zh-Hant":"話題已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1768,7 +1768,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37301,
-                'messages' => '{"en":"Geotag has been banned","zh-Hans":"地理标签已被禁用","zh-Hant":"地理標籤已停用"}',
+                'messages' => '{"en":"Geotag disabled","zh-Hans":"地理标签已被禁用","zh-Hant":"地理標籤已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1792,7 +1792,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37401,
-                'messages' => '{"en":"Post has been banned","zh-Hans":"帖子已被禁用","zh-Hant":"貼文已停用"}',
+                'messages' => '{"en":"Post disabled","zh-Hans":"帖子已被禁用","zh-Hant":"貼文已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1832,7 +1832,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37501,
-                'messages' => '{"en":"Comment has been banned","zh-Hans":"评论已被禁用","zh-Hant":"留言已停用"}',
+                'messages' => '{"en":"Comment disabled","zh-Hans":"评论已被禁用","zh-Hant":"留言已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1880,7 +1880,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37601,
-                'messages' => '{"en":"File has been banned","zh-Hans":"文件已被禁用","zh-Hant":"文件已停用"}',
+                'messages' => '{"en":"File disabled","zh-Hans":"文件已被禁用","zh-Hant":"文件已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1904,7 +1904,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 37701,
-                'messages' => '{"en":"Extend has been banned","zh-Hans":"扩展已被禁用","zh-Hant":"擴充已停用"}',
+                'messages' => '{"en":"Extend disabled","zh-Hans":"扩展已被禁用","zh-Hant":"擴充已停用"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1913,6 +1913,30 @@ class CodeMessagesTableSeeder extends Seeder
                 'app_fskey' => 'Fresns',
                 'code' => 37702,
                 'messages' => '{"en":"Extend key does not exist","zh-Hans":"扩展键名不存在","zh-Hant":"擴充鍵名不存在"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 37800,
+                'messages' => '{"en":"Wrong archive content or record not exist","zh-Hans":"扩展参数错误或者不存在","zh-Hant":"擴充參數錯誤或不存在"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 37801,
+                'messages' => '{"en":"Archive configuration disabled","zh-Hans":"扩展参数配置已被禁用","zh-Hant":"擴充參數配置已停用"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 37802,
+                'messages' => '{"en":"Archive configuration mismatch","zh-Hans":"扩展参数配置不匹配","zh-Hant":"擴充參數配置不匹配"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
