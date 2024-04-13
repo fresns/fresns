@@ -506,23 +506,25 @@ class Basic
         $dtoWordBody = new UpdateOrCreateCallbackContentDTO($wordBody);
 
         // plugin
-        $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
+        if ($dtoWordBody->fskey != 'Fresns') {
+            $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
 
-        if (empty($plugin)) {
-            return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
-        }
+            if (empty($plugin)) {
+                return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
+            }
 
-        if (! $plugin->is_enabled) {
-            return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+            if (! $plugin->is_enabled) {
+                return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+            }
         }
 
         // callback
         TempCallbackContent::updateOrCreate([
             'app_fskey' => $dtoWordBody->fskey,
-            'ulid' => $dtoWordBody->ulid,
+            'key' => $dtoWordBody->callbackKey,
         ], [
-            'type' => $dtoWordBody->type ?? TempCallbackContent::TYPE_UNKNOWN,
-            'content' => $dtoWordBody->content ?? [],
+            'type' => $dtoWordBody->callbackType ?? TempCallbackContent::TYPE_UNKNOWN,
+            'content' => $dtoWordBody->callbackContent ?? [],
             'retention_days' => $dtoWordBody->retentionDays ?? 1,
             'is_enabled' => true,
         ]);
@@ -535,18 +537,20 @@ class Basic
         $dtoWordBody = new GetCallbackContentDTO($wordBody);
 
         // plugin
-        $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
+        if ($dtoWordBody->fskey != 'Fresns') {
+            $plugin = App::where('fskey', $dtoWordBody->fskey)->first();
 
-        if (empty($plugin)) {
-            return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
-        }
+            if (empty($plugin)) {
+                return $this->failure(32101, ConfigUtility::getCodeMessage(32101));
+            }
 
-        if (! $plugin->is_enabled) {
-            return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+            if (! $plugin->is_enabled) {
+                return $this->failure(32102, ConfigUtility::getCodeMessage(32102));
+            }
         }
 
         // callback
-        $callbackData = TempCallbackContent::where('app_fskey', $dtoWordBody->fskey)->where('ulid', $dtoWordBody->ulid)->first();
+        $callbackData = TempCallbackContent::where('app_fskey', $dtoWordBody->fskey)->where('key', $dtoWordBody->callbackKey)->first();
 
         if (empty($callbackData)) {
             return $this->failure(32303, ConfigUtility::getCodeMessage(32303));
