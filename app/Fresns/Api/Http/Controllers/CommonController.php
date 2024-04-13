@@ -23,14 +23,13 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\App;
-use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\File;
 use App\Models\FileDownload;
 use App\Models\FileUsage;
 use App\Models\Hashtag;
+use App\Models\TempCallbackContent;
 use App\Models\User;
-use App\Models\UserLog;
 use App\Utilities\ConfigUtility;
 use App\Utilities\DetailUtility;
 use App\Utilities\FileUtility;
@@ -180,6 +179,7 @@ class CommonController extends Controller
             'uid' => $uid,
             'usageType' => $dtoRequest->usageType,
             'usageFsid' => $dtoRequest->usageFsid,
+            'archiveCode' => $dtoRequest->archiveCode,
             'type' => $fileTypeInt,
             'extension' => $dtoRequest->extension,
             'size' => $dtoRequest->size,
@@ -265,6 +265,18 @@ class CommonController extends Controller
         $data = $fresnsResp->getData();
         $data['fid'] = $fileModel->fid;
 
+        // callback
+        \FresnsCmdWord::plugin('Fresns')->updateOrCreateCallbackContent([
+            'fskey' => 'Fresns',
+            'callbackKey' => $fileModel->fid,
+            'callbackType' => TempCallbackContent::TYPE_FILE,
+            'callbackContent' => [
+                'tableName' => $tableName,
+                'tableColumn' => $tableColumn,
+                'tableId' => $tableId,
+            ],
+        ]);
+
         return $this->success($data);
     }
 
@@ -305,6 +317,7 @@ class CommonController extends Controller
             'uid' => $uid,
             'usageType' => $dtoRequest->usageType,
             'usageFsid' => $dtoRequest->usageFsid,
+            'archiveCode' => $dtoRequest->archiveCode,
             'type' => $fileType,
             'extension' => $fileExtension,
             'size' => $fileSize,
@@ -364,64 +377,9 @@ class CommonController extends Controller
             return $fresnsResp->getErrorResponse();
         }
 
-        // user avatar or banner
+        // use file
         $authUser = $this->user();
-        if ($tableName == 'users') {
-            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
-
-            if ($tableColumn == 'avatar_file_id') {
-                if ($authUser->avatar_file_id && $authUser->avatar_file_id != $fileId) {
-                    UserLog::create([
-                        'user_id' => $authUser->id,
-                        'type' => UserLog::TYPE_AVATAR,
-                        'content' => $authUser->avatar_file_id,
-                    ]);
-                }
-
-                $authUser->update([
-                    'avatar_file_id' => $fileId,
-                ]);
-            }
-
-            if ($tableColumn == 'banner_file_id') {
-                if ($authUser->banner_file_id && $authUser->banner_file_id != $fileId) {
-                    UserLog::create([
-                        'user_id' => $authUser->id,
-                        'type' => UserLog::TYPE_BANNER,
-                        'content' => $authUser->banner_file_id,
-                    ]);
-                }
-
-                $authUser->update([
-                    'banner_file_id' => $fileId,
-                ]);
-            }
-
-            CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
-        }
-
-        // conversation
-        if ($tableName == 'conversations') {
-            $fileId = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
-
-            $conversation = Conversation::where('id', $tableId)->first();
-
-            $receiveUserId = ($authUser->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
-
-            // conversation message
-            $messageInput = [
-                'conversation_id' => $conversation->id,
-                'send_user_id' => $authUser->id,
-                'message_type' => ConversationMessage::TYPE_FILE,
-                'message_text' => null,
-                'message_file_id' => $fileId,
-                'receive_user_id' => $receiveUserId,
-            ];
-            ConversationMessage::create($messageInput);
-
-            CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
-            CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$receiveUserId}", 'fresnsUsers');
-        }
+        FileUtility::useFile($authUser->id, $fresnsResp->getData('fid'), $tableName, $tableColumn, $tableId);
 
         return $fresnsResp->getOrigin();
     }
@@ -451,10 +409,28 @@ class CommonController extends Controller
         }
 
         // uploaded
-        if ($dtoRequest->uploaded) {
+        if ($dtoRequest->uploaded && ! $file->is_uploaded) {
             $file->update([
                 'is_uploaded' => true,
             ]);
+
+            // callback
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getCallbackContent([
+                'fskey' => 'Fresns',
+                'callbackKey' => $file->fid,
+                'markAsUsed' => true,
+            ]);
+
+            if ($fresnsResp->isSuccessResponse()) {
+                $tableName = $fresnsResp->getData('tableName');
+                $tableColumn = $fresnsResp->getData('tableColumn');
+                $tableId = $fresnsResp->getData('tableId');
+
+                // use file
+                if ($tableName && $tableColumn && $tableId) {
+                    FileUtility::useFile($authUserId, $file->fid, $tableName, $tableColumn, $tableId);
+                }
+            }
         }
 
         // warning

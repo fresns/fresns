@@ -15,8 +15,9 @@ class CommonFileUploadTokenDTO extends DTO
     public function rules(): array
     {
         return [
-            'usageType' => ['string', 'required', 'in:userAvatar,userBanner,conversation,post,comment,postDraft,commentDraft'],
+            'usageType' => ['string', 'required', 'in:userAvatar,userBanner,userArchive,conversation,post,comment,postDraft,postDraftArchive,commentDraft,commentDraftArchive'],
             'usageFsid' => ['string', 'required'],
+            'archiveCode' => ['string', 'nullable', 'required_if:usageType,userArchive', 'required_if:usageType,postDraftArchive', 'required_if:usageType,commentDraftArchive'],
             'type' => ['string', 'required', 'in:image,video,audio,document'],
             'name' => ['string', 'required'],
             'mime' => ['string', 'required'],
