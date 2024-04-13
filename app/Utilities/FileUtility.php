@@ -12,9 +12,14 @@ use App\Helpers\CacheHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\ArchiveUsage;
+use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\SessionKey;
+use App\Models\User;
+use App\Models\UserLog;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Mime\MimeTypes;
@@ -295,6 +300,90 @@ class FileUtility
         ];
 
         return FileUsage::create($useInput);
+    }
+
+    // useFile
+    public static function useFile (int $userId, int|string $fileIdOrFid, string $tableName, string $tableColumn, int $tableId): void
+    {
+        if (! in_array($tableName, ['users', 'conversations', 'archive_usages'])) {
+            return;
+        }
+
+        $user = User::where('id', $userId)->first();
+
+        if (StrHelper::isPureInt($fileIdOrFid)) {
+            $file = File::where('id', $fileIdOrFid)->first();
+        } else {
+            $file = File::where('fid', $fileIdOrFid)->first();
+        }
+
+        $fileId = $file->id;
+
+        switch ($tableName) {
+            case 'users':
+                if ($tableColumn == 'avatar_file_id') {
+                    if ($user->avatar_file_id && $user->avatar_file_id != $fileId) {
+                        UserLog::create([
+                            'user_id' => $user->id,
+                            'type' => UserLog::TYPE_AVATAR,
+                            'content' => $user->avatar_file_id,
+                        ]);
+                    }
+
+                    $user->update([
+                        'avatar_file_id' => $fileId,
+                    ]);
+                }
+
+                if ($tableColumn == 'banner_file_id') {
+                    if ($user->banner_file_id && $user->banner_file_id != $fileId) {
+                        UserLog::create([
+                            'user_id' => $user->id,
+                            'type' => UserLog::TYPE_BANNER,
+                            'content' => $user->banner_file_id,
+                        ]);
+                    }
+
+                    $user->update([
+                        'banner_file_id' => $fileId,
+                    ]);
+                }
+
+                CacheHelper::forgetFresnsUser($user->id, $user->uid);
+                break;
+
+            case 'conversations':
+                $conversation = Conversation::where('id', $tableId)->first();
+
+                $receiveUserId = ($user->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
+
+                // conversation message
+                $messageInput = [
+                    'conversation_id' => $conversation->id,
+                    'send_user_id' => $user->id,
+                    'message_type' => ConversationMessage::TYPE_FILE,
+                    'message_text' => null,
+                    'message_file_id' => $fileId,
+                    'receive_user_id' => $receiveUserId,
+                ];
+                ConversationMessage::create($messageInput);
+
+                CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$user->uid}", 'fresnsUsers');
+                CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$receiveUserId}", 'fresnsUsers');
+                break;
+
+            case 'archive_usages':
+                $archiveUsage = ArchiveUsage::where('id', $tableId)->first();
+
+                $archiveUsage->update([
+                    'archive_value' => $fileId,
+                ]);
+
+                if ($archiveUsage->usage_type == ArchiveUsage::TYPE_USER) {
+                    CacheHelper::forgetFresnsUser($archiveUsage->usage_id);
+                }
+                break;
+        }
     }
 
     // logicalDeletionFiles
