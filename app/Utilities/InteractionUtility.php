@@ -762,7 +762,7 @@ class InteractionUtility
                     $timeColumn => now(),
                 ]);
 
-                // post
+                // post and comment
                 switch ($type) {
                     case 'post':
                         $model->quotedPost?->increment('quote_count');
@@ -800,7 +800,7 @@ class InteractionUtility
                     $geotag->decrement($countColumn);
                 }
 
-                // post
+                // post and comment
                 switch ($type) {
                     case 'post':
                         $quotedPostCount = $model->quotedPost?->quote_count ?? 0;
@@ -814,10 +814,6 @@ class InteractionUtility
                         if ($postCommentCount > 0) {
                             $model->post->decrement('comment_count');
                         }
-
-                        if ($model->parent_id) {
-                            InteractionUtility::parentCommentStats($model->parent_id, $actionType, 'comment_count');
-                        }
                         break;
                 }
 
@@ -825,6 +821,10 @@ class InteractionUtility
                 DomainLink::whereIn('id', $linkIds)->where($countColumn, '>', 0)->decrement($countColumn);
                 Domain::whereIn('id', $domainIds)->where($countColumn, '>', 0)->decrement($countColumn);
                 break;
+        }
+
+        if ($model->parent_id) {
+            InteractionUtility::parentCommentStats($model->parent_id, $actionType, 'comment_count');
         }
     }
 
