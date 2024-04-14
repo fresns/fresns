@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => 'Маршрут',
     'cache_fresns_event' => 'Событие',
     'cache_fresns_schedule' => 'Расписание',
-    'cache_framework_config' => 'Frame Config',
-    'cache_fresns_model' => 'Модель',
-    'cache_fresns_interaction' => 'Взаимодействие',
-    'cache_fresns_api_data' => 'Данные API',
-    'cache_fresns_seo' => 'SEO-информация',
-    'cache_fresns_extension' => 'Расширения',
+    'cache_fresns_temporary' => 'Временные данные',
     // Dashboard-Admins
     'admin_add_title' => 'Новый системный администратор',
     'admin_add_form_account' => 'учетная запись',

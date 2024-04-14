@@ -116,6 +116,10 @@ class SettingController extends Controller
                 if ($request->fresnsSchedule) {
                     CacheHelper::clearConfigCache('fresnsSchedule');
                 }
+
+                if ($request->fresnsTemporaryData) {
+                    CacheHelper::clearConfigCache('fresnsTemporaryData');
+                }
                 break;
 
             case 'data':

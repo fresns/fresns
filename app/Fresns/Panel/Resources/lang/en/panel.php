@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => 'Route',
     'cache_fresns_event' => 'Event',
     'cache_fresns_schedule' => 'Schedule',
-    'cache_framework_config' => 'Framework Config',
-    'cache_fresns_model' => 'Model',
-    'cache_fresns_interaction' => 'Interaction',
-    'cache_fresns_api_data' => 'API Data',
-    'cache_fresns_seo' => 'SEO Info',
-    'cache_fresns_extension' => 'Extensions',
+    'cache_fresns_temporary' => 'Temporary Data',
     // Dashboard-Admins
     'admin_add_title' => 'New System Administrator',
     'admin_add_form_account' => 'Account',

@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => 'मार्ग',
     'cache_fresns_event' => 'आयोजन',
     'cache_fresns_schedule' => 'अनुसूची',
-    'cache_framework_config' => 'फ़्रेम कॉन्फ़िग',
-    'cache_fresns_model' => 'आदर्श',
-    'cache_fresns_interaction' => 'परस्पर क्रिया',
-    'cache_fresns_api_data' => 'एपीआई डेटा',
-    'cache_fresns_seo' => 'एसईओ जानकारी',
-    'cache_fresns_extension' => 'एक्सटेंशन',
+    'cache_fresns_temporary' => 'अस्थायी डेटा',
     // Dashboard-Admins
     'admin_add_title' => 'नया सिस्टम प्रशासक',
     'admin_add_form_account' => 'हेतु',

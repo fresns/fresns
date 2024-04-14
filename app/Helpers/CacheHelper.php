@@ -13,6 +13,8 @@ use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Seo;
+use App\Models\TempCallbackContent;
+use App\Models\TempVerifyCode;
 use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -292,6 +294,27 @@ class CacheHelper
         // schedule
         if ($cacheType == 'fresnsSchedule') {
             Artisan::call('schedule:clear-cache');
+        }
+
+        // temporary data
+        if ($cacheType == 'fresnsTemporaryData') {
+            $aDayAgo = now()->subDay();
+
+            TempCallbackContent::where('created_at', '<', $aDayAgo)->chunk(100, function ($contents) {
+                foreach ($contents as $content) {
+                    $expiryDate = $content->created_at->addDays($content->retention_days);
+
+                    if (now()->greaterThan($expiryDate)) {
+                        $content->forceDelete();
+                    }
+                }
+            });
+
+            TempVerifyCode::where('created_at', '<', $aDayAgo)->chunk(100, function ($contents) {
+                foreach ($contents as $content) {
+                    $content->forceDelete();
+                }
+            });
         }
     }
 

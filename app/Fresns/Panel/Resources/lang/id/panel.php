@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => 'Rute',
     'cache_fresns_event' => 'Acara',
     'cache_fresns_schedule' => 'Jadwal',
-    'cache_framework_config' => 'Konfigurasi Bingkai',
-    'cache_fresns_model' => 'Model',
-    'cache_fresns_interaction' => 'Interaksi',
-    'cache_fresns_api_data' => 'Data API',
-    'cache_fresns_seo' => 'Info SEO',
-    'cache_fresns_extension' => 'Ekstensi',
+    'cache_fresns_temporary' => 'Data Sementara',
     // Dashboard-Admins
     'admin_add_title' => 'Administrator Sistem Baru',
     'admin_add_form_account' => 'Akun',

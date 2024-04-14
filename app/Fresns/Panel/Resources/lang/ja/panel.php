@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => 'ルート',
     'cache_fresns_event' => 'イベント',
     'cache_fresns_schedule' => 'スケジュール',
-    'cache_framework_config' => 'フレーム構成',
-    'cache_fresns_model' => 'モデル',
-    'cache_fresns_interaction' => 'インタラクション',
-    'cache_fresns_api_data' => 'APIデータ',
-    'cache_fresns_seo' => 'SEO情報',
-    'cache_fresns_extension' => '拡張機能',
+    'cache_fresns_temporary' => '一時データ',
     // Dashboard-Admins
     'admin_add_title' => '新しいシステム管理者',
     'admin_add_form_account' => 'アカウント',

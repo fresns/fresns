@@ -65,6 +65,10 @@
                         <input class="form-check-input" type="checkbox" value="1" id="fresnsSchedule" name="fresnsSchedule">
                         <label class="form-check-label" for="fresnsSchedule">{{ __('FsLang::panel.cache_fresns_schedule') }}</label>
                     </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="fresnsTemporaryData" name="fresnsTemporaryData">
+                        <label class="form-check-label" for="fresnsTemporaryData">{{ __('FsLang::panel.cache_fresns_temporary') }}</label>
+                    </div>
 
                     <button type="submit" class="btn btn-success mt-4">{{ __('FsLang::panel.button_clear_cache') }}</button>
                 </div>

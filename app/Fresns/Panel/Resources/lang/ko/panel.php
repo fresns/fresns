@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => '노선',
     'cache_fresns_event' => '이벤트',
     'cache_fresns_schedule' => '일정',
-    'cache_framework_config' => '프레임 구성',
-    'cache_fresns_model' => '모델',
-    'cache_fresns_interaction' => '상호 작용',
-    'cache_fresns_api_data' => 'API 데이터',
-    'cache_fresns_seo' => 'SEO 정보',
-    'cache_fresns_extension' => '확장 프로그램',
+    'cache_fresns_temporary' => '임시 데이터',
     // Dashboard-Admins
     'admin_add_title' => '새로운 시스템 관리자',
     'admin_add_form_account' => '계정',

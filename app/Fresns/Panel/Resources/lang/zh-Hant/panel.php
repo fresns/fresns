@@ -360,12 +360,7 @@ return [
     'cache_fresns_route' => '路由',
     'cache_fresns_event' => '事件',
     'cache_fresns_schedule' => '任務調度',
-    'cache_framework_config' => '框架配置',
-    'cache_fresns_model' => '資料模型',
-    'cache_fresns_interaction' => '互動信息',
-    'cache_fresns_api_data' => 'API 資料',
-    'cache_fresns_seo' => 'SEO 信息',
-    'cache_fresns_extension' => '擴充服務',
+    'cache_fresns_temporary' => '暫存資料',
     // Dashboard-Admins
     'admin_add_title' => '新增系統管理員',
     'admin_add_form_account' => '帳號',
