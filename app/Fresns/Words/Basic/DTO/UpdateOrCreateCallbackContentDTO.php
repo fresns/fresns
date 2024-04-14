@@ -16,7 +16,7 @@ class UpdateOrCreateCallbackContentDTO extends DTO
     {
         return [
             'fskey' => ['string', 'required'],
-            'callbackKey' => ['string', 'max:128', 'required'],
+            'callbackKey' => ['string', 'max:64', 'required'],
             'callbackType' => ['integer', 'nullable'],
             'callbackContent' => ['array', 'nullable'],
             'retentionDays' => ['integer', 'nullable'],

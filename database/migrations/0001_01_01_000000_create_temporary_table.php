@@ -35,7 +35,7 @@ return new class extends Migration
         Schema::create('temp_callback_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('app_fskey', 64);
-            $table->string('key', 128);
+            $table->string('key', 64);
             $table->unsignedSmallInteger('type')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
