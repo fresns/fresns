@@ -353,7 +353,7 @@ class PrimaryHelper
             return null;
         }
 
-        return PrimaryHelper::fresnsModelByFsid('user', $userId)?->account_id;
+        return PrimaryHelper::fresnsModelById('user', $userId)?->account_id;
     }
 
     // get group id
