@@ -191,6 +191,15 @@ class Crontab
     {
         logger('cmd word: checkAppsVersions');
 
+        // Time of the latest check version
+        Config::updateOrCreate([
+            'item_key' => 'check_version_datetime',
+        ], [
+            'item_value' => now(),
+            'item_type' => 'string',
+        ]);
+
+        // apps
         $apps = App::all();
 
         // market-manager
@@ -230,14 +239,6 @@ class Crontab
                 'upgrade_version' => $version,
             ]);
         }
-
-        // Time of the latest check version
-        Config::updateOrCreate([
-            'item_key' => 'check_version_datetime',
-        ], [
-            'item_value' => now(),
-            'item_type' => 'string',
-        ]);
 
         return $this->success();
     }
