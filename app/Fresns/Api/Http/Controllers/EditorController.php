@@ -230,7 +230,7 @@ class EditorController extends Controller
             'moreInfo' => null,
         ];
 
-        // upload session log
+        // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
@@ -308,7 +308,7 @@ class EditorController extends Controller
             'moreInfo' => null,
         ];
 
-        // upload session log
+        // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         switch ($type) {
@@ -438,7 +438,7 @@ class EditorController extends Controller
             'moreInfo' => null,
         ];
 
-        // upload session log
+        // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         switch ($dtoRequest->type) {
@@ -1037,7 +1037,7 @@ class EditorController extends Controller
         $checkDraftCode = ValidationUtility::draft($type, $validDraft);
 
         if ($checkDraftCode == 38200) {
-            // upload session log
+            // create session log
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
             // change state
@@ -1070,7 +1070,7 @@ class EditorController extends Controller
             return $fresnsResp->getErrorResponse();
         }
 
-        // upload session log
+        // create session log
         $sessionLogType = match ($type) {
             'post' => SessionLog::TYPE_POST_PUBLISH,
             'comment' => SessionLog::TYPE_COMMENT_PUBLISH,
@@ -1144,6 +1144,33 @@ class EditorController extends Controller
         if ($draft->state == PostLog::STATE_SUCCESS) {
             throw new ResponseException(36405);
         }
+
+        // session log
+        $sessionLogType = match ($type) {
+            'post' => SessionLog::TYPE_POST_LOG_DELETE,
+            'comment' => SessionLog::TYPE_COMMENT_LOG_DELETE,
+        };
+
+        $sessionLog = [
+            'type' => $sessionLogType,
+            'fskey' => 'Fresns',
+            'appId' => $this->appId(),
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Draft Delete',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => $draft->id,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         $draft->delete();
 

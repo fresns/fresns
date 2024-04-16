@@ -23,6 +23,7 @@ use App\Helpers\PrimaryHelper;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\File;
+use App\Models\SessionLog;
 use App\Utilities\DetailUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
@@ -609,6 +610,28 @@ class ConversationController extends Controller
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$authUser->uid}", 'fresnsUsers');
         CacheHelper::forgetFresnsKey("fresns_user_overview_conversations_{$receiveUser->uid}", 'fresnsUsers');
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_CONVERSATION_MESSAGE,
+            'fskey' => 'Fresns',
+            'appId' => $this->appId(),
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Conversation Send Message',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => $conversationMessage->id,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+        // create session log
+        // \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         return $this->success($data);
     }

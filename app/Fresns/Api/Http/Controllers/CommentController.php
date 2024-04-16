@@ -27,6 +27,7 @@ use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\Seo;
+use App\Models\SessionLog;
 use App\Utilities\DetailUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
@@ -729,6 +730,28 @@ class CommentController extends Controller
         InteractionUtility::publishStats('comment', $comment->id, 'decrement');
 
         CommentLog::where('comment_id', $comment->id)->delete();
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_POST_DELETE,
+            'fskey' => 'Fresns',
+            'appId' => $this->appId(),
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Comment Delete',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => $comment->id,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         $comment->delete();
 

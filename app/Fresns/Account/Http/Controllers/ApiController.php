@@ -575,7 +575,7 @@ class ApiController extends Controller
 
         // session log
         $sessionLog = [
-            'type' => SessionLog::TYPE_ACCOUNT_EDIT_PASSWORD,
+            'type' => SessionLog::TYPE_ACCOUNT_UPDATE_PASSWORD,
             'platformId' => Cookie::get('fresns_account_center_platform_id'),
             'version' => Cookie::get('fresns_account_center_version'),
             'appId' => Cookie::get('fresns_account_center_app_id'),
@@ -737,14 +737,14 @@ class ApiController extends Controller
 
         // session log
         $sessionLog = [
-            'type' => SessionLog::TYPE_ACCOUNT_EDIT_DATA,
+            'type' => SessionLog::TYPE_ACCOUNT_UPDATE_DATA,
             'platformId' => Cookie::get('fresns_account_center_platform_id'),
             'version' => Cookie::get('fresns_account_center_version'),
             'appId' => Cookie::get('fresns_account_center_app_id'),
             'langTag' => Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag(),
             'fskey' => 'Fresns',
             'actionName' => request()->path(),
-            'actionDesc' => 'Account Edit Data',
+            'actionDesc' => 'Account Update Data',
             'actionState' => SessionLog::STATE_SUCCESS,
             'actionId' => null,
             'aid' => $aid,
@@ -924,8 +924,8 @@ class ApiController extends Controller
                     'password' => Hash::make($newPassword),
                 ]);
 
-                $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_EDIT_PASSWORD;
-                $sessionLog['actionDesc'] = 'Account Edit Password';
+                $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_UPDATE_PASSWORD;
+                $sessionLog['actionDesc'] = 'Account Update Password';
                 break;
 
             case 'walletPassword':
@@ -985,8 +985,8 @@ class ApiController extends Controller
                     'password' => Hash::make($newWalletPassword),
                 ]);
 
-                $sessionLog['type'] = SessionLog::TYPE_WALLET_EDIT_PASSWORD;
-                $sessionLog['actionDesc'] = 'Account Edit Wallet Password';
+                $sessionLog['type'] = SessionLog::TYPE_WALLET_UPDATE_PASSWORD;
+                $sessionLog['actionDesc'] = 'Account Update Wallet Password';
                 break;
         }
 

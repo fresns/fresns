@@ -30,6 +30,7 @@ use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Models\Seo;
+use App\Models\SessionLog;
 use App\Utilities\DetailUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
@@ -823,6 +824,28 @@ class PostController extends Controller
         InteractionUtility::publishStats('post', $post->id, 'decrement');
 
         PostLog::where('post_id', $post->id)->delete();
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_POST_DELETE,
+            'fskey' => 'Fresns',
+            'appId' => $this->appId(),
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'Post Delete',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => $post->id,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         $post->delete();
 
