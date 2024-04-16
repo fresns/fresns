@@ -12,8 +12,6 @@ use App\Fresns\Api\Exceptions\ResponseException;
 use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
-use App\Fresns\Api\Http\DTO\UserDeviceTokenDTO;
-use App\Fresns\Api\Http\DTO\UserEditDTO;
 use App\Fresns\Api\Http\DTO\UserExtcreditsLogsDTO;
 use App\Fresns\Api\Http\DTO\UserExtendActionDTO;
 use App\Fresns\Api\Http\DTO\UserListDTO;
@@ -21,6 +19,8 @@ use App\Fresns\Api\Http\DTO\UserLoginDTO;
 use App\Fresns\Api\Http\DTO\UserMarkDTO;
 use App\Fresns\Api\Http\DTO\UserMarkListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkNoteDTO;
+use App\Fresns\Api\Http\DTO\UserUpdateProfileDTO;
+use App\Fresns\Api\Http\DTO\UserUpdateSettingsDTO;
 use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
@@ -114,7 +114,7 @@ class UserController extends Controller
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyUser($wordBody);
 
         if ($fresnsResponse->isErrorResponse()) {
-            // upload session log
+            // create session log
             $sessionLog['actionDesc'] = 'verifyUser';
             $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
@@ -136,7 +136,7 @@ class UserController extends Controller
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createUserToken($createTokenWordBody);
 
         if ($fresnsTokenResponse->isErrorResponse()) {
-            // upload session log
+            // create session log
             $sessionLog['actionDesc'] = 'createUserToken';
             $sessionLog['actionState'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
@@ -168,7 +168,7 @@ class UserController extends Controller
             'detail' => DetailUtility::userDetail($authUser, $langTag, $timezone, $authUser?->id, $userOptions),
         ];
 
-        // upload session log
+        // create session log
         $sessionLog['actionId'] = $fresnsResponse->getData('uidTokenId');
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
@@ -304,15 +304,16 @@ class UserController extends Controller
         return $this->fresnsPaginate($logList, $extcreditsLogs->total(), $extcreditsLogs->perPage());
     }
 
-    // edit
-    public function edit(Request $request)
+    // update profile
+    public function updateProfile(Request $request)
     {
-        $dtoRequest = new UserEditDTO($request->all());
+        $dtoRequest = new UserUpdateProfileDTO($request->all());
 
         if ($dtoRequest->isEmpty()) {
             throw new ResponseException(30001);
         }
 
+        $authAccount = $this->account();
         $authUser = $this->user();
 
         if (! $authUser->is_enabled) {
@@ -332,7 +333,7 @@ class UserController extends Controller
             'nickname_edit',
         ]);
 
-        // edit username
+        // update username
         if ($dtoRequest->username) {
             $isEmpty = Str::of($dtoRequest->username)->trim()->isEmpty();
             if ($isEmpty) {
@@ -389,7 +390,7 @@ class UserController extends Controller
             }
         }
 
-        // edit nickname
+        // update nickname
         if ($dtoRequest->nickname) {
             $isEmpty = Str::of($dtoRequest->nickname)->trim()->isEmpty();
             if ($isEmpty) {
@@ -446,7 +447,7 @@ class UserController extends Controller
             }
         }
 
-        // edit avatarFid
+        // update avatarFid
         if ($dtoRequest->avatarFid) {
             $avatarFileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->avatarFid);
 
@@ -464,7 +465,7 @@ class UserController extends Controller
             }
         }
 
-        // edit avatarUrl
+        // update avatarUrl
         if ($dtoRequest->avatarUrl) {
             $authUser->fill([
                 'avatar_file_id' => null,
@@ -480,7 +481,7 @@ class UserController extends Controller
             }
         }
 
-        // edit bannerFid
+        // update bannerFid
         if ($dtoRequest->bannerFid) {
             $bannerFileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->bannerFid);
 
@@ -498,7 +499,7 @@ class UserController extends Controller
             }
         }
 
-        // edit bannerUrl
+        // update bannerUrl
         if ($dtoRequest->bannerUrl) {
             $authUser->fill([
                 'banner_file_id' => null,
@@ -514,7 +515,7 @@ class UserController extends Controller
             }
         }
 
-        // edit gender
+        // update gender
         if ($dtoRequest->gender) {
             $authUser->fill([
                 'gender' => $dtoRequest->gender,
@@ -531,14 +532,14 @@ class UserController extends Controller
             ]);
         }
 
-        // edit birthday display type
+        // update birthday display type
         if ($dtoRequest->birthdayDisplayType) {
             $authUser->fill([
                 'birthday_display_type' => $dtoRequest->birthdayDisplayType,
             ]);
         }
 
-        // edit bio
+        // update bio
         if ($dtoRequest->bio) {
             $bio = Str::of($dtoRequest->bio)->trim();
 
@@ -583,7 +584,7 @@ class UserController extends Controller
             }
         }
 
-        // edit location
+        // update location
         if ($dtoRequest->location) {
             $location = Str::of($dtoRequest->location)->trim();
             $authUser->fill([
@@ -591,21 +592,7 @@ class UserController extends Controller
             ]);
         }
 
-        // edit conversationPolicy
-        if ($dtoRequest->conversationPolicy) {
-            $authUser->fill([
-                'conversation_policy' => $dtoRequest->conversationPolicy,
-            ]);
-        }
-
-        // edit commentPolicy
-        if ($dtoRequest->commentPolicy) {
-            $authUser->fill([
-                'comment_policy' => $dtoRequest->commentPolicy,
-            ]);
-        }
-
-        // edit more info
+        // update more info
         if ($dtoRequest->moreInfo) {
             $moreInfo = $authUser->more_info ?? [];
 
@@ -616,17 +603,94 @@ class UserController extends Controller
             ]);
         }
 
-        // edit save
+        // update save
         $authUser->save();
 
-        // edit archives
+        // update archives
         if ($dtoRequest->archives) {
             ContentUtility::saveArchiveUsages(ArchiveUsage::TYPE_USER, $authUser->id, $dtoRequest->archives);
         }
 
         // session log
         $sessionLog = [
-            'type' => SessionLog::TYPE_USER_EDIT_DATA,
+            'type' => SessionLog::TYPE_USER_UPDATE_PROFILE,
+            'fskey' => 'Fresns',
+            'appId' => $this->appId(),
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $authAccount->aid,
+            'uid' => $authUser->uid,
+            'actionName' => \request()->path(),
+            'actionDesc' => 'User Update Profile',
+            'actionState' => SessionLog::STATE_SUCCESS,
+            'actionId' => null,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'loginToken' => null,
+            'moreInfo' => null,
+        ];
+        // create session log
+        \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
+
+        CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
+
+        return $this->success();
+    }
+
+    // update settings
+    public function updateSettings(Request $request)
+    {
+        $dtoRequest = new UserUpdateSettingsDTO($request->all());
+
+        $authUser = $this->user();
+
+        // update conversationPolicy
+        if ($dtoRequest->conversationPolicy) {
+            $authUser->fill([
+                'conversation_policy' => $dtoRequest->conversationPolicy,
+            ]);
+        }
+
+        // update commentPolicy
+        if ($dtoRequest->commentPolicy) {
+            $authUser->fill([
+                'comment_policy' => $dtoRequest->commentPolicy,
+            ]);
+        }
+
+        // update save
+        $authUser->save();
+
+        // update device token
+        $actionId = null;
+        if ($dtoRequest->deviceToken) {
+            $appId = $this->appId();
+            $platformId = $this->platformId();
+
+            $authAccount = $this->account();
+
+            $authAccountToken = $this->accountToken();
+            $authUserToken = $this->userToken();
+
+            $sessionToken = SessionToken::where('app_id', $appId)
+                ->where('platform_id', $platformId)
+                ->where('account_id', $authAccount->id)
+                ->where('account_token', $authAccountToken)
+                ->where('user_id', $authUser->id)
+                ->where('user_token', $authUserToken)
+                ->first();
+
+            $sessionToken->update([
+                'device_token' => $dtoRequest->deviceToken,
+            ]);
+
+            $actionId = $sessionToken->id;
+        }
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_USER_UPDATE_SETTING,
             'fskey' => 'Fresns',
             'appId' => $this->appId(),
             'platformId' => $this->platformId(),
@@ -635,45 +699,16 @@ class UserController extends Controller
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
             'actionName' => \request()->path(),
-            'actionDesc' => 'User Edit Data',
+            'actionDesc' => 'User Update Settings',
             'actionState' => SessionLog::STATE_SUCCESS,
-            'actionId' => null,
+            'actionId' => $actionId,
             'deviceInfo' => $this->deviceInfo(),
-            'deviceToken' => null,
+            'deviceToken' => $dtoRequest->deviceToken ?? null,
             'loginToken' => null,
             'moreInfo' => null,
         ];
-        // upload session log
+        // create session log
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
-
-        CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
-
-        return $this->success();
-    }
-
-    // device token
-    public function deviceToken(Request $request)
-    {
-        $dtoRequest = new UserDeviceTokenDTO($request->all());
-
-        $appId = $this->appId();
-        $platformId = $this->platformId();
-        $authAccount = $this->account();
-        $authAccountToken = $this->accountToken();
-        $authUser = $this->user();
-        $authUserToken = $this->userToken();
-
-        $sessionToken = SessionToken::where('app_id', $appId)
-            ->where('platform_id', $platformId)
-            ->where('account_id', $authAccount->id)
-            ->where('account_token', $authAccountToken)
-            ->where('user_id', $authUser->id)
-            ->where('user_token', $authUserToken)
-            ->first();
-
-        $sessionToken->update([
-            'device_token' => $dtoRequest->deviceToken,
-        ]);
 
         return $this->success();
     }

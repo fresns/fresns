@@ -79,8 +79,8 @@ Route::prefix('fresns/v1')->middleware([
         Route::post('auth-token', [UserController::class, 'login'])->name('login')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('overview', [UserController::class, 'overview'])->name('overview')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('extcredits-records', [UserController::class, 'extcreditsRecords'])->name('extcredits.records')->withoutMiddleware([CheckSiteMode::class]);
-        Route::patch('profile', [UserController::class, 'edit'])->name('edit');
-        Route::patch('device-token', [UserController::class, 'deviceToken'])->name('device.token');
+        Route::patch('profile', [UserController::class, 'updateProfile'])->name('update.profile');
+        Route::patch('settings', [UserController::class, 'updateSettings'])->name('update.settings');
         Route::post('mark', [UserController::class, 'mark'])->name('mark');
         Route::patch('mark-note', [UserController::class, 'markNote'])->name('mark.note');
         Route::post('extend-action', [UserController::class, 'extendAction'])->name('extend.action');
