@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class UserEditDTO extends DTO
+class UserUpdateProfileDTO extends DTO
 {
     public function rules(): array
     {
@@ -27,10 +27,9 @@ class UserEditDTO extends DTO
             'birthdayDisplayType' => ['integer', 'nullable', 'in:1,2,3,4'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],
-            'conversationPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
-            'commentPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
             'moreInfo' => ['array', 'nullable'],
             'archives' => ['array', 'nullable'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }

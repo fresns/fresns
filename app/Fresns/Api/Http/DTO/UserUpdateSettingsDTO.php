@@ -10,12 +10,14 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class UserDeviceTokenDTO extends DTO
+class UserUpdateSettingsDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'deviceToken' => ['string', 'required'],
+            'conversationPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
+            'commentPolicy' => ['integer', 'nullable', 'in:1,2,3,4'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }
