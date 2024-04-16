@@ -44,7 +44,7 @@
                                     {{ $fsLang['userPinLogin'] }}
                                 </button>
 
-                                @if ($usersService)
+                                @if ($usersServiceUrl)
                                     <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split btn-sm" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
@@ -52,7 +52,7 @@
                                         <li>
                                             <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                                                 data-title="{{ $fsLang['userPinReset'] }}"
-                                                data-url="{{ $usersService }}"
+                                                data-url="{{ $usersServiceUrl }}"
                                                 data-uid="{{ $user['uid'] }}"
                                                 data-post-message-key="reload">
                                                 {{ $fsLang['userPinReset'] }}

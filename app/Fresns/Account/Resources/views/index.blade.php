@@ -53,13 +53,13 @@
         </div>
 
         {{-- kyc service --}}
-        @if ($fsConfig['account_kyc_service'])
+        @if ($serviceUrl['kyc'])
             <h3 class="mb-2 ms-1 fs-6">{{ $fsLang['accountKyc'] }}</h3>
             <div class="list-group mb-4">
                 {{-- setting --}}
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsLang['accountKyc'] }}"
-                    data-url="{{ $fsConfig['account_kyc_service'] }}"
+                    data-url="{{ $serviceUrl['kyc'] }}"
                     data-redirect-url="{{ $redirectURL }}"
                     data-post-message-key="reload">
                     <div class="my-1">
@@ -87,12 +87,12 @@
         @endif
 
         {{-- users --}}
-        @if ($fsConfig['account_users_service'])
+        @if ($serviceUrl['users'])
             <h3 class="mb-2 ms-1 fs-6">{{ $fsConfig['user_name'] }}</h3>
             <div class="list-group mb-4">
                 <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                     data-title="{{ $fsConfig['user_name'] }}"
-                    data-url="{{ $fsConfig['account_users_service'] }}"
+                    data-url="{{ $serviceUrl['users'] }}"
                     data-redirect-url="{{ $redirectURL }}"
                     data-post-message-key="reload">
                     <div class="my-1">

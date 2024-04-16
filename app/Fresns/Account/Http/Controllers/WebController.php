@@ -80,6 +80,10 @@ class WebController extends Controller
             'delete_account_type',
             'account_delete_policy',
         ]);
+        $serviceUrl = [
+            'users' => PluginHelper::fresnsPluginUrlByFskey($fsConfig['account_users_service']),
+            'kyc' => PluginHelper::fresnsPluginUrlByFskey($fsConfig['account_kyc_service']),
+        ];
 
         // handle date
         $timezone = $request->attributes->get('fresns_account_center_timezone');
@@ -90,7 +94,7 @@ class WebController extends Controller
             $redirectURL = urlencode($redirectURL);
         }
 
-        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig', 'redirectURL'));
+        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig', 'serviceUrl', 'redirectURL'));
     }
 
     public function register(Request $request)
@@ -292,7 +296,8 @@ class WebController extends Controller
 
         $loginToken = $request->loginToken;
 
-        $usersService = ConfigHelper::fresnsConfigByItemKey('account_users_service');
+        $usersServiceFskey = ConfigHelper::fresnsConfigByItemKey('account_users_service');
+        $usersServiceUrl = PluginHelper::fresnsPluginUrlByFskey($usersServiceFskey);
         $accountDetail = [];
 
         $loginType = 'callback';
@@ -314,7 +319,7 @@ class WebController extends Controller
             if ($fresnsResp->isSuccessResponse()) {
                 $redirectURL = Str::replace('{loginToken}', $loginToken, $redirectURL);
 
-                return view('FsAccountView::user-auth', compact('usersService', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
+                return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
             }
         }
 
