@@ -298,6 +298,7 @@ class WebController extends Controller
 
         $usersServiceFskey = ConfigHelper::fresnsConfigByItemKey('account_users_service');
         $usersServiceUrl = PluginHelper::fresnsPluginUrlByFskey($usersServiceFskey);
+
         $accountDetail = [];
 
         $loginType = 'callback';
@@ -345,7 +346,7 @@ class WebController extends Controller
         $loginType = 'userAuth';
         $redirectURL = Str::replace('{loginToken}', $loginToken, $redirectURL);
 
-        return view('FsAccountView::user-auth', compact('usersService', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
+        return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
     }
 
     // get plugin url
