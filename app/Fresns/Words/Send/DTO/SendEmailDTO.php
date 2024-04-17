@@ -18,6 +18,7 @@ class SendEmailDTO extends DTO
             'email' => ['email', 'required'],
             'title' => ['string', 'required'],
             'content' => ['string', 'required'],
+            'langTag' => ['string', 'nullable'],
         ];
     }
 }
