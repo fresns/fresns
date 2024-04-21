@@ -195,6 +195,9 @@ class ClientController extends Controller
 
             if ($configKey == 'website_cookie_prefix') {
                 $websiteCookiePrefix = Str::of($request->get('website_cookie_prefix'))->trim();
+                $websiteCookiePrefix = Str::replace('.', '_', $websiteCookiePrefix);
+                $websiteCookiePrefix = Str::replace('/', '_', $websiteCookiePrefix);
+                $websiteCookiePrefix = Str::replace(':', '_', $websiteCookiePrefix);
 
                 if (! Str::startsWith($websiteCookiePrefix, 'fresns_')) {
                     $request->$configKey = 'fresns_'.$websiteCookiePrefix;
