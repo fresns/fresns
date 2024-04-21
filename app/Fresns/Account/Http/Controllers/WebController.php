@@ -167,10 +167,7 @@ class WebController extends Controller
 
         $miniBrowser = Str::contains($userAgent, 'miniprogram');
 
-        $connectServices = [];
-        if (! $miniBrowser) {
-            $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
-        }
+        $connectServices = $miniBrowser ? [] : ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
 
         $emailConfig = $fsConfig['account_email_register'];
         $phoneConfig = $fsConfig['account_phone_register'];
@@ -234,10 +231,7 @@ class WebController extends Controller
 
         $miniBrowser = Str::contains($userAgent, 'miniprogram');
 
-        $connectServices = [];
-        if (! $miniBrowser) {
-            $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
-        }
+        $connectServices = $miniBrowser ? [] : ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
 
         $emailConfig = $fsConfig['account_email_login'];
         $phoneConfig = $fsConfig['account_phone_login'];
