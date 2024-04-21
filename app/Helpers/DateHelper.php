@@ -106,7 +106,7 @@ class DateHelper
                     $databaseDateTime = date('Y-m-d H:i:s', time());
             }
 
-            CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 3, 1);
+            CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 1);
         }
 
         return $databaseDateTime;
@@ -272,9 +272,6 @@ class DateHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
         $timeFormatItem = collect($languageMenus)->where('langTag', $langTag)->first();
-
-        // $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
-        // $timeLine = strtotime($currentTime) - strtotime($datetime);
 
         $timeLine = time() - strtotime($datetime);
 
