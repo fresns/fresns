@@ -93,6 +93,19 @@ class Basic
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
 
+        $timestamp = (int) $dtoWordBody->timestamp;
+
+        if (strlen($timestamp) == 13) {
+            $timestamp /= 1000;
+            $timestamp = intval($timestamp);
+        }
+
+        $diff = time() - $timestamp;
+
+        if ($diff > 600) {
+            return $this->failure(31303, ConfigUtility::getCodeMessage(31303));
+        }
+
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
         $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
         $keyFskey = $dtoWordBody->verifyFskey;
@@ -111,19 +124,6 @@ class Basic
 
         if ($keyInfo->platform_id != $dtoWordBody->platformId) {
             return $this->failure(31102, ConfigUtility::getCodeMessage(31102));
-        }
-
-        $timestamp = (int) $dtoWordBody->timestamp;
-
-        if (strlen($timestamp) == 13) {
-            $timestamp /= 1000;
-            $timestamp = intval($timestamp);
-        }
-
-        $diff = time() - $timestamp;
-
-        if ($diff > 600) {
-            return $this->failure(31303, ConfigUtility::getCodeMessage(31303));
         }
 
         $includeEmptyCheckArr = [
