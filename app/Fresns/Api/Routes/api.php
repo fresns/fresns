@@ -80,7 +80,7 @@ Route::prefix('fresns/v1')->middleware([
         Route::get('overview', [UserController::class, 'overview'])->name('overview')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('extcredits-records', [UserController::class, 'extcreditsRecords'])->name('extcredits.records')->withoutMiddleware([CheckSiteMode::class]);
         Route::patch('profile', [UserController::class, 'updateProfile'])->name('update.profile');
-        Route::patch('settings', [UserController::class, 'updateSettings'])->name('update.settings');
+        Route::patch('setting', [UserController::class, 'updateSetting'])->name('update.setting');
         Route::post('mark', [UserController::class, 'mark'])->name('mark');
         Route::patch('mark-note', [UserController::class, 'markNote'])->name('mark.note');
         Route::post('extend-action', [UserController::class, 'extendAction'])->name('extend.action');

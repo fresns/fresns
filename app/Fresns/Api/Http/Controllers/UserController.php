@@ -638,8 +638,8 @@ class UserController extends Controller
         return $this->success();
     }
 
-    // update settings
-    public function updateSettings(Request $request)
+    // update setting
+    public function updateSetting(Request $request)
     {
         $dtoRequest = new UserUpdateSettingsDTO($request->all());
 
@@ -699,7 +699,7 @@ class UserController extends Controller
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
             'actionName' => \request()->path(),
-            'actionDesc' => 'User Update Settings',
+            'actionDesc' => 'User Update Setting',
             'actionState' => SessionLog::STATE_SUCCESS,
             'actionId' => $actionId,
             'deviceInfo' => $this->deviceInfo(),
