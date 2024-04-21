@@ -17,6 +17,7 @@ use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Utilities\ConfigUtility;
 use App\Utilities\DetailUtility;
+use Browser;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cookie;
@@ -161,7 +162,15 @@ class WebController extends Controller
             'account_cookie_policy',
         ]);
 
-        $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        $userAgent = Browser::userAgent();
+        $userAgent = Str::of($userAgent)->lower()->toString();
+
+        $miniBrowser = Str::contains($userAgent, 'miniprogram');
+
+        $connectServices = [];
+        if (! $miniBrowser) {
+            $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        }
 
         $emailConfig = $fsConfig['account_email_register'];
         $phoneConfig = $fsConfig['account_phone_register'];
@@ -220,7 +229,15 @@ class WebController extends Controller
             'account_register_status',
         ]);
 
-        $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        $userAgent = Browser::userAgent();
+        $userAgent = Str::of($userAgent)->lower()->toString();
+
+        $miniBrowser = Str::contains($userAgent, 'miniprogram');
+
+        $connectServices = [];
+        if (! $miniBrowser) {
+            $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        }
 
         $emailConfig = $fsConfig['account_email_login'];
         $phoneConfig = $fsConfig['account_phone_login'];
