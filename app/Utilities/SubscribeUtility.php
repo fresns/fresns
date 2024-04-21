@@ -131,7 +131,7 @@ class SubscribeUtility
                     'last_activity_at' => now(),
                 ]);
 
-                CacheHelper::put(now(), $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+                CacheHelper::put(now(), $cacheKey, $cacheTag, 10, 10);
             }
 
             $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);

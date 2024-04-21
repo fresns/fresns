@@ -352,7 +352,7 @@ class ExtendUtility
             }
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, $cacheTime);
         }
 
         return $extendList;
@@ -406,7 +406,7 @@ class ExtendUtility
             }
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, $cacheTime);
         }
 
         return $extendList;
@@ -450,7 +450,7 @@ class ExtendUtility
             }
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, $cacheTime);
         }
 
         return $extendList;

@@ -77,7 +77,7 @@ class DetailUtility
             $accountDetail = array_merge($accountData, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($accountDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($accountDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         $users = [];
@@ -174,7 +174,7 @@ class DetailUtility
             $userDetail = array_merge($userProfile, $userMainRole, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($userDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($userDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // archives
@@ -200,7 +200,7 @@ class DetailUtility
             if (empty($userStats)) {
                 $userStats = $user->getUserStats($langTag);
 
-                CacheHelper::put($userStats, $cacheStatsKey, $cacheTag, 15, now()->addMinutes(15));
+                CacheHelper::put($userStats, $cacheStatsKey, $cacheTag, 15, 15);
             }
         }
 
@@ -282,7 +282,7 @@ class DetailUtility
             $groupDetail = array_merge($groupInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($groupDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($groupDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         if ($authUserId) {
@@ -361,7 +361,7 @@ class DetailUtility
             $hashtagDetail = array_merge($hashtagInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($hashtagDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($hashtagDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         if ($authUserId) {
@@ -440,7 +440,7 @@ class DetailUtility
             $geotagDetail = array_merge($geotagInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($geotagDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($geotagDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // distance
@@ -676,7 +676,7 @@ class DetailUtility
             $postDetail = array_merge($postInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($postDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($postDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // group
@@ -1031,7 +1031,7 @@ class DetailUtility
             $commentDetail = array_merge($commentInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($commentDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($commentDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // hashtags
@@ -1376,7 +1376,7 @@ class DetailUtility
             $historyDetail = array_merge($historyInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // detail content
@@ -1537,7 +1537,7 @@ class DetailUtility
             $historyDetail = array_merge($historyInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($historyDetail, $cacheKey, $cacheTag, $cacheTime);
         }
 
         // author
@@ -1886,7 +1886,7 @@ class DetailUtility
                 $userList[] = self::userDetail($like->creator, $langTag);
             }
 
-            CacheHelper::put($userList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+            CacheHelper::put($userList, $cacheKey, $cacheTag, 10, 10);
         }
 
         $userCount = count($userList);
@@ -1973,7 +1973,7 @@ class DetailUtility
                 $commentList[] = self::commentDetail($comment, $langTag);
             }
 
-            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, 10);
         }
 
         // filter
@@ -2040,7 +2040,7 @@ class DetailUtility
                 $commentList[] = self::commentDetail($comment, $langTag);
             }
 
-            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, 10);
         }
 
         // filter

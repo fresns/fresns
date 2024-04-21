@@ -106,7 +106,7 @@ class DateHelper
                     $databaseDateTime = date('Y-m-d H:i:s', time());
             }
 
-            CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 1, now()->addMinutes(3));
+            CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 3, 1);
         }
 
         return $databaseDateTime;

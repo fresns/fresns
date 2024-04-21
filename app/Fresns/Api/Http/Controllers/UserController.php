@@ -223,7 +223,7 @@ class UserController extends Controller
                 'unreadMessages' => $conversationMessageCount,
             ];
 
-            CacheHelper::put($conversations, $conversationsCacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($conversations, $conversationsCacheKey, $cacheTag, $cacheTime);
         }
 
         // unread notifications
@@ -244,7 +244,7 @@ class UserController extends Controller
                 'quotes' => $unreadModel->where('type', Notification::TYPE_QUOTE)->count(),
             ];
 
-            CacheHelper::put($unreadNotifications, $notificationsCacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($unreadNotifications, $notificationsCacheKey, $cacheTag, $cacheTime);
         }
 
         // draft count
@@ -256,7 +256,7 @@ class UserController extends Controller
                 'comments' => CommentLog::where('user_id', $userId)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_FAILURE])->count(),
             ];
 
-            CacheHelper::put($draftCount, $draftsCacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($draftCount, $draftsCacheKey, $cacheTag, $cacheTime);
         }
 
         $data['features'] = ExtendUtility::getUserExtensions('features', $userId, $langTag);

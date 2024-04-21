@@ -141,7 +141,7 @@ class CacheHelper
     }
 
     // cache put
-    public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null): void
+    public static function put(mixed $cacheData, string $cacheKey, string|array $cacheTags, Carbon|int|null $cacheTime = null, ?int $nullCacheMinutes = null): void
     {
         $cacheTags = (array) $cacheTags;
 
@@ -152,12 +152,16 @@ class CacheHelper
             return;
         }
 
-        $cacheTime = $cacheTime ?: CacheHelper::fresnsCacheTimeByFileType();
+        if (StrHelper::isPureInt($cacheTime)) {
+            $cacheTimeCarbon = now()->addMinutes($cacheTime);
+        } else {
+            $cacheTimeCarbon = $cacheTime ?: CacheHelper::fresnsCacheTimeByFileType();
+        }
 
         if (Cache::supportsTags() && $cacheTags) {
-            Cache::tags($cacheTags)->put($cacheKey, $cacheData, $cacheTime);
+            Cache::tags($cacheTags)->put($cacheKey, $cacheData, $cacheTimeCarbon);
         } else {
-            Cache::put($cacheKey, $cacheData, $cacheTime);
+            Cache::put($cacheKey, $cacheData, $cacheTimeCarbon);
         }
 
         CacheHelper::addCacheItems($cacheKey, $cacheTags);
@@ -890,9 +894,9 @@ class CacheHelper
     // fresns_web_languages_{$langTag}                                  // +tag: fresnsWebConfigs
     // fresns_web_post_content_types_{$langTag}                         // +tag: fresnsWebConfigs
     // fresns_web_comment_content_types_{$langTag}                      // +tag: fresnsWebConfigs
-    // fresns_web_post_editor_configs_{$uid}_{$langTag}                 // +tag: fresnsWebConfigs
-    // fresns_web_comment_editor_configs_{$uid}_{$langTag}              // +tag: fresnsWebConfigs
-    // fresns_web_stickers_{$langTag}                                   // +tag: fresnsWebConfigs
+    // fresns_web_editor_post_configs_{$uid}_{$langTag}                 // +tag: fresnsWebConfigs
+    // fresns_web_editor_comment_configs_{$uid}_{$langTag}              // +tag: fresnsWebConfigs
+    // fresns_web_editor_stickers_{$langTag}                            // +tag: fresnsWebConfigs
     // fresns_web_channels_guest_{$langTag}
     // fresns_web_channels_{$uid}_{$langTag}
     // fresns_web_account_{$aid}_{$langTag}

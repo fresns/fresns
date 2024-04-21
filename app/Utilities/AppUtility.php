@@ -42,7 +42,7 @@ class AppUtility
 
             $currentVersion = json_decode($fresnsJson, true);
 
-            CacheHelper::put($currentVersion, $cacheKey, $cacheTag, 1, now()->addDays());
+            CacheHelper::put($currentVersion, $cacheKey, $cacheTag, now()->addDays(), 1);
         }
 
         return $currentVersion;
@@ -92,7 +92,7 @@ class AppUtility
                 ];
             }
 
-            CacheHelper::put($newVersion, $cacheKey, $cacheTag, 10, now()->addHours(6));
+            CacheHelper::put($newVersion, $cacheKey, $cacheTag, now()->addHours(6), 10);
         }
 
         return $newVersion;
@@ -128,7 +128,7 @@ class AppUtility
                 $news = [];
             }
 
-            CacheHelper::put($news, $cacheKey, $cacheTag, 5, now()->addHours(3));
+            CacheHelper::put($news, $cacheKey, $cacheTag, now()->addHours(3), 5);
         }
 
         $newsList = [

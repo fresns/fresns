@@ -115,7 +115,7 @@ class GlobalController extends Controller
             $configs['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($configs, $cacheKey, $cacheTag, 10, $cacheTime);
+            CacheHelper::put($configs, $cacheKey, $cacheTag, $cacheTime, 10);
         }
 
         if (empty($dtoRequest->keys)) {
@@ -339,7 +339,7 @@ class GlobalController extends Controller
             $stickerTree = GeneralUtility::collectionToTree($stickerData, 'code', 'parentCode', 'stickers');
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($stickerTree, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($stickerTree, $cacheKey, $cacheTag, $cacheTime);
         }
 
         return $this->success($stickerTree);

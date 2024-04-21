@@ -73,7 +73,7 @@ class InteractionHelper
             $roleData = $item;
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($roleData, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($roleData, $cacheKey, $cacheTag, $cacheTime);
         }
 
         $roleData['name'] = StrHelper::languageContent($roleData['name'], $langTag);

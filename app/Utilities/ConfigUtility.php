@@ -433,7 +433,7 @@ class ConfigUtility
             $publishConfig = $publish;
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($publishConfig, $cacheKey, $cacheTag, null, $cacheTime);
+            CacheHelper::put($publishConfig, $cacheKey, $cacheTag, $cacheTime);
         }
 
         $publishConfig['limit']['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStartFormat'], $timezone, $langTag);
