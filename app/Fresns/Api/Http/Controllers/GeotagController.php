@@ -13,6 +13,7 @@ use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\GeotagListDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\InteractionService;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
@@ -34,6 +35,30 @@ class GeotagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
+        $geotagOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_geotag_list_{$listCrc32}_guest";
+
+        $geotagData = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $geotagData) {
+            $geotagList = [];
+            foreach ($geotagData as $geotag) {
+                $geotagList[] = DetailUtility::geotagDetail($geotag, $langTag, $timezone, $authUserId, $geotagOptions);
+            }
+
+            return $this->fresnsPaginate($geotagList, $geotagData->total(), $geotagData->perPage());
+        }
+
+        // query
         $geotagQuery = Geotag::isEnabled();
 
         $blockIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GEOTAG, $authUserId);
@@ -240,13 +265,9 @@ class GeotagController extends Controller
 
         $geotagData = $geotagQuery->paginate($dtoRequest->pageSize ?? 30);
 
-        $geotagOptions = [
-            'viewType' => 'list',
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($geotagData, $cacheKey, 'fresnsList', 10);
+        }
 
         $geotagList = [];
         foreach ($geotagData as $geotag) {

@@ -61,6 +61,69 @@ class CommentController extends Controller
         $authUser = $this->user();
         $authUserId = $authUser?->id;
 
+        $commentOptions = [
+            'viewType' => 'list',
+            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+            'location' => [
+                'mapId' => $dtoRequest->mapId,
+                'longitude' => $dtoRequest->mapLng,
+                'latitude' => $dtoRequest->mapLat,
+            ],
+            'checkPermissions' => true,
+            'isPreviewLikeUsers' => true,
+            'isPreviewComments' => $isPreviewComments,
+            'outputReplyToPost' => $outputReplyToPost,
+            'outputReplyToComment' => $outputReplyToComment,
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+            'filterHashtag' => [
+                'type' => $dtoRequest->filterHashtagType,
+                'keys' => $dtoRequest->filterHashtagKeys,
+            ],
+            'filterGeotag' => [
+                'type' => $dtoRequest->filterGeotagType,
+                'keys' => $dtoRequest->filterGeotagKeys,
+            ],
+            'filterAuthor' => [
+                'type' => $dtoRequest->filterAuthorType,
+                'keys' => $dtoRequest->filterAuthorKeys,
+            ],
+            'filterPreviewLikeUser' => [
+                'type' => $dtoRequest->filterPreviewLikeUserType,
+                'keys' => $dtoRequest->filterPreviewLikeUserKeys,
+            ],
+            'filterPreviewComment' => [
+                'type' => $dtoRequest->filterPreviewCommentType,
+                'keys' => $dtoRequest->filterPreviewCommentKeys,
+            ],
+            'filterReplyToPost' => [
+                'type' => $dtoRequest->filterReplyToPostType,
+                'keys' => $dtoRequest->filterReplyToPostKeys,
+            ],
+            'filterReplyToComment' => [
+                'type' => $dtoRequest->filterReplyToCommentType,
+                'keys' => $dtoRequest->filterReplyToCommentKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_group_list_{$listCrc32}_guest";
+
+        $comments = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $comments) {
+            $commentList = [];
+            foreach ($comments as $comment) {
+                $commentList[] = DetailUtility::commentDetail($comment, $langTag, $timezone, $authUserId, $commentOptions);
+            }
+
+            return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
+        }
+
+        // query
         $commentQuery = Comment::query();
 
         // has author
@@ -481,52 +544,9 @@ class CommentController extends Controller
 
         $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
-        $commentOptions = [
-            'viewType' => 'list',
-            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
-            'location' => [
-                'mapId' => $dtoRequest->mapId,
-                'longitude' => $dtoRequest->mapLng,
-                'latitude' => $dtoRequest->mapLat,
-            ],
-            'checkPermissions' => true,
-            'isPreviewLikeUsers' => true,
-            'isPreviewComments' => $isPreviewComments,
-            'outputReplyToPost' => $outputReplyToPost,
-            'outputReplyToComment' => $outputReplyToComment,
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-            'filterHashtag' => [
-                'type' => $dtoRequest->filterHashtagType,
-                'keys' => $dtoRequest->filterHashtagKeys,
-            ],
-            'filterGeotag' => [
-                'type' => $dtoRequest->filterGeotagType,
-                'keys' => $dtoRequest->filterGeotagKeys,
-            ],
-            'filterAuthor' => [
-                'type' => $dtoRequest->filterAuthorType,
-                'keys' => $dtoRequest->filterAuthorKeys,
-            ],
-            'filterPreviewLikeUser' => [
-                'type' => $dtoRequest->filterPreviewLikeUserType,
-                'keys' => $dtoRequest->filterPreviewLikeUserKeys,
-            ],
-            'filterPreviewComment' => [
-                'type' => $dtoRequest->filterPreviewCommentType,
-                'keys' => $dtoRequest->filterPreviewCommentKeys,
-            ],
-            'filterReplyToPost' => [
-                'type' => $dtoRequest->filterReplyToPostType,
-                'keys' => $dtoRequest->filterReplyToPostKeys,
-            ],
-            'filterReplyToComment' => [
-                'type' => $dtoRequest->filterReplyToCommentType,
-                'keys' => $dtoRequest->filterReplyToCommentKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($comments, $cacheKey, 'fresnsList', 10);
+        }
 
         $commentList = [];
         foreach ($comments as $comment) {

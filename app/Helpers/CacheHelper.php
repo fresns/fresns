@@ -827,6 +827,12 @@ class CacheHelper
     // fresns_api_list_{$crc32}_group_ids                           // tag: fresnsConfigs
     // fresns_api_list_{$crc32}_hashtag_ids                         // tag: fresnsConfigs
     // fresns_api_list_{$crc32}_geotag_ids                          // tag: fresnsConfigs
+    // fresns_api_user_list_{$crc32}_guest                          // tag: fresnsList
+    // fresns_api_group_list_{$crc32}_guest                         // tag: fresnsList
+    // fresns_api_hashtag_list_{$crc32}_guest                       // tag: fresnsList
+    // fresns_api_geotag_list_{$crc32}_guest                        // tag: fresnsList
+    // fresns_api_post_list_{$crc32}_guest                          // tag: fresnsList
+    // fresns_api_comment_list_{$crc32}_guest                       // tag: fresnsList
 
     /**
      * tag: fresnsUsers.

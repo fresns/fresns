@@ -13,6 +13,7 @@ use App\Fresns\Api\Http\DTO\DetailDTO;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\InteractionService;
+use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Hashtag;
@@ -32,6 +33,30 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
+        $hashtagOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_hashtag_list_{$listCrc32}_guest";
+
+        $hashtagData = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $hashtagData) {
+            $hashtagList = [];
+            foreach ($hashtagData as $hashtag) {
+                $hashtagList[] = DetailUtility::hashtagDetail($hashtag, $langTag, $timezone, $authUserId, $hashtagOptions);
+            }
+
+            return $this->fresnsPaginate($hashtagList, $hashtagData->total(), $hashtagData->perPage());
+        }
+
+        // query
         $hashtagQuery = Hashtag::isEnabled();
 
         $blockIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
@@ -181,13 +206,9 @@ class HashtagController extends Controller
 
         $hashtagData = $hashtagQuery->paginate($dtoRequest->pageSize ?? 30);
 
-        $hashtagOptions = [
-            'viewType' => 'list',
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($hashtagData, $cacheKey, 'fresnsList', 10);
+        }
 
         $hashtagList = [];
         foreach ($hashtagData as $hashtag) {

@@ -89,6 +89,30 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
+        $groupOptions = [
+            'viewType' => 'list',
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_group_list_{$listCrc32}_guest";
+
+        $groupData = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $groupData) {
+            $groupList = [];
+            foreach ($groupData as $group) {
+                $groupList[] = DetailUtility::groupDetail($group, $langTag, $timezone, $authUserId, $groupOptions);
+            }
+
+            return $this->fresnsPaginate($groupList, $groupData->total(), $groupData->perPage());
+        }
+
+        // query
         $groupQuery = Group::isEnabled();
 
         if (empty($authUserId)) {
@@ -262,13 +286,9 @@ class GroupController extends Controller
 
         $groupData = $groupQuery->paginate($dtoRequest->pageSize ?? 15);
 
-        $groupOptions = [
-            'viewType' => 'list',
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($groupData, $cacheKey, 'fresnsList', 10);
+        }
 
         $groupList = [];
         foreach ($groupData as $group) {

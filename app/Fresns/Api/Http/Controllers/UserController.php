@@ -919,6 +919,31 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
+        $userOptions = [
+            'viewType' => 'list',
+            'isLiveStats' => false,
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_user_list_{$listCrc32}_guest";
+
+        $userData = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $userData) {
+            $userList = [];
+            foreach ($userData as $user) {
+                $userList[] = DetailUtility::userDetail($user->profile, $langTag, $timezone, $authUserId, $userOptions);
+            }
+
+            return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());
+        }
+
+        // query
         $userQuery = UserStat::with(['profile']);
 
         $userQuery->whereRelation('profile', 'is_enabled', true);
@@ -1142,14 +1167,9 @@ class UserController extends Controller
 
         $userData = $userQuery->paginate($dtoRequest->pageSize ?? 15);
 
-        $userOptions = [
-            'viewType' => 'list',
-            'isLiveStats' => false,
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($userData, $cacheKey, 'fresnsList', 10);
+        }
 
         $userList = [];
         foreach ($userData as $user) {

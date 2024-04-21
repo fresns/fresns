@@ -64,6 +64,67 @@ class PostController extends Controller
         $authUser = $this->user();
         $authUserId = $authUser?->id;
 
+        $postOptions = [
+            'viewType' => 'list',
+            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+            'location' => [
+                'mapId' => $dtoRequest->mapId,
+                'longitude' => $dtoRequest->mapLng,
+                'latitude' => $dtoRequest->mapLat,
+            ],
+            'checkPermissions' => true,
+            'isPreviewLikeUsers' => true,
+            'isPreviewComments' => true,
+            'filter' => [
+                'type' => $dtoRequest->filterType,
+                'keys' => $dtoRequest->filterKeys,
+            ],
+            'filterGroup' => [
+                'type' => $dtoRequest->filterGroupType,
+                'keys' => $dtoRequest->filterGroupKeys,
+            ],
+            'filterHashtag' => [
+                'type' => $dtoRequest->filterHashtagType,
+                'keys' => $dtoRequest->filterHashtagKeys,
+            ],
+            'filterGeotag' => [
+                'type' => $dtoRequest->filterGeotagType,
+                'keys' => $dtoRequest->filterGeotagKeys,
+            ],
+            'filterAuthor' => [
+                'type' => $dtoRequest->filterAuthorType,
+                'keys' => $dtoRequest->filterAuthorKeys,
+            ],
+            'filterQuotedPost' => [
+                'type' => $dtoRequest->filterQuotedPostType,
+                'keys' => $dtoRequest->filterQuotedPostKeys,
+            ],
+            'filterPreviewLikeUser' => [
+                'type' => $dtoRequest->filterPreviewLikeUserType,
+                'keys' => $dtoRequest->filterPreviewLikeUserKeys,
+            ],
+            'filterPreviewComment' => [
+                'type' => $dtoRequest->filterPreviewCommentType,
+                'keys' => $dtoRequest->filterPreviewCommentKeys,
+            ],
+        ];
+
+        // cache
+        $listCrc32 = crc32(json_encode($request->all()));
+        $cacheKey = "fresns_api_post_list_{$listCrc32}_guest";
+
+        $posts = CacheHelper::get($cacheKey, 'fresnsList');
+
+        if (empty($authUserId) && $posts) {
+            $postList = [];
+            foreach ($posts as $post) {
+                $postList[] = DetailUtility::postDetail($post, $langTag, $timezone, $authUserId, $postOptions);
+            }
+
+            return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());
+        }
+
+        // query
         $postQuery = Post::query();
 
         // has author
@@ -409,50 +470,9 @@ class PostController extends Controller
 
         $posts = $postQuery->paginate($dtoRequest->pageSize ?? 15);
 
-        $postOptions = [
-            'viewType' => 'list',
-            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
-            'location' => [
-                'mapId' => $dtoRequest->mapId,
-                'longitude' => $dtoRequest->mapLng,
-                'latitude' => $dtoRequest->mapLat,
-            ],
-            'checkPermissions' => true,
-            'isPreviewLikeUsers' => true,
-            'isPreviewComments' => true,
-            'filter' => [
-                'type' => $dtoRequest->filterType,
-                'keys' => $dtoRequest->filterKeys,
-            ],
-            'filterGroup' => [
-                'type' => $dtoRequest->filterGroupType,
-                'keys' => $dtoRequest->filterGroupKeys,
-            ],
-            'filterHashtag' => [
-                'type' => $dtoRequest->filterHashtagType,
-                'keys' => $dtoRequest->filterHashtagKeys,
-            ],
-            'filterGeotag' => [
-                'type' => $dtoRequest->filterGeotagType,
-                'keys' => $dtoRequest->filterGeotagKeys,
-            ],
-            'filterAuthor' => [
-                'type' => $dtoRequest->filterAuthorType,
-                'keys' => $dtoRequest->filterAuthorKeys,
-            ],
-            'filterQuotedPost' => [
-                'type' => $dtoRequest->filterQuotedPostType,
-                'keys' => $dtoRequest->filterQuotedPostKeys,
-            ],
-            'filterPreviewLikeUser' => [
-                'type' => $dtoRequest->filterPreviewLikeUserType,
-                'keys' => $dtoRequest->filterPreviewLikeUserKeys,
-            ],
-            'filterPreviewComment' => [
-                'type' => $dtoRequest->filterPreviewCommentType,
-                'keys' => $dtoRequest->filterPreviewCommentKeys,
-            ],
-        ];
+        if (empty($authUserId)) {
+            CacheHelper::put($posts, $cacheKey, 'fresnsList', 10);
+        }
 
         $postList = [];
         foreach ($posts as $post) {
