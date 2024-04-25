@@ -525,9 +525,16 @@ class InteractionUtility
             case InteractionUtility::TYPE_USER:
                 $userMeState = UserStat::where('user_id', $contentId)->first();
 
+                $meCountFieldName = match ($markType) {
+                    'like' => 'liker_count',
+                    'dislike' => 'disliker_count',
+                    'follow' => 'follower_count',
+                    'block' => 'blocker_count',
+                };
+
                 if ($actionType == 'increment') {
                     $userState?->increment("{$markType}_user_count");
-                    $userMeState?->increment("{$markType}_me_count");
+                    $userMeState?->increment($meCountFieldName);
 
                     return;
                 }
@@ -537,9 +544,9 @@ class InteractionUtility
                     $userState->decrement("{$markType}_user_count");
                 }
 
-                $userMeStateCount = $userMeState?->{"{$markType}_me_count"} ?? 0;
+                $userMeStateCount = $userMeState?->$meCountFieldName ?? 0;
                 if ($userMeStateCount > 0) {
-                    $userMeState->decrement("{$markType}_me_count");
+                    $userMeState->decrement($meCountFieldName);
                 }
                 break;
 
