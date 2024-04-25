@@ -21,6 +21,7 @@ use App\Models\AccountWallet;
 use App\Models\SessionLog;
 use App\Models\TempVerifyCode;
 use App\Utilities\ValidationUtility;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -246,9 +247,26 @@ class ApiController extends Controller
         }
 
         // birthday
-        $birthday = $request->birthday;
-        if (empty($birthday) || ! strtotime($birthday)) {
-            return $this->failure(34113);
+        $birthday = null;
+        $ageVerification = ConfigHelper::fresnsConfigByItemKey('account_age_verification');
+        if ($ageVerification) {
+            $birthday = $request->birthday;
+
+            if (empty($birthday) || ! strtotime($birthday)) {
+                return $this->failure(34113);
+            }
+
+            $ageMinRequired = ConfigHelper::fresnsConfigByItemKey('account_age_min_required') ?? 13;
+
+            $birthdayDate = new DateTime($birthday);
+            $currentDate = new DateTime('now');
+            $ageDifference = $currentDate->diff($birthdayDate);
+
+            if ($ageDifference->y < $ageMinRequired) {
+                return $this->failure(34114);
+            } elseif ($ageDifference->y == $ageMinRequired && ($ageDifference->m > 0 || $ageDifference->d > 0)) {
+                return $this->failure(34114);
+            }
         }
 
         // password

@@ -94,15 +94,17 @@
             </div>
 
             {{-- birthday --}}
-            <div class="input-group">
-                <span class="input-group-text">{{ $fsLang['userBirthday'] }}</span>
-                <input type="date" class="form-control form-control-lg" name="birthday" placeholder="{{ $fsLang['userBirthday'] }}" min="1920-01-01" max="{{ date('Y-m-d') }}" required>
-            </div>
+            @if ($fsConfig['account_age_verification'])
+                <div class="input-group">
+                    <span class="input-group-text">{{ $fsLang['userBirthday'] }}</span>
+                    <input type="date" class="form-control form-control-lg" name="birthday" placeholder="{{ $fsLang['userBirthday'] }}" min="1920-01-01" max="{{ date('Y-m-d') }}" required>
+                </div>
 
-            {{-- birthday tips --}}
-            <div class="form-text mb-3 ms-1">
-                {{ $fsLang['settingBirthdayTip'] }}
-            </div>
+                {{-- birthday tips --}}
+                <div class="form-text mb-3 ms-1">
+                    {{ $fsLang['settingBirthdayTip'] }}
+                </div>
+            @endif
 
             {{-- policies --}}
             <label class="form-text mb-4">

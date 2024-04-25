@@ -147,6 +147,7 @@ class WebController extends Controller
         }
 
         $fsConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'account_age_verification',
             'account_email_register',
             'account_phone_register',
             'password_strength',
