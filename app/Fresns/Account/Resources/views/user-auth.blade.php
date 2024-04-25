@@ -90,10 +90,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        @if ($usersService)
+                        @if ($usersServiceUrl)
                             <button type="button" class="btn btn-secondary me-auto" id="userPinReset" data-bs-toggle="modal" data-bs-target="#fresnsModal"
                                 data-title="{{ $fsLang['userPinReset'] }}"
-                                data-url="{{ $usersService }}"
+                                data-url="{{ $usersServiceUrl }}"
                                 data-uid=""
                                 data-post-message-key="reload">
                                 {{ $fsLang['userPinReset'] }}
