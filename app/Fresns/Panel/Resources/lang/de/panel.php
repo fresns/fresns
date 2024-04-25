@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'Überprüfungscode Variablenname',
     // System-Account
     'account_center_config' => 'Konto-Center-Konfiguration',
+    'account_child_safety' => 'Sicherheit für Kinder',
+    'account_age_verification' => 'Altersüberprüfung',
+    'account_age_min_required' => 'Erforderliches Mindestalter',
     'account_register_config' => 'Registrieren Konfig',
     'account_login_config' => 'Anmeldung konfigurieren',
     'account_password_config' => 'Passwort-Konfiguration',

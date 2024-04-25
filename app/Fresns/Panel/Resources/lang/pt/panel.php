@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'Nome da variável de código de verificação',
     // System-Account
     'account_center_config' => 'Config do centro de contas',
+    'account_child_safety' => 'Segurança das crianças',
+    'account_age_verification' => 'Verificação da idade',
+    'account_age_min_required' => 'Idade mínima exigida',
     'account_register_config' => 'Registar Config',
     'account_login_config' => 'Config de login',
     'account_password_config' => 'Config da palavra-passe',

@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => '验证码变量名',
     // System-Account
     'account_center_config' => '账户中心设置',
+    'account_child_safety' => '儿童保护',
+    'account_age_verification' => '年龄验证',
+    'account_age_min_required' => '最小年龄',
     'account_register_config' => '注册设置',
     'account_login_config' => '登录设置',
     'account_password_config' => '密码设置',

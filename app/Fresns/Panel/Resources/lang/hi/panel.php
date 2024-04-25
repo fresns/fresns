@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'सत्यापन कोड वैरिएबल नाम',
     // System-Account
     'account_center_config' => 'खाता केंद्र कॉन्फ़िग',
+    'account_child_safety' => 'बाल सुरक्षा',
+    'account_age_verification' => 'आयु सत्यापन',
+    'account_age_min_required' => 'आयु न्यूनतम आवश्यक',
     'account_register_config' => 'कॉन्फ़िगरेशन पंजीकृत करें',
     'account_login_config' => 'लॉगिन कॉन्फ़िग',
     'account_password_config' => 'पासवर्ड कॉन्फ़िग',

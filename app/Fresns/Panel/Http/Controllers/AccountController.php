@@ -32,6 +32,8 @@ class AccountController extends Controller
             'account_login_or_register',
             'password_length',
             'password_strength',
+            'account_age_verification',
+            'account_age_min_required',
             'account_connect_services',
             'account_kyc_service',
             'account_users_service',
@@ -84,6 +86,8 @@ class AccountController extends Controller
             'account_kyc_service',
             'password_length',
             'password_strength',
+            'account_age_verification',
+            'account_age_min_required',
             'account_kyc_service',
             'account_users_service',
         ];

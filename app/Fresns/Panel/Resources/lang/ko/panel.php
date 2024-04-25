@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => '확인 코드 변수 이름',
     // System-User
     'account_center_config' => '계정 센터 구성',
+    'account_child_safety' => '어린이 안전',
+    'account_age_verification' => '연령 확인',
+    'account_age_min_required' => '최소 연령 필수',
     'account_register_config' => '등록 구성',
     'account_login_config' => '로그인 구성',
     'account_password_config' => '비밀번호 구성',

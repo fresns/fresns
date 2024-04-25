@@ -64,6 +64,24 @@
             </div>
         </div>
 
+        <!--account_child_safety-->
+        <div class="row mb-5">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.account_child_safety') }}:</label>
+            <div class="col-lg-6">
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.account_age_verification') }}</label>
+                    <select class="form-select" id="account_age_verification" name="account_age_verification">
+                        <option value="false" {{ $params['account_age_verification'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                        <option value="true" {{ $params['account_age_verification'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.account_age_min_required') }}</label>
+                    <input type="number" class="form-control input-number" name="account_age_min_required" value="{{ $params['account_age_min_required'] }}">
+                </div>
+            </div>
+        </div>
+
         <!--account_register_config-->
         <div class="row mb-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.account_register_config') }}:</label>

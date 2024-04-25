@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'Code Param',
     // System-Account
     'account_center_config' => 'Account Center Config',
+    'account_child_safety' => 'Child Safety',
+    'account_age_verification' => 'Age Verification',
+    'account_age_min_required' => 'Age Minimum Required',
     'account_register_config' => 'Register Config',
     'account_login_config' => 'Login Config',
     'account_password_config' => 'Password Config',

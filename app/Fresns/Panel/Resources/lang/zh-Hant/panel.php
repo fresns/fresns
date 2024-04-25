@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => '驗證碼變量名',
     // System-Account
     'account_center_config' => '帳戶中心設定',
+    'account_child_safety' => '兒童保護',
+    'account_age_verification' => '年齡驗證',
+    'account_age_min_required' => '最小年齡',
     'account_register_config' => '註冊設定',
     'account_login_config' => '登入設定',
     'account_password_config' => '密碼設定',

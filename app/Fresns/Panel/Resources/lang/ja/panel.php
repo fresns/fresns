@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => '検証コード変数名',
     // System-Account
     'account_center_config' => 'アカウントセンター設定',
+    'account_child_safety' => '子供の安全',
+    'account_age_verification' => '年齢確認',
+    'account_age_min_required' => '最低必要年齢',
     'account_register_config' => '登録設定',
     'account_login_config' => 'ログイン設定',
     'account_password_config' => 'パスワード設定',

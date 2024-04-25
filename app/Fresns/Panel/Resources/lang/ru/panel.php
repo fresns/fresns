@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'Имя переменной кода проверки',
     // System-User
     'account_center_config' => 'Конфигурация учетного центра',
+    'account_child_safety' => 'Безопасность детей',
+    'account_age_verification' => 'Проверка возраста',
+    'account_age_min_required' => 'Требуемый минимальный возраст',
     'account_register_config' => 'Конфигурация регистрации',
     'account_login_config' => 'Конфигурация входа',
     'account_password_config' => 'Конфигурация пароля',

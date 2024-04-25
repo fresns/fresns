@@ -461,6 +461,9 @@ return [
     'send_code_template_table_sms_param' => 'Nama Verifikasi Nama Variabel',
     // System-Account
     'account_center_config' => 'Konfigurasi Pusat Akun',
+    'account_child_safety' => 'Keamanan Anak',
+    'account_age_verification' => 'Verifikasi Usia',
+    'account_age_min_required' => 'Usia Minimum yang Dibutuhkan',
     'account_register_config' => 'Konfigurasi Daftar',
     'account_login_config' => 'Konfigurasi Login',
     'account_password_config' => 'Konfigurasi Kata Sandi',
