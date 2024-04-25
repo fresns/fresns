@@ -775,6 +775,14 @@ class CodeMessagesTableSeeder extends Seeder
             ],
             [
                 'app_fskey' => 'Fresns',
+                'code' => 34114,
+                'messages' => '{"en":"We are sorry, but according to our Terms of Use, you are not of legal age to use our services. This is to ensure that we comply with applicable laws and to protect the safety of all our users.","zh-Hans":"很抱歉，根据我们的使用条款，您的年龄无法使用我们的服务。这是为了确保我们遵守相关法律和保护所有用户的安全。","zh-Hant":"很抱歉，根據我們的使用條款，您的年齡無法使用我們的服務。 這是為了確保我們遵守相關法律和保護所有使用者的安全。"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
                 'code' => 34201,
                 'messages' => '{"en":"This registration channel has been closed and account registration through this function is prohibited","zh-Hans":"该注册通道已关闭，禁止通过此功能注册账号","zh-Hant":"該註冊通道已關閉，禁止透過此功能註冊賬號"}',
                 'created_at' => '2022-10-18 10:00:00',

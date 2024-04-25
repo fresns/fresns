@@ -30,8 +30,8 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'darkMode',
-                'lang_values' => '{"en":"Dark Mode","zh-Hans":"深色模式","zh-Hant":"深色模式"}',
+                'lang_key' => 'appearance',
+                'lang_values' => '{"en":"Appearance","zh-Hans":"外观","zh-Hant":"外貌"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
@@ -472,6 +472,22 @@ class LanguagePacksTableSeeder extends Seeder
             [
                 'lang_key' => 'tip',
                 'lang_values' => '{"en":"Tip","zh-Hans":"提示","zh-Hant":"提示"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'lang_key' => 'light',
+                'lang_values' => '{"en":"Light","zh-Hans":"浅色","zh-Hant":"淺色"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'lang_key' => 'dark',
+                'lang_values' => '{"en":"Dark","zh-Hans":"深色","zh-Hant":"深色"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
