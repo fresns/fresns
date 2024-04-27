@@ -84,31 +84,47 @@ var FresnsCallback = {
             const userAgent = navigator.userAgent.toLowerCase();
 
             switch (true) {
-                // iOS (WKScriptMessageHandler)
+                // iOS
                 case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
                     window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
                     break;
 
-                // Android (addJavascriptInterface)
+                // Android
                 case (window.Android !== undefined):
                     window.Android.receiveMessage(messageString);
                     break;
 
                 // Flutter
-                case (window.FresnsJavascriptChannel !== undefined):
-                    window.FresnsJavascriptChannel.postMessage(messageString);
+                case (window.FresnsCallback !== undefined):
+                    window.FresnsCallback.postMessage(messageString);
                     break;
 
-                // React Native WebView
+                // React Native
                 case (window.ReactNativeWebView !== undefined):
                     window.ReactNativeWebView.postMessage(messageString);
                     break;
 
+                // Ionic
+                case (userAgent.indexOf('ionic') > -1):
+                    window.location.href = 'FresnsCallback://message?data=' + encodeURIComponent(messageString);
+                    break;
+
+                // Cordova
+                case (userAgent.indexOf('cordova') > -1):
+                    window.location.href = 'FresnsCallback://message?data=' + encodeURIComponent(messageString);
+                    break;
+
                 // WeChat Mini Program
                 case (userAgent.indexOf('miniprogram') > -1):
-                    loadScript('https://res.wx.qq.com/open/js/jweixin-1.6.0.js', function() {
+                    loadScript('/static/js/sdk/jweixin.js?v=1.6.0', function() {
                         wx.miniProgram.postMessage({ data: messageString });
-                        wx.miniProgram.navigateBack();
+                    });
+                    break;
+
+                // UniApp
+                case (userAgent.indexOf('uni-app') > -1):
+                    loadScript('/static/js/sdk/uni.webview.js?v=1.5.5', function() {
+                        uni.postMessage({ data: messageString });
                     });
                     break;
 
