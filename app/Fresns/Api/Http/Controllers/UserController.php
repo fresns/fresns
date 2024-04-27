@@ -197,7 +197,7 @@ class UserController extends Controller
             $authAccount = $this->account();
             $authUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
-            if ($authUser->account_id != $authAccount->id) {
+            if ($authUser?->account_id != $authAccount->id) {
                 throw new ResponseException(35201);
             }
         }
