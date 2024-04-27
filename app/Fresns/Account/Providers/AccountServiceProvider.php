@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Account\Providers;
 
-use App\Helpers\ConfigHelper;
 use Illuminate\Support\ServiceProvider;
 
 class AccountServiceProvider extends ServiceProvider
@@ -18,20 +17,6 @@ class AccountServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        try {
-            $services = ConfigHelper::fresnsConfigByItemKeys([
-                'account_center_service',
-                'account_register_service',
-                'account_login_service',
-            ]);
-
-            if ($services['account_center_service'] && $services['account_register_service'] && $services['account_login_service']) {
-                return;
-            }
-        } catch (\Exception $e) {
-            return;
-        }
-
         $this->app->register(RouteServiceProvider::class);
 
         $this->registerViews();

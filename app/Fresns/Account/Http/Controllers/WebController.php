@@ -295,13 +295,6 @@ class WebController extends Controller
 
     public function userAuth(Request $request)
     {
-        $registerService = ConfigHelper::fresnsConfigByItemKey('account_register_service');
-        $loginService = ConfigHelper::fresnsConfigByItemKey('account_login_service');
-
-        if ($registerService && $loginService) {
-            return Response::view('404', [], 404);
-        }
-
         $appId = Cookie::get('fresns_account_center_app_id');
         $platformId = Cookie::get('fresns_account_center_platform_id');
         $version = Cookie::get('fresns_account_center_version');

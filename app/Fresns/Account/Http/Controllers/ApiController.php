@@ -92,9 +92,24 @@ class ApiController extends Controller
 
     public function guestSendVerifyCode(Request $request)
     {
+        $registerService = ConfigHelper::fresnsConfigByItemKey('account_register_service');
+        $loginService = ConfigHelper::fresnsConfigByItemKey('account_login_service');
+
+        if ($registerService && $loginService) {
+            return $this->failure(33100);
+        }
+
         $type = $request->type;
         if (! in_array($type, ['register', 'login', 'resetPassword'])) {
             return $this->failure(30002);
+        }
+
+        if ($loginService && in_array($type, ['login', 'resetPassword'])) {
+            return $this->failure(33100);
+        }
+
+        if ($registerService && $type == 'register') {
+            return $this->failure(33100);
         }
 
         $accountInfo = Str::of($request->account)->trim()->toString();
@@ -197,6 +212,12 @@ class ApiController extends Controller
 
     public function register(Request $request)
     {
+        $service = ConfigHelper::fresnsConfigByItemKey('account_register_service');
+
+        if ($service) {
+            return $this->failure(33100);
+        }
+
         $countryCode = $request->countryCode;
         $account = $request->account;
         if (empty($account)) {
@@ -397,6 +418,12 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
+        $service = ConfigHelper::fresnsConfigByItemKey('account_login_service');
+
+        if ($service) {
+            return $this->failure(33100);
+        }
+
         $countryCode = $request->countryCode;
         $account = $request->account;
         if (empty($account)) {
@@ -510,6 +537,12 @@ class ApiController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $service = ConfigHelper::fresnsConfigByItemKey('account_login_service');
+
+        if ($service) {
+            return $this->failure(33100);
+        }
+
         $account = $request->account;
         if (empty($account)) {
             return $this->failure(34100);
@@ -646,6 +679,12 @@ class ApiController extends Controller
 
     public function sendVerifyCode(Request $request)
     {
+        $service = ConfigHelper::fresnsConfigByItemKey('account_center_service');
+
+        if ($service) {
+            return $this->failure(33100);
+        }
+
         $dtoRequest = new SendVerifyCodeDTO($request->all());
 
         $templateId = $dtoRequest->templateId;
@@ -746,6 +785,12 @@ class ApiController extends Controller
 
     public function update(Request $request)
     {
+        $service = ConfigHelper::fresnsConfigByItemKey('account_center_service');
+
+        if ($service) {
+            return $this->failure(33100);
+        }
+
         $aid = Cookie::get('fresns_account_center_aid');
         $account = Account::where('aid', $aid)->first();
 
