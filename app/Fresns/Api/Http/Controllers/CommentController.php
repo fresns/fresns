@@ -61,6 +61,19 @@ class CommentController extends Controller
         $authUser = $this->user();
         $authUserId = $authUser?->id;
 
+        // options
+        $isPreviewComments = true;
+        $outputReplyToPost = true;
+        $outputReplyToComment = false;
+        if ($dtoRequest->cid) {
+            $isPreviewComments = false;
+            $outputReplyToPost = false;
+            $outputReplyToComment = true;
+        }
+        if ($dtoRequest->pid) {
+            $outputReplyToPost = false;
+        }
+
         $commentOptions = [
             'viewType' => 'list',
             'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
@@ -198,11 +211,6 @@ class CommentController extends Controller
             $query->whereNotIn('id', $value);
         });
 
-        // options
-        $isPreviewComments = true;
-        $outputReplyToPost = true;
-        $outputReplyToComment = false;
-
         // post
         if ($dtoRequest->pid) {
             $viewPost = PrimaryHelper::fresnsModelByFsid('post', $dtoRequest->pid);
@@ -225,9 +233,6 @@ class CommentController extends Controller
             }
 
             $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
-
-            // option
-            $outputReplyToPost = false;
         } else {
             $commentQuery->whereRelation('post', 'is_enabled', true);
             $commentQuery->where('privacy_state', Comment::PRIVACY_PUBLIC);
@@ -250,10 +255,6 @@ class CommentController extends Controller
             } else {
                 $commentQuery->where('top_parent_id', $viewComment->id);
             }
-
-            $isPreviewComments = false;
-            $outputReplyToPost = false;
-            $outputReplyToComment = true;
         }
 
         // cache tag
