@@ -27,7 +27,7 @@ class CacheHelper
     const NULL_CACHE_COUNT = 2;
 
     // cache time
-    public static function fresnsCacheTimeByFileType(?int $fileType = null, ?int $specificMinutes = null, ?int $offsetMinutes = 1): Carbon
+    public static function fresnsCacheTimeByFileType(?int $fileType = null, ?int $specificMinutes = null, ?int $subtractMinutes = 1): Carbon
     {
         if (empty($fileType)) {
             $digital = rand(12, 72);
@@ -48,7 +48,7 @@ class CacheHelper
                 return now()->addHours($digital);
             }
 
-            $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - $offsetMinutes);
+            $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - $subtractMinutes);
 
             return $cacheTime;
         }
@@ -79,7 +79,7 @@ class CacheHelper
 
         $minAntiLinkExpire = min($newAntiLinkExpire);
 
-        $cacheTime = now()->addMinutes($minAntiLinkExpire - $offsetMinutes);
+        $cacheTime = now()->addMinutes($minAntiLinkExpire - $subtractMinutes);
 
         return $cacheTime;
     }
