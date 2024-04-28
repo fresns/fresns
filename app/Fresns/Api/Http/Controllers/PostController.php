@@ -428,7 +428,7 @@ class PostController extends Controller
             // text
             if ($dtoRequest->contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $dtoRequest->contentType);
             }
         }
@@ -1257,7 +1257,7 @@ class PostController extends Controller
             // text
             if ($dtoRequest->contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $dtoRequest->contentType);
             }
         }

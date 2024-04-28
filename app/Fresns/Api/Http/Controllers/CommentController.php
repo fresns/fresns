@@ -503,7 +503,7 @@ class CommentController extends Controller
             // text
             if ($dtoRequest->contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $dtoRequest->contentType);
             }
         }
@@ -1189,7 +1189,7 @@ class CommentController extends Controller
             // text
             if ($dtoRequest->contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $dtoRequest->contentType);
             }
         }

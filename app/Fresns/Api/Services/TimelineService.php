@@ -205,7 +205,7 @@ class TimelineService
                 $hashtagPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $geotagPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $digestPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $userPostQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
                 $groupPostQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
                 $hashtagPostQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
@@ -309,7 +309,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -406,7 +406,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -500,7 +500,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -596,7 +596,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $postQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -834,7 +834,7 @@ class TimelineService
                 $hashtagCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $geotagCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $digestCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $userCommentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
                 $groupCommentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
                 $hashtagCommentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
@@ -951,7 +951,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -1061,7 +1061,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -1169,7 +1169,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
@@ -1279,7 +1279,7 @@ class TimelineService
             // text
             if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
-            } else {
+            } elseif (empty($fileTypeNumber)) {
                 $commentQuery->whereRelation('extendUsages', 'app_fskey', $contentType);
             }
         }
