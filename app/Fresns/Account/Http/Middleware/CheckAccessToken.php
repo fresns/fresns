@@ -72,13 +72,6 @@ class CheckAccessToken
             ]);
 
             if ($fresnsResp->isErrorResponse()) {
-                $siteName = ConfigHelper::fresnsConfigByItemKey('site_name', $langTag);
-                $fsLang = ConfigHelper::fresnsConfigLanguagePack($langTag);
-
-                View::share('siteName', $siteName);
-                View::share('fsLang', $fsLang);
-                View::share('langTag', $langTag);
-
                 $code = $fresnsResp->getCode();
                 $message = $fresnsResp->getMessage();
 
