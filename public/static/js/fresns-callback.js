@@ -83,34 +83,42 @@ var FresnsCallback = {
 
             const userAgent = navigator.userAgent.toLowerCase();
 
+            // Ask the application developer to add the following custom user agent information for Web View
+
             switch (true) {
                 // iOS
-                case (window.webkit && window.webkit.messageHandlers.iOSHandler !== undefined):
-                    window.webkit.messageHandlers.iOSHandler.postMessage(messageString);
+                case (userAgent.indexOf('ios-webview') > -1):
+                    // messageHandlerName = FresnsCallback
+                    window.webkit.messageHandlers.FresnsCallback.postMessage(messageString);
                     break;
 
                 // Android
-                case (window.Android !== undefined):
-                    window.Android.receiveMessage(messageString);
+                case (userAgent.indexOf('android-webview') > -1):
+                    // messageHandlerName = FresnsCallback
+                    window.FresnsCallback.receiveMessage(messageString);
                     break;
 
                 // Flutter
-                case (window.FresnsCallback !== undefined):
+                case (userAgent.indexOf('flutter-webview') > -1):
+                    // messageHandlerName = FresnsCallback
                     window.FresnsCallback.postMessage(messageString);
                     break;
 
                 // React Native
-                case (window.ReactNativeWebView !== undefined):
-                    window.ReactNativeWebView.postMessage(messageString);
+                case (userAgent.indexOf('react-native-webview') > -1):
+                    // messageHandlerName = FresnsCallback
+                    window.FresnsCallback.postMessage(messageString);
                     break;
 
                 // Ionic
-                case (userAgent.indexOf('ionic') > -1):
+                case (userAgent.indexOf('ionic-webview') > -1):
+                    // protocolName = FresnsCallback
                     window.location.href = 'FresnsCallback://message?data=' + encodeURIComponent(messageString);
                     break;
 
                 // Cordova
-                case (userAgent.indexOf('cordova') > -1):
+                case (userAgent.indexOf('cordova-webview') > -1):
+                    // protocolName = FresnsCallback
                     window.location.href = 'FresnsCallback://message?data=' + encodeURIComponent(messageString);
                     break;
 
@@ -118,6 +126,7 @@ var FresnsCallback = {
                 case (userAgent.indexOf('miniprogram') > -1):
                     loadScript('/static/js/sdk/jweixin.js?v=1.6.0', function() {
                         wx.miniProgram.postMessage({ data: messageString });
+                        wx.miniProgram.navigateBack();
                     });
                     break;
 
