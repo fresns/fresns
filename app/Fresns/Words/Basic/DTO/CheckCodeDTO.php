@@ -16,10 +16,10 @@ class CheckCodeDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'in:1,2'],
+            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8'],
             'account' => ['required'], // email or integer
             'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
             'verifyCode' => ['string', 'required'],
-            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8'],
         ];
     }
 }
