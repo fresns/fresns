@@ -16,12 +16,14 @@ use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\Account;
 use App\Models\CodeMessage;
 use App\Models\CommentLog;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\PostLog;
 use App\Models\SessionLog;
+use App\Models\TempVerifyCode;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -84,6 +86,156 @@ class ConfigUtility
 
             CacheHelper::forgetFresnsConfigs($itemKey);
         }
+    }
+
+    // get send code word body
+    public static function getSendCodeWordBody(int|string $type, int $templateId, ?string $langTag = null, string|int|null $sendAccount = null, ?int $sendCountryCode = null, Account|int|string $authAccount = null): array
+    {
+        $sendType = match ($type) {
+            'email' => TempVerifyCode::TYPE_EMAIL,
+            'sms' => TempVerifyCode::TYPE_SMS,
+            default => $type,
+        };
+
+        $checkResp = [
+            'code' => 0,
+            'wordBody' => [
+                'type' => $sendType,
+                'templateId' => $templateId,
+                'langTag' => $langTag,
+                'account' => $sendAccount,
+                'countryCode' => $sendCountryCode,
+            ],
+        ];
+
+        // 1: general
+        if ($templateId == TempVerifyCode::TEMPLATE_GENERAL) {
+            return $checkResp;
+        }
+
+        // 2: register
+        // 7: login
+        if (in_array($templateId, [TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT, TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT])) {
+            $phone = $sendCountryCode.$sendAccount;
+            $checkAccountModel = match ($sendType) {
+                TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
+                TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
+                default => null,
+            };
+
+            // 2: register
+            if ($checkAccountModel && $templateId == TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT) {
+                $checkResp['code'] = match ($sendType) {
+                    TempVerifyCode::TYPE_EMAIL => 34205, // Email has been used
+                    TempVerifyCode::TYPE_SMS => 34206, // Phone number has been used
+                    default => 34204, // The account has registered
+                };
+
+                return $checkResp;
+            }
+
+            // 7: login
+            if (empty($checkAccountModel) && $templateId == TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT) {
+                $checkResp['code'] = 34301; // Account not exist
+
+                return $checkResp;
+            }
+
+            return $checkResp;
+        }
+
+        if ($authAccount instanceof Account) {
+            $authAccountModel = $authAccount;
+        } else if (StrHelper::isPureInt($authAccount)) {
+            $authAccountModel = Account::where('id', $authAccount)->first();
+        } else if (is_string($authAccount)) {
+            $authAccountModel = Account::where('aid', $authAccount)->first();
+        } else {
+            $authAccountModel = null;
+        }
+
+        switch ($sendType) {
+            case TempVerifyCode::TYPE_EMAIL:
+                $checkResp['wordBody']['account'] = $authAccountModel?->email;
+                break;
+
+            case TempVerifyCode::TYPE_SMS:
+                $checkResp['wordBody']['countryCode'] = $authAccountModel?->country_code;
+                $checkResp['wordBody']['account'] = $authAccountModel?->pure_phone;
+                break;
+
+            default:
+                $checkResp['code'] = 30000;
+
+                return $checkResp;
+        }
+
+        // 5: reset login password
+        // 6: reset pay password
+        if (in_array($templateId, [TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD, TempVerifyCode::TEMPLATE_RESET_WALLET_PASSWORD])) {
+            $phone = $sendCountryCode.$sendAccount;
+            $checkAccountModel = match ($sendType) {
+                TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
+                TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
+                default => null,
+            };
+
+            if (empty($authAccountModel) && empty($checkAccountModel)) {
+                $checkResp['code'] = 34301; // Account not exist
+
+                return $checkResp;
+            }
+
+            if ($authAccountModel) {
+                return $checkResp;
+            }
+
+            $checkResp['wordBody']['account'] = $sendAccount;
+            $checkResp['wordBody']['countryCode'] = $sendCountryCode;
+
+            return $checkResp;
+        }
+
+        // 3: update profile
+        // 4: change email or phone
+        // 8: delete account
+        if (empty($authAccountModel)) {
+            $checkResp['code'] = 31502; // Wrong account or record not exist
+
+            return $checkResp;
+        }
+
+        // 3: update profile
+        // 8: delete account
+        if (in_array($templateId, [TempVerifyCode::TEMPLATE_UPDATE_PROFILE, TempVerifyCode::TEMPLATE_RESET_WALLET_PASSWORD, TempVerifyCode::TEMPLATE_DELETE_ACCOUNT])) {
+            return $checkResp;
+        }
+
+        // 4: change email or phone
+        if (empty($sendAccount)) {
+            return $checkResp;
+        }
+
+        $phone = $sendCountryCode.$sendAccount;
+        $checkAccountModel = match ($sendType) {
+            TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
+            TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
+        };
+
+        if ($checkAccountModel) {
+            $checkResp['code'] = match ($sendType) {
+                TempVerifyCode::TYPE_EMAIL => 34205, // Email has been used
+                TempVerifyCode::TYPE_SMS => 34206, // Phone number has been used
+                default => 34204, // The account has registered
+            };
+
+            return $checkResp;
+        }
+
+        $checkResp['wordBody']['account'] = $sendAccount;
+        $checkResp['wordBody']['countryCode'] = $sendCountryCode;
+
+        return $checkResp;
     }
 
     // get code message
