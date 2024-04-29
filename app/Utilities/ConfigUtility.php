@@ -146,9 +146,9 @@ class ConfigUtility
 
         if ($authAccount instanceof Account) {
             $authAccountModel = $authAccount;
-        } else if (StrHelper::isPureInt($authAccount)) {
+        } elseif (StrHelper::isPureInt($authAccount)) {
             $authAccountModel = Account::where('id', $authAccount)->first();
-        } else if (is_string($authAccount)) {
+        } elseif (is_string($authAccount)) {
             $authAccountModel = Account::where('aid', $authAccount)->first();
         } else {
             $authAccountModel = null;
