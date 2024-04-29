@@ -36,11 +36,10 @@ class WebsiteEngineUninstall extends Command
         $httpProxy = config('app.http_proxy');
 
         $process = Process::run(<<<"SHELL"
-            export http_proxy=$httpProxy https_proxy=$httpProxy
-            echo http_proxy=\$http_proxy
-            echo https_proxy=\$https_proxy
-            echo "current user:" `whoami`
-            echo "home path permission is:" `ls -ld ~`
+            export httpProxy=$httpProxy
+            echo "Owner:" `whoami`
+            echo "Path:" \$PATH
+            echo "Proxy:" \$httpProxy
             echo ""
             echo `which php`
             echo `php -v`
@@ -51,9 +50,11 @@ class WebsiteEngineUninstall extends Command
             echo `which git`
             echo `git --version`
             echo ""
+            echo "# Composer Diagnose"
+            echo ""
             composer diagnose
             echo ""
-            echo "# Fresns Command"
+            echo "# Fresns Plugin Command"
             echo ""
             composer remove fresns/website-engine
         SHELL, $this->output);
