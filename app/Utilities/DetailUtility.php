@@ -966,7 +966,7 @@ class DetailUtility
 
             // author
             $item['author'] = $comment->author?->uid;
-            $item['isPostAuthor'] = $comment->user_id == $post->user_id ? true : false;
+            $item['isPostAuthor'] = $comment->user_id == $post?->user_id ? true : false;
 
             $item['previewLikeUsers'] = [];
             $item['previewComments'] = [];
@@ -988,7 +988,7 @@ class DetailUtility
             $item['replyToPost'] = null;
             $item['replyToComment'] = null;
             $item['replyInfo'] = [
-                'post' => $post->pid,
+                'post' => $post?->pid,
                 'comment' => $comment->parentComment?->cid,
                 // 'comment' => ($comment->user_id == $comment->parentComment?->user_id) ? null : $comment->parentComment?->cid,
             ];
