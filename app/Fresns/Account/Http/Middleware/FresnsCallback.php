@@ -17,7 +17,7 @@ class FresnsCallback
 {
     public function handle(Request $request, Closure $next)
     {
-        $postMessageKey = $request->callbackKey;
+        $postMessageKey = $request->callbackKey ?? $request->postMessageKey;
         if ($postMessageKey && $postMessageKey != '{postMessageKey}') {
             Cookie::queue(Cookie::make('fresns_post_message_key', $postMessageKey, null, '/', null, false, false));
         }

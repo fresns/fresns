@@ -45,7 +45,7 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['currentEmail'] }}</span>
                                 <input class="form-control" type="text" value="{{ $accountPassport['email'] }}" disabled readonly>
-                                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="email" data-template-id="3" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="email" data-template-id="6" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
@@ -58,7 +58,7 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['currentPhone'] }}</span>
                                 <input class="form-control" type="text" value="{{ $accountPassport['countryCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
-                                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="3" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="6" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>

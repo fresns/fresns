@@ -209,6 +209,8 @@
                 },
                 error: function (error) {
                     tips(error.responseText);
+
+                    Cookies.set('fresns_account_center_verify_code_time', 0, { expires: 1 });
                 },
                 success: function (res) {
                     if (res.code != 0) {

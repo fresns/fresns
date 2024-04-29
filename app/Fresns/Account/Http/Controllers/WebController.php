@@ -295,9 +295,9 @@ class WebController extends Controller
 
     public function userAuth(Request $request)
     {
-        $appId = Cookie::get('fresns_account_center_app_id');
-        $platformId = Cookie::get('fresns_account_center_platform_id');
-        $version = Cookie::get('fresns_account_center_version');
+        $appId = $request->attributes->get('fresns_account_center_app_id');
+        $platformId = $request->attributes->get('fresns_account_center_platform_id');
+        $version = $request->attributes->get('fresns_account_center_version');
 
         $loginToken = $request->loginToken;
 
@@ -329,7 +329,7 @@ class WebController extends Controller
             }
         }
 
-        $langTag = Cookie::get('fresns_account_center_lang_tag');
+        $langTag = $request->attributes->get('fresns_account_center_lang_tag');
 
         $loginToken = Cookie::get('fresns_account_center_login_token') ?? $request->loginToken;
 
@@ -365,23 +365,23 @@ class WebController extends Controller
 
         $accessToken = $request->accessToken;
         if (empty($accessToken)) {
-            $appId = Cookie::get('fresns_account_center_app_id');
+            $appId = $request->attributes->get('fresns_account_center_app_id');
 
             $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $appId);
 
             if ($keyInfo) {
                 $headers = [
-                    'X-Fresns-App-Id' => Cookie::get('fresns_account_center_app_id'),
-                    'X-Fresns-Client-Platform-Id' => Cookie::get('fresns_account_center_platform_id'),
-                    'X-Fresns-Client-Version' => Cookie::get('fresns_account_center_version'),
-                    'X-Fresns-Client-Device-Info' => Cookie::get('fresns_account_center_device_info'),
-                    'X-Fresns-Client-Timezone' => Cookie::get('fresns_timezone'),
-                    'X-Fresns-Client-Lang-Tag' => Cookie::get('fresns_account_center_device_info'),
+                    'X-Fresns-App-Id' => $request->attributes->get('fresns_account_center_app_id'),
+                    'X-Fresns-Client-Platform-Id' => $request->attributes->get('fresns_account_center_platform_id'),
+                    'X-Fresns-Client-Version' => $request->attributes->get('fresns_account_center_version'),
+                    'X-Fresns-Client-Device-Info' => $request->attributes->get('fresns_account_center_device_info'),
+                    'X-Fresns-Client-Timezone' => $request->attributes->get('fresns_timezone'),
+                    'X-Fresns-Client-Lang-Tag' => $request->attributes->get('fresns_account_center_device_info'),
                     'X-Fresns-Client-Content-Format' => null,
-                    'X-Fresns-Aid' => Cookie::get('fresns_account_center_aid'),
-                    'X-Fresns-Aid-Token' => Cookie::get('fresns_account_center_aid_token'),
-                    'X-Fresns-Uid' => Cookie::get('fresns_account_center_uid'),
-                    'X-Fresns-Uid-Token' => Cookie::get('fresns_account_center_uid_token'),
+                    'X-Fresns-Aid' => $request->attributes->get('fresns_account_center_aid'),
+                    'X-Fresns-Aid-Token' => $request->attributes->get('fresns_account_center_aid_token'),
+                    'X-Fresns-Uid' => $request->attributes->get('fresns_account_center_uid'),
+                    'X-Fresns-Uid-Token' => $request->attributes->get('fresns_account_center_uid_token'),
                     'X-Fresns-Signature' => null,
                     'X-Fresns-Signature-Timestamp' => time(),
                 ];

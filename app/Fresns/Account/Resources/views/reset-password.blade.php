@@ -118,7 +118,9 @@
                     tips(res.message);
 
                     if (res.code == 0) {
-                        window.location.href = "{{ route('account-center.login') }}";
+                        setTimeout(function () {
+                            window.location.href = "{{ route('account-center.login') }}";
+                        }, 2000);
                     }
                 },
                 complete: function (e) {

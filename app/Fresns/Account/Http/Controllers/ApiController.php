@@ -20,6 +20,7 @@ use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\SessionLog;
 use App\Models\TempVerifyCode;
+use App\Utilities\ConfigUtility;
 use App\Utilities\ValidationUtility;
 use DateTime;
 use Illuminate\Http\Request;
@@ -142,72 +143,24 @@ class ApiController extends Controller
         }
 
         // send word body
-        $sendType = null;
-        $sendAccount = null;
-        $sendCountryCode = null;
+        $sendType = $isEmail ? TempVerifyCode::TYPE_EMAIL : TempVerifyCode::TYPE_SMS;
         $sendTemplateId = match ($type) {
             'login' => TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT,
             'register' => TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT,
             'resetPassword' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
             default => null,
         };
-
-        if ($isEmail) {
-            $accountModel = Account::where('email', $accountInfo)->first();
-
-            $sendType = TempVerifyCode::TYPE_EMAIL;
-            $sendAccount = $accountModel?->email;
-        } else {
-            $accountInfo = (int) $accountInfo;
-            $phone = $countryCode.$accountInfo;
-            $accountModel = Account::where('phone', $phone)->first();
-
-            $sendType = TempVerifyCode::TYPE_SMS;
-            $sendAccount = $accountModel?->pure_phone;
-            $sendCountryCode = $accountModel?->country_code;
-        }
-
-        // type switch
-        switch ($type) {
-            case 'register':
-                if ($accountModel) {
-                    return $this->failure(34204);
-                }
-
-                $sendAccount = $accountInfo;
-                $sendCountryCode = $countryCode;
-                break;
-
-            case 'login':
-                if (empty($accountModel)) {
-                    return $this->failure(31502);
-                }
-                break;
-
-            case 'resetPassword':
-                if (empty($accountModel)) {
-                    return $this->failure(31502);
-                }
-                break;
-        }
-
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $wordBody = [
-            'type' => $sendType,
-            'account' => $sendAccount,
-            'countryCode' => $sendCountryCode,
-            'templateId' => $sendTemplateId,
-            'langTag' => $langTag,
-        ];
+        $codeResp = ConfigUtility::getSendCodeWordBody($sendType, $sendTemplateId, $langTag, $accountInfo, $countryCode);
 
-        $fresnsSendCodeResp = \FresnsCmdWord::plugin('Fresns')->sendCode($wordBody);
-
-        if ($fresnsSendCodeResp->isErrorResponse()) {
-            return $$fresnsSendCodeResp->getErrorResponse();
+        if ($codeResp['code']) {
+            return $this->failure($codeResp['code']);
         }
 
-        return $this->success();
+        $fresnsSendCodeResp = \FresnsCmdWord::plugin('Fresns')->sendCode($codeResp['wordBody']);
+
+        return $fresnsSendCodeResp->getOrigin();
     }
 
     public function register(Request $request)
@@ -690,51 +643,18 @@ class ApiController extends Controller
         $templateId = $dtoRequest->templateId;
         $countryCode = (int) $dtoRequest->countryCode;
         $accountInfo = Str::of($request->account)->trim()->toString();
-
-        $account = null;
-        if ($templateId == 3 || $templateId == 4 || $templateId == 8) {
-            $aid = Cookie::get('fresns_account_center_aid');
-            $account = Account::where('aid', $aid)->first();
-
-            if (empty($account)) {
-                return $this->failure(31502);
-            }
-
-            if ($dtoRequest->type == 'email') {
-                $accountInfo = $account->email;
-            } else {
-                $countryCode = $account->country_code;
-                $accountInfo = $account->pure_phone;
-            }
-        }
-
-        $sendType = match ($dtoRequest->type) {
-            'email' => TempVerifyCode::TYPE_EMAIL,
-            'sms' => TempVerifyCode::TYPE_SMS,
-            default => null,
-        };
-
-        if ($dtoRequest->type == 'sms') {
-            $accountInfo = (int) $accountInfo;
-        }
-
+        $aid = Cookie::get('fresns_account_center_aid');
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $wordBody = [
-            'type' => $sendType,
-            'account' => $accountInfo,
-            'countryCode' => $countryCode,
-            'templateId' => $templateId,
-            'langTag' => $langTag,
-        ];
+        $codeResp = ConfigUtility::getSendCodeWordBody($dtoRequest->type, $templateId, $langTag, $accountInfo, $countryCode, $aid);
 
-        $fresnsSendCodeResp = \FresnsCmdWord::plugin('Fresns')->sendCode($wordBody);
-
-        if ($fresnsSendCodeResp->isErrorResponse()) {
-            return $$fresnsSendCodeResp->getErrorResponse();
+        if ($codeResp['code']) {
+            return $this->failure($codeResp['code']);
         }
 
-        return $this->success();
+        $fresnsSendCodeResp = \FresnsCmdWord::plugin('Fresns')->sendCode($codeResp['wordBody']);
+
+        return $fresnsSendCodeResp->getOrigin();
     }
 
     public function checkVerifyCode(Request $request)
@@ -854,11 +774,11 @@ class ApiController extends Controller
                 $newVerifyCode = $request->newVerifyCode;
 
                 $wordBody = [
-                    'type' => 1,
+                    'type' => TempVerifyCode::TYPE_EMAIL,
                     'account' => $newEmail,
                     'countryCode' => null,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
+                    'templateId' => TempVerifyCode::TEMPLATE_CHANGE_EMAIL_OR_PHONE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -889,16 +809,16 @@ class ApiController extends Controller
                     Cache::forget($cacheInfo);
                 }
 
-                $newCountryCode = $request->newCountryCode;
-                $newPurePhone = $request->newPurePhone;
+                $newCountryCode = $request->countryCode;
+                $newPurePhone = $request->newPhone;
                 $newVerifyCode = $request->newVerifyCode;
 
                 $wordBody = [
-                    'type' => 1,
+                    'type' => TempVerifyCode::TYPE_SMS,
                     'account' => $newPurePhone,
                     'countryCode' => $newCountryCode,
                     'verifyCode' => $newVerifyCode,
-                    'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
+                    'templateId' => TempVerifyCode::TEMPLATE_CHANGE_EMAIL_OR_PHONE,
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -934,6 +854,11 @@ class ApiController extends Controller
                         return $this->failure(34304);
                     }
                 } else {
+                    $codeTypeInt = match ($codeType) {
+                        'email' => TempVerifyCode::TYPE_EMAIL,
+                        'sms' => TempVerifyCode::TYPE_SMS,
+                        default => null,
+                    };
                     $accountInfo = match ($codeType) {
                         'email' => $account->email,
                         'sms' => $account->pure_phone,
@@ -941,11 +866,11 @@ class ApiController extends Controller
                     };
 
                     $wordBody = [
-                        'type' => 1,
+                        'type' => $codeTypeInt,
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
+                        'templateId' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
@@ -1017,6 +942,11 @@ class ApiController extends Controller
                         return $this->failure(34304);
                     }
                 } else {
+                    $codeTypeInt = match ($codeType) {
+                        'email' => TempVerifyCode::TYPE_EMAIL,
+                        'sms' => TempVerifyCode::TYPE_SMS,
+                        default => null,
+                    };
                     $accountInfo = match ($codeType) {
                         'email' => $account->email,
                         'sms' => $account->pure_phone,
@@ -1024,11 +954,11 @@ class ApiController extends Controller
                     };
 
                     $wordBody = [
-                        'type' => 1,
+                        'type' => $codeTypeInt,
                         'account' => $accountInfo,
                         'countryCode' => $account->country_code,
                         'verifyCode' => $verifyCode,
-                        'templateId' => TempVerifyCode::TEMPLATE_EDIT_PROFILE,
+                        'templateId' => TempVerifyCode::TEMPLATE_RESET_WALLET_PASSWORD,
                     ];
 
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);

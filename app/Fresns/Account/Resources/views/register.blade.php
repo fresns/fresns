@@ -54,7 +54,7 @@
             {{-- verify code --}}
             <div class="input-group mb-3">
                 <input type="text" class="form-control form-control-lg" name="verifyCode" placeholder="{{ $fsLang['verifyCode'] }}" autocomplete="off" required>
-                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="register" data-account-input-id="accountInfo" onclick="guestSendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="register" data-account-input-id="accountInfo" data-country-code-input-id="countryCode" onclick="guestSendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
             </div>
 
             {{-- password --}}

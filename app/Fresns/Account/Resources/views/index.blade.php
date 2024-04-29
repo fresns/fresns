@@ -233,15 +233,15 @@
                 countryCodeInputId = $(obj).data('country-code-input-id'),
                 accountInputId = $(obj).data('account-input-id');
 
-            let countryCode = '',
-                account = '';
-
-            if (countryCodeInputId) {
-                countryCode = $('#' + countryCodeInputId).val();
-            }
+            let account = '',
+                countryCode = '';
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
+            }
+
+            if (countryCodeInputId) {
+                countryCode = $('#' + countryCodeInputId).val();
             }
 
             if (templateId == 3 && !account) {
@@ -264,6 +264,8 @@
                 },
                 error: function (error) {
                     tips(error.responseJSON.message);
+
+                    Cookies.set('fresns_account_center_verify_code_time', 0, { expires: 1 });
                 },
                 success: function (res) {
                     if (res.code != 0) {
@@ -282,11 +284,12 @@
         function checkVerifyCode(obj) {
             var btn = $(obj);
 
-            let type = $(obj).data('type'),
-                templateId = $(obj).data('template-id');
-                inputId = $(obj).data('input-id'),
-                hiddenId = $(obj).data('hidden-id'),
-                showId = $(obj).data('show-id');
+            let type = btn.data('type'),
+                templateId = btn.data('template-id');
+                inputId = btn.data('input-id'),
+                hiddenId = btn.data('hidden-id'),
+                showId = btn.data('show-id')
+                submitId = btn.data('submit-id');
 
             let verifyCode = '';
 
@@ -332,7 +335,11 @@
                         $('#' + showId).removeClass('d-none');
                     }
 
-                    $('.fs-modal-submit').removeClass('d-none');
+                    if (submitId) {
+                        $('#' + submitId).removeClass('d-none');
+                    }
+
+                    Cookies.set('fresns_account_center_verify_code_time', 0, { expires: 1 });
                 },
                 complete: function (e) {
                     btn.prop('disabled', false);

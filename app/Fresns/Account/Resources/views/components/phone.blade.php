@@ -16,8 +16,8 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
-                                <input type="text" class="form-control" name="verifyCode" id="smsVerifyCode" value="">
-                                <button type="button" class="btn btn-outline-secondary" data-type="sms" data-template-id="4" data-input-id="smsVerifyCode" data-hidden-id="oldPhone" data-show-id="newPhone" onclick="checkVerifyCode(this)">{{ $fsLang['check'] }}</button>
+                                <input type="text" class="form-control" name="verifyCode" id="smsVerifyCodeForPhone" value="">
+                                <button type="button" class="btn btn-outline-secondary" data-type="sms" data-template-id="4" data-input-id="smsVerifyCodeForPhone" data-hidden-id="oldPhone" data-show-id="newPhone" data-submit-id="sms-submit" onclick="checkVerifyCode(this)">{{ $fsLang['check'] }}</button>
                             </div>
                         </div>
                     @elseif ($accountPassport['email'])
@@ -30,8 +30,8 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
-                                <input type="text" class="form-control" name="verifyCode" id="emailVerifyCode" value="">
-                                <button type="button" class="btn btn-outline-secondary" data-type="email" data-template-id="4" data-input-id="emailVerifyCode" data-hidden-id="currentEmail" data-show-id="newPhone" onclick="checkVerifyCode(this)">{{ $fsLang['check'] }}</button>
+                                <input type="text" class="form-control" name="verifyCode" id="emailVerifyCodeForPhone" value="">
+                                <button type="button" class="btn btn-outline-secondary" data-type="email" data-template-id="4" data-input-id="emailVerifyCodeForPhone" data-hidden-id="currentEmail" data-show-id="newPhone" data-submit-id="sms-submit" onclick="checkVerifyCode(this)">{{ $fsLang['check'] }}</button>
                             </div>
                         </div>
                     @endif
@@ -54,13 +54,13 @@
                         <div class="input-group">
                             <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
                             <input type="text" class="form-control" name="newVerifyCode" value="" required>
-                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="3" data-account-input-id="newPhoneInput" data-country-code-input-id="countryCode" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="4" data-account-input-id="newPhoneInput" data-country-code-input-id="countryCode" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary me-auto" data-bs-dismiss="modal">{{ $fsLang['close'] }}</button>
-                    <button type="submit" class="btn btn-primary fs-modal-submit d-none">{{ $fsLang['saveChanges'] }}</button>
+                    <button type="submit" class="btn btn-primary @if ($accountPassport['email'] || $accountPassport['phone']) d-none @endif" id="sms-submit">{{ $fsLang['saveChanges'] }}</button>
                 </div>
             </form>
         </div>
