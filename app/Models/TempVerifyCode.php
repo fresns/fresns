@@ -15,7 +15,7 @@ class TempVerifyCode extends Model
 
     const TEMPLATE_GENERAL = 1;
     const TEMPLATE_REGISTER_ACCOUNT = 2;
-    const TEMPLATE_EDIT_PROFILE = 3;
+    const TEMPLATE_UPDATE_PROFILE = 3;
     const TEMPLATE_CHANGE_EMAIL_OR_PHONE = 4;
     const TEMPLATE_RESET_LOGIN_PASSWORD = 5;
     const TEMPLATE_RESET_WALLET_PASSWORD = 6;
