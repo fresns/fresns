@@ -220,7 +220,7 @@ class CacheHelper
 
         Artisan::call('config:cache');
         Artisan::call('view:cache');
-        // Artisan::call('route:cache');
+        Artisan::call('route:cache');
 
         // time of the latest cache
         Config::updateOrCreate([
@@ -286,7 +286,7 @@ class CacheHelper
         // route
         if ($cacheType == 'fresnsRoute') {
             Artisan::call('route:clear');
-            // Artisan::call('route:cache');
+            Artisan::call('route:cache');
         }
 
         // event
