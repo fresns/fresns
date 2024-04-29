@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Providers;
 
+use App\Fresns\Panel\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+
+        Route::middlewareGroup('panel', config('FsConfig.middleware', []));
+        Route::aliasMiddleware('panelAuth', Authenticate::class);
     }
 
     /**
@@ -46,8 +50,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        Route::middlewareGroup('panel', config('FsConfig.middleware', []));
-
         Route::middleware('panel')->name('panel.')->prefix('fresns')->namespace($this->namespace)->group(dirname(__DIR__, 1).'/Routes/web.php');
     }
 }

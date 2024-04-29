@@ -8,10 +8,8 @@
 
 namespace App\Fresns\Panel\Providers;
 
-use App\Fresns\Panel\Http\Middleware\Authenticate;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class PanelServiceProvider extends ServiceProvider
@@ -35,8 +33,6 @@ class PanelServiceProvider extends ServiceProvider
             'driver' => 'eloquent',
             'model' => \App\Models\Account::class,
         ]);
-
-        Route::aliasMiddleware('panelAuth', Authenticate::class);
     }
 
     /**
