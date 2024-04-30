@@ -90,6 +90,10 @@ class CommonController extends Controller
 
         CacheHelper::forgetFresnsConfigs($itemKey);
 
+        if ($itemKey == 'website_engine_status') {
+            CacheHelper::clearConfigCache('fresnsRoute');
+        }
+
         return $this->updateSuccess();
     }
 

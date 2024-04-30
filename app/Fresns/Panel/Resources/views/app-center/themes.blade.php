@@ -14,22 +14,26 @@
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 @if ($websiteEngineExists)
-                    <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-laptop me-1"></i> {{ __('FsLang::panel.website_engine_status') }}: {{ ($params['website_engine_status'] ?? false) ? __('FsLang::panel.option_activate') : __('FsLang::panel.option_deactivate') }}
+                    <label class="input-group-text"><i class="bi bi-laptop me-1"></i> {{ __('FsLang::panel.website_engine_status') }}</label>
+                    <button class="btn {{ $params['website_engine_status'] ? 'btn-warning' : 'btn-secondary' }} dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {!! $params['website_engine_status'] ? '<i class="bi bi-play-circle me-1"></i>'.__('FsLang::panel.option_activate') : '<i class="bi bi-stop-circle me-1"></i>'.__('FsLang::panel.option_deactivate') !!}
                     </button>
                     <ul class="dropdown-menu">
                         <form action="{{ route('panel.update.item', ['itemKey' => 'website_engine_status']) }}" method="post">
                             @csrf
                             @method('patch')
-                            <input type="hidden" name="itemValue" value="{{ ($params['website_engine_status'] ?? false) ? 'false' : 'true' }}">
+                            <input type="hidden" name="itemValue" value="{{ $params['website_engine_status'] ? 'false' : 'true' }}">
                             <input type="hidden" name="itemType" value="boolean">
-                            <button class="dropdown-item text-center" type="submit">{{ ($params['website_engine_status'] ?? false) ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
+                            <button class="dropdown-item text-center" type="submit">{{ $params['website_engine_status'] ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>
                         </form>
-                        <li><hr class="dropdown-divider"></li>
+
                         {{-- website-engine uninstall --}}
-                        <button class="dropdown-item text-danger text-center" type="button" data-bs-toggle="modal" data-bs-target="#engineUninstallConfirm">
-                            <i class="bi bi-trash"></i> {{ __('FsLang::panel.button_uninstall') }}
-                        </button>
+                        @if (! $params['website_engine_status'])
+                            <li><hr class="dropdown-divider"></li>
+                            <button class="dropdown-item text-danger text-center" type="button" data-bs-toggle="modal" data-bs-target="#engineUninstallConfirm">
+                                <i class="bi bi-trash"></i> {{ __('FsLang::panel.button_uninstall') }}
+                            </button>
+                        @endif
                     </ul>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#engineModal">{{ __('FsLang::panel.website_engine_api_config') }}</button>
                 @else
@@ -110,7 +114,7 @@
                         <p class="card-text text-height">{{ $theme->description }}</p>
                         <div>
                             @if ($theme->settings_path)
-                                @if ($websiteEngineExists && Route::has('fresns.theme-admin.index'))
+                                @if ($websiteEngineExists && $params['website_engine_status'] && Route::has('fresns.theme-admin.index'))
                                     <a href="{{ route('panel.app-center.theme.functions', ['url' => route('fresns.theme-admin.index', ['fskey' => $theme->fskey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
                                 @else
                                     <div class="d-inline text-bg-primary rounded opacity-50 fs-7 px-3 py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ __('FsLang::panel.website_engine_status') }}: {{ $websiteEngineExists ? __('FsLang::panel.option_deactivate') : __('FsLang::tips.website_engine_error') }}">
@@ -282,7 +286,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
                 </div>
                 <div class="modal-body">
-                    <pre class="form-control" id="websiteEngineUninstall_artisan_output">{{ __('FsLang::panel.uninstall_in_progress') }}</pre>
+                    <pre class="form-control" id="websiteEngineUninstall_artisan_output">{{ __('FsLang::tips.uninstall_in_progress') }}</pre>
 
                     <!--progress bar-->
                     <div class="mt-2">
