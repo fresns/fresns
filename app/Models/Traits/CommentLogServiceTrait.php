@@ -75,7 +75,7 @@ trait CommentLogServiceTrait
 
         $comment = $this->comment;
 
-        $info['did'] = $commentLogData->hpid;
+        $info['did'] = $commentLogData->hcid;
         $info['fsid'] = $comment?->cid; // published content cid
         $info['quotedPid'] = null;
         $info['replyToPid'] = $post?->pid;
