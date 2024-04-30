@@ -17,8 +17,10 @@ class ChangeLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->lang) {
-            Cookie::queue('fresns_panel_locale', $request->lang);
+        $langTag = $request->lang ?? $request->language ?? $request->locale;
+
+        if ($langTag) {
+            Cookie::queue(Cookie::forever('fresns_panel_locale', $langTag, '/'));
 
             return back()->withInput($request->except('fresns_panel_locale'));
         }

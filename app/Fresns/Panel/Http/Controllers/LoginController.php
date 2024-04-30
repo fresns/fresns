@@ -127,7 +127,7 @@ class LoginController extends Controller
     {
         $panelLang = \request()->cookie('fresns_panel_locale');
         if (empty($panelLang)) {
-            Cookie::queue('fresns_panel_locale', config('app.locale'));
+            Cookie::queue(Cookie::forever('fresns_panel_locale', config('app.locale'), '/'));
         }
 
         $versionMd5 = AppHelper::VERSION_MD5_16BIT;
