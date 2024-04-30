@@ -641,10 +641,12 @@ class ApiController extends Controller
         $dtoRequest = new SendVerifyCodeDTO($request->all());
 
         $templateId = $dtoRequest->templateId;
-        $countryCode = (int) $dtoRequest->countryCode;
-        $accountInfo = Str::of($request->account)->trim()->toString();
-        $aid = Cookie::get('fresns_account_center_aid');
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $accountInfo = Str::of($request->account)->trim()->toString();
+        $countryCode = (int) $dtoRequest->countryCode;
+
+        $aid = Cookie::get('fresns_account_center_aid');
 
         $codeResp = ConfigUtility::getSendCodeWordBody($dtoRequest->type, $templateId, $langTag, $accountInfo, $countryCode, $aid);
 
