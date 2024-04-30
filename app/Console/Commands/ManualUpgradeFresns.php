@@ -206,13 +206,7 @@ class ManualUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_CLEAR);
 
-        CacheHelper::clearConfigCache('fresnsSystem');
-        CacheHelper::clearConfigCache('fresnsConfig');
-        CacheHelper::clearConfigCache('fresnsView');
-        CacheHelper::clearConfigCache('fresnsRoute');
-        CacheHelper::clearConfigCache('fresnsEvent');
-        CacheHelper::clearConfigCache('fresnsSchedule');
-        CacheHelper::clearConfigCache('frameworkConfig');
+        CacheHelper::clearAllCache();
 
         return true;
     }

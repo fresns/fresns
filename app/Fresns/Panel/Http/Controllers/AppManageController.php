@@ -104,8 +104,7 @@ class AppManageController extends Controller
             'is_enabled' => $newStatus,
         ]);
 
-        Artisan::call('route:clear');
-        Artisan::call('route:cache');
+        CacheHelper::clearConfigCache('fresnsRoute');
 
         return $this->updateSuccess();
     }
@@ -130,8 +129,7 @@ class AppManageController extends Controller
             App::where('fskey', $fskey)->delete();
         }
 
-        Artisan::call('route:clear');
-        Artisan::call('route:cache');
+        CacheHelper::clearConfigCache('fresnsRoute');
 
         return response(Artisan::output()."\n".$message);
     }
