@@ -54,7 +54,7 @@
                         </div>
 
                         {{-- phone --}}
-                        <div class="wallet_phone_to_edit collapse @if (!$accountWallet['hasPassword'] && !$accountData['hasPhone']) show @endif" aria-labelledby="wallet_phone_to_edit" data-bs-parent="#edit_wallet_password_mode">
+                        <div class="wallet_phone_to_edit collapse @if (!$accountWallet['hasPassword'] && !$accountData['hasEmail']) show @endif" aria-labelledby="wallet_phone_to_edit" data-bs-parent="#edit_wallet_password_mode">
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['currentPhone'] }}</span>
                                 <input class="form-control" type="text" value="{{ $accountPassport['countryCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
