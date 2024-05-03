@@ -83,8 +83,8 @@ trait UserServiceTrait
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
         $profile['hasPin'] = (bool) $userData->pin;
         $profile['gender'] = $userData->gender;
-        $profile['genderPronoun'] = $userData->gender_pronoun;
         $profile['genderCustom'] = $userData->gender_custom;
+        $profile['genderPronoun'] = $userData->gender_pronoun;
         $profile['birthday'] = $birthday;
         $profile['birthdayDisplayType'] = $userData->birthday_display_type;
         $profile['bio'] = $userData->bio;
