@@ -36,7 +36,7 @@ class WebsiteEngineInstall extends Command
         $httpProxy = config('app.http_proxy');
 
         $process = Process::run(<<<"SHELL"
-            export httpProxy=$httpProxy
+            export http_proxy=$httpProxy https_proxy=$httpProxy
             echo "Owner:" `whoami`
             echo "Path:" \$PATH
             echo "Proxy:" \$httpProxy
