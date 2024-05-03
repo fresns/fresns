@@ -523,12 +523,12 @@ class UserController extends Controller
         }
         if ($dtoRequest->genderCustom) {
             $authUser->fill([
-                'gender_pronoun' => $dtoRequest->genderCustom,
+                'gender_custom' => $dtoRequest->genderCustom,
             ]);
         }
         if ($dtoRequest->genderPronoun) {
             $authUser->fill([
-                'gender_custom' => $dtoRequest->genderPronoun,
+                'gender_pronoun' => $dtoRequest->genderPronoun,
             ]);
         }
 
