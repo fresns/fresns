@@ -22,7 +22,7 @@ class UserUpdateProfileDTO extends DTO
             'bannerFid' => ['string', 'nullable'],
             'bannerUrl' => ['url', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
-            'genderCustom' => ['string', 'nullable'],
+            'genderCustom' => ['string', 'nullable', 'max:32'],
             'genderPronoun' => ['integer', 'nullable', 'in:1,2,3'],
             'birthdayDisplayType' => ['integer', 'nullable', 'in:1,2,3,4'],
             'bio' => ['string', 'nullable'],

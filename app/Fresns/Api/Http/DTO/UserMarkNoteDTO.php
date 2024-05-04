@@ -17,7 +17,7 @@ class UserMarkNoteDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:user,group,hashtag,geotag,post,comment'],
             'fsid' => ['required'],
-            'note' => ['string', 'max:128', 'nullable'],
+            'note' => ['string', 'nullable', 'max:128'],
         ];
     }
 }

@@ -16,7 +16,7 @@ class GetCallbackContentDTO extends DTO
     {
         return [
             'fskey' => ['string', 'required'],
-            'callbackKey' => ['string', 'max:64', 'required'],
+            'callbackKey' => ['string', 'required', 'max:64'],
             'timeout' => ['integer', 'nullable'],
             'markAsUsed' => ['boolean', 'nullable'],
         ];

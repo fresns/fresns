@@ -29,7 +29,7 @@ class CreateUserDTO extends DTO
             'bannerUrl' => ['string', 'nullable'],
             'gender' => ['numeric', 'nullable', 'in:1,2,3,4'],
             'genderPronoun' => ['numeric', 'nullable', 'in:1,2,3'],
-            'genderCustom' => ['string', 'nullable'],
+            'genderCustom' => ['string', 'nullable', 'max:32'],
         ];
     }
 }

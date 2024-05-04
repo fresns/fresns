@@ -18,7 +18,7 @@ class UserMarkDTO extends DTO
             'markType' => ['string', 'required', 'in:like,dislike,follow,block'],
             'type' => ['string', 'required', 'in:user,group,hashtag,geotag,post,comment'],
             'fsid' => ['required'],
-            'note' => ['string', 'max:128', 'nullable'],
+            'note' => ['string', 'nullable', 'max:128'],
         ];
     }
 }
