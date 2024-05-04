@@ -125,9 +125,6 @@ class DetailUtility
             $userMainRole = $user->getUserMainRole($langTag);
             $userRoles = $user->getUserRoles($langTag);
 
-            // birthday
-            $userProfile['birthday'] = DateHelper::fresnsFormatConversion($userProfile['birthday'], $langTag);
-
             // bio
             $bioConfig = ConfigHelper::fresnsConfigByItemKeys([
                 'bio_support_mention',
