@@ -281,9 +281,9 @@ class Account
             return $this->failure(34405, ConfigUtility::getCodeMessage(34405));
         }
 
-        try {
-            $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
+        $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
 
+        try {
             AccountConnect::withTrashed()->updateOrCreate([
                 'connect_platform_id' => $dtoWordBody->connectPlatformId,
                 'connect_account_id' => $dtoWordBody->connectAccountId,
@@ -303,14 +303,14 @@ class Account
             return $this->failure(32302, ConfigUtility::getCodeMessage(32302));
         }
 
-        if (empty($account->email) && $dtoWordBody->connectEmail) {
-            $account->update([
+        if (empty($accountModel->email) && $dtoWordBody->connectEmail) {
+            $accountModel->update([
                 'email' => $dtoWordBody->connectEmail,
             ]);
         }
 
-        if (empty($account->phone) && $dtoWordBody->connectPhone) {
-            $account->update([
+        if (empty($accountModel->phone) && $dtoWordBody->connectPhone) {
+            $accountModel->update([
                 'country_code' => $dtoWordBody->connectCountryCode,
                 'pure_phone' => $dtoWordBody->connectPhone,
                 'phone' => $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone,
