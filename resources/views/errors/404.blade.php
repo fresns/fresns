@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Fresns" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Fresns</title>
+    <title>Fresns 404</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 </head>
@@ -15,18 +15,18 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
-                </a>
+                <a class="navbar-brand" href="/"><img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top"> 404</a>
+                <span class="navbar-text">Page Not Found</span>
+                <ul class="navbar-nav me-auto">
+                </ul>
             </div>
         </nav>
     </header>
 
     <main class="container">
-        <div class="card mx-auto my-5" style="max-width:800px;">
-            <div class="card-body p-5">
-                <h3 class="card-title">Welcome to Fresns</h3>
-                <p>Fresns is a free and open source social network service software, a general-purpose community product designed for cross-platform, and supports flexible and diverse content forms. It conforms to the trend of the times, satisfies a variety of operating scenarios, is more open and easier to re-development.</p>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <img src="/static/images/404.png" loading="lazy" alt="404" style="max-width: 100%;">
             </div>
         </div>
     </main>

@@ -15,17 +15,13 @@
     <title>Fresns {{ $code }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/static/css/fresns-panel.css">
 </head>
 
-<body>
+<body style="background-color: #f0f2f5;">
     <header>
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
-                </a>
+                <a class="navbar-brand" href="/"><img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top"></a>
             </div>
         </nav>
     </header>
@@ -49,7 +45,7 @@
 
     <footer>
         <div class="text-center pt-5">
-            <p class="my-5 text-muted">Powered by Fresns</p>
+            <p class="my-5 text-muted">Powered by <a href="https://fresns.org" target="_blank" class="link-secondary">Fresns</a></p>
         </div>
     </footer>
 
