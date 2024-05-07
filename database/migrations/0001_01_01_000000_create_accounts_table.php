@@ -52,8 +52,8 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedTinyInteger('connect_platform_id');
             $table->string('connect_account_id', 128);
-            $table->string('connect_token', 128)->nullable();
-            $table->string('connect_refresh_token', 128)->nullable();
+            $table->text('connect_token')->nullable();
+            $table->text('connect_refresh_token')->nullable();
             $table->timestamp('refresh_token_expired_at')->nullable();
             $table->string('connect_username', 128)->nullable();
             $table->string('connect_nickname', 128)->nullable();
