@@ -52,21 +52,13 @@
                             </span>
                         </td>
                         <td>
-                            @if($isFounder && $admin->id != \Auth::user()->id)
+                            @if($isFounder && $admin->id != Auth::user()->id)
                                 <form action="{{ route('panel.admins.destroy', $admin) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-link btn-sm text-danger fresns-link delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 </form>
                             @endif
-                            {{-- old delete --}}
-                            {{-- @if ($admin->id != \Auth::user()->id)
-                                <form action="{{ route('panel.admins.destroy', $admin) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-link btn-sm text-danger fresns-link delete-button">{{ __('FsLang::panel.button_delete') }}</button>
-                                </form>
-                            @endif --}}
                         </td>
                     </tr>
                 @endforeach

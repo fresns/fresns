@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\StoreAdminRequest;
 use App\Models\Account;
 use App\Models\App;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -63,6 +64,6 @@ class AdminController extends Controller
 
     public static function isFounder()
     {
-        return \Auth::user()->id == config('app.founder');
+        return Auth::user()->id == config('app.founder') || Auth::user()->aid == config('app.founder');
     }
 }
