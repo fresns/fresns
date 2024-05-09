@@ -49,6 +49,8 @@ class AppManageController extends Controller
             '--install_type' => 'market',
         ]);
 
+        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}", 'fresnsConfigs');
+
         $message = __('FsLang::tips.upgradeSuccess');
         if ($code != 0) {
             $message = __('FsLang::tips.installFailure');
