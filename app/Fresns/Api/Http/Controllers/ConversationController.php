@@ -165,7 +165,7 @@ class ConversationController extends Controller
             'status' => in_array('image', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['image_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
-            'maxSize' => $imageMaxSize + 1,
+            'maxSize' => $imageMaxSize,
             'uploadType' => $imageUploadUrl ? $imageUploadType : 'api',
             'uploadUrl' => $imageUploadUrl,
         ];
@@ -175,7 +175,7 @@ class ConversationController extends Controller
             'status' => in_array('video', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['video_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
-            'maxSize' => $videoMaxSize + 1,
+            'maxSize' => $videoMaxSize,
             'uploadType' => $videoUploadUrl ? $videoUploadType : 'api',
             'uploadUrl' => $videoUploadUrl,
         ];
@@ -185,7 +185,7 @@ class ConversationController extends Controller
             'status' => in_array('audio', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['audio_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
-            'maxSize' => $audioMaxSize + 1,
+            'maxSize' => $audioMaxSize,
             'uploadType' => $audioUploadUrl ? $audioUploadType : 'api',
             'uploadUrl' => $audioUploadUrl,
         ];
@@ -195,7 +195,7 @@ class ConversationController extends Controller
             'status' => in_array('document', $conversationConfigs['conversation_files']),
             'extensions' => Str::lower($conversationConfigs['document_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
-            'maxSize' => $documentMaxSize + 1,
+            'maxSize' => $documentMaxSize,
             'uploadType' => $documentUploadUrl ? $documentUploadType : 'api',
             'uploadUrl' => $documentUploadUrl,
         ];
