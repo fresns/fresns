@@ -3000,6 +3000,14 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'lang_key' => 'editorSelectAudience',
+                'lang_values' => '{"en":"Choose audience","zh-Hans":"选择受众","zh-Hant":"選擇受眾"}',
+                'is_custom' => 0,
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'lang_key' => 'editorNoSelectGroup',
                 'lang_values' => '{"en":"Not selected","zh-Hans":"未选择","zh-Hant":"未選擇"}',
                 'is_custom' => 0,
