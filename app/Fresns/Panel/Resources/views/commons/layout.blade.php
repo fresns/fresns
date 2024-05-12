@@ -31,10 +31,10 @@
     <script src="/static/js/fresns-panel.js?v={{ $versionMd5 }}"></script>
     <script>
         $(document).ready(function () {
-            window.locale = $('html').attr('lang')
+            window.locale = $('html').attr('lang');
             if (window.locale) {
                 $.ajax({
-                    url: "{{ route('panel.translations', ['locale' => \App::getLocale()]) }}",
+                    url: "{{ route('panel.translations', ['locale' => App::getLocale()]) }}",
                     method: 'get',
                     success(response) {
                         if (response.data) {

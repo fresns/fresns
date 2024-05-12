@@ -36,6 +36,7 @@ use App\Fresns\Panel\Http\Controllers\StorageController;
 use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
+use App\Fresns\Panel\Http\Middleware\ChangeLocale;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use Illuminate\Support\Facades\File;
@@ -297,7 +298,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
     return \response()->json([
         'data' => json_decode($langStrings, true),
     ]);
-})->name('translations');
+})->name('translations')->withoutMiddleware([ChangeLocale::class]);
 
 // empty page
 Route::any('{any}', [LoginController::class, 'emptyPage'])->name('empty')->where('any', '.*');
