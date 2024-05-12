@@ -133,9 +133,15 @@ class GlobalController extends Controller
     }
 
     // language pack
-    public function languagePack()
+    public function languagePack(Request $request)
     {
-        $langTag = $this->langTag();
+        $langTag = $request->langTag;
+
+        $langTagArr = ConfigHelper::fresnsConfigLangTags();
+
+        if (empty($langTag) || ! in_array($langTag, $langTagArr)) {
+            $langTag = $this->langTag();
+        }
 
         $languagePack = ConfigHelper::fresnsConfigLanguagePack($langTag);
 
