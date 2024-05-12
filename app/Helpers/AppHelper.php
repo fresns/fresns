@@ -16,9 +16,9 @@ use Illuminate\Support\Str;
 
 class AppHelper
 {
-    const VERSION = '3.1.2';
-    const VERSION_MD5 = '1f4e00506ff9fb5fe179f2ba1c60ff61';
-    const VERSION_MD5_16BIT = '6ff9fb5fe179f2ba';
+    const VERSION = '3.1.3';
+    const VERSION_MD5 = 'b1179856b0372cb8777975cb658548ac';
+    const VERSION_MD5_16BIT = 'b0372cb8777975cb';
 
     // fresns test helper
     public static function fresnsTestHelper(): mixed
