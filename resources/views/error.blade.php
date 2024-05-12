@@ -15,6 +15,7 @@
     <title>Fresns {{ $code }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css">
 </head>
 
 <body style="background-color: #f0f2f5;">
