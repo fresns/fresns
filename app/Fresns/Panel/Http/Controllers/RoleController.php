@@ -178,7 +178,7 @@ class RoleController extends Controller
                 'permValue' => $value,
                 'isCustom' => false,
             ];
-        });
+        })->values()->toArray();
 
         $customPermissions = collect($request->custom_permissions['permKey'] ?? [])->filter()->map(function ($value, $key) use ($request) {
             return [
@@ -186,9 +186,9 @@ class RoleController extends Controller
                 'permValue' => $request->custom_permissions['permValue'][$key] ?? '',
                 'isCustom' => true,
             ];
-        });
+        })->values()->toArray();
 
-        $role->permissions = $permissions->merge($customPermissions)->values()->toArray();
+        $role->permissions = array_merge($permissions, $customPermissions);
         $role->save();
 
         return $this->updateSuccess();
