@@ -12,6 +12,7 @@ use App\Models\App;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
+use App\Models\Group;
 use App\Models\Seo;
 use App\Models\TempCallbackContent;
 use App\Models\TempVerifyCode;
@@ -369,10 +370,15 @@ class CacheHelper
             case 'group':
                 CacheHelper::forgetFresnsKeys([
                     'fresns_group_private_ids',
-                    'fresns_group_tree_by_guest',
                     "fresns_group_subgroups_ids_{$id}",
                     "fresns_group_subgroups_ids_{$fsid}",
                 ], 'fresnsGroups');
+
+                $types = Group::distinct()->pluck('type');
+                foreach ($types as $type) {
+                    CacheHelper::forgetFresnsKey("fresns_group_{$type}_tree_by_guest", 'fresnsGroups');
+                }
+                CacheHelper::forgetFresnsKey('fresns_group_all_tree_by_guest', 'fresnsGroups');
 
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_everyone", ['fresnsExtensions', 'fresnsGroups']);
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_role", ['fresnsExtensions', 'fresnsGroups']);
@@ -650,7 +656,12 @@ class CacheHelper
         $usageType = Seo::TYPE_USER;
         CacheHelper::forgetFresnsKey("fresns_model_seo_{$usageType}_{$id}", 'fresnsSeo');
 
-        CacheHelper::forgetFresnsKey("fresns_group_tree_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
+        $types = Group::distinct()->pluck('type');
+        foreach ($types as $type) {
+            CacheHelper::forgetFresnsKey("fresns_group_{$type}_tree_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
+        }
+        CacheHelper::forgetFresnsKey("fresns_group_all_tree_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
+
         CacheHelper::forgetFresnsKey("fresns_group_list_filter_ids_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
         CacheHelper::forgetFresnsKey("fresns_group_content_filter_ids_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
 
@@ -700,7 +711,12 @@ class CacheHelper
         CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$id}_{$userId}", 'fresnsUsers');
 
         if ($type == InteractionUtility::TYPE_GROUP) {
-            CacheHelper::forgetFresnsKey("fresns_group_tree_by_user_{$userId}", ['fresnsGroups', 'fresnsUsers']);
+            $types = Group::distinct()->pluck('type');
+            foreach ($types as $type) {
+                CacheHelper::forgetFresnsKey("fresns_group_{$type}_tree_by_user_{$userId}", ['fresnsGroups', 'fresnsUsers']);
+            }
+            CacheHelper::forgetFresnsKey("fresns_group_all_tree_by_user_{$id}", ['fresnsGroups', 'fresnsUsers']);
+
             CacheHelper::forgetFresnsKey("fresns_group_list_filter_ids_by_user_{$userId}", ['fresnsGroups', 'fresnsUsers']);
             CacheHelper::forgetFresnsKey("fresns_group_content_filter_ids_by_user_{$userId}", ['fresnsGroups', 'fresnsUsers']);
         }
@@ -853,8 +869,8 @@ class CacheHelper
      */
     // fresns_group_private_ids
     // fresns_group_subgroups_ids_{$idOrGid}
-    // fresns_group_tree_by_guest
-    // fresns_group_tree_by_user_{$userId}                          // +tag: fresnsUsers
+    // fresns_group_{type}_tree_by_guest
+    // fresns_group_{type}_tree_by_user_{$userId}                   // +tag: fresnsUsers
     // fresns_group_list_filter_ids_by_user_{$userId}               // +tag: fresnsUsers
     // fresns_group_content_filter_ids_by_user_{$userId}            // +tag: fresnsUsers
 

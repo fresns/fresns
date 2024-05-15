@@ -36,10 +36,12 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $cacheKey = 'fresns_group_tree_by_guest';
+        $type = $dtoRequest->type ?? 'all';
+
+        $cacheKey = "fresns_group_{$type}_tree_by_guest";
         $cacheTags = 'fresnsGroups';
         if ($authUser) {
-            $cacheKey = "fresns_group_tree_by_user_{$authUser->id}";
+            $cacheKey = "fresns_group_{$type}_tree_by_user_{$authUser->id}";
             $cacheTags = ['fresnsGroups', 'fresnsUsers'];
         }
 

@@ -15,6 +15,7 @@ class GroupTreeDTO extends DTO
     public function rules(): array
     {
         return [
+            'type' => ['integer', 'nullable'],
             'filterType' => ['string', 'nullable', 'in:whitelist,blacklist'],
             'filterKeys' => ['string', 'nullable', 'required_with:filterType'],
         ];
