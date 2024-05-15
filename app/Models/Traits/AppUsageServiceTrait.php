@@ -28,8 +28,7 @@ trait AppUsageServiceTrait
         $info['name'] = StrHelper::languageContent($usageData->name, $langTag);
         $info['appUrl'] = PluginHelper::fresnsPluginUsageUrl($usageData->app_fskey, $usageData->parameter);
 
-        $info['editorToolbar'] = (bool) $usageData->editor_toolbar;
-        $info['editorNumber'] = $usageData->editor_number;
+        $info['isInToolbar'] = (bool) $usageData->editor_toolbar;
 
         return $info;
     }

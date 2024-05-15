@@ -142,16 +142,14 @@ class AccountController extends Controller
         // wallet
         $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());
         $walletRecharges = array_map(function ($item) {
-            unset($item['editorToolbar']);
-            unset($item['editorNumber']);
+            unset($item['isInToolbar']);
 
             return $item;
         }, $recharges);
 
         $withdraws = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag());
         $walletWithdraws = array_map(function ($item) {
-            unset($item['editorToolbar']);
-            unset($item['editorNumber']);
+            unset($item['isInToolbar']);
 
             return $item;
         }, $withdraws);
@@ -214,16 +212,14 @@ class AccountController extends Controller
 
         $recharges = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_RECHARGE, null, null, $this->langTag());
         $walletRecharges = array_map(function ($item) {
-            unset($item['editorToolbar']);
-            unset($item['editorNumber']);
+            unset($item['isInToolbar']);
 
             return $item;
         }, $recharges);
 
         $withdraws = ExtendUtility::getAppExtendsByEveryone(AppUsage::TYPE_WALLET_WITHDRAW, null, null, $this->langTag());
         $walletWithdraws = array_map(function ($item) {
-            unset($item['editorToolbar']);
-            unset($item['editorNumber']);
+            unset($item['isInToolbar']);
 
             return $item;
         }, $withdraws);

@@ -178,8 +178,7 @@ class GlobalController extends Controller
             $channel['badgeType'] = $badge['badgeType'];
             $channel['badgeValue'] = $badge['badgeValue'];
 
-            unset($channel['editorToolbar']);
-            unset($channel['editorNumber']);
+            unset($channel['isInToolbar']);
 
             $channelList[] = $channel;
         }
@@ -264,8 +263,7 @@ class GlobalController extends Controller
 
         $types = array_map(function ($item) {
             unset($item['appUrl']);
-            unset($item['editorToolbar']);
-            unset($item['editorNumber']);
+            unset($item['isInToolbar']);
 
             return $item;
         }, $data);
