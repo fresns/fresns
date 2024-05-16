@@ -113,13 +113,13 @@ trait PostLogServiceTrait
                 'roles' => $roleList,
             ],
             'buttonName' => StrHelper::languageContent($readConfig['buttonName'] ?? null, $langTag),
-            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($readConfig['appFskey'] ?? null),
+            'appUrl' => PluginHelper::fresnsPluginUrlByFskey($readConfig['appFskey'] ?? null),
         ];
 
         $permissions['associatedUserListConfig'] = [
             'hasUserList' => $associatedUserListConfig['hasUserList'] ?? false,
             'userListName' => StrHelper::languageContent($associatedUserListConfig['userListName'] ?? null, $langTag),
-            'userListUrl' => PluginHelper::fresnsPluginUrlByFskey($associatedUserListConfig['appFskey'] ?? null),
+            'appUrl' => PluginHelper::fresnsPluginUrlByFskey($associatedUserListConfig['appFskey'] ?? null),
         ];
 
         $permissions['commentConfig'] = [
@@ -130,7 +130,7 @@ trait PostLogServiceTrait
                 'hasActionButton' => $commentConfig['action']['hasActionButton'] ?? false,
                 'buttonName' => StrHelper::languageContent($commentConfig['action']['buttonName'] ?? null, $langTag),
                 'buttonStyle' => $commentConfig['action']['buttonStyle'] ?? null,
-                'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($commentConfig['action']['appFskey'] ?? null),
+                'appUrl' => PluginHelper::fresnsPluginUrlByFskey($commentConfig['action']['appFskey'] ?? null),
             ],
         ];
 

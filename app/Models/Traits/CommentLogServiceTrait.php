@@ -67,7 +67,7 @@ trait CommentLogServiceTrait
             'hasActiveButton' => $activeButtonConfig['hasActiveButton'] ?? false,
             'buttonName' => StrHelper::languageContent($activeButtonConfig['buttonName'] ?? null, $langTag),
             'buttonStyle' => $activeButtonConfig['buttonStyle'] ?? null,
-            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($activeButtonConfig['appFskey'] ?? null),
+            'appUrl' => PluginHelper::fresnsPluginUrlByFskey($activeButtonConfig['appFskey'] ?? null),
         ];
         // end permissions
 
