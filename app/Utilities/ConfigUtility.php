@@ -555,8 +555,6 @@ class ConfigUtility
                 $limit['type'] = $limitConfig["{$type}_limit_type"];
                 $limit['periodStart'] = $limitConfig["{$type}_limit_period_start"];
                 $limit['periodEnd'] = $limitConfig["{$type}_limit_period_end"];
-                $limit['periodStartFormat'] = $limitConfig["{$type}_limit_period_start"];
-                $limit['periodEndFormat'] = $limitConfig["{$type}_limit_period_end"];
                 $limit['cycleStart'] = $limitConfig["{$type}_limit_cycle_start"];
                 $limit['cycleEnd'] = $limitConfig["{$type}_limit_cycle_end"];
                 $limit['cycleStartFormat'] = $limitConfig["{$type}_limit_cycle_start"];
@@ -569,8 +567,6 @@ class ConfigUtility
                 $limit['type'] = $rolePerm["{$type}_limit_type"];
                 $limit['periodStart'] = $rolePerm["{$type}_limit_period_start"];
                 $limit['periodEnd'] = $rolePerm["{$type}_limit_period_end"];
-                $limit['periodStartFormat'] = $rolePerm["{$type}_limit_period_start"];
-                $limit['periodEndFormat'] = $rolePerm["{$type}_limit_period_end"];
                 $limit['cycleStart'] = $rolePerm["{$type}_limit_cycle_start"];
                 $limit['cycleEnd'] = $rolePerm["{$type}_limit_cycle_end"];
                 $limit['cycleStartFormat'] = $rolePerm["{$type}_limit_cycle_start"];
@@ -588,10 +584,10 @@ class ConfigUtility
             CacheHelper::put($publishConfig, $cacheKey, $cacheTag, $cacheTime);
         }
 
-        $publishConfig['limit']['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStartFormat'], $timezone, $langTag);
-        $publishConfig['limit']['periodEndFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodEndFormat'], $timezone, $langTag);
-        $publishConfig['limit']['cycleStartFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleStartFormat'], $timezone);
-        $publishConfig['limit']['cycleEndFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleEndFormat'], $timezone);
+        $publishConfig['limit']['periodStart'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStart'], $timezone, $langTag);
+        $publishConfig['limit']['periodEnd'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodEnd'], $timezone, $langTag);
+        $publishConfig['limit']['cycleStart'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleStart'], $timezone);
+        $publishConfig['limit']['cycleEnd'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleEnd'], $timezone);
 
         // is in time
         if ($publishConfig['limit']['status']) {
