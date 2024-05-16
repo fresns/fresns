@@ -27,15 +27,6 @@ class Archive extends Model
         'element_options' => 'json',
     ];
 
-    public function getElementOptionsAttribute($value)
-    {
-        if (is_string($value)) {
-            $value = json_decode($value, true);
-        }
-
-        return $value ?? [];
-    }
-
     public function scopeType($query, int $type)
     {
         return $query->where('usage_type', $type);

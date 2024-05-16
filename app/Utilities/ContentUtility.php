@@ -648,14 +648,19 @@ class ContentUtility
                 continue;
             }
 
+            $archiveValue = $archive['value'] ?? null;
+            if ($archiveModel->form_element == 'input' && $archiveModel->form_element == 'file') {
+                $archiveValue = PrimaryHelper::fresnsPrimaryId('file', $archiveValue);
+            }
+
             ArchiveUsage::updateOrCreate([
                 'usage_type' => $usageType,
                 'usage_id' => $usageId,
                 'archive_id' => $archiveModel->id,
             ], [
-                'archive_value' => $archive['value'] ?? null,
+                'archive_value' => $archiveValue,
                 'is_private' => $archive['isPrivate'] ?? false,
-                'app_fskey' => $archive['fskey'] ?? $archiveModel->app_fskey,
+                'app_fskey' => $archive['fskey'] ?? null,
             ]);
         }
     }

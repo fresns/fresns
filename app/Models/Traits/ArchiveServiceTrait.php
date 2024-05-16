@@ -42,6 +42,7 @@ trait ArchiveServiceTrait
         $info['formElement'] = $archiveData->form_element;
         $info['elementType'] = $archiveData->element_type;
         $info['elementOptions'] = StrHelper::languageContent($archiveData->element_options, $langTag); // Multilingual
+        $info['isTreeOption'] = (bool) $archiveData->is_tree_option;
         $info['isMultiple'] = (bool) $archiveData->is_multiple;
         $info['isRequired'] = (bool) $archiveData->is_required;
         $info['fileType'] = $archiveData->file_type;
@@ -52,9 +53,6 @@ trait ArchiveServiceTrait
         $info['inputMin'] = $archiveData->input_min;
         $info['inputMaxlength'] = $archiveData->input_maxlength;
         $info['inputMinlength'] = $archiveData->input_minlength;
-        $info['inputSize'] = $archiveData->input_size;
-        $info['inputStep'] = $archiveData->input_step;
-        $info['valueType'] = $archiveData->value_type;
 
         return $info;
     }

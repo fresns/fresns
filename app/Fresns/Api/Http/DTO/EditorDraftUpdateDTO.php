@@ -30,7 +30,6 @@ class EditorDraftUpdateDTO extends DTO
             'archives' => ['array', 'nullable'],
             'extends' => ['array', 'nullable'],
             'deleteLocation' => ['boolean', 'nullable'],
-            'deleteArchive' => ['string', 'nullable'], // code
             'deleteExtend' => ['string', 'nullable'], // eid
             'deleteFile' => ['string', 'nullable'], // fid
         ];

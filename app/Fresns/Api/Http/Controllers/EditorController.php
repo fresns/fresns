@@ -877,31 +877,6 @@ class EditorController extends Controller
             ]);
         }
 
-        // deleteArchive
-        if ($dtoRequest->deleteArchive) {
-            $archive = Archive::where('code', $dtoRequest->deleteArchive)->first();
-
-            if (empty($archive)) {
-                throw new ResponseException(32304);
-            }
-
-            $usageType = match ($type) {
-                'post' => ArchiveUsage::TYPE_POST_LOG,
-                'comment' => ArchiveUsage::TYPE_COMMENT_LOG,
-            };
-
-            $archiveUsage = ArchiveUsage::where('usage_type', $usageType)
-                ->where('usage_id', $draft->id)
-                ->where('archive_id', $archive->id)
-                ->first();
-
-            if (empty($archiveUsage)) {
-                throw new ResponseException(36400);
-            }
-
-            $archiveUsage->delete();
-        }
-
         // deleteExtend
         if ($dtoRequest->deleteExtend) {
             $extend = Extend::where('eid', $dtoRequest->deleteExtend)->first();

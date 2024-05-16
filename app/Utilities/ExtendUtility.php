@@ -47,50 +47,50 @@ class ExtendUtility
                 continue;
             }
 
-            $pluginArr = [];
-            if ($archiveInfo->value_type == 'plugins' && $usageInfo->archive_value) {
-                $plugins = json_encode($usageInfo->archive_value) ?? [];
+            try {
+                $archiveValue = $usageInfo->archive_value;
+                $valueArr = [];
+                $valueType = 'string';
 
-                foreach ($plugins as $plugin) {
-                    $code = $plugin['code'] ?? null;
-                    $name = $plugin['name'] ?? [];
-                    $fskey = $plugin['fskey'] ?? null;
-                    $order = $plugin['order'] ?? 9;
-
-                    $pluginArr[] = [
-                        'code' => $code,
-                        'name' => StrHelper::languageContent($name, $langTag),
-                        'url' => PluginHelper::fresnsPluginUrlByFskey($fskey),
-                        'order' => $order,
-                    ];
+                if ($archiveInfo->form_element == 'input' && $archiveInfo->form_element == 'checkbox') {
+                    $valueArr = json_decode($usageInfo->archive_value, true);
+                    $valueType = 'array';
                 }
 
-                usort($pluginArr, function ($a, $b) {
-                    return $a['order'] <=> $b['order'];
-                });
+                if ($archiveInfo->form_element == 'select') {
+                    $valueArr = $archiveInfo->is_multiple ? json_decode($usageInfo->archive_value, true) : [$usageInfo->archive_value];
+                    $valueType = 'array';
+                }
 
-                $pluginArr = array_map(function ($item) {
-                    unset($item['order']);
+                if ($archiveInfo->form_element == 'input' && $archiveInfo->form_element == 'file') {
+                    $archiveValue = FileHelper::fresnsFileInfoById($usageInfo->archive_value);
+                    $valueType = 'object';
+                }
 
-                    return $item;
-                }, $pluginArr);
+                if ($valueType == 'array') {
+                    $elementOptions = StrHelper::languageContent($archiveInfo->element_options, $langTag);
+
+                    $result = collect($elementOptions)
+                        ->flatMap(function ($option) {
+                            return collect($option['options'])->prepend($option);
+                        })
+                        ->whereIn('value', $valueArr)
+                        ->toArray();
+
+                    $archiveValue = array_map(function ($item) {
+                        return ['name' => $item['name'], 'value' => $item['value']];
+                    }, $result);
+                }
+            } catch (\Exception $e) {
+                $archiveValue = $usageInfo->archive_value;
+                $valueType = 'string';
             }
-
-            $archiveValue = match ($archiveInfo->value_type) {
-                'file' => StrHelper::isPureInt($usageInfo->archive_value) ? FileHelper::fresnsFileUrlById($usageInfo->archive_value) : $usageInfo->archive_value,
-                'plugin' => PluginHelper::fresnsPluginUrlByFskey($usageInfo->archive_value),
-                'plugins' => $pluginArr,
-                'number' => (int) $usageInfo->archive_value,
-                'boolean' => (bool) $usageInfo->archive_value,
-                'array' => (array) $usageInfo->archive_value,
-                'object' => (object) $usageInfo->archive_value,
-                default => $usageInfo->archive_value,
-            };
 
             $item['code'] = $archiveInfo->code;
             $item['name'] = StrHelper::languageContent($archiveInfo->name, $langTag); // Multilingual
             $item['description'] = StrHelper::languageContent($archiveInfo->description, $langTag); // Multilingual
             $item['value'] = $archiveValue;
+            $item['valueType'] = $valueType;
             $item['isPrivate'] = (bool) $usageInfo->is_private;
 
             $archiveList[] = $item;
@@ -537,8 +537,7 @@ class ExtendUtility
 
         $manageExtensions = [];
         foreach ($newManageExtends as $extend) {
-            unset($extend['editorToolbar']);
-            unset($extend['editorNumber']);
+            unset($extend['isInToolbar']);
 
             $manageExtensions[] = $extend;
         }
@@ -587,8 +586,7 @@ class ExtendUtility
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
 
-            unset($extend['editorToolbar']);
-            unset($extend['editorNumber']);
+            unset($extend['isInToolbar']);
 
             $userExtensions[] = $extend;
         }
@@ -631,8 +629,7 @@ class ExtendUtility
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
 
-            unset($extend['editorToolbar']);
-            unset($extend['editorNumber']);
+            unset($extend['isInToolbar']);
 
             $groupExtensions[] = $extend;
         }
