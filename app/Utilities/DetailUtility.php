@@ -274,7 +274,7 @@ class DetailUtility
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
 
             // interaction
-            $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag);
+            $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag, $group->follow_type, $group->follow_app_fskey);
 
             $groupDetail = array_merge($groupInfo, $item);
 
