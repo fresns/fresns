@@ -48,33 +48,54 @@ class ExtendUtility
             }
 
             try {
-                $archiveValue = $usageInfo->archive_value;
-                $valueArr = [];
-                $valueType = 'string';
+                $archiveValue = match ($archiveInfo->form_type) {
+                    'file' => FileHelper::fresnsFileInfoById($usageInfo->archive_value),
+                    'tags' => json_decode($usageInfo->archive_value, true),
+                    'checkbox' => json_decode($usageInfo->archive_value, true),
+                    default => $usageInfo->archive_value,
+                };
 
-                if ($archiveInfo->form_element == 'input' && $archiveInfo->form_element == 'checkbox') {
-                    $valueArr = json_decode($usageInfo->archive_value, true);
-                    $valueType = 'array';
+                $valueType = match ($archiveInfo->form_type) {
+                    'email' => 'email',
+                    'url' => 'url',
+                    'color' => 'color',
+                    'file' => 'file',
+                    'tags' => 'tags',
+                    'select' => 'option',
+                    'radio' => 'option',
+                    'checkbox' => 'options',
+                    default => 'string',
+                };
+
+                if ($archiveInfo->form_type == 'select' && $archiveInfo->is_multiple) {
+                    $archiveValue = json_decode($usageInfo->archive_value, true);
+                    $valueType = 'options';
                 }
 
-                if ($archiveInfo->form_element == 'select') {
-                    $valueArr = $archiveInfo->is_multiple ? json_decode($usageInfo->archive_value, true) : [$usageInfo->archive_value];
-                    $valueType = 'array';
-                }
+                if ($valueType == 'option') {
+                    $formOptions = StrHelper::languageContent($archiveInfo->form_options, $langTag);
 
-                if ($archiveInfo->form_element == 'input' && $archiveInfo->form_element == 'file') {
-                    $archiveValue = FileHelper::fresnsFileInfoById($usageInfo->archive_value);
-                    $valueType = 'object';
-                }
-
-                if ($valueType == 'array') {
-                    $elementOptions = StrHelper::languageContent($archiveInfo->element_options, $langTag);
-
-                    $result = collect($elementOptions)
+                    $result = collect($formOptions)
                         ->flatMap(function ($option) {
                             return collect($option['options'])->prepend($option);
                         })
-                        ->whereIn('value', $valueArr)
+                        ->where('value', $archiveValue)
+                        ->toArray();
+
+                    $archiveValue = [
+                        'name' => $result['name'],
+                        'value' => $result['value'] ?? null,
+                    ];
+                }
+
+                if ($valueType == 'options') {
+                    $formOptions = StrHelper::languageContent($archiveInfo->form_options, $langTag);
+
+                    $result = collect($formOptions)
+                        ->flatMap(function ($option) {
+                            return collect($option['options'])->prepend($option);
+                        })
+                        ->whereIn('value', $archiveValue)
                         ->toArray();
 
                     $archiveValue = array_map(function ($item) {

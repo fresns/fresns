@@ -33,20 +33,19 @@ return new class extends Migration
             $table->string('code', 32)->unique('archive_code');
             $table->unsignedTinyInteger('usage_type')->index('archive_usage_type');
             $table->unsignedInteger('usage_group_id')->default(0)->index('archive_usage_group_id');
-            $table->string('form_element', 16);
-            $table->string('element_type', 16)->nullable();
+            $table->string('form_type', 16);
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('element_options')->nullable();
+                    $table->jsonb('form_options')->nullable();
                     break;
 
                 default:
-                    $table->json('element_options')->nullable();
+                    $table->json('form_options')->nullable();
             }
-            $table->unsignedTinyInteger('file_type')->nullable();
             $table->boolean('is_tree_option')->default(0);
             $table->boolean('is_multiple')->default(0);
             $table->boolean('is_required')->default(0);
+            $table->unsignedTinyInteger('file_type')->nullable();
             $table->string('input_pattern', 128)->nullable();
             $table->unsignedSmallInteger('input_max')->nullable();
             $table->unsignedSmallInteger('input_min')->nullable();
@@ -64,7 +63,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
             $table->unsignedInteger('archive_id')->index('archive_usage_archive_id');
-            $table->text('archive_value')->nullable();
+            $table->text('archive_value')->nullable()->index('archive_usage_archive_value');
             $table->tinyInteger('is_private')->default(0);
             $table->string('app_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();

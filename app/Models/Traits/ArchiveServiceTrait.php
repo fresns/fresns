@@ -39,9 +39,8 @@ trait ArchiveServiceTrait
         $info['name'] = StrHelper::languageContent($archiveData->name, $langTag); // Multilingual
         $info['description'] = StrHelper::languageContent($archiveData->description, $langTag); // Multilingual
         $info['code'] = $archiveData->code;
-        $info['formElement'] = $archiveData->form_element;
-        $info['elementType'] = $archiveData->element_type;
-        $info['elementOptions'] = StrHelper::languageContent($archiveData->element_options, $langTag); // Multilingual
+        $info['formType'] = $archiveData->form_type;
+        $info['formOptions'] = StrHelper::languageContent($archiveData->form_options, $langTag); // Multilingual
         $info['isTreeOption'] = (bool) $archiveData->is_tree_option;
         $info['isMultiple'] = (bool) $archiveData->is_multiple;
         $info['isRequired'] = (bool) $archiveData->is_required;
