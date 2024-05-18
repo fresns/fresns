@@ -173,7 +173,10 @@ class GroupController extends Controller
         $oldParentId = $group->parent_id;
         $newParentId = $request->parent_id ?? 0;
 
-        $group->parent_id = $newParentId;
+        if ($newParentId != $group->id) {
+            $group->parent_id = $newParentId;
+        }
+
         $group->sort_order = $request->sort_order;
         $group->name = $request->names;
         $group->description = $request->descriptions;
@@ -203,7 +206,7 @@ class GroupController extends Controller
 
         $group->save();
 
-        if ($oldParentId != $newParentId) {
+        if ($newParentId != $group->id && $oldParentId != $newParentId) {
             static::subgroupCount('decrement', $oldParentId);
             static::subgroupCount('increment', $newParentId);
         }
