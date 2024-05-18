@@ -63,7 +63,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
             $table->unsignedInteger('archive_id')->index('archive_usage_archive_id');
-            $table->text('archive_value')->nullable()->index('archive_usage_archive_value');
+            $table->text('archive_value')->nullable();
             $table->tinyInteger('is_private')->default(0);
             $table->string('app_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
