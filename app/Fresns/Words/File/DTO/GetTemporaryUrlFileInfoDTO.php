@@ -10,7 +10,7 @@ namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-class GetAntiLinkFileOriginalUrlDTO extends DTO
+class GetTemporaryUrlFileInfoDTO extends DTO
 {
     public function rules(): array
     {

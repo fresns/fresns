@@ -9,9 +9,9 @@
 namespace App\Fresns\Words\File;
 
 use App\Fresns\Words\File\DTO\CheckUploadPermDTO;
-use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoDTO;
-use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoListDTO;
-use App\Fresns\Words\File\DTO\GetAntiLinkFileOriginalUrlDTO;
+use App\Fresns\Words\File\DTO\GetTemporaryUrlFileInfoDTO;
+use App\Fresns\Words\File\DTO\GetTemporaryUrlFileInfoListDTO;
+use App\Fresns\Words\File\DTO\GetTemporaryUrlOfOriginalFileDTO;
 use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
 use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
@@ -363,9 +363,9 @@ class File
         return $fresnsResp->getOrigin();
     }
 
-    public function getAntiLinkFileInfo($wordBody)
+    public function getTemporaryUrlFileInfo($wordBody)
     {
-        $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
+        $dtoWordBody = new GetTemporaryUrlFileInfoDTO($wordBody);
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -373,8 +373,8 @@ class File
             return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
-        if ($storageConfig['antiLinkStatus']) {
-            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo($wordBody);
+        if ($storageConfig['temporaryUrlStatus']) {
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getTemporaryUrlFileInfo($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -382,9 +382,9 @@ class File
         return $this->success(FileHelper::fresnsFileInfoById($dtoWordBody->fileIdOrFid));
     }
 
-    public function getAntiLinkFileInfoList($wordBody)
+    public function getTemporaryUrlFileInfoList($wordBody)
     {
-        $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
+        $dtoWordBody = new GetTemporaryUrlFileInfoListDTO($wordBody);
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -392,8 +392,8 @@ class File
             return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
-        if ($storageConfig['antiLinkStatus']) {
-            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfoList($wordBody);
+        if ($storageConfig['temporaryUrlStatus']) {
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getTemporaryUrlFileInfoList($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -401,9 +401,9 @@ class File
         return $this->success(FileHelper::fresnsFileInfoListByIds($dtoWordBody->fileIdsOrFids));
     }
 
-    public function getAntiLinkFileOriginalUrl($wordBody)
+    public function getTemporaryUrlOfOriginalFile($wordBody)
     {
-        $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
+        $dtoWordBody = new GetTemporaryUrlOfOriginalFileDTO($wordBody);
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -411,8 +411,8 @@ class File
             return $this->failure(21000, ConfigUtility::getCodeMessage(21000, 'CmdWord'));
         }
 
-        if ($storageConfig['antiLinkStatus']) {
-            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl($wordBody);
+        if ($storageConfig['temporaryUrlStatus']) {
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getTemporaryUrlOfOriginalFile($wordBody);
 
             return $fresnsResp->getOrigin();
         }

@@ -10,13 +10,13 @@ namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-class GetAntiLinkFileInfoDTO extends DTO
+class GetTemporaryUrlFileInfoListDTO extends DTO
 {
     public function rules(): array
     {
         return [
             'type' => ['integer', 'required', 'in:1,2,3,4'],
-            'fileIdOrFid' => ['string', 'required'],
+            'fileIdsOrFids' => ['array', 'required'],
         ];
     }
 }
