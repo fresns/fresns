@@ -32,20 +32,20 @@
                     <input type="text" class="form-control" id="video_secret_key" name="video_secret_key" value="{{ $params['video_secret_key'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">Secret App</label>
-                    <input type="text" class="form-control" name="video_secret_app" value="{{ $params['video_secret_app'] }}">
+                    <label class="input-group-text w-25">Bucket Name</label>
+                    <input type="text" class="form-control" name="video_bucket_name" value="{{ $params['video_bucket_name'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_name') }}</label>
-                    <input type="text" class="form-control" id="video_bucket_name" name="video_bucket_name" value="{{ $params['video_bucket_name'] }}">
+                    <label class="input-group-text w-25">Bucket Region</label>
+                    <input type="text" class="form-control" name="video_bucket_region" value="{{ $params['video_bucket_region'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_region') }}</label>
-                    <input type="text" class="form-control" id="video_bucket_region" name="video_bucket_region" value="{{ $params['video_bucket_region'] }}">
+                    <label class="input-group-text w-25">Bucket Endpoint</label>
+                    <input type="text" class="form-control" name="video_bucket_endpoint" value="{{ $params['video_bucket_endpoint'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
-                    <input type="text" class="form-control" id="video_bucket_domain" name="video_bucket_domain" value="{{ $params['video_bucket_domain'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_file_access_domain') }}</label>
+                    <input type="text" class="form-control" name="video_access_domain" value="{{ $params['video_access_domain'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_filesystem_disk') }}</label>
@@ -62,9 +62,7 @@
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1">
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}<br>
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_region_desc') }}<br>
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_domain_desc') }}
+                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}
             </div>
         </div>
         <!--storage_function_config-->
@@ -88,33 +86,33 @@
                     <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_temporary_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".video_url_status_setting.show" aria-expanded="false" aria-controls="video_url_status_setting" {{ !$params['video_url_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="video_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
+                            <input class="form-check-input" type="radio" name="video_temporary_url_status" id="video_temporary_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".video_temporary_url_status_setting.show" aria-expanded="false" aria-controls="video_temporary_url_status_setting" {{ !$params['video_temporary_url_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="video_temporary_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".video_url_status_setting:not(.show)" aria-expanded="false" aria-controls="video_url_status_setting" {{ $params['video_url_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="video_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
+                            <input class="form-check-input" type="radio" name="video_temporary_url_status" id="video_temporary_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".video_temporary_url_status_setting:not(.show)" aria-expanded="false" aria-controls="video_temporary_url_status_setting" {{ $params['video_temporary_url_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="video_temporary_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
-                <!--AntiLink-->
-                <div class="collapse video_url_status_setting {{ $params['video_url_status'] == 'true' ? 'show' : '' }}">
+                <!--temporary url-->
+                <div class="collapse video_temporary_url_status_setting {{ $params['video_temporary_url_status'] == 'true' ? 'show' : '' }}">
                     <div class="input-group mb-3">
-                        <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
-                        <input type="text" class="form-control" id="video_url_key" name="video_url_key" value="{{ $params['video_url_key'] }}">
+                        <label class="input-group-text w-25">{{ __('FsLang::panel.storage_temporary_url_key') }}</label>
+                        <input type="text" class="form-control" id="video_temporary_url_key" name="video_temporary_url_key" value="{{ $params['video_temporary_url_key'] }}">
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.storage_url_expire') }}</label>
-                        <input type="number" class="form-control" id="video_url_expire" name="video_url_expire" value="{{ $params['video_url_expire'] }}">
+                        <label class="input-group-text">{{ __('FsLang::panel.storage_temporary_url_expiration') }}</label>
+                        <input type="number" class="form-control" id="video_temporary_url_expiration" name="video_temporary_url_expiration" value="{{ $params['video_temporary_url_expiration'] }}">
                         <span class="input-group-text">{{ __('FsLang::panel.unit_minute') }}</span>
                     </div>
                 </div>
-                <!--AntiLink end-->
+                <!--temporary url end-->
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_url_status_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_temporary_url_status_desc') }}</div>
         </div>
         <!--storage_video_transcode_parameter-->
         <div class="row mb-4">

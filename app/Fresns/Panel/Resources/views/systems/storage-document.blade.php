@@ -32,20 +32,20 @@
                     <input type="text" class="form-control" id="document_secret_key" name="document_secret_key" value="{{ $params['document_secret_key'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">Secret App</label>
-                    <input type="text" class="form-control" name="document_secret_app" value="{{ $params['document_secret_app'] }}">
+                    <label class="input-group-text w-25">Bucket Name</label>
+                    <input type="text" class="form-control" name="document_bucket_name" value="{{ $params['document_bucket_name'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_name') }}</label>
-                    <input type="text" class="form-control" id="document_bucket_name" name="document_bucket_name" value="{{ $params['document_bucket_name'] }}">
+                    <label class="input-group-text w-25">Bucket Region</label>
+                    <input type="text" class="form-control" name="document_bucket_region" value="{{ $params['document_bucket_region'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_region') }}</label>
-                    <input type="text" class="form-control" id="document_bucket_region" name="document_bucket_region" value="{{ $params['document_bucket_region'] }}">
+                    <label class="input-group-text w-25">Bucket Endpoint</label>
+                    <input type="text" class="form-control" name="document_bucket_endpoint" value="{{ $params['document_bucket_endpoint'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
-                    <input type="text" class="form-control" id="document_bucket_domain" name="document_bucket_domain" value="{{ $params['document_bucket_domain'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_file_access_domain') }}</label>
+                    <input type="text" class="form-control" name="document_access_domain" value="{{ $params['document_access_domain'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_filesystem_disk') }}</label>
@@ -62,9 +62,7 @@
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1">
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}<br>
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_region_desc') }}<br>
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_domain_desc') }}
+                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}
             </div>
         </div>
         <!--storage_function_config-->
@@ -82,33 +80,33 @@
                     <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_temporary_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".document_url_status_setting.show" aria-expanded="false" aria-controls="document_url_status_setting" {{ !$params['document_url_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="document_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
+                            <input class="form-check-input" type="radio" name="document_temporary_url_status" id="document_temporary_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".document_temporary_url_status_setting.show" aria-expanded="false" aria-controls="document_temporary_url_status_setting" {{ !$params['document_temporary_url_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="document_temporary_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".document_url_status_setting:not(.show)" aria-expanded="false" aria-controls="document_url_status_setting" {{ $params['document_url_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="document_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
+                            <input class="form-check-input" type="radio" name="document_temporary_url_status" id="document_temporary_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".document_temporary_url_status_setting:not(.show)" aria-expanded="false" aria-controls="document_temporary_url_status_setting" {{ $params['document_temporary_url_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="document_temporary_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
-                <!--AntiLink-->
-                <div class="collapse document_url_status_setting {{ $params['document_url_status'] ? 'show' : '' }}">
+                <!--temporary url-->
+                <div class="collapse document_temporary_url_status_setting {{ $params['document_temporary_url_status'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
-                        <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
-                        <input type="text" class="form-control" id="document_url_key" name="document_url_key" value="{{ $params['document_url_key'] }}">
+                        <label class="input-group-text w-25">{{ __('FsLang::panel.storage_temporary_url_key') }}</label>
+                        <input type="text" class="form-control" id="document_temporary_url_key" name="document_temporary_url_key" value="{{ $params['document_temporary_url_key'] }}">
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text">{{ __('FsLang::panel.storage_url_expire') }}</label>
-                        <input type="number" class="form-control" id="document_url_expire" name="document_url_expire" value="{{ $params['document_url_expire'] }}">
+                        <label class="input-group-text">{{ __('FsLang::panel.storage_temporary_url_expiration') }}</label>
+                        <input type="number" class="form-control" id="document_temporary_url_expiration" name="document_temporary_url_expiration" value="{{ $params['document_temporary_url_expiration'] }}">
                         <span class="input-group-text">{{ __('FsLang::panel.unit_minute') }}</span>
                     </div>
                 </div>
-                <!--AntiLink end-->
+                <!--temporary url end-->
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_url_status_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_temporary_url_status_desc') }}</div>
         </div>
         <!--storage_document_preview_service-->
         <div class="row mb-4">
