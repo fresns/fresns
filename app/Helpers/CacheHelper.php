@@ -39,7 +39,7 @@ class CacheHelper
         if ($fileType != File::TYPE_ALL) {
             $fileConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
-            if (! $fileConfig['antiLinkStatus']) {
+            if (! $fileConfig['temporaryUrlStatus']) {
                 if ($specificMinutes) {
                     return now()->addMinutes($specificMinutes);
                 }
@@ -49,7 +49,7 @@ class CacheHelper
                 return now()->addHours($digital);
             }
 
-            $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - $subtractMinutes);
+            $cacheTime = now()->addMinutes($fileConfig['temporaryUrlExpiration'] - $subtractMinutes);
 
             return $cacheTime;
         }
@@ -59,16 +59,16 @@ class CacheHelper
         $audioConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_AUDIO);
         $documentConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_DOCUMENT);
 
-        $antiLinkExpire = [
-            $imageConfig['antiLinkStatus'] ? $imageConfig['antiLinkExpire'] : 0,
-            $videoConfig['antiLinkStatus'] ? $videoConfig['antiLinkExpire'] : 0,
-            $audioConfig['antiLinkStatus'] ? $audioConfig['antiLinkExpire'] : 0,
-            $documentConfig['antiLinkStatus'] ? $documentConfig['antiLinkExpire'] : 0,
+        $temporaryUrlExpiration = [
+            $imageConfig['temporaryUrlStatus'] ? $imageConfig['temporaryUrlExpiration'] : 0,
+            $videoConfig['temporaryUrlStatus'] ? $videoConfig['temporaryUrlExpiration'] : 0,
+            $audioConfig['temporaryUrlStatus'] ? $audioConfig['temporaryUrlExpiration'] : 0,
+            $documentConfig['temporaryUrlStatus'] ? $documentConfig['temporaryUrlExpiration'] : 0,
         ];
 
-        $newAntiLinkExpire = array_filter($antiLinkExpire);
+        $newTemporaryUrlExpiration = array_filter($temporaryUrlExpiration);
 
-        if (empty($newAntiLinkExpire)) {
+        if (empty($newTemporaryUrlExpiration)) {
             if ($specificMinutes) {
                 return now()->addMinutes($specificMinutes);
             }
@@ -78,9 +78,9 @@ class CacheHelper
             return now()->addHours($digital);
         }
 
-        $minAntiLinkExpire = min($newAntiLinkExpire);
+        $minTemporaryUrlExpiration = min($newTemporaryUrlExpiration);
 
-        $cacheTime = now()->addMinutes($minAntiLinkExpire - $subtractMinutes);
+        $cacheTime = now()->addMinutes($minTemporaryUrlExpiration - $subtractMinutes);
 
         return $cacheTime;
     }

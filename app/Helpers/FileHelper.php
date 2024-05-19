@@ -19,10 +19,10 @@ class FileHelper
     public static function fresnsFileStorageConfigByType(int $type): array
     {
         $key = match ($type) {
-            1 => 'image',
-            2 => 'video',
-            3 => 'audio',
-            4 => 'document',
+            File::TYPE_IMAGE => 'image',
+            File::TYPE_VIDEO => 'video',
+            File::TYPE_AUDIO => 'audio',
+            File::TYPE_DOCUMENT => 'document',
             default => 'image',
         };
 
@@ -30,33 +30,33 @@ class FileHelper
             "{$key}_service",
             "{$key}_secret_id",
             "{$key}_secret_key",
-            "{$key}_secret_app",
             "{$key}_bucket_name",
             "{$key}_bucket_region",
-            "{$key}_bucket_domain",
+            "{$key}_bucket_endpoint",
             "{$key}_filesystem_disk",
-            "{$key}_url_status",
-            "{$key}_url_key",
-            "{$key}_url_expire",
+            "{$key}_access_domain",
+            "{$key}_temporary_url_status",
+            "{$key}_temporary_url_key",
+            "{$key}_temporary_url_expiration",
         ]);
 
         $config = [
             'service' => $data["{$key}_service"],
             'secretId' => $data["{$key}_secret_id"],
             'secretKey' => $data["{$key}_secret_key"],
-            'secretApp' => $data["{$key}_secret_app"],
             'bucketName' => $data["{$key}_bucket_name"],
             'bucketRegion' => $data["{$key}_bucket_region"],
-            'bucketDomain' => $data["{$key}_bucket_domain"],
+            'bucketEndpoint' => $data["{$key}_bucket_endpoint"],
             'filesystemDisk' => $data["{$key}_filesystem_disk"],
-            'antiLinkStatus' => $data["{$key}_url_status"],
-            'antiLinkKey' => $data["{$key}_url_key"],
-            'antiLinkExpire' => $data["{$key}_url_expire"],
+            'accessDomain' => $data["{$key}_access_domain"],
+            'temporaryUrlStatus' => $data["{$key}_temporary_url_status"],
+            'temporaryUrlKey' => $data["{$key}_temporary_url_key"],
+            'temporaryUrlExpiration' => $data["{$key}_temporary_url_expiration"],
         ];
 
         $config['storageConfigStatus'] = true;
-        if (empty($config['secretId']) || empty($config['secretKey']) || empty($config['bucketName']) || empty($config['bucketDomain'])) {
-            $config['storageConfigStatus'] = false;
+        if (empty($config['secretId']) || empty($config['secretKey']) || empty($config['bucketName']) || empty($config['bucketEndpoint'])) {
+            $config['storageConfigStatus'] = ($config['filesystemDisk'] == 'local') ? true : false;
         }
 
         return $config;
@@ -208,8 +208,8 @@ class FileHelper
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($file->type);
 
-        if ($storageConfig['antiLinkStatus']) {
-            $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo([
+        if ($storageConfig['temporaryUrlStatus']) {
+            $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getTemporaryUrlFileInfo([
                 'type' => $file->type,
                 'fileIdOrFid' => strval($file->id),
             ]);
@@ -251,7 +251,7 @@ class FileHelper
         $data['audios'] = $files->get(File::TYPE_AUDIO)?->all() ?? [];
         $data['documents'] = $files->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
-        $fileList = FileHelper::handleAntiLinkFileInfoList($data);
+        $fileList = FileHelper::handleTemporaryUrlFileInfoList($data);
 
         return $fileList;
     }
@@ -292,7 +292,7 @@ class FileHelper
         $data['audios'] = $fileData->get(File::TYPE_AUDIO)?->all() ?? [];
         $data['documents'] = $fileData->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
-        $fileList = FileHelper::handleAntiLinkFileInfoList($data);
+        $fileList = FileHelper::handleTemporaryUrlFileInfoList($data);
 
         foreach ($fileList as $type => &$files) {
             foreach ($files as &$file) {
@@ -332,10 +332,10 @@ class FileHelper
 
         $urlType = $urlType ?: 'imageConfigUrl';
 
-        $antiLinkStatus = FileHelper::fresnsFileStorageConfigByType($file->type)['antiLinkStatus'];
+        $temporaryUrlStatus = FileHelper::fresnsFileStorageConfigByType($file->type)['temporaryUrlStatus'];
 
-        if ($antiLinkStatus) {
-            $fresnsResponse = \FresnsCmdWord::plugin()->getAntiLinkFileInfo([
+        if ($temporaryUrlStatus) {
+            $fresnsResponse = \FresnsCmdWord::plugin()->getTemporaryUrlFileInfo([
                 'type' => $file->type,
                 'fileIdOrFid' => strval($file->id),
             ]);
@@ -383,8 +383,8 @@ class FileHelper
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($file->type);
 
-        if ($storageConfig['antiLinkStatus']) {
-            $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl([
+        if ($storageConfig['temporaryUrlStatus']) {
+            $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getTemporaryUrlOfOriginalFile([
                 'type' => $file->type,
                 'fileIdOrFid' => strval($file->id),
             ]);
@@ -527,8 +527,8 @@ class FileHelper
         ];
     }
 
-    // handle anti link file info to list
-    public static function handleAntiLinkFileInfoList(array $files): array
+    // handle temporary url file info to list
+    public static function handleTemporaryUrlFileInfoList(array $files): array
     {
         $imageStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
         $videoStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_VIDEO);
@@ -536,10 +536,10 @@ class FileHelper
         $documentStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_DOCUMENT);
 
         // image
-        if ($imageStorageConfig['antiLinkStatus'] && $files['images']) {
+        if ($imageStorageConfig['temporaryUrlStatus'] && $files['images']) {
             $fids = array_column($files['images'], 'fid');
 
-            $fresnsResponse = \FresnsCmdWord::plugin($imageStorageConfig['service'])->getAntiLinkFileInfoList([
+            $fresnsResponse = \FresnsCmdWord::plugin($imageStorageConfig['service'])->getTemporaryUrlFileInfoList([
                 'type' => 1,
                 'fileIdsOrFids' => $fids,
             ]);
@@ -556,10 +556,10 @@ class FileHelper
         }, $files['images']);
 
         // video
-        if ($videoStorageConfig['antiLinkStatus'] && $files['videos']) {
+        if ($videoStorageConfig['temporaryUrlStatus'] && $files['videos']) {
             $fids = array_column($files['videos'], 'fid');
 
-            $fresnsResponse = \FresnsCmdWord::plugin($videoStorageConfig['service'])->getAntiLinkFileInfoList([
+            $fresnsResponse = \FresnsCmdWord::plugin($videoStorageConfig['service'])->getTemporaryUrlFileInfoList([
                 'type' => 2,
                 'fileIdsOrFids' => $fids,
             ]);
@@ -570,10 +570,10 @@ class FileHelper
         }
 
         // audio
-        if ($audioStorageConfig['antiLinkStatus'] && $files['audios']) {
+        if ($audioStorageConfig['temporaryUrlStatus'] && $files['audios']) {
             $fids = array_column($files['audios'], 'fid');
 
-            $fresnsResponse = \FresnsCmdWord::plugin($audioStorageConfig['service'])->getAntiLinkFileInfoList([
+            $fresnsResponse = \FresnsCmdWord::plugin($audioStorageConfig['service'])->getTemporaryUrlFileInfoList([
                 'type' => 3,
                 'fileIdsOrFids' => $fids,
             ]);
@@ -584,10 +584,10 @@ class FileHelper
         }
 
         // document
-        if ($documentStorageConfig['antiLinkStatus'] && $files['documents']) {
+        if ($documentStorageConfig['temporaryUrlStatus'] && $files['documents']) {
             $fids = array_column($files['documents'], 'fid');
 
-            $fresnsResponse = \FresnsCmdWord::plugin($documentStorageConfig['service'])->getAntiLinkFileInfoList([
+            $fresnsResponse = \FresnsCmdWord::plugin($documentStorageConfig['service'])->getTemporaryUrlFileInfoList([
                 'type' => 4,
                 'fileIdsOrFids' => $fids,
             ]);

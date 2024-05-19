@@ -189,9 +189,9 @@ class ConfigHelper
         $cacheKey = 'fresns_config_file_url_expire';
         $cacheTag = 'fresnsConfigs';
 
-        $urlExpire = CacheHelper::get($cacheKey, $cacheTag);
+        $urlExpiration = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($urlExpire)) {
+        if (empty($urlExpiration)) {
             $fileConfigArr = Config::where('item_type', 'file')->get();
 
             // get file type
@@ -209,36 +209,36 @@ class ConfigHelper
                 $fileTypeArr[] = $file->type;
             }
 
-            $urlExpire = null;
+            $urlExpiration = null;
             if ($fileTypeArr) {
                 $fileType = array_unique($fileTypeArr);
 
-                // get anti link expire
-                $antiLinkExpire = [];
+                // get temporary url expiration
+                $temporaryUrlExpiration = [];
                 foreach ($fileType as $type) {
                     $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
 
-                    if (! $storageConfig['antiLinkStatus']) {
+                    if (! $storageConfig['temporaryUrlStatus']) {
                         continue;
                     }
 
-                    $antiLinkExpire[] = $storageConfig['antiLinkExpire'];
+                    $temporaryUrlExpiration[] = $storageConfig['temporaryUrlExpiration'];
                 }
 
-                if (empty($antiLinkExpire)) {
+                if (empty($temporaryUrlExpiration)) {
                     return null;
                 }
 
-                $newAntiLinkExpire = array_filter($antiLinkExpire);
-                $minAntiLinkExpire = min($newAntiLinkExpire);
+                $newTemporaryUrlExpiration = array_filter($temporaryUrlExpiration);
+                $minTemporaryUrlExpiration = min($newTemporaryUrlExpiration);
 
-                $urlExpire = $minAntiLinkExpire - 1;
+                $urlExpiration = $minTemporaryUrlExpiration - 1;
             }
 
-            CacheHelper::put($urlExpire, $cacheKey, $cacheTag);
+            CacheHelper::put($urlExpiration, $cacheKey, $cacheTag);
         }
 
-        return $urlExpire;
+        return $urlExpiration;
     }
 
     // Get language pack

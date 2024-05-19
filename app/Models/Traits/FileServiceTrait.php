@@ -45,7 +45,7 @@ trait FileServiceTrait
             $filePath = $fileData->path;
         }
 
-        $fileUrl = StrHelper::qualifyUrl($filePath, $fileConfigInfo['bucketDomain']);
+        $fileUrl = StrHelper::qualifyUrl($filePath, $fileConfigInfo['accessDomain']);
 
         return $fileUrl;
     }
@@ -66,7 +66,7 @@ trait FileServiceTrait
 
         $path = $fileData->original_path ? $fileOriginalPath : $filePath;
 
-        $originalUrl = StrHelper::qualifyUrl($path, $fileConfigInfo['bucketDomain']);
+        $originalUrl = StrHelper::qualifyUrl($path, $fileConfigInfo['accessDomain']);
 
         return $originalUrl;
     }
@@ -128,7 +128,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         $imageConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'image_bucket_domain',
+            'image_access_domain',
             'image_filesystem_disk',
             'image_handle_position',
             'image_thumb_config',
@@ -149,7 +149,7 @@ trait FileServiceTrait
 
         // imageHandlePosition = empty
         if (empty($imageHandlePosition)) {
-            $imageUrl = StrHelper::qualifyUrl($filePath, $imageConfig['image_bucket_domain']);
+            $imageUrl = StrHelper::qualifyUrl($filePath, $imageConfig['image_access_domain']);
 
             $info['imageConfigUrl'] = $imageUrl;
             $info['imageRatioUrl'] = $imageUrl;
@@ -161,7 +161,7 @@ trait FileServiceTrait
 
         // imageHandlePosition = path-end
         if ($imageHandlePosition == 'path-end') {
-            $imageUrl = StrHelper::qualifyUrl($filePath, $imageConfig['image_bucket_domain']);
+            $imageUrl = StrHelper::qualifyUrl($filePath, $imageConfig['image_access_domain']);
 
             $info['imageConfigUrl'] = $imageUrl.$imageConfig['image_thumb_config'];
             $info['imageRatioUrl'] = $imageUrl.$imageConfig['image_thumb_ratio'];
@@ -187,10 +187,10 @@ trait FileServiceTrait
             $imageBigPath = $handlePath['bigPath'];
         }
 
-        $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_bucket_domain']);
-        $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
-        $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
-        $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
+        $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_access_domain']);
+        $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_access_domain']);
+        $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_access_domain']);
+        $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_access_domain']);
 
         return $info;
     }
@@ -200,7 +200,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         $videoConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'video_bucket_domain',
+            'video_access_domain',
             'video_filesystem_disk',
             'video_poster_parameter',
             'video_poster_handle_position',
@@ -224,8 +224,8 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($videoConfig['video_transcode_handle_position'], $videoConfig['video_transcode_parameter'], $filePath);
         }
 
-        $info['videoPosterUrl'] = StrHelper::qualifyUrl($posterPath, $videoConfig['video_bucket_domain']);
-        $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $videoConfig['video_bucket_domain']);
+        $info['videoPosterUrl'] = StrHelper::qualifyUrl($posterPath, $videoConfig['video_access_domain']);
+        $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $videoConfig['video_access_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
 
         return $info;
@@ -236,7 +236,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         $audioConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'audio_bucket_domain',
+            'audio_access_domain',
             'audio_filesystem_disk',
             'audio_transcode_parameter',
             'audio_transcode_handle_position',
@@ -252,7 +252,7 @@ trait FileServiceTrait
             $filePath = FileHelper::fresnsFilePathByHandlePosition($audioConfig['audio_transcode_handle_position'], $audioConfig['audio_transcode_parameter'], $filePath);
         }
 
-        $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $audioConfig['audio_bucket_domain']);
+        $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $audioConfig['audio_access_domain']);
         $info['transcodingState'] = $fileData->transcoding_state;
 
         return $info;
