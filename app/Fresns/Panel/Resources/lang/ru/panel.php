@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => 'Выберите, какой плагин для использования',
     'key_option_plugin_api_select_desc' => 'Этот ключ может запросить только API соответствующего плагина',
     // Client-Basic
-    'website_cookie_prefix' => 'Префикс cookie сайта',
-    'website_cookie_prefix_desc' => 'После изменения пользователи, ранее вошедшие на сайт, будут считаться недействительными и должны будут войти в систему заново.',
     'website_stat_code' => 'Код статистики сайта',
     'website_stat_code_desc' => 'Использование статистического кода, содержащего document.write, не поддерживается.',
     'website_stat_position' => 'Расположение кода статистики',

@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => '使用するプラグインを選択してください',
     'key_option_plugin_api_select_desc' => 'このキーは、関連するプラグインのAPIのみを要求できます。',
     // Client-Basic
-    'website_cookie_prefix' => 'ウェブサイト Cookie 接頭辞',
-    'website_cookie_prefix_desc' => '変更後、過去に当ウェブサイトにログインしたことのあるユーザーは無効となり、再度ログインする必要があります。',
     'website_stat_code' => 'サイト統計コード',
     'website_stat_code_desc' => 'document.writeを含む統計コードの使用はサポートされていません。',
     'website_stat_position' => '統計コードの場所',

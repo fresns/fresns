@@ -6,7 +6,7 @@
 
 @section('content')
     <!--basic header-->
-    <div class="row mb-5 border-bottom">
+    <div class="row mb-4 border-bottom">
         <div class="col-lg-9">
             <h3>{{ __('FsLang::panel.sidebar_client_basic') }}</h3>
             <p class="text-secondary"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.sidebar_client_basic_intro') }}</p>
@@ -22,25 +22,6 @@
     <form action="{{ route('panel.client.basic.update') }}" method="post">
         @csrf
         @method('put')
-
-        <div class="row mb-4">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.website_cookie_prefix') }}:</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="website_cookie_prefix" value="{{ $params['website_cookie_prefix'] }}" required>
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'lang_tag' }}</span></li>
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'timezone' }}</span></li>
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'aid' }}</span></li>
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'aid_token' }}</span></li>
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'uid' }}</span></li>
-                        <li><span class="dropdown-item-text">{{ $params['website_cookie_prefix'].'uid_token' }}</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-5 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.website_cookie_prefix_desc') }}</div>
-        </div>
 
         <!--website_stat_code-->
         <div class="row mb-4">

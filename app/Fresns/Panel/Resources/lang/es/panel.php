@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => 'Seleccione el complemento para usar',
     'key_option_plugin_api_select_desc' => 'Esta clave solo puede solicitar la API del complemento asociado',
     // Client-Basic
-    'website_cookie_prefix' => 'Prefijo de cookie del sitio web',
-    'website_cookie_prefix_desc' => 'Tras el cambio, los usuarios que se hayan registrado previamente en el sitio web quedarán invalidados y tendrán que volver a registrarse.',
     'website_stat_code' => 'Código estadístico del sitio',
     'website_stat_code_desc' => 'No se admite el uso de código estadístico que contenga document.write.',
     'website_stat_position' => 'Ubicación del código estadístico',

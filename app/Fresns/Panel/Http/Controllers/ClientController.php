@@ -139,7 +139,6 @@ class ClientController extends Controller
     {
         // config keys
         $configKeys = [
-            'website_cookie_prefix',
             'website_stat_code',
             'website_stat_position',
             'site_china_mode',
@@ -169,7 +168,6 @@ class ClientController extends Controller
     {
         // config keys
         $configKeys = [
-            'website_cookie_prefix',
             'website_stat_code',
             'website_stat_position',
             'site_china_mode',
@@ -191,17 +189,6 @@ class ClientController extends Controller
                 $config->setDefaultValue();
                 $config->save();
                 continue;
-            }
-
-            if ($configKey == 'website_cookie_prefix') {
-                $websiteCookiePrefix = Str::of($request->get('website_cookie_prefix'))->trim();
-                $websiteCookiePrefix = Str::replace('.', '_', $websiteCookiePrefix);
-                $websiteCookiePrefix = Str::replace('/', '_', $websiteCookiePrefix);
-                $websiteCookiePrefix = Str::replace(':', '_', $websiteCookiePrefix);
-
-                if (! Str::startsWith($websiteCookiePrefix, 'fresns_')) {
-                    $request->$configKey = 'fresns_'.$websiteCookiePrefix;
-                }
             }
 
             $config->item_value = $request->$configKey;

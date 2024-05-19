@@ -7207,17 +7207,6 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'website_cookie_prefix',
-                'item_value' => 'fresns_',
-                'item_type' => 'string',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 1,
-                'created_at' => '2022-10-18 10:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            [
                 'item_key' => 'website_stat_code',
                 'item_value' => null,
                 'item_type' => 'string',

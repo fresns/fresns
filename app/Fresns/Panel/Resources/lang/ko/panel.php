@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => '사용할 플러그인을 선택하십시오',
     'key_option_plugin_api_select_desc' => '이 키는 연관된 플러그인의 API 만 요청할 수 있습니다',
     // Client-Basic
-    'website_cookie_prefix' => '웹사이트 Cookie 접두사',
-    'website_cookie_prefix_desc' => '변경 후 이전에 웹사이트에 로그인한 사용자는 무효화되며 다시 로그인해야 합니다.',
     'website_stat_code' => '사이트 통계 코드',
     'website_stat_code_desc' => 'document.write가 포함된 통계 코드의 사용은 지원되지 않습니다.',
     'website_stat_position' => '통계 코드 위치',

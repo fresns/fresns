@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => 'Sélectionnez le plugin à utiliser',
     'key_option_plugin_api_select_desc' => 'Cette clé ne peut que demander l\'API du plugin associé',
     // Client-Basic
-    'website_cookie_prefix' => 'Préfixe de cookie du site web',
-    'website_cookie_prefix_desc' => 'Après ce changement, les utilisateurs qui se sont précédemment connectés au site web seront invalidés et devront se connecter à nouveau.',
     'website_stat_code' => 'Code statistique du site',
     'website_stat_code_desc' => 'L\'utilisation de code statistique contenant document.write n\'est pas supportée.',
     'website_stat_position' => 'Emplacement du code statistique',

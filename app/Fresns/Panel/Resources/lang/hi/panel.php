@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => 'उपयोग के लिए कौन सा प्लगइन चुनें',
     'key_option_plugin_api_select_desc' => 'यह कुंजी केवल संबंधित प्लगइन के एपीआई का अनुरोध कर सकती है',
     // Client-Basic
-    'website_cookie_prefix' => 'वेबसाइट कुकी उपसर्ग',
-    'website_cookie_prefix_desc' => 'संशोधन के बाद, जिन उपयोगकर्ताओं ने पहले वेबसाइट पर लॉग इन किया है, वे अमान्य हो जाएंगे और उन्हें फिर से लॉग इन करना होगा।',
     'website_stat_code' => 'साइट स्टेट कोड',
     'website_stat_code_desc' => 'document.write युक्त सांख्यिकीय कोड का उपयोग समर्थित नहीं है।',
     'website_stat_position' => 'सांख्यिकीय कोड स्थान',

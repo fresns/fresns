@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => '選擇密鑰用於哪個外掛',
     'key_option_plugin_api_select_desc' => '該密鑰僅能請求關聯外掛的 API',
     // Client-Basic
-    'website_cookie_prefix' => '網站 Cookie 前綴',
-    'website_cookie_prefix_desc' => '修改後，先前在網站已登入的使用者將失效，需重新登入',
     'website_stat_code' => '網站統計代碼',
     'website_stat_code_desc' => '第三方統計代碼，不支援使用含有 document.write 的統計代碼。',
     'website_stat_position' => '統計代碼位置',

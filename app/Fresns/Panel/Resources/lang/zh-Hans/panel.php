@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => '选择密钥用于哪个插件',
     'key_option_plugin_api_select_desc' => '该密钥仅能请求关联插件的 API',
     // Client-Website
-    'website_cookie_prefix' => '网站 Cookie 前缀',
-    'website_cookie_prefix_desc' => '修改后，以前在网站已登录的用户将失效，需重新登录',
     'website_stat_code' => '网站统计代码',
     'website_stat_code_desc' => '第三方统计代码，不支持使用含有 document.write 的统计代码。',
     'website_stat_position' => '统计代码位置',

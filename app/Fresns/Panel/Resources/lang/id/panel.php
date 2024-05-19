@@ -925,8 +925,6 @@ return [
     'key_option_plugin_api_select' => 'Pilih plugin mana yang digunakan',
     'key_option_plugin_api_select_desc' => 'Kunci ini hanya dapat meminta API dari plugin terkait',
     // Client-Basic
-    'website_cookie_prefix' => 'Awalan Cookie Situs Web',
-    'website_cookie_prefix_desc' => 'Setelah perubahan, pengguna yang sebelumnya telah masuk ke situs web akan dibatalkan dan harus masuk lagi.',
     'website_stat_code' => 'Kode Statistik Situs',
     'website_stat_code_desc' => 'Penggunaan kode statistik yang mengandung document.write tidak didukung.',
     'website_stat_position' => 'Lokasi kode statistik',
