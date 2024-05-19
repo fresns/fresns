@@ -90,7 +90,7 @@ class UpgradeFresns extends Command
 
             $this->upgradeFinish();
         } catch (\Exception $e) {
-            logger($e->getMessage());
+            info($e->getMessage());
 
             $this->error($e->getMessage());
             $this->updateStep(self::STEP_FAILURE);
@@ -101,7 +101,7 @@ class UpgradeFresns extends Command
         $this->clear();
         $this->updateStep(self::STEP_DONE);
 
-        logger('upgrade: done');
+        info('upgrade: done');
 
         return Command::SUCCESS;
     }
@@ -143,7 +143,7 @@ class UpgradeFresns extends Command
     public function download(): bool
     {
         $this->updateStep(self::STEP_DOWNLOAD);
-        logger('upgrade: fresns download zip');
+        info('upgrade: fresns download zip');
 
         $httpProxy = config('app.http_proxy');
 
@@ -172,7 +172,7 @@ class UpgradeFresns extends Command
 
         $this->file = $file;
 
-        logger('upgrade: fresns download done');
+        info('upgrade: fresns download done');
 
         return true;
     }
@@ -181,7 +181,7 @@ class UpgradeFresns extends Command
     public function extractFile(): bool
     {
         $this->updateStep(self::STEP_EXTRACT);
-        logger('upgrade: fresns unzip file');
+        info('upgrade: fresns unzip file');
 
         if (! $this->file) {
             return false;
@@ -200,7 +200,7 @@ class UpgradeFresns extends Command
 
         $this->copyMerge(Storage::path($extractPath.'/fresns'), base_path());
 
-        logger('upgrade: fresns unzip done');
+        info('upgrade: fresns unzip done');
 
         return true;
     }
@@ -210,28 +210,28 @@ class UpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_INSTALL);
 
-        logger('upgrade: fresns upgrade command');
+        info('upgrade: fresns upgrade command');
 
         // migrate command
-        logger('-- migrate command');
+        info('-- migrate command');
         $exitCode = $this->call('migrate', ['--force' => true]);
         if ($exitCode) {
-            logger('-- -- migrate info: exitCode = '.$exitCode);
+            info('-- -- migrate info: exitCode = '.$exitCode);
 
             return false;
         }
 
         // composer command
-        logger('-- composer command');
+        info('-- composer command');
         $exitCode = $this->call('plugin:composer-update');
 
         if ($exitCode) {
-            logger('-- -- composer error: '.Artisan::output());
+            info('-- -- composer error: '.Artisan::output());
 
             return false;
         }
 
-        logger('-- -- composer finish: '.Artisan::output());
+        info('-- -- composer finish: '.Artisan::output());
 
         return true;
     }
@@ -239,7 +239,7 @@ class UpgradeFresns extends Command
     // step 4-2: edit fresns version info
     public function upgradeFinish(): bool
     {
-        logger('upgrade: fresns edit version');
+        info('upgrade: fresns edit version');
 
         $newVersion = AppHelper::VERSION;
 

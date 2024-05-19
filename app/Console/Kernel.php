@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
             }
 
             $schedule->call(function () use ($cron) {
-                logger("schedule: {$cron['fskey']} -> {$cron['cmdWord']} | {$cron['cronTableFormat']}");
+                info("schedule: {$cron['fskey']} -> {$cron['cmdWord']} | {$cron['cronTableFormat']}");
 
                 \FresnsCmdWord::plugin($cron['fskey'])->{$cron['cmdWord']}();
             })->cron($cron['cronTableFormat']);

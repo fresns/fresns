@@ -56,7 +56,7 @@ class SubscribeUtility
 
         $subArr = array_values($filtered);
 
-        info('subscribe items', $subArr);
+        // info('subscribe items', [$type, $subArr]);
 
         return $subArr;
     }
@@ -91,7 +91,7 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
-                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+                    // info("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
 
                     try {
                         $fskey = $item['fskey'];
@@ -99,7 +99,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger('Error executing cmdWord: '.$e->getMessage());
+                        info('notifyDataChange -> Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -120,6 +120,7 @@ class SubscribeUtility
 
         Queue::push(function () use ($wordBody) {
             $uid = $wordBody['headers']['x-fresns-uid'];
+
             $cacheKey = "fresns_user_activity_{$uid}";
             $cacheTag = 'fresnsUsers';
 
@@ -141,7 +142,7 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
-                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+                    // info("notifyUserActivity: {$item['fskey']} -> {$item['cmdWord']}");
 
                     try {
                         $fskey = $item['fskey'];
@@ -149,7 +150,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger('Error executing cmdWord: '.$e->getMessage());
+                        info('notifyUserActivity -> Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -177,7 +178,7 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
-                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+                    // info("notifyAccountAndUserLogin: {$item['fskey']} -> {$item['cmdWord']}");
 
                     try {
                         $fskey = $item['fskey'];
@@ -185,7 +186,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger('Error executing cmdWord: '.$e->getMessage());
+                        info('notifyAccountAndUserLogin -> Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -219,7 +220,7 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
-                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+                    // info("notifyViewContent: {$item['fskey']} -> {$item['cmdWord']}");
 
                     try {
                         $fskey = $item['fskey'];
@@ -227,7 +228,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger('Error executing cmdWord: '.$e->getMessage());
+                        info('notifyViewContent -> Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }

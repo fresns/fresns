@@ -76,7 +76,7 @@ class ManualUpgradeFresns extends Command
             $this->pluginPublishAndActivate();
             $this->upgradeFinish();
         } catch (\Exception $e) {
-            logger($e->getMessage());
+            info($e->getMessage());
 
             $this->error($e->getMessage());
             $this->updateStep(self::STEP_FAILURE);
@@ -129,11 +129,11 @@ class ManualUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_UPDATE_DATA);
 
-        logger('-- command: migrate');
+        info('-- command: migrate');
 
         $exitCode = $this->call('migrate', ['--force' => true]);
         if ($exitCode) {
-            logger('-- -- migrate info: exitCode = '.$exitCode);
+            info('-- -- migrate info: exitCode = '.$exitCode);
 
             return false;
         }
@@ -150,12 +150,12 @@ class ManualUpgradeFresns extends Command
             $exitCode = $this->call('plugin:composer-update');
 
             if ($exitCode) {
-                logger('-- -- composer info: plugin composer-update exitCode = '.$exitCode);
+                info('-- -- composer info: plugin composer-update exitCode = '.$exitCode);
 
                 return false;
             }
         } catch (\Exception $e) {
-            logger('-- -- composer info: plugin composer exception >> '.$e->getMessage());
+            info('-- -- composer info: plugin composer exception >> '.$e->getMessage());
 
             $this->error($e->getMessage());
 
@@ -180,7 +180,7 @@ class ManualUpgradeFresns extends Command
                     $this->call('plugin:activate', ['fskey' => $plugin->fskey]);
                 }
             } catch (\Exception $e) {
-                logger('-- publish and activate: exception >> '.$e->getMessage());
+                info('-- publish and activate: exception >> '.$e->getMessage());
 
                 $this->error($e->getMessage());
             }

@@ -91,7 +91,7 @@ class Crontab
     // checkUserRoleExpired
     public function checkUserRoleExpired()
     {
-        logger('cmd word: checkUserRoleExpired');
+        info('cmd word: checkUserRoleExpired');
 
         $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
 
@@ -129,7 +129,7 @@ class Crontab
     // checkDeleteAccount
     public function checkDeleteAccount()
     {
-        logger('cmd word: checkDeleteAccount');
+        info('cmd word: checkDeleteAccount');
 
         $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
 
@@ -189,7 +189,7 @@ class Crontab
     // checkAppsVersions
     public function checkAppsVersions()
     {
-        logger('cmd word: checkAppsVersions');
+        info('cmd word: checkAppsVersions');
 
         // Time of the latest check version
         Config::updateOrCreate([
