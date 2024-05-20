@@ -285,9 +285,19 @@ class UserController extends Controller
 
         $extcreditsLogs = $logQuery->paginate($dtoRequest->pageSize ?? 15);
 
+        $config = ConfigHelper::fresnsConfigByItemKeys([
+            'extcredits1_name', 'extcredits1_unit',
+            'extcredits2_name', 'extcredits2_unit',
+            'extcredits3_name', 'extcredits3_unit',
+            'extcredits4_name', 'extcredits4_unit',
+            'extcredits5_name', 'extcredits5_unit',
+        ], $langTag);
+
         $logList = [];
         foreach ($extcreditsLogs as $log) {
             $item['extcreditsId'] = $log->extcredits_id;
+            $item['name'] = $config["extcredits{$log->extcredits_id}_name"] ?? 'extcredits'.$log->extcredits_id;
+            $item['unit'] = $config["extcredits{$log->extcredits_id}_unit"];
             $item['type'] = $log->type == 1 ? 'increment' : 'decrement';
             $item['amount'] = $log->amount;
             $item['openingAmount'] = $log->opening_amount;
