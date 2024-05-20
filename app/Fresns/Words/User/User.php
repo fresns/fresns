@@ -347,7 +347,6 @@ class User
             case 'increment':
                 $type = 1;
                 $operationStat = $userStat->increment($extcreditsId, $amount);
-                $closingAmount = $openingAmount + $amount;
                 break;
 
             case 'decrement':
@@ -361,13 +360,15 @@ class User
 
                 $type = 2;
                 $operationStat = $userStat->decrement($extcreditsId, $amount);
-                $closingAmount = $openingAmount - $amount;
                 break;
         }
 
         if (! $operationStat) {
             return $this->failure(21006, ConfigUtility::getCodeMessage(21006));
         }
+
+        $newUserStat = UserStat::where('user_id', $userId)->first();
+        $closingAmount = $newUserStat->$extcreditsId;
 
         $log = [
             'user_id' => $userId,
