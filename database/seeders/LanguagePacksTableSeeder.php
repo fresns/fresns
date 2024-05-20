@@ -2046,7 +2046,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogs',
+                'lang_key' => 'walletRecords',
                 'lang_values' => '{"en":"Transaction Record","zh-Hans":"钱包交易记录","zh-Hant":"錢包交易記錄"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2054,7 +2054,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType',
+                'lang_key' => 'walletRecordType',
                 'lang_values' => '{"en":"Type","zh-Hans":"交易类型","zh-Hant":"交易類型"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2062,7 +2062,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogAmountTotal',
+                'lang_key' => 'walletRecordAmountTotal',
                 'lang_values' => '{"en":"Amount Total","zh-Hans":"交易总额","zh-Hant":"交易總額"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2070,7 +2070,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogAmount',
+                'lang_key' => 'walletRecordAmount',
                 'lang_values' => '{"en":"Amount","zh-Hans":"交易金额","zh-Hant":"交易金額"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2078,7 +2078,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogSystemFee',
+                'lang_key' => 'walletRecordSystemFee',
                 'lang_values' => '{"en":"System Fee","zh-Hans":"交易服务费","zh-Hant":"交易服務費"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2086,7 +2086,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogOpeningBalance',
+                'lang_key' => 'walletRecordOpeningBalance',
                 'lang_values' => '{"en":"Opening Balance","zh-Hans":"期初余额","zh-Hant":"期初餘額"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2094,7 +2094,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogClosingBalance',
+                'lang_key' => 'walletRecordClosingBalance',
                 'lang_values' => '{"en":"Closing Balance","zh-Hans":"期末余额","zh-Hant":"期末餘額"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2102,7 +2102,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogTime',
+                'lang_key' => 'walletRecordTime',
                 'lang_values' => '{"en":"Time","zh-Hans":"交易时间","zh-Hant":"交易時間"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2110,7 +2110,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogRemark',
+                'lang_key' => 'walletRecordRemark',
                 'lang_values' => '{"en":"Remark","zh-Hans":"交易备注","zh-Hant":"交易備註"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2118,7 +2118,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogUser',
+                'lang_key' => 'walletRecordUser',
                 'lang_values' => '{"en":"User","zh-Hans":"交易用户","zh-Hant":"交易使用者"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2126,7 +2126,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogCode',
+                'lang_key' => 'walletRecordCode',
                 'lang_values' => '{"en":"Transaction Code","zh-Hans":"交易凭证","zh-Hant":"交易憑證"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2134,7 +2134,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState',
+                'lang_key' => 'walletRecordState',
                 'lang_values' => '{"en":"State","zh-Hans":"交易状态","zh-Hant":"交易狀態"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2142,7 +2142,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType1',
+                'lang_key' => 'walletRecordType1',
                 'lang_values' => '{"en":"Top-up","zh-Hans":"充值","zh-Hant":"儲值"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2150,7 +2150,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType2',
+                'lang_key' => 'walletRecordType2',
                 'lang_values' => '{"en":"Unfreeze","zh-Hans":"解冻","zh-Hant":"解凍"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2158,7 +2158,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType3',
+                'lang_key' => 'walletRecordType3',
                 'lang_values' => '{"en":"Transaction Income","zh-Hans":"交易收入","zh-Hant":"交易收入"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2166,7 +2166,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType4',
+                'lang_key' => 'walletRecordType4',
                 'lang_values' => '{"en":"Reversal Expense","zh-Hans":"撤回支出","zh-Hant":"撤回支出"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2174,7 +2174,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType5',
+                'lang_key' => 'walletRecordType5',
                 'lang_values' => '{"en":"Withdraw","zh-Hans":"提现","zh-Hant":"提現"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2182,7 +2182,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType6',
+                'lang_key' => 'walletRecordType6',
                 'lang_values' => '{"en":"Freeze","zh-Hans":"冻结","zh-Hant":"凍結"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2190,7 +2190,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType7',
+                'lang_key' => 'walletRecordType7',
                 'lang_values' => '{"en":"Transaction Expense","zh-Hans":"交易支出","zh-Hant":"交易支出"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2198,7 +2198,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogType8',
+                'lang_key' => 'walletRecordType8',
                 'lang_values' => '{"en":"Reversal Income","zh-Hans":"撤回收入","zh-Hant":"撤回收入"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2206,7 +2206,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState1',
+                'lang_key' => 'walletRecordState1',
                 'lang_values' => '{"en":"Pending","zh-Hans":"等待处理","zh-Hant":"等待處理"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2214,7 +2214,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState2',
+                'lang_key' => 'walletRecordState2',
                 'lang_values' => '{"en":"Processing","zh-Hans":"处理中","zh-Hant":"處理中"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2222,7 +2222,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState3',
+                'lang_key' => 'walletRecordState3',
                 'lang_values' => '{"en":"Success","zh-Hans":"交易成功","zh-Hant":"交易成功"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2230,7 +2230,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState4',
+                'lang_key' => 'walletRecordState4',
                 'lang_values' => '{"en":"Failed","zh-Hans":"交易失败","zh-Hant":"交易失敗"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2238,7 +2238,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'walletLogState5',
+                'lang_key' => 'walletRecordState5',
                 'lang_values' => '{"en":"Reversed","zh-Hans":"交易撤回","zh-Hant":"交易撤回"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2670,7 +2670,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogs',
+                'lang_key' => 'userExtcreditsRecords',
                 'lang_values' => '{"en":"Extcredits Records","zh-Hans":"用户扩展分值记录","zh-Hant":"使用者擴展分數記錄"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2678,7 +2678,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogName',
+                'lang_key' => 'userExtcreditsRecordName',
                 'lang_values' => '{"en":"Extcredits","zh-Hans":"分值名称","zh-Hant":"分數名稱"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2686,7 +2686,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogType',
+                'lang_key' => 'userExtcreditsRecordType',
                 'lang_values' => '{"en":"Type","zh-Hans":"操作类型","zh-Hant":"操作類型"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2694,7 +2694,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogAmount',
+                'lang_key' => 'userExtcreditsRecordAmount',
                 'lang_values' => '{"en":"Amount","zh-Hans":"分值","zh-Hant":"分數"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2702,7 +2702,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogOpeningAmount',
+                'lang_key' => 'userExtcreditsRecordOpeningAmount',
                 'lang_values' => '{"en":"Opening Amount","zh-Hans":"期初分值","zh-Hant":"期初分值"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2710,7 +2710,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogClosingAmount',
+                'lang_key' => 'userExtcreditsRecordClosingAmount',
                 'lang_values' => '{"en":"Closing Amount","zh-Hans":"期末分值","zh-Hant":"期末分數"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2718,7 +2718,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogApp',
+                'lang_key' => 'userExtcreditsRecordApp',
                 'lang_values' => '{"en":"App","zh-Hans":"应用","zh-Hant":"應用"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2726,7 +2726,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogRemark',
+                'lang_key' => 'userExtcreditsRecordRemark',
                 'lang_values' => '{"en":"Remark","zh-Hans":"备注","zh-Hant":"備註"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
@@ -2734,7 +2734,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'userExtcreditsLogTime',
+                'lang_key' => 'userExtcreditsRecordTime',
                 'lang_values' => '{"en":"Time","zh-Hans":"时间","zh-Hant":"時間"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
