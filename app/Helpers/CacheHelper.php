@@ -211,17 +211,15 @@ class CacheHelper
      */
     public static function clearAllCache(): void
     {
-        Cache::flush();
         Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('view:clear');
-        Artisan::call('route:clear');
-        Artisan::call('event:clear');
-        Artisan::call('schedule:clear-cache');
+        Cache::flush();
 
-        Artisan::call('config:cache');
-        Artisan::call('view:cache');
-        Artisan::call('route:cache');
+        Artisan::call('optimize:clear');
+        Artisan::call('config:cache'); // config:clear and cache
+        Artisan::call('event:cache'); // event:clear and cache
+        Artisan::call('view:cache'); // view:clear and cache
+        Artisan::call('route:cache'); // route:clear and cache
+        Artisan::call('schedule:clear-cache');
 
         // time of the latest cache
         Config::updateOrCreate([
@@ -243,8 +241,13 @@ class CacheHelper
         // system
         if ($cacheType == 'fresnsSystem') {
             CacheHelper::forgetFresnsTag('fresnsSystems');
-            Artisan::call('config:clear');
-            Artisan::call('config:cache');
+
+            Artisan::call('optimize:clear');
+
+            Artisan::call('config:cache'); // config:clear and cache
+            Artisan::call('event:cache'); // event:clear and cache
+            Artisan::call('view:cache'); // view:clear and cache
+            Artisan::call('route:cache'); // route:clear and cache
         }
 
         // config
@@ -280,20 +283,17 @@ class CacheHelper
 
         // view
         if ($cacheType == 'fresnsView') {
-            Artisan::call('view:clear');
-            Artisan::call('view:cache');
+            Artisan::call('view:cache'); // view:clear and cache
         }
 
         // route
         if ($cacheType == 'fresnsRoute') {
-            Artisan::call('route:clear');
-            Artisan::call('route:cache');
+            Artisan::call('route:cache'); // route:clear and cache
         }
 
         // event
         if ($cacheType == 'fresnsEvent') {
-            Artisan::call('event:clear');
-            Artisan::call('event:cache');
+            Artisan::call('event:cache'); // event:clear and cache
         }
 
         // schedule
