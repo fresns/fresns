@@ -51,7 +51,9 @@ class GroupController extends Controller
             $groupQuery = Group::isEnabled();
 
             if (empty($authUser)) {
-                $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
+                $groupQuery->where(function ($query) {
+                    $query->where('privacy', Group::PRIVACY_PUBLIC)->orWhere('visibility', Group::VISIBILITY_VISIBLE);
+                });
             }
 
             $groupFilterIds = PermissionUtility::getGroupListFilterIdArr($authUser?->id);
@@ -118,7 +120,9 @@ class GroupController extends Controller
         $groupQuery = Group::isEnabled();
 
         if (empty($authUserId)) {
-            $groupQuery->where('privacy', Group::PRIVACY_PUBLIC);
+            $groupQuery->where(function ($query) {
+                $query->where('privacy', Group::PRIVACY_PUBLIC)->orWhere('visibility', Group::VISIBILITY_VISIBLE);
+            });
         }
 
         $groupFilterIds = PermissionUtility::getGroupListFilterIdArr($authUserId);
