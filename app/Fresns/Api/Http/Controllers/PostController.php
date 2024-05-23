@@ -131,14 +131,14 @@ class PostController extends Controller
         $postQuery->whereRelation('author', 'is_enabled', true);
 
         // block
-        $blockGroupIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGroups);
+        $blockGroupIds = InteractionUtility::explodeIdArr('group', $dtoRequest->blockGroups);
         $privateGroupIds = PermissionUtility::getGroupContentFilterIdArr($authUserId);
 
         $filterUserIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockUsers);
         $filterGroupIds = array_unique(array_merge($blockGroupIds, $privateGroupIds));
-        $filterHashtagIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockHashtags);
-        $filterGeotagIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockGeotags);
-        $filterPostIds = InteractionUtility::explodeIdArr('user', $dtoRequest->blockPosts);
+        $filterHashtagIds = InteractionUtility::explodeIdArr('hashtag', $dtoRequest->blockHashtags);
+        $filterGeotagIds = InteractionUtility::explodeIdArr('geotag', $dtoRequest->blockGeotags);
+        $filterPostIds = InteractionUtility::explodeIdArr('post', $dtoRequest->blockPosts);
 
         if (empty($authUserId)) {
             $postQuery->where('is_enabled', true);
