@@ -267,15 +267,15 @@ class CommentController extends Controller
                 throw new ResponseException(35305);
             }
 
-            $crc32 = crc32($dtoRequest->users);
-            $cacheKey = "fresns_api_list_{$crc32}_user_ids";
+            $userCrc32 = crc32($dtoRequest->users);
+            $userCacheKey = "fresns_api_list_{$userCrc32}_user_ids";
 
-            $userExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+            $userExplodeArr = CacheHelper::get($userCacheKey, $cacheTag);
 
             if (empty($userExplodeArr)) {
                 $userExplodeArr = PermissionUtility::getPrimaryIdArr('user', $dtoRequest->users);
 
-                CacheHelper::put($userExplodeArr, $cacheKey, $cacheTag);
+                CacheHelper::put($userExplodeArr, $userCacheKey, $cacheTag);
             }
 
             if ($userExplodeArr['idCount'] == 0) {
@@ -288,16 +288,16 @@ class CommentController extends Controller
         // groups
         $groupDateLimit = null;
         if ($dtoRequest->groups) {
-            $crc32Text = $dtoRequest->groups.$dtoRequest->includeSubgroups.$authUserId;
-            $crc32 = crc32($crc32Text);
-            $cacheKey = "fresns_api_list_{$crc32}_group_ids";
+            $groupCrc32Text = $dtoRequest->groups.$dtoRequest->includeSubgroups.$authUserId;
+            $groupCrc32 = crc32($groupCrc32Text);
+            $groupCacheKey = "fresns_api_list_{$groupCrc32}_group_ids";
 
-            $groupExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+            $groupExplodeArr = CacheHelper::get($groupCacheKey, $cacheTag);
 
             if (empty($groupExplodeArr)) {
                 $groupExplodeArr = PermissionUtility::getPrimaryIdArr('group', $dtoRequest->groups, $authUserId, $dtoRequest->includeSubgroups);
 
-                CacheHelper::put($groupExplodeArr, $cacheKey, $cacheTag);
+                CacheHelper::put($groupExplodeArr, $groupCacheKey, $cacheTag);
             }
 
             if ($groupExplodeArr['idCount'] == 0) {
@@ -315,15 +315,15 @@ class CommentController extends Controller
 
         // hashtags
         if ($dtoRequest->hashtags) {
-            $crc32 = crc32($dtoRequest->hashtags);
-            $cacheKey = "fresns_api_list_{$crc32}_hashtag_ids";
+            $hashtagCrc32 = crc32($dtoRequest->hashtags);
+            $hashtagCacheKey = "fresns_api_list_{$hashtagCrc32}_hashtag_ids";
 
-            $hashtagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+            $hashtagExplodeArr = CacheHelper::get($hashtagCacheKey, $cacheTag);
 
             if (empty($hashtagExplodeArr)) {
                 $hashtagExplodeArr = PermissionUtility::getPrimaryIdArr('hashtag', $dtoRequest->hashtags);
 
-                CacheHelper::put($hashtagExplodeArr, $cacheKey, $cacheTag);
+                CacheHelper::put($hashtagExplodeArr, $hashtagCacheKey, $cacheTag);
             }
 
             if ($hashtagExplodeArr['idCount'] == 0) {
@@ -339,15 +339,15 @@ class CommentController extends Controller
 
         // geotags
         if ($dtoRequest->geotags) {
-            $crc32 = crc32($dtoRequest->geotags);
-            $cacheKey = "fresns_api_list_{$crc32}_geotag_ids";
+            $geotagCrc32 = crc32($dtoRequest->geotags);
+            $geotagCacheKey = "fresns_api_list_{$geotagCrc32}_geotag_ids";
 
-            $geotagExplodeArr = CacheHelper::get($cacheKey, $cacheTag);
+            $geotagExplodeArr = CacheHelper::get($geotagCacheKey, $cacheTag);
 
             if (empty($geotagExplodeArr)) {
                 $geotagExplodeArr = PermissionUtility::getPrimaryIdArr('geotag', $dtoRequest->geotags);
 
-                CacheHelper::put($geotagExplodeArr, $cacheKey, $cacheTag);
+                CacheHelper::put($geotagExplodeArr, $geotagCacheKey, $cacheTag);
             }
 
             if ($geotagExplodeArr['idCount'] == 0) {
@@ -546,7 +546,7 @@ class CommentController extends Controller
         $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
         if (empty($authUserId)) {
-            CacheHelper::put($comments, $cacheKey, 'fresnsList', 10);
+            CacheHelper::put($comments, $cacheKey, 'fresnsList', 5);
         }
 
         $commentList = [];

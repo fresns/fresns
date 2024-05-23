@@ -207,7 +207,7 @@ class HashtagController extends Controller
         $hashtagData = $hashtagQuery->paginate($dtoRequest->pageSize ?? 30);
 
         if (empty($authUserId)) {
-            CacheHelper::put($hashtagData, $cacheKey, 'fresnsList', 10);
+            CacheHelper::put($hashtagData, $cacheKey, 'fresnsList', 5);
         }
 
         $hashtagList = [];

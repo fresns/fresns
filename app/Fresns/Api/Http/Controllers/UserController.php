@@ -1180,7 +1180,7 @@ class UserController extends Controller
         $userData = $userQuery->paginate($dtoRequest->pageSize ?? 15);
 
         if (empty($authUserId)) {
-            CacheHelper::put($userData, $cacheKey, 'fresnsList', 10);
+            CacheHelper::put($userData, $cacheKey, 'fresnsList', 5);
         }
 
         $userList = [];

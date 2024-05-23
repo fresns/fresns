@@ -289,7 +289,7 @@ class GroupController extends Controller
         $groupData = $groupQuery->paginate($dtoRequest->pageSize ?? 15);
 
         if (empty($authUserId)) {
-            CacheHelper::put($groupData, $cacheKey, 'fresnsList', 10);
+            CacheHelper::put($groupData, $cacheKey, 'fresnsList', 5);
         }
 
         $groupList = [];

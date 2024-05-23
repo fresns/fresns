@@ -266,7 +266,7 @@ class GeotagController extends Controller
         $geotagData = $geotagQuery->paginate($dtoRequest->pageSize ?? 30);
 
         if (empty($authUserId)) {
-            CacheHelper::put($geotagData, $cacheKey, 'fresnsList', 10);
+            CacheHelper::put($geotagData, $cacheKey, 'fresnsList', 5);
         }
 
         $geotagList = [];
