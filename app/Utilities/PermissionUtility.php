@@ -289,6 +289,15 @@ class PermissionUtility
         if ($type == 'group' && $fsidCount == 1) {
             $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $fsidArr[0]);
 
+            if (empty($viewGroup?->id)) {
+                return [
+                    'fsidCount' => 0,
+                    'idCount' => 0,
+                    'idArr' => [],
+                    'datetime' => null,
+                ];
+            }
+
             $checkLimit = PermissionUtility::getGroupContentDateLimit($viewGroup->id, $authUserId);
 
             $idArr = [$viewGroup->id];
