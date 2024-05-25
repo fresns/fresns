@@ -8,17 +8,23 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Account;
 use App\Models\AccountConnect;
 use App\Models\App;
 use App\Models\AppBadge;
 use App\Models\AppUsage;
+use App\Models\City;
 use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\LanguagePack;
 use App\Models\Seo;
+use App\Models\SessionKey;
+use App\Models\SessionLog;
+use App\Models\SessionToken;
 use App\Models\Sticker;
 use App\Models\TempCallbackContent;
 use App\Models\TempVerifyCode;
+use App\Models\User;
 use App\Models\UserStat;
 use App\Utilities\SubscribeUtility;
 
@@ -30,15 +36,19 @@ trait DataChangeNotifyTrait
             Config::class,
             CodeMessage::class,
             LanguagePack::class,
-            Sticker::class,
+            SessionKey::class,
+            SessionToken::class,
+            SessionLog::class,
             App::class,
             AppBadge::class,
             AppUsage::class,
-            AccountConnect::class,
-            UserStat::class,
+            Sticker::class,
+            City::class,
             Seo::class,
             TempVerifyCode::class,
             TempCallbackContent::class,
+            AccountConnect::class,
+            UserStat::class,
         ];
 
         if (in_array(static::class, $excludedClasses)) {
@@ -50,6 +60,10 @@ trait DataChangeNotifyTrait
         });
 
         static::updated(function ($model) {
+            if (($model instanceof Account || $model instanceof User) && ($model->isDirty('last_login_at') || $model->isDirty('last_activity_at'))) {
+                return;
+            }
+
             SubscribeUtility::notifyDataChange(static::class, $model->id, SubscribeUtility::CHANGE_TYPE_UPDATED);
         });
 
