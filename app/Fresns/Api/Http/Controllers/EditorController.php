@@ -268,6 +268,21 @@ class EditorController extends Controller
             throw new ResponseException(30002);
         }
 
+        $content = PrimaryHelper::fresnsModelByFsid($type, $fsid);
+
+        if (empty($content)) {
+            $code = match ($type) {
+                'post' => 37400,
+                'comment' => 37500,
+            };
+
+            throw new ResponseException($code);
+        }
+
+        if ($content->user_id != $authUser->id) {
+            throw new ResponseException(38101);
+        }
+
         $wordType = match ($type) {
             'post' => 1,
             'comment' => 2,
