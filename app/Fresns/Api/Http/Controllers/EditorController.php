@@ -21,7 +21,6 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\App;
-use App\Models\Archive;
 use App\Models\ArchiveUsage;
 use App\Models\CommentLog;
 use App\Models\Extend;
@@ -73,7 +72,7 @@ class EditorController extends Controller
             $commentPost = ContentUtility::getCommentPost($dtoRequest->commentPid, $dtoRequest->commentCid);
 
             if (empty($commentPost)) {
-                return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
+                return $this->failure(38108, ConfigUtility::getCodeMessage(38108));
             }
 
             $commentPostId = $commentPost->id;
@@ -356,7 +355,7 @@ class EditorController extends Controller
                 $checkLogCount = PostLog::where('user_id', $authUser->id)->whereNot('state', PostLog::STATE_SUCCESS)->count();
 
                 if ($checkLogCount >= $userRolePerm['post_draft_count']) {
-                    throw new ResponseException(38106);
+                    throw new ResponseException(38107);
                 }
                 break;
 
@@ -367,7 +366,7 @@ class EditorController extends Controller
 
                 $commentPost = ContentUtility::getCommentPost($dtoRequest->commentPid, $dtoRequest->commentCid);
                 if (empty($commentPost)) {
-                    return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
+                    return $this->failure(38108, ConfigUtility::getCodeMessage(38108));
                 }
 
                 $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);
@@ -378,7 +377,7 @@ class EditorController extends Controller
                 $checkLogCount = CommentLog::where('user_id', $authUser->id)->whereNot('state', CommentLog::STATE_SUCCESS)->count();
 
                 if ($checkLogCount >= $userRolePerm['comment_draft_count']) {
-                    throw new ResponseException(38106);
+                    throw new ResponseException(38107);
                 }
                 break;
         }
@@ -615,11 +614,11 @@ class EditorController extends Controller
         }
 
         if ($draft->state == PostLog::STATE_UNDER_REVIEW) {
-            throw new ResponseException(38101);
+            throw new ResponseException(38102);
         }
 
         if ($draft->state == PostLog::STATE_SUCCESS) {
-            throw new ResponseException(38102);
+            throw new ResponseException(38103);
         }
 
         $permissions = $draft->permissions;
@@ -950,11 +949,11 @@ class EditorController extends Controller
         }
 
         if ($draft->state == PostLog::STATE_UNDER_REVIEW) {
-            throw new ResponseException(38103);
+            throw new ResponseException(38104);
         }
 
         if ($draft->state == PostLog::STATE_SUCCESS) {
-            throw new ResponseException(38104);
+            throw new ResponseException(38105);
         }
 
         $mainId = match ($type) {

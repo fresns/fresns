@@ -136,7 +136,7 @@ class Content
                 // comment
                 $commentPost = ContentUtility::getCommentPost($dtoWordBody->commentPid, $dtoWordBody->commentCid);
                 if (empty($commentPost)) {
-                    return $this->failure(38107, ConfigUtility::getCodeMessage(38107));
+                    return $this->failure(38108, ConfigUtility::getCodeMessage(38108));
                 }
 
                 $parentCommentId = null;
@@ -313,7 +313,7 @@ class Content
         }
 
         if ($logModel->state == PostLog::STATE_SUCCESS) {
-            return $this->failure(38104, ConfigUtility::getCodeMessage(38104));
+            return $this->failure(38105, ConfigUtility::getCodeMessage(38105));
         }
 
         $author = $logModel->author;

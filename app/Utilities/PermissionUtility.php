@@ -666,7 +666,7 @@ class PermissionUtility
         $postCommentPolicy = $postPermissions['commentConfig']['policy'] ?? User::POLICY_EVERYONE;
 
         if ($postCommentPolicy == User::POLICY_NO_ONE_IS_ALLOWED) {
-            $commentPerm['code'] = 38108;
+            $commentPerm['code'] = 38109;
 
             return $commentPerm;
         }

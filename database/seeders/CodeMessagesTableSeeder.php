@@ -1960,7 +1960,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38101,
-                'messages' => '{"en":"The content is being reviewed and can not be edited","zh-Hans":"内容审核中不可编辑","zh-Hant":"內容審核中不可編輯"}',
+                'messages' => '{"en":"You can only edit your own content","zh-Hans":"只能编辑自己的内容","zh-Hant":"只能編輯自己的內容"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1968,7 +1968,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38102,
-                'messages' => '{"en":"The content has been published and can not be edited","zh-Hans":"内容已正式发表不可编辑","zh-Hant":"內容已正式發表不可編輯"}',
+                'messages' => '{"en":"The content is being reviewed and can not be edited","zh-Hans":"内容审核中不可编辑","zh-Hant":"內容審核中不可編輯"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1976,7 +1976,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38103,
-                'messages' => '{"en":"Content being reviewed can not be submitted again","zh-Hans":"处于审核状态的内容不可再提交","zh-Hant":"處於審核狀態的內容不可再提交"}',
+                'messages' => '{"en":"The content has been published and can not be edited","zh-Hans":"内容已正式发表不可编辑","zh-Hant":"內容已正式發表不可編輯"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1984,7 +1984,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38104,
-                'messages' => '{"en":"Content being published can not be submitted again","zh-Hans":"处于发布状态的内容不可再提交","zh-Hant":"處於發布狀態的內容不可再提交"}',
+                'messages' => '{"en":"Content being reviewed can not be submitted again","zh-Hans":"处于审核状态的内容不可再提交","zh-Hant":"處於審核狀態的內容不可再提交"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -1992,7 +1992,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38105,
-                'messages' => '{"en":"Failed to create draft comment. Only first-level comment can create draft","zh-Hans":"评论草稿创建失败，只有一级评论才能创建草稿","zh-Hant":"留言草稿創建失敗，只有一級留言才能創建草稿"}',
+                'messages' => '{"en":"Content being published can not be submitted again","zh-Hans":"处于发布状态的内容不可再提交","zh-Hant":"處於發布狀態的內容不可再提交"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -2000,7 +2000,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38106,
-                'messages' => '{"en":"Draft creation failed, draft box is full, please organize and create again","zh-Hans":"草稿创建失败，草稿箱已满，请整理后再创建","zh-Hant":"草稿創建失敗，草稿箱已滿，請整理後再創建"}',
+                'messages' => '{"en":"Failed to create draft comment. Only first-level comment can create draft","zh-Hans":"评论草稿创建失败，只有一级评论才能创建草稿","zh-Hant":"留言草稿創建失敗，只有一級留言才能創建草稿"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -2008,7 +2008,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38107,
-                'messages' => '{"en":"Comment failed, belongs to the post or has been deleted","zh-Hans":"评论失败，所属帖子或已删除","zh-Hant":"留言失敗，所屬帖子或已刪除"}',
+                'messages' => '{"en":"Draft creation failed, draft box is full, please organize and create again","zh-Hans":"草稿创建失败，草稿箱已满，请整理后再创建","zh-Hant":"草稿創建失敗，草稿箱已滿，請整理後再創建"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -2016,7 +2016,7 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38108,
-                'messages' => '{"en":"Comment failed, the post belongs to the comment function has been closed","zh-Hans":"评论失败，所属帖子已关闭评论功能","zh-Hant":"留言失敗，所屬貼文已關閉留言功能"}',
+                'messages' => '{"en":"Comment failed, belongs to the post or has been deleted","zh-Hans":"评论失败，所属帖子或已删除","zh-Hant":"留言失敗，所屬帖子或已刪除"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
@@ -2024,6 +2024,14 @@ class CodeMessagesTableSeeder extends Seeder
             [
                 'app_fskey' => 'Fresns',
                 'code' => 38109,
+                'messages' => '{"en":"Comment failed, the post belongs to the comment function has been closed","zh-Hans":"评论失败，所属帖子已关闭评论功能","zh-Hant":"留言失敗，所屬貼文已關閉留言功能"}',
+                'created_at' => '2022-10-18 10:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'app_fskey' => 'Fresns',
+                'code' => 38110,
                 'messages' => '{"en":"The author of the post has made the comment private, do not support separate reconfiguration of comments","zh-Hans":"帖子作者已经设置评论私有，不支持单独再配置评论","zh-Hant":"貼文作者已經設定留言私有，不支援單獨再配置留言"}',
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
