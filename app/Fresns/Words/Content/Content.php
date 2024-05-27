@@ -101,7 +101,7 @@ class Content
                     $title = Str::of($dtoWordBody->title)->trim();
                 }
 
-                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', PostLog::STATE_DRAFT)->first();
+                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->whereNot('create_type', PostLog::CREATE_TYPE_EDIT)->where('state', PostLog::STATE_DRAFT)->first();
 
                 $permissions['commentConfig']['policy'] = $dtoWordBody->commentPolicy;
                 $permissions['commentConfig']['privacy'] = $dtoWordBody->commentPrivate ? 'private' : 'public';
@@ -150,7 +150,7 @@ class Content
                     $parentCommentId = $comment->id;
                 }
 
-                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', CommentLog::STATE_DRAFT)->first();
+                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->whereNot('create_type', CommentLog::CREATE_TYPE_EDIT)->where('state', CommentLog::STATE_DRAFT)->first();
 
                 $logData = [
                     'user_id' => $author->id,

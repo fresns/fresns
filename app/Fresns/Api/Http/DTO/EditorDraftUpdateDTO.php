@@ -15,7 +15,6 @@ class EditorDraftUpdateDTO extends DTO
     public function rules(): array
     {
         return [
-            'editorFskey' => ['string', 'nullable'],
             'quotePid' => ['string', 'nullable'],
             'gid' => ['string', 'nullable'],
             'title' => ['string', 'nullable'],

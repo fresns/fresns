@@ -1299,7 +1299,7 @@ class ContentUtility
 
         // post log
         $logData = [
-            'create_type' => 3,
+            'create_type' => PostLog::CREATE_TYPE_EDIT,
             'user_id' => $post->user_id,
             'post_id' => $post->id,
             'quoted_post_id' => $post->quoted_post_id,
@@ -1331,7 +1331,7 @@ class ContentUtility
 
         // comment log
         $logData = [
-            'create_type' => 3,
+            'create_type' => CommentLog::CREATE_TYPE_EDIT,
             'user_id' => $comment->user_id,
             'post_id' => $comment->post_id,
             'comment_id' => $comment->id,

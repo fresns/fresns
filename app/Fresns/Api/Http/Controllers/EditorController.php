@@ -132,7 +132,6 @@ class EditorController extends Controller
         $wordBody = [
             'uid' => $authUser->uid,
             'type' => $wordType,
-            'createType' => 1,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
             'quotePid' => $dtoRequest->quotePid,
@@ -405,8 +404,8 @@ class EditorController extends Controller
         $wordBody = [
             'uid' => $authUser->uid,
             'type' => $wordType,
-            'createType' => $dtoRequest->createType,
-            'editorFskey' => $dtoRequest->editorFskey,
+            'createType' => 1,
+            'editorFskey' => null,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
             'quotePid' => $dtoRequest->quotePid,
@@ -637,28 +636,6 @@ class EditorController extends Controller
         }
 
         $permissions = $draft->permissions;
-
-        // editorFskey
-        if ($dtoRequest->editorFskey) {
-            $editorPlugin = App::where('fskey', $dtoRequest->editorFskey)->whereIn('type', [App::TYPE_PLUGIN, App::TYPE_APP_REMOTE])->first();
-
-            if (! $editorPlugin || ! in_array('editor', $editorPlugin?->panel_usages)) {
-                throw new ResponseException(32101);
-            }
-
-            if (! $editorPlugin->is_enabled) {
-                throw new ResponseException(32102);
-            }
-
-            $permissions['editor'] = [
-                'isAppEditor' => true,
-                'editorFskey' => $dtoRequest->editorFskey,
-            ];
-
-            $draft->update([
-                'permissions' => $permissions,
-            ]);
-        }
 
         switch ($type) {
             case 'post':

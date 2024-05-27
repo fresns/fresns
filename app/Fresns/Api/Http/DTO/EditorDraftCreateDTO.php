@@ -16,8 +16,6 @@ class EditorDraftCreateDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:post,comment'],
-            'editorFskey' => ['string', 'nullable'],
-            'createType' => ['integer', 'required', 'in:1,2'],
             'commentPid' => ['string', 'nullable'],
             'commentCid' => ['string', 'nullable'],
             'quotePid' => ['string', 'nullable'],

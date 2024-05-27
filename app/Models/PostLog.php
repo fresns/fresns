@@ -14,6 +14,10 @@ class PostLog extends Model
     use Traits\IsEnabledTrait;
     use Traits\PostLogServiceTrait;
 
+    const CREATE_TYPE_API = 1;
+    const CREATE_TYPE_PLUGIN = 2;
+    const CREATE_TYPE_EDIT = 3;
+
     const STATE_DRAFT = 1;
     const STATE_UNDER_REVIEW = 2;
     const STATE_SUCCESS = 3;
