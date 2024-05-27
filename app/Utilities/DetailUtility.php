@@ -853,6 +853,8 @@ class DetailUtility
             SubscribeUtility::notifyViewContent('post', $post->pid, $viewType, $authUserId);
         }
 
+        unset($result['readConfigContent']);
+
         // filter
         $filterType = $options['filter']['type'] ?? null;
         $filterKeys = $options['filter']['keys'] ?? null;
@@ -1427,6 +1429,8 @@ class DetailUtility
             $historyDetail['content'] = str_replace($searchArr, $replaceArr, $historyDetail['content']);
         }
 
+        unset($historyDetail['readConfigContent']);
+
         // filter
         $filterType = $options['filter']['type'] ?? null;
         $filterKeys = $options['filter']['keys'] ?? null;
@@ -1784,8 +1788,6 @@ class DetailUtility
 
         // readConfig
         if (! $postDetail['readConfig']['isReadLocked']) {
-            unset($postDetail['readConfigContent']);
-
             return $postDetail;
         }
 
@@ -1797,7 +1799,6 @@ class DetailUtility
 
         if ($checkPostAuth) {
             $postDetail['readConfig']['isReadLocked'] = false;
-            unset($postDetail['readConfigContent']);
 
             return $postDetail;
         }
@@ -1807,8 +1808,6 @@ class DetailUtility
 
             $postDetail = array_replace($postDetail, $newContent);
 
-            unset($postDetail['readConfigContent']);
-
             return $postDetail;
         }
 
@@ -1816,8 +1815,6 @@ class DetailUtility
         $newContent['isBrief'] = $postDetail['readConfigContent']['listIsBrief'];
 
         $postDetail = array_replace($postDetail, $newContent);
-
-        unset($postDetail['readConfigContent']);
 
         return $postDetail;
     }
