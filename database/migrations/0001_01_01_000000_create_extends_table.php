@@ -63,7 +63,7 @@ return new class extends Migration
         Schema::create('extend_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('extend_id')->index('extend_id');
-            $table->unsignedBigInteger('user_id')->index('extend_user_id');
+            $table->unsignedBigInteger('user_id')->index('extend_action_user_id');
             $table->string('action_key', 64)->nullable()->index('extend_action_key');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
