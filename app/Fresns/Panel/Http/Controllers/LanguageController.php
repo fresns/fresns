@@ -63,7 +63,7 @@ class LanguageController extends Controller
             return $item['langTag'] == $langTag;
         });
 
-        if (! $languageKey) {
+        if ($languageKey != 0 && ! $languageKey) {
             return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
