@@ -21,6 +21,7 @@ trait GroupServiceTrait
         $parentGroup = $this->parentGroup;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'site_url',
             'website_group_detail_path',
             'group_like_public_count',
             'group_dislike_public_count',
@@ -28,10 +29,11 @@ trait GroupServiceTrait
             'group_block_public_count',
         ]);
 
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
+        // https://example.com/group/{gid}
+        $groupUrl = $configKeys['site_url'].'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
 
         $info['gid'] = $groupData->gid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid; // https://example.com/group/{gid}
+        $info['url'] = $configKeys['site_url'] ? $groupUrl : null;
         $info['name'] = StrHelper::languageContent($groupData->name, $langTag);
         $info['description'] = StrHelper::languageContent($groupData->description, $langTag);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($groupData->cover_file_id, $groupData->cover_file_url);

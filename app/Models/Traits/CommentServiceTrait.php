@@ -22,6 +22,7 @@ trait CommentServiceTrait
         $permissions = $commentData->permissions;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'site_url',
             'website_comment_detail_path',
             'comment_like_public_count',
             'comment_dislike_public_count',
@@ -29,10 +30,11 @@ trait CommentServiceTrait
             'comment_block_public_count',
         ]);
 
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
+        // https://example.com/comment/{cid}
+        $commentUrl = $configKeys['site_url'].'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
 
         $info['cid'] = $commentData->cid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid; // https://example.com/comment/{cid}
+        $info['url'] = $configKeys['site_url'] ? $commentUrl : null;
         $info['privacy'] = ($commentData->privacy_state == Comment::PRIVACY_PUBLIC) ? 'public' : 'private';
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);

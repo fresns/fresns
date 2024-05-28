@@ -19,6 +19,7 @@ trait HashtagServiceTrait
         $hashtagData = $this;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'site_url',
             'website_hashtag_detail_path',
             'hashtag_like_public_count',
             'hashtag_dislike_public_count',
@@ -26,10 +27,11 @@ trait HashtagServiceTrait
             'hashtag_block_public_count',
         ]);
 
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
+        // https://example.com/hashtag/{htid}
+        $hashtagUrl = $configKeys['site_url'].'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug;
 
         $info['htid'] = $hashtagData->slug;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug; // https://example.com/hashtag/{htid}
+        $info['url'] = $configKeys['site_url'] ? $hashtagUrl : null;
         $info['name'] = $hashtagData->name;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($hashtagData->cover_file_id, $hashtagData->cover_file_url);
         $info['description'] = StrHelper::languageContent($hashtagData->description, $langTag);

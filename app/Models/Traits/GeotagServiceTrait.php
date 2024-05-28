@@ -20,6 +20,7 @@ trait GeotagServiceTrait
         $city = $geotagData->city;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'site_url',
             'website_geotag_detail_path',
             'geotag_like_public_count',
             'geotag_dislike_public_count',
@@ -27,10 +28,11 @@ trait GeotagServiceTrait
             'geotag_block_public_count',
         ]);
 
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
+        // https://example.com/geotag/{gtid}
+        $geotagUrl = $configKeys['site_url'].'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid;
 
         $info['gtid'] = $geotagData->gtid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_geotag_detail_path'].'/'.$geotagData->gtid; // https://example.com/geotag/{gtid}
+        $info['url'] = $configKeys['site_url'] ? $geotagUrl : null;
         $info['name'] = StrHelper::languageContent($geotagData->name, $langTag);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($geotagData->cover_file_id, $geotagData->cover_file_url);
         $info['description'] = StrHelper::languageContent($geotagData->description, $langTag);

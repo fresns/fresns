@@ -23,6 +23,7 @@ trait PostServiceTrait
         $permissions = $postData->permissions;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'site_url',
             'website_post_detail_path',
             'post_like_public_count',
             'post_dislike_public_count',
@@ -34,10 +35,11 @@ trait PostServiceTrait
             'comment_block_public_count',
         ]);
 
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
+        // https://example.com/post/{pid}
+        $postUrl = $configKeys['site_url'].'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid;
 
         $info['pid'] = $postData->pid;
-        $info['url'] = $siteUrl.'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid; // https://example.com/post/{pid}
+        $info['url'] = $configKeys['site_url'] ? $postUrl : null;
         $info['title'] = $postData->title;
         $info['content'] = $postData->content;
         $info['contentLength'] = Str::length($postData->content);

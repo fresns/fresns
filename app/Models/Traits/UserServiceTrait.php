@@ -25,12 +25,11 @@ trait UserServiceTrait
         $account = $this->account;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
-            'user_identifier',
-            'website_user_detail_path',
             'site_mode',
+            'site_url',
+            'website_user_detail_path',
+            'user_identifier',
         ]);
-
-        $siteUrl = ConfigHelper::fresnsSiteUrl();
 
         $expired = false;
         if ($configKeys['site_mode'] == 'private') {
@@ -73,10 +72,13 @@ trait UserServiceTrait
 
         $fsid = $configKeys['user_identifier'] == 'uid' ? $userData->uid : $userData->username;
 
+        // https://example.com/user/{fsid}
+        $userUrl = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$fsid;
+
         $profile['fsid'] = $fsid;
         $profile['uid'] = $userData->uid;
         $profile['username'] = $userData->username;
-        $profile['url'] = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$fsid; // https://example.com/user/{fsid}
+        $profile['url'] = $configKeys['site_url'] ? $userUrl : null;
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = $userData->getUserAvatar();
         $profile['decorate'] = null;
