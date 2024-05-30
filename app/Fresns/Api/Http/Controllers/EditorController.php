@@ -104,10 +104,6 @@ class EditorController extends Controller
                 throw new ResponseException(32105);
             }
 
-            if (! $fileConfig['service']) {
-                throw new ResponseException(32105);
-            }
-
             $servicePlugin = App::where('fskey', $fileConfig['service'])->isEnabled()->first();
 
             if (! $servicePlugin) {
@@ -737,14 +733,14 @@ class EditorController extends Controller
         // isMarkdown
         if (isset($dtoRequest->isMarkdown)) {
             $draft->update([
-                'is_markdown' => $dtoRequest->isMarkdown,
+                'is_markdown' => $dtoRequest->isMarkdown ? 1 : 0,
             ]);
         }
 
         // isAnonymous
         if (isset($dtoRequest->isAnonymous)) {
             $draft->update([
-                'is_anonymous' => $dtoRequest->isAnonymous,
+                'is_anonymous' => $dtoRequest->isAnonymous ? 1 : 0,
             ]);
         }
 

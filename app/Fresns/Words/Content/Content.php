@@ -114,8 +114,8 @@ class Content
                     'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'title' => $title,
                     'content' => $content,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'is_markdown' => $dtoWordBody->isMarkdown ? 1 : 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ? 1 : 0,
                     'location_info' => $dtoWordBody->locationInfo,
                     'permissions' => $permissions,
                 ];
@@ -159,8 +159,8 @@ class Content
                     'parent_comment_id' => $parentCommentId,
                     'geotag_id' => PrimaryHelper::fresnsPrimaryId('geotag', $dtoWordBody->gtid),
                     'content' => $content,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'is_markdown' => $dtoWordBody->isMarkdown ? 1 : 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ? 1 : 0,
                     'is_private' => $dtoWordBody->commentPrivate,
                     'location_info' => $dtoWordBody->locationInfo,
                     'permissions' => $permissions,
@@ -464,8 +464,8 @@ class Content
                     'geotag_id' => $geotag?->id ?? 0,
                     'title' => $dtoWordBody->title ? Str::of($dtoWordBody->title)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'is_markdown' => $dtoWordBody->isMarkdown ? 1 : 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ? 1 : 0,
                     'permissions' => $permissions,
                 ]);
 
@@ -519,8 +519,8 @@ class Content
                     'parent_id' => $parentCommentId,
                     'geotag_id' => $geotag?->id ?? 0,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
-                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'is_markdown' => $dtoWordBody->isMarkdown ? 1 : 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ? 1 : 0,
                     'privacy_state' => $privacyState,
                 ]);
 
