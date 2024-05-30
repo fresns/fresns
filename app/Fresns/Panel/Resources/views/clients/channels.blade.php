@@ -249,7 +249,7 @@
                 @endforeach
                 {{-- timeline --}}
                 <tr>
-                    <th scope="row" rowspan="7" class="text-center">{{ __('FsLang::panel.channel_timeline') }}</th>
+                    <th scope="row" rowspan="11" class="text-center">{{ __('FsLang::panel.channel_timeline') }}</th>
                     <td colspan="2">{{ __('FsLang::panel.channel_table_page_home') }}</td>
                     <td>/timelines</td>
                     <td>
@@ -275,7 +275,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan="6">{{ __('FsLang::panel.channel_table_page_list') }}</td>
+                    <td rowspan="10">{{ __('FsLang::panel.channel_table_page_list') }}</td>
                     <td>{{ __('FsLang::panel.channel_timeline_all_posts') }}</td>
                     <td>/timelines/posts</td>
                     <td>
@@ -301,40 +301,26 @@
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td>{{ __('FsLang::panel.channel_timeline_users_posts') }}</td>
-                    <td>/timelines/user-posts</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#configLangModal"
-                            data-title="{{ __('FsLang::panel.table_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'channel_timeline_user_posts_name']) }}"
-                            data-languages="{{ json_encode($params['channel_timeline_user_posts_name']) }}">
-                            {{ $defaultLangParams['channel_timeline_user_posts_name'] ?? '' }}
-                        </button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>{{ __('FsLang::panel.channel_timeline_groups_posts') }}</td>
-                    <td>/timelines/group-posts</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#configLangModal"
-                            data-title="{{ __('FsLang::panel.table_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'channel_timeline_group_posts_name']) }}"
-                            data-languages="{{ json_encode($params['channel_timeline_group_posts_name']) }}">
-                            {{ $defaultLangParams['channel_timeline_group_posts_name'] ?? '' }}
-                        </button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                @foreach (['user', 'group', 'hashtag', 'geotag'] as $type)
+                    <tr>
+                        <td>{{ __("FsLang::panel.channel_timeline_{$type}_posts") }}</td>
+                        <td>/timelines/{{ $type }}-posts</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-dark btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#configLangModal"
+                                data-title="{{ __('FsLang::panel.table_name') }}"
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_timeline_{$type}_posts_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_timeline_{$type}_posts_name"]) }}">
+                                {{ $defaultLangParams["channel_timeline_{$type}_posts_name"] ?? '' }}
+                            </button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endforeach
+
                 <tr>
                     <td>{{ __('FsLang::panel.channel_timeline_all_comments') }}</td>
                     <td>/timelines/comments</td>
@@ -361,40 +347,26 @@
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td>{{ __('FsLang::panel.channel_timeline_users_comments') }}</td>
-                    <td>/timelines/user-comments</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#configLangModal"
-                            data-title="{{ __('FsLang::panel.table_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'channel_timeline_user_comments_name']) }}"
-                            data-languages="{{ json_encode($params['channel_timeline_user_comments_name']) }}">
-                            {{ $defaultLangParams['channel_timeline_user_comments_name'] ?? '' }}
-                        </button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>{{ __('FsLang::panel.channel_timeline_groups_comments') }}</td>
-                    <td>/timelines/group-comments</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#configLangModal"
-                            data-title="{{ __('FsLang::panel.table_name') }}"
-                            data-action="{{ route('panel.update.languages', ['itemKey' => 'channel_timeline_group_comments_name']) }}"
-                            data-languages="{{ json_encode($params['channel_timeline_group_comments_name']) }}">
-                            {{ $defaultLangParams['channel_timeline_group_comments_name'] ?? '' }}
-                        </button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+
+                @foreach (['user', 'group', 'hashtag', 'geotag'] as $type)
+                    <tr>
+                        <td>{{ __("FsLang::panel.channel_timeline_{$type}_comments") }}</td>
+                        <td>/timelines/{{ $type }}-comments</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-dark btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#configLangModal"
+                                data-title="{{ __('FsLang::panel.table_name') }}"
+                                data-action="{{ route('panel.update.languages', ['itemKey' => "channel_timeline_{$type}_comments_name"]) }}"
+                                data-languages="{{ json_encode($params["channel_timeline_{$type}_comments_name"]) }}">
+                                {{ $defaultLangParams["channel_timeline_{$type}_comments_name"] ?? '' }}
+                            </button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endforeach
                 {{-- nearby --}}
                 <tr>
                     <th scope="row" rowspan="3" class="text-center">{{ __('FsLang::panel.channel_nearby') }}</th>
