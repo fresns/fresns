@@ -55,7 +55,7 @@ class FileHelper
         ];
 
         $config['storageConfigStatus'] = true;
-        if (empty($config['secretId']) || empty($config['secretKey']) || empty($config['bucketName']) || empty($config['bucketEndpoint'])) {
+        if (empty($config['service']) || empty($config['secretId']) || empty($config['secretKey']) || empty($config['bucketName'])) {
             $config['storageConfigStatus'] = ($config['filesystemDisk'] == 'local') ? true : false;
         }
 
