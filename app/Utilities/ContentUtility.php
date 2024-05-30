@@ -793,7 +793,7 @@ class ContentUtility
                     'zip' => $locationInfo['zip'] ?? null,
                 ];
 
-                $cityModel = Geotag::create($cityItems);
+                $cityModel = City::create($cityItems);
             }
 
             $cityId = $cityModel->id;
