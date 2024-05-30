@@ -1141,6 +1141,7 @@ class EditorController extends Controller
         $draft->delete();
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsMultilingual("fresns_publish_{$type}_config_{$authUser->id}", 'fresnsUsers');
 
         return $this->success();
     }
