@@ -115,12 +115,16 @@ class ConfigHelper
 
             foreach ($configValue as $plugin) {
                 $code = $plugin['code'] ?? null;
+                $icon = $plugin['icon'] ?? null;
                 $name = $plugin['name'] ?? [];
                 $fskey = $plugin['fskey'] ?? null;
                 $order = $plugin['order'] ?? 9;
 
+                $isPureInt = StrHelper::isPureInt($icon);
+
                 $itemArr[] = [
                     'code' => $code,
+                    'icon' => $isPureInt ? FileHelper::fresnsFileUrlById($icon) : $icon,
                     'name' => StrHelper::languageContent($name, $langTag),
                     'url' => PluginHelper::fresnsPluginUrlByFskey($fskey),
                     'order' => $order,
