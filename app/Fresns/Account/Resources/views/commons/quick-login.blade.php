@@ -7,6 +7,7 @@
                 data-connect-platform-id="{{ $item['code'] }}"
                 data-redirect-url="{{ urlencode(route('account-center.user-auth', ['loginToken' => '{loginToken}'])) }}"
                 data-post-message-key="{{ $postMessageKey }}">
+                @if ($item['icon']) <img src="{{ $item['icon'] }}" height="20"> @endif
                 {{ $item['name'] }}
             </button>
         @endforeach
