@@ -134,7 +134,7 @@ class AccountController extends Controller
                             'tableColumn' => 'item_value',
                             'tableKey' => 'account_connect_services',
                             'type' => File::TYPE_IMAGE,
-                            'file' => $request->file("connectIconFile")[$key],
+                            'file' => $request->file('connectIconFile')[$key],
                         ];
 
                         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
