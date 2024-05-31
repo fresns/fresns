@@ -9,8 +9,11 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateAccountRequest;
+use App\Helpers\PrimaryHelper;
 use App\Models\App;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 
 class AccountController extends Controller
 {
@@ -121,8 +124,32 @@ class AccountController extends Controller
                     $connectNameArr = [];
                 }
 
+                try {
+                    $icon = null;
+                    if ($request->hasFile("connectIconFile.{$key}")) {
+                        $wordBody = [
+                            'usageType' => FileUsage::TYPE_SYSTEM,
+                            'platformId' => 4,
+                            'tableName' => 'configs',
+                            'tableColumn' => 'item_value',
+                            'tableKey' => 'account_connect_services',
+                            'type' => File::TYPE_IMAGE,
+                            'file' => $request->file("connectIconFile")[$key],
+                        ];
+
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+
+                        $icon = PrimaryHelper::fresnsPrimaryId('file', $fresnsResp->getData('fid'));
+                    } elseif ($request->connectIconUrl[$key]) {
+                        $icon = $request->connectIconUrl[$key];
+                    }
+                } catch (\Exception $e) {
+                    $icon = null;
+                }
+
                 $services[$id] = [
                     'code' => $id,
+                    'icon' => $icon,
                     'name' => $connectNameArr,
                     'fskey' => $request->connectPlugin[$key] ?? '',
                     'order' => $request->connectOrder[$key] ?? 9,

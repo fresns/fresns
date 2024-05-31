@@ -660,8 +660,13 @@ $(document).ready(function () {
 
     // account connect
     $('#addConnect').click(function () {
-        let template = $('#connectTemplate');
-        $('.connect-box').append(template.html());
+        let template = $('#connectTemplate').html();
+
+        let randomSuffix = Math.random().toString(36).substring(2, 10);
+
+        template = template.replace(/connectIconModal/g, 'connectIconModal-' + randomSuffix);
+
+        $('.connect-box').append(template);
     });
 
     // account config (accountConfigForm)

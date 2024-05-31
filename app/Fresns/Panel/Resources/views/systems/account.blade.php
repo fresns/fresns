@@ -19,7 +19,7 @@
     </div>
 
     <!--config-->
-    <form action="{{ route('panel.account.update') }}" id="accountConfigForm" method="post">
+    <form action="{{ route('panel.account.update') }}" id="accountConfigForm" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
 
@@ -205,6 +205,7 @@
                 </div>
                 @foreach ($params['account_connect_services'] ?? [] as $connectService)
                     <div class="input-group mt-3">
+                        {{-- connect id --}}
                         <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>
                         <select class="form-select" name="connectId[]">
                             @foreach ($params['connects'] as $connect)
@@ -215,10 +216,53 @@
                             @endforeach
                         </select>
 
+                        {{-- name --}}
                         <label class="input-group-text">{{ __('FsLang::panel.table_name') }}</label>
                         <input type="hidden" name="connectNames[]" value="{{ ($connectService['name'] ?? []) ? json_encode($connectService['name']) : '' }}">
                         <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectNameModal">{{ __('FsLang::panel.button_config') }}</button>
 
+                        {{-- icon --}}
+                        <label class="input-group-text">{{ __('FsLang::panel.table_icon') }}</label>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectIconModal-{{ $loop->index }}">{{ __('FsLang::panel.button_config') }}</button>
+
+                        <div class="modal fade" id="connectIconModal-{{ $loop->index }}" tabindex="-1" aria-labelledby="connectIconModal-{{ $loop->index }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ __('FsLang::panel.table_icon') }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @php
+                                            $icon = $connectService['icon'] ?? '';
+                                            $isNumeric = is_numeric($icon);
+                                        @endphp
+
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                @if($icon && !$isNumeric)
+                                                    {{ __('FsLang::panel.button_image_input') }}
+                                                @else
+                                                    {{ __('FsLang::panel.button_image_upload') }}
+                                                @endif
+                                            </button>
+                                            <ul class="dropdown-menu selectInputType">
+                                                <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
+                                                <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
+                                            </ul>
+                                            <input type="file" class="form-control inputFile" name="connectIconFile[]" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg" @if($icon && !$isNumeric) style="display:none;" @endif>
+                                            <input type="text" class="form-control inputUrl" name="connectIconUrl[]" @if($icon && !$isNumeric) value="{{ $icon }}" @else style="display:none;" @endif>
+                                        </div>
+                                        <!--button_confirm-->
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- plugin --}}
                         <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
                         <select class="form-select" name="connectPlugin[]">
                             @foreach ($accountConnectPlugins as $plugin)
@@ -226,6 +270,7 @@
                             @endforeach
                         </select>
 
+                        {{-- order --}}
                         <label class="input-group-text">{{ __('FsLang::panel.table_order') }}</label>
                         <input type="number" class="form-control input-number" name="connectOrder[]" value="{{ $connectService['order'] ?? '' }}">
 
@@ -288,6 +333,35 @@
             <input type="hidden" name="connectNames[]" value="">
             <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectNameModal">{{ __('FsLang::panel.button_config') }}</button>
 
+            <label class="input-group-text">{{ __('FsLang::panel.table_icon') }}</label>
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#connectIconModal">{{ __('FsLang::panel.button_config') }}</button>
+
+            <div class="modal fade" id="connectIconModal" tabindex="-1" aria-labelledby="connectIconModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ __('FsLang::panel.table_icon') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_image_upload') }}</button>
+                                <ul class="dropdown-menu selectInputType">
+                                    <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
+                                    <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
+                                </ul>
+                                <input type="file" class="form-control inputFile" name="connectIconFile[]" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg">
+                                <input type="text" class="form-control inputUrl" name="connectIconUrl[]" style="display:none;">
+                            </div>
+                            <!--button_confirm-->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
             <select class="form-select" name="connectPlugin[]">
                 @foreach ($accountConnectPlugins as $plugin)
@@ -303,7 +377,7 @@
     </template>
 
     <!-- Name Language Modal -->
-    <div class="modal fade connect-name-lang-modal" id="connectNameModal" tabindex="-1" aria-labelledby="connectNameModal" aria-hidden="true">
+    <div class="modal fade" id="connectNameModal" tabindex="-1" aria-labelledby="connectNameModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
