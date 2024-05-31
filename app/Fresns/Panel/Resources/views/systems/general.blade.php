@@ -69,7 +69,7 @@
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
                     <!--Input-->
-                    <input type="file" class="form-control inputFile" name="site_icon_file" @if ($configImageInfo['iconType'] == 'URL') style="display:none;" @endif>
+                    <input type="file" class="form-control inputFile" name="site_icon_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg" @if ($configImageInfo['iconType'] == 'URL') style="display:none;" @endif>
                     <input type="text" class="form-control inputUrl" name="site_icon_url" @if ($configImageInfo['iconType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['iconType'] == 'URL') value="{{ $params['site_icon'] }}" @endif>
                     <!--Hidden item-->
                     <input type="hidden" name="site_icon" value="{{ $params['site_icon'] }}">
@@ -93,7 +93,7 @@
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
                     <!--Input-->
-                    <input type="file" class="form-control inputFile" name="site_logo_file" @if ($configImageInfo['logoType'] == 'URL') style="display:none;" @endif>
+                    <input type="file" class="form-control inputFile" name="site_logo_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg" @if ($configImageInfo['logoType'] == 'URL') style="display:none;" @endif>
                     <input type="text" class="form-control inputUrl" name="site_logo_url" @if ($configImageInfo['logoType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['logoType'] == 'URL') value="{{ $params['site_logo'] }}" @endif>
                     <!--Hidden item-->
                     <input type="hidden" name="site_logo" value="{{ $params['site_logo'] }}">

@@ -50,7 +50,7 @@
                                     <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                     <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                 </ul>
-                                <input type="file" class="form-control inputFile" name="cover_file">
+                                <input type="file" class="form-control inputFile" name="cover_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg">
                                 <input type="text" class="form-control inputUrl" name="cover_file_url" style="display:none;">
                                 <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="cover_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                             </div>
@@ -66,7 +66,7 @@
                                     <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                     <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                 </ul>
-                                <input type="file" class="form-control inputFile" name="banner_file">
+                                <input type="file" class="form-control inputFile" name="banner_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg">
                                 <input type="text" class="form-control inputUrl" name="banner_file_url" style="display:none;">
                                 <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="banner_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                             </div>

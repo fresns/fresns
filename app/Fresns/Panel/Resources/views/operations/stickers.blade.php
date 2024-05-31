@@ -111,7 +111,7 @@
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="image_file">
+                                    <input type="file" class="form-control inputFile" name="image_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg">
                                     <input type="text" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
@@ -286,7 +286,7 @@
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="image_file">
+                                    <input type="file" class="form-control inputFile" name="image_file" accept=".png,.gif,.jpg,.jpeg,image/png,image/apng,image/vnd.mozilla.apng,image/gif,image/jpeg,image/pjpeg,image/jpeg,image/pjpeg">
                                     <input type="text" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
