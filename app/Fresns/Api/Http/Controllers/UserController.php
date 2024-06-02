@@ -785,7 +785,7 @@ class UserController extends Controller
                     $mainRolePerms = PermissionUtility::getUserMainRole($authUserId)['permissions'];
                     $rolePerm = $mainRolePerms['follow_user_max_count'] ?? 0;
 
-                    $followCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_FOLLOW)->where('user_id', $authUserId)->where('follow_type', $markType)->count();
+                    $followCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_FOLLOW)->where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_USER)->count();
 
                     if ($rolePerm <= $followCount) {
                         throw new ResponseException(36118);
@@ -813,7 +813,7 @@ class UserController extends Controller
                     $mainRolePerms = PermissionUtility::getUserMainRole($authUserId)['permissions'];
                     $rolePerm = $mainRolePerms['block_user_max_count'] ?? 0;
 
-                    $blockCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_BLOCK)->where('user_id', $authUserId)->where('follow_type', $markType)->count();
+                    $blockCount = UserFollow::where('mark_type', UserFollow::MARK_TYPE_BLOCK)->where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_USER)->count();
 
                     if ($rolePerm <= $blockCount) {
                         throw new ResponseException(36118);
