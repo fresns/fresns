@@ -588,19 +588,18 @@ class DetailUtility
 
             $item['previewLikeUsers'] = [];
             $item['previewComments'] = [];
-            $item['manages'] = [];
-
-            $item['editControls'] = [
-                'isAuthor' => false,
-                'canDelete' => $permissions['canDelete'] ?? true,
-                'canEdit' => false,
-                'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
-                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['editorFskey'] ?? null),
-            ];
 
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('post', $langTag);
             $item['followType'] = null;
+
+            $item['manages'] = [];
+
+            $item['controls'] = [
+                'isAuthor' => false,
+                'canEdit' => false,
+                'canDelete' => $permissions['canDelete'] ?? true,
+            ];
 
             // handle post detail content
             $newContent = ContentUtility::handleAndReplaceAll($postInfo['content'], $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
@@ -804,14 +803,18 @@ class DetailUtility
             $postDetail['manages'] = ExtendUtility::getManageExtensions('post', $langTag, $authUserId, $post->group_id);
 
             if ($post->user_id == $authUserId) {
-                $postDetail['editControls']['isAuthor'] = true;
-                $postDetail['editControls']['canDelete'] = $postDetail['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state) : false;
-                $postDetail['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->digest_state, $post->sticky_state, $timezone, $langTag);
+                $postDetail['controls']['isAuthor'] = true;
+                $postDetail['controls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->digest_state, $post->sticky_state, $timezone, $langTag);
+                $postDetail['controls']['canDelete'] = $postDetail['controls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state) : false;
+            } else {
+                $postDetail['controls']['canDelete'] = false;
             }
 
             // interaction
             $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_POST, $post->id, $authUserId);
             $postDetail['interaction'] = array_replace($postDetail['interaction'], $interactionStatus);
+        } else {
+            $postDetail['controls']['canDelete'] = false;
         }
 
         // detail content
@@ -970,18 +973,9 @@ class DetailUtility
             $item['previewLikeUsers'] = [];
             $item['previewComments'] = [];
 
-            $item['manages'] = [];
-
-            $item['editControls'] = [
-                'isAuthor' => false,
-                'canDelete' => $permissions['canDelete'] ?? true,
-                'canEdit' => false,
-                'isAppEditor' => $permissions['editor']['isAppEditor'] ?? false,
-                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($permissions['editor']['editorFskey'] ?? null),
-            ];
-
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('comment', $langTag);
+            $item['followType'] = null;
 
             // reply info
             $item['replyToPost'] = null;
@@ -992,7 +986,13 @@ class DetailUtility
                 // 'comment' => ($comment->user_id == $comment->parentComment?->user_id) ? null : $comment->parentComment?->cid,
             ];
 
-            $item['followType'] = null;
+            $item['manages'] = [];
+
+            $item['controls'] = [
+                'isAuthor' => false,
+                'canEdit' => false,
+                'canDelete' => $permissions['canDelete'] ?? true,
+            ];
 
             // handle post detail content
             $newContent = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
@@ -1142,14 +1142,18 @@ class DetailUtility
             if ($comment->user_id == $authUserId) {
                 $commentPrivacy = 'public';
 
-                $commentDetail['editControls']['isAuthor'] = true;
-                $commentDetail['editControls']['canDelete'] = $commentDetail['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky) : false;
-                $commentDetail['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->digest_state, $comment->is_sticky, $timezone, $langTag);
+                $commentDetail['controls']['isAuthor'] = true;
+                $commentDetail['controls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->digest_state, $comment->is_sticky, $timezone, $langTag);
+                $commentDetail['controls']['canDelete'] = $commentDetail['controls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky) : false;
+            } else {
+                $commentDetail['controls']['canDelete'] = false;
             }
 
             if ($commentModel?->post?->user_id == $authUserId) {
                 $commentPrivacy = 'public';
             }
+        } else {
+            $commentDetail['controls']['canDelete'] = false;
         }
 
         // interaction
