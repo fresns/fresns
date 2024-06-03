@@ -1471,22 +1471,104 @@ class UserController extends Controller
                 break;
 
             case 'posts':
+                $postOptions = [
+                    'viewType' => 'list',
+                    'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+                    'checkPermissions' => true,
+                    'isPreviewLikeUsers' => false,
+                    'isPreviewComments' => false,
+                    'filter' => [
+                        'type' => $dtoRequest->filterType,
+                        'keys' => $dtoRequest->filterKeys,
+                    ],
+                    'filterGroup' => [
+                        'type' => $dtoRequest->filterGroupType,
+                        'keys' => $dtoRequest->filterGroupKeys,
+                    ],
+                    'filterHashtag' => [
+                        'type' => $dtoRequest->filterHashtagType,
+                        'keys' => $dtoRequest->filterHashtagKeys,
+                    ],
+                    'filterGeotag' => [
+                        'type' => $dtoRequest->filterGeotagType,
+                        'keys' => $dtoRequest->filterGeotagKeys,
+                    ],
+                    'filterAuthor' => [
+                        'type' => $dtoRequest->filterAuthorType,
+                        'keys' => $dtoRequest->filterAuthorKeys,
+                    ],
+                    'filterQuotedPost' => [
+                        'type' => $dtoRequest->filterQuotedPostType,
+                        'keys' => $dtoRequest->filterQuotedPostKeys,
+                    ],
+                    'filterPreviewLikeUser' => [
+                        'type' => $dtoRequest->filterPreviewLikeUserType,
+                        'keys' => $dtoRequest->filterPreviewLikeUserKeys,
+                    ],
+                    'filterPreviewComment' => [
+                        'type' => $dtoRequest->filterPreviewCommentType,
+                        'keys' => $dtoRequest->filterPreviewCommentKeys,
+                    ],
+                ];
+
                 foreach ($markData as $mark) {
                     if (empty($mark->post)) {
                         continue;
                     }
 
-                    $paginateData[] = DetailUtility::postDetail($mark->post, $langTag, $timezone, $authUserId, $options);
+                    $paginateData[] = DetailUtility::postDetail($mark->post, $langTag, $timezone, $authUserId, $postOptions);
                 }
                 break;
 
             case 'comments':
+                $commentOptions = [
+                    'viewType' => 'list',
+                    'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+                    'checkPermissions' => true,
+                    'isPreviewLikeUsers' => false,
+                    'isPreviewComments' => false,
+                    'outputReplyToPost' => true,
+                    'outputReplyToComment' => true,
+                    'filter' => [
+                        'type' => $dtoRequest->filterType,
+                        'keys' => $dtoRequest->filterKeys,
+                    ],
+                    'filterHashtag' => [
+                        'type' => $dtoRequest->filterHashtagType,
+                        'keys' => $dtoRequest->filterHashtagKeys,
+                    ],
+                    'filterGeotag' => [
+                        'type' => $dtoRequest->filterGeotagType,
+                        'keys' => $dtoRequest->filterGeotagKeys,
+                    ],
+                    'filterAuthor' => [
+                        'type' => $dtoRequest->filterAuthorType,
+                        'keys' => $dtoRequest->filterAuthorKeys,
+                    ],
+                    'filterPreviewLikeUser' => [
+                        'type' => $dtoRequest->filterPreviewLikeUserType,
+                        'keys' => $dtoRequest->filterPreviewLikeUserKeys,
+                    ],
+                    'filterPreviewComment' => [
+                        'type' => $dtoRequest->filterPreviewCommentType,
+                        'keys' => $dtoRequest->filterPreviewCommentKeys,
+                    ],
+                    'filterReplyToPost' => [
+                        'type' => $dtoRequest->filterReplyToPostType,
+                        'keys' => $dtoRequest->filterReplyToPostKeys,
+                    ],
+                    'filterReplyToComment' => [
+                        'type' => $dtoRequest->filterReplyToCommentType,
+                        'keys' => $dtoRequest->filterReplyToCommentKeys,
+                    ],
+                ];
+
                 foreach ($markData as $mark) {
                     if (empty($mark->comment)) {
                         continue;
                     }
 
-                    $paginateData[] = DetailUtility::commentDetail($mark->comment, $langTag, $timezone, $authUserId, $options);
+                    $paginateData[] = DetailUtility::commentDetail($mark->comment, $langTag, $timezone, $authUserId, $commentOptions);
                 }
                 break;
         }
