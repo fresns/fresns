@@ -336,7 +336,7 @@ class EditorController extends Controller
         $edit['editableStatus'] = $fresnsResp->getData('editableStatus');
         $edit['editableTime'] = $fresnsResp->getData('editableTime');
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
-        $data['editControls'] = $edit;
+        $data['controls'] = $edit;
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
@@ -466,7 +466,7 @@ class EditorController extends Controller
         $edit['editableStatus'] = true;
         $edit['editableTime'] = null;
         $edit['deadlineTime'] = null;
-        $data['editControls'] = $edit;
+        $data['controls'] = $edit;
 
         CacheHelper::forgetFresnsKey("fresns_user_overview_drafts_{$authUser->uid}", 'fresnsUsers');
 
@@ -575,7 +575,7 @@ class EditorController extends Controller
             $deadlineTime = $checkContentEditPerm['deadlineTime'];
         }
 
-        $editControls = [
+        $controls = [
             'isEditDraft' => $isEditDraft,
             'editableStatus' => $editableStatus,
             'editableTime' => $editableTime,
@@ -598,7 +598,7 @@ class EditorController extends Controller
         ];
 
         $data['detail'] = $draft->getDraftInfo($langTag, $timezone, $groupOptions, $geotagOptions);
-        $data['editControls'] = $editControls;
+        $data['controls'] = $controls;
 
         return $this->success($data);
     }
