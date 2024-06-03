@@ -39,7 +39,11 @@ return new class extends Migration
             $table->unsignedTinyInteger('map_id')->default(1)->index('geotag_map_id');
             $table->decimal('map_longitude', 12, 8)->index('geotag_map_longitude');
             $table->decimal('map_latitude', 12, 8)->index('geotag_map_latitude');
-            $table->geometry('map_location')->spatialIndex('geotag_map_location');
+            if (config('database.default') == 'sqlite') {
+                $table->text('map_location')->nullable();
+            } else {
+                $table->geometry('map_location')->spatialIndex('geotag_map_location');
+            }
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('district')->nullable();

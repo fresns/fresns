@@ -87,9 +87,8 @@ class GeotagController extends Controller
 
             switch (config('database.default')) {
                 case 'sqlite':
-                    // use SpatiaLite
-                    $geotagQuery->select('*', DB::raw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) AS distance"))
-                        ->havingRaw("ST_Distance(Transform(GeomFromText('POINT($mapLng $mapLat)', 4326), 4326), Transform(map_location, 4326)) <= {$distance}")
+                    $geotagQuery->select(DB::raw("*, ( 6371 * acos( cos( radians($mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($mapLng) ) + sin( radians($mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
+                        ->having('distance', '<=', $distance)
                         ->orderBy('distance');
                     break;
 

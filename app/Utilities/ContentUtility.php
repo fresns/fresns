@@ -837,7 +837,7 @@ class ContentUtility
         $mapLocation = null;
         switch (config('database.default')) {
             case 'sqlite':
-                $mapLocation = DB::raw("MakePoint($longitude, $latitude, 4326)");
+                $mapLocation = "POINT($longitude $latitude)";
                 break;
 
             case 'mysql':
