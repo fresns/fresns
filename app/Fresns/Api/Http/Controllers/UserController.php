@@ -981,7 +981,7 @@ class UserController extends Controller
             }
 
             $userQuery->when($roleIdArr, function ($query, $value) {
-                $query->whereHas('mainUserRole', function($subQuery) use ($value) {
+                $query->whereHas('mainUserRole', function ($subQuery) use ($value) {
                     $subQuery->whereIn('role_id', $value);
                 });
             });
