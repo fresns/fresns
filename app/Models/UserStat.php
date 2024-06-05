@@ -29,12 +29,12 @@ class UserStat extends Model
             ->orWherePivot('expired_at', '>=', now());
     }
 
-    public function mainRoleId()
+    public function mainUserRole()
     {
         return $this->belongsTo(UserRole::class, 'user_id', 'user_id')
             ->where('is_main', true)
             ->whereNull('deleted_at')
-            ->whereNull('deleted_at')
+            ->whereNull('expired_at')
             ->orWhere('expired_at', '>=', now());
     }
 }

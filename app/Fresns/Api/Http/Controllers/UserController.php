@@ -967,13 +967,25 @@ class UserController extends Controller
             $query->whereNotIn('user_id', $value);
         });
 
-        $userQuery->when($dtoRequest->roles, function ($query, $value) {
-            $ridArr = array_filter(explode(',', $value));
+        if ($dtoRequest->roles) {
+            $roleCrc32 = crc32($dtoRequest->roles);
+            $roleCacheKey = "fresns_api_list_{$roleCrc32}_role_ids";
 
-            $roleIdArr = Role::whereIn('rid', $ridArr)->pluck('id')->toArray();
+            $roleIdArr = CacheHelper::get($roleCacheKey, 'fresnsConfigs');
 
-            $query->whereRelation('mainRoleId', 'role_id', $roleIdArr);
-        });
+            if (empty($roleIdArr)) {
+                $ridArr = array_filter(explode(',', $dtoRequest->roles));
+                $roleIdArr = Role::whereIn('rid', $ridArr)->pluck('id')->toArray();
+
+                CacheHelper::put($roleIdArr, $roleCacheKey, 'fresnsConfigs');
+            }
+
+            $userQuery->when($roleIdArr, function ($query, $value) {
+                $query->whereHas('mainUserRole', function($subQuery) use ($value) {
+                    $subQuery->whereIn('role_id', $value);
+                });
+            });
+        }
 
         if (isset($dtoRequest->verified)) {
             $userQuery->whereRelation('profile', 'verified_status', $dtoRequest->verified);
