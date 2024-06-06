@@ -19,7 +19,7 @@
     "support": {
         "issues": "https://github.com/fresns/fresns/issues",
         "source": "https://github.com/fresns/fresns",
-        "docs": "https://docs.fresns.com"
+        "docs": "https://docs.fresns.com/open-source/"
     },
     "authors": [
         {
@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.10",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
         "fresns/dto": "^1.3",
