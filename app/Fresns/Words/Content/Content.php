@@ -161,7 +161,7 @@ class Content
                     'content' => $content,
                     'is_markdown' => $dtoWordBody->isMarkdown ? 1 : 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ? 1 : 0,
-                    'is_private' => $dtoWordBody->commentPrivate,
+                    'is_private' => $dtoWordBody->commentPrivate ? 1 : 0,
                     'location_info' => $dtoWordBody->locationInfo,
                     'permissions' => $permissions,
                 ];

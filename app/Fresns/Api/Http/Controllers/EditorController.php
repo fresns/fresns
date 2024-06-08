@@ -709,7 +709,7 @@ class EditorController extends Controller
                 // commentPrivate
                 if (isset($dtoRequest->commentPrivate)) {
                     $draft->update([
-                        'is_private' => $dtoRequest->commentPrivate,
+                        'is_private' => $dtoRequest->commentPrivate ? 1 : 0,
                     ]);
                 }
                 break;
