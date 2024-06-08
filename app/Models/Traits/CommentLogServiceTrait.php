@@ -94,9 +94,9 @@ trait CommentLogServiceTrait
         $info['moreInfo'] = $commentLogData->more_info;
         $info['permissions'] = $permissions;
 
-        $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
-        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $commentLogData->id);
-        $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $commentLogData->id, $langTag);
+        $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT_LOG, $commentLogData->id, $langTag);
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $commentLogData->id);
+        $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT_LOG, $commentLogData->id, $langTag);
 
         $info['group'] = null;
         $info['geotag'] = $geotag ? DetailUtility::geotagDetail($geotag, $langTag, $timezone, null, $geotagOptions) : null;
