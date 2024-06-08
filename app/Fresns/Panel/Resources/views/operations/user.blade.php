@@ -443,11 +443,11 @@
                             <input class="form-check-input" type="checkbox" id="conversation_file_image" name="conversation_files[]" value="image" {{ in_array('image', $params['conversation_files']) ? 'checked' : '' }}>
                             <label class="form-check-label ms-1" for="conversation_file_image">{{ __('FsLang::panel.editor_image') }}</label>
                         </div>
-                        <select class="form-select" name="conversation_file_upload_type[image]">
+                        <select class="form-select" name="conversation_file_upload_method[image]">
                             <option disabled>{{ __('FsLang::panel.editor_upload_image_type') }}</option>
-                            <option value="api" @if ($params['conversation_file_upload_type']['image'] == 'api') selected @endif>Fresns API</option>
-                            <option value="page" @if ($params['conversation_file_upload_type']['image'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
-                            <option value="sdk" @if ($params['conversation_file_upload_type']['image'] == 'sdk') selected @endif>S3 SDK</option>
+                            <option value="api" @if ($params['conversation_file_upload_method']['image'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_method']['image'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_method']['image'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group mb-2">
@@ -455,11 +455,11 @@
                             <input class="form-check-input" type="checkbox" id="conversation_file_video" name="conversation_files[]" value="video" {{ in_array('video', $params['conversation_files']) ? 'checked' : '' }}>
                             <label class="form-check-label ms-1" for="conversation_file_video">{{ __('FsLang::panel.editor_video') }}</label>
                         </div>
-                        <select class="form-select" name="conversation_file_upload_type[video]">
+                        <select class="form-select" name="conversation_file_upload_method[video]">
                             <option disabled>{{ __('FsLang::panel.editor_upload_video_type') }}</option>
-                            <option value="api" @if ($params['conversation_file_upload_type']['video'] == 'api') selected @endif>Fresns API</option>
-                            <option value="page" @if ($params['conversation_file_upload_type']['video'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
-                            <option value="sdk" @if ($params['conversation_file_upload_type']['video'] == 'sdk') selected @endif>S3 SDK</option>
+                            <option value="api" @if ($params['conversation_file_upload_method']['video'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_method']['video'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_method']['video'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group mb-2">
@@ -467,11 +467,11 @@
                             <input class="form-check-input" type="checkbox" id="conversation_file_audio" name="conversation_files[]" value="audio" {{ in_array('audio', $params['conversation_files']) ? 'checked' : '' }}>
                             <label class="form-check-label ms-1" for="conversation_file_audio">{{ __('FsLang::panel.editor_audio') }}</label>
                         </div>
-                        <select class="form-select" name="conversation_file_upload_type[audio]">
+                        <select class="form-select" name="conversation_file_upload_method[audio]">
                             <option disabled>{{ __('FsLang::panel.editor_upload_audio_type') }}</option>
-                            <option value="api" @if ($params['conversation_file_upload_type']['audio'] == 'api') selected @endif>Fresns API</option>
-                            <option value="page" @if ($params['conversation_file_upload_type']['audio'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
-                            <option value="sdk" @if ($params['conversation_file_upload_type']['audio'] == 'sdk') selected @endif>S3 SDK</option>
+                            <option value="api" @if ($params['conversation_file_upload_method']['audio'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_method']['audio'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_method']['audio'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -479,11 +479,11 @@
                             <input class="form-check-input" type="checkbox" id="conversation_file_document" name="conversation_files[]" value="document" {{ in_array('document', $params['conversation_files']) ? 'checked' : '' }}>
                             <label class="form-check-label ms-1" for="conversation_file_document">{{ __('FsLang::panel.editor_document') }}</label>
                         </div>
-                        <select class="form-select" name="conversation_file_upload_type[document]">
+                        <select class="form-select" name="conversation_file_upload_method[document]">
                             <option disabled>{{ __('FsLang::panel.editor_upload_document_type') }}</option>
-                            <option value="api" @if ($params['conversation_file_upload_type']['document'] == 'api') selected @endif>Fresns API</option>
-                            <option value="page" @if ($params['conversation_file_upload_type']['document'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
-                            <option value="sdk" @if ($params['conversation_file_upload_type']['document'] == 'sdk') selected @endif>S3 SDK</option>
+                            <option value="api" @if ($params['conversation_file_upload_method']['document'] == 'api') selected @endif>Fresns API</option>
+                            <option value="page" @if ($params['conversation_file_upload_method']['document'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
+                            <option value="sdk" @if ($params['conversation_file_upload_method']['document'] == 'sdk') selected @endif>S3 SDK</option>
                         </select>
                     </div>
                 </div>

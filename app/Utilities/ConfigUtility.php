@@ -306,21 +306,21 @@ class ConfigUtility
             "{$type}_editor_document",
             'image_extension_names',
             'image_max_size',
-            "{$type}_editor_image_upload_type",
+            "{$type}_editor_image_upload_method",
             "{$type}_editor_image_max_upload_number",
             'video_extension_names',
             'video_max_size',
             'video_max_duration',
-            "{$type}_editor_video_upload_type",
+            "{$type}_editor_video_upload_method",
             "{$type}_editor_video_max_upload_number",
             'audio_extension_names',
             'audio_max_size',
             'audio_max_duration',
-            "{$type}_editor_audio_upload_type",
+            "{$type}_editor_audio_upload_method",
             "{$type}_editor_audio_max_upload_number",
             'document_extension_names',
             'document_max_size',
-            "{$type}_editor_document_upload_type",
+            "{$type}_editor_document_upload_method",
             "{$type}_editor_document_max_upload_number",
             'post_editor_title',
             'post_editor_title_show',
@@ -345,10 +345,10 @@ class ConfigUtility
             'map_service',
         ]);
 
-        $imageUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['image_service']);
-        $videoUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['video_service']);
-        $audioUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['audio_service']);
-        $documentUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['document_service']);
+        $imageUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['image_service']);
+        $videoUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['video_service']);
+        $audioUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['audio_service']);
+        $documentUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['document_service']);
 
         // images
         $imageMaxSize = (int) (empty($rolePerm['image_max_size']) ? $editorConfig['image_max_size'] : $rolePerm['image_max_size']);
@@ -359,8 +359,8 @@ class ConfigUtility
             'maxSize' => $imageMaxSize,
             'maxDuration' => null,
             'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_image_max_upload_number"]) ? $editorConfig["{$type}_editor_image_max_upload_number"] : $rolePerm["{$type}_editor_image_max_upload_number"]),
-            'uploadType' => $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_type"] : 'api',
-            'uploadUrl' => $imageUploadUrl,
+            'uploadMethod' => $imageUploadAppUrl ? $editorConfig["{$type}_editor_image_upload_method"] : 'api',
+            'uploadAppUrl' => $imageUploadAppUrl,
         ];
 
         // videos
@@ -373,8 +373,8 @@ class ConfigUtility
             'maxSize' => $videoMaxSize,
             'maxDuration' => $videoMaxDuration,
             'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_video_max_upload_number"]) ? $editorConfig["{$type}_editor_video_max_upload_number"] : $rolePerm["{$type}_editor_video_max_upload_number"]),
-            'uploadType' => $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_type"] : 'api',
-            'uploadUrl' => $videoUploadUrl,
+            'uploadMethod' => $videoUploadAppUrl ? $editorConfig["{$type}_editor_video_upload_method"] : 'api',
+            'uploadAppUrl' => $videoUploadAppUrl,
         ];
 
         // audios
@@ -387,8 +387,8 @@ class ConfigUtility
             'maxSize' => $audioMaxSize,
             'maxDuration' => $audioMaxDuration,
             'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_audio_max_upload_number"]) ? $editorConfig["{$type}_editor_audio_max_upload_number"] : $rolePerm["{$type}_editor_audio_max_upload_number"]),
-            'uploadType' => $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_type"] : 'api',
-            'uploadUrl' => $audioUploadUrl,
+            'uploadMethod' => $audioUploadAppUrl ? $editorConfig["{$type}_editor_audio_upload_method"] : 'api',
+            'uploadAppUrl' => $audioUploadAppUrl,
         ];
 
         // documents
@@ -400,8 +400,8 @@ class ConfigUtility
             'maxSize' => $documentMaxSize,
             'maxDuration' => null,
             'maxUploadNumber' => (int) (empty($rolePerm["{$type}_editor_document_max_upload_number"]) ? $editorConfig["{$type}_editor_document_max_upload_number"] : $rolePerm["{$type}_editor_document_max_upload_number"]),
-            'uploadType' => $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_type"] : 'api',
-            'uploadUrl' => $documentUploadUrl,
+            'uploadMethod' => $documentUploadAppUrl ? $editorConfig["{$type}_editor_document_upload_method"] : 'api',
+            'uploadAppUrl' => $documentUploadAppUrl,
         ];
 
         // title

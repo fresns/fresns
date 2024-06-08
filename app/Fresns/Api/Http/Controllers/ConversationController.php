@@ -133,7 +133,7 @@ class ConversationController extends Controller
         $conversationConfigs = ConfigHelper::fresnsConfigByItemKeys([
             'conversation_status',
             'conversation_files',
-            'conversation_file_upload_type',
+            'conversation_file_upload_method',
             'image_service',
             'video_service',
             'audio_service',
@@ -150,15 +150,15 @@ class ConversationController extends Controller
             'document_max_size',
         ]);
 
-        $imageUploadType = $conversationConfigs['conversation_file_upload_type']['image'] ?? 'api';
-        $videoUploadType = $conversationConfigs['conversation_file_upload_type']['video'] ?? 'api';
-        $audioUploadType = $conversationConfigs['conversation_file_upload_type']['audio'] ?? 'api';
-        $documentUploadType = $conversationConfigs['conversation_file_upload_type']['document'] ?? 'api';
+        $imageUploadMethod = $conversationConfigs['conversation_file_upload_method']['image'] ?? 'api';
+        $videoUploadMethod = $conversationConfigs['conversation_file_upload_method']['video'] ?? 'api';
+        $audioUploadMethod = $conversationConfigs['conversation_file_upload_method']['audio'] ?? 'api';
+        $documentUploadMethod = $conversationConfigs['conversation_file_upload_method']['document'] ?? 'api';
 
-        $imageUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['image_service']);
-        $videoUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['video_service']);
-        $audioUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['audio_service']);
-        $documentUploadUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['document_service']);
+        $imageUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['image_service']);
+        $videoUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['video_service']);
+        $audioUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['audio_service']);
+        $documentUploadAppUrl = PluginHelper::fresnsPluginUrlByFskey($conversationConfigs['document_service']);
 
         $imageMaxSize = (int) (empty($rolePerm['image_max_size']) ? $conversationConfigs['image_max_size'] : $rolePerm['image_max_size']);
         $image = [
@@ -166,8 +166,8 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['image_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE),
             'maxSize' => $imageMaxSize,
-            'uploadType' => $imageUploadUrl ? $imageUploadType : 'api',
-            'uploadUrl' => $imageUploadUrl,
+            'uploadMethod' => $imageUploadAppUrl ? $imageUploadMethod : 'api',
+            'uploadAppUrl' => $imageUploadAppUrl,
         ];
 
         $videoMaxSize = (int) (empty($rolePerm['video_max_size']) ? $conversationConfigs['video_max_size'] : $rolePerm['video_max_size']);
@@ -176,8 +176,8 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['video_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO),
             'maxSize' => $videoMaxSize,
-            'uploadType' => $videoUploadUrl ? $videoUploadType : 'api',
-            'uploadUrl' => $videoUploadUrl,
+            'uploadMethod' => $videoUploadAppUrl ? $videoUploadMethod : 'api',
+            'uploadAppUrl' => $videoUploadAppUrl,
         ];
 
         $audioMaxSize = (int) (empty($rolePerm['audio_max_size']) ? $conversationConfigs['audio_max_size'] : $rolePerm['audio_max_size']);
@@ -186,8 +186,8 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['audio_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO),
             'maxSize' => $audioMaxSize,
-            'uploadType' => $audioUploadUrl ? $audioUploadType : 'api',
-            'uploadUrl' => $audioUploadUrl,
+            'uploadMethod' => $audioUploadAppUrl ? $audioUploadMethod : 'api',
+            'uploadAppUrl' => $audioUploadAppUrl,
         ];
 
         $documentMaxSize = (int) (empty($rolePerm['document_max_size']) ? $conversationConfigs['document_max_size'] : $rolePerm['document_max_size']);
@@ -196,8 +196,8 @@ class ConversationController extends Controller
             'extensions' => Str::lower($conversationConfigs['document_extension_names']),
             'inputAccept' => FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT),
             'maxSize' => $documentMaxSize,
-            'uploadType' => $documentUploadUrl ? $documentUploadType : 'api',
-            'uploadUrl' => $documentUploadUrl,
+            'uploadMethod' => $documentUploadAppUrl ? $documentUploadMethod : 'api',
+            'uploadAppUrl' => $documentUploadAppUrl,
         ];
 
         // detail

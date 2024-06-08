@@ -67,7 +67,7 @@ class UserController extends Controller
             'extcredits5_state',
             'conversation_status',
             'conversation_files',
-            'conversation_file_upload_type',
+            'conversation_file_upload_method',
             'image_service',
             'video_service',
             'audio_service',
@@ -217,7 +217,7 @@ class UserController extends Controller
             'bio_support_hashtag',
             'conversation_status',
             'conversation_files',
-            'conversation_file_upload_type',
+            'conversation_file_upload_method',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

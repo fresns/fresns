@@ -185,10 +185,10 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_type') }}</label>
-                    <select class="form-select" name="comment_editor_image_upload_type" id="comment_editor_image_upload_type">
-                        <option value="api" @if ($params['comment_editor_image_upload_type'] == 'api') selected @endif>Fresns API</option>
-                        <option value="page" @if ($params['comment_editor_image_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
-                        <option value="sdk" @if ($params['comment_editor_image_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
+                    <select class="form-select" name="comment_editor_image_upload_method" id="comment_editor_image_upload_method">
+                        <option value="api" @if ($params['comment_editor_image_upload_method'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_image_upload_method'] == 'page') selected @endif @if (!$pluginPageUpload['image']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_image_upload_method'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_image_max_upload_number" name="comment_editor_image_max_upload_number" value="{{ $params['comment_editor_image_max_upload_number'] }}">
@@ -201,10 +201,10 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_type') }}</label>
-                    <select class="form-select" name="comment_editor_video_upload_type" id="comment_editor_video_upload_type">
-                        <option value="api" @if ($params['comment_editor_video_upload_type'] == 'api') selected @endif>Fresns API</option>
-                        <option value="page" @if ($params['comment_editor_video_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
-                        <option value="sdk" @if ($params['comment_editor_video_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
+                    <select class="form-select" name="comment_editor_video_upload_method" id="comment_editor_video_upload_method">
+                        <option value="api" @if ($params['comment_editor_video_upload_method'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_video_upload_method'] == 'page') selected @endif @if (!$pluginPageUpload['video']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_video_upload_method'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_video_max_upload_number" name="comment_editor_video_max_upload_number" value="{{ $params['comment_editor_video_max_upload_number'] }}">
@@ -217,10 +217,10 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_type') }}</label>
-                    <select class="form-select" name="comment_editor_audio_upload_type" id="comment_editor_audio_upload_type">
-                        <option value="api" @if ($params['comment_editor_audio_upload_type'] == 'api') selected @endif>Fresns API</option>
-                        <option value="page" @if ($params['comment_editor_audio_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
-                        <option value="sdk" @if ($params['comment_editor_audio_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
+                    <select class="form-select" name="comment_editor_audio_upload_method" id="comment_editor_audio_upload_method">
+                        <option value="api" @if ($params['comment_editor_audio_upload_method'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_audio_upload_method'] == 'page') selected @endif @if (!$pluginPageUpload['audio']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_audio_upload_method'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_audio_max_upload_number" name="comment_editor_audio_max_upload_number" value="{{ $params['comment_editor_audio_max_upload_number'] }}">
@@ -233,10 +233,10 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_type') }}</label>
-                    <select class="form-select" name="comment_editor_document_upload_type" id="comment_editor_document_upload_type">
-                        <option value="api" @if ($params['comment_editor_document_upload_type'] == 'api') selected @endif>Fresns API</option>
-                        <option value="page" @if ($params['comment_editor_document_upload_type'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
-                        <option value="sdk" @if ($params['comment_editor_document_upload_type'] == 'sdk') selected @endif>S3 SDK</option>
+                    <select class="form-select" name="comment_editor_document_upload_method" id="comment_editor_document_upload_method">
+                        <option value="api" @if ($params['comment_editor_document_upload_method'] == 'api') selected @endif>Fresns API</option>
+                        <option value="page" @if ($params['comment_editor_document_upload_method'] == 'page') selected @endif @if (!$pluginPageUpload['document']) disabled @endif>Plugin Page</option>
+                        <option value="sdk" @if ($params['comment_editor_document_upload_method'] == 'sdk') selected @endif>S3 SDK</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_document_max_upload_number" name="comment_editor_document_max_upload_number" value="{{ $params['comment_editor_document_max_upload_number'] }}">
