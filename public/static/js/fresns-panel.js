@@ -1279,7 +1279,7 @@ $(document).ready(function () {
         form.find('input:radio[name=privacy][value="' + params.privacy + '"]').prop('checked', true).click();
         form.find('input:radio[name=visibility][value="' + params.visibility + '"]').prop('checked', true).click();
         form.find('select[name="permissions[private_whitelist_roles][]"]').val(privateWhitelistRoles).change();
-        form.find('input:radio[name=follow_type][value="' + params.follow_type + '"]').prop('checked', true).click();
+        form.find('input:radio[name=follow_method][value="' + params.follow_method + '"]').prop('checked', true).click();
         form.find('select[name=follow_app_fskey]').val(params.follow_app_fskey);
         form.find('input:radio[name=is_recommend][value="' + params.is_recommend + '"]').prop('checked', true).click();
 

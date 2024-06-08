@@ -94,7 +94,7 @@ class GroupController extends Controller
         $group->banner_file_url = $request->banner_file_url;
         $group->privacy = $request->privacy;
         $group->visibility = $request->visibility;
-        $group->follow_type = $request->follow_type;
+        $group->follow_method = $request->follow_method;
         $group->follow_app_fskey = $request->follow_app_fskey;
         $group->is_recommend = $request->is_recommend;
 
@@ -184,7 +184,7 @@ class GroupController extends Controller
         $group->banner_file_url = $request->banner_file_url;
         $group->privacy = $request->privacy;
         $group->visibility = $request->visibility;
-        $group->follow_type = $request->follow_type;
+        $group->follow_method = $request->follow_method;
         $group->follow_app_fskey = $request->follow_app_fskey;
         $group->is_recommend = $request->is_recommend;
 

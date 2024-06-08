@@ -47,7 +47,7 @@
                     @endif
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_privacy') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.group_table_follow') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.group_table_follow_method') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_admins') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_post_permissions') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_comment_permissions') }}</th>
@@ -79,10 +79,10 @@
                         </td>
                         <td>{{ $typeModeLabels[$group->privacy] ?? '' }}</td>
                         <td>
-                            @if ($group->follow_type == 1)
-                                {{ __('FsLang::panel.group_follow_option_fresns') }}
-                            @elseif ($group->follow_type == 2)
-                                {{ __('FsLang::panel.group_follow_option_plugin') }} <span class="badge bg-light text-dark">{{ optional($group->plugin)->name }}</span>
+                            @if ($group->follow_method == 1)
+                                Fresns API
+                            @elseif ($group->follow_method == 2)
+                                Plugin Page <span class="badge bg-light text-dark">{{ optional($group->plugin)->name }}</span>
                             @else
                                 {{ __('FsLang::panel.option_close') }}
                             @endif

@@ -111,19 +111,19 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_follow') }}</label>
+                        <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_follow_method') }}</label>
                         <div class="col-sm-9 col-md-10 pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="follow_type" id="follow_type_fresns" value="1" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting" checked>
-                                <label class="form-check-label" for="follow_type_fresns">{{ __('FsLang::panel.group_follow_option_fresns') }}</label>
+                                <input class="form-check-input" type="radio" name="follow_method" id="follow_method_fresns" value="1" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting" checked>
+                                <label class="form-check-label" for="follow_method_fresns">Fresns API</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="follow_type" id="follow_type_plugin" value="2" data-bs-toggle="collapse" data-bs-target=".follow_setting:not(.show)" aria-expanded="false" aria-controls="follow_setting">
-                                <label class="form-check-label" for="follow_type_plugin">{{ __('FsLang::panel.group_follow_option_plugin') }}</label>
+                                <input class="form-check-input" type="radio" name="follow_method" id="follow_method_plugin" value="2" data-bs-toggle="collapse" data-bs-target=".follow_setting:not(.show)" aria-expanded="false" aria-controls="follow_setting">
+                                <label class="form-check-label" for="follow_method_plugin">Plugin Page</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="follow_type" id="follow_type_close" value="3" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting">
-                                <label class="form-check-label" for="follow_type_close">{{ __('FsLang::panel.option_close') }}</label>
+                                <input class="form-check-input" type="radio" name="follow_method" id="follow_method_close" value="3" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting">
+                                <label class="form-check-label" for="follow_method_close">{{ __('FsLang::panel.option_close') }}</label>
                             </div>
                             <div class="collapse follow_setting mt-2">
                                 <div class="input-group">
