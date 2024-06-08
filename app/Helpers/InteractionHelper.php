@@ -81,7 +81,7 @@ class InteractionHelper
         return $roleData;
     }
 
-    public static function fresnsInteraction(string $type, ?string $langTag = null, ?int $followType = 1, ?string $followAppFskey = null): array
+    public static function fresnsInteraction(string $type, ?string $langTag = null, ?int $followMethod = 1, ?string $followAppFskey = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_like_enabled", "{$type}_like_name", "{$type}_like_user_title", "{$type}_like_public_record", "{$type}_like_public_count",
@@ -120,16 +120,21 @@ class InteractionHelper
             case 'user':
                 $interaction['followMeStatus'] = false;
                 $interaction['blockMeStatus'] = false;
-                $interaction['followType'] = $followType;
-                $interaction['followUrl'] = PluginHelper::fresnsPluginUrlByFskey($followAppFskey);
+
+                $interaction['followMethod'] = 'api';
+                $interaction['followAppUrl'] = PluginHelper::fresnsPluginUrlByFskey($followAppFskey);
                 $interaction['followExpired'] = false;
                 $interaction['followExpiryDateTime'] = null;
                 break;
 
             case 'group':
-                $interaction['followEnabled'] = ($followType == Group::FOLLOW_CLOSE) ? false : $itemData["{$type}_follow_enabled"];
-                $interaction['followType'] = $followType;
-                $interaction['followUrl'] = PluginHelper::fresnsPluginUrlByFskey($followAppFskey);
+                $interaction['followEnabled'] = ($followMethod == Group::FOLLOW_METHOD_CLOSE) ? false : $itemData["{$type}_follow_enabled"];
+                $interaction['followMethod'] = match ($followMethod) {
+                    Group::FOLLOW_METHOD_API => 'api',
+                    Group::FOLLOW_METHOD_PLUGIN => 'page',
+                    default => null,
+                };
+                $interaction['followAppUrl'] = PluginHelper::fresnsPluginUrlByFskey($followAppFskey);
                 $interaction['followExpired'] = false;
                 $interaction['followExpiryDateTime'] = null;
                 break;

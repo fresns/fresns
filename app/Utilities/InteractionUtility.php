@@ -1389,11 +1389,11 @@ class InteractionUtility
         return $groupIds;
     }
 
-    // get follow type
-    public static function getFollowType(string $type, int $creatorId, int $digestState, int $authUserId, ?int $groupId = null, ?int $geotagId = null): ?string
+    // get timeline content source
+    public static function getTimelineContentSource(string $followType, int $creatorId, int $digestState, int $authUserId, ?int $groupId = null, ?int $geotagId = null): ?string
     {
-        if ($type != 'all') {
-            return $type;
+        if ($followType != 'all') {
+            return $followType;
         }
 
         // user

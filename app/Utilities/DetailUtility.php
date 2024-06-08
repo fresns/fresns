@@ -274,7 +274,7 @@ class DetailUtility
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
 
             // interaction
-            $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag, $group->follow_type, $group->follow_app_fskey);
+            $item['interaction'] = InteractionHelper::fresnsInteraction('group', $langTag, $group->follow_method, $group->follow_app_fskey);
 
             $groupDetail = array_merge($groupInfo, $item);
 
@@ -591,7 +591,6 @@ class DetailUtility
 
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('post', $langTag);
-            $item['followType'] = null;
 
             $item['manages'] = [];
 
@@ -975,7 +974,6 @@ class DetailUtility
 
             // interaction
             $item['interaction'] = InteractionHelper::fresnsInteraction('comment', $langTag);
-            $item['followType'] = null;
 
             // reply info
             $item['replyToPost'] = null;

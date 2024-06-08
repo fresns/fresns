@@ -20,9 +20,9 @@ class Group extends Model
     const PRIVATE_OPTION_HIDE_ALL = 2;
     const PRIVATE_OPTION_HIDE_NEW = 3;
 
-    const FOLLOW_FRESNS = 1;
-    const FOLLOW_PLUGIN = 2;
-    const FOLLOW_CLOSE = 3;
+    const FOLLOW_METHOD_API = 1;
+    const FOLLOW_METHOD_PLUGIN = 2;
+    const FOLLOW_METHOD_CLOSE = 3;
 
     use Traits\FsidTrait;
     use Traits\IsEnabledTrait;

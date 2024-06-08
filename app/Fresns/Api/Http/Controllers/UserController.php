@@ -795,7 +795,7 @@ class UserController extends Controller
                 if ($contentType == UserFollow::TYPE_GROUP) {
                     $group = PrimaryHelper::fresnsModelById('group', $primaryId);
 
-                    if ($group?->follow_type != Group::FOLLOW_FRESNS) {
+                    if ($group?->follow_method != Group::FOLLOW_METHOD_API) {
                         throw new ResponseException(36200);
                     }
                 }

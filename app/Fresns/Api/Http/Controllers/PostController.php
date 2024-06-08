@@ -1095,7 +1095,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $item = DetailUtility::postDetail($post, $langTag, $timezone, $authUser->id, $postOptions);
 
-            $item['followType'] = InteractionUtility::getFollowType($followType, $post->user_id, $post->digest_state, $authUser->id, $post->group_id, $post->geotag_id);
+            $item['contentSource'] = InteractionUtility::getTimelineContentSource($followType, $post->user_id, $post->digest_state, $authUser->id, $post->group_id, $post->geotag_id);
 
             $postList[] = $item;
         }

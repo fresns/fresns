@@ -1014,7 +1014,7 @@ class CommentController extends Controller
         foreach ($comments as $comment) {
             $item = DetailUtility::postDetail($comment, $langTag, $timezone, $authUser->id, $commentOptions);
 
-            $item['followType'] = InteractionUtility::getFollowType($followType, $comment->user_id, $comment->digest_state, $authUser->id, $comment->group_id, $comment->geotag_id);
+            $item['contentSource'] = InteractionUtility::getTimelineContentSource($followType, $comment->user_id, $comment->digest_state, $authUser->id, $comment->group_id, $comment->geotag_id);
 
             $commentList[] = $item;
         }
