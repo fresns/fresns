@@ -2288,7 +2288,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'conversation_file_upload_type',
+                'item_key' => 'conversation_file_upload_method',
                 'item_value' => '{"image":"api","video":"sdk","audio":"sdk","document":"sdk"}',
                 'item_type' => 'object',
                 'is_multilingual' => 0,
@@ -4952,7 +4952,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_image_upload_type',
+                'item_key' => 'post_editor_image_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -4963,7 +4963,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_video_upload_type',
+                'item_key' => 'post_editor_video_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -4974,7 +4974,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_audio_upload_type',
+                'item_key' => 'post_editor_audio_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -4985,7 +4985,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'post_editor_document_upload_type',
+                'item_key' => 'post_editor_document_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -5348,7 +5348,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_image_upload_type',
+                'item_key' => 'comment_editor_image_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -5359,7 +5359,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_video_upload_type',
+                'item_key' => 'comment_editor_video_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -5370,7 +5370,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_audio_upload_type',
+                'item_key' => 'comment_editor_audio_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
@@ -5381,7 +5381,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'comment_editor_document_upload_type',
+                'item_key' => 'comment_editor_document_upload_method',
                 'item_value' => 'fresns',
                 'item_type' => 'string',
                 'is_multilingual' => 0,

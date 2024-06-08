@@ -36,7 +36,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('privacy')->default(1)->index('group_privacy');
             $table->unsignedTinyInteger('private_end_after')->default(1);
             $table->unsignedTinyInteger('visibility')->default(1)->index('group_visibility');
-            $table->unsignedTinyInteger('follow_type')->default(1);
+            $table->unsignedTinyInteger('follow_method')->default(1);
             $table->string('follow_app_fskey', 64)->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
