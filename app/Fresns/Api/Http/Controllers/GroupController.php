@@ -148,9 +148,13 @@ class GroupController extends Controller
             $query->where('parent_id', $parentGroup->id);
         });
 
-        $groupQuery->when($dtoRequest->topGroups, function ($query) {
-            $query->where('parent_id', 0);
-        });
+        if (isset($dtoRequest->topGroups)) {
+            if ($dtoRequest->topGroups) {
+                $groupQuery->where('parent_id', 0);
+            } else {
+                $groupQuery->whereNot('parent_id', 0);
+            }
+        }
 
         if (isset($dtoRequest->recommend)) {
             $groupQuery->where('is_recommend', $dtoRequest->recommend);
