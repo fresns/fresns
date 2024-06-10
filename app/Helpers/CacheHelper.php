@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class CacheHelper
 {
@@ -221,6 +222,8 @@ class CacheHelper
         Artisan::call('route:cache'); // route:clear and cache
         Artisan::call('schedule:clear-cache');
 
+        DB::table('failed_jobs')->delete();
+
         // time of the latest cache
         Config::updateOrCreate([
             'item_key' => 'cache_datetime',
@@ -299,6 +302,8 @@ class CacheHelper
         // schedule
         if ($cacheType == 'fresnsSchedule') {
             Artisan::call('schedule:clear-cache');
+
+            DB::table('failed_jobs')->delete();
         }
 
         // temporary data
