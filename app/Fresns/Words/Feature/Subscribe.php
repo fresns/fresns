@@ -34,6 +34,7 @@ class Subscribe
                 SubscribeUtility::VIEW_TYPE_USER,
                 SubscribeUtility::VIEW_TYPE_GROUP,
                 SubscribeUtility::VIEW_TYPE_HASHTAG,
+                SubscribeUtility::VIEW_TYPE_GEOTAG,
                 SubscribeUtility::VIEW_TYPE_POST,
                 SubscribeUtility::VIEW_TYPE_COMMENT,
             ])) {
@@ -91,6 +92,7 @@ class Subscribe
                 SubscribeUtility::VIEW_TYPE_USER,
                 SubscribeUtility::VIEW_TYPE_GROUP,
                 SubscribeUtility::VIEW_TYPE_HASHTAG,
+                SubscribeUtility::VIEW_TYPE_GEOTAG,
                 SubscribeUtility::VIEW_TYPE_POST,
                 SubscribeUtility::VIEW_TYPE_COMMENT,
             ])) {
