@@ -13,7 +13,6 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\InteractionHelper;
-use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\ArchiveUsage;
@@ -749,7 +748,7 @@ class DetailUtility
                 ],
             ];
 
-            $postDetail['quotedPost'] = self::postDetail($postDetail['geotag'], $langTag, null, $authUserId, $quotedPostOptions);
+            $postDetail['quotedPost'] = self::postDetail($postDetail['quotedPost'], $langTag, null, $authUserId, $quotedPostOptions);
         }
 
         // get preview configs
