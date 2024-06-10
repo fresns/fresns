@@ -9,11 +9,11 @@
 namespace App\Utilities;
 
 use App\Helpers\AppHelper;
-use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
-use App\Helpers\PrimaryHelper;
-use App\Helpers\StrHelper;
-use Illuminate\Support\Facades\Queue;
+use App\Jobs\NotifyAccountAndUserLogin;
+use App\Jobs\NotifyDataChange;
+use App\Jobs\NotifyUserActivity;
+use App\Jobs\NotifyViewContent;
 
 class SubscribeUtility
 {
@@ -64,46 +64,7 @@ class SubscribeUtility
     // notifyDataChange
     public static function notifyDataChange(mixed $tableName, int $primaryId, string $changeType): void
     {
-        Queue::push(function () use ($tableName, $primaryId, $changeType) {
-            $subTableName = null;
-            try {
-                if ($tableName) {
-                    $subTableName = StrHelper::qualifyTableName($tableName);
-                }
-            } catch (\Exception $e) {
-                return;
-            }
-
-            if (empty($subTableName)) {
-                return;
-            }
-
-            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_TABLE_DATA_CHANGE, $subTableName);
-            if (empty($subscribeItems)) {
-                return;
-            }
-
-            $wordBody = [
-                'tableName' => $subTableName,
-                'primaryId' => $primaryId,
-                'changeType' => $changeType,
-            ];
-
-            foreach ($subscribeItems as $item) {
-                Queue::push(function () use ($item, $wordBody) {
-                    // info("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}", [$item, $wordBody]);
-
-                    try {
-                        $fskey = $item['fskey'];
-                        $cmdWord = $item['cmdWord'];
-
-                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                    } catch (\Exception $e) {
-                        info('notifyDataChange -> Error executing cmdWord: '.$e->getMessage(), [$item, $wordBody]);
-                    }
-                });
-            }
-        });
+        NotifyDataChange::dispatch($tableName, $primaryId, $changeType);
     }
 
     // notifyUserActivity
@@ -118,79 +79,23 @@ class SubscribeUtility
             'body' => request()->except(['file', 'image', 'video', 'audio', 'document']),
         ];
 
-        Queue::push(function () use ($wordBody) {
-            $uid = $wordBody['headers']['x-fresns-uid'];
-
-            $cacheKey = "fresns_user_activity_{$uid}";
-            $cacheTag = 'fresnsUsers';
-
-            $userCache = CacheHelper::get($cacheKey, $cacheTag);
-            if (empty($userCache)) {
-                $user = PrimaryHelper::fresnsModelByFsid('user', $uid);
-
-                $user?->update([
-                    'last_activity_at' => now(),
-                ]);
-
-                CacheHelper::put(now(), $cacheKey, $cacheTag, 10, 10);
-            }
-
-            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);
-            if (empty($subscribeItems)) {
-                return;
-            }
-
-            foreach ($subscribeItems as $item) {
-                Queue::push(function () use ($item, $wordBody) {
-                    // info("notifyUserActivity: {$item['fskey']} -> {$item['cmdWord']}", [$item, $wordBody]);
-
-                    try {
-                        $fskey = $item['fskey'];
-                        $cmdWord = $item['cmdWord'];
-
-                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                    } catch (\Exception $e) {
-                        info('notifyUserActivity -> Error executing cmdWord: '.$e->getMessage(), [$item, $wordBody]);
-                    }
-                });
-            }
-        });
+        NotifyUserActivity::dispatch($wordBody);
     }
 
     // notifyAccountAndUserLogin
     public static function notifyAccountAndUserLogin(int $accountId, array $authToken, array $accountDetail, ?int $userId = null, ?array $userDetail = null): void
     {
-        Queue::push(function () use ($accountId, $authToken, $accountDetail, $userId, $userDetail) {
-            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_ACCOUNT_AND_USER_LOGIN);
-            if (empty($subscribeItems)) {
-                return;
-            }
+        $wordBody = [
+            'primaryId' => [
+                'accountId' => $accountId,
+                'userId' => $userId,
+            ],
+            'authToken' => $authToken,
+            'accountDetail' => $accountDetail,
+            'userDetail' => $userDetail,
+        ];
 
-            $wordBody = [
-                'primaryId' => [
-                    'accountId' => $accountId,
-                    'userId' => $userId,
-                ],
-                'authToken' => $authToken,
-                'accountDetail' => $accountDetail,
-                'userDetail' => $userDetail,
-            ];
-
-            foreach ($subscribeItems as $item) {
-                Queue::push(function () use ($item, $wordBody) {
-                    // info("notifyAccountAndUserLogin: {$item['fskey']} -> {$item['cmdWord']}", [$item, $wordBody]);
-
-                    try {
-                        $fskey = $item['fskey'];
-                        $cmdWord = $item['cmdWord'];
-
-                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                    } catch (\Exception $e) {
-                        info('notifyAccountAndUserLogin -> Error executing cmdWord: '.$e->getMessage(), [$item, $wordBody]);
-                    }
-                });
-            }
-        });
+        NotifyAccountAndUserLogin::dispatch($wordBody);
     }
 
     // notifyViewContent
@@ -212,26 +117,6 @@ class SubscribeUtility
             'authUserId' => $authUserId,
         ];
 
-        Queue::push(function () use ($type, $wordBody) {
-            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_VIEW_CONTENT, $type);
-            if (empty($subscribeItems)) {
-                return;
-            }
-
-            foreach ($subscribeItems as $item) {
-                Queue::push(function () use ($item, $wordBody) {
-                    // info("notifyViewContent: {$item['fskey']} -> {$item['cmdWord']}", [$item, $wordBody]);
-
-                    try {
-                        $fskey = $item['fskey'];
-                        $cmdWord = $item['cmdWord'];
-
-                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                    } catch (\Exception $e) {
-                        info('notifyViewContent -> Error executing cmdWord: '.$e->getMessage(), [$item, $wordBody]);
-                    }
-                });
-            }
-        });
+        NotifyViewContent::dispatch($wordBody);
     }
 }
