@@ -343,32 +343,29 @@ class User
 
         $amount = $dtoWordBody->amount ?? 1;
 
-        switch ($dtoWordBody->operation) {
-            case 'increment':
-                $type = 1;
-                $operationStat = $userStat->increment($extcreditsId, $amount);
-                break;
+        if ($dtoWordBody->operation == 'decrement') {
+            if ($openingAmount == 0) {
+                return $this->failure(21006, 'User value is 0 and cannot be decrement');
+            }
 
-            case 'decrement':
-                if ($openingAmount == 0) {
-                    return $this->failure(21006, 'User value is 0 and cannot be decrement');
-                }
-
-                if ($openingAmount < $amount) {
-                    return $this->failure(21006, 'The user current value is less than the decremented value and cannot be manipulated.');
-                }
-
-                $type = 2;
-                $operationStat = $userStat->decrement($extcreditsId, $amount);
-                break;
+            if ($openingAmount < $amount) {
+                return $this->failure(21006, 'The user current value is less than the decremented value and cannot be manipulated.');
+            }
         }
 
-        if (! $operationStat) {
-            return $this->failure(21006, ConfigUtility::getCodeMessage(21006));
-        }
+        $type = match ($dtoWordBody->operation) {
+            'increment' => 1,
+            'decrement' => 2,
+        };
 
-        $newUserStat = UserStat::where('user_id', $userId)->first();
-        $closingAmount = $newUserStat->$extcreditsId;
+        $closingAmount = match ($dtoWordBody->operation) {
+            'increment' => $openingAmount + $amount,
+            'decrement' => $openingAmount - $amount,
+        };
+
+        $userStat->update([
+            $extcreditsId => $closingAmount,
+        ]);
 
         $log = [
             'user_id' => $userId,
