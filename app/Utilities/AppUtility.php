@@ -57,7 +57,7 @@ class AppUtility
 
         if (empty($newVersion)) {
             $baseUrl = AppUtility::BASE_URL;
-            $fileUrl = $baseUrl.'/v3/version-2.json';
+            $fileUrl = $baseUrl.'/v3/version-3.json';
 
             $httpProxy = config('app.http_proxy');
 
