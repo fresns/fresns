@@ -124,7 +124,7 @@ var FresnsCallback = {
 
                 // WeChat Mini Program
                 case (userAgent.indexOf('miniprogram') > -1):
-                    loadScript('/static/js/sdk/jweixin.js?v=1.6.0', function() {
+                    loadScript('/static/js/sdk/jweixin.js?v=1.6.2', function() {
                         wx.miniProgram.postMessage({ data: messageString });
                         wx.miniProgram.navigateBack();
                     });
