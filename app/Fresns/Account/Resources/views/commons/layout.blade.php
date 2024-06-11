@@ -66,10 +66,10 @@
         </div>
     </div>
 
-    <script src="/static/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/js-cookie.min.js"></script>
-    <script src="/static/js/fresns-callback.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/jquery.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/js-cookie.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/fresns-callback.js?v={{ $versionMd5 }}"></script>
     @switch($captcha['type'])
         {{-- Turnstile (Cloudflare) --}}
         @case('turnstile')
