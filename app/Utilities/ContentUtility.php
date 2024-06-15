@@ -298,9 +298,9 @@ class ContentUtility
             }
 
             $title = $urlData->link_title ?? $url;
-            // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
+            // <a href="https://fresns.org" class="fresns_link" target="_blank" rel="ugc">Fresns Website</a>
             // or
-            // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
+            // <a href="https://fresns.org" class="fresns_link" target="_blank" rel="ugc">https://fresns.org</a>
 
             if ($urlData->domain->domain == $siteDomain) {
                 $contentLinkHandle = 3;
@@ -317,7 +317,7 @@ class ContentUtility
 
                 default:
                     return sprintf(
-                        '<a href="%s" class="fresns_link" target="_blank">%s</a>',
+                        '<a href="%s" class="fresns_link" target="_blank" rel="ugc">%s</a>',
                         $url,
                         $title,
                     );
