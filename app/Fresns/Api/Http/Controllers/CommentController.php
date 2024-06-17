@@ -123,7 +123,7 @@ class CommentController extends Controller
 
         // cache
         $listCrc32 = crc32(json_encode($request->all()));
-        $cacheKey = "fresns_api_group_list_{$listCrc32}_guest";
+        $cacheKey = "fresns_api_comment_list_{$listCrc32}_guest";
 
         $comments = CacheHelper::get($cacheKey, 'fresnsList');
 
