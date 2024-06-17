@@ -126,10 +126,10 @@ class Send
     {
         $actionUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody['actionUid']);
 
-        $actionTarget = $dtoWordBody['actionTarget'];
-        $fsid = $dtoWordBody['actionFsid'];
+        $actionTarget = $dtoWordBody['actionTarget'] ?? null;
+        $fsid = $dtoWordBody['actionFsid'] ?? null;
 
-        $actionModel = match ($dtoWordBody['actionTarget']) {
+        $actionModel = match ($actionTarget) {
             Notification::ACTION_TARGET_USER => PrimaryHelper::fresnsModelByFsid('user', $fsid),
             Notification::ACTION_TARGET_GROUP => PrimaryHelper::fresnsModelByFsid('group', $fsid),
             Notification::ACTION_TARGET_HASHTAG => PrimaryHelper::fresnsModelByFsid('hashtag', $fsid),
@@ -141,7 +141,7 @@ class Send
             default => null,
         };
 
-        if ($dtoWordBody['actionTarget'] && empty($actionModel)) {
+        if ($actionTarget && empty($actionModel)) {
             return 22202; // Action model does not exist
         }
 
@@ -189,8 +189,8 @@ class Send
             'action_user_id' => $actionUser?->id ?? null,
             'action_is_anonymous' => $dtoWordBody['actionIsAnonymous'] ?? false,
             'action_type' => $dtoWordBody['actionType'] ?? null,
-            'action_target' => $dtoWordBody['actionTarget'] ?? null,
-            'action_id' => $actionModel?->id ?? null,
+            'action_target' => $actionTarget,
+            'action_id' => $actionModel?->id,
             'action_content_id' => $contentId,
         ];
 
