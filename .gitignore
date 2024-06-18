@@ -23,6 +23,8 @@ yarn-error.log
 .DS_Store
 package.json
 vite.config.js
+package-lock.json
+bun.lockb
 
 # lock
 install.lock
