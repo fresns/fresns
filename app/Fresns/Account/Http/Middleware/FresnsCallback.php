@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Account\Http\Middleware;
 
-use App\Helpers\AppHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -18,9 +17,6 @@ class FresnsCallback
 {
     public function handle(Request $request, Closure $next)
     {
-        // md5 16bit
-        View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
-
         $postMessageKey = $request->callbackKey ?? $request->postMessageKey;
         if ($postMessageKey && $postMessageKey != '{postMessageKey}') {
             Cookie::queue(Cookie::make('fresns_post_message_key', $postMessageKey, null, '/', null, false, false));

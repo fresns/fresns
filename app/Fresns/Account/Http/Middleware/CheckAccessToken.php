@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Account\Http\Middleware;
 
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Utilities\ConfigUtility;
 use Closure;
@@ -19,6 +20,10 @@ class CheckAccessToken
 {
     public function handle(Request $request, Closure $next)
     {
+        // md5 16bit
+        View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
+
+        // headers
         $appId = Cookie::get('fresns_account_center_app_id');
         $platformId = Cookie::get('fresns_account_center_platform_id');
         $version = Cookie::get('fresns_account_center_version');
