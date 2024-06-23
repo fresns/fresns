@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('code', 32)->unique('sticker_code');
             switch (config('database.default')) {
                 case 'pgsql':
-                    $table->jsonb('name');
+                    $table->jsonb('name')->nullable();
                     break;
 
                 default:
-                    $table->json('name');
+                    $table->json('name')->nullable();
             }
             $table->unsignedBigInteger('image_file_id')->nullable();
             $table->string('image_file_url')->nullable();
