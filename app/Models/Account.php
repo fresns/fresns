@@ -39,8 +39,6 @@ class Account extends Authenticatable
     const VERIFY_TYPE_PHONE = 4;
     const VERIFY_TYPE_CONNECT = 5;
 
-    protected $guarded = [];
-
     protected $dates = [
         'birthday',
         'last_login_at',
