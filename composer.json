@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.11",
+        "laravel/framework": "^11.12",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
         "fresns/dto": "^1.3",
