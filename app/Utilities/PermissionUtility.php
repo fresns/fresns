@@ -453,9 +453,9 @@ class PermissionUtility
 
         $receiveUser = PrimaryHelper::fresnsModelById('user', $receiveUserId);
 
-        // Wrong user or record not exist
+        // You can not send messages to yourself
         if ($receiveUser->id == $authUserId) {
-            return 31602;
+            return 36603;
         }
 
         // The user has been logged out
