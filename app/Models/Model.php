@@ -19,6 +19,8 @@ class Model extends BaseModel
     use Traits\DataChangeNotifyTrait;
     use Traits\LangContentTrait;
 
+    protected $guarded = [];
+
     protected $dates = [
         'created_at',
         'updated_at',
