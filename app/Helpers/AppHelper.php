@@ -191,12 +191,20 @@ class AppHelper
     // get device info
     public static function getDeviceInfo(): array
     {
-        $ip = request()->ip();
-        if (strpos($ip, ':') !== false) {
-            $ipv4 = null;
-            $ipv6 = $ip;
+        $forwardedIp = request()->header('X-Forwarded-For');
+
+        if ($forwardedIp) {
+            $ipList = explode(',', $forwardedIp);
+            $ipAddress = trim($ipList[0]);
         } else {
-            $ipv4 = $ip;
+            $ipAddress = request()->ip();
+        }
+
+        if (strpos($ipAddress, ':') !== false) {
+            $ipv4 = null;
+            $ipv6 = $ipAddress;
+        } else {
+            $ipv4 = $ipAddress;
             $ipv6 = null;
         }
 
@@ -208,14 +216,16 @@ class AppHelper
         $deviceInfo = [
             'agent' => Browser::userAgent(),
             'type' => Browser::deviceType(),
-            'mac' => null,
-            'brand' => Browser::deviceFamily(),
-            'model' => Browser::deviceModel(),
-            'platformName' => Browser::platformFamily(),
+            'platformName' => Browser::platformName(),
+            'platformFamily' => Browser::platformFamily(),
             'platformVersion' => Browser::platformVersion(),
-            'browserName' => Browser::browserFamily(),
+            'browserName' => Browser::browserName(),
+            'browserFamily' => Browser::browserFamily(),
             'browserVersion' => Browser::browserVersion(),
             'browserEngine' => Browser::browserEngine(),
+            'deviceFamily' => Browser::deviceFamily(),
+            'deviceModel' => Browser::deviceModel(),
+            'deviceMac' => null,
             'appImei' => null,
             'appAndroidId' => null,
             'appOaid' => null,
