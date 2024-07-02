@@ -777,6 +777,10 @@ class InteractionUtility
 
                     case 'comment':
                         $model->post?->increment('comment_count');
+
+                        $model->post?->update([
+                            'last_comment_at' => now(),
+                        ]);
                         break;
                 }
 
