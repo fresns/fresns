@@ -544,7 +544,7 @@ class ConversationController extends Controller
         }
 
         // message type
-        $messageType = 'message';
+        $messageType = 'text';
         if ($dtoRequest->fid) {
             $messageType = 'file';
         }
@@ -554,7 +554,7 @@ class ConversationController extends Controller
 
         // message content
         switch ($messageType) {
-            case 'message':
+            case 'text':
                 $messageInput = [
                     'conversation_id' => $conversation->id,
                     'send_user_id' => $authUser->id,
@@ -576,13 +576,14 @@ class ConversationController extends Controller
                     ->latest('id')
                     ->first();
 
-                $conversationMessage = $fileMessage;
-                if ($fileId != $fileMessage?->message_file_id) {
+                if ($fileId == $fileMessage?->message_file_id) {
+                    $conversationMessage = $fileMessage;
+                } else {
                     $messageInput = [
                         'conversation_id' => $conversation->id,
                         'send_user_id' => $authUser->id,
                         'message_type' => ConversationMessage::TYPE_FILE,
-                        'message_file_id' => PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->fid),
+                        'message_file_id' => $fileId,
                         'receive_user_id' => $receiveUser->id,
                     ];
 

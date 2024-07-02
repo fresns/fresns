@@ -355,7 +355,7 @@ class FileUtility
             case 'conversations':
                 $conversation = Conversation::where('id', $tableId)->first();
 
-                $receiveUserId = ($user->id == $conversation->a_user_id) ? $conversation->a_user_id : $conversation->b_user_id;
+                $receiveUserId = ($user->id == $conversation->a_user_id) ? $conversation->b_user_id : $conversation->a_user_id;
 
                 // conversation message
                 $messageInput = [
