@@ -534,7 +534,7 @@ return [
     'storage_max_size' => '支持的最大尺寸',
     'storage_max_duration' => '支持的最大时长',
     'storage_temporary_url_status' => '临时链接功能',
-    'storage_temporary_url_status_desc' => '如果外掛程式不支援臨時連結功能，請勿開啟，否則將導致資源無法存取。',
+    'storage_temporary_url_status_desc' => '如果插件不支持临时链接功能，请勿开启，否则将导致文件无法访问。',
     'storage_temporary_url_key' => '临时链接 Key',
     'storage_temporary_url_expiration' => '临时链接有效期',
     'storage_image_handle_position' => '图片处理位置',
