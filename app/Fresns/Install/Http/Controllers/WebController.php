@@ -348,6 +348,7 @@ class WebController extends Controller
     protected function phpExtensions()
     {
         $extensions = [
+            'mbstring',
             'fileinfo',
         ];
 
