@@ -19,7 +19,7 @@ return new class extends Migration
     {
         Schema::create('geotags', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('gtid')->unique('gtid');
+            $table->string('gtid', 32)->unique('gtid');
             $table->unsignedSmallInteger('type')->default(1)->index('geotag_type');
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
