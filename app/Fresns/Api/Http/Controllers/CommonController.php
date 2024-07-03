@@ -263,6 +263,8 @@ class CommonController extends Controller
         }
 
         $data = $fresnsResp->getData();
+        $data['headers']['Content-Type'] = $fileModel->mime;
+        $data['headers']['Cache-Control'] = '';
         $data['fid'] = $fileModel->fid;
 
         // callback

@@ -443,7 +443,7 @@ class FileHelper
     }
 
     // get file path by handle position
-    public static function fresnsFilePathByHandlePosition(string $position, ?string $parameter = null, ?string $filePath = null): ?string
+    public static function fresnsFilePathByHandlePosition(?string $position = null, ?string $parameter = null, ?string $filePath = null): ?string
     {
         $position = match ($position) {
             'path-start' => 'path-start',
