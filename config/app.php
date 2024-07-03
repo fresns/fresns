@@ -129,7 +129,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'founder' => env('APP_FOUNDER', 1),
+    'founder' => env('APP_FOUNDER', ''),
 
     'trusted_proxies' => env('TRUSTED_PROXIES', ''),
 
