@@ -45,15 +45,9 @@ class ResetPassword extends Command
             return $this->warn('The administrator account was not found. Please ensure that the APP_FOUNDER in the .env file is correctly configured with the appropriate account information, which can be an account ID or AID.');
         }
 
-        $panelConfigs = Config::where('item_key', 'panel_configs')->first();
-
-        $appUrl = config('app.url');
-        $loginPath = $panelConfigs?->item_value['path'] ?? 'admin';
-
         $accountInfo = $account->email ?? $account->phone;
 
-        $this->info("\nAdmin Panel: {$appUrl}/fresns/{$loginPath}");
-        $this->info("Admin Account: {$accountInfo}");
+        $this->info("\nAdmin Account: {$accountInfo}");
 
         do {
             $newPassword = $this->ask('Please enter new password');
@@ -67,6 +61,11 @@ class ResetPassword extends Command
         $account->update([
             'password' => Hash::make($newPassword),
         ]);
+
+        $panelConfigs = Config::where('item_key', 'panel_configs')->first();
+
+        $appUrl = config('app.url');
+        $loginPath = $panelConfigs?->item_value['path'] ?? 'admin';
 
         $this->warn("Password reset successfully.\n");
 
