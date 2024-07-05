@@ -2,6 +2,9 @@
 <form action="" method="post" class="check-names" enctype="multipart/form-data">
     @csrf
     @method('put')
+
+    <input type="hidden" id="currentGroupId" value="">
+
     <!-- Modal -->
     <div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="groupModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">

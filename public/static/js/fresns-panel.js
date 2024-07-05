@@ -1224,6 +1224,16 @@ $(document).ready(function () {
             return;
         }
 
+        $('#firstGroups option').each(function() {
+            if ($(this).val() == params.id) {
+                $(this).attr('disabled', true);
+            } else {
+                $(this).removeAttr('disabled');
+            }
+        });
+
+        $('#currentGroupId').val(params.id);
+
         let permissions = params.permissions;
         let privateWhitelistRoles = permissions.private_whitelist_roles;
         let canPublish = permissions.can_publish ? '1' : '0';
@@ -1451,11 +1461,17 @@ $(document).ready(function () {
                 var newSubgroupDiv = $('<div id="' + subgroupDivId + '"></div>');
                 targetDiv.append(newSubgroupDiv);
 
+                const id = $('#currentGroupId').val();
+
                 var newSelect = $('<select class="form-select choose-group mb-3"></select>');
                 newSelect.append('<option selected disabled value="">' + trans('tips.select_box_tip_group') + '</option>'); // FsLang
                 newSelect.append('<option value="">' + trans('panel.option_unselect') + '</option>'); // FsLang
                 response.forEach(function (group) {
-                    newSelect.append('<option value="' + group.id + '">' + group.name + '</option>');
+                    if (group.id == id) {
+                        newSelect.append('<option value="' + group.id + '" disabled>' + group.name + '</option>');
+                    } else {
+                        newSelect.append('<option value="' + group.id + '">' + group.name + '</option>');
+                    }
                 });
                 newSubgroupDiv.append(newSelect);
 
