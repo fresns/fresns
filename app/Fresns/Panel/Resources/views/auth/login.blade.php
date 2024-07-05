@@ -27,6 +27,18 @@
     </main>
 @endsection
 
+@push('css')
+    <style>
+        body {
+            background-image: url(/static/images/panel-bg.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+@endpush
+
 @push('script')
     <script>
         $('.change-lang').change(function() {
