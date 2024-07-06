@@ -461,9 +461,13 @@ $(document).ready(function () {
                     }).first().val();
                 }
 
-                $(parent).find('.desc-button').text(defaultDesc);
+                if (defaultDesc && defaultDesc.length > 50) {
+                    defaultDesc = defaultDesc.slice(0, 50) + '...';
+                }
+
+                $(parent).find('.description-button').text(defaultDesc);
+
                 $(parent).data('is_back', true);
-                $this.parent('form').find('input[name=update_description]').val(1);
                 $(parent).modal('show');
             }
         });
@@ -1214,7 +1218,7 @@ $(document).ready(function () {
 
         form.find('.parent-group-button').text(trans('panel.option_unselect')); //FsLang
         form.find('.name-button').text(trans('panel.table_name')); //FsLang
-        form.find('.desc-button').text(trans('panel.table_description')); //FsLang
+        form.find('.description-button').text(trans('panel.table_description')); //FsLang
 
         selectAdmin.find('option').remove();
         form.find('input[name=parent_id]').val(0);
@@ -1255,7 +1259,11 @@ $(document).ready(function () {
             form.find("input[name='names[" + langTag + "]']").val(langContent);
         });
 
-        form.find('.desc-button').text(defaultDescription);
+        if (defaultDescription && defaultDescription.length > 50) {
+            defaultDescription = defaultDescription.slice(0, 50) + '...';
+        }
+
+        form.find('.description-button').text(defaultDescription);
         Object.entries(params.description).forEach(([langTag, langContent]) => {
             form.find("textarea[name='descriptions[" + langTag + "]']").val(langContent);
         });

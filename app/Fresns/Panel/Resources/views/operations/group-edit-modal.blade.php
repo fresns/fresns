@@ -40,7 +40,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.table_description') }}</label>
                         <div class="col-sm-9 col-md-10">
-                            <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start desc-button" data-bs-toggle="modal" data-parent="#groupModal" data-bs-target="#langGroupDescModal">{{ __('FsLang::panel.table_description') }}</button>
+                            <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start description-button" data-bs-toggle="modal" data-parent="#groupModal" data-bs-target="#langGroupDescModal">{{ __('FsLang::panel.table_description') }}</button>
                         </div>
                     </div>
 
