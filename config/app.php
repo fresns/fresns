@@ -131,8 +131,10 @@ return [
 
     'founder' => env('APP_FOUNDER', ''),
 
-    'trusted_proxies' => env('TRUSTED_PROXIES', ''),
+    'mirror_code' => env('MIRROR_CODE', ''),
 
     'http_proxy' => env('HTTP_PROXY', ''),
+
+    'trusted_proxies' => env('TRUSTED_PROXIES', ''),
 
 ];
