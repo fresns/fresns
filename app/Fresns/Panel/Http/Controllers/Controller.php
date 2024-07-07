@@ -18,6 +18,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class Controller extends BaseController
 {
@@ -85,22 +86,25 @@ class Controller extends BaseController
 
         // url
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
-        $docsUrl = AppUtility::WEBSITE_URL;
+        $websiteUrl = AppUtility::WEBSITE_URL_ARR[$langTag] ?? AppUtility::WEBSITE_URL_ARR['en'];
         $communityUrl = AppUtility::COMMUNITY_URL;
         $marketplaceUrl = AppUtility::MARKETPLACE_URL;
+
         if ($langTag != 'en') {
             $marketplaceUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag;
         }
-        if ($langTag == 'zh-Hans') {
-            $docsUrl = AppUtility::WEBSITE_ZH_HANS_URL;
-            $communityUrl = AppUtility::COMMUNITY_URL.'/zh-Hans';
-        }
-        if ($langTag == 'zh-Hant') {
-            $communityUrl = AppUtility::COMMUNITY_URL.'/zh-Hant';
+
+        if (config('app.mirror_code')) {
+            $mirrorCode = Str::lower(config('app.mirror_code'));
+            $domainSuffix = '.'.$mirrorCode;
+
+            $websiteUrl = str_replace('.org', $domainSuffix, AppUtility::WEBSITE_URL);
+            $communityUrl = str_replace('.org', $domainSuffix, AppUtility::COMMUNITY_URL);
+            $marketplaceUrl = str_replace('.com', $domainSuffix, AppUtility::MARKETPLACE_URL);
         }
 
         View::share('siteUrl', $siteUrl);
-        View::share('docsUrl', $docsUrl);
+        View::share('websiteUrl', $websiteUrl);
         View::share('communityUrl', $communityUrl);
         View::share('marketplaceUrl', $marketplaceUrl);
 

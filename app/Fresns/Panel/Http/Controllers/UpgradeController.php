@@ -14,7 +14,6 @@ use App\Models\App;
 use App\Models\Config;
 use App\Utilities\AppUtility;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class UpgradeController extends Controller
@@ -60,12 +59,6 @@ class UpgradeController extends Controller
             $manualUpgradeStepInt = null;
         }
 
-        $langTag = Cookie::get('fresns_panel_locale', config('app.locale'));
-        $manualUpgradeGuide = AppUtility::WEBSITE_URL.'/guide/upgrade.html#manual-upgrade';
-        if ($langTag == 'zh-Hans') {
-            $manualUpgradeGuide = AppUtility::WEBSITE_ZH_HANS_URL.'/guide/upgrade.html#%E6%89%8B%E5%8A%A8%E5%8D%87%E7%BA%A7';
-        }
-
         return view('FsView::dashboard.upgrade', compact(
             'currentVersion',
             'newVersion',
@@ -80,7 +73,6 @@ class UpgradeController extends Controller
             'autoUpgradeStepInt',
             'manualUpgradeSteps',
             'manualUpgradeStepInt',
-            'manualUpgradeGuide',
         ));
     }
 

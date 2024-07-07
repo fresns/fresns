@@ -89,16 +89,16 @@
             <h3 class="h6">{{ __('FsLang::panel.support') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $docsUrl }}" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
+                    <a class="fresns-link" href="{{ $websiteUrl }}" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $docsUrl.'/community/teams.html' }}" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
+                    <a class="fresns-link" href="{{ $websiteUrl.'/community/teams.html' }}" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
-                {{-- <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $docsUrl.'/community/sponsor.html' }}" target="_blank">{{ __('FsLang::panel.support_sponsor') }}</a>
-                </li> --}}
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $docsUrl.'/community/join.html' }}" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
+                    <a class="fresns-link" href="{{ $websiteUrl.'/community/sponsor.html' }}" target="_blank">{{ __('FsLang::panel.support_sponsor') }}</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="fresns-link" href="{{ $websiteUrl.'/community/join.html' }}" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
                     <a class="fresns-link" href="{{ $communityUrl }}" target="_blank">{{ __('FsLang::panel.support_community') }}</a>

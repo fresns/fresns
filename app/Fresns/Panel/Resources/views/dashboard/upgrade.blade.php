@@ -59,7 +59,7 @@
                     <button type="button" class="btn btn-outline-primary" id="manualUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_manual_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="{{ $manualUpgradeGuide }}" target="_blank" id="manualUpgradeGuide">{{ __('FsLang::tips.manual_upgrade_guide') }}</a>
+                    <a class="link-success ms-2" href="{{ $websiteUrl.'/guide/upgrade.html' }}{{ App::getLocale() == 'zh-Hans' ? '#%E6%89%8B%E5%8A%A8%E5%8D%87%E7%BA%A7' : '#manual-upgrade' }}" target="_blank" id="manualUpgradeGuide">{{ __('FsLang::tips.manual_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
