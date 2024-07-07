@@ -155,7 +155,7 @@ class UpgradeFresns extends Command
         ];
         $client = new Client($options);
 
-        $downloadUrl = AppUtility::newVersion()['upgradePackage'];
+        $downloadUrl = AppUtility::newVersionInfo()['upgradePackage'];
 
         $filename = basename($downloadUrl);
 

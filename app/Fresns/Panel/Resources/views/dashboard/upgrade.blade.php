@@ -30,12 +30,12 @@
             @if ($checkVersion)
                 <h5 class="card-title">{{ __('FsLang::tips.upgrade_fresns') }}</h5>
                 <div class="card-text mt-3">
-                    <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersion['changeIntro'] }}" target="_blank">v{{ $newVersion['version'] ?? ''}}</a></p>
+                    <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersionInfo['changeIntro'] }}" target="_blank">v{{ $newVersionInfo['version'] ?? ''}}</a></p>
                     <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
-                    @if(! $newVersion['upgradeAuto'])
+                    @if(! $newVersionInfo['upgradeAuto'])
                         <p>
                             {{ __('FsLang::tips.manual_upgrade_tip') }}
-                            <a href="{{ $newVersion['upgradeIntro'] }}" target="_blank">{{ __('FsLang::tips.manual_upgrade_version_guide') }}</a>
+                            <a href="{{ $newVersionInfo['upgradeIntro'] }}" target="_blank">{{ __('FsLang::tips.manual_upgrade_version_guide') }}</a>
                         </p>
                     @endif
                 </div>
@@ -51,7 +51,7 @@
                         </button>
                     @endif
                 @else
-                    @if($newVersion['upgradeAuto'])
+                    @if($newVersionInfo['upgradeAuto'])
                         <button type="button" class="btn btn-primary me-3" id="autoUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                             {{ __('FsLang::panel.button_automatic_upgrade') }}
                         </button>
@@ -200,7 +200,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersion['changeIntro'] }}" target="_blank">v{{ $newVersion['version'] ?? ''}}</a></p>
+                        <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersionInfo['changeIntro'] }}" target="_blank">v{{ $newVersionInfo['version'] ?? ''}}</a></p>
                         <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
                         <p>{{ __('FsLang::tips.upgrade_confirm_tip') }}</p>
                     </div>
@@ -219,7 +219,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
-                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-primary">{{ $newVersion['version'] ?? '' }}</span>
+                        <span class="badge bg-secondary">{{ $currentVersion }}</span> to <span class="badge bg-primary">{{ $newVersionInfo['version'] ?? '' }}</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
                 </div>
@@ -258,8 +258,8 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            {{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersion['changeIntro'] }}" target="_blank">v{{ $appVersion ?? ''}}</a>
-                            @if($appVersion != $newVersion['version'])
+                            {{ __('FsLang::tips.upgrade_fresns_tip') }} <a href="{{ $newVersionInfo['changeIntro'] }}" target="_blank">v{{ $appVersion ?? ''}}</a>
+                            @if($appVersion != $newVersionInfo['version'])
                                 <span class="spinner-grow text-warning spinner-grow-sm" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </span>
@@ -270,7 +270,7 @@
                         <p>{{ __('FsLang::tips.manual_upgrade_confirm_tip') }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" @if($appVersion != $newVersion['version']) disabled @endif>{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                        <button type="submit" class="btn btn-danger" @if($appVersion != $newVersionInfo['version']) disabled @endif>{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                     </div>
                 </div>
@@ -284,7 +284,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
-                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-primary">{{ $newVersion['version'] ?? '' }}</span>
+                        <span class="badge bg-secondary">{{ $currentVersion }}</span> to <span class="badge bg-primary">{{ $newVersionInfo['version'] ?? '' }}</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
                 </div>

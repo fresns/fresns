@@ -9,7 +9,7 @@
     <div class="row mb-4 ">
         <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
         <p class="text-secondary">
-            {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
+            {{ __('FsLang::panel.current_version') }} v{{$currentVersion}}
 
             <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none" id="checkVersion" style="display: none">{{ __('FsLang::panel.new_version') }}</a>
         </p>

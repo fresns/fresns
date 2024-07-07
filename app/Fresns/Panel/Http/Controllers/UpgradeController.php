@@ -22,7 +22,7 @@ class UpgradeController extends Controller
     public function show()
     {
         $currentVersion = AppUtility::currentVersion();
-        $newVersion = AppUtility::newVersion();
+        $newVersionInfo = AppUtility::newVersionInfo();
         $checkVersion = AppUtility::checkVersion();
         $appVersion = AppHelper::VERSION;
         $versionCheckTime = Config::where('item_key', 'check_version_datetime')->first()?->item_value;
@@ -61,7 +61,7 @@ class UpgradeController extends Controller
 
         return view('FsView::dashboard.upgrade', compact(
             'currentVersion',
-            'newVersion',
+            'newVersionInfo',
             'checkVersion',
             'appVersion',
             'versionCheckTime',

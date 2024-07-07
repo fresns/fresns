@@ -32,33 +32,33 @@ class AppUtility
         'zh-Hans' => 'https://fresns.org/zh-Hans',
     ];
 
-    public static function currentVersion(): array
+    public static function currentVersion(): ?string
     {
         $cacheKey = 'fresns_current_version';
         $cacheTag = 'fresnsSystems';
-        $currentVersion = CacheHelper::get($cacheKey, $cacheTag);
+        $fresnsJson = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($currentVersion)) {
-            $fresnsJson = file_get_contents(
+        if (empty($fresnsJson)) {
+            $fresnsFile = file_get_contents(
                 base_path('fresns.json')
             );
 
-            $currentVersion = json_decode($fresnsJson, true);
+            $fresnsJson = json_decode($fresnsFile, true);
 
-            CacheHelper::put($currentVersion, $cacheKey, $cacheTag, now()->addDays(), 1);
+            CacheHelper::put($fresnsJson, $cacheKey, $cacheTag, now()->addDays(), 1);
         }
 
-        return $currentVersion;
+        return $fresnsJson['version'] ?? '';
     }
 
-    public static function newVersion(): array
+    public static function newVersionInfo(): array
     {
         $cacheKey = 'fresns_new_version';
         $cacheTag = 'fresnsSystems';
 
-        $newVersion = CacheHelper::get($cacheKey, $cacheTag);
+        $newVersionInfo = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($newVersion)) {
+        if (empty($newVersionInfo)) {
             $baseUrl = AppUtility::BASE_URL;
             $fileUrl = $baseUrl.'/v3/version-3.json';
 
@@ -80,12 +80,12 @@ class AppUtility
 
                 $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
                 if ($buildType == 1) {
-                    $newVersion = $versionInfo['stableBuild'];
+                    $newVersionInfo = $versionInfo['stableBuild'];
                 } else {
-                    $newVersion = $versionInfo['betaBuild'];
+                    $newVersionInfo = $versionInfo['betaBuild'];
                 }
             } catch (\Exception $e) {
-                $newVersion = [
+                $newVersionInfo = [
                     'version' => AppHelper::VERSION,
                     'releaseDate' => null,
                     'changeIntro' => 'https://fresns.org/intro/changelog.html',
@@ -95,10 +95,10 @@ class AppUtility
                 ];
             }
 
-            CacheHelper::put($newVersion, $cacheKey, $cacheTag, now()->addHours(6), 10);
+            CacheHelper::put($newVersionInfo, $cacheKey, $cacheTag, now()->addHours(6), 10);
         }
 
-        return $newVersion;
+        return $newVersionInfo;
     }
 
     public static function fresnsNews(): ?array
@@ -248,8 +248,8 @@ class AppUtility
 
     public static function checkVersion(): bool
     {
-        $currentVersion = AppUtility::currentVersion()['version'];
-        $newVersion = AppUtility::newVersion()['version'];
+        $currentVersion = AppUtility::currentVersion();
+        $newVersion = AppUtility::newVersionInfo()['version'];
 
         if (version_compare($currentVersion, $newVersion) == -1) {
             return true; // There is a new version
