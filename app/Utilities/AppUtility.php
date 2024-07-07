@@ -25,9 +25,12 @@ class AppUtility
 {
     const BASE_URL = 'https://app.fresns.org';
     const WEBSITE_URL = 'https://fresns.org';
-    const WEBSITE_ZH_HANS_URL = 'https://fresns.org/zh-Hans';
     const COMMUNITY_URL = 'https://discuss.fresns.org';
     const MARKETPLACE_URL = 'https://marketplace.fresns.com';
+    const WEBSITE_URL_ARR = [
+        'en' => 'https://fresns.org',
+        'zh-Hans' => 'https://fresns.org/zh-Hans',
+    ];
 
     public static function currentVersion(): array
     {
