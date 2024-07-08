@@ -1730,7 +1730,7 @@ $(document).ready(function () {
     });
 
     // app key - reset and delete
-    $('#resetKey,#deleteKey').on('show.bs.modal', function (e) {
+    $('#resetKey, #deleteKey').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
             name = button.data('name'),
             appId = button.data('appId'),
@@ -1883,7 +1883,7 @@ $(document).ready(function () {
         $('input[name=fskey]').val(fskey)
     });
 
-    $('#deleteApp,#deleteTheme').on('show.bs.modal', function (e) {
+    $('#deleteApp, #deleteTheme').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
             action = button.data('action'),
             name = button.data('name'),
