@@ -80,7 +80,7 @@
                     <form action="{{ route('panel.app.delete') }}" method="post">
                         @csrf
                         @method('delete')
-                        <input type="hidden" name="app_fskey">
+                        <input type="hidden" name="fskey">
                         <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_delete') }}</button>
                     </form>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
