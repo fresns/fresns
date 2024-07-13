@@ -12,8 +12,8 @@ use App\Utilities\CommandUtility;
 use Browser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 
 class AppHelper
 {
