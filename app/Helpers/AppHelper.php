@@ -13,6 +13,7 @@ use Browser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Number;
 
 class AppHelper
 {
@@ -60,28 +61,22 @@ class AppHelper
         switch ($type) {
             case 'sqlite':
                 $name = 'SQLite';
-
                 $SQLite = config('database.connections.sqlite.database');
-
                 $db = new \SQLite3($SQLite);
-
                 $version = $db->querySingle('SELECT sqlite_version()');
-
                 $sizeResult = filesize($SQLite);
                 break;
 
             case 'mysql':
                 $name = 'MySQL';
                 $version = DB::select('select version()')[0]->{'version()'};
-
-                $sizeResult = DB::select('SELECT SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES')[0]->Size;
+                $sizeResult = DB::select('SELECT SUM(data_length + index_length) AS "Size" FROM information_schema.TABLES')[0]->Size;
                 break;
 
             case 'mariadb':
                 $name = 'MariaDB';
                 $version = DB::select('select version()')[0]->{'version()'};
-
-                $sizeResult = DB::select('SELECT SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES')[0]->Size;
+                $sizeResult = DB::select('SELECT SUM(data_length + index_length) AS "Size" FROM information_schema.TABLES')[0]->Size;
                 break;
 
             case 'pgsql':
@@ -89,15 +84,14 @@ class AppHelper
                 $fullVersion = DB::select('select version()')[0]->version;
                 preg_match('/\d+\.\d+/', $fullVersion, $matches);
                 $version = $matches[0] ?? '';
-
-                $sizeResult = DB::select('SELECT SUM(pg_total_relation_size(quote_ident(schemaname) || \'.\' || quote_ident(tablename))) / 1024 / 1024 AS "Size" FROM pg_tables')[0]->Size;
+                $sizeResult = DB::select('SELECT SUM(pg_total_relation_size(quote_ident(schemaname) || \'.\' || quote_ident(tablename))) AS "Size" FROM pg_tables')[0]->Size;
                 break;
 
             case 'sqlsrv':
                 $name = 'SQL Server';
                 $version = DB::select('SELECT @@VERSION as version')[0]->version;
-
-                $sizeResult = DB::select('SELECT SUM(size) * 8 / 1024 AS "Size" FROM sys.master_files WHERE type_desc = \'ROWS\'')[0]->Size;
+                // 获取总字节，注意 SQL Server 计算的基本单位是 KB，因此乘以 1024 转换为字节
+                $sizeResult = DB::select('SELECT SUM(size) * 8 * 1024 AS "Size" FROM sys.master_files WHERE type_desc = \'ROWS\'')[0]->Size;
                 break;
 
             default:
@@ -106,21 +100,12 @@ class AppHelper
                 $sizeResult = 0;
         }
 
-        $sizeMb = 0;
-        $sizeGb = 0;
-        if ($sizeResult > 0) {
-            $sizeMb = round($sizeResult, 2);
-            $sizeGb = round($sizeResult / 1024, 2);
-        }
-        if ($sizeResult > 0 && $type == 'sqlite') {
-            $sizeMb = round($sizeResult / 1024 / 1024, 2);
-            $sizeGb = round($sizeResult / 1024 / 1024 / 1024, 2);
-        }
+        $sizeString = Number::fileSize($sizeResult, precision: 2);
 
         $dbInfo = [
             'name' => $name,
             'version' => $version,
-            'size' => $sizeGb > 1 ? $sizeGb.' GB' : $sizeMb.' MB',
+            'size' => $sizeString,
             'timezone' => 'UTC'.DateHelper::fresnsDatabaseTimezone(),
             'envTimezone' => config('app.timezone'),
             'envTimezoneToUtc' => 'UTC'.DateHelper::fresnsDatabaseTimezoneByName(config('app.timezone')),

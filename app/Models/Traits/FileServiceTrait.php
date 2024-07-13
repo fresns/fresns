@@ -13,26 +13,10 @@ use App\Helpers\FileHelper;
 use App\Helpers\StrHelper;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
 
 trait FileServiceTrait
 {
-    public function size(): string
-    {
-        $fileData = $this;
-
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        $bytes = max($fileData->size, 0);
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow = min($pow, count($units) - 1);
-
-        $bytes /= pow(1024, $pow);
-
-        $sizeString = round($bytes, 2).' '.$units[$pow];
-
-        return $sizeString;
-    }
-
     public function getFileUrl(): ?string
     {
         $fileData = $this;
@@ -98,7 +82,7 @@ trait FileServiceTrait
         $info['name'] = $fileData->name;
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
-        $info['size'] = $fileData->size();
+        $info['size'] = Number::fileSize($fileData->size, precision: 2);
         $info['width'] = $fileData->width;
         $info['height'] = $fileData->height;
         $info['duration'] = $fileData->duration;
