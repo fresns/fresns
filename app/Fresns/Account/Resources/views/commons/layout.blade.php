@@ -208,7 +208,7 @@
                     'countryCode': countryCode,
                 },
                 error: function (error) {
-                    tips(error.responseText);
+                    tips(error.responseJSON.message);
 
                     Cookies.set('fresns_account_center_verify_code_time', 0, { expires: 1 });
                 },
@@ -335,7 +335,7 @@
                             'loginToken': callbackData.data.loginToken,
                         },
                         error: function (error) {
-                            tips(error.responseText);
+                            tips(error.responseJSON.message);
                         },
                         success: function (res) {
                             tips(res.message);
