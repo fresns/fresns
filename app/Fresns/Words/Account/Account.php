@@ -52,7 +52,7 @@ class Account
 
             case AccountModel::CREATE_TYPE_PHONE:
                 // phone
-                $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
+                $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCallingCode.$dtoWordBody->account)->first();
                 break;
 
             case AccountModel::CREATE_TYPE_CONNECT:
@@ -91,15 +91,13 @@ class Account
                 'email' => $dtoWordBody->account,
             ],
             AccountModel::CREATE_TYPE_PHONE => [
-                'country_code' => $dtoWordBody->countryCode,
-                'pure_phone' => $dtoWordBody->account,
-                'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
+                'country_calling_code' => $dtoWordBody->countryCallingCode,
+                'phone' => $dtoWordBody->countryCallingCode.$dtoWordBody->account,
             ],
             AccountModel::CREATE_TYPE_CONNECT => [
                 'email' => $dtoWordBody->connectEmail,
-                'country_code' => $dtoWordBody->connectCountryCode,
-                'pure_phone' => $dtoWordBody->connectPhone,
-                'phone' => $dtoWordBody->connectPhone ? $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone : null,
+                'country_calling_code' => $dtoWordBody->connectCountryCallingCode,
+                'phone' => $dtoWordBody->connectPhone ? $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPhone : null,
             ],
             default => [],
         };
@@ -197,7 +195,7 @@ class Account
                 break;
 
             case AccountModel::VERIFY_TYPE_PHONE:
-                $phoneNumber = $dtoWordBody->countryCode.$dtoWordBody->account;
+                $phoneNumber = $dtoWordBody->countryCallingCode.$dtoWordBody->account;
                 $account = AccountModel::where('phone', $phoneNumber)->first();
                 break;
 
@@ -233,20 +231,20 @@ class Account
 
         if ($dtoWordBody->verifyCode) {
             $accountType = 2;
-            $countryCode = $account->country_code;
+            $countryCallingCode = $account->country_calling_code;
             $accountInfo = $account->pure_phone;
 
             $isEmail = filter_var($dtoWordBody->account, FILTER_VALIDATE_EMAIL);
             if ($isEmail) {
                 $accountType = 1;
-                $countryCode = null;
+                $countryCallingCode = null;
                 $accountInfo = $account->email;
             }
 
             $codeWordBody = [
                 'type' => $accountType,
                 'account' => $accountInfo,
-                'countryCode' => $countryCode,
+                'countryCallingCode' => $countryCallingCode,
                 'verifyCode' => $dtoWordBody->verifyCode,
                 'templateId' => TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT,
             ];
@@ -311,9 +309,9 @@ class Account
 
         if (empty($accountModel->phone) && $dtoWordBody->connectPhone) {
             $accountModel->update([
-                'country_code' => $dtoWordBody->connectCountryCode,
+                'country_calling_code' => $dtoWordBody->connectCountryCallingCode,
                 'pure_phone' => $dtoWordBody->connectPhone,
-                'phone' => $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone,
+                'phone' => $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPhone,
             ]);
         }
 

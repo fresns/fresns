@@ -4,6 +4,8 @@
     @include('FsView::dashboard.sidebar')
 @endsection
 
+@use('App\Helpers\StrHelper')
+
 @section('content')
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
@@ -38,14 +40,14 @@
                         <td>
                             <span class="badge bg-light text-dark"><i class="bi bi-envelope"></i>
                                 @if ($admin->email)
-                                    {{ $admin->secret_email }}
+                                    {{ StrHelper::maskEmail($admin->email) }}
                                 @else
                                     None
                                 @endif
                             </span>
                             <span class="badge bg-light text-dark"><i class="bi bi-phone"></i>
-                                @if ($admin->pure_phone)
-                                    +{{ $admin->country_code }} {{ $admin->secret_pure_phone }}
+                                @if ($admin->phone)
+                                    +{{ $admin->country_calling_code }} {{ StrHelper::maskNumber($admin->getPurePhone()) }}
                                 @else
                                     None
                                 @endif

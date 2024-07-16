@@ -17,11 +17,11 @@ class CreateAccountDTO extends DTO
         return [
             'type' => ['integer', 'required', 'in:1,2,3,4'],
             'account' => ['nullable', 'required_if:type,2,3'], // email or integer
-            'countryCode' => ['integer', 'nullable', 'required_if:type,3'],
+            'countryCallingCode' => ['integer', 'nullable', 'required_if:type,3'],
             'connectInfo' => ['array', 'nullable', 'required_if:type,4'],
             'connectEmail' => ['string', 'nullable'],
             'connectPhone' => ['integer', 'nullable'],
-            'connectCountryCode' => ['integer', 'nullable'],
+            'connectCountryCallingCode' => ['integer', 'nullable'],
             'password' => ['string', 'nullable'],
             'birthday' => ['date', 'nullable'],
             'createUser' => ['boolean', 'nullable'],

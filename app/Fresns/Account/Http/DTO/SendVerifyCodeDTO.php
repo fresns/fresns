@@ -18,7 +18,7 @@ class SendVerifyCodeDTO extends DTO
             'type' => ['string', 'required', 'in:email,sms'],
             'templateId' => ['integer', 'required', 'between:1,8'],
             'account' => ['nullable'],
-            'countryCode' => ['integer', 'nullable'],
+            'countryCallingCode' => ['integer', 'nullable'],
         ];
     }
 }

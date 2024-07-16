@@ -89,7 +89,7 @@ class ConfigUtility
     }
 
     // get send code word body
-    public static function getSendCodeWordBody(int|string $type, int $templateId, ?string $langTag = null, string|int|null $sendAccount = null, ?int $sendCountryCode = null, Account|int|string $authAccount = null): array
+    public static function getSendCodeWordBody(int|string $type, int $templateId, ?string $langTag = null, string|int|null $sendAccount = null, ?int $sendCountryCallingCode = null, Account|int|string $authAccount = null): array
     {
         $sendType = match ($type) {
             'email' => TempVerifyCode::TYPE_EMAIL,
@@ -104,7 +104,7 @@ class ConfigUtility
                 'templateId' => $templateId,
                 'langTag' => $langTag,
                 'account' => $sendAccount,
-                'countryCode' => $sendCountryCode,
+                'countryCallingCode' => $sendCountryCallingCode,
             ],
         ];
 
@@ -116,7 +116,7 @@ class ConfigUtility
         // 2: register
         // 7: login
         if (in_array($templateId, [TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT, TempVerifyCode::TEMPLATE_LOGIN_ACCOUNT])) {
-            $phone = $sendCountryCode.$sendAccount;
+            $phone = $sendCountryCallingCode.$sendAccount;
             $checkAccountModel = match ($sendType) {
                 TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
                 TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
@@ -160,8 +160,8 @@ class ConfigUtility
                 break;
 
             case TempVerifyCode::TYPE_SMS:
-                $checkResp['wordBody']['countryCode'] = $authAccountModel?->country_code;
-                $checkResp['wordBody']['account'] = $authAccountModel?->pure_phone;
+                $checkResp['wordBody']['countryCallingCode'] = $authAccountModel?->country_calling_code;
+                $checkResp['wordBody']['account'] = $authAccountModel?->getPurePhone();
                 break;
 
             default:
@@ -173,7 +173,7 @@ class ConfigUtility
         // 5: reset login password
         // 6: reset pay password
         if (in_array($templateId, [TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD, TempVerifyCode::TEMPLATE_RESET_WALLET_PASSWORD])) {
-            $phone = $sendCountryCode.$sendAccount;
+            $phone = $sendCountryCallingCode.$sendAccount;
             $checkAccountModel = match ($sendType) {
                 TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
                 TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
@@ -191,7 +191,7 @@ class ConfigUtility
             }
 
             $checkResp['wordBody']['account'] = $sendAccount;
-            $checkResp['wordBody']['countryCode'] = $sendCountryCode;
+            $checkResp['wordBody']['countryCallingCode'] = $sendCountryCallingCode;
 
             return $checkResp;
         }
@@ -216,7 +216,7 @@ class ConfigUtility
             return $checkResp;
         }
 
-        $phone = $sendCountryCode.$sendAccount;
+        $phone = $sendCountryCallingCode.$sendAccount;
         $checkAccountModel = match ($sendType) {
             TempVerifyCode::TYPE_EMAIL => Account::where('email', $sendAccount)->first(),
             TempVerifyCode::TYPE_SMS => Account::where('phone', $phone)->first(),
@@ -233,7 +233,7 @@ class ConfigUtility
         }
 
         $checkResp['wordBody']['account'] = $sendAccount;
-        $checkResp['wordBody']['countryCode'] = $sendCountryCode;
+        $checkResp['wordBody']['countryCallingCode'] = $sendCountryCallingCode;
 
         return $checkResp;
     }

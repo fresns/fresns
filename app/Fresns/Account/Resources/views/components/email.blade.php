@@ -25,7 +25,7 @@
                             <p class="form-text mb-3 text-center">{{ $fsLang['settingWarning'] }}</p>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['currentPhone'] }}</span>
-                                <input class="form-control" type="text" value="{{ $accountPassport['countryCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
+                                <input class="form-control" type="text" value="{{ $accountPassport['countryCallingCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
                                 <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="4" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                             </div>
                             <div class="input-group">

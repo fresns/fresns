@@ -46,7 +46,7 @@
                             <div class="apply_delete_by_phone collapse @if (!$accountData['hasEmail'] && $accountData['hasPhone']) show @endif" aria-labelledby="apply_delete_by_phone" data-bs-parent="#apply_delete_mode">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">{{ $fsLang['currentPhone'] }}</span>
-                                    <input class="form-control" type="text" value="{{ $accountPassport['countryCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
+                                    <input class="form-control" type="text" value="{{ $accountPassport['countryCallingCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
                                     <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="8" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                                 </div>
                                 <div class="input-group mb-3">

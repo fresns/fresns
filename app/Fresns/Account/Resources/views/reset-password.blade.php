@@ -39,13 +39,13 @@
                 @endif
 
                 {{-- account --}}
-                <input type="hidden" name="countryCode" id="countryCode" value="{{ $smsDefaultCode }}">
+                <input type="hidden" name="countryCallingCode" id="countryCallingCode" value="{{ $smsDefaultCode }}">
                 <div class="input-group mb-3">
                     {{-- country code --}}
                     @if (count($smsSupportedCodes) == 1)
                         <span class="input-group-text @if ($fsConfig['send_email_service']) d-none @endif">+{{ $smsDefaultCode }}</span>
                     @else
-                        <button class="btn btn-outline-secondary @if ($fsConfig['send_email_service']) d-none @endif" type="button" id="countryCodeButton" data-bs-toggle="modal" data-bs-target="#countryCodeModal">+{{ $smsDefaultCode }}</button>
+                        <button class="btn btn-outline-secondary @if ($fsConfig['send_email_service']) d-none @endif" type="button" id="countryCallingCodeButton" data-bs-toggle="modal" data-bs-target="#countryCallingCodeModal">+{{ $smsDefaultCode }}</button>
                     @endif
 
                     {{-- input --}}
@@ -55,7 +55,7 @@
                 {{-- verify code --}}
                 <div class="input-group mb-3">
                     <input type="text" class="form-control form-control-lg" name="verifyCode" placeholder="{{ $fsLang['verifyCode'] }}" autocomplete="off">
-                    <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="resetPassword" data-account-input-id="accountInfo" data-country-code-input-id="countryCode" onclick="guestSendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                    <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="resetPassword" data-account-input-id="accountInfo" data-country-calling-code-input-id="countryCallingCode" onclick="guestSendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                 </div>
 
                 {{-- new password --}}

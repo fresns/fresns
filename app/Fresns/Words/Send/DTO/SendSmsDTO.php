@@ -15,7 +15,7 @@ class SendSmsDTO extends DTO
     public function rules(): array
     {
         return [
-            'countryCode' => ['integer', 'required'],
+            'countryCallingCode' => ['integer', 'required'],
             'phoneNumber' => ['integer', 'required'],
             'signName' => ['string', 'nullable'],
             'templateCode' => ['string', 'required'],

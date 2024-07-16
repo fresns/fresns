@@ -15,6 +15,22 @@ use App\Models\AccountConnect;
 
 trait AccountServiceTrait
 {
+    public function getPurePhone(): ?string
+    {
+        $accountData = $this;
+
+        if (empty($accountData->phone)) {
+            return '';
+        }
+
+        $countryCallingCode = $accountData->country_calling_code;
+        $phone = $accountData->phone;
+
+        $purePhone = substr($phone, strlen($countryCallingCode));
+
+        return $purePhone;
+    }
+
     public function getAccountInfo(?string $langTag = null): array
     {
         $accountData = $this;
@@ -27,8 +43,8 @@ trait AccountServiceTrait
         }
 
         $info['aid'] = $accountData->aid;
-        $info['hasPhone'] = (bool) $accountData->phone;
         $info['hasEmail'] = (bool) $accountData->email;
+        $info['hasPhone'] = (bool) $accountData->phone;
         $info['hasPassword'] = (bool) $accountData->password;
         $info['birthday'] = $birthday;
         $info['kycVerified'] = (bool) $accountData->is_verify;

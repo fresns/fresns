@@ -1462,7 +1462,7 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'countryCode',
+                'lang_key' => 'countryCallingCode',
                 'lang_values' => '{"en":"Country Code","zh-Hans":"国际区号","zh-Hant":"國際區號"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',

@@ -21,10 +21,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('aid', 32)->unique('aid');
             $table->unsignedTinyInteger('type')->default(3);
-            $table->string('country_code', 8)->nullable();
-            $table->string('pure_phone', 128)->nullable();
-            $table->string('phone', 128)->nullable()->unique('phone');
             $table->string('email', 128)->nullable()->unique('email');
+            $table->string('phone', 128)->nullable()->unique('phone');
+            $table->string('country_calling_code', 8)->nullable();
             $table->string('password', 64)->nullable();
             $table->date('birthday')->nullable();
             $table->timestamp('last_login_at');

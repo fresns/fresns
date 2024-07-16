@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 class Account extends Authenticatable
 {
@@ -85,27 +84,6 @@ class Account extends Authenticatable
     public function scopeOfAdmin($query)
     {
         return $query->where('type', Account::TYPE_SYSTEM_ADMIN);
-    }
-
-    public function getSecretPurePhoneAttribute(): string
-    {
-        if (! $this->pure_phone) {
-            return '';
-        }
-
-        return Str::mask($this->pure_phone, '*', -8, 4);
-    }
-
-    public function getSecretEmailAttribute(): string
-    {
-        if (! $this->email) {
-            return '';
-        }
-
-        [$prefix, $end] = explode('@', $this->email);
-        $len = ceil(strlen($prefix) / 2);
-
-        return Str::mask($prefix, '*', -1 * $len, $len).'@'.$end;
     }
 
     public function isAdmin()

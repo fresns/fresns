@@ -114,7 +114,7 @@ class ApiController extends Controller
         }
 
         $accountInfo = Str::of($request->account)->trim()->toString();
-        $countryCode = (int) $request->countryCode;
+        $countryCallingCode = (int) $request->countryCallingCode;
 
         $isEmail = filter_var($accountInfo, FILTER_VALIDATE_EMAIL);
         $isPureInt = StrHelper::isPureInt($accountInfo);
@@ -152,7 +152,7 @@ class ApiController extends Controller
         };
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $codeResp = ConfigUtility::getSendCodeWordBody($sendType, $sendTemplateId, $langTag, $accountInfo, $countryCode);
+        $codeResp = ConfigUtility::getSendCodeWordBody($sendType, $sendTemplateId, $langTag, $accountInfo, $countryCallingCode);
 
         if ($codeResp['code']) {
             return $this->failure($codeResp['code']);
@@ -171,7 +171,7 @@ class ApiController extends Controller
             return $this->failure(33100);
         }
 
-        $countryCode = $request->countryCode;
+        $countryCallingCode = $request->countryCallingCode;
         $account = $request->account;
         if (empty($account)) {
             return $this->failure(34100);
@@ -195,7 +195,7 @@ class ApiController extends Controller
                     return $this->failure(34203);
                 }
 
-                $phone = $countryCode.$account;
+                $phone = $countryCallingCode.$account;
                 $accountModel = Account::where('phone', $phone)->first();
 
                 $sendType = TempVerifyCode::TYPE_SMS;
@@ -304,7 +304,7 @@ class ApiController extends Controller
         $wordBody = [
             'type' => $sendType,
             'account' => $account,
-            'countryCode' => $request->countryCode,
+            'countryCallingCode' => $request->countryCallingCode,
             'verifyCode' => $verifyCode,
             'templateId' => TempVerifyCode::TEMPLATE_REGISTER_ACCOUNT,
         ];
@@ -323,7 +323,7 @@ class ApiController extends Controller
         $createAccountWordBody = [
             'type' => $accountType,
             'account' => $account,
-            'countryCode' => $request->countryCode,
+            'countryCallingCode' => $request->countryCallingCode,
             'password' => $password,
             'birthday' => $birthday,
             'createUser' => true,
@@ -377,7 +377,7 @@ class ApiController extends Controller
             return $this->failure(33100);
         }
 
-        $countryCode = $request->countryCode;
+        $countryCallingCode = $request->countryCallingCode;
         $account = $request->account;
         if (empty($account)) {
             return $this->failure(34100);
@@ -400,7 +400,7 @@ class ApiController extends Controller
 
                 $verifyType = Account::VERIFY_TYPE_EMAIL;
                 $verifyAccount = $accountModel?->email;
-                $verifyCountryCode = null;
+                $verifyCountryCallingCode = null;
                 break;
 
             case 'phone':
@@ -409,12 +409,12 @@ class ApiController extends Controller
                     return $this->failure(34208);
                 }
 
-                $phone = $countryCode.$account;
+                $phone = $countryCallingCode.$account;
                 $accountModel = Account::withCount('users')->where('phone', $phone)->first();
 
                 $verifyType = Account::VERIFY_TYPE_PHONE;
                 $verifyAccount = $accountModel?->pure_phone;
-                $verifyCountryCode = $accountModel?->country_code;
+                $verifyCountryCallingCode = $accountModel?->country_calling_code;
                 break;
 
             default:
@@ -451,7 +451,7 @@ class ApiController extends Controller
         $wordBody = [
             'type' => $verifyType,
             'account' => $verifyAccount,
-            'countryCode' => $verifyCountryCode,
+            'countryCallingCode' => $verifyCountryCallingCode,
             'password' => $password,
             'verifyCode' => $verifyCode,
         ];
@@ -534,7 +534,7 @@ class ApiController extends Controller
         }
 
         $accountType = $request->accountType;
-        $countryCode = $request->countryCode;
+        $countryCallingCode = $request->countryCallingCode;
 
         $sendType = match ($accountType) {
             'email' => TempVerifyCode::TYPE_EMAIL,
@@ -548,7 +548,7 @@ class ApiController extends Controller
 
             $sendAccount = $accountModel?->email;
         } else {
-            $phone = $countryCode.$account;
+            $phone = $countryCallingCode.$account;
             $accountModel = Account::where('phone', $phone)->first();
 
             $sendAccount = $accountModel?->pure_phone;
@@ -560,7 +560,7 @@ class ApiController extends Controller
         $wordBody = [
             'type' => $sendType,
             'account' => $sendAccount,
-            'countryCode' => $accountModel->country_code,
+            'countryCallingCode' => $accountModel->country_calling_code,
             'verifyCode' => $verifyCode,
             'templateId' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
         ];
@@ -644,11 +644,11 @@ class ApiController extends Controller
         $langTag = Cookie::get('fresns_account_center_lang_tag') ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
         $accountInfo = Str::of($request->account)->trim()->toString();
-        $countryCode = (int) $dtoRequest->countryCode;
+        $countryCallingCode = (int) $dtoRequest->countryCallingCode;
 
         $aid = Cookie::get('fresns_account_center_aid');
 
-        $codeResp = ConfigUtility::getSendCodeWordBody($dtoRequest->type, $templateId, $langTag, $accountInfo, $countryCode, $aid);
+        $codeResp = ConfigUtility::getSendCodeWordBody($dtoRequest->type, $templateId, $langTag, $accountInfo, $countryCallingCode, $aid);
 
         if ($codeResp['code']) {
             return $this->failure($codeResp['code']);
@@ -668,11 +668,11 @@ class ApiController extends Controller
 
         if ($type == 'email') {
             $accountType = TempVerifyCode::TYPE_EMAIL;
-            $countryCode = null;
+            $countryCallingCode = null;
             $accountInfo = $account?->email;
         } else {
             $accountType = TempVerifyCode::TYPE_SMS;
-            $countryCode = $account?->country_code;
+            $countryCallingCode = $account?->country_calling_code;
             $accountInfo = $account?->pure_phone;
         }
 
@@ -686,7 +686,7 @@ class ApiController extends Controller
         $wordBody = [
             'type' => $accountType,
             'account' => $accountInfo,
-            'countryCode' => $countryCode,
+            'countryCallingCode' => $countryCallingCode,
             'verifyCode' => $verifyCode,
             'templateId' => $templateId,
         ];
@@ -778,7 +778,7 @@ class ApiController extends Controller
                 $wordBody = [
                     'type' => TempVerifyCode::TYPE_EMAIL,
                     'account' => $newEmail,
-                    'countryCode' => null,
+                    'countryCallingCode' => null,
                     'verifyCode' => $newVerifyCode,
                     'templateId' => TempVerifyCode::TEMPLATE_CHANGE_EMAIL_OR_PHONE,
                 ];
@@ -811,14 +811,14 @@ class ApiController extends Controller
                     Cache::forget($cacheInfo);
                 }
 
-                $newCountryCode = $request->countryCode;
+                $newCountryCallingCode = $request->countryCallingCode;
                 $newPurePhone = $request->newPhone;
                 $newVerifyCode = $request->newVerifyCode;
 
                 $wordBody = [
                     'type' => TempVerifyCode::TYPE_SMS,
                     'account' => $newPurePhone,
-                    'countryCode' => $newCountryCode,
+                    'countryCallingCode' => $newCountryCallingCode,
                     'verifyCode' => $newVerifyCode,
                     'templateId' => TempVerifyCode::TEMPLATE_CHANGE_EMAIL_OR_PHONE,
                 ];
@@ -830,9 +830,9 @@ class ApiController extends Controller
                 }
 
                 $account->update([
-                    'country_code' => $newCountryCode,
+                    'country_calling_code' => $newCountryCallingCode,
                     'pure_phone' => $newPurePhone,
-                    'phone' => $newCountryCode.$newPurePhone,
+                    'phone' => $newCountryCallingCode.$newPurePhone,
                 ]);
                 break;
 
@@ -870,7 +870,7 @@ class ApiController extends Controller
                     $wordBody = [
                         'type' => $codeTypeInt,
                         'account' => $accountInfo,
-                        'countryCode' => $account->country_code,
+                        'countryCallingCode' => $account->country_calling_code,
                         'verifyCode' => $verifyCode,
                         'templateId' => TempVerifyCode::TEMPLATE_RESET_LOGIN_PASSWORD,
                     ];
@@ -958,7 +958,7 @@ class ApiController extends Controller
                     $wordBody = [
                         'type' => $codeTypeInt,
                         'account' => $accountInfo,
-                        'countryCode' => $account->country_code,
+                        'countryCallingCode' => $account->country_calling_code,
                         'verifyCode' => $verifyCode,
                         'templateId' => TempVerifyCode::TEMPLATE_RESET_WALLET_PASSWORD,
                     ];
@@ -1030,7 +1030,7 @@ class ApiController extends Controller
         $wordBody = [
             'type' => 1,
             'account' => $accountInfo,
-            'countryCode' => $account->country_code,
+            'countryCallingCode' => $account->country_calling_code,
             'verifyCode' => $verifyCode,
             'templateId' => TempVerifyCode::TEMPLATE_DELETE_ACCOUNT,
         ];

@@ -35,7 +35,7 @@
             <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true" data-bs-toggle="modal" data-bs-target="#editPhoneModal">
                 <div class="my-1">
                     <h5 class="my-1 fs-6">{{ $fsLang['phone'] }}</h5>
-                    <small class="text-secondary">{{ $accountData['hasPhone'] ? '+'.$accountPassport['countryCode'].' '.$accountPassport['purePhone'] : $fsLang['settingNot'] }}</small>
+                    <small class="text-secondary">{{ $accountData['hasPhone'] ? '+'.$accountPassport['countryCallingCode'].' '.$accountPassport['purePhone'] : $fsLang['settingNot'] }}</small>
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </button>
@@ -230,18 +230,18 @@
         function sendVerifyCode(obj) {
             let type = $(obj).data('type'),
                 templateId = $(obj).data('template-id');
-                countryCodeInputId = $(obj).data('country-code-input-id'),
+                countryCallingCodeInputId = $(obj).data('country-calling-code-input-id'),
                 accountInputId = $(obj).data('account-input-id');
 
             let account = '',
-                countryCode = '';
+                countryCallingCode = '';
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
             }
 
-            if (countryCodeInputId) {
-                countryCode = $('#' + countryCodeInputId).val();
+            if (countryCallingCodeInputId) {
+                countryCallingCode = $('#' + countryCallingCodeInputId).val();
             }
 
             if (templateId == 3 && !account) {
@@ -259,7 +259,7 @@
                 data: {
                     'type': type,
                     'account': account,
-                    'countryCode': countryCode,
+                    'countryCallingCode': countryCallingCode,
                     'templateId': templateId,
                 },
                 error: function (error) {

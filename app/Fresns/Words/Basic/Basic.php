@@ -426,7 +426,7 @@ class Basic
         if ($dtoWordBody->type == TempVerifyCode::TYPE_EMAIL) {
             $account = $dtoWordBody->account;
         } else {
-            $account = $dtoWordBody->countryCode.$dtoWordBody->account;
+            $account = $dtoWordBody->countryCallingCode.$dtoWordBody->account;
         }
 
         $verifyInfo = TempVerifyCode::where('template_id', $dtoWordBody->templateId)

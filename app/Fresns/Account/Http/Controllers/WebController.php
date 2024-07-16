@@ -60,8 +60,8 @@ class WebController extends Controller
         $langTag = $request->attributes->get('fresns_account_center_lang_tag');
 
         $accountPassport = [
-            'countryCode' => (int) $account->country_code,
-            'purePhone' => $account->pure_phone ? StrHelper::maskNumber($account->pure_phone) : null,
+            'countryCallingCode' => (int) $account->country_calling_code,
+            'purePhone' => $account->phone ? StrHelper::maskNumber($account->getPurePhone()) : null,
             'phone' => $account->phone ? StrHelper::maskNumber($account->phone) : null,
             'email' => $account->email ? StrHelper::maskEmail($account->email) : null,
         ];

@@ -35,15 +35,15 @@
         </div>
     </div>
 
-    {{-- Country Code Modal --}}
-    <div class="modal fade" id="countryCodeModal" tabindex="-1" aria-labelledby="countryCodeModalLabel" aria-hidden="true">
+    {{-- Country Calling Code Modal --}}
+    <div class="modal fade" id="countryCallingCodeModal" tabindex="-1" aria-labelledby="countryCallingCodeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm d-flex justify-content-center">
             <div class="modal-content w-50">
                 <div class="modal-body p-0">
                     <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-success">{{ $fsLang['countryCode'] }}</button>
+                        <button type="button" class="list-group-item list-group-item-success">{{ $fsLang['countryCallingCode'] }}</button>
                         @foreach($smsSupportedCodes as $code)
-                            <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal" data-code="{{ $code }}" onclick="countryCodeSelect(this)">+{{ $code }}</button>
+                            <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal" data-code="{{ $code }}" onclick="countryCallingCodeSelect(this)">+{{ $code }}</button>
                         @endforeach
                     </div>
                 </div>
@@ -177,17 +177,17 @@
         function guestSendVerifyCode(obj) {
             let type = $(obj).data('type'),
                 accountInputId = $(obj).data('account-input-id'),
-                countryCodeInputId = $(obj).data('country-code-input-id');
+                countryCallingCodeInputId = $(obj).data('country-calling-code-input-id');
 
             let account = '';
-            let countryCode = '';
+            let countryCallingCode = '';
 
             if (accountInputId) {
                 account = $('#' + accountInputId).val();
             }
 
-            if (countryCodeInputId) {
-                countryCode = $('#' + countryCodeInputId).val();
+            if (countryCallingCodeInputId) {
+                countryCallingCode = $('#' + countryCallingCodeInputId).val();
             }
 
             if (!account) {
@@ -205,7 +205,7 @@
                 data: {
                     'type': type,
                     'account': account,
-                    'countryCode': countryCode,
+                    'countryCallingCode': countryCallingCode,
                 },
                 error: function (error) {
                     tips(error.responseJSON.message);
@@ -227,7 +227,7 @@
 
         // click email
         function clickEmail() {
-            $('#countryCodeButton').addClass('d-none');
+            $('#countryCallingCodeButton').addClass('d-none');
             $('#accountInfo').addClass('rounded-start');
 
             var inputElement = document.getElementById('accountInfo');
@@ -237,7 +237,7 @@
 
         // click phone
         function clickPhone() {
-            $('#countryCodeButton').removeClass('d-none');
+            $('#countryCallingCodeButton').removeClass('d-none');
             $('#accountInfo').removeClass('rounded-start');
 
             var inputElement = document.getElementById('accountInfo');
@@ -246,12 +246,12 @@
         };
 
         // country code select
-        function countryCodeSelect(obj) {
+        function countryCallingCodeSelect(obj) {
             let code = $(obj).data('code');
 
-            $('input[name="countryCode"]').val(code);
+            $('input[name="countryCallingCode"]').val(code);
 
-            $('#countryCodeButton').text('+' + code);
+            $('#countryCallingCodeButton').text('+' + code);
 
             var editPhoneModal = document.getElementById('editPhoneModal');
             if (editPhoneModal) {

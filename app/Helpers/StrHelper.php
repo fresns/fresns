@@ -26,8 +26,8 @@ class StrHelper
             return $number;
         }
 
-        $head = substr($number, 0, 2);
-        $tail = substr($number, -2);
+        $head = substr($number, 0, 3);
+        $tail = substr($number, -3);
         $starCount = strlen($number) - 4;
         $star = str_repeat('*', $starCount);
 

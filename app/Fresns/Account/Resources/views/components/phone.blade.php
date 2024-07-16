@@ -11,7 +11,7 @@
                             <p class="form-text mb-3 text-center">{{ $fsLang['settingWarning'] }}</p>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">{{ $fsLang['currentPhone'] }}</span>
-                                <input class="form-control" type="text" value="{{ $accountPassport['countryCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
+                                <input class="form-control" type="text" value="{{ $accountPassport['countryCallingCode'].' '.$accountPassport['purePhone'] }}" disabled readonly>
                                 <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="4" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                             </div>
                             <div class="input-group">
@@ -37,14 +37,14 @@
                     @endif
                     {{-- new phone --}}
                     <div id="newPhone" @if ($accountPassport['email'] || $accountPassport['phone']) class="d-none" @endif>
-                        <input type="hidden" name="countryCode" id="countryCode" value="{{ $smsDefaultCode }}">
+                        <input type="hidden" name="countryCallingCode" id="countryCallingCode" value="{{ $smsDefaultCode }}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ $accountPassport['phone'] ? $fsLang['newPhone'] : $fsLang['phone'] }}</span>
                             {{-- country code --}}
                             @if (count($smsSupportedCodes) == 1)
                                 <span class="input-group-text">+{{ $smsDefaultCode }}</span>
                             @else
-                                <button class="btn btn-outline-secondary" type="button" id="countryCodeButton" data-bs-toggle="modal" data-bs-target="#countryCodeModal">+{{ $smsDefaultCode }}</button>
+                                <button class="btn btn-outline-secondary" type="button" id="countryCallingCodeButton" data-bs-toggle="modal" data-bs-target="#countryCallingCodeModal">+{{ $smsDefaultCode }}</button>
                             @endif
 
                             {{-- input --}}
@@ -54,7 +54,7 @@
                         <div class="input-group">
                             <span class="input-group-text">{{ $fsLang['verifyCode'] }}</span>
                             <input type="text" class="form-control" name="newVerifyCode" value="" required>
-                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="4" data-account-input-id="newPhoneInput" data-country-code-input-id="countryCode" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
+                            <button type="button" class="btn btn-outline-secondary send-verify-code" data-type="sms" data-template-id="4" data-account-input-id="newPhoneInput" data-country-calling-code-input-id="countryCallingCode" onclick="sendVerifyCode(this)">{{ $fsLang['sendVerifyCode'] }}</button>
                         </div>
                     </div>
                 </div>
