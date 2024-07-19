@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.15",
+        "laravel/framework": "^11.16",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
         "fresns/dto": "^1.3",
@@ -47,7 +47,7 @@
         "laravel/pint": "^1.16",
         "laravel/sail": "^1.30",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.1",
+        "nunomaduro/collision": "^8.3",
         "phpunit/phpunit": "^11.2",
         "spatie/laravel-error-share": "^1.0"
     },

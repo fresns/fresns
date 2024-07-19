@@ -232,7 +232,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'bulletin_contents',
-                'item_value' => '{"en":[{"date":"10/18/2022","title":"Fresns Features","titleColor":"#f40","description":"Introduction of 16 excellent features of Fresns product","descriptionColor":null,"buttonName":"Learn more","buttonLink":"https://fresns.org/intro/features.html"}],"zh-Hans":[{"date":"2022-10-18","title":"Fresns 功能特征","titleColor":"#f40","description":"Fresns 产品的 16 个优秀功能特点介绍","descriptionColor":null,"buttonName":"了解更多","buttonLink":"https://fresns.org/zh-Hans/intro/features.html"}],"zh-Hant":[{"date":"2022-10-18","title":"Fresns 功能特點","titleColor":"#f40","description":"Fresns 產品的 16 個優秀功能特點介紹","descriptionColor":null,"buttonName":"了解更多","buttonLink":"https://fresns.org/zh-Hans/intro/features.html"}]}',
+                'item_value' => '{"en":[{"date":"10/18/2022","title":"Fresns Features","titleColor":"#f40","description":"Introduction of 16 excellent features of Fresns product","descriptionColor":null,"buttonName":"Learn more","buttonLink":"https://fresns.org/intro/features.html"}],"zh-Hans":[{"date":"2022-10-18","title":"Fresns 功能特征","titleColor":"#f40","description":"Fresns 产品的 16 个优秀功能特点介绍","descriptionColor":null,"buttonName":"了解更多","buttonLink":"https://fresns.org/zh-hans/intro/features.html"}],"zh-Hant":[{"date":"2022-10-18","title":"Fresns 功能特點","titleColor":"#f40","description":"Fresns 產品的 16 個優秀功能特點介紹","descriptionColor":null,"buttonName":"了解更多","buttonLink":"https://fresns.org/zh-hans/intro/features.html"}]}',
                 'item_type' => 'object',
                 'is_multilingual' => 1,
                 'is_custom' => 0,
