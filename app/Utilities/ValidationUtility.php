@@ -98,6 +98,24 @@ class ValidationUtility
         $length = Str::length($username);
         $checkUser = User::withTrashed()->where('username', $username)->first();
 
+        // use
+        $use = true;
+        if ($checkUser) {
+            $use = false;
+        }
+
+        // minLength
+        $minLength = true;
+        if ($length < $config['username_min']) {
+            $minLength = false;
+        }
+
+        // maxLength
+        $maxLength = true;
+        if ($length > $config['username_max']) {
+            $maxLength = false;
+        }
+
         // formatString
         $formatString = true;
         $isError = preg_match('/^[A-Za-z0-9-]+$/', $username);
@@ -119,24 +137,6 @@ class ValidationUtility
         $isNumeric = is_numeric($username);
         if ($isNumeric) {
             $formatNumeric = false;
-        }
-
-        // minLength
-        $minLength = true;
-        if ($length < $config['username_min']) {
-            $minLength = false;
-        }
-
-        // maxLength
-        $maxLength = true;
-        if ($length > $config['username_max']) {
-            $maxLength = false;
-        }
-
-        // use
-        $use = true;
-        if ($checkUser) {
-            $use = false;
         }
 
         // banName
@@ -172,22 +172,6 @@ class ValidationUtility
 
         $length = Str::length($nickname);
 
-        // formatString
-        $formatString = true;
-        $isError = preg_match('/^[\x{4e00}-\x{9fa5} A-Za-z0-9]+$/u', $nickname);
-        if (! $isError) {
-            $formatString = false;
-        }
-
-        // formatSpace
-        $formatSpace = true;
-        $spaceCount = substr_count($nickname, ' ');
-        $spaceStrStart = str_starts_with($nickname, ' ');
-        $spaceStrEnd = str_ends_with($nickname, ' ');
-        if ($spaceCount > 1 || $spaceStrStart || $spaceStrEnd) {
-            $formatSpace = false;
-        }
-
         // minLength
         $minLength = true;
         if ($length < $config['nickname_min']) {
@@ -198,6 +182,20 @@ class ValidationUtility
         $maxLength = true;
         if ($length > $config['nickname_max']) {
             $maxLength = false;
+        }
+
+        // formatString
+        $formatString = true;
+        $isError = preg_match('/^[\x{4e00}-\x{9fa5} A-Za-z0-9]+$/u', $nickname);
+        if (! $isError) {
+            $formatString = false;
+        }
+
+        // formatSpace
+        $formatSpace = true;
+        $spaceCount = substr_count($nickname, ' ');
+        if ($spaceCount > 1) {
+            $formatSpace = false;
         }
 
         // use

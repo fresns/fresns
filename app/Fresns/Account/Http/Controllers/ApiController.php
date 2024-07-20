@@ -249,6 +249,8 @@ class ApiController extends Controller
             return $this->failure(34111);
         }
 
+        $password = Str::of($password)->trim();
+
         $validatePassword = ValidationUtility::password($password);
 
         if (! $validatePassword['length']) {
@@ -510,6 +512,8 @@ class ApiController extends Controller
         if (empty($newPassword)) {
             return $this->failure(34111);
         }
+
+        $newPassword = Str::of($newPassword)->trim();
 
         $validatePassword = ValidationUtility::password($newPassword);
 
@@ -888,6 +892,8 @@ class ApiController extends Controller
                     return $this->failure(34111);
                 }
 
+                $newPassword = Str::of($newPassword)->trim();
+
                 $validatePassword = ValidationUtility::password($newPassword);
 
                 if (! $validatePassword['length']) {
@@ -971,6 +977,7 @@ class ApiController extends Controller
                 }
 
                 $newWalletPassword = $request->newWalletPassword;
+                $newWalletPassword = Str::of($newWalletPassword)->trim();
 
                 if (! $newWalletPassword) {
                     return $this->failure(34111);
