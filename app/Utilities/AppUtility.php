@@ -29,7 +29,7 @@ class AppUtility
     const MARKETPLACE_URL = 'https://marketplace.fresns.com';
     const WEBSITE_URL_ARR = [
         'en' => 'https://fresns.org',
-        'zh-Hans' => 'https://fresns.org/zh-Hans',
+        'zh-Hans' => 'https://fresns.org/zh-hans',
     ];
 
     public static function currentVersion(): ?string

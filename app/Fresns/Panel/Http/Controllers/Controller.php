@@ -91,6 +91,7 @@ class Controller extends BaseController
         $marketplaceUrl = AppUtility::MARKETPLACE_URL;
 
         if ($langTag != 'en') {
+            $langTag = Str::lower($langTag);
             $marketplaceUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag;
         }
 
