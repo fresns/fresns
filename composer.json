@@ -17,9 +17,12 @@
     "license": "Apache-2.0",
     "homepage": "https://fresns.org",
     "support": {
+        "email": "support@fresns.org",
+        "forum": "https://discuss.fresns.org",
+        "wiki": "https://fresns.org",
+        "docs": "https://docs.fresns.com/open-source/",
         "issues": "https://github.com/fresns/fresns/issues",
-        "source": "https://github.com/fresns/fresns",
-        "docs": "https://docs.fresns.com/open-source/"
+        "source": "https://github.com/fresns/fresns"
     },
     "authors": [
         {
