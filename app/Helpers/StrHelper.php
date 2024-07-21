@@ -136,7 +136,7 @@ class StrHelper
             $divisor = pow(1024, $factor);
             $size = $bytes / $divisor;
 
-            $sizeString = sprintf("%.2f %s", $size, $units[$factor]);
+            $sizeString = sprintf('%.2f %s', $size, $units[$factor]);
         }
 
         return $sizeString;
