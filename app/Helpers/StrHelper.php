@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Extend;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class StrHelper
@@ -115,6 +116,30 @@ class StrHelper
         }
 
         return sprintf('%s/%s', rtrim($domain, '/'), ltrim($uri, '/'));
+    }
+
+    // fileSize
+    public static function fileSize(mixed $bytes): ?string
+    {
+        if (empty($bytes)) {
+            return '0 B';
+        }
+
+        $sizeString = '0 B';
+        try {
+            $sizeString = Number::fileSize($bytes, precision: 2);
+        } catch (\Exception $e) {
+            $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            $factor = floor((strlen((string) $bytes) - 1) / 3);
+            $factor = min($factor, count($units) - 1);
+
+            $divisor = pow(1024, $factor);
+            $size = $bytes / $divisor;
+
+            $sizeString = sprintf("%.2f %s", $size, $units[$factor]);
+        }
+
+        return $sizeString;
     }
 
     // qualify table name

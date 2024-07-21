@@ -13,7 +13,6 @@ use App\Helpers\FileHelper;
 use App\Helpers\StrHelper;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Number;
 
 trait FileServiceTrait
 {
@@ -82,7 +81,7 @@ trait FileServiceTrait
         $info['name'] = $fileData->name;
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
-        $info['size'] = Number::fileSize($fileData->size, precision: 2);
+        $info['size'] = StrHelper::fileSize($fileData->size);
         $info['width'] = $fileData->width;
         $info['height'] = $fileData->height;
         $info['duration'] = $fileData->duration;

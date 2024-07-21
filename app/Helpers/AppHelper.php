@@ -12,7 +12,6 @@ use App\Utilities\CommandUtility;
 use Browser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class AppHelper
@@ -100,12 +99,10 @@ class AppHelper
                 $sizeResult = 0;
         }
 
-        $sizeString = Number::fileSize($sizeResult, precision: 2);
-
         $dbInfo = [
             'name' => $name,
             'version' => $version,
-            'size' => $sizeString,
+            'size' => StrHelper::fileSize($sizeResult),
             'timezone' => 'UTC'.DateHelper::fresnsDatabaseTimezone(),
             'envTimezone' => config('app.timezone'),
             'envTimezoneToUtc' => 'UTC'.DateHelper::fresnsDatabaseTimezoneByName(config('app.timezone')),
