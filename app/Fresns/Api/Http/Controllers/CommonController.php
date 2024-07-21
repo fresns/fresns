@@ -474,7 +474,7 @@ class CommonController extends Controller
         }
 
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
-        if ($roleDownloadCount < $userDownloadCount) {
+        if ($roleDownloadCount <= $userDownloadCount) {
             throw new ResponseException(36117);
         }
 
