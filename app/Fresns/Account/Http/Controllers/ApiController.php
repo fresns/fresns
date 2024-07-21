@@ -720,6 +720,8 @@ class ApiController extends Controller
         $aid = Cookie::get('fresns_account_center_aid');
         $account = Account::where('aid', $aid)->first();
 
+        $uid = Cookie::get('fresns_account_center_uid');
+
         if (empty($account)) {
             return $this->failure(31502);
         }
@@ -737,7 +739,7 @@ class ApiController extends Controller
             'actionState' => SessionLog::STATE_SUCCESS,
             'actionId' => null,
             'aid' => $aid,
-            'uid' => Cookie::get('fresns_account_center_uid'),
+            'uid' => $uid,
             'deviceInfo' => AppHelper::getDeviceInfo(),
             'deviceToken' => null,
             'loginToken' => null,
@@ -996,6 +998,10 @@ class ApiController extends Controller
         \FresnsCmdWord::plugin('Fresns')->createSessionLog($sessionLog);
 
         CacheHelper::forgetFresnsAccount($account->aid);
+
+        if ($uid) {
+            CacheHelper::forgetFresnsUser(null, $uid);
+        }
 
         return $this->success();
     }
