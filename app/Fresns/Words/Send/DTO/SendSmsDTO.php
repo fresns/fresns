@@ -16,7 +16,7 @@ class SendSmsDTO extends DTO
     {
         return [
             'countryCallingCode' => ['integer', 'required'],
-            'phoneNumber' => ['integer', 'required'],
+            'purePhone' => ['integer', 'required'],
             'signName' => ['string', 'nullable'],
             'templateCode' => ['string', 'required'],
             'templateParam' => ['array', 'nullable'],

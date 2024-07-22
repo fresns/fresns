@@ -48,7 +48,7 @@
                             @endif
 
                             {{-- input --}}
-                            <input type="number" class="form-control input-number" name="newPhone" id="newPhoneInput" placeholder="{{ $fsLang['phone'] }}" required>
+                            <input type="number" class="form-control input-number" name="newPurePhone" id="newPhoneInput" placeholder="{{ $fsLang['phone'] }}" required>
                         </div>
 
                         <div class="input-group">

@@ -27,8 +27,8 @@ class SetAccountConnectDTO extends DTO
             'connectAvatar' => ['string', 'nullable'],
             'moreInfo' => ['json', 'nullable'],
             'connectEmail' => ['email', 'nullable'],
-            'connectPhone' => ['integer', 'nullable'],
-            'connectCountryCallingCode' => ['integer', 'nullable', 'required_with:connectPhone'],
+            'connectPurePhone' => ['integer', 'nullable'],
+            'connectCountryCallingCode' => ['integer', 'nullable', 'required_with:connectPurePhone'],
         ];
     }
 }

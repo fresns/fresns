@@ -96,8 +96,8 @@ class Account
             ],
             AccountModel::CREATE_TYPE_CONNECT => [
                 'email' => $dtoWordBody->connectEmail,
-                'country_calling_code' => $dtoWordBody->connectCountryCallingCode,
-                'phone' => $dtoWordBody->connectPhone ? $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPhone : null,
+                'country_calling_code' => $dtoWordBody->connectPurePhone ? $dtoWordBody->connectCountryCallingCode : null,
+                'phone' => $dtoWordBody->connectPurePhone ? $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPurePhone : null,
             ],
             default => [],
         };
@@ -232,7 +232,7 @@ class Account
         if ($dtoWordBody->verifyCode) {
             $accountType = 2;
             $countryCallingCode = $account->country_calling_code;
-            $accountInfo = $account->pure_phone;
+            $accountInfo = $account->getPurePhone();
 
             $isEmail = filter_var($dtoWordBody->account, FILTER_VALIDATE_EMAIL);
             if ($isEmail) {
@@ -307,11 +307,10 @@ class Account
             ]);
         }
 
-        if (empty($accountModel->phone) && $dtoWordBody->connectPhone) {
+        if (empty($accountModel->phone) && $dtoWordBody->connectPurePhone) {
             $accountModel->update([
+                'phone' => $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPurePhone,
                 'country_calling_code' => $dtoWordBody->connectCountryCallingCode,
-                'pure_phone' => $dtoWordBody->connectPhone,
-                'phone' => $dtoWordBody->connectCountryCallingCode.$dtoWordBody->connectPhone,
             ]);
         }
 

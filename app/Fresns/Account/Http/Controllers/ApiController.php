@@ -415,7 +415,7 @@ class ApiController extends Controller
                 $accountModel = Account::withCount('users')->where('phone', $phone)->first();
 
                 $verifyType = Account::VERIFY_TYPE_PHONE;
-                $verifyAccount = $accountModel?->pure_phone;
+                $verifyAccount = $accountModel?->getPurePhone();
                 $verifyCountryCallingCode = $accountModel?->country_calling_code;
                 break;
 
@@ -555,7 +555,7 @@ class ApiController extends Controller
             $phone = $countryCallingCode.$account;
             $accountModel = Account::where('phone', $phone)->first();
 
-            $sendAccount = $accountModel?->pure_phone;
+            $sendAccount = $accountModel?->getPurePhone();
         }
         if (empty($accountModel)) {
             return $this->failure(34301);
@@ -677,7 +677,7 @@ class ApiController extends Controller
         } else {
             $accountType = TempVerifyCode::TYPE_SMS;
             $countryCallingCode = $account?->country_calling_code;
-            $accountInfo = $account?->pure_phone;
+            $accountInfo = $account?->getPurePhone();
         }
 
         if (empty($account) || empty($accountInfo)) {
@@ -818,7 +818,7 @@ class ApiController extends Controller
                 }
 
                 $newCountryCallingCode = $request->countryCallingCode;
-                $newPurePhone = $request->newPhone;
+                $newPurePhone = $request->newPurePhone;
                 $newVerifyCode = $request->newVerifyCode;
 
                 $wordBody = [
@@ -836,9 +836,8 @@ class ApiController extends Controller
                 }
 
                 $account->update([
-                    'country_calling_code' => $newCountryCallingCode,
-                    'pure_phone' => $newPurePhone,
                     'phone' => $newCountryCallingCode.$newPurePhone,
+                    'country_calling_code' => $newCountryCallingCode,
                 ]);
                 break;
 
@@ -869,7 +868,7 @@ class ApiController extends Controller
                     };
                     $accountInfo = match ($codeType) {
                         'email' => $account->email,
-                        'sms' => $account->pure_phone,
+                        'sms' => $account->getPurePhone(),
                         default => null,
                     };
 
@@ -959,7 +958,7 @@ class ApiController extends Controller
                     };
                     $accountInfo = match ($codeType) {
                         'email' => $account->email,
-                        'sms' => $account->pure_phone,
+                        'sms' => $account->getPurePhone(),
                         default => null,
                     };
 
@@ -1036,7 +1035,7 @@ class ApiController extends Controller
 
         $accountInfo = match ($codeType) {
             'email' => $account->email,
-            'sms' => $account->pure_phone,
+            'sms' => $account->getPurePhone(),
             default => null,
         };
 
