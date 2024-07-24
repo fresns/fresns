@@ -249,7 +249,7 @@ class ApiController extends Controller
             return $this->failure(34111);
         }
 
-        $password = Str::of($password)->trim();
+        $password = Str::of($password)->trim()->toString();
 
         $validatePassword = ValidationUtility::password($password);
 
@@ -279,7 +279,7 @@ class ApiController extends Controller
             return $this->failure(33202);
         }
 
-        $nickname = Str::of($nickname)->trim();
+        $nickname = Str::of($nickname)->trim()->toString();
         $validateNickname = ValidationUtility::nickname($nickname);
 
         if (! $validateNickname['formatString'] || ! $validateNickname['formatSpace']) {
@@ -513,7 +513,7 @@ class ApiController extends Controller
             return $this->failure(34111);
         }
 
-        $newPassword = Str::of($newPassword)->trim();
+        $newPassword = Str::of($newPassword)->trim()->toString();
 
         $validatePassword = ValidationUtility::password($newPassword);
 
@@ -893,7 +893,7 @@ class ApiController extends Controller
                     return $this->failure(34111);
                 }
 
-                $newPassword = Str::of($newPassword)->trim();
+                $newPassword = Str::of($newPassword)->trim()->toString();
 
                 $validatePassword = ValidationUtility::password($newPassword);
 
@@ -978,7 +978,7 @@ class ApiController extends Controller
                 }
 
                 $newWalletPassword = $request->newWalletPassword;
-                $newWalletPassword = Str::of($newWalletPassword)->trim();
+                $newWalletPassword = Str::of($newWalletPassword)->trim()->toString();
 
                 if (! $newWalletPassword) {
                     return $this->failure(34111);

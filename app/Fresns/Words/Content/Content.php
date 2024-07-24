@@ -91,14 +91,14 @@ class Content
 
         $content = null;
         if ($dtoWordBody->content) {
-            $content = Str::of($dtoWordBody->content)->trim();
+            $content = Str::of($dtoWordBody->content)->trim()->toString();
         }
 
         switch ($dtoWordBody->type) {
             case Content::TYPE_POST:
                 $title = null;
                 if ($dtoWordBody->title) {
-                    $title = Str::of($dtoWordBody->title)->trim();
+                    $title = Str::of($dtoWordBody->title)->trim()->toString();
                 }
 
                 $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->whereNot('create_type', PostLog::CREATE_TYPE_EDIT)->where('state', PostLog::STATE_DRAFT)->first();

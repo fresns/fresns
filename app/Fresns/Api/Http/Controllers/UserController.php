@@ -358,7 +358,7 @@ class UserController extends Controller
                 }
             }
 
-            $username = Str::of($dtoRequest->username)->trim();
+            $username = Str::of($dtoRequest->username)->trim()->toString();
 
             if ($username == $authUser->username) {
                 throw new ResponseException(30006);
@@ -415,7 +415,7 @@ class UserController extends Controller
                 }
             }
 
-            $nickname = Str::of($dtoRequest->nickname)->trim();
+            $nickname = Str::of($dtoRequest->nickname)->trim()->toString();
 
             if ($nickname == $authUser->nickname) {
                 throw new ResponseException(30006);
@@ -551,7 +551,7 @@ class UserController extends Controller
 
         // update bio
         if ($dtoRequest->bio) {
-            $bio = Str::of($dtoRequest->bio)->trim();
+            $bio = Str::of($dtoRequest->bio)->trim()->toString();
 
             if ($bio == $authUser->bio) {
                 throw new ResponseException(30006);
@@ -596,7 +596,7 @@ class UserController extends Controller
 
         // update location
         if ($dtoRequest->location) {
-            $location = Str::of($dtoRequest->location)->trim();
+            $location = Str::of($dtoRequest->location)->trim()->toString();
             $authUser->fill([
                 'location' => $location,
             ]);

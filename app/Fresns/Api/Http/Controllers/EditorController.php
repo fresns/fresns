@@ -674,7 +674,7 @@ class EditorController extends Controller
                 // title
                 if ($request->has('title')) {
                     if ($dtoRequest->title) {
-                        $title = Str::of($dtoRequest->title)->trim();
+                        $title = Str::of($dtoRequest->title)->trim()->toString();
 
                         $draft->update([
                             'title' => $title,
@@ -718,7 +718,7 @@ class EditorController extends Controller
         // content
         if ($request->has('content')) {
             if ($dtoRequest->content) {
-                $content = Str::of($dtoRequest->content)->trim();
+                $content = Str::of($dtoRequest->content)->trim()->toString();
 
                 $draft->update([
                     'content' => $content,

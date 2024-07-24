@@ -43,7 +43,7 @@ class SettingController extends Controller
         }
 
         if ($request->panel_path) {
-            $path = Str::of($request->panel_path)->trim();
+            $path = Str::of($request->panel_path)->trim()->toString();
             $path = Str::of($path)->rtrim('/');
 
             $panelConfigs = Config::where('item_key', 'panel_configs')->firstOrNew();

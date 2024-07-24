@@ -147,7 +147,7 @@ class GeneralController extends Controller
             }
 
             if ($configKey == 'site_url' && $request->get('site_url')) {
-                $url = Str::of($request->get('site_url'))->trim();
+                $url = Str::of($request->get('site_url'))->trim()->toString();
                 $url = Str::of($url)->rtrim('/');
 
                 $request->$configKey = $url;

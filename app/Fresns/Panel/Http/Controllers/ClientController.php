@@ -267,7 +267,7 @@ class ClientController extends Controller
     // website engine update
     public function websiteEngineUpdate(Request $request)
     {
-        $apiHost = Str::of($request->get('website_engine_api_host'))->trim();
+        $apiHost = Str::of($request->get('website_engine_api_host'))->trim()->toString();
         $apiHost = Str::of($apiHost)->rtrim('/');
 
         $fresnsConfigItems = [
