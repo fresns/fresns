@@ -16,7 +16,6 @@ use App\Models\Account;
 use App\Models\App as AppModel;
 use App\Models\Config;
 use App\Models\UserRole;
-use GuzzleHttp\Client;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
@@ -59,46 +58,32 @@ class AppUtility
         $newVersionInfo = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($newVersionInfo)) {
-            $baseUrl = AppUtility::BASE_URL;
-            $fileUrl = $baseUrl.'/v3/version-3.json';
+            $response = Http::fresns()->get('/v3/version-3.json');
 
-            $httpProxy = config('app.http_proxy');
-
-            $options = [
-                'verify' => false,
-                'proxy' => [
-                    'http' => $httpProxy,
-                    'https' => $httpProxy,
-                ],
-            ];
-
-            try {
-                $client = new Client($options);
-                $response = $client->request('GET', $fileUrl);
-
-                $versionInfo = json_decode($response->getBody(), true);
-
-                $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
-                if ($buildType == 1) {
-                    $newVersionInfo = $versionInfo['stableBuild'];
-                } else {
-                    $newVersionInfo = $versionInfo['betaBuild'];
-                }
-            } catch (\Exception $e) {
-                $newVersionInfo = [
-                    'version' => AppHelper::VERSION,
-                    'releaseDate' => null,
-                    'changeIntro' => 'https://fresns.org/intro/changelog.html',
-                    'upgradeAuto' => false,
-                    'upgradeIntro' => 'https://fresns.org/intro/changelog.html',
-                    'upgradePackage' => null,
-                ];
+            $newVersionInfo = [];
+            if ($response->ok()) {
+                $newVersionInfo = $response->json();
             }
 
             CacheHelper::put($newVersionInfo, $cacheKey, $cacheTag, now()->addHours(6), 10);
         }
 
-        return $newVersionInfo;
+        $newVersionArr = [
+            'version' => AppHelper::VERSION,
+            'releaseDate' => null,
+            'changeIntro' => 'https://fresns.org/intro/changelog.html',
+            'upgradeAuto' => false,
+            'upgradeIntro' => 'https://fresns.org/intro/changelog.html',
+            'upgradePackage' => null,
+        ];
+
+        if ($newVersionInfo) {
+            $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
+
+            $newVersionArr = $buildType == 1 ? $newVersionInfo['stableBuild'] : $newVersionInfo['betaBuild'];
+        }
+
+        return $newVersionArr;
     }
 
     public static function fresnsNews(): ?array
@@ -109,26 +94,11 @@ class AppUtility
         $news = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($news)) {
-            $baseUrl = AppUtility::BASE_URL;
-            $fileUrl = $baseUrl.'/v3/news.json';
+            $response = Http::fresns()->get('/v3/news.json');
 
-            $httpProxy = config('app.http_proxy');
-
-            $options = [
-                'verify' => false,
-                'proxy' => [
-                    'http' => $httpProxy,
-                    'https' => $httpProxy,
-                ],
-            ];
-
-            try {
-                $client = new Client($options);
-                $response = $client->request('GET', $fileUrl);
-
-                $news = json_decode($response->getBody(), true);
-            } catch (\Exception $e) {
-                $news = [];
+            $news = [];
+            if ($response->ok()) {
+                $news = $response->json();
             }
 
             CacheHelper::put($news, $cacheKey, $cacheTag, now()->addHours(3), 5);
@@ -160,6 +130,7 @@ class AppUtility
                 'color' => null,
             ],
         ];
+
         if ($news) {
             $newsList = StrHelper::languageContent($news, App::getLocale());
         }
@@ -320,27 +291,6 @@ class AppUtility
             $plugin->is_enabled = $status;
             $plugin->save();
         }
-    }
-
-    public static function macroMarketHeaders(): void
-    {
-        $marketplaceUrl = AppUtility::MARKETPLACE_URL;
-
-        Http::macro('market', function () use ($marketplaceUrl) {
-            $httpProxy = config('app.http_proxy');
-
-            return Http::withHeaders(AppUtility::getMarketHeaders())
-                ->baseUrl($marketplaceUrl)
-                ->withHeaders([
-                    'accept' => 'application/json',
-                ])
-                ->withOptions([
-                    'proxy' => [
-                        'http' => $httpProxy,
-                        'https' => $httpProxy,
-                    ],
-                ]);
-        });
     }
 
     public static function getMarketHeaders(): array

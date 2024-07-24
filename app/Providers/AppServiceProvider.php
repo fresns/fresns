@@ -9,6 +9,7 @@
 namespace App\Providers;
 
 use App\Utilities\AppUtility;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,8 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // fresns marketplace
-        AppUtility::macroMarketHeaders();
+        // fresns http
+        $this->macroAppHttp();
+        $this->macroMarketHttp();
 
         // force scheme
         $appUrl = config('app.url');
@@ -44,5 +46,44 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+    }
+
+    // app http
+    public static function macroAppHttp(): void
+    {
+        Http::macro('fresns', function () {
+            $httpProxy = config('app.http_proxy');
+
+            return Http::baseUrl(AppUtility::BASE_URL)
+                ->withHeaders([
+                    'accept' => 'application/json',
+                ])
+                ->withOptions([
+                    'proxy' => [
+                        'http' => $httpProxy,
+                        'https' => $httpProxy,
+                    ],
+                ]);
+        });
+    }
+
+    // market http
+    public static function macroMarketHttp(): void
+    {
+        Http::macro('market', function () {
+            $httpProxy = config('app.http_proxy');
+
+            return Http::withHeaders(AppUtility::getMarketHeaders())
+                ->baseUrl(AppUtility::MARKETPLACE_URL)
+                ->withHeaders([
+                    'accept' => 'application/json',
+                ])
+                ->withOptions([
+                    'proxy' => [
+                        'http' => $httpProxy,
+                        'https' => $httpProxy,
+                    ],
+                ]);
+        });
     }
 }
