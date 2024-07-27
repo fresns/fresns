@@ -747,6 +747,7 @@ class CacheHelper
     // fresns_database_timezone
     // fresns_database_datetime
     // fresns_panel_translation_{$locale}
+    // fresns_plugin_check_status
 
     /**
      * tag: fresnsConfigs.

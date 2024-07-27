@@ -277,9 +277,10 @@
     <script>
         $('.composer_info').click(function (event) {
             event.preventDefault();
+
             $.ajax({
-                method: 'get',
                 url: '/fresns/composer/diagnose',
+                method: 'get',
                 success: function (response) {
                     console.log('composer diagnose info', response)
                     $('.composer_diagnose').html(response)
@@ -289,9 +290,10 @@
                     window.tips("{{ __('FsLang::tips.requestFailure') }}");
                 },
             });
+
             $.ajax({
-                method: 'get',
                 url: '/fresns/composer/config',
+                method: 'get',
                 success: function (response) {
                     console.log('composer config info', response)
                     $('.composer_config_list').html(response)
@@ -443,5 +445,13 @@
             .catch(error => {
                 console.error('News Error: ', error);
             });
+
+        $.ajax({
+            url: "{{ route('panel.plugin.check.status') }}",
+            method: 'post',
+            data: {
+                'type': 'crontab',
+            },
+        });
     </script>
 @endpush

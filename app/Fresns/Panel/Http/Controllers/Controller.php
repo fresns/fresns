@@ -145,8 +145,6 @@ class Controller extends BaseController
 
     public function successResponse($action)
     {
-        return request()->ajax()
-            ? response()->json(['message' => __('FsLang::tips.'.$action.'Success')], 200)
-            : back()->with('success', __('FsLang::tips.'.$action.'Success'));
+        return request()->ajax() ? response()->json(['message' => __('FsLang::tips.'.$action.'Success')]) : back()->with('success', __('FsLang::tips.'.$action.'Success'));
     }
 }

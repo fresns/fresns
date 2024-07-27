@@ -32,11 +32,26 @@ class AppManageController extends Controller
         return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
     }
 
-    public function pluginCheckStatus()
+    public function pluginCheckStatus(Request $request)
     {
+        $type = $request->type;
+
+        if ($type == 'crontab') {
+            $cacheKey = 'fresns_plugin_check_status';
+            $cacheTag = 'fresnsSystems';
+
+            $status = CacheHelper::get($cacheKey, $cacheTag);
+
+            if ($status) {
+                return $this->requestSuccess();
+            }
+
+            CacheHelper::put(now(), $cacheKey, $cacheTag, 60);
+        }
+
         AppUtility::checkPluginsStatus();
 
-        return $this->requestSuccess();
+        return $this->updateSuccess();
     }
 
     public function pluginUpgrade(Request $request)
