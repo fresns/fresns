@@ -265,7 +265,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'default_language',
-                'item_value' => 'zh-Hans',
+                'item_value' => 'en',
                 'item_type' => 'string',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
