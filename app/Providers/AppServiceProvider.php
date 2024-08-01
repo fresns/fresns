@@ -63,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
                         'http' => $httpProxy,
                         'https' => $httpProxy,
                     ],
+                    'verify' => false,
                 ]);
         });
     }
@@ -83,6 +84,7 @@ class AppServiceProvider extends ServiceProvider
                         'http' => $httpProxy,
                         'https' => $httpProxy,
                     ],
+                    'verify' => false,
                 ]);
         });
     }
