@@ -64,8 +64,8 @@ trait AccountServiceTrait
 
         // connect table
         $excludeConnectIds = [
-            AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM,
-            AccountConnect::CONNECT_QQ_OPEN_PLATFORM,
+            AccountConnect::PLATFORM_WECHAT_OPEN_PLATFORM,
+            AccountConnect::PLATFORM_QQ_OPEN_PLATFORM,
         ];
 
         // connect table foreach
