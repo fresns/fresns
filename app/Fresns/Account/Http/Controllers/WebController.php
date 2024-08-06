@@ -90,12 +90,7 @@ class WebController extends Controller
         $timezone = $request->attributes->get('fresns_account_center_timezone');
         $accountData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['waitDeleteDateTime'], $timezone, $langTag);
 
-        $redirectURL = $request->redirectURL ?? Cookie::get('fresns_account_center_callback_redirect_url');
-        if ($redirectURL && $redirectURL != '{redirectUrl}') {
-            $redirectURL = urlencode($redirectURL);
-        }
-
-        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig', 'serviceUrl', 'redirectURL'));
+        return view('FsAccountView::index', compact('account', 'accountPassport', 'accountData', 'accountWallet', 'accountConnects', 'fsConfig', 'serviceUrl'));
     }
 
     public function register(Request $request)
@@ -295,50 +290,23 @@ class WebController extends Controller
 
     public function userAuth(Request $request)
     {
-        $appId = $request->attributes->get('fresns_account_center_app_id');
-        $platformId = $request->attributes->get('fresns_account_center_platform_id');
-        $version = $request->attributes->get('fresns_account_center_version');
-
-        $loginToken = $request->loginToken;
-
-        $usersServiceFskey = ConfigHelper::fresnsConfigByItemKey('account_users_service');
-        $usersServiceUrl = PluginHelper::fresnsPluginUrlByFskey($usersServiceFskey);
-
-        $accountDetail = [];
-
-        $loginType = 'callback';
-        $redirectURL = Cookie::get('fresns_account_center_callback_redirect_url');
-
-        // redirect url
-        if ($loginToken && $loginToken != '{loginToken}') {
-            $wordBody = [
-                'appId' => $appId,
-                'platformId' => $platformId,
-                'version' => $version,
-                'loginToken' => $loginToken,
-            ];
-
-            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkLoginToken($wordBody);
-
-            Cookie::queue('fresns_account_center_login_token', $loginToken);
-
-            if ($fresnsResp->isSuccessResponse()) {
-                $redirectURL = Str::replace('{loginToken}', $loginToken, $redirectURL);
-
-                return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
-            }
-        }
-
-        $langTag = $request->attributes->get('fresns_account_center_lang_tag');
-
-        $loginToken = Cookie::get('fresns_account_center_login_token') ?? $request->loginToken;
+        $loginToken = $request->loginToken ?? Cookie::get('fresns_account_center_login_token');
 
         if (empty($loginToken) || $loginToken == '{loginToken}') {
             return redirect()->to(route('account-center.login'));
         }
 
-        $accountModel = PrimaryHelper::fresnsModelAccountByLoginToken($appId, $platformId, $version, $loginToken);
+        Cookie::queue('fresns_account_center_login_token', $loginToken);
 
+        $appId = $request->attributes->get('fresns_account_center_app_id');
+        $platformId = $request->attributes->get('fresns_account_center_platform_id');
+        $version = $request->attributes->get('fresns_account_center_version');
+        $langTag = $request->attributes->get('fresns_account_center_lang_tag');
+
+        $usersServiceFskey = ConfigHelper::fresnsConfigByItemKey('account_users_service');
+        $usersServiceUrl = PluginHelper::fresnsPluginUrlByFskey($usersServiceFskey);
+
+        $accountModel = PrimaryHelper::fresnsModelAccountByLoginToken($appId, $platformId, $version, $loginToken);
         if (empty($accountModel)) {
             $code = 34301;
             $message = ConfigUtility::getCodeMessage(34301, 'Fresns', $langTag);
@@ -348,10 +316,24 @@ class WebController extends Controller
 
         $accountDetail = DetailUtility::accountDetail($accountModel, $langTag);
 
-        $loginType = 'userAuth';
-        $redirectURL = Str::replace('{loginToken}', $loginToken, $redirectURL);
+        $loginType = 'callback';
 
-        return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken', 'redirectURL'));
+        $wordBody = [
+            'appId' => $appId,
+            'platformId' => $platformId,
+            'version' => $version,
+            'loginToken' => $loginToken,
+        ];
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkLoginToken($wordBody);
+
+        if ($fresnsResp->isSuccessResponse()) {
+            return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken'));
+        }
+
+        $loginType = 'userAuth';
+
+        return view('FsAccountView::user-auth', compact('usersServiceUrl', 'accountDetail', 'loginType', 'loginToken'));
     }
 
     // get plugin url
@@ -396,7 +378,7 @@ class WebController extends Controller
             $postMessageKey = Cookie::get('fresns_post_message_key');
         }
 
-        $redirectURL = $request->redirectURL ?? Cookie::get('fresns_account_center_callback_redirect_url');
+        $redirectURL = $request->redirectURL ?? Cookie::get('fresns_redirect_url');
         if ($redirectURL && $redirectURL != '{redirectUrl}') {
             $redirectURL = urlencode($redirectURL);
         }

@@ -32,11 +32,13 @@ class FresnsCallback
             $redirectURL = urldecode($redirectURL);
 
             if ($redirectURL == '{redirectUrl}') {
-                Cookie::queue(Cookie::forget('fresns_account_center_callback_redirect_url'));
+                $redirectURL = null;
+                Cookie::queue(Cookie::forget('fresns_redirect_url'));
             } else {
-                Cookie::queue('fresns_account_center_callback_redirect_url', $redirectURL);
+                Cookie::queue('fresns_redirect_url', $redirectURL);
             }
         }
+        View::share('redirectURL', $redirectURL ?: Cookie::get('fresns_redirect_url'));
 
         return $next($request);
     }

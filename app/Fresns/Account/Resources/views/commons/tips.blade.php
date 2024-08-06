@@ -16,3 +16,15 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        const redirectURL = "{!! $redirectURL !!}";
+
+        if (redirectURL && window.top == window.self) {
+            setTimeout(function() {
+                window.location.href = redirectURL;
+            }, 1500);
+        }
+    </script>
+@endpush

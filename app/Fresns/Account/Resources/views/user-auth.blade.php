@@ -70,42 +70,42 @@
                     </div>
                 @endforeach
             </div>
+
+            {{-- After Login: Select User - Enter Password Modal --}}
+            <div class="modal fade" id="userPinLogin" aria-hidden="true" aria-labelledby="userPinLoginLabel" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content" id="user-password-auth">
+                        <form class="api-request-form" action="{{ route('account-center.api.user-auth') }}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="userPinLoginLabel">{{ $fsLang['userPinLogin'] }}</h5>
+                                <button type="button" class="btn-close" data-bs-target="#userAuth" data-bs-toggle="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="uid" value="" id="userUid">
+                                <div class="input-group">
+                                    <span class="input-group-text">{{ $fsLang['userPin'] }}</span>
+                                    <input type="password" class="form-control" name="pin" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                @if ($usersServiceUrl)
+                                    <button type="button" class="btn btn-secondary me-auto" id="userPinReset" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                                        data-title="{{ $fsLang['userPinReset'] }}"
+                                        data-url="{{ $usersServiceUrl }}"
+                                        data-uid=""
+                                        data-post-message-key="reload">
+                                        {{ $fsLang['userPinReset'] }}
+                                    </button>
+                                @endif
+
+                                <button type="submit" class="btn btn-primary">{{ $fsLang['userEnter'] }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         @endif
     </main>
-
-    {{-- After Login: Select User - Enter Password Modal --}}
-    <div class="modal fade" id="userPinLogin" aria-hidden="true" aria-labelledby="userPinLoginLabel" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content" id="user-password-auth">
-                <form class="api-request-form" action="{{ route('account-center.api.user-auth') }}" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userPinLoginLabel">{{ $fsLang['userPinLogin'] }}</h5>
-                        <button type="button" class="btn-close" data-bs-target="#userAuth" data-bs-toggle="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="uid" value="" id="userUid">
-                        <div class="input-group">
-                            <span class="input-group-text">{{ $fsLang['userPin'] }}</span>
-                            <input type="password" class="form-control" name="pin" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        @if ($usersServiceUrl)
-                            <button type="button" class="btn btn-secondary me-auto" id="userPinReset" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                                data-title="{{ $fsLang['userPinReset'] }}"
-                                data-url="{{ $usersServiceUrl }}"
-                                data-uid=""
-                                data-post-message-key="reload">
-                                {{ $fsLang['userPinReset'] }}
-                            </button>
-                        @endif
-
-                        <button type="submit" class="btn btn-primary">{{ $fsLang['userEnter'] }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('style')
@@ -135,9 +135,11 @@
             sendAccountCallback(loginToken);
 
             if (redirectURL && window.top == window.self) {
+                const finalRedirectURL = redirectURL.replace('{loginToken}', loginToken);
+
                 console.log('current page not in iframe');
 
-                window.location.href = redirectURL;
+                window.location.href = finalRedirectURL;
             }
         }
 
@@ -182,9 +184,11 @@
                         }
 
                         if (redirectURL && window.top == window.self) {
+                            const newRedirectURL = redirectURL.replace('{loginToken}', res.data.loginToken);
+
                             console.log('api request form: current page not in iframe');
 
-                            window.location.href = redirectURL;
+                            window.location.href = newRedirectURL;
                         }
                         return;
                     }

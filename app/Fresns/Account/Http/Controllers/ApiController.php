@@ -629,6 +629,8 @@ class ApiController extends Controller
             return $fresnsResp->getErrorResponse();
         }
 
+        Cookie::queue(Cookie::forget('fresns_account_center_login_token'));
+
         return $this->success([
             'loginToken' => $cookieLoginToken,
         ]);

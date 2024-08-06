@@ -60,7 +60,7 @@
             <div class="modal-content">
                 <div class="modal-body" style="padding:0"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $fsLang['close'] }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ $fsLang['close'] }}</button>
                 </div>
             </div>
         </div>
@@ -370,6 +370,12 @@
 
             // /static/js/fresns-callback.js
             FresnsCallback.send(callbackAction, apiData);
+        }
+
+        // reload page
+        function reloadPage()
+        {
+            location.reload();
         }
     </script>
 
