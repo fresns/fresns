@@ -323,10 +323,12 @@ class Basic
 
         $user = $accountModel->users()->first();
 
+        // There is only one user, but there is a PIN.
         if ($userCount == 1 && $user->pin) {
             return $this->failure(31604, ConfigUtility::getCodeMessage(31604, 'Fresns', $langTag));
         }
 
+        // There is only one user, and there is no PIN.
         if ($userCount == 1 && ! $user->pin) {
             $loginTokenInfo->update([
                 'user_id' => $user->id,
