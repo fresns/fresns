@@ -3424,8 +3424,8 @@ class LanguagePacksTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'lang_key' => 'contentHotList',
-                'lang_values' => '{"en":"Hot","zh-Hans":"热门","zh-Hant":"熱門"}',
+                'lang_key' => 'contentPopularList',
+                'lang_values' => '{"en":"Popular","zh-Hans":"热门","zh-Hant":"熱門"}',
                 'is_custom' => 0,
                 'created_at' => '2022-10-18 10:00:00',
                 'updated_at' => null,
