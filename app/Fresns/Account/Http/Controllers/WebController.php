@@ -15,6 +15,7 @@ use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
+use App\Models\AccountConnect;
 use App\Utilities\ConfigUtility;
 use App\Utilities\DetailUtility;
 use Browser;
@@ -158,12 +159,23 @@ class WebController extends Controller
             'account_cookie_policy',
         ]);
 
+        $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+
         $userAgent = Browser::userAgent();
         $userAgent = Str::of($userAgent)->lower()->toString();
 
         $miniBrowser = Str::contains($userAgent, 'miniprogram');
-
-        $connectServices = $miniBrowser ? [] : ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        if ($miniBrowser) {
+            $connectServices = array_filter($connectServices, function ($service) {
+                return ! in_array($service['code'], [
+                    AccountConnect::PLATFORM_WECHAT_OPEN_PLATFORM,
+                    AccountConnect::PLATFORM_WECHAT_OFFICIAL_ACCOUNT,
+                    AccountConnect::PLATFORM_WECHAT_MINI_PROGRAM,
+                    AccountConnect::PLATFORM_WECHAT_MOBILE_APPLICATION,
+                    AccountConnect::PLATFORM_WECHAT_WEBSITE_APPLICATION,
+                ]);
+            });
+        }
 
         $emailConfig = $fsConfig['account_email_register'];
         $phoneConfig = $fsConfig['account_phone_register'];
@@ -222,12 +234,23 @@ class WebController extends Controller
             'account_register_status',
         ]);
 
+        $connectServices = ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+
         $userAgent = Browser::userAgent();
         $userAgent = Str::of($userAgent)->lower()->toString();
 
         $miniBrowser = Str::contains($userAgent, 'miniprogram');
-
-        $connectServices = $miniBrowser ? [] : ConfigHelper::fresnsConfigPluginsByItemKey('account_connect_services', $langTag);
+        if ($miniBrowser) {
+            $connectServices = array_filter($connectServices, function ($service) {
+                return ! in_array($service['code'], [
+                    AccountConnect::PLATFORM_WECHAT_OPEN_PLATFORM,
+                    AccountConnect::PLATFORM_WECHAT_OFFICIAL_ACCOUNT,
+                    AccountConnect::PLATFORM_WECHAT_MINI_PROGRAM,
+                    AccountConnect::PLATFORM_WECHAT_MOBILE_APPLICATION,
+                    AccountConnect::PLATFORM_WECHAT_WEBSITE_APPLICATION,
+                ]);
+            });
+        }
 
         $emailConfig = $fsConfig['account_email_login'];
         $phoneConfig = $fsConfig['account_phone_login'];
