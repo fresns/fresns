@@ -1422,7 +1422,7 @@ class UserController extends Controller
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
         $markData = $markQuery->with(['user'])
-            ->where('user_id', $authUserId)
+            ->where('user_id', $viewUser->id)
             ->type($markTypeInt)
             ->orderBy('created_at', $orderDirection)
             ->paginate($dtoRequest->pageSize ?? 15);
