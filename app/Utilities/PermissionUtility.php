@@ -48,7 +48,7 @@ class PermissionUtility
 
             $expiryDateTime = $userRole?->expired_at;
 
-            if ($expiryDateTime && $userRole?->expired_at?->isPast()) {
+            if ($expiryDateTime && Carbon::parse($userRole?->expired_at)->isPast()) {
                 $roleId = $defaultRoleId;
                 $expiryDateTime = null;
             }

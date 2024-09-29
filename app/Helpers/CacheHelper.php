@@ -154,10 +154,12 @@ class CacheHelper
             return;
         }
 
-        if (StrHelper::isPureInt($cacheTime)) {
+        if (is_int($cacheTime)) {
             $cacheTimeCarbon = now()->addMinutes($cacheTime);
+        } elseif ($cacheTime instanceof Carbon) {
+            $cacheTimeCarbon = $cacheTime;
         } else {
-            $cacheTimeCarbon = $cacheTime ?: CacheHelper::fresnsCacheTimeByFileType();
+            $cacheTimeCarbon = CacheHelper::fresnsCacheTimeByFileType();
         }
 
         if (Cache::supportsTags() && $cacheTags) {

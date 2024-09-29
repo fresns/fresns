@@ -347,8 +347,8 @@ class InteractionUtility
                 // dislike null
                 $userBlock = UserFollow::updateOrCreate([
                     'user_id' => $userId,
-                    'like_type' => $blockType,
-                    'like_id' => $blockId,
+                    'follow_type' => $blockType,
+                    'follow_id' => $blockId,
                 ], [
                     'mark_type' => UserFollow::MARK_TYPE_BLOCK,
                 ]);
