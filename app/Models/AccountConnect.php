@@ -53,6 +53,10 @@ class AccountConnect extends Model
         'more_info' => 'json',
     ];
 
+    protected $dates = [
+        'refresh_token_expired_at',
+    ];
+
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id', 'id');

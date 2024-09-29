@@ -29,6 +29,10 @@ class AccountWalletLog extends Model
         'more_info' => 'json',
     ];
 
+    protected $dates = [
+        'success_at',
+    ];
+
     public function scopeType($query, int $type)
     {
         return $query->where('type', $type);
