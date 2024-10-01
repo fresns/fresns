@@ -23,7 +23,6 @@ use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class Wallet
@@ -106,6 +105,7 @@ class Wallet
             'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => $dtoWordBody->immediate ? now() : null,
         ];
 
         AccountWalletLog::create($logData);
@@ -181,6 +181,7 @@ class Wallet
             'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => $dtoWordBody->immediate ? now() : null,
         ];
 
         AccountWalletLog::create($logData);
@@ -239,6 +240,10 @@ class Wallet
             return $this->failure(32201, ConfigUtility::getCodeMessage(32201));
         }
 
+        if ($walletLog->state == AccountWalletLog::STATE_SUCCESS) {
+            return $this->failure(32205, ConfigUtility::getCodeMessage(32205));
+        }
+
         if (! in_array($walletLog->type, [
             AccountWalletLog::TYPE_IN_RECHARGE,
             AccountWalletLog::TYPE_DE_WITHDRAW,
@@ -263,7 +268,8 @@ class Wallet
 
         switch ($walletLog->type) {
             case AccountWalletLog::TYPE_IN_RECHARGE:
-                static::balanceChange($wallet, 'increment', $walletLog->transaction_amount);
+                $actionName = 'increment';
+                $amount = $walletLog->transaction_amount;
 
                 $closingBalance = $wallet->balance + $walletLog->transaction_amount;
                 break;
@@ -276,7 +282,8 @@ class Wallet
                     return $this->failure(34504, ConfigUtility::getCodeMessage(34504));
                 }
 
-                static::balanceChange($wallet, 'decrement', $walletLog->amount_total);
+                $actionName = 'decrement';
+                $amount = $walletLog->amount_total;
 
                 $closingBalance = $wallet->balance - $walletLog->amount_total;
                 break;
@@ -288,6 +295,8 @@ class Wallet
             'state' => AccountWalletLog::STATE_SUCCESS,
             'success_at' => now(),
         ]);
+
+        static::balanceChange($wallet, $actionName, $amount);
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
@@ -344,6 +353,7 @@ class Wallet
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => now(),
         ];
 
         AccountWalletLog::create($logData);
@@ -404,6 +414,7 @@ class Wallet
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => now(),
         ];
 
         AccountWalletLog::create($logData);
@@ -467,6 +478,7 @@ class Wallet
             'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => now(),
         ];
 
         // Increase
@@ -518,6 +530,7 @@ class Wallet
                 'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
                 'more_info' => $dtoWordBody->moreInfo,
+                'success_at' => now(),
             ];
 
             // decrement
@@ -597,6 +610,7 @@ class Wallet
             'remark' => $dtoWordBody->remark,
             'state' => AccountWalletLog::STATE_SUCCESS,
             'more_info' => $dtoWordBody->moreInfo,
+            'success_at' => now(),
         ];
 
         // decrement
@@ -642,6 +656,7 @@ class Wallet
                 'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
                 'more_info' => $dtoWordBody->moreInfo,
+                'success_at' => now(),
             ];
 
             // increment
@@ -767,6 +782,7 @@ class Wallet
                         'object_user_id' => $objectWalletLog->object_user_id,
                         'object_wallet_log_id' => $objectWalletLog->id,
                         'state' => AccountWalletLog::STATE_SUCCESS,
+                        'success_at' => now(),
                     ];
                     AccountWalletLog::create($originLogData);
                 }
@@ -797,6 +813,7 @@ class Wallet
                         'object_user_id' => $objectWalletLog->object_user_id,
                         'object_wallet_log_id' => $objectWalletLog->id,
                         'state' => AccountWalletLog::STATE_SUCCESS,
+                        'success_at' => now(),
                     ];
                     AccountWalletLog::create($originLogData);
                 }
@@ -820,6 +837,7 @@ class Wallet
             'object_user_id' => $walletLog->object_user_id,
             'object_wallet_log_id' => $walletLog->id,
             'state' => AccountWalletLog::STATE_SUCCESS,
+            'success_at' => now(),
         ];
         AccountWalletLog::create($logData);
 
@@ -855,7 +873,8 @@ class Wallet
     {
         $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)
             ->where('state', AccountWalletLog::STATE_SUCCESS)
-            ->orderByDesc(DB::raw('COALESCE(success_at, created_at)'))
+            ->whereNotNull('success_at')
+            ->orderByDesc('success_at')
             ->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
