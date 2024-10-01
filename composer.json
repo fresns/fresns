@@ -34,8 +34,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.20",
-        "laravel/tinker": "^2.9",
+        "laravel/framework": "^11.25",
+        "laravel/tinker": "^2.10",
         "laravel/ui": "^4.5",
         "fresns/dto": "^1.3",
         "fresns/cmd-word-manager": "^1.5",
@@ -47,8 +47,8 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.17",
-        "laravel/sail": "^1.31",
+        "laravel/pint": "^1.18",
+        "laravel/sail": "^1.33",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.4",
         "phpunit/phpunit": "^11.3",
