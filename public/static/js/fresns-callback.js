@@ -99,15 +99,15 @@ var FresnsCallback = {
                     break;
 
                 // Flutter
-                case (userAgent.indexOf('flutter-webview') > -1):
-                    // messageHandlerName = FresnsCallback
-                    window.FresnsCallback.postMessage(messageString);
+                case (window.FlutterWebView):
+                    // messageHandlerName = FlutterWebView
+                    window.FlutterWebView.postMessage(messageString);
                     break;
 
                 // React Native
-                case (userAgent.indexOf('react-native-webview') > -1):
-                    // messageHandlerName = FresnsCallback
-                    window.FresnsCallback.postMessage(messageString);
+                case (window.ReactNativeWebView):
+                    // messageHandlerName = ReactNativeWebView
+                    window.ReactNativeWebView.postMessage(messageString);
                     break;
 
                 // Ionic
