@@ -525,7 +525,7 @@ class CommonController extends Controller
         $fileUsage = FileUsage::where('file_id', $file->id)
             ->where('table_name', "{$dtoRequest->type}s")
             ->where('table_column', 'id')
-            ->where('table_id', $model?->id)
+            ->where('table_id', $model?->conversation_id)
             ->first();
 
         if (empty($fileUsage)) {
