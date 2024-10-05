@@ -20,4 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withSingletons([
+        Illuminate\Contracts\Console\Kernel::class => App\Console\Kernel::class
+    ])->create();
