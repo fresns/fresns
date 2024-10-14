@@ -1210,8 +1210,14 @@ class PostController extends Controller
                 break;
 
             case 'mysql':
-                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
-                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                $mysqlVersion = DB::select('SELECT VERSION() as version')[0]->version;
+
+                $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance, $mysqlVersion) {
+                    if (version_compare($mysqlVersion, '8.0.0', '>=')) {
+                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLat $mapLng)', 4326)) <= {$distance}"); // MySQL 8
+                    } else {
+                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}"); // MySQL 5
+                    }
                 });
                 break;
 

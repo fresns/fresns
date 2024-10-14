@@ -93,9 +93,17 @@ class GeotagController extends Controller
                     break;
 
                 case 'mysql':
-                    $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
-                        ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}")
-                        ->orderBy('distance');
+                    $mysqlVersion = DB::select('SELECT VERSION() as version')[0]->version;
+
+                    if (version_compare($mysqlVersion, '8.0.0', '>=')) {
+                        $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLat $mapLng)', 4326)) AS distance"))
+                            ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLat $mapLng)', 4326)) <= {$distance}")
+                            ->orderBy('distance'); // MySQL 8
+                    } else {
+                        $geotagQuery->select('*', DB::raw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) AS distance"))
+                            ->havingRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}")
+                            ->orderBy('distance'); // MySQL 5
+                    }
                     break;
 
                 case 'mariadb':

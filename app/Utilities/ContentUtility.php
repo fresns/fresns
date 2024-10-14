@@ -841,7 +841,13 @@ class ContentUtility
                 break;
 
             case 'mysql':
-                $mapLocation = DB::raw("ST_GeomFromText('POINT($longitude $latitude)', 4326)");
+                $mysqlVersion = DB::select('SELECT VERSION() as version')[0]->version;
+
+                if (version_compare($mysqlVersion, '8.0.0', '>=')) {
+                    $mapLocation = DB::raw("ST_GeomFromText('POINT($latitude $longitude)', 4326)"); // MySQL 8
+                } else {
+                    $mapLocation = DB::raw("ST_GeomFromText('POINT($longitude $latitude)', 4326)"); // MySQL 5
+                }
                 break;
 
             case 'mariadb':
