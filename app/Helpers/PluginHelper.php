@@ -12,6 +12,14 @@ use App\Models\App;
 
 class PluginHelper
 {
+    // Get the plugin status.
+    public static function fresnsPluginStatusByFskey(string $fskey): ?bool
+    {
+        $pluginStatus = App::where('fskey', $fskey)->value('is_enabled');
+
+        return $pluginStatus;
+    }
+
     // Get the plugin host.
     public static function fresnsPluginHostByFskey(string $fskey): ?string
     {
