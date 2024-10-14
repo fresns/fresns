@@ -16,7 +16,7 @@ use App\Fresns\Account\Http\Middleware\VerifyAccountToken;
 use Illuminate\Support\Facades\Route;
 
 Route::name('account-center.')->prefix('account-center')->group(function () {
-    Route::middleware([CheckAccessToken::class, FresnsCallback::class])->group(function () {
+    Route::middleware([FresnsCallback::class, CheckAccessToken::class])->group(function () {
         Route::get('/', [WebController::class, 'index'])->name('index');
         Route::get('sign-up', [WebController::class, 'register'])->name('register');
         Route::get('login', [WebController::class, 'login'])->name('login');
