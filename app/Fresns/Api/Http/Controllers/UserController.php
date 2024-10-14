@@ -609,7 +609,7 @@ class UserController extends Controller
             $newMoreInfo = array_replace($moreInfo, $dtoRequest->moreInfo);
 
             $authUser->fill([
-                'moreInfo' => $newMoreInfo,
+                'more_info' => $newMoreInfo,
             ]);
         }
 
