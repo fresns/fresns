@@ -491,8 +491,12 @@ class CommonController extends Controller
         // get model
         if ($dtoRequest->type == 'conversation') {
             $model = ConversationMessage::where('cmid', $dtoRequest->fsid)->first();
+
+            $tableId = $model?->conversation_id;
         } else {
             $model = PrimaryHelper::fresnsModelByFsid($dtoRequest->type, $dtoRequest->fsid);
+
+            $tableId = $model?->id;
         }
 
         // check model
@@ -525,7 +529,7 @@ class CommonController extends Controller
         $fileUsage = FileUsage::where('file_id', $file->id)
             ->where('table_name', "{$dtoRequest->type}s")
             ->where('table_column', 'id')
-            ->where('table_id', $model?->conversation_id)
+            ->where('table_id', $tableId)
             ->first();
 
         if (empty($fileUsage)) {
