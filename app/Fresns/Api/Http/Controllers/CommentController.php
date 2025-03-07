@@ -255,6 +255,8 @@ class CommentController extends Controller
             } else {
                 $commentQuery->where('top_parent_id', $viewComment->id);
             }
+
+            $commentOptions['viewType'] = 'detail';
         }
 
         // users
