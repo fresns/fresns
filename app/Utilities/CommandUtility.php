@@ -49,7 +49,7 @@ class CommandUtility
         return $command;
     }
 
-    public function createProcess(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60): mixed
+    public function createProcess(array $command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): mixed
     {
         return tap(new Process(...func_get_args()));
     }

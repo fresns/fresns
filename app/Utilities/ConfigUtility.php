@@ -89,7 +89,7 @@ class ConfigUtility
     }
 
     // get send code word body
-    public static function getSendCodeWordBody(int|string $type, int $templateId, ?string $langTag = null, string|int|null $sendAccount = null, ?int $sendCountryCallingCode = null, Account|int|string $authAccount = null): array
+    public static function getSendCodeWordBody(int|string $type, int $templateId, ?string $langTag = null, string|int|null $sendAccount = null, ?int $sendCountryCallingCode = null, Account|int|string|null $authAccount = null): array
     {
         $sendType = match ($type) {
             'email' => TempVerifyCode::TYPE_EMAIL,

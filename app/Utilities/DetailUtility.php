@@ -34,7 +34,7 @@ use Illuminate\Support\Str;
 class DetailUtility
 {
     // accountDetail
-    public static function accountDetail(Account|int|string $accountOrAid = null, ?string $langTag = null, ?string $timezone = null, ?array $options = []): ?array
+    public static function accountDetail(Account|int|string|null $accountOrAid = null, ?string $langTag = null, ?string $timezone = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -92,7 +92,7 @@ class DetailUtility
     }
 
     // userDetail
-    public static function userDetail(User|int|string $userOrUid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function userDetail(User|int|string|null $userOrUid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -236,7 +236,7 @@ class DetailUtility
     }
 
     // groupDetail
-    public static function groupDetail(Group|int|string $groupOrGid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function groupDetail(Group|int|string|null $groupOrGid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -319,7 +319,7 @@ class DetailUtility
     }
 
     // hashtagDetail
-    public static function hashtagDetail(Hashtag|int|string $hashtagOrHtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function hashtagDetail(Hashtag|int|string|null $hashtagOrHtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -389,7 +389,7 @@ class DetailUtility
     }
 
     // geotagDetail
-    public static function geotagDetail(Geotag|int|string $geotagOrGtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function geotagDetail(Geotag|int|string|null $geotagOrGtid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -484,7 +484,7 @@ class DetailUtility
     }
 
     // postDetail
-    public static function postDetail(Post|int|string $postOrPid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function postDetail(Post|int|string|null $postOrPid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -869,7 +869,7 @@ class DetailUtility
     }
 
     // commentDetail
-    public static function commentDetail(Comment|int|string $commentOrCid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function commentDetail(Comment|int|string|null $commentOrCid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail, quoted
@@ -1248,7 +1248,7 @@ class DetailUtility
     }
 
     // postHistoryDetail
-    public static function postHistoryDetail(PostLog|int|string $postLogOrHpid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function postHistoryDetail(PostLog|int|string|null $postLogOrHpid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail
@@ -1445,7 +1445,7 @@ class DetailUtility
     }
 
     // commentHistoryDetail
-    public static function commentHistoryDetail(CommentLog|int|string $commentLogOrHcid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
+    public static function commentHistoryDetail(CommentLog|int|string|null $commentLogOrHcid = null, ?string $langTag = null, ?string $timezone = null, ?int $authUserId = null, ?array $options = []): ?array
     {
         // $options = [
         //     'viewType' => '', // list, detail
