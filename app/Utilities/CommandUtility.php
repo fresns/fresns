@@ -116,6 +116,10 @@ class CommandUtility
 
         $composer = $instance->findBinary('composer');
 
+        if (empty($composer) || ! file_exists($composer)) {
+            $composer = '/usr/bin/composer';
+        }
+
         if (Str::endsWith($composer, '.phar')) {
             $php = $instance->findBinary('php');
 
