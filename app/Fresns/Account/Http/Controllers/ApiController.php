@@ -1041,8 +1041,14 @@ class ApiController extends Controller
             default => null,
         };
 
+        $sendType = match ($codeType) {
+            'email' => TempVerifyCode::TYPE_EMAIL,
+            'sms' => TempVerifyCode::TYPE_SMS,
+            default => null,
+        };
+
         $wordBody = [
-            'type' => 1,
+            'type' => $sendType,
             'account' => $accountInfo,
             'countryCallingCode' => $account->country_calling_code,
             'verifyCode' => $verifyCode,
