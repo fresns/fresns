@@ -107,6 +107,10 @@ class CommandUtility
 
         $php = $instance->findBinary('php');
 
+        if (empty($php)) {
+            throw new \RuntimeException("Please check php command parent directory permission, you can use command like: 'namei -l /www/server/php/83/bin/php'");
+        }
+
         return $instance->createProcess([$php, ...$argument]);
     }
 
