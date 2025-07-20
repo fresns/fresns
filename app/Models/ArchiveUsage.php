@@ -21,37 +21,6 @@ class ArchiveUsage extends Model
 
     use Traits\IsEnabledTrait;
 
-    public function getArchiveValueAttribute($value)
-    {
-        $value = match ($this->archive->api_type) {
-            default => throw new \Exception("unknown archive type {$this->archive->api_type}"),
-            'array', 'object', 'plugins' => json_decode($value, true) ?? [],
-            'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
-            'number' => intval($value),
-        };
-
-        return $value;
-    }
-
-    public function setArchiveValueAttribute($value)
-    {
-        if (in_array($this->archive->api_type, ['array', 'plugins', 'object']) || is_array($value)) {
-            if (! is_string($value)) {
-                $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
-            }
-        }
-
-        if ($this->item_type == 'boolean') {
-            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
-        }
-
-        if ($this->item_type == 'number') {
-            $value = intval($value);
-        }
-
-        $this->attributes['archive_value'] = $value;
-    }
-
     public function scopeType($query, int $type)
     {
         return $query->where('usage_type', $type);

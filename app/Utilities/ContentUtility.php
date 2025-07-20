@@ -1032,14 +1032,14 @@ class ContentUtility
 
         $archiveConfigs = $archiveQuery->get();
 
-        $archiveUsages = ArchiveUsage::with('archive')->where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+        $archiveUsages = ArchiveUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
         foreach ($archiveUsages as $archiveUsage) {
-            if (empty($archiveUsage->archive) || empty($archiveUsage->archive_value)) {
+            if (empty($archiveUsage->archive_id) || empty($archiveUsage->archive_value)) {
                 continue;
             }
 
-            $config = $archiveConfigs->where('id', $archiveUsage->archive->id)->first();
+            $config = $archiveConfigs->where('id', $archiveUsage->archive_id)->first();
 
             if (empty($config)) {
                 continue;
