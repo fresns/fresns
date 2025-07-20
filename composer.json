@@ -35,7 +35,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.8",
+        "laravel/framework": "^12.20",
         "laravel/tinker": "^2.10",
         "laravel/ui": "^4.6",
         "fresns/dto": "^1.3",
@@ -49,11 +49,11 @@
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "laravel/pail": "^1.2",
-        "laravel/pint": "^1.22",
-        "laravel/sail": "^1.41",
+        "laravel/pint": "^1.24",
+        "laravel/sail": "^1.43",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.8",
-        "phpunit/phpunit": "^12.1",
+        "phpunit/phpunit": "^12.2",
         "spatie/laravel-error-share": "^1.0"
     },
     "autoload": {
@@ -86,6 +86,10 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
         ]
     },
     "extra": {
