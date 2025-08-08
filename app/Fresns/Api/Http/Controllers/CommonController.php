@@ -311,7 +311,7 @@ class CommonController extends Controller
         $aid = \request()->header('X-Fresns-Aid');
         $uid = \request()->header('X-Fresns-Uid');
 
-        $fileExtension = $dtoRequest->file->extension();
+        $fileExtension = $dtoRequest->file->guessExtension() ?? $dtoRequest->file->extension();
         $fileSize = $dtoRequest->file->getSize();
 
         // check file info
