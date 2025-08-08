@@ -35,7 +35,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.20",
+        "laravel/framework": "^12.22",
         "laravel/tinker": "^2.10",
         "laravel/ui": "^4.6",
         "fresns/dto": "^1.3",
@@ -50,10 +50,10 @@
         "fakerphp/faker": "^1.24",
         "laravel/pail": "^1.2",
         "laravel/pint": "^1.24",
-        "laravel/sail": "^1.43",
+        "laravel/sail": "^1.44",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.8",
-        "phpunit/phpunit": "^12.2",
+        "phpunit/phpunit": "^12.3",
         "spatie/laravel-error-share": "^1.0"
     },
     "autoload": {
@@ -70,7 +70,8 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan config:clear",
+            "@php artisan clear-compiled",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
