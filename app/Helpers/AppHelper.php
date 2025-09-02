@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class AppHelper
 {
-    const VERSION = '3.8.0';
+    const VERSION = '3.8.1';
 
     // fresns test helper
     public static function fresnsTestHelper(): mixed
