@@ -552,14 +552,28 @@ class ConversationController extends Controller
         // conversation
         $conversation = PrimaryHelper::fresnsModelConversation($authUser->id, $receiveUser->id);
 
+        // duplicate guard: re-use recently created identical messages to absorb client retries
+        $recentOwnMessage = ConversationMessage::where('conversation_id', $conversation->id)->where('send_user_id', $authUser->id)->latest('id')->first();
+
+        $isNewMessage = true;
+
         // message content
         switch ($messageType) {
             case 'text':
+                $messageText = (string) Str::of($dtoRequest->message)->trim();
+
+                if ($recentOwnMessage && $recentOwnMessage->message_type == ConversationMessage::TYPE_TEXT && $recentOwnMessage->message_text == $messageText) {
+                    $conversationMessage = $recentOwnMessage;
+                    $isNewMessage = false;
+
+                    break;
+                }
+
                 $messageInput = [
                     'conversation_id' => $conversation->id,
                     'send_user_id' => $authUser->id,
                     'message_type' => ConversationMessage::TYPE_TEXT,
-                    'message_text' => Str::of($dtoRequest->message)->trim(),
+                    'message_text' => $messageText,
                     'receive_user_id' => $receiveUser->id,
                 ];
 
@@ -569,34 +583,32 @@ class ConversationController extends Controller
             case 'file':
                 $fileId = PrimaryHelper::fresnsPrimaryId('file', $dtoRequest->fid);
 
-                $fileMessage = ConversationMessage::where('conversation_id', $conversation->id)
-                    ->where('send_user_id', $authUser->id)
-                    ->where('message_type', ConversationMessage::TYPE_FILE)
-                    ->isEnabled()
-                    ->latest('id')
-                    ->first();
+                if ($recentOwnMessage && $recentOwnMessage->message_type == ConversationMessage::TYPE_FILE && $recentOwnMessage->message_file_id == $fileId) {
+                    $conversationMessage = $recentOwnMessage;
+                    $isNewMessage = false;
 
-                if ($fileId == $fileMessage?->message_file_id) {
-                    $conversationMessage = $fileMessage;
-                } else {
-                    $messageInput = [
-                        'conversation_id' => $conversation->id,
-                        'send_user_id' => $authUser->id,
-                        'message_type' => ConversationMessage::TYPE_FILE,
-                        'message_file_id' => $fileId,
-                        'receive_user_id' => $receiveUser->id,
-                    ];
-
-                    $conversationMessage = ConversationMessage::create($messageInput);
+                    break;
                 }
+
+                $messageInput = [
+                    'conversation_id' => $conversation->id,
+                    'send_user_id' => $authUser->id,
+                    'message_type' => ConversationMessage::TYPE_FILE,
+                    'message_file_id' => $fileId,
+                    'receive_user_id' => $receiveUser->id,
+                ];
+
+                $conversationMessage = ConversationMessage::create($messageInput);
                 break;
         }
 
-        $conversation->update([
-            'a_is_display' => true,
-            'b_is_display' => true,
-            'latest_message_at' => now(),
-        ]);
+        if ($isNewMessage) {
+            $conversation->update([
+                'a_is_display' => true,
+                'b_is_display' => true,
+                'latest_message_at' => now(),
+            ]);
+        }
 
         $data['cmid'] = $conversationMessage->cmid;
         $data['user'] = DetailUtility::userDetail($conversationMessage?->sendUser, $langTag, $timezone, $authUser->id);
