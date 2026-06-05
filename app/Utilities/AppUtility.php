@@ -166,7 +166,6 @@ class AppUtility
             'DB_DATABASE' => $dbConfig['DB_DATABASE'],
             'DB_USERNAME' => ($driver == 'sqlite') ? '' : $dbConfig['DB_USERNAME'],
             'DB_PASSWORD' => ($driver == 'sqlite') ? '' : $dbConfig['DB_PASSWORD'],
-            'DB_PREFIX' => $dbConfig['DB_PREFIX'],
         ];
 
         foreach ($template as $key => $value) {

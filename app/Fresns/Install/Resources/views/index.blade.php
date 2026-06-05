@@ -24,7 +24,6 @@
                 <li>{{ __('Install::install.intro_database_username') }}</li>
                 <li>{{ __('Install::install.intro_database_password') }}</li>
                 <li>{{ __('Install::install.intro_database_host') }}</li>
-                <li>{{ __('Install::install.intro_database_table_prefix') }}</li>
             </ul>
             <p>{{ __('Install::install.intro_database_desc') }}</p>
 
@@ -230,14 +229,6 @@
                         </select>
                     </div>
                     <div class="col-sm-4 form-text">{{ __('Install::install.database_timezone_desc') }}</div>
-                </div>
-                <!--table prefix-->
-                <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">{{ __('Install::install.database_table_prefix') }}</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="DB_PREFIX" name="database[DB_PREFIX]" placeholder="fs_" value="fs_">
-                    </div>
-                    <div class="col-sm-4 form-text">{{ __('Install::install.database_table_prefix_desc') }}</div>
                 </div>
                 <!--submit btn-->
                 <div class="row mb-4">

@@ -76,7 +76,6 @@ class InstallServiceProvider extends ServiceProvider
             'DB_DATABASE' => '',
             'DB_USERNAME' => '',
             'DB_PASSWORD' => '',
-            'DB_PREFIX' => '',
         ];
 
         foreach ($template as $key => $value) {

@@ -177,7 +177,6 @@ class WebController extends Controller
             'database' => $request->database['DB_DATABASE'],
             'username' => $request->database['DB_USERNAME'],
             'password' => $request->database['DB_PASSWORD'],
-            'prefix' => $request->database['DB_PREFIX'],
         ];
 
         $dbConfig['default'] = $connection;

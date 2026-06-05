@@ -90,7 +90,6 @@ class InstallFresns extends Command
             $dbPass = $this->ask('Please enter the database password');
         }
         $dbUtc = $this->choice('Please select database timezone', self::utcArr(), 'UTC+8');
-        $dbPrefix = $this->ask('Please enter the database table prefix', 'fs_');
 
         $dbConfig = [
             'DB_CONNECTION' => trim($dbType),
@@ -100,7 +99,6 @@ class InstallFresns extends Command
             'DB_USERNAME' => trim($dbUser),
             'DB_PASSWORD' => trim($dbPass),
             'DB_TIMEZONE' => self::timezoneIdentifier(trim($dbUtc)),
-            'DB_PREFIX' => trim($dbPrefix),
         ];
 
         // 4. Configuring app url
@@ -117,7 +115,6 @@ class InstallFresns extends Command
             'database' => $dbConfig['DB_DATABASE'],
             'username' => $dbConfig['DB_USERNAME'],
             'password' => $dbConfig['DB_PASSWORD'],
-            'prefix' => $dbConfig['DB_PREFIX'],
         ];
         $laravelDbConfig['default'] = $laravelDbConnection;
         $laravelDbConfig['connections'][$laravelDbConnection] = array_merge($laravelDbConfig['connections'][$laravelDbConnection], $fresnsDB);
