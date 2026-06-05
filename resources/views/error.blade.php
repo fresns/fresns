@@ -31,10 +31,10 @@
         <div class="card mx-auto my-5">
             <div class="card-body p-5">
                 <h3 class="card-title">Fresns {{ $code }}</h3>
-                <div class="mt-4">{!! $message !!}</div>
+                <div class="mt-4">{!! nl2br(e($message)) !!}</div>
 
                 <div class="mt-4">
-                    <button type="button" class="btn btn-outline-primary" onclick="refreshPage()"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" class="btn btn-outline-primary" data-action="refreshPage"><i class="bi bi-arrow-clockwise"></i></button>
                 </div>
 
                 @if ($email)
@@ -52,7 +52,7 @@
 
     <script src="/static/js/jquery.min.js"></script>
     <script>
-        // Spinner for button click
+        // Spinner for button click with safe event handling
         $(document).on('click', 'button', function () {
             var btn = $(this);
             btn.prop('disabled', true);
@@ -67,9 +67,10 @@
                 );
             }
 
-            // Perform other actions (e.g., reload the page)
-            if (btn.attr('onclick')) {
-                eval(btn.attr('onclick'));
+            // Safe event handling - use data attribute instead of eval()
+            var action = btn.data('action');
+            if (action === 'refreshPage') {
+                refreshPage();
             }
         });
 

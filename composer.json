@@ -34,26 +34,26 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "laravel/framework": "^12.22",
-        "laravel/tinker": "^2.10",
+        "php": "^8.3",
+        "laravel/framework": "^13.14",
+        "laravel/tinker": "^3.0",
         "laravel/ui": "^4.6",
         "fresns/dto": "^1.3",
         "fresns/cmd-word-manager": "^1.6",
-        "fresns/plugin-manager": "^3.3",
-        "fresns/theme-manager": "^3.1",
-        "fresns/market-manager": "^4.1",
+        "fresns/plugin-manager": "^3.4",
+        "fresns/theme-manager": "^3.2",
+        "fresns/market-manager": "^4.2",
         "hisorange/browser-detect": "^5.0",
         "nelexa/zip": "^4.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "laravel/pail": "^1.2",
-        "laravel/pint": "^1.24",
-        "laravel/sail": "^1.45",
+        "laravel/pao": "^1.1",
+        "laravel/pint": "^1.29",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.8",
-        "phpunit/phpunit": "^12.3",
+        "nunomaduro/collision": "^8.9",
+        "phpunit/phpunit": "^13.2",
         "spatie/laravel-error-share": "^1.0"
     },
     "autoload": {
@@ -74,15 +74,15 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "npm install",
+            "npm install --ignore-scripts",
             "npm run build"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
         "test": [
-            "@php artisan config:clear --ansi",
+            "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
         ],
         "post-autoload-dump": [
