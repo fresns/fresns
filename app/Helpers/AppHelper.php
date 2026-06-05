@@ -87,7 +87,7 @@ class AppHelper
             case 'sqlsrv':
                 $name = 'SQL Server';
                 $version = DB::select('SELECT @@VERSION as version')[0]->version;
-                // 获取总字节，注意 SQL Server 计算的基本单位是 KB，因此乘以 1024 转换为字节
+                // get total size in bytes, SQL Server calculates in KB, so multiply by 1024 to convert to bytes
                 $sizeResult = DB::select('SELECT SUM(size) * 8 * 1024 AS "Size" FROM sys.master_files WHERE type_desc = \'ROWS\'')[0]->Size;
                 break;
 
