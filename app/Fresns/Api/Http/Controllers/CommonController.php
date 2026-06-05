@@ -129,6 +129,10 @@ class CommonController extends Controller
         $wordName = $dtoRequest->cmdWord;
         $wordBody = $dtoRequest->wordBody ?? [];
 
+        if (empty($fskey) || $fskey == 'Fresns') {
+            throw new ResponseException(32301);
+        }
+
         $commandWords = ConfigHelper::fresnsConfigByItemKey('interface_command_words');
 
         $filtered = array_filter($commandWords, function ($item) use ($fskey, $wordName) {

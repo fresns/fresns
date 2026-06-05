@@ -38,7 +38,7 @@ class Account extends Authenticatable
     const VERIFY_TYPE_PHONE = 4;
     const VERIFY_TYPE_CONNECT = 5;
 
-    protected $guarded = [];
+    protected $guarded = ['type'];
 
     protected $dates = [
         'birthday',
@@ -88,6 +88,6 @@ class Account extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->type == Account::TYPE_SYSTEM_ADMIN;
+        return (int) $this->type === Account::TYPE_SYSTEM_ADMIN;
     }
 }

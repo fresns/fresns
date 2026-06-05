@@ -832,7 +832,7 @@ class DetailUtility
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $postDetail['content']) {
-            $postDetail['content'] = $post->is_markdown ? Str::markdown($postDetail['content']) : nl2br($postDetail['content']);
+            $postDetail['content'] = $post->is_markdown ? Str::markdown($postDetail['content']) : nl2br(e($postDetail['content']));
 
             $searchArr = [
                 '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
@@ -1213,7 +1213,7 @@ class DetailUtility
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $commentDetail['content']) {
-            $commentDetail['content'] = $comment->is_markdown ? Str::markdown($commentDetail['content']) : nl2br($commentDetail['content']);
+            $commentDetail['content'] = $comment->is_markdown ? Str::markdown($commentDetail['content']) : nl2br(e($commentDetail['content']));
 
             $searchArr = [
                 '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
@@ -1416,7 +1416,7 @@ class DetailUtility
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $historyDetail['content']) {
-            $historyDetail['content'] = $postLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+            $historyDetail['content'] = $postLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br(e($historyDetail['content']));
 
             $searchArr = [
                 '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',
@@ -1608,7 +1608,7 @@ class DetailUtility
         // contentFormat
         $contentFormat = $options['contentFormat'] ?? null;
         if ($contentFormat == 'html' && $historyDetail['content']) {
-            $historyDetail['content'] = $commentLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br($historyDetail['content']);
+            $historyDetail['content'] = $commentLog->is_markdown ? Str::markdown($historyDetail['content']) : nl2br(e($historyDetail['content']));
 
             $searchArr = [
                 '&lt;audio class=&quot;fresns_file_audio&quot; controls preload=&quot;metadata&quot; controlsList=&quot;nodownload&quot; src=&quot;',

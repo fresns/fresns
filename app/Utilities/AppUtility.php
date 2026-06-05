@@ -192,6 +192,24 @@ class AppUtility
         file_put_contents($installLock, now()->toDateTimeString());
     }
 
+    public static function isInstalled(): bool
+    {
+        if (file_exists(base_path('install.lock'))) {
+            return true;
+        }
+
+        try {
+            $installedDatetime = Config::where('item_key', 'installed_datetime')->value('item_value');
+            if (! empty($installedDatetime)) {
+                return true;
+            }
+
+            return Account::query()->exists();
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
     public static function makeAdminAccount(string $email, string $password): void
     {
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccount([

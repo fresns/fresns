@@ -198,7 +198,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {!! nl2br($systemInfo['php']['cliInfo']) !!}
+                    {!! nl2br(e($systemInfo['php']['cliInfo'])) !!}
                 </div>
             </div>
         </div>

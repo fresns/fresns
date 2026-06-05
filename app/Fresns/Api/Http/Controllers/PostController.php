@@ -1203,7 +1203,7 @@ class PostController extends Controller
         switch (config('database.default')) {
             case 'sqlite':
                 $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
-                    $query->select(DB::raw("*, ( 6371 * acos( cos( radians($mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($mapLng) ) + sin( radians($mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
+                    $query->selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( map_latitude ) ) ) ) AS distance", [$mapLat, $mapLng, $mapLat])
                         ->having('distance', '<=', $distance)
                         ->orderBy('distance');
                 });
@@ -1214,29 +1214,46 @@ class PostController extends Controller
 
                 $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance, $mysqlVersion) {
                     if (version_compare($mysqlVersion, '8.0.0', '>=')) {
-                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLat $mapLng)', 4326)) <= {$distance}"); // MySQL 8
+                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText(?, 4326)) <= ?", [
+                            "POINT({$mapLat} {$mapLng})",
+                            $distance
+                        ]);
                     } else {
-                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}"); // MySQL 5
+                        $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText(?, 4326)) <= ?", [
+                            "POINT({$mapLng} {$mapLat})",
+                            $distance
+                        ]);
                     }
                 });
                 break;
 
             case 'mariadb':
                 $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
-                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText('POINT($mapLng $mapLat)', 4326)) <= {$distance}");
+                    $query->whereRaw("ST_Distance_Sphere(map_location, ST_GeomFromText(?, 4326)) <= ?", [
+                        "POINT({$mapLng} {$mapLat})",
+                        $distance
+                    ]);
                 });
                 break;
 
             case 'pgsql':
                 // use PostGIS
                 $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
-                    $query->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint($mapLng, $mapLat), 4326)::geography, {$distance})");
+                    $query->whereRaw("ST_DWithin(map_location::geography, ST_SetSRID(ST_MakePoint(?, ?), 4326)::geography, ?)", [
+                        $mapLng,
+                        $mapLat,
+                        $distance
+                    ]);
                 });
                 break;
 
             case 'sqlsrv':
                 $postQuery->whereHas('geotag', function ($query) use ($mapLng, $mapLat, $distance) {
-                    $query->whereRaw("map_location.STDistance(geography::Point($mapLat, $mapLng, 4326)) <= {$distance}");
+                    $query->whereRaw("map_location.STDistance(geography::Point(?, ?, 4326)) <= ?", [
+                        $mapLat,
+                        $mapLng,
+                        $distance
+                    ]);
                 });
                 break;
 

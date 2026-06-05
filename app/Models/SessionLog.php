@@ -43,6 +43,8 @@ class SessionLog extends Model
     const TYPE_MARK_BLOCK = 31;
     const TYPE_UPLOAD_FILE = 32;
     const TYPE_CONVERSATION_MESSAGE = 33;
+    const TYPE_PANEL_ADMIN_ADD = 34;
+    const TYPE_PANEL_ADMIN_REMOVE = 35;
 
     const STATE_UNKNOWN = 1;
     const STATE_SUCCESS = 2;

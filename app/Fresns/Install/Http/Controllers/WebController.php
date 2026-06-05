@@ -23,6 +23,10 @@ class WebController extends Controller
 {
     public function index(Request $request)
     {
+        if (AppUtility::isInstalled()) {
+            abort(404);
+        }
+
         $langs = config('install.langs');
 
         $phpVersion = version_compare(PHP_VERSION, '8.2', '>=');
@@ -76,6 +80,10 @@ class WebController extends Controller
 
     public function checkServer(Request $request)
     {
+        if (AppUtility::isInstalled()) {
+            abort(404);
+        }
+
         $type = $request->type;
 
         $code = 0;
@@ -156,6 +164,10 @@ class WebController extends Controller
 
     public function configDatabase(Request $request)
     {
+        if (AppUtility::isInstalled()) {
+            return $this->installedResponse();
+        }
+
         $dbConfig = config('database');
 
         $connection = $request->database['DB_CONNECTION'];
@@ -211,6 +223,10 @@ class WebController extends Controller
 
     public function dataArtisan()
     {
+        if (AppUtility::isInstalled()) {
+            return $this->installedResponse();
+        }
+
         (new DatabaseServiceProvider(app()))->register();
 
         $commands = [
@@ -250,6 +266,10 @@ class WebController extends Controller
 
     public function addAdmin(Request $request)
     {
+        if (AppUtility::isInstalled()) {
+            return $this->installedResponse();
+        }
+
         $adminEmail = $request->admin_email;
         $adminPassword = $request->admin_password;
         $adminPasswordConfirm = $request->admin_password_confirm;
@@ -258,6 +278,24 @@ class WebController extends Controller
             return Response::json([
                 'code' => 30000,
                 'message' => 'Cannot be empty',
+                'data' => __('Install::install.register_account_email'),
+            ]);
+        }
+
+        // simple email format validation
+        if (!filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+            return Response::json([
+                'code' => 30001,
+                'message' => 'Invalid email format',
+                'data' => __('Install::install.register_account_email'),
+            ]);
+        }
+
+        // simple email length and character validation
+        if (strlen($adminEmail) > 128 || preg_match('/[<>\'\"\\\\]/', $adminEmail)) {
+            return Response::json([
+                'code' => 30002,
+                'message' => 'Email contains invalid characters',
                 'data' => __('Install::install.register_account_email'),
             ]);
         }
@@ -315,6 +353,15 @@ class WebController extends Controller
                 'email' => $email,
             ],
         ]);
+    }
+
+    protected function installedResponse()
+    {
+        return Response::json([
+            'code' => 403,
+            'message' => 'Already installed',
+            'data' => null,
+        ], 403);
     }
 
     protected function folderOwnership()

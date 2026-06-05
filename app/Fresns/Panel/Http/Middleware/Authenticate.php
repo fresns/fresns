@@ -28,7 +28,7 @@ class Authenticate extends Middleware
         }
 
         foreach ($guards as $guard) {
-            if ($this->auth->guard($guard)->check() && $this->auth->guard($guard)->user()->type == 1) {
+            if ($this->auth->guard($guard)->check() && $this->auth->guard($guard)->user()->isAdmin()) {
                 return $this->auth->shouldUse($guard);
             }
         }

@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Install\Providers;
 
+use App\Utilities\AppUtility;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,7 +20,7 @@ class InstallServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // already installed
-        if (file_exists(base_path('install.lock'))) {
+        if (AppUtility::isInstalled()) {
             return;
         }
 
@@ -32,7 +33,7 @@ class InstallServiceProvider extends ServiceProvider
     public function register(): void
     {
         // already installed
-        if (file_exists(base_path('install.lock'))) {
+        if (AppUtility::isInstalled()) {
             return;
         }
 

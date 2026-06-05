@@ -59,7 +59,7 @@ class LoginController extends Controller
         // check account type
         $account = $this->guard()->getProvider()->retrieveByCredentials($this->credentials($request));
 
-        if (! $account || $account->type != 1) {
+        if (! $account || ! $account->isAdmin()) {
             $result = false;
         } else {
             $result = $this->guard()->attempt(
